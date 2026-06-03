@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateSecurityAccessParams creates a new UpdateSecurityAccessParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateSecurityAccessParams() *UpdateSecurityAccessParams {
-	return &UpdateSecurityAccessParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateSecurityAccessParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateSecurityAccessParamsWithTimeout creates a new UpdateSecurityAccessParams object
 // with the ability to set a timeout on a request.
 func NewUpdateSecurityAccessParamsWithTimeout(timeout time.Duration) *UpdateSecurityAccessParams {
 	return &UpdateSecurityAccessParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateSecurityAccessParamsWithContext creates a new UpdateSecurityAccessParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateSecurityAccessParams].
 func NewUpdateSecurityAccessParamsWithContext(ctx context.Context) *UpdateSecurityAccessParams {
 	return &UpdateSecurityAccessParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateSecurityAccessParams struct {
 	// Input.
 	Input *models.UpdateSecurityAccessRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update security access params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateSecurityAccessParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update security access params
+// WithTimeout adds the timeout to the update security access params.
 func (o *UpdateSecurityAccessParams) WithTimeout(timeout time.Duration) *UpdateSecurityAccessParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update security access params
+// SetTimeout adds the timeout to the update security access params.
 func (o *UpdateSecurityAccessParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update security access params
+// WithContext adds the context to the update security access params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateSecurityAccessParams].
 func (o *UpdateSecurityAccessParams) WithContext(ctx context.Context) *UpdateSecurityAccessParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update security access params
+// SetContext adds the context to the update security access params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateSecurityAccessParams].
 func (o *UpdateSecurityAccessParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update security access params
+// WithHTTPClient adds the HTTPClient to the update security access params.
 func (o *UpdateSecurityAccessParams) WithHTTPClient(client *http.Client) *UpdateSecurityAccessParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update security access params
+// SetHTTPClient adds the HTTPClient to the update security access params.
 func (o *UpdateSecurityAccessParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update security access params
+// WithInput adds the input to the update security access params.
 func (o *UpdateSecurityAccessParams) WithInput(input *models.UpdateSecurityAccessRequest) *UpdateSecurityAccessParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update security access params
+// SetInput adds the input to the update security access params.
 func (o *UpdateSecurityAccessParams) SetInput(input *models.UpdateSecurityAccessRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateSecurityAccessParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

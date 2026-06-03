@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -43,10 +43,6 @@ func (m *GenerateWorkloadAuthTokenRequest) Validate(formats strfmt.Registry) err
 }
 
 func (m *GenerateWorkloadAuthTokenRequest) validateWorkloadName(formats strfmt.Registry) error {
-
-	if err := validate.Required("workloadName", "body", m.WorkloadName); err != nil {
-		return err
-	}
 
 	if err := validate.Required("workloadName", "body", m.WorkloadName); err != nil {
 		return err
@@ -110,13 +106,13 @@ func (m *GenerateWorkloadAuthTokenRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GenerateWorkloadAuthTokenRequest) UnmarshalBinary(b []byte) error {
 	var res GenerateWorkloadAuthTokenRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

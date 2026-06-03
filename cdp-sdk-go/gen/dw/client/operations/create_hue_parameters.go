@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewCreateHueParams creates a new CreateHueParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateHueParams() *CreateHueParams {
-	return &CreateHueParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateHueParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateHueParamsWithTimeout creates a new CreateHueParams object
 // with the ability to set a timeout on a request.
 func NewCreateHueParamsWithTimeout(timeout time.Duration) *CreateHueParams {
 	return &CreateHueParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateHueParamsWithContext creates a new CreateHueParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateHueParams].
 func NewCreateHueParamsWithContext(ctx context.Context) *CreateHueParams {
 	return &CreateHueParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateHueParams struct {
 	// Input.
 	Input *models.CreateHueRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create hue params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateHueParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create hue params
+// WithTimeout adds the timeout to the create hue params.
 func (o *CreateHueParams) WithTimeout(timeout time.Duration) *CreateHueParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create hue params
+// SetTimeout adds the timeout to the create hue params.
 func (o *CreateHueParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create hue params
+// WithContext adds the context to the create hue params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateHueParams].
 func (o *CreateHueParams) WithContext(ctx context.Context) *CreateHueParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create hue params
+// SetContext adds the context to the create hue params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateHueParams].
 func (o *CreateHueParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create hue params
+// WithHTTPClient adds the HTTPClient to the create hue params.
 func (o *CreateHueParams) WithHTTPClient(client *http.Client) *CreateHueParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create hue params
+// SetHTTPClient adds the HTTPClient to the create hue params.
 func (o *CreateHueParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create hue params
+// WithInput adds the input to the create hue params.
 func (o *CreateHueParams) WithInput(input *models.CreateHueRequest) *CreateHueParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create hue params
+// SetInput adds the input to the create hue params.
 func (o *CreateHueParams) SetInput(input *models.CreateHueRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateHueParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

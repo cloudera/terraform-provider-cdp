@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -69,7 +70,7 @@ func (m *UpdateClusterExternalBucketAccessInfo) validateAccessModeEnum(path, loc
 }
 
 func (m *UpdateClusterExternalBucketAccessInfo) validateAccessMode(formats strfmt.Registry) error {
-	if swag.IsZero(m.AccessMode) { // not required
+	if typeutils.IsZero(m.AccessMode) { // not required
 		return nil
 	}
 
@@ -91,13 +92,13 @@ func (m *UpdateClusterExternalBucketAccessInfo) MarshalBinary() ([]byte, error) 
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateClusterExternalBucketAccessInfo) UnmarshalBinary(b []byte) error {
 	var res UpdateClusterExternalBucketAccessInfo
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

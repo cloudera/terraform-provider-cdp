@@ -3,17 +3,21 @@
 package operations
 
 import (
+	"context"
+	"time"
+
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operations API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+func New(transport runtime.ContextualTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
 // New creates a new operations API client with basic auth credentials.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -27,6 +31,7 @@ func NewClientWithBasicAuth(host, basePath, scheme, user, password string) Clien
 }
 
 // New creates a new operations API client with a bearer token for authentication.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -39,251 +44,716 @@ func NewClientWithBearerToken(host, basePath, scheme, bearerToken string) Client
 }
 
 /*
-Client for operations API
+Client for operations API.
 */
 type Client struct {
-	transport runtime.ClientTransport
+	transport runtime.ContextualTransport
 	formats   strfmt.Registry
 }
 
 // ClientOption may be used to customize the behavior of Client methods.
 type ClientOption func(*runtime.ClientOperation)
 
-// ClientService is the interface for Client methods
+// ClientService is the interface for Client methods.
 type ClientService interface {
+
+	// AttachFreeIpaRecipes attach recipes to free IP a.
 	AttachFreeIpaRecipes(params *AttachFreeIpaRecipesParams, opts ...ClientOption) (*AttachFreeIpaRecipesOK, error)
 
+	// AttachFreeIpaRecipesContext attach recipes to free IP a.
+	AttachFreeIpaRecipesContext(ctx context.Context, params *AttachFreeIpaRecipesParams, opts ...ClientOption) (*AttachFreeIpaRecipesOK, error)
+
+	// CancelFreeipaDiagnostics cancel running free IP a diagnostics collections.
 	CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams, opts ...ClientOption) (*CancelFreeipaDiagnosticsOK, error)
 
+	// CancelFreeipaDiagnosticsContext cancel running free IP a diagnostics collections.
+	CancelFreeipaDiagnosticsContext(ctx context.Context, params *CancelFreeipaDiagnosticsParams, opts ...ClientOption) (*CancelFreeipaDiagnosticsOK, error)
+
+	// CancelTrust cancel cross realm trust for free IP a.
 	CancelTrust(params *CancelTrustParams, opts ...ClientOption) (*CancelTrustOK, error)
 
+	// CancelTrustContext cancel cross realm trust for free IP a.
+	CancelTrustContext(ctx context.Context, params *CancelTrustParams, opts ...ClientOption) (*CancelTrustOK, error)
+
+	// ChangeEnvironmentCredential changes the credential for an environment.
 	ChangeEnvironmentCredential(params *ChangeEnvironmentCredentialParams, opts ...ClientOption) (*ChangeEnvironmentCredentialOK, error)
 
+	// ChangeEnvironmentCredentialContext changes the credential for an environment.
+	ChangeEnvironmentCredentialContext(ctx context.Context, params *ChangeEnvironmentCredentialParams, opts ...ClientOption) (*ChangeEnvironmentCredentialOK, error)
+
+	// CheckDatabaseConnectivity checks database connectivity based on the input parameters.
 	CheckDatabaseConnectivity(params *CheckDatabaseConnectivityParams, opts ...ClientOption) (*CheckDatabaseConnectivityOK, error)
 
+	// CheckDatabaseConnectivityContext checks database connectivity based on the input parameters.
+	CheckDatabaseConnectivityContext(ctx context.Context, params *CheckDatabaseConnectivityParams, opts ...ClientOption) (*CheckDatabaseConnectivityOK, error)
+
+	// CheckEnvironmentConnectivity checks connectivity to a new private cloud environment by trying to access the cloudera manager address with provided credentials.
 	CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivityParams, opts ...ClientOption) (*CheckEnvironmentConnectivityOK, error)
 
+	// CheckEnvironmentConnectivityContext checks connectivity to a new private cloud environment by trying to access the cloudera manager address with provided credentials.
+	CheckEnvironmentConnectivityContext(ctx context.Context, params *CheckEnvironmentConnectivityParams, opts ...ClientOption) (*CheckEnvironmentConnectivityOK, error)
+
+	// CheckKubernetesConnectivity checks connectivity to a kubernetes address with provided kubeconfig files.
 	CheckKubernetesConnectivity(params *CheckKubernetesConnectivityParams, opts ...ClientOption) (*CheckKubernetesConnectivityOK, error)
 
+	// CheckKubernetesConnectivityContext checks connectivity to a kubernetes address with provided kubeconfig files.
+	CheckKubernetesConnectivityContext(ctx context.Context, params *CheckKubernetesConnectivityParams, opts ...ClientOption) (*CheckKubernetesConnectivityOK, error)
+
+	// CollectFreeipaDiagnostics start free IP a diagnostics collection.
 	CollectFreeipaDiagnostics(params *CollectFreeipaDiagnosticsParams, opts ...ClientOption) (*CollectFreeipaDiagnosticsOK, error)
 
+	// CollectFreeipaDiagnosticsContext start free IP a diagnostics collection.
+	CollectFreeipaDiagnosticsContext(ctx context.Context, params *CollectFreeipaDiagnosticsParams, opts ...ClientOption) (*CollectFreeipaDiagnosticsOK, error)
+
+	// CreateAWSCredential creates a new a w s credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 	CreateAWSCredential(params *CreateAWSCredentialParams, opts ...ClientOption) (*CreateAWSCredentialOK, error)
 
+	// CreateAWSCredentialContext creates a new a w s credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+	CreateAWSCredentialContext(ctx context.Context, params *CreateAWSCredentialParams, opts ...ClientOption) (*CreateAWSCredentialOK, error)
+
+	// CreateAWSEnvironment creates a new a w s environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
 	CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts ...ClientOption) (*CreateAWSEnvironmentOK, error)
 
+	// CreateAWSEnvironmentContext creates a new a w s environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
+	CreateAWSEnvironmentContext(ctx context.Context, params *CreateAWSEnvironmentParams, opts ...ClientOption) (*CreateAWSEnvironmentOK, error)
+
+	// CreateAWSGovCloudCredential creates a new a w s credential for gov cloud that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 	CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredentialParams, opts ...ClientOption) (*CreateAWSGovCloudCredentialOK, error)
 
+	// CreateAWSGovCloudCredentialContext creates a new a w s credential for gov cloud that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+	CreateAWSGovCloudCredentialContext(ctx context.Context, params *CreateAWSGovCloudCredentialParams, opts ...ClientOption) (*CreateAWSGovCloudCredentialOK, error)
+
+	// CreateAWSGovCloudEnvironment creates a new a w s gov cloud environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
 	CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironmentParams, opts ...ClientOption) (*CreateAWSGovCloudEnvironmentOK, error)
 
+	// CreateAWSGovCloudEnvironmentContext creates a new a w s gov cloud environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
+	CreateAWSGovCloudEnvironmentContext(ctx context.Context, params *CreateAWSGovCloudEnvironmentParams, opts ...ClientOption) (*CreateAWSGovCloudEnvironmentOK, error)
+
+	// CreateAzureCredential creates a new azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 	CreateAzureCredential(params *CreateAzureCredentialParams, opts ...ClientOption) (*CreateAzureCredentialOK, error)
 
+	// CreateAzureCredentialContext creates a new azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+	CreateAzureCredentialContext(ctx context.Context, params *CreateAzureCredentialParams, opts ...ClientOption) (*CreateAzureCredentialOK, error)
+
+	// CreateAzureEnvironment creates a new azure environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
 	CreateAzureEnvironment(params *CreateAzureEnvironmentParams, opts ...ClientOption) (*CreateAzureEnvironmentOK, error)
 
+	// CreateAzureEnvironmentContext creates a new azure environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
+	CreateAzureEnvironmentContext(ctx context.Context, params *CreateAzureEnvironmentParams, opts ...ClientOption) (*CreateAzureEnvironmentOK, error)
+
+	// CreateGCPCredential creates a new g c p credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 	CreateGCPCredential(params *CreateGCPCredentialParams, opts ...ClientOption) (*CreateGCPCredentialOK, error)
 
+	// CreateGCPCredentialContext creates a new g c p credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+	CreateGCPCredentialContext(ctx context.Context, params *CreateGCPCredentialParams, opts ...ClientOption) (*CreateGCPCredentialOK, error)
+
+	// CreateGCPEnvironment creates a new g c p environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
 	CreateGCPEnvironment(params *CreateGCPEnvironmentParams, opts ...ClientOption) (*CreateGCPEnvironmentOK, error)
 
+	// CreateGCPEnvironmentContext creates a new g c p environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
+	CreateGCPEnvironmentContext(ctx context.Context, params *CreateGCPEnvironmentParams, opts ...ClientOption) (*CreateGCPEnvironmentOK, error)
+
+	// CreatePrivateEnvironment creates a new private cloud environment by providing the cloudera manager address and credentials.
 	CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams, opts ...ClientOption) (*CreatePrivateEnvironmentOK, error)
 
+	// CreatePrivateEnvironmentContext creates a new private cloud environment by providing the cloudera manager address and credentials.
+	CreatePrivateEnvironmentContext(ctx context.Context, params *CreatePrivateEnvironmentParams, opts ...ClientOption) (*CreatePrivateEnvironmentOK, error)
+
+	// CreateProxyConfig creates a new proxy config that can be attatched to an environment.
 	CreateProxyConfig(params *CreateProxyConfigParams, opts ...ClientOption) (*CreateProxyConfigOK, error)
 
+	// CreateProxyConfigContext creates a new proxy config that can be attatched to an environment.
+	CreateProxyConfigContext(ctx context.Context, params *CreateProxyConfigParams, opts ...ClientOption) (*CreateProxyConfigOK, error)
+
+	// DeleteAuditCredential deletes an audit credential.
 	DeleteAuditCredential(params *DeleteAuditCredentialParams, opts ...ClientOption) (*DeleteAuditCredentialOK, error)
 
+	// DeleteAuditCredentialContext deletes an audit credential.
+	DeleteAuditCredentialContext(ctx context.Context, params *DeleteAuditCredentialParams, opts ...ClientOption) (*DeleteAuditCredentialOK, error)
+
+	// DeleteCredential deletes a credential.
 	DeleteCredential(params *DeleteCredentialParams, opts ...ClientOption) (*DeleteCredentialOK, error)
 
+	// DeleteCredentialContext deletes a credential.
+	DeleteCredentialContext(ctx context.Context, params *DeleteCredentialParams, opts ...ClientOption) (*DeleteCredentialOK, error)
+
+	// DeleteEnvironment deletes an environment.
 	DeleteEnvironment(params *DeleteEnvironmentParams, opts ...ClientOption) (*DeleteEnvironmentOK, error)
 
+	// DeleteEnvironmentContext deletes an environment.
+	DeleteEnvironmentContext(ctx context.Context, params *DeleteEnvironmentParams, opts ...ClientOption) (*DeleteEnvironmentOK, error)
+
+	// DeleteProxyConfig deletes a proxy config.
 	DeleteProxyConfig(params *DeleteProxyConfigParams, opts ...ClientOption) (*DeleteProxyConfigOK, error)
 
+	// DeleteProxyConfigContext deletes a proxy config.
+	DeleteProxyConfigContext(ctx context.Context, params *DeleteProxyConfigParams, opts ...ClientOption) (*DeleteProxyConfigOK, error)
+
+	// DescribeEnvironment describes an environment.
 	DescribeEnvironment(params *DescribeEnvironmentParams, opts ...ClientOption) (*DescribeEnvironmentOK, error)
 
+	// DescribeEnvironmentContext describes an environment.
+	DescribeEnvironmentContext(ctx context.Context, params *DescribeEnvironmentParams, opts ...ClientOption) (*DescribeEnvironmentOK, error)
+
+	// DetachFreeIpaRecipes detach recipes from free IP a.
 	DetachFreeIpaRecipes(params *DetachFreeIpaRecipesParams, opts ...ClientOption) (*DetachFreeIpaRecipesOK, error)
 
+	// DetachFreeIpaRecipesContext detach recipes from free IP a.
+	DetachFreeIpaRecipesContext(ctx context.Context, params *DetachFreeIpaRecipesParams, opts ...ClientOption) (*DetachFreeIpaRecipesOK, error)
+
+	// DisableS3Guard disable the s3 guard for an environment.
 	DisableS3Guard(params *DisableS3GuardParams, opts ...ClientOption) (*DisableS3GuardOK, error)
 
+	// DisableS3GuardContext disable the s3 guard for an environment.
+	DisableS3GuardContext(ctx context.Context, params *DisableS3GuardParams, opts ...ClientOption) (*DisableS3GuardOK, error)
+
+	// DownscaleFreeipa downscales free IP a instances.
 	DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...ClientOption) (*DownscaleFreeipaOK, error)
 
+	// DownscaleFreeipaContext downscales free IP a instances.
+	DownscaleFreeipaContext(ctx context.Context, params *DownscaleFreeipaParams, opts ...ClientOption) (*DownscaleFreeipaOK, error)
+
+	// FinishSetupTrust complete cross realm trust setup for free IP a.
 	FinishSetupTrust(params *FinishSetupTrustParams, opts ...ClientOption) (*FinishSetupTrustOK, error)
 
+	// FinishSetupTrustContext complete cross realm trust setup for free IP a.
+	FinishSetupTrustContext(ctx context.Context, params *FinishSetupTrustParams, opts ...ClientOption) (*FinishSetupTrustOK, error)
+
+	// GetAccountTelemetry get account level telemetry settings telemetry features and anonymization rules.
 	GetAccountTelemetry(params *GetAccountTelemetryParams, opts ...ClientOption) (*GetAccountTelemetryOK, error)
 
+	// GetAccountTelemetryContext get account level telemetry settings telemetry features and anonymization rules.
+	GetAccountTelemetryContext(ctx context.Context, params *GetAccountTelemetryParams, opts ...ClientOption) (*GetAccountTelemetryOK, error)
+
+	// GetAccountTelemetryDefault get default account level telemetry settings helps to set back the default values.
 	GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams, opts ...ClientOption) (*GetAccountTelemetryDefaultOK, error)
 
+	// GetAccountTelemetryDefaultContext get default account level telemetry settings helps to set back the default values.
+	GetAccountTelemetryDefaultContext(ctx context.Context, params *GetAccountTelemetryDefaultParams, opts ...ClientOption) (*GetAccountTelemetryDefaultOK, error)
+
+	// GetAuditCredentialPrerequisites this API provides the audit credential prerequisites for the given cloud provider.
 	GetAuditCredentialPrerequisites(params *GetAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetAuditCredentialPrerequisitesOK, error)
 
+	// GetAuditCredentialPrerequisitesContext this API provides the audit credential prerequisites for the given cloud provider.
+	GetAuditCredentialPrerequisitesContext(ctx context.Context, params *GetAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetAuditCredentialPrerequisitesOK, error)
+
+	// GetAutomatedSyncEnvironmentStatus gets the the automated sync status for the environment.
 	GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvironmentStatusParams, opts ...ClientOption) (*GetAutomatedSyncEnvironmentStatusOK, error)
 
+	// GetAutomatedSyncEnvironmentStatusContext gets the the automated sync status for the environment.
+	GetAutomatedSyncEnvironmentStatusContext(ctx context.Context, params *GetAutomatedSyncEnvironmentStatusParams, opts ...ClientOption) (*GetAutomatedSyncEnvironmentStatusOK, error)
+
+	// GetAzureImageTermsPolicy gets account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour.
 	GetAzureImageTermsPolicy(params *GetAzureImageTermsPolicyParams, opts ...ClientOption) (*GetAzureImageTermsPolicyOK, error)
 
+	// GetAzureImageTermsPolicyContext gets account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour.
+	GetAzureImageTermsPolicyContext(ctx context.Context, params *GetAzureImageTermsPolicyParams, opts ...ClientOption) (*GetAzureImageTermsPolicyOK, error)
+
+	// GetCredentialPrerequisites this API provides the credential prerequisites for the given cloud provider.
 	GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams, opts ...ClientOption) (*GetCredentialPrerequisitesOK, error)
 
+	// GetCredentialPrerequisitesContext this API provides the credential prerequisites for the given cloud provider.
+	GetCredentialPrerequisitesContext(ctx context.Context, params *GetCredentialPrerequisitesParams, opts ...ClientOption) (*GetCredentialPrerequisitesOK, error)
+
+	// GetEnvironmentSetting read a configuration setting from the environment service.
 	GetEnvironmentSetting(params *GetEnvironmentSettingParams, opts ...ClientOption) (*GetEnvironmentSettingOK, error)
 
+	// GetEnvironmentSettingContext read a configuration setting from the environment service.
+	GetEnvironmentSettingContext(ctx context.Context, params *GetEnvironmentSettingParams, opts ...ClientOption) (*GetEnvironmentSettingOK, error)
+
+	// GetEnvironmentUserSyncState returns the user synchronization state for an environment.
 	GetEnvironmentUserSyncState(params *GetEnvironmentUserSyncStateParams, opts ...ClientOption) (*GetEnvironmentUserSyncStateOK, error)
 
+	// GetEnvironmentUserSyncStateContext returns the user synchronization state for an environment.
+	GetEnvironmentUserSyncStateContext(ctx context.Context, params *GetEnvironmentUserSyncStateParams, opts ...ClientOption) (*GetEnvironmentUserSyncStateOK, error)
+
+	// GetFreeipaLogDescriptors gather log descriptors that are used for diagnostics collection.
 	GetFreeipaLogDescriptors(params *GetFreeipaLogDescriptorsParams, opts ...ClientOption) (*GetFreeipaLogDescriptorsOK, error)
 
+	// GetFreeipaLogDescriptorsContext gather log descriptors that are used for diagnostics collection.
+	GetFreeipaLogDescriptorsContext(ctx context.Context, params *GetFreeipaLogDescriptorsParams, opts ...ClientOption) (*GetFreeipaLogDescriptorsOK, error)
+
+	// GetFreeipaStatus get the status of the free IP a services.
 	GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...ClientOption) (*GetFreeipaStatusOK, error)
 
+	// GetFreeipaStatusContext get the status of the free IP a services.
+	GetFreeipaStatusContext(ctx context.Context, params *GetFreeipaStatusParams, opts ...ClientOption) (*GetFreeipaStatusOK, error)
+
+	// GetFreeipaUpgradeOptions get available images for free IP a upgrade.
 	GetFreeipaUpgradeOptions(params *GetFreeipaUpgradeOptionsParams, opts ...ClientOption) (*GetFreeipaUpgradeOptionsOK, error)
 
+	// GetFreeipaUpgradeOptionsContext get available images for free IP a upgrade.
+	GetFreeipaUpgradeOptionsContext(ctx context.Context, params *GetFreeipaUpgradeOptionsParams, opts ...ClientOption) (*GetFreeipaUpgradeOptionsOK, error)
+
+	// GetGovCloudAuditCredentialPrerequisites this API provides the audit credential prerequisites for gov cloud for the enabled providers.
 	GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudAuditCredentialPrerequisitesOK, error)
 
+	// GetGovCloudAuditCredentialPrerequisitesContext this API provides the audit credential prerequisites for gov cloud for the enabled providers.
+	GetGovCloudAuditCredentialPrerequisitesContext(ctx context.Context, params *GetGovCloudAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudAuditCredentialPrerequisitesOK, error)
+
+	// GetGovCloudCredentialPrerequisites this API provides the credential prerequisites for gov cloud for the enabled providers.
 	GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudCredentialPrerequisitesOK, error)
 
+	// GetGovCloudCredentialPrerequisitesContext this API provides the credential prerequisites for gov cloud for the enabled providers.
+	GetGovCloudCredentialPrerequisitesContext(ctx context.Context, params *GetGovCloudCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudCredentialPrerequisitesOK, error)
+
+	// GetIDBrokerMappings gets all ID broker mappings for an environment.
 	GetIDBrokerMappings(params *GetIDBrokerMappingsParams, opts ...ClientOption) (*GetIDBrokerMappingsOK, error)
 
+	// GetIDBrokerMappingsContext gets all ID broker mappings for an environment.
+	GetIDBrokerMappingsContext(ctx context.Context, params *GetIDBrokerMappingsParams, opts ...ClientOption) (*GetIDBrokerMappingsOK, error)
+
+	// GetIDBrokerMappingsSyncStatus gets ID broker mappings sync status.
 	GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncStatusParams, opts ...ClientOption) (*GetIDBrokerMappingsSyncStatusOK, error)
 
+	// GetIDBrokerMappingsSyncStatusContext gets ID broker mappings sync status.
+	GetIDBrokerMappingsSyncStatusContext(ctx context.Context, params *GetIDBrokerMappingsSyncStatusParams, opts ...ClientOption) (*GetIDBrokerMappingsSyncStatusOK, error)
+
+	// GetKeytab retrieves a keytab for a user or machine user.
 	GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetKeytabOK, error)
 
+	// GetKeytabContext retrieves a keytab for a user or machine user.
+	GetKeytabContext(ctx context.Context, params *GetKeytabParams, opts ...ClientOption) (*GetKeytabOK, error)
+
+	// GetOperation get the latest in progress or finished operation for the environment resource.
 	GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
 
+	// GetOperationContext get the latest in progress or finished operation for the environment resource.
+	GetOperationContext(ctx context.Context, params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
+
+	// GetRepairFreeipaStatus returns status of the repair operation for the operation id.
 	GetRepairFreeipaStatus(params *GetRepairFreeipaStatusParams, opts ...ClientOption) (*GetRepairFreeipaStatusOK, error)
 
+	// GetRepairFreeipaStatusContext returns status of the repair operation for the operation id.
+	GetRepairFreeipaStatusContext(ctx context.Context, params *GetRepairFreeipaStatusParams, opts ...ClientOption) (*GetRepairFreeipaStatusOK, error)
+
+	// GetRootCertificate this API provides contents of public certificate for an environment.
 	GetRootCertificate(params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error)
 
+	// GetRootCertificateContext this API provides contents of public certificate for an environment.
+	GetRootCertificateContext(ctx context.Context, params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error)
+
+	// GetTrustCleanupCommands gets the commands to be run for cross realm trust clean up.
 	GetTrustCleanupCommands(params *GetTrustCleanupCommandsParams, opts ...ClientOption) (*GetTrustCleanupCommandsOK, error)
 
+	// GetTrustCleanupCommandsContext gets the commands to be run for cross realm trust clean up.
+	GetTrustCleanupCommandsContext(ctx context.Context, params *GetTrustCleanupCommandsParams, opts ...ClientOption) (*GetTrustCleanupCommandsOK, error)
+
+	// GetTrustSetupCommands lists the commands to be executed for cross realm trust setup.
 	GetTrustSetupCommands(params *GetTrustSetupCommandsParams, opts ...ClientOption) (*GetTrustSetupCommandsOK, error)
 
+	// GetTrustSetupCommandsContext lists the commands to be executed for cross realm trust setup.
+	GetTrustSetupCommandsContext(ctx context.Context, params *GetTrustSetupCommandsParams, opts ...ClientOption) (*GetTrustSetupCommandsOK, error)
+
+	// InitializeAWSComputeCluster initialize compute cluster for a w s environment.
 	InitializeAWSComputeCluster(params *InitializeAWSComputeClusterParams, opts ...ClientOption) (*InitializeAWSComputeClusterOK, error)
 
+	// InitializeAWSComputeClusterContext initialize compute cluster for a w s environment.
+	InitializeAWSComputeClusterContext(ctx context.Context, params *InitializeAWSComputeClusterParams, opts ...ClientOption) (*InitializeAWSComputeClusterOK, error)
+
+	// InitializeAzureComputeCluster initialize compute cluster for azure environment.
 	InitializeAzureComputeCluster(params *InitializeAzureComputeClusterParams, opts ...ClientOption) (*InitializeAzureComputeClusterOK, error)
 
+	// InitializeAzureComputeClusterContext initialize compute cluster for azure environment.
+	InitializeAzureComputeClusterContext(ctx context.Context, params *InitializeAzureComputeClusterParams, opts ...ClientOption) (*InitializeAzureComputeClusterOK, error)
+
+	// LastSyncStatus returns status of the sync operation for the environment crn.
 	LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOption) (*LastSyncStatusOK, error)
 
+	// LastSyncStatusContext returns status of the sync operation for the environment crn.
+	LastSyncStatusContext(ctx context.Context, params *LastSyncStatusParams, opts ...ClientOption) (*LastSyncStatusOK, error)
+
+	// ListAuditCredentials lists audit credentials.
 	ListAuditCredentials(params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error)
 
+	// ListAuditCredentialsContext lists audit credentials.
+	ListAuditCredentialsContext(ctx context.Context, params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error)
+
+	// ListConnectedDataServices returns the list of data services and their cluster names that are attached the given environment.
 	ListConnectedDataServices(params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error)
 
+	// ListConnectedDataServicesContext returns the list of data services and their cluster names that are attached the given environment.
+	ListConnectedDataServicesContext(ctx context.Context, params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error)
+
+	// ListCredentials lists credentials.
 	ListCredentials(params *ListCredentialsParams, opts ...ClientOption) (*ListCredentialsOK, error)
 
+	// ListCredentialsContext lists credentials.
+	ListCredentialsContext(ctx context.Context, params *ListCredentialsParams, opts ...ClientOption) (*ListCredentialsOK, error)
+
+	// ListEnvironments lists environments.
 	ListEnvironments(params *ListEnvironmentsParams, opts ...ClientOption) (*ListEnvironmentsOK, error)
 
+	// ListEnvironmentsContext lists environments.
+	ListEnvironmentsContext(ctx context.Context, params *ListEnvironmentsParams, opts ...ClientOption) (*ListEnvironmentsOK, error)
+
+	// ListFreeipaDiagnostics list recent free IP a diagnostics collections.
 	ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, opts ...ClientOption) (*ListFreeipaDiagnosticsOK, error)
 
+	// ListFreeipaDiagnosticsContext list recent free IP a diagnostics collections.
+	ListFreeipaDiagnosticsContext(ctx context.Context, params *ListFreeipaDiagnosticsParams, opts ...ClientOption) (*ListFreeipaDiagnosticsOK, error)
+
+	// ListFreeipaSecretTypes lists all free IP a related secret types.
 	ListFreeipaSecretTypes(params *ListFreeipaSecretTypesParams, opts ...ClientOption) (*ListFreeipaSecretTypesOK, error)
 
+	// ListFreeipaSecretTypesContext lists all free IP a related secret types.
+	ListFreeipaSecretTypesContext(ctx context.Context, params *ListFreeipaSecretTypesParams, opts ...ClientOption) (*ListFreeipaSecretTypesOK, error)
+
+	// ListProxyConfigs lists proxy configs.
 	ListProxyConfigs(params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error)
 
+	// ListProxyConfigsContext lists proxy configs.
+	ListProxyConfigsContext(ctx context.Context, params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error)
+
+	// RebuildFreeipa recreate free IP a in case of disaster.
 	RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOption) (*RebuildFreeipaOK, error)
 
+	// RebuildFreeipaContext recreate free IP a in case of disaster.
+	RebuildFreeipaContext(ctx context.Context, params *RebuildFreeipaParams, opts ...ClientOption) (*RebuildFreeipaOK, error)
+
+	// RepairFreeipa repairs the free IP a nodes.
 	RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption) (*RepairFreeipaOK, error)
 
+	// RepairFreeipaContext repairs the free IP a nodes.
+	RepairFreeipaContext(ctx context.Context, params *RepairFreeipaParams, opts ...ClientOption) (*RepairFreeipaOK, error)
+
+	// RepairTrust repair cross realm trust of free IP a with an active directory server.
 	RepairTrust(params *RepairTrustParams, opts ...ClientOption) (*RepairTrustOK, error)
 
+	// RepairTrustContext repair cross realm trust of free IP a with an active directory server.
+	RepairTrustContext(ctx context.Context, params *RepairTrustParams, opts ...ClientOption) (*RepairTrustOK, error)
+
+	// RetryFreeipa retries the last failed operation on a free IP a.
 	RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) (*RetryFreeipaOK, error)
 
+	// RetryFreeipaContext retries the last failed operation on a free IP a.
+	RetryFreeipaContext(ctx context.Context, params *RetryFreeipaParams, opts ...ClientOption) (*RetryFreeipaOK, error)
+
+	// RotateFreeipaSecrets rotate free IP a related secret for free IP a instances.
 	RotateFreeipaSecrets(params *RotateFreeipaSecretsParams, opts ...ClientOption) (*RotateFreeipaSecretsOK, error)
 
+	// RotateFreeipaSecretsContext rotate free IP a related secret for free IP a instances.
+	RotateFreeipaSecretsContext(ctx context.Context, params *RotateFreeipaSecretsParams, opts ...ClientOption) (*RotateFreeipaSecretsOK, error)
+
+	// RotateSaltPassword rotate salt stack user password on free IP a instances.
 	RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
 
+	// RotateSaltPasswordContext rotate salt stack user password on free IP a instances.
+	RotateSaltPasswordContext(ctx context.Context, params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
+
+	// SetAWSAuditCredential creates or updates the a w s audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
 	SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts ...ClientOption) (*SetAWSAuditCredentialOK, error)
 
+	// SetAWSAuditCredentialContext creates or updates the a w s audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
+	SetAWSAuditCredentialContext(ctx context.Context, params *SetAWSAuditCredentialParams, opts ...ClientOption) (*SetAWSAuditCredentialOK, error)
+
+	// SetAWSGovCloudAuditCredential creates or updates the a w s gov cloud audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
 	SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCredentialParams, opts ...ClientOption) (*SetAWSGovCloudAuditCredentialOK, error)
 
+	// SetAWSGovCloudAuditCredentialContext creates or updates the a w s gov cloud audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
+	SetAWSGovCloudAuditCredentialContext(ctx context.Context, params *SetAWSGovCloudAuditCredentialParams, opts ...ClientOption) (*SetAWSGovCloudAuditCredentialOK, error)
+
+	// SetAccountTelemetry set account level telemetry settings telemetry features and anonymization rules.
 	SetAccountTelemetry(params *SetAccountTelemetryParams, opts ...ClientOption) (*SetAccountTelemetryOK, error)
 
+	// SetAccountTelemetryContext set account level telemetry settings telemetry features and anonymization rules.
+	SetAccountTelemetryContext(ctx context.Context, params *SetAccountTelemetryParams, opts ...ClientOption) (*SetAccountTelemetryOK, error)
+
+	// SetAzureAuditCredential creates or updates the azure audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
 	SetAzureAuditCredential(params *SetAzureAuditCredentialParams, opts ...ClientOption) (*SetAzureAuditCredentialOK, error)
 
+	// SetAzureAuditCredentialContext creates or updates the azure audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
+	SetAzureAuditCredentialContext(ctx context.Context, params *SetAzureAuditCredentialParams, opts ...ClientOption) (*SetAzureAuditCredentialOK, error)
+
+	// SetCatalog sets a catalog for a free IP a installation.
 	SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
 
+	// SetCatalogContext sets a catalog for a free IP a installation.
+	SetCatalogContext(ctx context.Context, params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
+
+	// SetEndpointAccessGateway sets endpoint access gateway settings for the environment.
 	SetEndpointAccessGateway(params *SetEndpointAccessGatewayParams, opts ...ClientOption) (*SetEndpointAccessGatewayOK, error)
 
+	// SetEndpointAccessGatewayContext sets endpoint access gateway settings for the environment.
+	SetEndpointAccessGatewayContext(ctx context.Context, params *SetEndpointAccessGatewayParams, opts ...ClientOption) (*SetEndpointAccessGatewayOK, error)
+
+	// SetEnvironmentSetting read a configuration setting from the environment service.
 	SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts ...ClientOption) (*SetEnvironmentSettingOK, error)
 
+	// SetEnvironmentSettingContext read a configuration setting from the environment service.
+	SetEnvironmentSettingContext(ctx context.Context, params *SetEnvironmentSettingParams, opts ...ClientOption) (*SetEnvironmentSettingOK, error)
+
+	// SetGCPAuditCredential creates or updates the g c p audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
 	SetGCPAuditCredential(params *SetGCPAuditCredentialParams, opts ...ClientOption) (*SetGCPAuditCredentialOK, error)
 
+	// SetGCPAuditCredentialContext creates or updates the g c p audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
+	SetGCPAuditCredentialContext(ctx context.Context, params *SetGCPAuditCredentialParams, opts ...ClientOption) (*SetGCPAuditCredentialOK, error)
+
+	// SetIDBrokerMappings sets all ID broker mappings for an environment.
 	SetIDBrokerMappings(params *SetIDBrokerMappingsParams, opts ...ClientOption) (*SetIDBrokerMappingsOK, error)
 
+	// SetIDBrokerMappingsContext sets all ID broker mappings for an environment.
+	SetIDBrokerMappingsContext(ctx context.Context, params *SetIDBrokerMappingsParams, opts ...ClientOption) (*SetIDBrokerMappingsOK, error)
+
+	// SetPassword sets workload user s password and updates into all environments.
 	SetPassword(params *SetPasswordParams, opts ...ClientOption) (*SetPasswordOK, error)
 
+	// SetPasswordContext sets workload user s password and updates into all environments.
+	SetPasswordContext(ctx context.Context, params *SetPasswordParams, opts ...ClientOption) (*SetPasswordOK, error)
+
+	// SetTelemetryFeatures configure environment level telemetry feature setting.
 	SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts ...ClientOption) (*SetTelemetryFeaturesOK, error)
 
+	// SetTelemetryFeaturesContext configure environment level telemetry feature setting.
+	SetTelemetryFeaturesContext(ctx context.Context, params *SetTelemetryFeaturesParams, opts ...ClientOption) (*SetTelemetryFeaturesOK, error)
+
+	// SetupActiveDirectoryTrust setup cross realm trust between free IP a and active directory.
 	SetupActiveDirectoryTrust(params *SetupActiveDirectoryTrustParams, opts ...ClientOption) (*SetupActiveDirectoryTrustOK, error)
 
+	// SetupActiveDirectoryTrustContext setup cross realm trust between free IP a and active directory.
+	SetupActiveDirectoryTrustContext(ctx context.Context, params *SetupActiveDirectoryTrustParams, opts ...ClientOption) (*SetupActiveDirectoryTrustOK, error)
+
+	// SetupMitTrust setup cross realm trust between free IP a and m i t kerberos.
 	SetupMitTrust(params *SetupMitTrustParams, opts ...ClientOption) (*SetupMitTrustOK, error)
 
+	// SetupMitTrustContext setup cross realm trust between free IP a and m i t kerberos.
+	SetupMitTrustContext(ctx context.Context, params *SetupMitTrustParams, opts ...ClientOption) (*SetupMitTrustOK, error)
+
+	// StartEnvironment start an environment.
 	StartEnvironment(params *StartEnvironmentParams, opts ...ClientOption) (*StartEnvironmentOK, error)
 
+	// StartEnvironmentContext start an environment.
+	StartEnvironmentContext(ctx context.Context, params *StartEnvironmentParams, opts ...ClientOption) (*StartEnvironmentOK, error)
+
+	// StartFreeIpaVerticalScaling initiates the vertical scaling on free IP a.
 	StartFreeIpaVerticalScaling(params *StartFreeIpaVerticalScalingParams, opts ...ClientOption) (*StartFreeIpaVerticalScalingOK, error)
 
+	// StartFreeIpaVerticalScalingContext initiates the vertical scaling on free IP a.
+	StartFreeIpaVerticalScalingContext(ctx context.Context, params *StartFreeIpaVerticalScalingParams, opts ...ClientOption) (*StartFreeIpaVerticalScalingOK, error)
+
+	// StopEnvironment stop an environment.
 	StopEnvironment(params *StopEnvironmentParams, opts ...ClientOption) (*StopEnvironmentOK, error)
 
+	// StopEnvironmentContext stop an environment.
+	StopEnvironmentContext(ctx context.Context, params *StopEnvironmentParams, opts ...ClientOption) (*StopEnvironmentOK, error)
+
+	// SyncAllUsers synchronizes environments with all users and groups state with c d p.
 	SyncAllUsers(params *SyncAllUsersParams, opts ...ClientOption) (*SyncAllUsersOK, error)
 
+	// SyncAllUsersContext synchronizes environments with all users and groups state with c d p.
+	SyncAllUsersContext(ctx context.Context, params *SyncAllUsersParams, opts ...ClientOption) (*SyncAllUsersOK, error)
+
+	// SyncIDBrokerMappings syncs all ID broker mappings for an environment.
 	SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams, opts ...ClientOption) (*SyncIDBrokerMappingsOK, error)
 
+	// SyncIDBrokerMappingsContext syncs all ID broker mappings for an environment.
+	SyncIDBrokerMappingsContext(ctx context.Context, params *SyncIDBrokerMappingsParams, opts ...ClientOption) (*SyncIDBrokerMappingsOK, error)
+
+	// SyncStatus returns status of the sync operation for the operation id.
 	SyncStatus(params *SyncStatusParams, opts ...ClientOption) (*SyncStatusOK, error)
 
+	// SyncStatusContext returns status of the sync operation for the operation id.
+	SyncStatusContext(ctx context.Context, params *SyncStatusParams, opts ...ClientOption) (*SyncStatusOK, error)
+
+	// SyncUser synchronizes environments with single user to the free IP a servers.
 	SyncUser(params *SyncUserParams, opts ...ClientOption) (*SyncUserOK, error)
 
+	// SyncUserContext synchronizes environments with single user to the free IP a servers.
+	SyncUserContext(ctx context.Context, params *SyncUserParams, opts ...ClientOption) (*SyncUserOK, error)
+
+	// SynchronizeAllEnvironments synchronizes all environments in the calling account.
 	SynchronizeAllEnvironments(params *SynchronizeAllEnvironmentsParams, opts ...ClientOption) (*SynchronizeAllEnvironmentsOK, error)
 
+	// SynchronizeAllEnvironmentsContext synchronizes all environments in the calling account.
+	SynchronizeAllEnvironmentsContext(ctx context.Context, params *SynchronizeAllEnvironmentsParams, opts ...ClientOption) (*SynchronizeAllEnvironmentsOK, error)
+
+	// TestAccountTelemetryRules test anonymization rules for account telemetry against text input.
 	TestAccountTelemetryRules(params *TestAccountTelemetryRulesParams, opts ...ClientOption) (*TestAccountTelemetryRulesOK, error)
 
+	// TestAccountTelemetryRulesContext test anonymization rules for account telemetry against text input.
+	TestAccountTelemetryRulesContext(ctx context.Context, params *TestAccountTelemetryRulesParams, opts ...ClientOption) (*TestAccountTelemetryRulesOK, error)
+
+	// UpdateAwsCredential updates an a w s credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 	UpdateAwsCredential(params *UpdateAwsCredentialParams, opts ...ClientOption) (*UpdateAwsCredentialOK, error)
 
+	// UpdateAwsCredentialContext updates an a w s credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+	UpdateAwsCredentialContext(ctx context.Context, params *UpdateAwsCredentialParams, opts ...ClientOption) (*UpdateAwsCredentialOK, error)
+
+	// UpdateAwsDiskEncryptionParameters update the a w s encryption key a r n for the environment.
 	UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncryptionParametersParams, opts ...ClientOption) (*UpdateAwsDiskEncryptionParametersOK, error)
 
+	// UpdateAwsDiskEncryptionParametersContext update the a w s encryption key a r n for the environment.
+	UpdateAwsDiskEncryptionParametersContext(ctx context.Context, params *UpdateAwsDiskEncryptionParametersParams, opts ...ClientOption) (*UpdateAwsDiskEncryptionParametersOK, error)
+
+	// UpdateAzureAvailabilityZones update the availability zones for the azure environment.
 	UpdateAzureAvailabilityZones(params *UpdateAzureAvailabilityZonesParams, opts ...ClientOption) (*UpdateAzureAvailabilityZonesOK, error)
 
+	// UpdateAzureAvailabilityZonesContext update the availability zones for the azure environment.
+	UpdateAzureAvailabilityZonesContext(ctx context.Context, params *UpdateAzureAvailabilityZonesParams, opts ...ClientOption) (*UpdateAzureAvailabilityZonesOK, error)
+
+	// UpdateAzureCredential updates a new certificate based azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 	UpdateAzureCredential(params *UpdateAzureCredentialParams, opts ...ClientOption) (*UpdateAzureCredentialOK, error)
 
+	// UpdateAzureCredentialContext updates a new certificate based azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+	UpdateAzureCredentialContext(ctx context.Context, params *UpdateAzureCredentialParams, opts ...ClientOption) (*UpdateAzureCredentialOK, error)
+
+	// UpdateAzureDatabaseResources update the azure database resources for the environment.
 	UpdateAzureDatabaseResources(params *UpdateAzureDatabaseResourcesParams, opts ...ClientOption) (*UpdateAzureDatabaseResourcesOK, error)
 
+	// UpdateAzureDatabaseResourcesContext update the azure database resources for the environment.
+	UpdateAzureDatabaseResourcesContext(ctx context.Context, params *UpdateAzureDatabaseResourcesParams, opts ...ClientOption) (*UpdateAzureDatabaseResourcesOK, error)
+
+	// UpdateAzureEncryptionResources update the azure encryption resources for the environment.
 	UpdateAzureEncryptionResources(params *UpdateAzureEncryptionResourcesParams, opts ...ClientOption) (*UpdateAzureEncryptionResourcesOK, error)
 
+	// UpdateAzureEncryptionResourcesContext update the azure encryption resources for the environment.
+	UpdateAzureEncryptionResourcesContext(ctx context.Context, params *UpdateAzureEncryptionResourcesParams, opts ...ClientOption) (*UpdateAzureEncryptionResourcesOK, error)
+
+	// UpdateAzureImageTermsPolicy updates account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour.
 	UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicyParams, opts ...ClientOption) (*UpdateAzureImageTermsPolicyOK, error)
 
+	// UpdateAzureImageTermsPolicyContext updates account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour.
+	UpdateAzureImageTermsPolicyContext(ctx context.Context, params *UpdateAzureImageTermsPolicyParams, opts ...ClientOption) (*UpdateAzureImageTermsPolicyOK, error)
+
+	// UpdateCustomDockerRegistry updates custom docker registry c r n of an environment.
 	UpdateCustomDockerRegistry(params *UpdateCustomDockerRegistryParams, opts ...ClientOption) (*UpdateCustomDockerRegistryOK, error)
 
+	// UpdateCustomDockerRegistryContext updates custom docker registry c r n of an environment.
+	UpdateCustomDockerRegistryContext(ctx context.Context, params *UpdateCustomDockerRegistryParams, opts ...ClientOption) (*UpdateCustomDockerRegistryOK, error)
+
+	// UpdateDataServiceResources updates data service resources of an environment.
 	UpdateDataServiceResources(params *UpdateDataServiceResourcesParams, opts ...ClientOption) (*UpdateDataServiceResourcesOK, error)
 
+	// UpdateDataServiceResourcesContext updates data service resources of an environment.
+	UpdateDataServiceResourcesContext(ctx context.Context, params *UpdateDataServiceResourcesParams, opts ...ClientOption) (*UpdateDataServiceResourcesOK, error)
+
+	// UpdateFreeipaToAwsImdsV1 updates free IP a a w s cluster to use i m d sv1.
 	UpdateFreeipaToAwsImdsV1(params *UpdateFreeipaToAwsImdsV1Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV1OK, error)
 
+	// UpdateFreeipaToAwsImdsV1Context updates free IP a a w s cluster to use i m d sv1.
+	UpdateFreeipaToAwsImdsV1Context(ctx context.Context, params *UpdateFreeipaToAwsImdsV1Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV1OK, error)
+
+	// UpdateFreeipaToAwsImdsV2 updates free IP a a w s cluster to use i m d sv2.
 	UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV2OK, error)
 
+	// UpdateFreeipaToAwsImdsV2Context updates free IP a a w s cluster to use i m d sv2.
+	UpdateFreeipaToAwsImdsV2Context(ctx context.Context, params *UpdateFreeipaToAwsImdsV2Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV2OK, error)
+
+	// UpdateGcpAvailabilityZones update the availability zones for the g c p environment.
 	UpdateGcpAvailabilityZones(params *UpdateGcpAvailabilityZonesParams, opts ...ClientOption) (*UpdateGcpAvailabilityZonesOK, error)
 
+	// UpdateGcpAvailabilityZonesContext update the availability zones for the g c p environment.
+	UpdateGcpAvailabilityZonesContext(ctx context.Context, params *UpdateGcpAvailabilityZonesParams, opts ...ClientOption) (*UpdateGcpAvailabilityZonesOK, error)
+
+	// UpdateOrchestratorState run orchestrator engine state update on the free IP a cluster.
 	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
+	// UpdateOrchestratorStateContext run orchestrator engine state update on the free IP a cluster.
+	UpdateOrchestratorStateContext(ctx context.Context, params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
+
+	// UpdateProxyConfig updates the proxy config of the given environment the newly added proxy configs will only be used for the cloudera data hub clusters created within the environment after the new proxy configs were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the proxy configs originally defined during environment creation.
 	UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error)
 
+	// UpdateProxyConfigContext updates the proxy config of the given environment the newly added proxy configs will only be used for the cloudera data hub clusters created within the environment after the new proxy configs were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the proxy configs originally defined during environment creation.
+	UpdateProxyConfigContext(ctx context.Context, params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error)
+
+	// UpdateRootVolumeFreeipa update root volume size and type in free IP a instances.
 	UpdateRootVolumeFreeipa(params *UpdateRootVolumeFreeipaParams, opts ...ClientOption) (*UpdateRootVolumeFreeipaOK, error)
 
+	// UpdateRootVolumeFreeipaContext update root volume size and type in free IP a instances.
+	UpdateRootVolumeFreeipaContext(ctx context.Context, params *UpdateRootVolumeFreeipaParams, opts ...ClientOption) (*UpdateRootVolumeFreeipaOK, error)
+
+	// UpdateSecurityAccess updates the security access settings of the given environment the newly added security groups will only be used for the cloudera data hub clusters created within the environment after the new security groups were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the security groups originally defined during environment creation.
 	UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error)
 
+	// UpdateSecurityAccessContext updates the security access settings of the given environment the newly added security groups will only be used for the cloudera data hub clusters created within the environment after the new security groups were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the security groups originally defined during environment creation.
+	UpdateSecurityAccessContext(ctx context.Context, params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error)
+
+	// UpdateSSHKey updates the designated SSH key for the given environment the newly added SSH key will only be used for the cloudera data hub clusters created within the environment after the new SSH key were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the SSH key originally defined during environment creation.
 	UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error)
 
+	// UpdateSSHKeyContext updates the designated SSH key for the given environment the newly added SSH key will only be used for the cloudera data hub clusters created within the environment after the new SSH key were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the SSH key originally defined during environment creation.
+	UpdateSSHKeyContext(ctx context.Context, params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error)
+
+	// UpdateSubnet updates the subnet s of the given environment the newly added subnets will only be used for the cloudera data hub clusters created within the environment after the new subnets were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the subnets originally defined during environment creation.
 	UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error)
 
+	// UpdateSubnetContext updates the subnet s of the given environment the newly added subnets will only be used for the cloudera data hub clusters created within the environment after the new subnets were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the subnets originally defined during environment creation.
+	UpdateSubnetContext(ctx context.Context, params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error)
+
+	// UpdateTags updates the user defined tags of the given environment the newly added tags will only be used for the cloudera data hub clusters created within the environment after the new tags were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the tags originally defined during environment creation.
 	UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error)
 
+	// UpdateTagsContext updates the user defined tags of the given environment the newly added tags will only be used for the cloudera data hub clusters created within the environment after the new tags were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the tags originally defined during environment creation.
+	UpdateTagsContext(ctx context.Context, params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error)
+
+	// UpgradeCcm upgrades cluster connectivity manager on the environment to the latest available version.
 	UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*UpgradeCcmOK, error)
 
+	// UpgradeCcmContext upgrades cluster connectivity manager on the environment to the latest available version.
+	UpgradeCcmContext(ctx context.Context, params *UpgradeCcmParams, opts ...ClientOption) (*UpgradeCcmOK, error)
+
+	// UpgradeFreeipa upgrades free IP a to the latest or defined image.
 	UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOption) (*UpgradeFreeipaOK, error)
 
+	// UpgradeFreeipaContext upgrades free IP a to the latest or defined image.
+	UpgradeFreeipaContext(ctx context.Context, params *UpgradeFreeipaParams, opts ...ClientOption) (*UpgradeFreeipaOK, error)
+
+	// UpscaleFreeipa upscales free IP a instances.
 	UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOption) (*UpscaleFreeipaOK, error)
 
+	// UpscaleFreeipaContext upscales free IP a instances.
+	UpscaleFreeipaContext(ctx context.Context, params *UpscaleFreeipaParams, opts ...ClientOption) (*UpscaleFreeipaOK, error)
+
+	// ValidateAwsCloudStorage validates a w s cloud storage settings of the given environment.
 	ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error)
 
+	// ValidateAwsCloudStorageContext validates a w s cloud storage settings of the given environment.
+	ValidateAwsCloudStorageContext(ctx context.Context, params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error)
+
+	// ValidateAzureCloudStorage validates azure cloud storage settings of the given environment.
 	ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error)
 
-	SetTransport(transport runtime.ClientTransport)
+	// ValidateAzureCloudStorageContext validates azure cloud storage settings of the given environment.
+	ValidateAzureCloudStorageContext(ctx context.Context, params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error)
+
+	SetTransport(transport runtime.ContextualTransport)
 }
 
 /*
-AttachFreeIpaRecipes attaches recipes to free IP a
+AttachFreeIpaRecipesattaches recipes to free IP a.
 
-Attach recipes to FreeIPA.
+Attach recipes to FreeIPA..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AttachFreeIpaRecipesContext] instead.
 */
 func (a *Client) AttachFreeIpaRecipes(params *AttachFreeIpaRecipesParams, opts ...ClientOption) (*AttachFreeIpaRecipesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AttachFreeIpaRecipesContext(ctx, params, opts...)
+}
+
+/*
+AttachFreeIpaRecipesContextattaches recipes to free IP a.
+
+Attach recipes to FreeIPA..
+
+Do not use the deprecated [AttachFreeIpaRecipesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AttachFreeIpaRecipesContext(ctx context.Context, params *AttachFreeIpaRecipesParams, opts ...ClientOption) (*AttachFreeIpaRecipesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAttachFreeIpaRecipesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "attachFreeIpaRecipes",
 		Method:             "POST",
@@ -293,13 +763,14 @@ func (a *Client) AttachFreeIpaRecipes(params *AttachFreeIpaRecipesParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AttachFreeIpaRecipesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -319,15 +790,39 @@ func (a *Client) AttachFreeIpaRecipes(params *AttachFreeIpaRecipesParams, opts .
 }
 
 /*
-CancelFreeipaDiagnostics cancels running free IP a diagnostics collections
+CancelFreeipaDiagnosticscancels running free IP a diagnostics collections.
 
-Cancel running FreeIPA diagnostics collection
+Cancel running FreeIPA diagnostics collection.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CancelFreeipaDiagnosticsContext] instead.
 */
 func (a *Client) CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams, opts ...ClientOption) (*CancelFreeipaDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CancelFreeipaDiagnosticsContext(ctx, params, opts...)
+}
+
+/*
+CancelFreeipaDiagnosticsContextcancels running free IP a diagnostics collections.
+
+Cancel running FreeIPA diagnostics collection.
+
+Do not use the deprecated [CancelFreeipaDiagnosticsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CancelFreeipaDiagnosticsContext(ctx context.Context, params *CancelFreeipaDiagnosticsParams, opts ...ClientOption) (*CancelFreeipaDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelFreeipaDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "cancelFreeipaDiagnostics",
 		Method:             "POST",
@@ -337,13 +832,14 @@ func (a *Client) CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CancelFreeipaDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -363,15 +859,39 @@ func (a *Client) CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams
 }
 
 /*
-CancelTrust cancels cross realm trust for free IP a
+CancelTrustcancels cross realm trust for free IP a.
 
-Cancel cross-realm trust setup between FreeIPA and Active Directory.
+Cancel cross-realm trust setup between FreeIPA and Active Directory..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CancelTrustContext] instead.
 */
 func (a *Client) CancelTrust(params *CancelTrustParams, opts ...ClientOption) (*CancelTrustOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CancelTrustContext(ctx, params, opts...)
+}
+
+/*
+CancelTrustContextcancels cross realm trust for free IP a.
+
+Cancel cross-realm trust setup between FreeIPA and Active Directory..
+
+Do not use the deprecated [CancelTrustParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CancelTrustContext(ctx context.Context, params *CancelTrustParams, opts ...ClientOption) (*CancelTrustOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelTrustParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "cancelTrust",
 		Method:             "POST",
@@ -381,13 +901,14 @@ func (a *Client) CancelTrust(params *CancelTrustParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CancelTrustReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -407,15 +928,39 @@ func (a *Client) CancelTrust(params *CancelTrustParams, opts ...ClientOption) (*
 }
 
 /*
-ChangeEnvironmentCredential changes the credential for an environment
+ChangeEnvironmentCredentialchanges the credential for an environment.
 
-Changes the credential for an environment.
+Changes the credential for an environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ChangeEnvironmentCredentialContext] instead.
 */
 func (a *Client) ChangeEnvironmentCredential(params *ChangeEnvironmentCredentialParams, opts ...ClientOption) (*ChangeEnvironmentCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ChangeEnvironmentCredentialContext(ctx, params, opts...)
+}
+
+/*
+ChangeEnvironmentCredentialContextchanges the credential for an environment.
+
+Changes the credential for an environment..
+
+Do not use the deprecated [ChangeEnvironmentCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ChangeEnvironmentCredentialContext(ctx context.Context, params *ChangeEnvironmentCredentialParams, opts ...ClientOption) (*ChangeEnvironmentCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewChangeEnvironmentCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "changeEnvironmentCredential",
 		Method:             "POST",
@@ -425,13 +970,14 @@ func (a *Client) ChangeEnvironmentCredential(params *ChangeEnvironmentCredential
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ChangeEnvironmentCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -451,15 +997,39 @@ func (a *Client) ChangeEnvironmentCredential(params *ChangeEnvironmentCredential
 }
 
 /*
-CheckDatabaseConnectivity checks database connectivity based on the input parameters
+CheckDatabaseConnectivitychecks database connectivity based on the input parameters.
 
-Checks Database connectivity based on the input parameters.
+Checks Database connectivity based on the input parameters..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CheckDatabaseConnectivityContext] instead.
 */
 func (a *Client) CheckDatabaseConnectivity(params *CheckDatabaseConnectivityParams, opts ...ClientOption) (*CheckDatabaseConnectivityOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CheckDatabaseConnectivityContext(ctx, params, opts...)
+}
+
+/*
+CheckDatabaseConnectivityContextchecks database connectivity based on the input parameters.
+
+Checks Database connectivity based on the input parameters..
+
+Do not use the deprecated [CheckDatabaseConnectivityParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CheckDatabaseConnectivityContext(ctx context.Context, params *CheckDatabaseConnectivityParams, opts ...ClientOption) (*CheckDatabaseConnectivityOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCheckDatabaseConnectivityParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "checkDatabaseConnectivity",
 		Method:             "POST",
@@ -469,13 +1039,14 @@ func (a *Client) CheckDatabaseConnectivity(params *CheckDatabaseConnectivityPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CheckDatabaseConnectivityReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -495,15 +1066,39 @@ func (a *Client) CheckDatabaseConnectivity(params *CheckDatabaseConnectivityPara
 }
 
 /*
-CheckEnvironmentConnectivity checks connectivity to a new private cloud environment by trying to access the cloudera manager address with provided credentials
+CheckEnvironmentConnectivitychecks connectivity to a new private cloud environment by trying to access the cloudera manager address with provided credentials.
 
-Checks connectivity to a Private Cloud environment.
+Checks connectivity to a Private Cloud environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CheckEnvironmentConnectivityContext] instead.
 */
 func (a *Client) CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivityParams, opts ...ClientOption) (*CheckEnvironmentConnectivityOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CheckEnvironmentConnectivityContext(ctx, params, opts...)
+}
+
+/*
+CheckEnvironmentConnectivityContextchecks connectivity to a new private cloud environment by trying to access the cloudera manager address with provided credentials.
+
+Checks connectivity to a Private Cloud environment..
+
+Do not use the deprecated [CheckEnvironmentConnectivityParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CheckEnvironmentConnectivityContext(ctx context.Context, params *CheckEnvironmentConnectivityParams, opts ...ClientOption) (*CheckEnvironmentConnectivityOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCheckEnvironmentConnectivityParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "checkEnvironmentConnectivity",
 		Method:             "POST",
@@ -513,13 +1108,14 @@ func (a *Client) CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivi
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CheckEnvironmentConnectivityReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -539,15 +1135,39 @@ func (a *Client) CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivi
 }
 
 /*
-CheckKubernetesConnectivity checks connectivity to a kubernetes address with provided kubeconfig files
+CheckKubernetesConnectivitychecks connectivity to a kubernetes address with provided kubeconfig files.
 
-Checks connectivity to a Kubernetes address with provided kubeconfig files.
+Checks connectivity to a Kubernetes address with provided kubeconfig files..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CheckKubernetesConnectivityContext] instead.
 */
 func (a *Client) CheckKubernetesConnectivity(params *CheckKubernetesConnectivityParams, opts ...ClientOption) (*CheckKubernetesConnectivityOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CheckKubernetesConnectivityContext(ctx, params, opts...)
+}
+
+/*
+CheckKubernetesConnectivityContextchecks connectivity to a kubernetes address with provided kubeconfig files.
+
+Checks connectivity to a Kubernetes address with provided kubeconfig files..
+
+Do not use the deprecated [CheckKubernetesConnectivityParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CheckKubernetesConnectivityContext(ctx context.Context, params *CheckKubernetesConnectivityParams, opts ...ClientOption) (*CheckKubernetesConnectivityOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCheckKubernetesConnectivityParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "checkKubernetesConnectivity",
 		Method:             "POST",
@@ -557,13 +1177,14 @@ func (a *Client) CheckKubernetesConnectivity(params *CheckKubernetesConnectivity
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CheckKubernetesConnectivityReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -583,15 +1204,39 @@ func (a *Client) CheckKubernetesConnectivity(params *CheckKubernetesConnectivity
 }
 
 /*
-CollectFreeipaDiagnostics starts free IP a diagnostics collection
+CollectFreeipaDiagnosticsstarts free IP a diagnostics collection.
 
-Start FreeIPA diagnostics collection
+Start FreeIPA diagnostics collection.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CollectFreeipaDiagnosticsContext] instead.
 */
 func (a *Client) CollectFreeipaDiagnostics(params *CollectFreeipaDiagnosticsParams, opts ...ClientOption) (*CollectFreeipaDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CollectFreeipaDiagnosticsContext(ctx, params, opts...)
+}
+
+/*
+CollectFreeipaDiagnosticsContextstarts free IP a diagnostics collection.
+
+Start FreeIPA diagnostics collection.
+
+Do not use the deprecated [CollectFreeipaDiagnosticsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CollectFreeipaDiagnosticsContext(ctx context.Context, params *CollectFreeipaDiagnosticsParams, opts ...ClientOption) (*CollectFreeipaDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectFreeipaDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "collectFreeipaDiagnostics",
 		Method:             "POST",
@@ -601,13 +1246,14 @@ func (a *Client) CollectFreeipaDiagnostics(params *CollectFreeipaDiagnosticsPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CollectFreeipaDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -627,15 +1273,39 @@ func (a *Client) CollectFreeipaDiagnostics(params *CollectFreeipaDiagnosticsPara
 }
 
 /*
-CreateAWSCredential creates a new a w s credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+CreateAWSCredentialcreates a new a w s credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 
-Creates a new AWS credential.
+Creates a new AWS credential..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAWSCredentialContext] instead.
 */
 func (a *Client) CreateAWSCredential(params *CreateAWSCredentialParams, opts ...ClientOption) (*CreateAWSCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAWSCredentialContext(ctx, params, opts...)
+}
+
+/*
+CreateAWSCredentialContextcreates a new a w s credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+
+Creates a new AWS credential..
+
+Do not use the deprecated [CreateAWSCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAWSCredentialContext(ctx context.Context, params *CreateAWSCredentialParams, opts ...ClientOption) (*CreateAWSCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAWSCredential",
 		Method:             "POST",
@@ -645,13 +1315,14 @@ func (a *Client) CreateAWSCredential(params *CreateAWSCredentialParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAWSCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -671,15 +1342,39 @@ func (a *Client) CreateAWSCredential(params *CreateAWSCredentialParams, opts ...
 }
 
 /*
-CreateAWSEnvironment creates a new a w s environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
+CreateAWSEnvironmentcreates a new a w s environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
 
-Creates a new AWS environment.
+Creates a new AWS environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAWSEnvironmentContext] instead.
 */
 func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts ...ClientOption) (*CreateAWSEnvironmentOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAWSEnvironmentContext(ctx, params, opts...)
+}
+
+/*
+CreateAWSEnvironmentContextcreates a new a w s environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
+
+Creates a new AWS environment..
+
+Do not use the deprecated [CreateAWSEnvironmentParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAWSEnvironmentContext(ctx context.Context, params *CreateAWSEnvironmentParams, opts ...ClientOption) (*CreateAWSEnvironmentOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSEnvironmentParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAWSEnvironment",
 		Method:             "POST",
@@ -689,13 +1384,14 @@ func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAWSEnvironmentReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -715,15 +1411,39 @@ func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts .
 }
 
 /*
-CreateAWSGovCloudCredential creates a new a w s credential for gov cloud that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+CreateAWSGovCloudCredentialcreates a new a w s credential for gov cloud that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 
-Creates a new AWS credential for GovCloud.
+Creates a new AWS credential for GovCloud..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAWSGovCloudCredentialContext] instead.
 */
 func (a *Client) CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredentialParams, opts ...ClientOption) (*CreateAWSGovCloudCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAWSGovCloudCredentialContext(ctx, params, opts...)
+}
+
+/*
+CreateAWSGovCloudCredentialContextcreates a new a w s credential for gov cloud that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+
+Creates a new AWS credential for GovCloud..
+
+Do not use the deprecated [CreateAWSGovCloudCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAWSGovCloudCredentialContext(ctx context.Context, params *CreateAWSGovCloudCredentialParams, opts ...ClientOption) (*CreateAWSGovCloudCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSGovCloudCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAWSGovCloudCredential",
 		Method:             "POST",
@@ -733,13 +1453,14 @@ func (a *Client) CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredential
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAWSGovCloudCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -759,15 +1480,39 @@ func (a *Client) CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredential
 }
 
 /*
-CreateAWSGovCloudEnvironment creates a new a w s gov cloud environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
+CreateAWSGovCloudEnvironmentcreates a new a w s gov cloud environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
 
-Creates a new AWS GovCloud environment.
+Creates a new AWS GovCloud environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAWSGovCloudEnvironmentContext] instead.
 */
 func (a *Client) CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironmentParams, opts ...ClientOption) (*CreateAWSGovCloudEnvironmentOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAWSGovCloudEnvironmentContext(ctx, params, opts...)
+}
+
+/*
+CreateAWSGovCloudEnvironmentContextcreates a new a w s gov cloud environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
+
+Creates a new AWS GovCloud environment..
+
+Do not use the deprecated [CreateAWSGovCloudEnvironmentParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAWSGovCloudEnvironmentContext(ctx context.Context, params *CreateAWSGovCloudEnvironmentParams, opts ...ClientOption) (*CreateAWSGovCloudEnvironmentOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSGovCloudEnvironmentParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAWSGovCloudEnvironment",
 		Method:             "POST",
@@ -777,13 +1522,14 @@ func (a *Client) CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironme
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAWSGovCloudEnvironmentReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -803,15 +1549,39 @@ func (a *Client) CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironme
 }
 
 /*
-CreateAzureCredential creates a new azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+CreateAzureCredentialcreates a new azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 
-Creates a new Azure credential.
+Creates a new Azure credential..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAzureCredentialContext] instead.
 */
 func (a *Client) CreateAzureCredential(params *CreateAzureCredentialParams, opts ...ClientOption) (*CreateAzureCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAzureCredentialContext(ctx, params, opts...)
+}
+
+/*
+CreateAzureCredentialContextcreates a new azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+
+Creates a new Azure credential..
+
+Do not use the deprecated [CreateAzureCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAzureCredentialContext(ctx context.Context, params *CreateAzureCredentialParams, opts ...ClientOption) (*CreateAzureCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAzureCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAzureCredential",
 		Method:             "POST",
@@ -821,13 +1591,14 @@ func (a *Client) CreateAzureCredential(params *CreateAzureCredentialParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAzureCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -847,15 +1618,39 @@ func (a *Client) CreateAzureCredential(params *CreateAzureCredentialParams, opts
 }
 
 /*
-CreateAzureEnvironment creates a new azure environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
+CreateAzureEnvironmentcreates a new azure environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
 
-Creates a new Azure environment.
+Creates a new Azure environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAzureEnvironmentContext] instead.
 */
 func (a *Client) CreateAzureEnvironment(params *CreateAzureEnvironmentParams, opts ...ClientOption) (*CreateAzureEnvironmentOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAzureEnvironmentContext(ctx, params, opts...)
+}
+
+/*
+CreateAzureEnvironmentContextcreates a new azure environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
+
+Creates a new Azure environment..
+
+Do not use the deprecated [CreateAzureEnvironmentParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAzureEnvironmentContext(ctx context.Context, params *CreateAzureEnvironmentParams, opts ...ClientOption) (*CreateAzureEnvironmentOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAzureEnvironmentParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAzureEnvironment",
 		Method:             "POST",
@@ -865,13 +1660,14 @@ func (a *Client) CreateAzureEnvironment(params *CreateAzureEnvironmentParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAzureEnvironmentReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -891,15 +1687,39 @@ func (a *Client) CreateAzureEnvironment(params *CreateAzureEnvironmentParams, op
 }
 
 /*
-CreateGCPCredential creates a new g c p credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+CreateGCPCredentialcreates a new g c p credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 
-Creates a new GCP credential.
+Creates a new GCP credential..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateGCPCredentialContext] instead.
 */
 func (a *Client) CreateGCPCredential(params *CreateGCPCredentialParams, opts ...ClientOption) (*CreateGCPCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateGCPCredentialContext(ctx, params, opts...)
+}
+
+/*
+CreateGCPCredentialContextcreates a new g c p credential that can be attatched to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+
+Creates a new GCP credential..
+
+Do not use the deprecated [CreateGCPCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateGCPCredentialContext(ctx context.Context, params *CreateGCPCredentialParams, opts ...ClientOption) (*CreateGCPCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateGCPCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createGCPCredential",
 		Method:             "POST",
@@ -909,13 +1729,14 @@ func (a *Client) CreateGCPCredential(params *CreateGCPCredentialParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateGCPCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -935,15 +1756,39 @@ func (a *Client) CreateGCPCredential(params *CreateGCPCredentialParams, opts ...
 }
 
 /*
-CreateGCPEnvironment creates a new g c p environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created
+CreateGCPEnvironmentcreates a new g c p environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
 
-Creates a new GCP environment.
+Creates a new GCP environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateGCPEnvironmentContext] instead.
 */
 func (a *Client) CreateGCPEnvironment(params *CreateGCPEnvironmentParams, opts ...ClientOption) (*CreateGCPEnvironmentOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateGCPEnvironmentContext(ctx, params, opts...)
+}
+
+/*
+CreateGCPEnvironmentContextcreates a new g c p environment by providing the cloud provider access and network information a free IP a server will be automatically provisioned when an environment is created.
+
+Creates a new GCP environment..
+
+Do not use the deprecated [CreateGCPEnvironmentParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateGCPEnvironmentContext(ctx context.Context, params *CreateGCPEnvironmentParams, opts ...ClientOption) (*CreateGCPEnvironmentOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateGCPEnvironmentParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createGCPEnvironment",
 		Method:             "POST",
@@ -953,13 +1798,14 @@ func (a *Client) CreateGCPEnvironment(params *CreateGCPEnvironmentParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateGCPEnvironmentReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -979,15 +1825,39 @@ func (a *Client) CreateGCPEnvironment(params *CreateGCPEnvironmentParams, opts .
 }
 
 /*
-CreatePrivateEnvironment creates a new private cloud environment by providing the cloudera manager address and credentials
+CreatePrivateEnvironmentcreates a new private cloud environment by providing the cloudera manager address and credentials.
 
-Creates a new Private Cloud environment.
+Creates a new Private Cloud environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreatePrivateEnvironmentContext] instead.
 */
 func (a *Client) CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams, opts ...ClientOption) (*CreatePrivateEnvironmentOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreatePrivateEnvironmentContext(ctx, params, opts...)
+}
+
+/*
+CreatePrivateEnvironmentContextcreates a new private cloud environment by providing the cloudera manager address and credentials.
+
+Creates a new Private Cloud environment..
+
+Do not use the deprecated [CreatePrivateEnvironmentParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreatePrivateEnvironmentContext(ctx context.Context, params *CreatePrivateEnvironmentParams, opts ...ClientOption) (*CreatePrivateEnvironmentOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreatePrivateEnvironmentParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createPrivateEnvironment",
 		Method:             "POST",
@@ -997,13 +1867,14 @@ func (a *Client) CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreatePrivateEnvironmentReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1023,15 +1894,39 @@ func (a *Client) CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams
 }
 
 /*
-CreateProxyConfig creates a new proxy config that can be attatched to an environment
+CreateProxyConfigcreates a new proxy config that can be attatched to an environment.
 
-Creates a new proxy config.
+Creates a new proxy config..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateProxyConfigContext] instead.
 */
 func (a *Client) CreateProxyConfig(params *CreateProxyConfigParams, opts ...ClientOption) (*CreateProxyConfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateProxyConfigContext(ctx, params, opts...)
+}
+
+/*
+CreateProxyConfigContextcreates a new proxy config that can be attatched to an environment.
+
+Creates a new proxy config..
+
+Do not use the deprecated [CreateProxyConfigParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateProxyConfigContext(ctx context.Context, params *CreateProxyConfigParams, opts ...ClientOption) (*CreateProxyConfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateProxyConfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createProxyConfig",
 		Method:             "POST",
@@ -1041,13 +1936,14 @@ func (a *Client) CreateProxyConfig(params *CreateProxyConfigParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateProxyConfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1067,15 +1963,39 @@ func (a *Client) CreateProxyConfig(params *CreateProxyConfigParams, opts ...Clie
 }
 
 /*
-DeleteAuditCredential deletes an audit credential
+DeleteAuditCredentialdeletes an audit credential.
 
-Deletes an audit credential.
+Deletes an audit credential..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteAuditCredentialContext] instead.
 */
 func (a *Client) DeleteAuditCredential(params *DeleteAuditCredentialParams, opts ...ClientOption) (*DeleteAuditCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteAuditCredentialContext(ctx, params, opts...)
+}
+
+/*
+DeleteAuditCredentialContextdeletes an audit credential.
+
+Deletes an audit credential..
+
+Do not use the deprecated [DeleteAuditCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteAuditCredentialContext(ctx context.Context, params *DeleteAuditCredentialParams, opts ...ClientOption) (*DeleteAuditCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteAuditCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteAuditCredential",
 		Method:             "POST",
@@ -1085,13 +2005,14 @@ func (a *Client) DeleteAuditCredential(params *DeleteAuditCredentialParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteAuditCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1111,15 +2032,39 @@ func (a *Client) DeleteAuditCredential(params *DeleteAuditCredentialParams, opts
 }
 
 /*
-DeleteCredential deletes a credential
+DeleteCredentialdeletes a credential.
 
-Deletes a credential.
+Deletes a credential..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteCredentialContext] instead.
 */
 func (a *Client) DeleteCredential(params *DeleteCredentialParams, opts ...ClientOption) (*DeleteCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteCredentialContext(ctx, params, opts...)
+}
+
+/*
+DeleteCredentialContextdeletes a credential.
+
+Deletes a credential..
+
+Do not use the deprecated [DeleteCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteCredentialContext(ctx context.Context, params *DeleteCredentialParams, opts ...ClientOption) (*DeleteCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteCredential",
 		Method:             "POST",
@@ -1129,13 +2074,14 @@ func (a *Client) DeleteCredential(params *DeleteCredentialParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1155,15 +2101,39 @@ func (a *Client) DeleteCredential(params *DeleteCredentialParams, opts ...Client
 }
 
 /*
-DeleteEnvironment deletes an environment
+DeleteEnvironmentdeletes an environment.
 
-Deletes an environment.
+Deletes an environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteEnvironmentContext] instead.
 */
 func (a *Client) DeleteEnvironment(params *DeleteEnvironmentParams, opts ...ClientOption) (*DeleteEnvironmentOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteEnvironmentContext(ctx, params, opts...)
+}
+
+/*
+DeleteEnvironmentContextdeletes an environment.
+
+Deletes an environment..
+
+Do not use the deprecated [DeleteEnvironmentParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteEnvironmentContext(ctx context.Context, params *DeleteEnvironmentParams, opts ...ClientOption) (*DeleteEnvironmentOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteEnvironmentParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteEnvironment",
 		Method:             "POST",
@@ -1173,13 +2143,14 @@ func (a *Client) DeleteEnvironment(params *DeleteEnvironmentParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteEnvironmentReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1199,15 +2170,39 @@ func (a *Client) DeleteEnvironment(params *DeleteEnvironmentParams, opts ...Clie
 }
 
 /*
-DeleteProxyConfig deletes a proxy config
+DeleteProxyConfigdeletes a proxy config.
 
-Deletes a proxy config.
+Deletes a proxy config..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteProxyConfigContext] instead.
 */
 func (a *Client) DeleteProxyConfig(params *DeleteProxyConfigParams, opts ...ClientOption) (*DeleteProxyConfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteProxyConfigContext(ctx, params, opts...)
+}
+
+/*
+DeleteProxyConfigContextdeletes a proxy config.
+
+Deletes a proxy config..
+
+Do not use the deprecated [DeleteProxyConfigParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteProxyConfigContext(ctx context.Context, params *DeleteProxyConfigParams, opts ...ClientOption) (*DeleteProxyConfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteProxyConfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteProxyConfig",
 		Method:             "POST",
@@ -1217,13 +2212,14 @@ func (a *Client) DeleteProxyConfig(params *DeleteProxyConfigParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteProxyConfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1243,15 +2239,39 @@ func (a *Client) DeleteProxyConfig(params *DeleteProxyConfigParams, opts ...Clie
 }
 
 /*
-DescribeEnvironment describes an environment
+DescribeEnvironmentdescribes an environment.
 
-Describes an environment.
+Describes an environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeEnvironmentContext] instead.
 */
 func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams, opts ...ClientOption) (*DescribeEnvironmentOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeEnvironmentContext(ctx, params, opts...)
+}
+
+/*
+DescribeEnvironmentContextdescribes an environment.
+
+Describes an environment..
+
+Do not use the deprecated [DescribeEnvironmentParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeEnvironmentContext(ctx context.Context, params *DescribeEnvironmentParams, opts ...ClientOption) (*DescribeEnvironmentOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeEnvironmentParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeEnvironment",
 		Method:             "POST",
@@ -1261,13 +2281,14 @@ func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeEnvironmentReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1287,15 +2308,39 @@ func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams, opts ...
 }
 
 /*
-DetachFreeIpaRecipes detaches recipes from free IP a
+DetachFreeIpaRecipesdetaches recipes from free IP a.
 
-Detach recipes from FreeIPA.
+Detach recipes from FreeIPA..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DetachFreeIpaRecipesContext] instead.
 */
 func (a *Client) DetachFreeIpaRecipes(params *DetachFreeIpaRecipesParams, opts ...ClientOption) (*DetachFreeIpaRecipesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DetachFreeIpaRecipesContext(ctx, params, opts...)
+}
+
+/*
+DetachFreeIpaRecipesContextdetaches recipes from free IP a.
+
+Detach recipes from FreeIPA..
+
+Do not use the deprecated [DetachFreeIpaRecipesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DetachFreeIpaRecipesContext(ctx context.Context, params *DetachFreeIpaRecipesParams, opts ...ClientOption) (*DetachFreeIpaRecipesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDetachFreeIpaRecipesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "detachFreeIpaRecipes",
 		Method:             "POST",
@@ -1305,13 +2350,14 @@ func (a *Client) DetachFreeIpaRecipes(params *DetachFreeIpaRecipesParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DetachFreeIpaRecipesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1331,15 +2377,39 @@ func (a *Client) DetachFreeIpaRecipes(params *DetachFreeIpaRecipesParams, opts .
 }
 
 /*
-DisableS3Guard disables the s3 guard for an environment
+DisableS3Guarddisables the s3 guard for an environment.
 
-Deprecated, S3Guard is no longer supported.
+Deprecated, S3Guard is no longer supported..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DisableS3GuardContext] instead.
 */
 func (a *Client) DisableS3Guard(params *DisableS3GuardParams, opts ...ClientOption) (*DisableS3GuardOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DisableS3GuardContext(ctx, params, opts...)
+}
+
+/*
+DisableS3GuardContextdisables the s3 guard for an environment.
+
+Deprecated, S3Guard is no longer supported..
+
+Do not use the deprecated [DisableS3GuardParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DisableS3GuardContext(ctx context.Context, params *DisableS3GuardParams, opts ...ClientOption) (*DisableS3GuardOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDisableS3GuardParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "disableS3Guard",
 		Method:             "POST",
@@ -1349,13 +2419,14 @@ func (a *Client) DisableS3Guard(params *DisableS3GuardParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DisableS3GuardReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1375,15 +2446,39 @@ func (a *Client) DisableS3Guard(params *DisableS3GuardParams, opts ...ClientOpti
 }
 
 /*
-DownscaleFreeipa downscales free IP a instances
+DownscaleFreeipadownscales free IP a instances.
 
-FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services.
+FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DownscaleFreeipaContext] instead.
 */
 func (a *Client) DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...ClientOption) (*DownscaleFreeipaOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DownscaleFreeipaContext(ctx, params, opts...)
+}
+
+/*
+DownscaleFreeipaContextdownscales free IP a instances.
+
+FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services..
+
+Do not use the deprecated [DownscaleFreeipaParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DownscaleFreeipaContext(ctx context.Context, params *DownscaleFreeipaParams, opts ...ClientOption) (*DownscaleFreeipaOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDownscaleFreeipaParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "downscaleFreeipa",
 		Method:             "POST",
@@ -1393,13 +2488,14 @@ func (a *Client) DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DownscaleFreeipaReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1419,15 +2515,39 @@ func (a *Client) DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...Client
 }
 
 /*
-FinishSetupTrust completes cross realm trust setup for free IP a
+FinishSetupTrustcompletes cross realm trust setup for free IP a.
 
-Completes and validates the cross-realm trust setup initiated by setupTrust. Call this after configuring the Active Directory side of the trust relationship. This operation tests the bidirectional trust and activates it for production use.
+Completes and validates the cross-realm trust setup initiated by setupTrust. Call this after configuring the Active Directory side of the trust relationship. This operation tests the bidirectional trust and activates it for production use..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.FinishSetupTrustContext] instead.
 */
 func (a *Client) FinishSetupTrust(params *FinishSetupTrustParams, opts ...ClientOption) (*FinishSetupTrustOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.FinishSetupTrustContext(ctx, params, opts...)
+}
+
+/*
+FinishSetupTrustContextcompletes cross realm trust setup for free IP a.
+
+Completes and validates the cross-realm trust setup initiated by setupTrust. Call this after configuring the Active Directory side of the trust relationship. This operation tests the bidirectional trust and activates it for production use..
+
+Do not use the deprecated [FinishSetupTrustParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) FinishSetupTrustContext(ctx context.Context, params *FinishSetupTrustParams, opts ...ClientOption) (*FinishSetupTrustOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewFinishSetupTrustParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "finishSetupTrust",
 		Method:             "POST",
@@ -1437,13 +2557,14 @@ func (a *Client) FinishSetupTrust(params *FinishSetupTrustParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &FinishSetupTrustReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1463,15 +2584,39 @@ func (a *Client) FinishSetupTrust(params *FinishSetupTrustParams, opts ...Client
 }
 
 /*
-GetAccountTelemetry gets account level telemetry settings telemetry features and anonymization rules
+GetAccountTelemetrygets account level telemetry settings telemetry features and anonymization rules.
 
-Get account level telemetry settings. (telemetry features and anonymization rules)
+Get account level telemetry settings. (telemetry features and anonymization rules).
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetAccountTelemetryContext] instead.
 */
 func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams, opts ...ClientOption) (*GetAccountTelemetryOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetAccountTelemetryContext(ctx, params, opts...)
+}
+
+/*
+GetAccountTelemetryContextgets account level telemetry settings telemetry features and anonymization rules.
+
+Get account level telemetry settings. (telemetry features and anonymization rules).
+
+Do not use the deprecated [GetAccountTelemetryParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetAccountTelemetryContext(ctx context.Context, params *GetAccountTelemetryParams, opts ...ClientOption) (*GetAccountTelemetryOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAccountTelemetryParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getAccountTelemetry",
 		Method:             "POST",
@@ -1481,13 +2626,14 @@ func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAccountTelemetryReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1507,15 +2653,39 @@ func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams, opts ...
 }
 
 /*
-GetAccountTelemetryDefault gets default account level telemetry settings helps to set back the default values
+GetAccountTelemetryDefaultgets default account level telemetry settings helps to set back the default values.
 
-Get default account level telemetry settings. Helps to set back the default values.
+Get default account level telemetry settings. Helps to set back the default values..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetAccountTelemetryDefaultContext] instead.
 */
 func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams, opts ...ClientOption) (*GetAccountTelemetryDefaultOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetAccountTelemetryDefaultContext(ctx, params, opts...)
+}
+
+/*
+GetAccountTelemetryDefaultContextgets default account level telemetry settings helps to set back the default values.
+
+Get default account level telemetry settings. Helps to set back the default values..
+
+Do not use the deprecated [GetAccountTelemetryDefaultParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetAccountTelemetryDefaultContext(ctx context.Context, params *GetAccountTelemetryDefaultParams, opts ...ClientOption) (*GetAccountTelemetryDefaultOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAccountTelemetryDefaultParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getAccountTelemetryDefault",
 		Method:             "POST",
@@ -1525,13 +2695,14 @@ func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAccountTelemetryDefaultReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1551,15 +2722,39 @@ func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultPa
 }
 
 /*
-GetAuditCredentialPrerequisites this API provides the audit credential prerequisites for the given cloud provider
+GetAuditCredentialPrerequisitesthis API provides the audit credential prerequisites for the given cloud provider.
 
-Provides the the audit credential prerequisites for the given cloud provider.
+Provides the the audit credential prerequisites for the given cloud provider..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetAuditCredentialPrerequisitesContext] instead.
 */
 func (a *Client) GetAuditCredentialPrerequisites(params *GetAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetAuditCredentialPrerequisitesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetAuditCredentialPrerequisitesContext(ctx, params, opts...)
+}
+
+/*
+GetAuditCredentialPrerequisitesContextthis API provides the audit credential prerequisites for the given cloud provider.
+
+Provides the the audit credential prerequisites for the given cloud provider..
+
+Do not use the deprecated [GetAuditCredentialPrerequisitesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetAuditCredentialPrerequisitesContext(ctx context.Context, params *GetAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetAuditCredentialPrerequisitesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAuditCredentialPrerequisitesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getAuditCredentialPrerequisites",
 		Method:             "POST",
@@ -1569,13 +2764,14 @@ func (a *Client) GetAuditCredentialPrerequisites(params *GetAuditCredentialPrere
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAuditCredentialPrerequisitesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1595,15 +2791,39 @@ func (a *Client) GetAuditCredentialPrerequisites(params *GetAuditCredentialPrere
 }
 
 /*
-GetAutomatedSyncEnvironmentStatus gets the the automated sync status for the environment
+GetAutomatedSyncEnvironmentStatusgets the the automated sync status for the environment.
 
-Gets the the automated sync status for the environment.
+Gets the the automated sync status for the environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetAutomatedSyncEnvironmentStatusContext] instead.
 */
 func (a *Client) GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvironmentStatusParams, opts ...ClientOption) (*GetAutomatedSyncEnvironmentStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetAutomatedSyncEnvironmentStatusContext(ctx, params, opts...)
+}
+
+/*
+GetAutomatedSyncEnvironmentStatusContextgets the the automated sync status for the environment.
+
+Gets the the automated sync status for the environment..
+
+Do not use the deprecated [GetAutomatedSyncEnvironmentStatusParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetAutomatedSyncEnvironmentStatusContext(ctx context.Context, params *GetAutomatedSyncEnvironmentStatusParams, opts ...ClientOption) (*GetAutomatedSyncEnvironmentStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAutomatedSyncEnvironmentStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getAutomatedSyncEnvironmentStatus",
 		Method:             "POST",
@@ -1613,13 +2833,14 @@ func (a *Client) GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvir
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAutomatedSyncEnvironmentStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1639,15 +2860,39 @@ func (a *Client) GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvir
 }
 
 /*
-GetAzureImageTermsPolicy gets account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour
+GetAzureImageTermsPolicygets account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour.
 
-Gets account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour.
+Gets account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetAzureImageTermsPolicyContext] instead.
 */
 func (a *Client) GetAzureImageTermsPolicy(params *GetAzureImageTermsPolicyParams, opts ...ClientOption) (*GetAzureImageTermsPolicyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetAzureImageTermsPolicyContext(ctx, params, opts...)
+}
+
+/*
+GetAzureImageTermsPolicyContextgets account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour.
+
+Gets account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour..
+
+Do not use the deprecated [GetAzureImageTermsPolicyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetAzureImageTermsPolicyContext(ctx context.Context, params *GetAzureImageTermsPolicyParams, opts ...ClientOption) (*GetAzureImageTermsPolicyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAzureImageTermsPolicyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getAzureImageTermsPolicy",
 		Method:             "POST",
@@ -1657,13 +2902,14 @@ func (a *Client) GetAzureImageTermsPolicy(params *GetAzureImageTermsPolicyParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAzureImageTermsPolicyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1683,15 +2929,39 @@ func (a *Client) GetAzureImageTermsPolicy(params *GetAzureImageTermsPolicyParams
 }
 
 /*
-GetCredentialPrerequisites this API provides the credential prerequisites for the given cloud provider
+GetCredentialPrerequisitesthis API provides the credential prerequisites for the given cloud provider.
 
-Provides the the credential prerequisites for the given cloud provider.
+Provides the the credential prerequisites for the given cloud provider..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetCredentialPrerequisitesContext] instead.
 */
 func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams, opts ...ClientOption) (*GetCredentialPrerequisitesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetCredentialPrerequisitesContext(ctx, params, opts...)
+}
+
+/*
+GetCredentialPrerequisitesContextthis API provides the credential prerequisites for the given cloud provider.
+
+Provides the the credential prerequisites for the given cloud provider..
+
+Do not use the deprecated [GetCredentialPrerequisitesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetCredentialPrerequisitesContext(ctx context.Context, params *GetCredentialPrerequisitesParams, opts ...ClientOption) (*GetCredentialPrerequisitesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetCredentialPrerequisitesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getCredentialPrerequisites",
 		Method:             "POST",
@@ -1701,13 +2971,14 @@ func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCredentialPrerequisitesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1727,15 +2998,39 @@ func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesPa
 }
 
 /*
-GetEnvironmentSetting reads a configuration setting from the environment service
+GetEnvironmentSettingreads a configuration setting from the environment service.
 
-Read a configuration setting from the environment service.
+Read a configuration setting from the environment service..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetEnvironmentSettingContext] instead.
 */
 func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams, opts ...ClientOption) (*GetEnvironmentSettingOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetEnvironmentSettingContext(ctx, params, opts...)
+}
+
+/*
+GetEnvironmentSettingContextreads a configuration setting from the environment service.
+
+Read a configuration setting from the environment service..
+
+Do not use the deprecated [GetEnvironmentSettingParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetEnvironmentSettingContext(ctx context.Context, params *GetEnvironmentSettingParams, opts ...ClientOption) (*GetEnvironmentSettingOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetEnvironmentSettingParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getEnvironmentSetting",
 		Method:             "POST",
@@ -1745,13 +3040,14 @@ func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetEnvironmentSettingReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1771,15 +3067,39 @@ func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams, opts
 }
 
 /*
-GetEnvironmentUserSyncState returns the user synchronization state for an environment
+GetEnvironmentUserSyncStatereturns the user synchronization state for an environment.
 
-Returns the user synchronization state for an environment.
+Returns the user synchronization state for an environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetEnvironmentUserSyncStateContext] instead.
 */
 func (a *Client) GetEnvironmentUserSyncState(params *GetEnvironmentUserSyncStateParams, opts ...ClientOption) (*GetEnvironmentUserSyncStateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetEnvironmentUserSyncStateContext(ctx, params, opts...)
+}
+
+/*
+GetEnvironmentUserSyncStateContextreturns the user synchronization state for an environment.
+
+Returns the user synchronization state for an environment..
+
+Do not use the deprecated [GetEnvironmentUserSyncStateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetEnvironmentUserSyncStateContext(ctx context.Context, params *GetEnvironmentUserSyncStateParams, opts ...ClientOption) (*GetEnvironmentUserSyncStateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetEnvironmentUserSyncStateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getEnvironmentUserSyncState",
 		Method:             "POST",
@@ -1789,13 +3109,14 @@ func (a *Client) GetEnvironmentUserSyncState(params *GetEnvironmentUserSyncState
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetEnvironmentUserSyncStateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1815,15 +3136,39 @@ func (a *Client) GetEnvironmentUserSyncState(params *GetEnvironmentUserSyncState
 }
 
 /*
-GetFreeipaLogDescriptors gathers log descriptors that are used for diagnostics collection
+GetFreeipaLogDescriptorsgathers log descriptors that are used for diagnostics collection.
 
-Gather log descriptors that are used for diagnostics collection.
+Gather log descriptors that are used for diagnostics collection..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetFreeipaLogDescriptorsContext] instead.
 */
 func (a *Client) GetFreeipaLogDescriptors(params *GetFreeipaLogDescriptorsParams, opts ...ClientOption) (*GetFreeipaLogDescriptorsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetFreeipaLogDescriptorsContext(ctx, params, opts...)
+}
+
+/*
+GetFreeipaLogDescriptorsContextgathers log descriptors that are used for diagnostics collection.
+
+Gather log descriptors that are used for diagnostics collection..
+
+Do not use the deprecated [GetFreeipaLogDescriptorsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetFreeipaLogDescriptorsContext(ctx context.Context, params *GetFreeipaLogDescriptorsParams, opts ...ClientOption) (*GetFreeipaLogDescriptorsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetFreeipaLogDescriptorsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getFreeipaLogDescriptors",
 		Method:             "POST",
@@ -1833,13 +3178,14 @@ func (a *Client) GetFreeipaLogDescriptors(params *GetFreeipaLogDescriptorsParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFreeipaLogDescriptorsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1859,15 +3205,39 @@ func (a *Client) GetFreeipaLogDescriptors(params *GetFreeipaLogDescriptorsParams
 }
 
 /*
-GetFreeipaStatus gets the status of the free IP a services
+GetFreeipaStatusgets the status of the free IP a services.
 
-Gets the status of the FreeIPA nodes services and connectivity.
+Gets the status of the FreeIPA nodes services and connectivity..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetFreeipaStatusContext] instead.
 */
 func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...ClientOption) (*GetFreeipaStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetFreeipaStatusContext(ctx, params, opts...)
+}
+
+/*
+GetFreeipaStatusContextgets the status of the free IP a services.
+
+Gets the status of the FreeIPA nodes services and connectivity..
+
+Do not use the deprecated [GetFreeipaStatusParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetFreeipaStatusContext(ctx context.Context, params *GetFreeipaStatusParams, opts ...ClientOption) (*GetFreeipaStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetFreeipaStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getFreeipaStatus",
 		Method:             "POST",
@@ -1877,13 +3247,14 @@ func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFreeipaStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1903,15 +3274,39 @@ func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...Client
 }
 
 /*
-GetFreeipaUpgradeOptions gets available images for free IP a upgrade
+GetFreeipaUpgradeOptionsgets available images for free IP a upgrade.
 
-Get available images for FreeIPA upgrade. If catalog is defined use the catalog as image source.
+Get available images for FreeIPA upgrade. If catalog is defined use the catalog as image source..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetFreeipaUpgradeOptionsContext] instead.
 */
 func (a *Client) GetFreeipaUpgradeOptions(params *GetFreeipaUpgradeOptionsParams, opts ...ClientOption) (*GetFreeipaUpgradeOptionsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetFreeipaUpgradeOptionsContext(ctx, params, opts...)
+}
+
+/*
+GetFreeipaUpgradeOptionsContextgets available images for free IP a upgrade.
+
+Get available images for FreeIPA upgrade. If catalog is defined use the catalog as image source..
+
+Do not use the deprecated [GetFreeipaUpgradeOptionsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetFreeipaUpgradeOptionsContext(ctx context.Context, params *GetFreeipaUpgradeOptionsParams, opts ...ClientOption) (*GetFreeipaUpgradeOptionsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetFreeipaUpgradeOptionsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getFreeipaUpgradeOptions",
 		Method:             "POST",
@@ -1921,13 +3316,14 @@ func (a *Client) GetFreeipaUpgradeOptions(params *GetFreeipaUpgradeOptionsParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetFreeipaUpgradeOptionsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1947,15 +3343,39 @@ func (a *Client) GetFreeipaUpgradeOptions(params *GetFreeipaUpgradeOptionsParams
 }
 
 /*
-GetGovCloudAuditCredentialPrerequisites this API provides the audit credential prerequisites for gov cloud for the enabled providers
+GetGovCloudAuditCredentialPrerequisitesthis API provides the audit credential prerequisites for gov cloud for the enabled providers.
 
-Provides the the audit credential prerequisites for GovCloud for the enabled providers.
+Provides the the audit credential prerequisites for GovCloud for the enabled providers..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetGovCloudAuditCredentialPrerequisitesContext] instead.
 */
 func (a *Client) GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudAuditCredentialPrerequisitesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetGovCloudAuditCredentialPrerequisitesContext(ctx, params, opts...)
+}
+
+/*
+GetGovCloudAuditCredentialPrerequisitesContextthis API provides the audit credential prerequisites for gov cloud for the enabled providers.
+
+Provides the the audit credential prerequisites for GovCloud for the enabled providers..
+
+Do not use the deprecated [GetGovCloudAuditCredentialPrerequisitesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetGovCloudAuditCredentialPrerequisitesContext(ctx context.Context, params *GetGovCloudAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudAuditCredentialPrerequisitesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetGovCloudAuditCredentialPrerequisitesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getGovCloudAuditCredentialPrerequisites",
 		Method:             "POST",
@@ -1965,13 +3385,14 @@ func (a *Client) GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAudi
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetGovCloudAuditCredentialPrerequisitesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1991,15 +3412,39 @@ func (a *Client) GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAudi
 }
 
 /*
-GetGovCloudCredentialPrerequisites this API provides the credential prerequisites for gov cloud for the enabled providers
+GetGovCloudCredentialPrerequisitesthis API provides the credential prerequisites for gov cloud for the enabled providers.
 
-Provides the the credential prerequisites for GovCloud for the enabled providers.
+Provides the the credential prerequisites for GovCloud for the enabled providers..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetGovCloudCredentialPrerequisitesContext] instead.
 */
 func (a *Client) GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudCredentialPrerequisitesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetGovCloudCredentialPrerequisitesContext(ctx, params, opts...)
+}
+
+/*
+GetGovCloudCredentialPrerequisitesContextthis API provides the credential prerequisites for gov cloud for the enabled providers.
+
+Provides the the credential prerequisites for GovCloud for the enabled providers..
+
+Do not use the deprecated [GetGovCloudCredentialPrerequisitesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetGovCloudCredentialPrerequisitesContext(ctx context.Context, params *GetGovCloudCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudCredentialPrerequisitesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetGovCloudCredentialPrerequisitesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getGovCloudCredentialPrerequisites",
 		Method:             "POST",
@@ -2009,13 +3454,14 @@ func (a *Client) GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentia
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetGovCloudCredentialPrerequisitesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2035,15 +3481,39 @@ func (a *Client) GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentia
 }
 
 /*
-GetIDBrokerMappings gets all ID broker mappings for an environment
+GetIDBrokerMappingsgets all ID broker mappings for an environment.
 
-Gets all ID Broker mappings for an environment.
+Gets all ID Broker mappings for an environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetIDBrokerMappingsContext] instead.
 */
 func (a *Client) GetIDBrokerMappings(params *GetIDBrokerMappingsParams, opts ...ClientOption) (*GetIDBrokerMappingsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetIDBrokerMappingsContext(ctx, params, opts...)
+}
+
+/*
+GetIDBrokerMappingsContextgets all ID broker mappings for an environment.
+
+Gets all ID Broker mappings for an environment..
+
+Do not use the deprecated [GetIDBrokerMappingsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetIDBrokerMappingsContext(ctx context.Context, params *GetIDBrokerMappingsParams, opts ...ClientOption) (*GetIDBrokerMappingsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetIDBrokerMappingsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getIdBrokerMappings",
 		Method:             "POST",
@@ -2053,13 +3523,14 @@ func (a *Client) GetIDBrokerMappings(params *GetIDBrokerMappingsParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetIDBrokerMappingsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2079,15 +3550,39 @@ func (a *Client) GetIDBrokerMappings(params *GetIDBrokerMappingsParams, opts ...
 }
 
 /*
-GetIDBrokerMappingsSyncStatus gets ID broker mappings sync status
+GetIDBrokerMappingsSyncStatusgets ID broker mappings sync status.
 
-Gets the status of the most recent ID Broker mappings sync operation, if any.
+Gets the status of the most recent ID Broker mappings sync operation, if any..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetIDBrokerMappingsSyncStatusContext] instead.
 */
 func (a *Client) GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncStatusParams, opts ...ClientOption) (*GetIDBrokerMappingsSyncStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetIDBrokerMappingsSyncStatusContext(ctx, params, opts...)
+}
+
+/*
+GetIDBrokerMappingsSyncStatusContextgets ID broker mappings sync status.
+
+Gets the status of the most recent ID Broker mappings sync operation, if any..
+
+Do not use the deprecated [GetIDBrokerMappingsSyncStatusParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetIDBrokerMappingsSyncStatusContext(ctx context.Context, params *GetIDBrokerMappingsSyncStatusParams, opts ...ClientOption) (*GetIDBrokerMappingsSyncStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetIDBrokerMappingsSyncStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getIdBrokerMappingsSyncStatus",
 		Method:             "POST",
@@ -2097,13 +3592,14 @@ func (a *Client) GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncSt
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetIDBrokerMappingsSyncStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2123,15 +3619,39 @@ func (a *Client) GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncSt
 }
 
 /*
-GetKeytab retrieves a keytab for a user or machine user
+GetKeytabretrieves a keytab for a user or machine user.
 
-Retrieves a keytab for a user or machine user.
+Retrieves a keytab for a user or machine user..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetKeytabContext] instead.
 */
 func (a *Client) GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetKeytabOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetKeytabContext(ctx, params, opts...)
+}
+
+/*
+GetKeytabContextretrieves a keytab for a user or machine user.
+
+Retrieves a keytab for a user or machine user..
+
+Do not use the deprecated [GetKeytabParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetKeytabContext(ctx context.Context, params *GetKeytabParams, opts ...ClientOption) (*GetKeytabOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetKeytabParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getKeytab",
 		Method:             "POST",
@@ -2141,13 +3661,14 @@ func (a *Client) GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetK
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetKeytabReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2167,15 +3688,39 @@ func (a *Client) GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetK
 }
 
 /*
-GetOperation gets the latest in progress or finished operation for the environment resource
+GetOperationgets the latest in progress or finished operation for the environment resource.
 
-Get the latest (in progress or finished) operation for the environment resource.
+Get the latest (in progress or finished) operation for the environment resource..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetOperationContext] instead.
 */
 func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetOperationContext(ctx, params, opts...)
+}
+
+/*
+GetOperationContextgets the latest in progress or finished operation for the environment resource.
+
+Get the latest (in progress or finished) operation for the environment resource..
+
+Do not use the deprecated [GetOperationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetOperationContext(ctx context.Context, params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetOperationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getOperation",
 		Method:             "POST",
@@ -2185,13 +3730,14 @@ func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetOperationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2211,15 +3757,39 @@ func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) 
 }
 
 /*
-GetRepairFreeipaStatus returns status of the repair operation for the operation id
+GetRepairFreeipaStatusreturns status of the repair operation for the operation id.
 
-Returns status of the repair operation for the operation id. Operation Id should be one of the previously requested repair operation ids.
+Returns status of the repair operation for the operation id. Operation Id should be one of the previously requested repair operation ids..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetRepairFreeipaStatusContext] instead.
 */
 func (a *Client) GetRepairFreeipaStatus(params *GetRepairFreeipaStatusParams, opts ...ClientOption) (*GetRepairFreeipaStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetRepairFreeipaStatusContext(ctx, params, opts...)
+}
+
+/*
+GetRepairFreeipaStatusContextreturns status of the repair operation for the operation id.
+
+Returns status of the repair operation for the operation id. Operation Id should be one of the previously requested repair operation ids..
+
+Do not use the deprecated [GetRepairFreeipaStatusParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetRepairFreeipaStatusContext(ctx context.Context, params *GetRepairFreeipaStatusParams, opts ...ClientOption) (*GetRepairFreeipaStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetRepairFreeipaStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getRepairFreeipaStatus",
 		Method:             "POST",
@@ -2229,13 +3799,14 @@ func (a *Client) GetRepairFreeipaStatus(params *GetRepairFreeipaStatusParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetRepairFreeipaStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2255,15 +3826,39 @@ func (a *Client) GetRepairFreeipaStatus(params *GetRepairFreeipaStatusParams, op
 }
 
 /*
-GetRootCertificate this API provides contents of public certificate for an environment
+GetRootCertificatethis API provides contents of public certificate for an environment.
 
-This API provides the contents of the root public certificate for an environment. The contents are a base64 encoded blob between -----BEGIN CERTIFICATE----- and -----END CERTIFICATE-----. This certificate can be imported by end users to establish trust with environment resources.
+This API provides the contents of the root public certificate for an environment. The contents are a base64 encoded blob between -----BEGIN CERTIFICATE----- and -----END CERTIFICATE-----. This certificate can be imported by end users to establish trust with environment resources..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetRootCertificateContext] instead.
 */
 func (a *Client) GetRootCertificate(params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetRootCertificateContext(ctx, params, opts...)
+}
+
+/*
+GetRootCertificateContextthis API provides contents of public certificate for an environment.
+
+This API provides the contents of the root public certificate for an environment. The contents are a base64 encoded blob between -----BEGIN CERTIFICATE----- and -----END CERTIFICATE-----. This certificate can be imported by end users to establish trust with environment resources..
+
+Do not use the deprecated [GetRootCertificateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetRootCertificateContext(ctx context.Context, params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetRootCertificateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getRootCertificate",
 		Method:             "POST",
@@ -2273,13 +3868,14 @@ func (a *Client) GetRootCertificate(params *GetRootCertificateParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetRootCertificateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2299,15 +3895,39 @@ func (a *Client) GetRootCertificate(params *GetRootCertificateParams, opts ...Cl
 }
 
 /*
-GetTrustCleanupCommands gets the commands to be run for cross realm trust clean up
+GetTrustCleanupCommandsgets the commands to be run for cross realm trust clean up.
 
-Retrieves the commands necessary for clean up cross-realm trust between FreeIPA and Active Directory.
+Retrieves the commands necessary for clean up cross-realm trust between FreeIPA and Active Directory..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetTrustCleanupCommandsContext] instead.
 */
 func (a *Client) GetTrustCleanupCommands(params *GetTrustCleanupCommandsParams, opts ...ClientOption) (*GetTrustCleanupCommandsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetTrustCleanupCommandsContext(ctx, params, opts...)
+}
+
+/*
+GetTrustCleanupCommandsContextgets the commands to be run for cross realm trust clean up.
+
+Retrieves the commands necessary for clean up cross-realm trust between FreeIPA and Active Directory..
+
+Do not use the deprecated [GetTrustCleanupCommandsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetTrustCleanupCommandsContext(ctx context.Context, params *GetTrustCleanupCommandsParams, opts ...ClientOption) (*GetTrustCleanupCommandsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetTrustCleanupCommandsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getTrustCleanupCommands",
 		Method:             "POST",
@@ -2317,13 +3937,14 @@ func (a *Client) GetTrustCleanupCommands(params *GetTrustCleanupCommandsParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetTrustCleanupCommandsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2343,15 +3964,39 @@ func (a *Client) GetTrustCleanupCommands(params *GetTrustCleanupCommandsParams, 
 }
 
 /*
-GetTrustSetupCommands lists the commands to be executed for cross realm trust setup
+GetTrustSetupCommandslists the commands to be executed for cross realm trust setup.
 
-Lists the commands necessary for setting up cross-realm trust between FreeIPA and Active Directory.
+Lists the commands necessary for setting up cross-realm trust between FreeIPA and Active Directory..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetTrustSetupCommandsContext] instead.
 */
 func (a *Client) GetTrustSetupCommands(params *GetTrustSetupCommandsParams, opts ...ClientOption) (*GetTrustSetupCommandsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetTrustSetupCommandsContext(ctx, params, opts...)
+}
+
+/*
+GetTrustSetupCommandsContextlists the commands to be executed for cross realm trust setup.
+
+Lists the commands necessary for setting up cross-realm trust between FreeIPA and Active Directory..
+
+Do not use the deprecated [GetTrustSetupCommandsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetTrustSetupCommandsContext(ctx context.Context, params *GetTrustSetupCommandsParams, opts ...ClientOption) (*GetTrustSetupCommandsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetTrustSetupCommandsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getTrustSetupCommands",
 		Method:             "POST",
@@ -2361,13 +4006,14 @@ func (a *Client) GetTrustSetupCommands(params *GetTrustSetupCommandsParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetTrustSetupCommandsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2387,15 +4033,39 @@ func (a *Client) GetTrustSetupCommands(params *GetTrustSetupCommandsParams, opts
 }
 
 /*
-InitializeAWSComputeCluster initializes compute cluster for a w s environment
+InitializeAWSComputeClusterinitializes compute cluster for a w s environment.
 
-Initialize compute cluster for AWS environment.
+Initialize compute cluster for AWS environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.InitializeAWSComputeClusterContext] instead.
 */
 func (a *Client) InitializeAWSComputeCluster(params *InitializeAWSComputeClusterParams, opts ...ClientOption) (*InitializeAWSComputeClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.InitializeAWSComputeClusterContext(ctx, params, opts...)
+}
+
+/*
+InitializeAWSComputeClusterContextinitializes compute cluster for a w s environment.
+
+Initialize compute cluster for AWS environment..
+
+Do not use the deprecated [InitializeAWSComputeClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) InitializeAWSComputeClusterContext(ctx context.Context, params *InitializeAWSComputeClusterParams, opts ...ClientOption) (*InitializeAWSComputeClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewInitializeAWSComputeClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "initializeAWSComputeCluster",
 		Method:             "POST",
@@ -2405,13 +4075,14 @@ func (a *Client) InitializeAWSComputeCluster(params *InitializeAWSComputeCluster
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &InitializeAWSComputeClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2431,15 +4102,39 @@ func (a *Client) InitializeAWSComputeCluster(params *InitializeAWSComputeCluster
 }
 
 /*
-InitializeAzureComputeCluster initializes compute cluster for azure environment
+InitializeAzureComputeClusterinitializes compute cluster for azure environment.
 
-Initialize compute cluster for Azure environment.
+Initialize compute cluster for Azure environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.InitializeAzureComputeClusterContext] instead.
 */
 func (a *Client) InitializeAzureComputeCluster(params *InitializeAzureComputeClusterParams, opts ...ClientOption) (*InitializeAzureComputeClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.InitializeAzureComputeClusterContext(ctx, params, opts...)
+}
+
+/*
+InitializeAzureComputeClusterContextinitializes compute cluster for azure environment.
+
+Initialize compute cluster for Azure environment..
+
+Do not use the deprecated [InitializeAzureComputeClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) InitializeAzureComputeClusterContext(ctx context.Context, params *InitializeAzureComputeClusterParams, opts ...ClientOption) (*InitializeAzureComputeClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewInitializeAzureComputeClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "initializeAzureComputeCluster",
 		Method:             "POST",
@@ -2449,13 +4144,14 @@ func (a *Client) InitializeAzureComputeCluster(params *InitializeAzureComputeClu
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &InitializeAzureComputeClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2475,15 +4171,39 @@ func (a *Client) InitializeAzureComputeCluster(params *InitializeAzureComputeClu
 }
 
 /*
-LastSyncStatus returns status of the sync operation for the environment crn
+LastSyncStatusreturns status of the sync operation for the environment crn.
 
-Returns status of the sync operation for the environment based on crn.
+Returns status of the sync operation for the environment based on crn..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.LastSyncStatusContext] instead.
 */
 func (a *Client) LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOption) (*LastSyncStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.LastSyncStatusContext(ctx, params, opts...)
+}
+
+/*
+LastSyncStatusContextreturns status of the sync operation for the environment crn.
+
+Returns status of the sync operation for the environment based on crn..
+
+Do not use the deprecated [LastSyncStatusParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) LastSyncStatusContext(ctx context.Context, params *LastSyncStatusParams, opts ...ClientOption) (*LastSyncStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewLastSyncStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "lastSyncStatus",
 		Method:             "POST",
@@ -2493,13 +4213,14 @@ func (a *Client) LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &LastSyncStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2519,15 +4240,39 @@ func (a *Client) LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOpti
 }
 
 /*
-ListAuditCredentials lists audit credentials
+ListAuditCredentialslists audit credentials.
 
-Lists audit credentials.
+Lists audit credentials..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListAuditCredentialsContext] instead.
 */
 func (a *Client) ListAuditCredentials(params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListAuditCredentialsContext(ctx, params, opts...)
+}
+
+/*
+ListAuditCredentialsContextlists audit credentials.
+
+Lists audit credentials..
+
+Do not use the deprecated [ListAuditCredentialsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListAuditCredentialsContext(ctx context.Context, params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListAuditCredentialsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listAuditCredentials",
 		Method:             "POST",
@@ -2537,13 +4282,14 @@ func (a *Client) ListAuditCredentials(params *ListAuditCredentialsParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListAuditCredentialsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2563,15 +4309,39 @@ func (a *Client) ListAuditCredentials(params *ListAuditCredentialsParams, opts .
 }
 
 /*
-ListConnectedDataServices returns the list of data services and their cluster names that are attached the given environment
+ListConnectedDataServicesreturns the list of data services and their cluster names that are attached the given environment.
 
-Returns the list of Data Services and their cluster names that are attached to the given environment.
+Returns the list of Data Services and their cluster names that are attached to the given environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListConnectedDataServicesContext] instead.
 */
 func (a *Client) ListConnectedDataServices(params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListConnectedDataServicesContext(ctx, params, opts...)
+}
+
+/*
+ListConnectedDataServicesContextreturns the list of data services and their cluster names that are attached the given environment.
+
+Returns the list of Data Services and their cluster names that are attached to the given environment..
+
+Do not use the deprecated [ListConnectedDataServicesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListConnectedDataServicesContext(ctx context.Context, params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListConnectedDataServicesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listConnectedDataServices",
 		Method:             "POST",
@@ -2581,13 +4351,14 @@ func (a *Client) ListConnectedDataServices(params *ListConnectedDataServicesPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListConnectedDataServicesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2607,15 +4378,39 @@ func (a *Client) ListConnectedDataServices(params *ListConnectedDataServicesPara
 }
 
 /*
-ListCredentials lists credentials
+ListCredentialslists credentials.
 
-Lists credentials.
+Lists credentials..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListCredentialsContext] instead.
 */
 func (a *Client) ListCredentials(params *ListCredentialsParams, opts ...ClientOption) (*ListCredentialsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListCredentialsContext(ctx, params, opts...)
+}
+
+/*
+ListCredentialsContextlists credentials.
+
+Lists credentials..
+
+Do not use the deprecated [ListCredentialsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListCredentialsContext(ctx context.Context, params *ListCredentialsParams, opts ...ClientOption) (*ListCredentialsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListCredentialsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listCredentials",
 		Method:             "POST",
@@ -2625,13 +4420,14 @@ func (a *Client) ListCredentials(params *ListCredentialsParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListCredentialsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2651,15 +4447,39 @@ func (a *Client) ListCredentials(params *ListCredentialsParams, opts ...ClientOp
 }
 
 /*
-ListEnvironments lists environments
+ListEnvironmentslists environments.
 
-Lists environments.
+Lists environments..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListEnvironmentsContext] instead.
 */
 func (a *Client) ListEnvironments(params *ListEnvironmentsParams, opts ...ClientOption) (*ListEnvironmentsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListEnvironmentsContext(ctx, params, opts...)
+}
+
+/*
+ListEnvironmentsContextlists environments.
+
+Lists environments..
+
+Do not use the deprecated [ListEnvironmentsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListEnvironmentsContext(ctx context.Context, params *ListEnvironmentsParams, opts ...ClientOption) (*ListEnvironmentsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListEnvironmentsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listEnvironments",
 		Method:             "POST",
@@ -2669,13 +4489,14 @@ func (a *Client) ListEnvironments(params *ListEnvironmentsParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListEnvironmentsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2695,15 +4516,39 @@ func (a *Client) ListEnvironments(params *ListEnvironmentsParams, opts ...Client
 }
 
 /*
-ListFreeipaDiagnostics lists recent free IP a diagnostics collections
+ListFreeipaDiagnosticslists recent free IP a diagnostics collections.
 
-List recent FreeIPA diagnostics collection
+List recent FreeIPA diagnostics collection.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListFreeipaDiagnosticsContext] instead.
 */
 func (a *Client) ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, opts ...ClientOption) (*ListFreeipaDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListFreeipaDiagnosticsContext(ctx, params, opts...)
+}
+
+/*
+ListFreeipaDiagnosticsContextlists recent free IP a diagnostics collections.
+
+List recent FreeIPA diagnostics collection.
+
+Do not use the deprecated [ListFreeipaDiagnosticsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListFreeipaDiagnosticsContext(ctx context.Context, params *ListFreeipaDiagnosticsParams, opts ...ClientOption) (*ListFreeipaDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListFreeipaDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listFreeipaDiagnostics",
 		Method:             "POST",
@@ -2713,13 +4558,14 @@ func (a *Client) ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListFreeipaDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2739,15 +4585,39 @@ func (a *Client) ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, op
 }
 
 /*
-ListFreeipaSecretTypes lists all free IP a related secret types
+ListFreeipaSecretTypeslists all free IP a related secret types.
 
-Lists FreeIPA related secret types for FreeIPA instances.
+Lists FreeIPA related secret types for FreeIPA instances..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListFreeipaSecretTypesContext] instead.
 */
 func (a *Client) ListFreeipaSecretTypes(params *ListFreeipaSecretTypesParams, opts ...ClientOption) (*ListFreeipaSecretTypesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListFreeipaSecretTypesContext(ctx, params, opts...)
+}
+
+/*
+ListFreeipaSecretTypesContextlists all free IP a related secret types.
+
+Lists FreeIPA related secret types for FreeIPA instances..
+
+Do not use the deprecated [ListFreeipaSecretTypesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListFreeipaSecretTypesContext(ctx context.Context, params *ListFreeipaSecretTypesParams, opts ...ClientOption) (*ListFreeipaSecretTypesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListFreeipaSecretTypesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listFreeipaSecretTypes",
 		Method:             "POST",
@@ -2757,13 +4627,14 @@ func (a *Client) ListFreeipaSecretTypes(params *ListFreeipaSecretTypesParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListFreeipaSecretTypesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2783,15 +4654,39 @@ func (a *Client) ListFreeipaSecretTypes(params *ListFreeipaSecretTypesParams, op
 }
 
 /*
-ListProxyConfigs lists proxy configs
+ListProxyConfigslists proxy configs.
 
-Lists proxy configs.
+Lists proxy configs..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListProxyConfigsContext] instead.
 */
 func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListProxyConfigsContext(ctx, params, opts...)
+}
+
+/*
+ListProxyConfigsContextlists proxy configs.
+
+Lists proxy configs..
+
+Do not use the deprecated [ListProxyConfigsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListProxyConfigsContext(ctx context.Context, params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListProxyConfigsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listProxyConfigs",
 		Method:             "POST",
@@ -2801,13 +4696,14 @@ func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListProxyConfigsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2827,15 +4723,39 @@ func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams, opts ...Client
 }
 
 /*
-RebuildFreeipa recreates free IP a in case of disaster
+RebuildFreeiparecreates free IP a in case of disaster.
 
-If FreeIPA backups are available and all of the FreeIPA nodes are lost, this command recreates FreeIPA from scratch and restores backup.
+If FreeIPA backups are available and all of the FreeIPA nodes are lost, this command recreates FreeIPA from scratch and restores backup..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RebuildFreeipaContext] instead.
 */
 func (a *Client) RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOption) (*RebuildFreeipaOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RebuildFreeipaContext(ctx, params, opts...)
+}
+
+/*
+RebuildFreeipaContextrecreates free IP a in case of disaster.
+
+If FreeIPA backups are available and all of the FreeIPA nodes are lost, this command recreates FreeIPA from scratch and restores backup..
+
+Do not use the deprecated [RebuildFreeipaParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RebuildFreeipaContext(ctx context.Context, params *RebuildFreeipaParams, opts ...ClientOption) (*RebuildFreeipaOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRebuildFreeipaParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rebuildFreeipa",
 		Method:             "POST",
@@ -2845,13 +4765,14 @@ func (a *Client) RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RebuildFreeipaReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2871,15 +4792,39 @@ func (a *Client) RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOpti
 }
 
 /*
-RepairFreeipa repairs the free IP a nodes
+RepairFreeiparepairs the free IP a nodes.
 
-Repairs the FreeIPA nodes if they are in a non working state.
+Repairs the FreeIPA nodes if they are in a non working state..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RepairFreeipaContext] instead.
 */
 func (a *Client) RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption) (*RepairFreeipaOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RepairFreeipaContext(ctx, params, opts...)
+}
+
+/*
+RepairFreeipaContextrepairs the free IP a nodes.
+
+Repairs the FreeIPA nodes if they are in a non working state..
+
+Do not use the deprecated [RepairFreeipaParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RepairFreeipaContext(ctx context.Context, params *RepairFreeipaParams, opts ...ClientOption) (*RepairFreeipaOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRepairFreeipaParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "repairFreeipa",
 		Method:             "POST",
@@ -2889,13 +4834,14 @@ func (a *Client) RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RepairFreeipaReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2915,15 +4861,39 @@ func (a *Client) RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption
 }
 
 /*
-RepairTrust repairs cross realm trust of free IP a with an active directory server
+RepairTrustrepairs cross realm trust of free IP a with an active directory server.
 
-Repairs cross-realm trust of FreeIPA with an Active Directory Server by resetting the trust secret on the FreeIPA side.
+Repairs cross-realm trust of FreeIPA with an Active Directory Server by resetting the trust secret on the FreeIPA side..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RepairTrustContext] instead.
 */
 func (a *Client) RepairTrust(params *RepairTrustParams, opts ...ClientOption) (*RepairTrustOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RepairTrustContext(ctx, params, opts...)
+}
+
+/*
+RepairTrustContextrepairs cross realm trust of free IP a with an active directory server.
+
+Repairs cross-realm trust of FreeIPA with an Active Directory Server by resetting the trust secret on the FreeIPA side..
+
+Do not use the deprecated [RepairTrustParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RepairTrustContext(ctx context.Context, params *RepairTrustParams, opts ...ClientOption) (*RepairTrustOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRepairTrustParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "repairTrust",
 		Method:             "POST",
@@ -2933,13 +4903,14 @@ func (a *Client) RepairTrust(params *RepairTrustParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RepairTrustReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2959,15 +4930,39 @@ func (a *Client) RepairTrust(params *RepairTrustParams, opts ...ClientOption) (*
 }
 
 /*
-RetryFreeipa retries the last failed operation on a free IP a
+RetryFreeiparetries the last failed operation on a free IP a.
 
-Retries the last failed operation on a FreeIPA.
+Retries the last failed operation on a FreeIPA..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RetryFreeipaContext] instead.
 */
 func (a *Client) RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) (*RetryFreeipaOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RetryFreeipaContext(ctx, params, opts...)
+}
+
+/*
+RetryFreeipaContextretries the last failed operation on a free IP a.
+
+Retries the last failed operation on a FreeIPA..
+
+Do not use the deprecated [RetryFreeipaParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RetryFreeipaContext(ctx context.Context, params *RetryFreeipaParams, opts ...ClientOption) (*RetryFreeipaOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRetryFreeipaParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "retryFreeipa",
 		Method:             "POST",
@@ -2977,13 +4972,14 @@ func (a *Client) RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RetryFreeipaReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3003,15 +4999,39 @@ func (a *Client) RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) 
 }
 
 /*
-RotateFreeipaSecrets rotates free IP a related secret for free IP a instances
+RotateFreeipaSecretsrotates free IP a related secret for free IP a instances.
 
-Rotate FreeIPA related secrets for FreeIPA instances.
+Rotate FreeIPA related secrets for FreeIPA instances..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RotateFreeipaSecretsContext] instead.
 */
 func (a *Client) RotateFreeipaSecrets(params *RotateFreeipaSecretsParams, opts ...ClientOption) (*RotateFreeipaSecretsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotateFreeipaSecretsContext(ctx, params, opts...)
+}
+
+/*
+RotateFreeipaSecretsContextrotates free IP a related secret for free IP a instances.
+
+Rotate FreeIPA related secrets for FreeIPA instances..
+
+Do not use the deprecated [RotateFreeipaSecretsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RotateFreeipaSecretsContext(ctx context.Context, params *RotateFreeipaSecretsParams, opts ...ClientOption) (*RotateFreeipaSecretsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateFreeipaSecretsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotateFreeipaSecrets",
 		Method:             "POST",
@@ -3021,13 +5041,14 @@ func (a *Client) RotateFreeipaSecrets(params *RotateFreeipaSecretsParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotateFreeipaSecretsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3047,15 +5068,39 @@ func (a *Client) RotateFreeipaSecrets(params *RotateFreeipaSecretsParams, opts .
 }
 
 /*
-RotateSaltPassword rotates salt stack user password on free IP a instances
+RotateSaltPasswordrotates salt stack user password on free IP a instances.
 
-Deprecated, please use rotateFreeipaSecrets with SALT_PASSWORD secretType instead.
+Deprecated, please use rotateFreeipaSecrets with SALT_PASSWORD secretType instead..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RotateSaltPasswordContext] instead.
 */
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotateSaltPasswordContext(ctx, params, opts...)
+}
+
+/*
+RotateSaltPasswordContextrotates salt stack user password on free IP a instances.
+
+Deprecated, please use rotateFreeipaSecrets with SALT_PASSWORD secretType instead..
+
+Do not use the deprecated [RotateSaltPasswordParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RotateSaltPasswordContext(ctx context.Context, params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateSaltPasswordParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotateSaltPassword",
 		Method:             "POST",
@@ -3065,13 +5110,14 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotateSaltPasswordReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3091,15 +5137,39 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 }
 
 /*
-SetAWSAuditCredential creates or updates the a w s audit credential for the account the credential is used for authorization to archive audit events to your cloud storage
+SetAWSAuditCredentialcreates or updates the a w s audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
 
-Creates or updates the AWS audit credential for the account. The response will only contain details appropriate to AWS.
+Creates or updates the AWS audit credential for the account. The response will only contain details appropriate to AWS..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetAWSAuditCredentialContext] instead.
 */
 func (a *Client) SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts ...ClientOption) (*SetAWSAuditCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetAWSAuditCredentialContext(ctx, params, opts...)
+}
+
+/*
+SetAWSAuditCredentialContextcreates or updates the a w s audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
+
+Creates or updates the AWS audit credential for the account. The response will only contain details appropriate to AWS..
+
+Do not use the deprecated [SetAWSAuditCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetAWSAuditCredentialContext(ctx context.Context, params *SetAWSAuditCredentialParams, opts ...ClientOption) (*SetAWSAuditCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAWSAuditCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setAWSAuditCredential",
 		Method:             "POST",
@@ -3109,13 +5179,14 @@ func (a *Client) SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetAWSAuditCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3135,15 +5206,39 @@ func (a *Client) SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts
 }
 
 /*
-SetAWSGovCloudAuditCredential creates or updates the a w s gov cloud audit credential for the account the credential is used for authorization to archive audit events to your cloud storage
+SetAWSGovCloudAuditCredentialcreates or updates the a w s gov cloud audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
 
-Creates or updates the AWS GovCloud audit credential for the account. The response will only contain details appropriate to AWS.
+Creates or updates the AWS GovCloud audit credential for the account. The response will only contain details appropriate to AWS..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetAWSGovCloudAuditCredentialContext] instead.
 */
 func (a *Client) SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCredentialParams, opts ...ClientOption) (*SetAWSGovCloudAuditCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetAWSGovCloudAuditCredentialContext(ctx, params, opts...)
+}
+
+/*
+SetAWSGovCloudAuditCredentialContextcreates or updates the a w s gov cloud audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
+
+Creates or updates the AWS GovCloud audit credential for the account. The response will only contain details appropriate to AWS..
+
+Do not use the deprecated [SetAWSGovCloudAuditCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetAWSGovCloudAuditCredentialContext(ctx context.Context, params *SetAWSGovCloudAuditCredentialParams, opts ...ClientOption) (*SetAWSGovCloudAuditCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAWSGovCloudAuditCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setAWSGovCloudAuditCredential",
 		Method:             "POST",
@@ -3153,13 +5248,14 @@ func (a *Client) SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCreden
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetAWSGovCloudAuditCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3179,15 +5275,39 @@ func (a *Client) SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCreden
 }
 
 /*
-SetAccountTelemetry sets account level telemetry settings telemetry features and anonymization rules
+SetAccountTelemetrysets account level telemetry settings telemetry features and anonymization rules.
 
-Set account level telemetry settings. (telemetry features and anonymization rules)
+Set account level telemetry settings. (telemetry features and anonymization rules).
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetAccountTelemetryContext] instead.
 */
 func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams, opts ...ClientOption) (*SetAccountTelemetryOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetAccountTelemetryContext(ctx, params, opts...)
+}
+
+/*
+SetAccountTelemetryContextsets account level telemetry settings telemetry features and anonymization rules.
+
+Set account level telemetry settings. (telemetry features and anonymization rules).
+
+Do not use the deprecated [SetAccountTelemetryParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetAccountTelemetryContext(ctx context.Context, params *SetAccountTelemetryParams, opts ...ClientOption) (*SetAccountTelemetryOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAccountTelemetryParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setAccountTelemetry",
 		Method:             "POST",
@@ -3197,13 +5317,14 @@ func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetAccountTelemetryReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3223,15 +5344,39 @@ func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams, opts ...
 }
 
 /*
-SetAzureAuditCredential creates or updates the azure audit credential for the account the credential is used for authorization to archive audit events to your cloud storage
+SetAzureAuditCredentialcreates or updates the azure audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
 
-Creates or updates the Azure audit credential for the account. The response will only contain details appropriate to Azure.
+Creates or updates the Azure audit credential for the account. The response will only contain details appropriate to Azure..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetAzureAuditCredentialContext] instead.
 */
 func (a *Client) SetAzureAuditCredential(params *SetAzureAuditCredentialParams, opts ...ClientOption) (*SetAzureAuditCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetAzureAuditCredentialContext(ctx, params, opts...)
+}
+
+/*
+SetAzureAuditCredentialContextcreates or updates the azure audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
+
+Creates or updates the Azure audit credential for the account. The response will only contain details appropriate to Azure..
+
+Do not use the deprecated [SetAzureAuditCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetAzureAuditCredentialContext(ctx context.Context, params *SetAzureAuditCredentialParams, opts ...ClientOption) (*SetAzureAuditCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetAzureAuditCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setAzureAuditCredential",
 		Method:             "POST",
@@ -3241,13 +5386,14 @@ func (a *Client) SetAzureAuditCredential(params *SetAzureAuditCredentialParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetAzureAuditCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3267,15 +5413,39 @@ func (a *Client) SetAzureAuditCredential(params *SetAzureAuditCredentialParams, 
 }
 
 /*
-SetCatalog sets a catalog for a free IP a installation
+SetCatalogsets a catalog for a free IP a installation.
 
-Sets a catalog for a FreeIPA installation.
+Sets a catalog for a FreeIPA installation..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetCatalogContext] instead.
 */
 func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetCatalogContext(ctx, params, opts...)
+}
+
+/*
+SetCatalogContextsets a catalog for a free IP a installation.
+
+Sets a catalog for a FreeIPA installation..
+
+Do not use the deprecated [SetCatalogParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetCatalogContext(ctx context.Context, params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetCatalogParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setCatalog",
 		Method:             "POST",
@@ -3285,13 +5455,14 @@ func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*Se
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetCatalogReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3311,15 +5482,39 @@ func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*Se
 }
 
 /*
-SetEndpointAccessGateway sets endpoint access gateway settings for the environment
+SetEndpointAccessGatewaysets endpoint access gateway settings for the environment.
 
-Sets endpoint access gateway settings for the environment.
+Sets endpoint access gateway settings for the environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetEndpointAccessGatewayContext] instead.
 */
 func (a *Client) SetEndpointAccessGateway(params *SetEndpointAccessGatewayParams, opts ...ClientOption) (*SetEndpointAccessGatewayOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetEndpointAccessGatewayContext(ctx, params, opts...)
+}
+
+/*
+SetEndpointAccessGatewayContextsets endpoint access gateway settings for the environment.
+
+Sets endpoint access gateway settings for the environment..
+
+Do not use the deprecated [SetEndpointAccessGatewayParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetEndpointAccessGatewayContext(ctx context.Context, params *SetEndpointAccessGatewayParams, opts ...ClientOption) (*SetEndpointAccessGatewayOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetEndpointAccessGatewayParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setEndpointAccessGateway",
 		Method:             "POST",
@@ -3329,13 +5524,14 @@ func (a *Client) SetEndpointAccessGateway(params *SetEndpointAccessGatewayParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetEndpointAccessGatewayReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3355,15 +5551,39 @@ func (a *Client) SetEndpointAccessGateway(params *SetEndpointAccessGatewayParams
 }
 
 /*
-SetEnvironmentSetting reads a configuration setting from the environment service
+SetEnvironmentSettingreads a configuration setting from the environment service.
 
-Read a configuration setting from the environment service.
+Read a configuration setting from the environment service..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetEnvironmentSettingContext] instead.
 */
 func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts ...ClientOption) (*SetEnvironmentSettingOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetEnvironmentSettingContext(ctx, params, opts...)
+}
+
+/*
+SetEnvironmentSettingContextreads a configuration setting from the environment service.
+
+Read a configuration setting from the environment service..
+
+Do not use the deprecated [SetEnvironmentSettingParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetEnvironmentSettingContext(ctx context.Context, params *SetEnvironmentSettingParams, opts ...ClientOption) (*SetEnvironmentSettingOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetEnvironmentSettingParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setEnvironmentSetting",
 		Method:             "POST",
@@ -3373,13 +5593,14 @@ func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetEnvironmentSettingReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3399,15 +5620,39 @@ func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts
 }
 
 /*
-SetGCPAuditCredential creates or updates the g c p audit credential for the account the credential is used for authorization to archive audit events to your cloud storage
+SetGCPAuditCredentialcreates or updates the g c p audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
 
-Creates or updates the GCP audit credential for the account. The response will only contain details appropriate to GCP.
+Creates or updates the GCP audit credential for the account. The response will only contain details appropriate to GCP..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetGCPAuditCredentialContext] instead.
 */
 func (a *Client) SetGCPAuditCredential(params *SetGCPAuditCredentialParams, opts ...ClientOption) (*SetGCPAuditCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetGCPAuditCredentialContext(ctx, params, opts...)
+}
+
+/*
+SetGCPAuditCredentialContextcreates or updates the g c p audit credential for the account the credential is used for authorization to archive audit events to your cloud storage.
+
+Creates or updates the GCP audit credential for the account. The response will only contain details appropriate to GCP..
+
+Do not use the deprecated [SetGCPAuditCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetGCPAuditCredentialContext(ctx context.Context, params *SetGCPAuditCredentialParams, opts ...ClientOption) (*SetGCPAuditCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetGCPAuditCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setGCPAuditCredential",
 		Method:             "POST",
@@ -3417,13 +5662,14 @@ func (a *Client) SetGCPAuditCredential(params *SetGCPAuditCredentialParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetGCPAuditCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3443,15 +5689,39 @@ func (a *Client) SetGCPAuditCredential(params *SetGCPAuditCredentialParams, opts
 }
 
 /*
-SetIDBrokerMappings sets all ID broker mappings for an environment
+SetIDBrokerMappingssets all ID broker mappings for an environment.
 
-Sets all ID Broker mappings for an environment. Overwrites all existing mappings.
+Sets all ID Broker mappings for an environment. Overwrites all existing mappings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetIDBrokerMappingsContext] instead.
 */
 func (a *Client) SetIDBrokerMappings(params *SetIDBrokerMappingsParams, opts ...ClientOption) (*SetIDBrokerMappingsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetIDBrokerMappingsContext(ctx, params, opts...)
+}
+
+/*
+SetIDBrokerMappingsContextsets all ID broker mappings for an environment.
+
+Sets all ID Broker mappings for an environment. Overwrites all existing mappings..
+
+Do not use the deprecated [SetIDBrokerMappingsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetIDBrokerMappingsContext(ctx context.Context, params *SetIDBrokerMappingsParams, opts ...ClientOption) (*SetIDBrokerMappingsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetIDBrokerMappingsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setIdBrokerMappings",
 		Method:             "POST",
@@ -3461,13 +5731,14 @@ func (a *Client) SetIDBrokerMappings(params *SetIDBrokerMappingsParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetIDBrokerMappingsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3487,15 +5758,39 @@ func (a *Client) SetIDBrokerMappings(params *SetIDBrokerMappingsParams, opts ...
 }
 
 /*
-SetPassword sets workload user s password and updates into all environments
+SetPasswordsets workload user s password and updates into all environments.
 
-Deprecated. Use 'iam set-workload-password' command instead.
+Deprecated. Use 'iam set-workload-password' command instead..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetPasswordContext] instead.
 */
 func (a *Client) SetPassword(params *SetPasswordParams, opts ...ClientOption) (*SetPasswordOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetPasswordContext(ctx, params, opts...)
+}
+
+/*
+SetPasswordContextsets workload user s password and updates into all environments.
+
+Deprecated. Use 'iam set-workload-password' command instead..
+
+Do not use the deprecated [SetPasswordParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetPasswordContext(ctx context.Context, params *SetPasswordParams, opts ...ClientOption) (*SetPasswordOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetPasswordParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setPassword",
 		Method:             "POST",
@@ -3505,13 +5800,14 @@ func (a *Client) SetPassword(params *SetPasswordParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetPasswordReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3531,15 +5827,39 @@ func (a *Client) SetPassword(params *SetPasswordParams, opts ...ClientOption) (*
 }
 
 /*
-SetTelemetryFeatures configures environment level telemetry feature setting
+SetTelemetryFeaturesconfigures environment level telemetry feature setting.
 
-Configure environment level telemetry feature setting.
+Configure environment level telemetry feature setting..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetTelemetryFeaturesContext] instead.
 */
 func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts ...ClientOption) (*SetTelemetryFeaturesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetTelemetryFeaturesContext(ctx, params, opts...)
+}
+
+/*
+SetTelemetryFeaturesContextconfigures environment level telemetry feature setting.
+
+Configure environment level telemetry feature setting..
+
+Do not use the deprecated [SetTelemetryFeaturesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetTelemetryFeaturesContext(ctx context.Context, params *SetTelemetryFeaturesParams, opts ...ClientOption) (*SetTelemetryFeaturesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetTelemetryFeaturesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setTelemetryFeatures",
 		Method:             "POST",
@@ -3549,13 +5869,14 @@ func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetTelemetryFeaturesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3575,15 +5896,39 @@ func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts .
 }
 
 /*
-SetupActiveDirectoryTrust setups cross realm trust between free IP a and active directory
+SetupActiveDirectoryTrustsetups cross realm trust between free IP a and active directory.
 
-Initiates cross-realm trust setup between FreeIPA and Active Directory. After this operation completes, configure the Active Directory side of the trust relationship by completing the steps returned by getTrustSetupCommands. Then call finishSetupTrust to validate and activate the trust for production use.
+Initiates cross-realm trust setup between FreeIPA and Active Directory. After this operation completes, configure the Active Directory side of the trust relationship by completing the steps returned by getTrustSetupCommands. Then call finishSetupTrust to validate and activate the trust for production use..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetupActiveDirectoryTrustContext] instead.
 */
 func (a *Client) SetupActiveDirectoryTrust(params *SetupActiveDirectoryTrustParams, opts ...ClientOption) (*SetupActiveDirectoryTrustOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetupActiveDirectoryTrustContext(ctx, params, opts...)
+}
+
+/*
+SetupActiveDirectoryTrustContextsetups cross realm trust between free IP a and active directory.
+
+Initiates cross-realm trust setup between FreeIPA and Active Directory. After this operation completes, configure the Active Directory side of the trust relationship by completing the steps returned by getTrustSetupCommands. Then call finishSetupTrust to validate and activate the trust for production use..
+
+Do not use the deprecated [SetupActiveDirectoryTrustParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetupActiveDirectoryTrustContext(ctx context.Context, params *SetupActiveDirectoryTrustParams, opts ...ClientOption) (*SetupActiveDirectoryTrustOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetupActiveDirectoryTrustParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setupActiveDirectoryTrust",
 		Method:             "POST",
@@ -3593,13 +5938,14 @@ func (a *Client) SetupActiveDirectoryTrust(params *SetupActiveDirectoryTrustPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetupActiveDirectoryTrustReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3619,15 +5965,39 @@ func (a *Client) SetupActiveDirectoryTrust(params *SetupActiveDirectoryTrustPara
 }
 
 /*
-SetupMitTrust setups cross realm trust between free IP a and m i t kerberos
+SetupMitTrustsetups cross realm trust between free IP a and m i t kerberos.
 
-Initiates cross-realm trust setup between FreeIPA and MIT Kerberos. After this operation completes, configure the MIT Kerberos side of the trust relationship by completing the steps returned by getTrustSetupCommands. Then call finishSetupTrust to validate and activate the trust for production use.
+Initiates cross-realm trust setup between FreeIPA and MIT Kerberos. After this operation completes, configure the MIT Kerberos side of the trust relationship by completing the steps returned by getTrustSetupCommands. Then call finishSetupTrust to validate and activate the trust for production use..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SetupMitTrustContext] instead.
 */
 func (a *Client) SetupMitTrust(params *SetupMitTrustParams, opts ...ClientOption) (*SetupMitTrustOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetupMitTrustContext(ctx, params, opts...)
+}
+
+/*
+SetupMitTrustContextsetups cross realm trust between free IP a and m i t kerberos.
+
+Initiates cross-realm trust setup between FreeIPA and MIT Kerberos. After this operation completes, configure the MIT Kerberos side of the trust relationship by completing the steps returned by getTrustSetupCommands. Then call finishSetupTrust to validate and activate the trust for production use..
+
+Do not use the deprecated [SetupMitTrustParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SetupMitTrustContext(ctx context.Context, params *SetupMitTrustParams, opts ...ClientOption) (*SetupMitTrustOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetupMitTrustParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setupMitTrust",
 		Method:             "POST",
@@ -3637,13 +6007,14 @@ func (a *Client) SetupMitTrust(params *SetupMitTrustParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetupMitTrustReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3663,15 +6034,39 @@ func (a *Client) SetupMitTrust(params *SetupMitTrustParams, opts ...ClientOption
 }
 
 /*
-StartEnvironment starts an environment
+StartEnvironmentstarts an environment.
 
-Start an environment.
+Start an environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StartEnvironmentContext] instead.
 */
 func (a *Client) StartEnvironment(params *StartEnvironmentParams, opts ...ClientOption) (*StartEnvironmentOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartEnvironmentContext(ctx, params, opts...)
+}
+
+/*
+StartEnvironmentContextstarts an environment.
+
+Start an environment..
+
+Do not use the deprecated [StartEnvironmentParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StartEnvironmentContext(ctx context.Context, params *StartEnvironmentParams, opts ...ClientOption) (*StartEnvironmentOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartEnvironmentParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startEnvironment",
 		Method:             "POST",
@@ -3681,13 +6076,14 @@ func (a *Client) StartEnvironment(params *StartEnvironmentParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartEnvironmentReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3707,15 +6103,39 @@ func (a *Client) StartEnvironment(params *StartEnvironmentParams, opts ...Client
 }
 
 /*
-StartFreeIpaVerticalScaling initiates the vertical scaling on free IP a
+StartFreeIpaVerticalScalinginitiates the vertical scaling on free IP a.
 
-Initiates the vertical scaling on FreeIPA.
+Initiates the vertical scaling on FreeIPA..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StartFreeIpaVerticalScalingContext] instead.
 */
 func (a *Client) StartFreeIpaVerticalScaling(params *StartFreeIpaVerticalScalingParams, opts ...ClientOption) (*StartFreeIpaVerticalScalingOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartFreeIpaVerticalScalingContext(ctx, params, opts...)
+}
+
+/*
+StartFreeIpaVerticalScalingContextinitiates the vertical scaling on free IP a.
+
+Initiates the vertical scaling on FreeIPA..
+
+Do not use the deprecated [StartFreeIpaVerticalScalingParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StartFreeIpaVerticalScalingContext(ctx context.Context, params *StartFreeIpaVerticalScalingParams, opts ...ClientOption) (*StartFreeIpaVerticalScalingOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartFreeIpaVerticalScalingParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startFreeIpaVerticalScaling",
 		Method:             "POST",
@@ -3725,13 +6145,14 @@ func (a *Client) StartFreeIpaVerticalScaling(params *StartFreeIpaVerticalScaling
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartFreeIpaVerticalScalingReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3751,15 +6172,39 @@ func (a *Client) StartFreeIpaVerticalScaling(params *StartFreeIpaVerticalScaling
 }
 
 /*
-StopEnvironment stops an environment
+StopEnvironmentstops an environment.
 
-Stop an environment.
+Stop an environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StopEnvironmentContext] instead.
 */
 func (a *Client) StopEnvironment(params *StopEnvironmentParams, opts ...ClientOption) (*StopEnvironmentOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StopEnvironmentContext(ctx, params, opts...)
+}
+
+/*
+StopEnvironmentContextstops an environment.
+
+Stop an environment..
+
+Do not use the deprecated [StopEnvironmentParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StopEnvironmentContext(ctx context.Context, params *StopEnvironmentParams, opts ...ClientOption) (*StopEnvironmentOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStopEnvironmentParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "stopEnvironment",
 		Method:             "POST",
@@ -3769,13 +6214,14 @@ func (a *Client) StopEnvironment(params *StopEnvironmentParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StopEnvironmentReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3795,15 +6241,39 @@ func (a *Client) StopEnvironment(params *StopEnvironmentParams, opts ...ClientOp
 }
 
 /*
-SyncAllUsers synchronizes environments with all users and groups state with c d p
+SyncAllUserssynchronizes environments with all users and groups state with c d p.
 
-Synchronizes environments with all users and groups state with CDP.
+Synchronizes environments with all users and groups state with CDP..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SyncAllUsersContext] instead.
 */
 func (a *Client) SyncAllUsers(params *SyncAllUsersParams, opts ...ClientOption) (*SyncAllUsersOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SyncAllUsersContext(ctx, params, opts...)
+}
+
+/*
+SyncAllUsersContextsynchronizes environments with all users and groups state with c d p.
+
+Synchronizes environments with all users and groups state with CDP..
+
+Do not use the deprecated [SyncAllUsersParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SyncAllUsersContext(ctx context.Context, params *SyncAllUsersParams, opts ...ClientOption) (*SyncAllUsersOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncAllUsersParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "syncAllUsers",
 		Method:             "POST",
@@ -3813,13 +6283,14 @@ func (a *Client) SyncAllUsers(params *SyncAllUsersParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SyncAllUsersReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3839,15 +6310,39 @@ func (a *Client) SyncAllUsers(params *SyncAllUsersParams, opts ...ClientOption) 
 }
 
 /*
-SyncIDBrokerMappings syncs all ID broker mappings for an environment
+SyncIDBrokerMappingssyncs all ID broker mappings for an environment.
 
-Syncs all ID Broker mappings to all datalake clusters in an environment.
+Syncs all ID Broker mappings to all datalake clusters in an environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SyncIDBrokerMappingsContext] instead.
 */
 func (a *Client) SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams, opts ...ClientOption) (*SyncIDBrokerMappingsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SyncIDBrokerMappingsContext(ctx, params, opts...)
+}
+
+/*
+SyncIDBrokerMappingsContextsyncs all ID broker mappings for an environment.
+
+Syncs all ID Broker mappings to all datalake clusters in an environment..
+
+Do not use the deprecated [SyncIDBrokerMappingsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SyncIDBrokerMappingsContext(ctx context.Context, params *SyncIDBrokerMappingsParams, opts ...ClientOption) (*SyncIDBrokerMappingsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncIDBrokerMappingsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "syncIdBrokerMappings",
 		Method:             "POST",
@@ -3857,13 +6352,14 @@ func (a *Client) SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SyncIDBrokerMappingsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3883,15 +6379,39 @@ func (a *Client) SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams, opts .
 }
 
 /*
-SyncStatus returns status of the sync operation for the operation id
+SyncStatusreturns status of the sync operation for the operation id.
 
-Returns status of the sync operation for the operation id. Operation Id should be one of the previously request sync operation.
+Returns status of the sync operation for the operation id. Operation Id should be one of the previously request sync operation..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SyncStatusContext] instead.
 */
 func (a *Client) SyncStatus(params *SyncStatusParams, opts ...ClientOption) (*SyncStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SyncStatusContext(ctx, params, opts...)
+}
+
+/*
+SyncStatusContextreturns status of the sync operation for the operation id.
+
+Returns status of the sync operation for the operation id. Operation Id should be one of the previously request sync operation..
+
+Do not use the deprecated [SyncStatusParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SyncStatusContext(ctx context.Context, params *SyncStatusParams, opts ...ClientOption) (*SyncStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "syncStatus",
 		Method:             "POST",
@@ -3901,13 +6421,14 @@ func (a *Client) SyncStatus(params *SyncStatusParams, opts ...ClientOption) (*Sy
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SyncStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3927,15 +6448,39 @@ func (a *Client) SyncStatus(params *SyncStatusParams, opts ...ClientOption) (*Sy
 }
 
 /*
-SyncUser synchronizes environments with single user to the free IP a servers
+SyncUsersynchronizes environments with single user to the free IP a servers.
 
-Synchronizes environments with single user to the FreeIPA servers.
+Synchronizes environments with single user to the FreeIPA servers..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SyncUserContext] instead.
 */
 func (a *Client) SyncUser(params *SyncUserParams, opts ...ClientOption) (*SyncUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SyncUserContext(ctx, params, opts...)
+}
+
+/*
+SyncUserContextsynchronizes environments with single user to the free IP a servers.
+
+Synchronizes environments with single user to the FreeIPA servers..
+
+Do not use the deprecated [SyncUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SyncUserContext(ctx context.Context, params *SyncUserParams, opts ...ClientOption) (*SyncUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "syncUser",
 		Method:             "POST",
@@ -3945,13 +6490,14 @@ func (a *Client) SyncUser(params *SyncUserParams, opts ...ClientOption) (*SyncUs
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SyncUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3971,15 +6517,39 @@ func (a *Client) SyncUser(params *SyncUserParams, opts ...ClientOption) (*SyncUs
 }
 
 /*
-SynchronizeAllEnvironments synchronizes all environments in the calling account
+SynchronizeAllEnvironmentssynchronizes all environments in the calling account.
 
-Deprecated. No plans to release this API.
+Deprecated. No plans to release this API..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SynchronizeAllEnvironmentsContext] instead.
 */
 func (a *Client) SynchronizeAllEnvironments(params *SynchronizeAllEnvironmentsParams, opts ...ClientOption) (*SynchronizeAllEnvironmentsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SynchronizeAllEnvironmentsContext(ctx, params, opts...)
+}
+
+/*
+SynchronizeAllEnvironmentsContextsynchronizes all environments in the calling account.
+
+Deprecated. No plans to release this API..
+
+Do not use the deprecated [SynchronizeAllEnvironmentsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SynchronizeAllEnvironmentsContext(ctx context.Context, params *SynchronizeAllEnvironmentsParams, opts ...ClientOption) (*SynchronizeAllEnvironmentsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSynchronizeAllEnvironmentsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "synchronizeAllEnvironments",
 		Method:             "POST",
@@ -3989,13 +6559,14 @@ func (a *Client) SynchronizeAllEnvironments(params *SynchronizeAllEnvironmentsPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SynchronizeAllEnvironmentsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4015,15 +6586,39 @@ func (a *Client) SynchronizeAllEnvironments(params *SynchronizeAllEnvironmentsPa
 }
 
 /*
-TestAccountTelemetryRules tests anonymization rules for account telemetry against text input
+TestAccountTelemetryRulestests anonymization rules for account telemetry against text input.
 
-Test anonymization rules (for account telemetry) against text input.
+Test anonymization rules (for account telemetry) against text input..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.TestAccountTelemetryRulesContext] instead.
 */
 func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesParams, opts ...ClientOption) (*TestAccountTelemetryRulesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.TestAccountTelemetryRulesContext(ctx, params, opts...)
+}
+
+/*
+TestAccountTelemetryRulesContexttests anonymization rules for account telemetry against text input.
+
+Test anonymization rules (for account telemetry) against text input..
+
+Do not use the deprecated [TestAccountTelemetryRulesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) TestAccountTelemetryRulesContext(ctx context.Context, params *TestAccountTelemetryRulesParams, opts ...ClientOption) (*TestAccountTelemetryRulesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewTestAccountTelemetryRulesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "testAccountTelemetryRules",
 		Method:             "POST",
@@ -4033,13 +6628,14 @@ func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &TestAccountTelemetryRulesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4059,15 +6655,39 @@ func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesPara
 }
 
 /*
-UpdateAwsCredential updates an a w s credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+UpdateAwsCredentialupdates an a w s credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 
-Updates an AWS credential.
+Updates an AWS credential..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAwsCredentialContext] instead.
 */
 func (a *Client) UpdateAwsCredential(params *UpdateAwsCredentialParams, opts ...ClientOption) (*UpdateAwsCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAwsCredentialContext(ctx, params, opts...)
+}
+
+/*
+UpdateAwsCredentialContextupdates an a w s credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+
+Updates an AWS credential..
+
+Do not use the deprecated [UpdateAwsCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAwsCredentialContext(ctx context.Context, params *UpdateAwsCredentialParams, opts ...ClientOption) (*UpdateAwsCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAwsCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAwsCredential",
 		Method:             "POST",
@@ -4077,13 +6697,14 @@ func (a *Client) UpdateAwsCredential(params *UpdateAwsCredentialParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAwsCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4103,15 +6724,39 @@ func (a *Client) UpdateAwsCredential(params *UpdateAwsCredentialParams, opts ...
 }
 
 /*
-UpdateAwsDiskEncryptionParameters updates the a w s encryption key a r n for the environment
+UpdateAwsDiskEncryptionParametersupdates the a w s encryption key a r n for the environment.
 
-Updates the AWS encryption key ARN for the environment. Enables the server side encryption with CMK for newly created AWS resources for the existing environment.
+Updates the AWS encryption key ARN for the environment. Enables the server side encryption with CMK for newly created AWS resources for the existing environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAwsDiskEncryptionParametersContext] instead.
 */
 func (a *Client) UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncryptionParametersParams, opts ...ClientOption) (*UpdateAwsDiskEncryptionParametersOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAwsDiskEncryptionParametersContext(ctx, params, opts...)
+}
+
+/*
+UpdateAwsDiskEncryptionParametersContextupdates the a w s encryption key a r n for the environment.
+
+Updates the AWS encryption key ARN for the environment. Enables the server side encryption with CMK for newly created AWS resources for the existing environment..
+
+Do not use the deprecated [UpdateAwsDiskEncryptionParametersParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAwsDiskEncryptionParametersContext(ctx context.Context, params *UpdateAwsDiskEncryptionParametersParams, opts ...ClientOption) (*UpdateAwsDiskEncryptionParametersOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAwsDiskEncryptionParametersParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAwsDiskEncryptionParameters",
 		Method:             "POST",
@@ -4121,13 +6766,14 @@ func (a *Client) UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncrypti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAwsDiskEncryptionParametersReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4147,15 +6793,39 @@ func (a *Client) UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncrypti
 }
 
 /*
-UpdateAzureAvailabilityZones updates the availability zones for the azure environment
+UpdateAzureAvailabilityZonesupdates the availability zones for the azure environment.
 
-Updates the Availability Zones for the Azure environment.
+Updates the Availability Zones for the Azure environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAzureAvailabilityZonesContext] instead.
 */
 func (a *Client) UpdateAzureAvailabilityZones(params *UpdateAzureAvailabilityZonesParams, opts ...ClientOption) (*UpdateAzureAvailabilityZonesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAzureAvailabilityZonesContext(ctx, params, opts...)
+}
+
+/*
+UpdateAzureAvailabilityZonesContextupdates the availability zones for the azure environment.
+
+Updates the Availability Zones for the Azure environment..
+
+Do not use the deprecated [UpdateAzureAvailabilityZonesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAzureAvailabilityZonesContext(ctx context.Context, params *UpdateAzureAvailabilityZonesParams, opts ...ClientOption) (*UpdateAzureAvailabilityZonesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureAvailabilityZonesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAzureAvailabilityZones",
 		Method:             "POST",
@@ -4165,13 +6835,14 @@ func (a *Client) UpdateAzureAvailabilityZones(params *UpdateAzureAvailabilityZon
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAzureAvailabilityZonesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4191,15 +6862,39 @@ func (a *Client) UpdateAzureAvailabilityZones(params *UpdateAzureAvailabilityZon
 }
 
 /*
-UpdateAzureCredential updates a new certificate based azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account
+UpdateAzureCredentialupdates a new certificate based azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
 
-Updates a certificate based Azure credential.
+Updates a certificate based Azure credential..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAzureCredentialContext] instead.
 */
 func (a *Client) UpdateAzureCredential(params *UpdateAzureCredentialParams, opts ...ClientOption) (*UpdateAzureCredentialOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAzureCredentialContext(ctx, params, opts...)
+}
+
+/*
+UpdateAzureCredentialContextupdates a new certificate based azure credential that can be attached to an environment the credential is used for authorization to provision resources such as compute instances within your cloud provider account.
+
+Updates a certificate based Azure credential..
+
+Do not use the deprecated [UpdateAzureCredentialParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAzureCredentialContext(ctx context.Context, params *UpdateAzureCredentialParams, opts ...ClientOption) (*UpdateAzureCredentialOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureCredentialParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAzureCredential",
 		Method:             "POST",
@@ -4209,13 +6904,14 @@ func (a *Client) UpdateAzureCredential(params *UpdateAzureCredentialParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAzureCredentialReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4235,15 +6931,39 @@ func (a *Client) UpdateAzureCredential(params *UpdateAzureCredentialParams, opts
 }
 
 /*
-UpdateAzureDatabaseResources updates the azure database resources for the environment
+UpdateAzureDatabaseResourcesupdates the azure database resources for the environment.
 
-Updates the Azure database resources for the environment. Enables deploying private Flexible Server for the existing environment.
+Updates the Azure database resources for the environment. Enables deploying private Flexible Server for the existing environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAzureDatabaseResourcesContext] instead.
 */
 func (a *Client) UpdateAzureDatabaseResources(params *UpdateAzureDatabaseResourcesParams, opts ...ClientOption) (*UpdateAzureDatabaseResourcesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAzureDatabaseResourcesContext(ctx, params, opts...)
+}
+
+/*
+UpdateAzureDatabaseResourcesContextupdates the azure database resources for the environment.
+
+Updates the Azure database resources for the environment. Enables deploying private Flexible Server for the existing environment..
+
+Do not use the deprecated [UpdateAzureDatabaseResourcesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAzureDatabaseResourcesContext(ctx context.Context, params *UpdateAzureDatabaseResourcesParams, opts ...ClientOption) (*UpdateAzureDatabaseResourcesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureDatabaseResourcesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAzureDatabaseResources",
 		Method:             "POST",
@@ -4253,13 +6973,14 @@ func (a *Client) UpdateAzureDatabaseResources(params *UpdateAzureDatabaseResourc
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAzureDatabaseResourcesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4279,15 +7000,39 @@ func (a *Client) UpdateAzureDatabaseResources(params *UpdateAzureDatabaseResourc
 }
 
 /*
-UpdateAzureEncryptionResources updates the azure encryption resources for the environment
+UpdateAzureEncryptionResourcesupdates the azure encryption resources for the environment.
 
-Updates the Azure encryption resources for the environment. Enables the SSE with CMK for newly created Azure resources for the existing environment.
+Updates the Azure encryption resources for the environment. Enables the SSE with CMK for newly created Azure resources for the existing environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAzureEncryptionResourcesContext] instead.
 */
 func (a *Client) UpdateAzureEncryptionResources(params *UpdateAzureEncryptionResourcesParams, opts ...ClientOption) (*UpdateAzureEncryptionResourcesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAzureEncryptionResourcesContext(ctx, params, opts...)
+}
+
+/*
+UpdateAzureEncryptionResourcesContextupdates the azure encryption resources for the environment.
+
+Updates the Azure encryption resources for the environment. Enables the SSE with CMK for newly created Azure resources for the existing environment..
+
+Do not use the deprecated [UpdateAzureEncryptionResourcesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAzureEncryptionResourcesContext(ctx context.Context, params *UpdateAzureEncryptionResourcesParams, opts ...ClientOption) (*UpdateAzureEncryptionResourcesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureEncryptionResourcesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAzureEncryptionResources",
 		Method:             "POST",
@@ -4297,13 +7042,14 @@ func (a *Client) UpdateAzureEncryptionResources(params *UpdateAzureEncryptionRes
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAzureEncryptionResourcesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4323,15 +7069,39 @@ func (a *Client) UpdateAzureEncryptionResources(params *UpdateAzureEncryptionRes
 }
 
 /*
-UpdateAzureImageTermsPolicy updates account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour
+UpdateAzureImageTermsPolicyupdates account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour.
 
-Updates account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour.
+Updates account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAzureImageTermsPolicyContext] instead.
 */
 func (a *Client) UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicyParams, opts ...ClientOption) (*UpdateAzureImageTermsPolicyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAzureImageTermsPolicyContext(ctx, params, opts...)
+}
+
+/*
+UpdateAzureImageTermsPolicyContextupdates account level azure marketplace image policy c d p is capable to automatically accept azure marketplace image terms during cluster deployment you can use this setting in your account to opt in or opt out this behaviour.
+
+Updates account level Azure Marketplace image policy. CDP is capable to automatically accept Azure Marketplace image terms during cluster deployment. You can use this setting in your account to opt in or opt out this behaviour..
+
+Do not use the deprecated [UpdateAzureImageTermsPolicyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAzureImageTermsPolicyContext(ctx context.Context, params *UpdateAzureImageTermsPolicyParams, opts ...ClientOption) (*UpdateAzureImageTermsPolicyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureImageTermsPolicyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAzureImageTermsPolicy",
 		Method:             "POST",
@@ -4341,13 +7111,14 @@ func (a *Client) UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicy
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAzureImageTermsPolicyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4367,15 +7138,39 @@ func (a *Client) UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicy
 }
 
 /*
-UpdateCustomDockerRegistry updates custom docker registry c r n of an environment
+UpdateCustomDockerRegistryupdates custom docker registry c r n of an environment.
 
-Updates custom docker registry CRN of an environment.
+Updates custom docker registry CRN of an environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateCustomDockerRegistryContext] instead.
 */
 func (a *Client) UpdateCustomDockerRegistry(params *UpdateCustomDockerRegistryParams, opts ...ClientOption) (*UpdateCustomDockerRegistryOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateCustomDockerRegistryContext(ctx, params, opts...)
+}
+
+/*
+UpdateCustomDockerRegistryContextupdates custom docker registry c r n of an environment.
+
+Updates custom docker registry CRN of an environment..
+
+Do not use the deprecated [UpdateCustomDockerRegistryParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateCustomDockerRegistryContext(ctx context.Context, params *UpdateCustomDockerRegistryParams, opts ...ClientOption) (*UpdateCustomDockerRegistryOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateCustomDockerRegistryParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateCustomDockerRegistry",
 		Method:             "POST",
@@ -4385,13 +7180,14 @@ func (a *Client) UpdateCustomDockerRegistry(params *UpdateCustomDockerRegistryPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateCustomDockerRegistryReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4411,15 +7207,39 @@ func (a *Client) UpdateCustomDockerRegistry(params *UpdateCustomDockerRegistryPa
 }
 
 /*
-UpdateDataServiceResources updates data service resources of an environment
+UpdateDataServiceResourcesupdates data service resources of an environment.
 
-Updates Data Service resources of an environment.
+Updates Data Service resources of an environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateDataServiceResourcesContext] instead.
 */
 func (a *Client) UpdateDataServiceResources(params *UpdateDataServiceResourcesParams, opts ...ClientOption) (*UpdateDataServiceResourcesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateDataServiceResourcesContext(ctx, params, opts...)
+}
+
+/*
+UpdateDataServiceResourcesContextupdates data service resources of an environment.
+
+Updates Data Service resources of an environment..
+
+Do not use the deprecated [UpdateDataServiceResourcesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateDataServiceResourcesContext(ctx context.Context, params *UpdateDataServiceResourcesParams, opts ...ClientOption) (*UpdateDataServiceResourcesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateDataServiceResourcesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateDataServiceResources",
 		Method:             "POST",
@@ -4429,13 +7249,14 @@ func (a *Client) UpdateDataServiceResources(params *UpdateDataServiceResourcesPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateDataServiceResourcesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4455,15 +7276,39 @@ func (a *Client) UpdateDataServiceResources(params *UpdateDataServiceResourcesPa
 }
 
 /*
-UpdateFreeipaToAwsImdsV1 updates free IP a a w s cluster to use i m d sv1
+UpdateFreeipaToAwsImdsV1updates free IP a a w s cluster to use i m d sv1.
 
-Updates FreeIPA AWS cluster to use IMDSv1.
+Updates FreeIPA AWS cluster to use IMDSv1..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateFreeipaToAwsImdsV1Context] instead.
 */
 func (a *Client) UpdateFreeipaToAwsImdsV1(params *UpdateFreeipaToAwsImdsV1Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV1OK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateFreeipaToAwsImdsV1Context(ctx, params, opts...)
+}
+
+/*
+UpdateFreeipaToAwsImdsV1Contextupdates free IP a a w s cluster to use i m d sv1.
+
+Updates FreeIPA AWS cluster to use IMDSv1..
+
+Do not use the deprecated [UpdateFreeipaToAwsImdsV1Params.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateFreeipaToAwsImdsV1Context(ctx context.Context, params *UpdateFreeipaToAwsImdsV1Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV1OK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateFreeipaToAwsImdsV1Params()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateFreeipaToAwsImdsV1",
 		Method:             "POST",
@@ -4473,13 +7318,14 @@ func (a *Client) UpdateFreeipaToAwsImdsV1(params *UpdateFreeipaToAwsImdsV1Params
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateFreeipaToAwsImdsV1Reader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4499,15 +7345,39 @@ func (a *Client) UpdateFreeipaToAwsImdsV1(params *UpdateFreeipaToAwsImdsV1Params
 }
 
 /*
-UpdateFreeipaToAwsImdsV2 updates free IP a a w s cluster to use i m d sv2
+UpdateFreeipaToAwsImdsV2updates free IP a a w s cluster to use i m d sv2.
 
-Updates FreeIPA AWS cluster to use IMDSv2.
+Updates FreeIPA AWS cluster to use IMDSv2..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateFreeipaToAwsImdsV2Context] instead.
 */
 func (a *Client) UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV2OK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateFreeipaToAwsImdsV2Context(ctx, params, opts...)
+}
+
+/*
+UpdateFreeipaToAwsImdsV2Contextupdates free IP a a w s cluster to use i m d sv2.
+
+Updates FreeIPA AWS cluster to use IMDSv2..
+
+Do not use the deprecated [UpdateFreeipaToAwsImdsV2Params.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateFreeipaToAwsImdsV2Context(ctx context.Context, params *UpdateFreeipaToAwsImdsV2Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV2OK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateFreeipaToAwsImdsV2Params()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateFreeipaToAwsImdsV2",
 		Method:             "POST",
@@ -4517,13 +7387,14 @@ func (a *Client) UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateFreeipaToAwsImdsV2Reader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4543,15 +7414,39 @@ func (a *Client) UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params
 }
 
 /*
-UpdateGcpAvailabilityZones updates the availability zones for the g c p environment
+UpdateGcpAvailabilityZonesupdates the availability zones for the g c p environment.
 
-Updates the Availability Zones for the GCP environment.
+Updates the Availability Zones for the GCP environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateGcpAvailabilityZonesContext] instead.
 */
 func (a *Client) UpdateGcpAvailabilityZones(params *UpdateGcpAvailabilityZonesParams, opts ...ClientOption) (*UpdateGcpAvailabilityZonesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateGcpAvailabilityZonesContext(ctx, params, opts...)
+}
+
+/*
+UpdateGcpAvailabilityZonesContextupdates the availability zones for the g c p environment.
+
+Updates the Availability Zones for the GCP environment..
+
+Do not use the deprecated [UpdateGcpAvailabilityZonesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateGcpAvailabilityZonesContext(ctx context.Context, params *UpdateGcpAvailabilityZonesParams, opts ...ClientOption) (*UpdateGcpAvailabilityZonesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateGcpAvailabilityZonesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateGcpAvailabilityZones",
 		Method:             "POST",
@@ -4561,13 +7456,14 @@ func (a *Client) UpdateGcpAvailabilityZones(params *UpdateGcpAvailabilityZonesPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateGcpAvailabilityZonesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4587,15 +7483,39 @@ func (a *Client) UpdateGcpAvailabilityZones(params *UpdateGcpAvailabilityZonesPa
 }
 
 /*
-UpdateOrchestratorState runs orchestrator engine state update on the free IP a cluster
+UpdateOrchestratorStateruns orchestrator engine state update on the free IP a cluster.
 
-Run orchestrator engine state update on the FreeIPA cluster.
+Run orchestrator engine state update on the FreeIPA cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateOrchestratorStateContext] instead.
 */
 func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateOrchestratorStateContext(ctx, params, opts...)
+}
+
+/*
+UpdateOrchestratorStateContextruns orchestrator engine state update on the free IP a cluster.
+
+Run orchestrator engine state update on the FreeIPA cluster..
+
+Do not use the deprecated [UpdateOrchestratorStateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateOrchestratorStateContext(ctx context.Context, params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateOrchestratorStateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateOrchestratorState",
 		Method:             "POST",
@@ -4605,13 +7525,14 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateOrchestratorStateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4631,15 +7552,39 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 }
 
 /*
-UpdateProxyConfig updates the proxy config of the given environment the newly added proxy configs will only be used for the cloudera data hub clusters created within the environment after the new proxy configs were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the proxy configs originally defined during environment creation
+UpdateProxyConfigupdates the proxy config of the given environment the newly added proxy configs will only be used for the cloudera data hub clusters created within the environment after the new proxy configs were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the proxy configs originally defined during environment creation.
 
-Updates the proxy config of the given environment. The newly added proxy configs will only be used for the Cloudera Data Hub clusters created within the environment after the new proxy configs were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the proxy configs originally defined during environment creation.
+Updates the proxy config of the given environment. The newly added proxy configs will only be used for the Cloudera Data Hub clusters created within the environment after the new proxy configs were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the proxy configs originally defined during environment creation..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateProxyConfigContext] instead.
 */
 func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateProxyConfigContext(ctx, params, opts...)
+}
+
+/*
+UpdateProxyConfigContextupdates the proxy config of the given environment the newly added proxy configs will only be used for the cloudera data hub clusters created within the environment after the new proxy configs were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the proxy configs originally defined during environment creation.
+
+Updates the proxy config of the given environment. The newly added proxy configs will only be used for the Cloudera Data Hub clusters created within the environment after the new proxy configs were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the proxy configs originally defined during environment creation..
+
+Do not use the deprecated [UpdateProxyConfigParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateProxyConfigContext(ctx context.Context, params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateProxyConfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateProxyConfig",
 		Method:             "POST",
@@ -4649,13 +7594,14 @@ func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateProxyConfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4675,15 +7621,39 @@ func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...Clie
 }
 
 /*
-UpdateRootVolumeFreeipa updates root volume size and type in free IP a instances
+UpdateRootVolumeFreeipaupdates root volume size and type in free IP a instances.
 
-This updates the root volume size and type for the FreeIPA instances.
+This updates the root volume size and type for the FreeIPA instances..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateRootVolumeFreeipaContext] instead.
 */
 func (a *Client) UpdateRootVolumeFreeipa(params *UpdateRootVolumeFreeipaParams, opts ...ClientOption) (*UpdateRootVolumeFreeipaOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateRootVolumeFreeipaContext(ctx, params, opts...)
+}
+
+/*
+UpdateRootVolumeFreeipaContextupdates root volume size and type in free IP a instances.
+
+This updates the root volume size and type for the FreeIPA instances..
+
+Do not use the deprecated [UpdateRootVolumeFreeipaParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateRootVolumeFreeipaContext(ctx context.Context, params *UpdateRootVolumeFreeipaParams, opts ...ClientOption) (*UpdateRootVolumeFreeipaOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateRootVolumeFreeipaParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateRootVolumeFreeipa",
 		Method:             "POST",
@@ -4693,13 +7663,14 @@ func (a *Client) UpdateRootVolumeFreeipa(params *UpdateRootVolumeFreeipaParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateRootVolumeFreeipaReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4719,15 +7690,39 @@ func (a *Client) UpdateRootVolumeFreeipa(params *UpdateRootVolumeFreeipaParams, 
 }
 
 /*
-UpdateSecurityAccess updates the security access settings of the given environment the newly added security groups will only be used for the cloudera data hub clusters created within the environment after the new security groups were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the security groups originally defined during environment creation
+UpdateSecurityAccessupdates the security access settings of the given environment the newly added security groups will only be used for the cloudera data hub clusters created within the environment after the new security groups were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the security groups originally defined during environment creation.
 
-Updates the security access settings of the given environment. The newly added security groups will only be used for the Cloudera Data Hub clusters created within the environment after the new security groups were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the security groups originally defined during environment creation.
+Updates the security access settings of the given environment. The newly added security groups will only be used for the Cloudera Data Hub clusters created within the environment after the new security groups were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the security groups originally defined during environment creation..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateSecurityAccessContext] instead.
 */
 func (a *Client) UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateSecurityAccessContext(ctx, params, opts...)
+}
+
+/*
+UpdateSecurityAccessContextupdates the security access settings of the given environment the newly added security groups will only be used for the cloudera data hub clusters created within the environment after the new security groups were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the security groups originally defined during environment creation.
+
+Updates the security access settings of the given environment. The newly added security groups will only be used for the Cloudera Data Hub clusters created within the environment after the new security groups were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the security groups originally defined during environment creation..
+
+Do not use the deprecated [UpdateSecurityAccessParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateSecurityAccessContext(ctx context.Context, params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateSecurityAccessParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateSecurityAccess",
 		Method:             "POST",
@@ -4737,13 +7732,14 @@ func (a *Client) UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateSecurityAccessReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4763,15 +7759,39 @@ func (a *Client) UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts .
 }
 
 /*
-UpdateSSHKey updates the designated SSH key for the given environment the newly added SSH key will only be used for the cloudera data hub clusters created within the environment after the new SSH key were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the SSH key originally defined during environment creation
+UpdateSSHKeyupdates the designated SSH key for the given environment the newly added SSH key will only be used for the cloudera data hub clusters created within the environment after the new SSH key were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the SSH key originally defined during environment creation.
 
-Updates the designated SSH key for the given environment. The newly added SSH key will only be used for the Cloudera Data Hub clusters created within the environment after the new SSH key were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the SSH key originally defined during environment creation.
+Updates the designated SSH key for the given environment. The newly added SSH key will only be used for the Cloudera Data Hub clusters created within the environment after the new SSH key were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the SSH key originally defined during environment creation..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateSSHKeyContext] instead.
 */
 func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateSSHKeyContext(ctx, params, opts...)
+}
+
+/*
+UpdateSSHKeyContextupdates the designated SSH key for the given environment the newly added SSH key will only be used for the cloudera data hub clusters created within the environment after the new SSH key were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the SSH key originally defined during environment creation.
+
+Updates the designated SSH key for the given environment. The newly added SSH key will only be used for the Cloudera Data Hub clusters created within the environment after the new SSH key were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the SSH key originally defined during environment creation..
+
+Do not use the deprecated [UpdateSSHKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateSSHKeyContext(ctx context.Context, params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateSSHKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateSshKey",
 		Method:             "POST",
@@ -4781,13 +7801,14 @@ func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateSSHKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4807,15 +7828,39 @@ func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) 
 }
 
 /*
-UpdateSubnet updates the subnet s of the given environment the newly added subnets will only be used for the cloudera data hub clusters created within the environment after the new subnets were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the subnets originally defined during environment creation
+UpdateSubnetupdates the subnet s of the given environment the newly added subnets will only be used for the cloudera data hub clusters created within the environment after the new subnets were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the subnets originally defined during environment creation.
 
-Updates the subnet(s) of the given environment. The newly added subnets will only be used for the Cloudera Data Hub clusters created within the environment after the new subnets were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the subnets originally defined during environment creation.
+Updates the subnet(s) of the given environment. The newly added subnets will only be used for the Cloudera Data Hub clusters created within the environment after the new subnets were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the subnets originally defined during environment creation..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateSubnetContext] instead.
 */
 func (a *Client) UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateSubnetContext(ctx, params, opts...)
+}
+
+/*
+UpdateSubnetContextupdates the subnet s of the given environment the newly added subnets will only be used for the cloudera data hub clusters created within the environment after the new subnets were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the subnets originally defined during environment creation.
+
+Updates the subnet(s) of the given environment. The newly added subnets will only be used for the Cloudera Data Hub clusters created within the environment after the new subnets were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain within the subnets originally defined during environment creation..
+
+Do not use the deprecated [UpdateSubnetParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateSubnetContext(ctx context.Context, params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateSubnetParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateSubnet",
 		Method:             "POST",
@@ -4825,13 +7870,14 @@ func (a *Client) UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateSubnetReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4851,15 +7897,39 @@ func (a *Client) UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) 
 }
 
 /*
-UpdateTags updates the user defined tags of the given environment the newly added tags will only be used for the cloudera data hub clusters created within the environment after the new tags were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the tags originally defined during environment creation
+UpdateTagsupdates the user defined tags of the given environment the newly added tags will only be used for the cloudera data hub clusters created within the environment after the new tags were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the tags originally defined during environment creation.
 
-Updates the user defined tags of the given environment. The newly added tags will only be used for the Cloudera Data Hub clusters created within the environment after the new tags were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the tags originally defined during environment creation.
+Updates the user defined tags of the given environment. The newly added tags will only be used for the Cloudera Data Hub clusters created within the environment after the new tags were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the tags originally defined during environment creation..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateTagsContext] instead.
 */
 func (a *Client) UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateTagsContext(ctx, params, opts...)
+}
+
+/*
+UpdateTagsContextupdates the user defined tags of the given environment the newly added tags will only be used for the cloudera data hub clusters created within the environment after the new tags were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the tags originally defined during environment creation.
+
+Updates the user defined tags of the given environment. The newly added tags will only be used for the Cloudera Data Hub clusters created within the environment after the new tags were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the tags originally defined during environment creation..
+
+Do not use the deprecated [UpdateTagsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateTagsContext(ctx context.Context, params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateTagsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateTags",
 		Method:             "POST",
@@ -4869,13 +7939,14 @@ func (a *Client) UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*Up
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateTagsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4895,15 +7966,39 @@ func (a *Client) UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*Up
 }
 
 /*
-UpgradeCcm upgrades cluster connectivity manager on the environment to the latest available version
+UpgradeCcmupgrades cluster connectivity manager on the environment to the latest available version.
 
-Upgrades Cluster Connectivity Manager on the environment to the latest available version.
+Upgrades Cluster Connectivity Manager on the environment to the latest available version..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpgradeCcmContext] instead.
 */
 func (a *Client) UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*UpgradeCcmOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeCcmContext(ctx, params, opts...)
+}
+
+/*
+UpgradeCcmContextupgrades cluster connectivity manager on the environment to the latest available version.
+
+Upgrades Cluster Connectivity Manager on the environment to the latest available version..
+
+Do not use the deprecated [UpgradeCcmParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpgradeCcmContext(ctx context.Context, params *UpgradeCcmParams, opts ...ClientOption) (*UpgradeCcmOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeCcmParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeCcm",
 		Method:             "POST",
@@ -4913,13 +8008,14 @@ func (a *Client) UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*Up
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeCcmReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4939,15 +8035,39 @@ func (a *Client) UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*Up
 }
 
 /*
-UpgradeFreeipa upgrades free IP a to the latest or defined image
+UpgradeFreeipaupgrades free IP a to the latest or defined image.
 
-FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services.
+FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpgradeFreeipaContext] instead.
 */
 func (a *Client) UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOption) (*UpgradeFreeipaOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeFreeipaContext(ctx, params, opts...)
+}
+
+/*
+UpgradeFreeipaContextupgrades free IP a to the latest or defined image.
+
+FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services..
+
+Do not use the deprecated [UpgradeFreeipaParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpgradeFreeipaContext(ctx context.Context, params *UpgradeFreeipaParams, opts ...ClientOption) (*UpgradeFreeipaOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeFreeipaParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeFreeipa",
 		Method:             "POST",
@@ -4957,13 +8077,14 @@ func (a *Client) UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeFreeipaReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4983,15 +8104,39 @@ func (a *Client) UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOpti
 }
 
 /*
-UpscaleFreeipa upscales free IP a instances
+UpscaleFreeipaupscales free IP a instances.
 
-FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services.
+FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpscaleFreeipaContext] instead.
 */
 func (a *Client) UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOption) (*UpscaleFreeipaOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpscaleFreeipaContext(ctx, params, opts...)
+}
+
+/*
+UpscaleFreeipaContextupscales free IP a instances.
+
+FreeIPA is an integrated Identity and Authentication solution that can be used for any of CM, CDP services..
+
+Do not use the deprecated [UpscaleFreeipaParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpscaleFreeipaContext(ctx context.Context, params *UpscaleFreeipaParams, opts ...ClientOption) (*UpscaleFreeipaOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpscaleFreeipaParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upscaleFreeipa",
 		Method:             "POST",
@@ -5001,13 +8146,14 @@ func (a *Client) UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpscaleFreeipaReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -5027,15 +8173,39 @@ func (a *Client) UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOpti
 }
 
 /*
-ValidateAwsCloudStorage validates a w s cloud storage settings of the given environment
+ValidateAwsCloudStoragevalidates a w s cloud storage settings of the given environment.
 
-Validates AWS cloud storage settings of the given environment.
+Validates AWS cloud storage settings of the given environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ValidateAwsCloudStorageContext] instead.
 */
 func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ValidateAwsCloudStorageContext(ctx, params, opts...)
+}
+
+/*
+ValidateAwsCloudStorageContextvalidates a w s cloud storage settings of the given environment.
+
+Validates AWS cloud storage settings of the given environment..
+
+Do not use the deprecated [ValidateAwsCloudStorageParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ValidateAwsCloudStorageContext(ctx context.Context, params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewValidateAwsCloudStorageParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "validateAwsCloudStorage",
 		Method:             "POST",
@@ -5045,13 +8215,14 @@ func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ValidateAwsCloudStorageReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -5071,15 +8242,39 @@ func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, 
 }
 
 /*
-ValidateAzureCloudStorage validates azure cloud storage settings of the given environment
+ValidateAzureCloudStoragevalidates azure cloud storage settings of the given environment.
 
-Validates Azure cloud storage settings of the given environment.
+Validates Azure cloud storage settings of the given environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ValidateAzureCloudStorageContext] instead.
 */
 func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ValidateAzureCloudStorageContext(ctx, params, opts...)
+}
+
+/*
+ValidateAzureCloudStorageContextvalidates azure cloud storage settings of the given environment.
+
+Validates Azure cloud storage settings of the given environment..
+
+Do not use the deprecated [ValidateAzureCloudStorageParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ValidateAzureCloudStorageContext(ctx context.Context, params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewValidateAzureCloudStorageParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "validateAzureCloudStorage",
 		Method:             "POST",
@@ -5089,13 +8284,14 @@ func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStoragePara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ValidateAzureCloudStorageReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -5115,6 +8311,14 @@ func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStoragePara
 }
 
 // SetTransport changes the transport on the client
-func (a *Client) SetTransport(transport runtime.ClientTransport) {
+func (a *Client) SetTransport(transport runtime.ContextualTransport) {
 	a.transport = transport
+}
+
+// innerParams captures internal fields so they don't conflict with user-supplied parameters.
+type innerParams struct {
+	timeout time.Duration
+
+	// Deprecated: use the operation call with context to pass the context instead of [OperationsParams].
+	ctx context.Context
 }

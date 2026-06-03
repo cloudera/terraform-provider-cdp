@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewRestoreDatalakeParams creates a new RestoreDatalakeParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRestoreDatalakeParams() *RestoreDatalakeParams {
-	return &RestoreDatalakeParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRestoreDatalakeParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRestoreDatalakeParamsWithTimeout creates a new RestoreDatalakeParams object
 // with the ability to set a timeout on a request.
 func NewRestoreDatalakeParamsWithTimeout(timeout time.Duration) *RestoreDatalakeParams {
 	return &RestoreDatalakeParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRestoreDatalakeParamsWithContext creates a new RestoreDatalakeParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreDatalakeParams].
 func NewRestoreDatalakeParamsWithContext(ctx context.Context) *RestoreDatalakeParams {
 	return &RestoreDatalakeParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RestoreDatalakeParams struct {
 	// Input.
 	Input *models.RestoreDatalakeRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the restore datalake params (not the query body).
@@ -83,54 +86,57 @@ func (o *RestoreDatalakeParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the restore datalake params
+// WithTimeout adds the timeout to the restore datalake params.
 func (o *RestoreDatalakeParams) WithTimeout(timeout time.Duration) *RestoreDatalakeParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the restore datalake params
+// SetTimeout adds the timeout to the restore datalake params.
 func (o *RestoreDatalakeParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the restore datalake params
+// WithContext adds the context to the restore datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreDatalakeParams].
 func (o *RestoreDatalakeParams) WithContext(ctx context.Context) *RestoreDatalakeParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the restore datalake params
+// SetContext adds the context to the restore datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreDatalakeParams].
 func (o *RestoreDatalakeParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the restore datalake params
+// WithHTTPClient adds the HTTPClient to the restore datalake params.
 func (o *RestoreDatalakeParams) WithHTTPClient(client *http.Client) *RestoreDatalakeParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the restore datalake params
+// SetHTTPClient adds the HTTPClient to the restore datalake params.
 func (o *RestoreDatalakeParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the restore datalake params
+// WithInput adds the input to the restore datalake params.
 func (o *RestoreDatalakeParams) WithInput(input *models.RestoreDatalakeRequest) *RestoreDatalakeParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the restore datalake params
+// SetInput adds the input to the restore datalake params.
 func (o *RestoreDatalakeParams) SetInput(input *models.RestoreDatalakeRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RestoreDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // Restore Restore entry
@@ -73,12 +74,12 @@ func (m *Restore) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Restore) validateErrors(formats strfmt.Registry) error {
-	if swag.IsZero(m.Errors) { // not required
+	if typeutils.IsZero(m.Errors) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Errors); i++ {
-		if swag.IsZero(m.Errors[i]) { // not required
+		if typeutils.IsZero(m.Errors[i]) { // not required
 			continue
 		}
 
@@ -103,12 +104,12 @@ func (m *Restore) validateErrors(formats strfmt.Registry) error {
 }
 
 func (m *Restore) validateWarnings(formats strfmt.Registry) error {
-	if swag.IsZero(m.Warnings) { // not required
+	if typeutils.IsZero(m.Warnings) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Warnings); i++ {
-		if swag.IsZero(m.Warnings[i]) { // not required
+		if typeutils.IsZero(m.Warnings[i]) { // not required
 			continue
 		}
 
@@ -156,7 +157,7 @@ func (m *Restore) contextValidateErrors(ctx context.Context, formats strfmt.Regi
 
 		if m.Errors[i] != nil {
 
-			if swag.IsZero(m.Errors[i]) { // not required
+			if typeutils.IsZero(m.Errors[i]) { // not required
 				return nil
 			}
 
@@ -185,7 +186,7 @@ func (m *Restore) contextValidateWarnings(ctx context.Context, formats strfmt.Re
 
 		if m.Warnings[i] != nil {
 
-			if swag.IsZero(m.Warnings[i]) { // not required
+			if typeutils.IsZero(m.Warnings[i]) { // not required
 				return nil
 			}
 
@@ -213,13 +214,13 @@ func (m *Restore) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *Restore) UnmarshalBinary(b []byte) error {
 	var res Restore
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

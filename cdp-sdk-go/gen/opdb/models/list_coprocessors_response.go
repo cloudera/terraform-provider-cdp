@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListCoprocessorsResponse The response for listing coprocessors in a database.
@@ -42,12 +43,12 @@ func (m *ListCoprocessorsResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListCoprocessorsResponse) validateCoprocessors(formats strfmt.Registry) error {
-	if swag.IsZero(m.Coprocessors) { // not required
+	if typeutils.IsZero(m.Coprocessors) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Coprocessors); i++ {
-		if swag.IsZero(m.Coprocessors[i]) { // not required
+		if typeutils.IsZero(m.Coprocessors[i]) { // not required
 			continue
 		}
 
@@ -91,7 +92,7 @@ func (m *ListCoprocessorsResponse) contextValidateCoprocessors(ctx context.Conte
 
 		if m.Coprocessors[i] != nil {
 
-			if swag.IsZero(m.Coprocessors[i]) { // not required
+			if typeutils.IsZero(m.Coprocessors[i]) { // not required
 				return nil
 			}
 
@@ -119,13 +120,13 @@ func (m *ListCoprocessorsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListCoprocessorsResponse) UnmarshalBinary(b []byte) error {
 	var res ListCoprocessorsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewGetAuditEventsParams creates a new GetAuditEventsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAuditEventsParams() *GetAuditEventsParams {
-	return &GetAuditEventsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetAuditEventsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetAuditEventsParamsWithTimeout creates a new GetAuditEventsParams object
 // with the ability to set a timeout on a request.
 func NewGetAuditEventsParamsWithTimeout(timeout time.Duration) *GetAuditEventsParams {
 	return &GetAuditEventsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetAuditEventsParamsWithContext creates a new GetAuditEventsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetAuditEventsParams].
 func NewGetAuditEventsParamsWithContext(ctx context.Context) *GetAuditEventsParams {
 	return &GetAuditEventsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetAuditEventsParams struct {
 	// Input.
 	Input *models.GetAuditEventsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get audit events params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetAuditEventsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get audit events params
+// WithTimeout adds the timeout to the get audit events params.
 func (o *GetAuditEventsParams) WithTimeout(timeout time.Duration) *GetAuditEventsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get audit events params
+// SetTimeout adds the timeout to the get audit events params.
 func (o *GetAuditEventsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get audit events params
+// WithContext adds the context to the get audit events params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetAuditEventsParams].
 func (o *GetAuditEventsParams) WithContext(ctx context.Context) *GetAuditEventsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get audit events params
+// SetContext adds the context to the get audit events params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetAuditEventsParams].
 func (o *GetAuditEventsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get audit events params
+// WithHTTPClient adds the HTTPClient to the get audit events params.
 func (o *GetAuditEventsParams) WithHTTPClient(client *http.Client) *GetAuditEventsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get audit events params
+// SetHTTPClient adds the HTTPClient to the get audit events params.
 func (o *GetAuditEventsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get audit events params
+// WithInput adds the input to the get audit events params.
 func (o *GetAuditEventsParams) WithInput(input *models.GetAuditEventsRequest) *GetAuditEventsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get audit events params
+// SetInput adds the input to the get audit events params.
 func (o *GetAuditEventsParams) SetInput(input *models.GetAuditEventsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetAuditEventsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

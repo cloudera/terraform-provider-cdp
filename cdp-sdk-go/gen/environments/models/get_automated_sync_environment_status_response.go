@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -48,7 +49,7 @@ func (m *GetAutomatedSyncEnvironmentStatusResponse) Validate(formats strfmt.Regi
 }
 
 func (m *GetAutomatedSyncEnvironmentStatusResponse) validateLastSyncStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.LastSyncStatus) { // not required
+	if typeutils.IsZero(m.LastSyncStatus) { // not required
 		return nil
 	}
 
@@ -109,7 +110,7 @@ func (m *GetAutomatedSyncEnvironmentStatusResponse) validateSyncPendingStateEnum
 }
 
 func (m *GetAutomatedSyncEnvironmentStatusResponse) validateSyncPendingState(formats strfmt.Registry) error {
-	if swag.IsZero(m.SyncPendingState) { // not required
+	if typeutils.IsZero(m.SyncPendingState) { // not required
 		return nil
 	}
 
@@ -139,7 +140,7 @@ func (m *GetAutomatedSyncEnvironmentStatusResponse) contextValidateLastSyncStatu
 
 	if m.LastSyncStatus != nil {
 
-		if swag.IsZero(m.LastSyncStatus) { // not required
+		if typeutils.IsZero(m.LastSyncStatus) { // not required
 			return nil
 		}
 
@@ -165,13 +166,13 @@ func (m *GetAutomatedSyncEnvironmentStatusResponse) MarshalBinary() ([]byte, err
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetAutomatedSyncEnvironmentStatusResponse) UnmarshalBinary(b []byte) error {
 	var res GetAutomatedSyncEnvironmentStatusResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

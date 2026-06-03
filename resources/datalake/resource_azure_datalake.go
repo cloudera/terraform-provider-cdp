@@ -136,7 +136,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 
 	client := r.client.Datalake
 
-	params := operations.NewCreateAzureDatalakeParamsWithContext(ctx)
+	params := operations.NewCreateAzureDatalakeParams()
 	params.WithInput(toAzureDatalakeRequest(ctx, &state))
 	responseOk, err := client.Operations.CreateAzureDatalake(params)
 	if err != nil {
@@ -164,7 +164,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 			return
 		}
 	}
-	descParams := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	descParams := operations.NewDescribeDatalakeParams()
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
 	if err != nil {
@@ -196,7 +196,7 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 	if len(dlName) == 0 {
 		dlName = state.ID.ValueString()
 	}
-	params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	params := operations.NewDescribeDatalakeParams()
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &dlName})
 	responseOk, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
@@ -236,7 +236,7 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	client := r.client.Datalake
-	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
+	params := operations.NewDeleteDatalakeParams()
 	forceDelete := false
 	if state.DeleteOptions != nil {
 		forceDelete = state.DeleteOptions.Forced.ValueBool()

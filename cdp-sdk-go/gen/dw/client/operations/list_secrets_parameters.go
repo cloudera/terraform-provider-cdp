@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewListSecretsParams creates a new ListSecretsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListSecretsParams() *ListSecretsParams {
-	return &ListSecretsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListSecretsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListSecretsParamsWithTimeout creates a new ListSecretsParams object
 // with the ability to set a timeout on a request.
 func NewListSecretsParamsWithTimeout(timeout time.Duration) *ListSecretsParams {
 	return &ListSecretsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListSecretsParamsWithContext creates a new ListSecretsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListSecretsParams].
 func NewListSecretsParamsWithContext(ctx context.Context) *ListSecretsParams {
 	return &ListSecretsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListSecretsParams struct {
 	// Input.
 	Input *models.ListSecretsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list secrets params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListSecretsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list secrets params
+// WithTimeout adds the timeout to the list secrets params.
 func (o *ListSecretsParams) WithTimeout(timeout time.Duration) *ListSecretsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list secrets params
+// SetTimeout adds the timeout to the list secrets params.
 func (o *ListSecretsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list secrets params
+// WithContext adds the context to the list secrets params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListSecretsParams].
 func (o *ListSecretsParams) WithContext(ctx context.Context) *ListSecretsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list secrets params
+// SetContext adds the context to the list secrets params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListSecretsParams].
 func (o *ListSecretsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list secrets params
+// WithHTTPClient adds the HTTPClient to the list secrets params.
 func (o *ListSecretsParams) WithHTTPClient(client *http.Client) *ListSecretsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list secrets params
+// SetHTTPClient adds the HTTPClient to the list secrets params.
 func (o *ListSecretsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list secrets params
+// WithInput adds the input to the list secrets params.
 func (o *ListSecretsParams) WithInput(input *models.ListSecretsRequest) *ListSecretsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list secrets params
+// SetInput adds the input to the list secrets params.
 func (o *ListSecretsParams) SetInput(input *models.ListSecretsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListSecretsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

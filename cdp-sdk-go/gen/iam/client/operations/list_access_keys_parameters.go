@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListAccessKeysParams creates a new ListAccessKeysParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListAccessKeysParams() *ListAccessKeysParams {
-	return &ListAccessKeysParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListAccessKeysParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListAccessKeysParamsWithTimeout creates a new ListAccessKeysParams object
 // with the ability to set a timeout on a request.
 func NewListAccessKeysParamsWithTimeout(timeout time.Duration) *ListAccessKeysParams {
 	return &ListAccessKeysParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListAccessKeysParamsWithContext creates a new ListAccessKeysParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListAccessKeysParams].
 func NewListAccessKeysParamsWithContext(ctx context.Context) *ListAccessKeysParams {
 	return &ListAccessKeysParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListAccessKeysParams struct {
 	// Input.
 	Input *models.ListAccessKeysRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list access keys params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListAccessKeysParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list access keys params
+// WithTimeout adds the timeout to the list access keys params.
 func (o *ListAccessKeysParams) WithTimeout(timeout time.Duration) *ListAccessKeysParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list access keys params
+// SetTimeout adds the timeout to the list access keys params.
 func (o *ListAccessKeysParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list access keys params
+// WithContext adds the context to the list access keys params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListAccessKeysParams].
 func (o *ListAccessKeysParams) WithContext(ctx context.Context) *ListAccessKeysParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list access keys params
+// SetContext adds the context to the list access keys params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListAccessKeysParams].
 func (o *ListAccessKeysParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list access keys params
+// WithHTTPClient adds the HTTPClient to the list access keys params.
 func (o *ListAccessKeysParams) WithHTTPClient(client *http.Client) *ListAccessKeysParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list access keys params
+// SetHTTPClient adds the HTTPClient to the list access keys params.
 func (o *ListAccessKeysParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list access keys params
+// WithInput adds the input to the list access keys params.
 func (o *ListAccessKeysParams) WithInput(input *models.ListAccessKeysRequest) *ListAccessKeysParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list access keys params
+// SetInput adds the input to the list access keys params.
 func (o *ListAccessKeysParams) SetInput(input *models.ListAccessKeysRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListAccessKeysParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

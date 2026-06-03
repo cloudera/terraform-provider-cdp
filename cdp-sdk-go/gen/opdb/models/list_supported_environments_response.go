@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListSupportedEnvironmentsResponse A response which contains a list of available environments
@@ -36,12 +37,12 @@ func (m *ListSupportedEnvironmentsResponse) Validate(formats strfmt.Registry) er
 }
 
 func (m *ListSupportedEnvironmentsResponse) validateEnvironments(formats strfmt.Registry) error {
-	if swag.IsZero(m.Environments) { // not required
+	if typeutils.IsZero(m.Environments) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Environments); i++ {
-		if swag.IsZero(m.Environments[i]) { // not required
+		if typeutils.IsZero(m.Environments[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListSupportedEnvironmentsResponse) contextValidateEnvironments(ctx cont
 
 		if m.Environments[i] != nil {
 
-			if swag.IsZero(m.Environments[i]) { // not required
+			if typeutils.IsZero(m.Environments[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListSupportedEnvironmentsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListSupportedEnvironmentsResponse) UnmarshalBinary(b []byte) error {
 	var res ListSupportedEnvironmentsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -26,6 +26,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
+	"github.com/cloudera/terraform-provider-cdp/resources/cloudprivatelinks"
 	"github.com/cloudera/terraform-provider-cdp/resources/datahub"
 	"github.com/cloudera/terraform-provider-cdp/resources/datalake"
 	dwaws "github.com/cloudera/terraform-provider-cdp/resources/dw/cluster/aws"
@@ -640,6 +641,8 @@ func TestCdpProvider_Resources(t *testing.T) {
 		dwaws.NewDwClusterResource,
 		dwdatabasecatalog.NewDwDatabaseCatalogResource,
 		recipe.NewRecipeResource,
+		cloudprivatelinks.NewPrivateLinkEndpointResource,
+		cloudprivatelinks.NewPrivateLinkServiceAccessResource,
 	}
 
 	provider := CdpProvider{testVersion}

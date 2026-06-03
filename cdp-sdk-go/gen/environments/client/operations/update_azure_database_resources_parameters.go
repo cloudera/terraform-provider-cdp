@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateAzureDatabaseResourcesParams creates a new UpdateAzureDatabaseResourcesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateAzureDatabaseResourcesParams() *UpdateAzureDatabaseResourcesParams {
-	return &UpdateAzureDatabaseResourcesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateAzureDatabaseResourcesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateAzureDatabaseResourcesParamsWithTimeout creates a new UpdateAzureDatabaseResourcesParams object
 // with the ability to set a timeout on a request.
 func NewUpdateAzureDatabaseResourcesParamsWithTimeout(timeout time.Duration) *UpdateAzureDatabaseResourcesParams {
 	return &UpdateAzureDatabaseResourcesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateAzureDatabaseResourcesParamsWithContext creates a new UpdateAzureDatabaseResourcesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureDatabaseResourcesParams].
 func NewUpdateAzureDatabaseResourcesParamsWithContext(ctx context.Context) *UpdateAzureDatabaseResourcesParams {
 	return &UpdateAzureDatabaseResourcesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateAzureDatabaseResourcesParams struct {
 	// Input.
 	Input *models.UpdateAzureDatabaseResourcesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update azure database resources params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateAzureDatabaseResourcesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update azure database resources params
+// WithTimeout adds the timeout to the update azure database resources params.
 func (o *UpdateAzureDatabaseResourcesParams) WithTimeout(timeout time.Duration) *UpdateAzureDatabaseResourcesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update azure database resources params
+// SetTimeout adds the timeout to the update azure database resources params.
 func (o *UpdateAzureDatabaseResourcesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update azure database resources params
+// WithContext adds the context to the update azure database resources params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureDatabaseResourcesParams].
 func (o *UpdateAzureDatabaseResourcesParams) WithContext(ctx context.Context) *UpdateAzureDatabaseResourcesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update azure database resources params
+// SetContext adds the context to the update azure database resources params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureDatabaseResourcesParams].
 func (o *UpdateAzureDatabaseResourcesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update azure database resources params
+// WithHTTPClient adds the HTTPClient to the update azure database resources params.
 func (o *UpdateAzureDatabaseResourcesParams) WithHTTPClient(client *http.Client) *UpdateAzureDatabaseResourcesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update azure database resources params
+// SetHTTPClient adds the HTTPClient to the update azure database resources params.
 func (o *UpdateAzureDatabaseResourcesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update azure database resources params
+// WithInput adds the input to the update azure database resources params.
 func (o *UpdateAzureDatabaseResourcesParams) WithInput(input *models.UpdateAzureDatabaseResourcesRequest) *UpdateAzureDatabaseResourcesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update azure database resources params
+// SetInput adds the input to the update azure database resources params.
 func (o *UpdateAzureDatabaseResourcesParams) SetInput(input *models.UpdateAzureDatabaseResourcesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateAzureDatabaseResourcesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

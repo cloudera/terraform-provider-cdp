@@ -62,7 +62,7 @@ func (r *machineUserResourceRoleAssignmentResource) Create(ctx context.Context, 
 		return
 	}
 
-	request := operations.NewAssignMachineUserResourceRoleParamsWithContext(ctx).WithInput(
+	request := operations.NewAssignMachineUserResourceRoleParams().WithInput(
 		&models.AssignMachineUserResourceRoleRequest{
 			MachineUserName: data.MachineUser.ValueStringPointer(),
 			ResourceCrn:     data.ResourceCrn.ValueStringPointer(),
@@ -88,7 +88,7 @@ func (r *machineUserResourceRoleAssignmentResource) Read(ctx context.Context, re
 
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 
-	params := operations.NewListMachineUserAssignedResourceRolesParamsWithContext(ctx)
+	params := operations.NewListMachineUserAssignedResourceRolesParams()
 	params.WithInput(&models.ListMachineUserAssignedResourceRolesRequest{
 		MachineUserName: data.MachineUser.ValueStringPointer(),
 	})
@@ -129,7 +129,7 @@ func (r *machineUserResourceRoleAssignmentResource) Delete(ctx context.Context, 
 		return
 	}
 
-	request := operations.NewUnassignMachineUserResourceRoleParamsWithContext(ctx).WithInput(
+	request := operations.NewUnassignMachineUserResourceRoleParams().WithInput(
 		&models.UnassignMachineUserResourceRoleRequest{
 			MachineUserName: data.MachineUser.ValueStringPointer(),
 			ResourceCrn:     data.ResourceCrn.ValueStringPointer(),

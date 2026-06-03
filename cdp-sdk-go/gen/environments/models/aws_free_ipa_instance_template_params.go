@@ -7,7 +7,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -46,7 +47,7 @@ func (m *AwsFreeIpaInstanceTemplateParams) Validate(formats strfmt.Registry) err
 }
 
 func (m *AwsFreeIpaInstanceTemplateParams) validateSpotMaxPrice(formats strfmt.Registry) error {
-	if swag.IsZero(m.SpotMaxPrice) { // not required
+	if typeutils.IsZero(m.SpotMaxPrice) { // not required
 		return nil
 	}
 
@@ -62,7 +63,7 @@ func (m *AwsFreeIpaInstanceTemplateParams) validateSpotMaxPrice(formats strfmt.R
 }
 
 func (m *AwsFreeIpaInstanceTemplateParams) validateSpotPercentage(formats strfmt.Registry) error {
-	if swag.IsZero(m.SpotPercentage) { // not required
+	if typeutils.IsZero(m.SpotPercentage) { // not required
 		return nil
 	}
 
@@ -87,13 +88,13 @@ func (m *AwsFreeIpaInstanceTemplateParams) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AwsFreeIpaInstanceTemplateParams) UnmarshalBinary(b []byte) error {
 	var res AwsFreeIpaInstanceTemplateParams
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

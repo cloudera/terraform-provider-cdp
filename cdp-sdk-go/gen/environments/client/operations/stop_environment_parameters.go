@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewStopEnvironmentParams creates a new StopEnvironmentParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewStopEnvironmentParams() *StopEnvironmentParams {
-	return &StopEnvironmentParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewStopEnvironmentParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewStopEnvironmentParamsWithTimeout creates a new StopEnvironmentParams object
 // with the ability to set a timeout on a request.
 func NewStopEnvironmentParamsWithTimeout(timeout time.Duration) *StopEnvironmentParams {
 	return &StopEnvironmentParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewStopEnvironmentParamsWithContext creates a new StopEnvironmentParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopEnvironmentParams].
 func NewStopEnvironmentParamsWithContext(ctx context.Context) *StopEnvironmentParams {
 	return &StopEnvironmentParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type StopEnvironmentParams struct {
 	// Input.
 	Input *models.StopEnvironmentRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the stop environment params (not the query body).
@@ -83,54 +86,57 @@ func (o *StopEnvironmentParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the stop environment params
+// WithTimeout adds the timeout to the stop environment params.
 func (o *StopEnvironmentParams) WithTimeout(timeout time.Duration) *StopEnvironmentParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the stop environment params
+// SetTimeout adds the timeout to the stop environment params.
 func (o *StopEnvironmentParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the stop environment params
+// WithContext adds the context to the stop environment params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopEnvironmentParams].
 func (o *StopEnvironmentParams) WithContext(ctx context.Context) *StopEnvironmentParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the stop environment params
+// SetContext adds the context to the stop environment params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopEnvironmentParams].
 func (o *StopEnvironmentParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the stop environment params
+// WithHTTPClient adds the HTTPClient to the stop environment params.
 func (o *StopEnvironmentParams) WithHTTPClient(client *http.Client) *StopEnvironmentParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the stop environment params
+// SetHTTPClient adds the HTTPClient to the stop environment params.
 func (o *StopEnvironmentParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the stop environment params
+// WithInput adds the input to the stop environment params.
 func (o *StopEnvironmentParams) WithInput(input *models.StopEnvironmentRequest) *StopEnvironmentParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the stop environment params
+// SetInput adds the input to the stop environment params.
 func (o *StopEnvironmentParams) SetInput(input *models.StopEnvironmentRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *StopEnvironmentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

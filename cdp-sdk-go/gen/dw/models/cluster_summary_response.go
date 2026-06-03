@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -115,7 +116,7 @@ func (m *ClusterSummaryResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ClusterSummaryResponse) validateAwsOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.AwsOptions) { // not required
+	if typeutils.IsZero(m.AwsOptions) { // not required
 		return nil
 	}
 
@@ -138,7 +139,7 @@ func (m *ClusterSummaryResponse) validateAwsOptions(formats strfmt.Registry) err
 }
 
 func (m *ClusterSummaryResponse) validateAzureOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureOptions) { // not required
+	if typeutils.IsZero(m.AzureOptions) { // not required
 		return nil
 	}
 
@@ -161,7 +162,7 @@ func (m *ClusterSummaryResponse) validateAzureOptions(formats strfmt.Registry) e
 }
 
 func (m *ClusterSummaryResponse) validateCreationDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreationDate) { // not required
+	if typeutils.IsZero(m.CreationDate) { // not required
 		return nil
 	}
 
@@ -173,7 +174,7 @@ func (m *ClusterSummaryResponse) validateCreationDate(formats strfmt.Registry) e
 }
 
 func (m *ClusterSummaryResponse) validateCreator(formats strfmt.Registry) error {
-	if swag.IsZero(m.Creator) { // not required
+	if typeutils.IsZero(m.Creator) { // not required
 		return nil
 	}
 
@@ -196,12 +197,12 @@ func (m *ClusterSummaryResponse) validateCreator(formats strfmt.Registry) error 
 }
 
 func (m *ClusterSummaryResponse) validateExternalBuckets(formats strfmt.Registry) error {
-	if swag.IsZero(m.ExternalBuckets) { // not required
+	if typeutils.IsZero(m.ExternalBuckets) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ExternalBuckets); i++ {
-		if swag.IsZero(m.ExternalBuckets[i]) { // not required
+		if typeutils.IsZero(m.ExternalBuckets[i]) { // not required
 			continue
 		}
 
@@ -226,7 +227,7 @@ func (m *ClusterSummaryResponse) validateExternalBuckets(formats strfmt.Registry
 }
 
 func (m *ClusterSummaryResponse) validateProductSupport(formats strfmt.Registry) error {
-	if swag.IsZero(m.ProductSupport) { // not required
+	if typeutils.IsZero(m.ProductSupport) { // not required
 		return nil
 	}
 
@@ -282,7 +283,7 @@ func (m *ClusterSummaryResponse) contextValidateAwsOptions(ctx context.Context, 
 
 	if m.AwsOptions != nil {
 
-		if swag.IsZero(m.AwsOptions) { // not required
+		if typeutils.IsZero(m.AwsOptions) { // not required
 			return nil
 		}
 
@@ -307,7 +308,7 @@ func (m *ClusterSummaryResponse) contextValidateAzureOptions(ctx context.Context
 
 	if m.AzureOptions != nil {
 
-		if swag.IsZero(m.AzureOptions) { // not required
+		if typeutils.IsZero(m.AzureOptions) { // not required
 			return nil
 		}
 
@@ -332,7 +333,7 @@ func (m *ClusterSummaryResponse) contextValidateCreator(ctx context.Context, for
 
 	if m.Creator != nil {
 
-		if swag.IsZero(m.Creator) { // not required
+		if typeutils.IsZero(m.Creator) { // not required
 			return nil
 		}
 
@@ -359,7 +360,7 @@ func (m *ClusterSummaryResponse) contextValidateExternalBuckets(ctx context.Cont
 
 		if m.ExternalBuckets[i] != nil {
 
-			if swag.IsZero(m.ExternalBuckets[i]) { // not required
+			if typeutils.IsZero(m.ExternalBuckets[i]) { // not required
 				return nil
 			}
 
@@ -386,7 +387,7 @@ func (m *ClusterSummaryResponse) contextValidateProductSupport(ctx context.Conte
 
 	if m.ProductSupport != nil {
 
-		if swag.IsZero(m.ProductSupport) { // not required
+		if typeutils.IsZero(m.ProductSupport) { // not required
 			return nil
 		}
 
@@ -412,13 +413,13 @@ func (m *ClusterSummaryResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ClusterSummaryResponse) UnmarshalBinary(b []byte) error {
 	var res ClusterSummaryResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

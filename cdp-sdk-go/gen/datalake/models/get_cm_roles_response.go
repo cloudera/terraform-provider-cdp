@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 )
 
 // GetCmRolesResponse Response object for obtaining Cloudera Manger roles. (that can be used for filtering in CM based diagnostics collection)
@@ -33,13 +33,13 @@ func (m *GetCmRolesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetCmRolesResponse) UnmarshalBinary(b []byte) error {
 	var res GetCmRolesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

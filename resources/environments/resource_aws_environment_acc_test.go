@@ -11,7 +11,6 @@
 package environments_test
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"sync"
@@ -181,7 +180,7 @@ func testAccCheckAwsEnvironmentDestroy(s *terraform.State) error {
 		}
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
-		params := operations.NewDescribeEnvironmentParamsWithContext(context.Background())
+		params := operations.NewDescribeEnvironmentParams()
 		params.WithInput(&models.DescribeEnvironmentRequest{
 			EnvironmentName: &rs.Primary.ID,
 		})

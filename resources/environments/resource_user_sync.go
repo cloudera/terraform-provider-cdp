@@ -126,7 +126,7 @@ func (r *userSyncResource) Create(ctx context.Context, req resource.CreateReques
 
 	client := r.client.Environments
 
-	params := operations.NewSyncAllUsersParamsWithContext(ctx)
+	params := operations.NewSyncAllUsersParams()
 	params.WithInput(toSyncAllUsersRequest(ctx, &state, &resp.Diagnostics))
 	res, err := client.Operations.SyncAllUsers(params)
 	if err != nil {
@@ -184,7 +184,7 @@ func waitForUserSync(opID string, fallbackTimeout time.Duration, callFailureThre
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("About to get sync status for operationID %s", opID))
-			params := operations.NewSyncStatusParamsWithContext(ctx)
+			params := operations.NewSyncStatusParams()
 			params.WithInput(&environmentsmodels.SyncStatusRequest{OperationID: &opID})
 			resp, err := client.Operations.SyncStatus(params)
 			if err != nil {
@@ -242,7 +242,7 @@ func (r *userSyncResource) Update(ctx context.Context, req resource.UpdateReques
 
 	client := r.client.Environments
 
-	params := operations.NewSyncAllUsersParamsWithContext(ctx)
+	params := operations.NewSyncAllUsersParams()
 	params.WithInput(toSyncAllUsersRequest(ctx, &state, &resp.Diagnostics))
 	_, err := client.Operations.SyncAllUsers(params)
 	if err != nil {

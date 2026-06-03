@@ -7,7 +7,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -90,7 +91,7 @@ func (m *ListRestoreSnapshotsRequest) validateEnvironmentName(formats strfmt.Reg
 }
 
 func (m *ListRestoreSnapshotsRequest) validateFromRestoreTime(formats strfmt.Registry) error {
-	if swag.IsZero(m.FromRestoreTime) { // not required
+	if typeutils.IsZero(m.FromRestoreTime) { // not required
 		return nil
 	}
 
@@ -102,7 +103,7 @@ func (m *ListRestoreSnapshotsRequest) validateFromRestoreTime(formats strfmt.Reg
 }
 
 func (m *ListRestoreSnapshotsRequest) validateToRestoreTime(formats strfmt.Registry) error {
-	if swag.IsZero(m.ToRestoreTime) { // not required
+	if typeutils.IsZero(m.ToRestoreTime) { // not required
 		return nil
 	}
 
@@ -123,13 +124,13 @@ func (m *ListRestoreSnapshotsRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListRestoreSnapshotsRequest) UnmarshalBinary(b []byte) error {
 	var res ListRestoreSnapshotsRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

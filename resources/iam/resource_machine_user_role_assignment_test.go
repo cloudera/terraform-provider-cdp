@@ -11,7 +11,6 @@
 package iam_test
 
 import (
-	"context"
 	"fmt"
 	"testing"
 
@@ -75,7 +74,7 @@ func testAccCheckIamMachineUserRoleAssignmentExists(muName, roleName string) res
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
 
-		params := operations.NewListMachineUserAssignedRolesParamsWithContext(context.TODO())
+		params := operations.NewListMachineUserAssignedRolesParams()
 		params.WithInput(&models.ListMachineUserAssignedRolesRequest{
 			MachineUserName: &muName,
 		})

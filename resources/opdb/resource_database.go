@@ -63,7 +63,7 @@ func (r *databaseResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	params := operations.NewCreateDatabaseParamsWithContext(ctx)
+	params := operations.NewCreateDatabaseParams()
 	params.WithInput(fromModelToDatabaseRequest(data, ctx))
 
 	tflog.Info(ctx, fmt.Sprintf("Sending create request for OPDB with name: %s", data.DatabaseName.ValueString()))
@@ -109,7 +109,7 @@ func (r *databaseResource) Read(ctx context.Context, req resource.ReadRequest, r
 		return
 	}
 
-	params := operations.NewDescribeDatabaseParamsWithContext(ctx)
+	params := operations.NewDescribeDatabaseParams()
 	params.WithInput(&opdbmodels.DescribeDatabaseRequest{
 		DatabaseName:    state.DatabaseName.ValueStringPointer(),
 		EnvironmentName: state.Environment.ValueStringPointer(),
@@ -177,7 +177,7 @@ func (r *databaseResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	params := operations.NewUpdateDatabaseParamsWithContext(ctx)
+	params := operations.NewUpdateDatabaseParams()
 	params.WithInput(fromModelToUpdateDatabaseRequest(data, ctx))
 
 	tflog.Info(ctx, fmt.Sprintf("Sending update request for OPDB with name: %s", data.DatabaseName.ValueString()))
@@ -215,7 +215,7 @@ func (r *databaseResource) Delete(ctx context.Context, req resource.DeleteReques
 		return
 	}
 
-	params := operations.NewDropDatabaseParamsWithContext(ctx).WithInput(&opdbmodels.DropDatabaseRequest{
+	params := operations.NewDropDatabaseParams().WithInput(&opdbmodels.DropDatabaseRequest{
 		DatabaseName:    state.DatabaseName.ValueStringPointer(),
 		EnvironmentName: state.Environment.ValueStringPointer(),
 	})

@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -44,7 +45,7 @@ func (m *DeleteRecipesResponse) validateRecipes(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Recipes); i++ {
-		if swag.IsZero(m.Recipes[i]) { // not required
+		if typeutils.IsZero(m.Recipes[i]) { // not required
 			continue
 		}
 
@@ -88,7 +89,7 @@ func (m *DeleteRecipesResponse) contextValidateRecipes(ctx context.Context, form
 
 		if m.Recipes[i] != nil {
 
-			if swag.IsZero(m.Recipes[i]) { // not required
+			if typeutils.IsZero(m.Recipes[i]) { // not required
 				return nil
 			}
 
@@ -116,13 +117,13 @@ func (m *DeleteRecipesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DeleteRecipesResponse) UnmarshalBinary(b []byte) error {
 	var res DeleteRecipesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

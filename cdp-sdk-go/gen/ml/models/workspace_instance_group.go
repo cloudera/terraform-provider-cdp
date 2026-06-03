@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -108,7 +109,7 @@ func (m *WorkspaceInstanceGroup) Validate(formats strfmt.Registry) error {
 }
 
 func (m *WorkspaceInstanceGroup) validateAccelerator(formats strfmt.Registry) error {
-	if swag.IsZero(m.Accelerator) { // not required
+	if typeutils.IsZero(m.Accelerator) { // not required
 		return nil
 	}
 
@@ -164,7 +165,7 @@ func (m *WorkspaceInstanceGroup) validateInstances(formats strfmt.Registry) erro
 	}
 
 	for i := 0; i < len(m.Instances); i++ {
-		if swag.IsZero(m.Instances[i]) { // not required
+		if typeutils.IsZero(m.Instances[i]) { // not required
 			continue
 		}
 
@@ -213,7 +214,7 @@ func (m *WorkspaceInstanceGroup) validateTags(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -263,7 +264,7 @@ func (m *WorkspaceInstanceGroup) contextValidateAccelerator(ctx context.Context,
 
 	if m.Accelerator != nil {
 
-		if swag.IsZero(m.Accelerator) { // not required
+		if typeutils.IsZero(m.Accelerator) { // not required
 			return nil
 		}
 
@@ -290,7 +291,7 @@ func (m *WorkspaceInstanceGroup) contextValidateInstances(ctx context.Context, f
 
 		if m.Instances[i] != nil {
 
-			if swag.IsZero(m.Instances[i]) { // not required
+			if typeutils.IsZero(m.Instances[i]) { // not required
 				return nil
 			}
 
@@ -319,7 +320,7 @@ func (m *WorkspaceInstanceGroup) contextValidateTags(ctx context.Context, format
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -347,13 +348,13 @@ func (m *WorkspaceInstanceGroup) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *WorkspaceInstanceGroup) UnmarshalBinary(b []byte) error {
 	var res WorkspaceInstanceGroup
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

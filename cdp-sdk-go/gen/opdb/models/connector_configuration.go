@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ConnectorConfiguration Runtime details necessary to use a connector.
@@ -42,12 +43,12 @@ func (m *ConnectorConfiguration) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ConnectorConfiguration) validateClientConfigurationDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.ClientConfigurationDetails) { // not required
+	if typeutils.IsZero(m.ClientConfigurationDetails) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ClientConfigurationDetails); i++ {
-		if swag.IsZero(m.ClientConfigurationDetails[i]) { // not required
+		if typeutils.IsZero(m.ClientConfigurationDetails[i]) { // not required
 			continue
 		}
 
@@ -91,7 +92,7 @@ func (m *ConnectorConfiguration) contextValidateClientConfigurationDetails(ctx c
 
 		if m.ClientConfigurationDetails[i] != nil {
 
-			if swag.IsZero(m.ClientConfigurationDetails[i]) { // not required
+			if typeutils.IsZero(m.ClientConfigurationDetails[i]) { // not required
 				return nil
 			}
 
@@ -119,13 +120,13 @@ func (m *ConnectorConfiguration) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ConnectorConfiguration) UnmarshalBinary(b []byte) error {
 	var res ConnectorConfiguration
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

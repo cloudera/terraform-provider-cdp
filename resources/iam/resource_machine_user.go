@@ -66,7 +66,7 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 
 	iamClient := r.client.Iam
 
-	params := operations.NewCreateMachineUserParamsWithContext(ctx)
+	params := operations.NewCreateMachineUserParams()
 	params.WithInput(&models.CreateMachineUserRequest{
 		MachineUserName: data.Name.ValueStringPointer(),
 	})
@@ -95,7 +95,7 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 }
 
 func setWorkloadPassword(ctx context.Context, client *client.Iam, crn string, pw *string, diags *diag.Diagnostics) error {
-	pwparams := operations.NewSetWorkloadPasswordParamsWithContext(ctx)
+	pwparams := operations.NewSetWorkloadPasswordParams()
 	pwparams.WithInput(&models.SetWorkloadPasswordRequest{
 		ActorCrn: crn,
 		Password: pw,
@@ -117,7 +117,7 @@ func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest
 
 	iamClient := r.client.Iam
 
-	params := operations.NewListMachineUsersParamsWithContext(ctx)
+	params := operations.NewListMachineUsersParams()
 	params.WithInput(&models.ListMachineUsersRequest{
 		MachineUserNames: []string{data.Name.ValueString()},
 	})
@@ -187,7 +187,7 @@ func (r *machineUserResource) Delete(ctx context.Context, req resource.DeleteReq
 	// Delete API call logic
 	iamClient := r.client.Iam
 
-	params := operations.NewDeleteMachineUserParamsWithContext(ctx)
+	params := operations.NewDeleteMachineUserParams()
 	params.WithInput(&models.DeleteMachineUserRequest{
 		MachineUserName: data.Name.ValueStringPointer(),
 	})

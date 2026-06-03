@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewListBackupEntitiesParams creates a new ListBackupEntitiesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListBackupEntitiesParams() *ListBackupEntitiesParams {
-	return &ListBackupEntitiesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListBackupEntitiesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListBackupEntitiesParamsWithTimeout creates a new ListBackupEntitiesParams object
 // with the ability to set a timeout on a request.
 func NewListBackupEntitiesParamsWithTimeout(timeout time.Duration) *ListBackupEntitiesParams {
 	return &ListBackupEntitiesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListBackupEntitiesParamsWithContext creates a new ListBackupEntitiesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListBackupEntitiesParams].
 func NewListBackupEntitiesParamsWithContext(ctx context.Context) *ListBackupEntitiesParams {
 	return &ListBackupEntitiesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListBackupEntitiesParams struct {
 	// Input.
 	Input models.ListBackupEntitiesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list backup entities params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListBackupEntitiesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list backup entities params
+// WithTimeout adds the timeout to the list backup entities params.
 func (o *ListBackupEntitiesParams) WithTimeout(timeout time.Duration) *ListBackupEntitiesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list backup entities params
+// SetTimeout adds the timeout to the list backup entities params.
 func (o *ListBackupEntitiesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list backup entities params
+// WithContext adds the context to the list backup entities params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListBackupEntitiesParams].
 func (o *ListBackupEntitiesParams) WithContext(ctx context.Context) *ListBackupEntitiesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list backup entities params
+// SetContext adds the context to the list backup entities params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListBackupEntitiesParams].
 func (o *ListBackupEntitiesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list backup entities params
+// WithHTTPClient adds the HTTPClient to the list backup entities params.
 func (o *ListBackupEntitiesParams) WithHTTPClient(client *http.Client) *ListBackupEntitiesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list backup entities params
+// SetHTTPClient adds the HTTPClient to the list backup entities params.
 func (o *ListBackupEntitiesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list backup entities params
+// WithInput adds the input to the list backup entities params.
 func (o *ListBackupEntitiesParams) WithInput(input models.ListBackupEntitiesRequest) *ListBackupEntitiesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list backup entities params
+// SetInput adds the input to the list backup entities params.
 func (o *ListBackupEntitiesParams) SetInput(input models.ListBackupEntitiesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListBackupEntitiesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

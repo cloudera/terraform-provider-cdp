@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewModifyWorkspaceLoadBalancerParams creates a new ModifyWorkspaceLoadBalancerParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewModifyWorkspaceLoadBalancerParams() *ModifyWorkspaceLoadBalancerParams {
-	return &ModifyWorkspaceLoadBalancerParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewModifyWorkspaceLoadBalancerParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewModifyWorkspaceLoadBalancerParamsWithTimeout creates a new ModifyWorkspaceLoadBalancerParams object
 // with the ability to set a timeout on a request.
 func NewModifyWorkspaceLoadBalancerParamsWithTimeout(timeout time.Duration) *ModifyWorkspaceLoadBalancerParams {
 	return &ModifyWorkspaceLoadBalancerParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewModifyWorkspaceLoadBalancerParamsWithContext creates a new ModifyWorkspaceLoadBalancerParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ModifyWorkspaceLoadBalancerParams].
 func NewModifyWorkspaceLoadBalancerParamsWithContext(ctx context.Context) *ModifyWorkspaceLoadBalancerParams {
 	return &ModifyWorkspaceLoadBalancerParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ModifyWorkspaceLoadBalancerParams struct {
 	// Input.
 	Input *models.ModifyWorkspaceLoadBalancerRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the modify workspace load balancer params (not the query body).
@@ -83,54 +86,57 @@ func (o *ModifyWorkspaceLoadBalancerParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the modify workspace load balancer params
+// WithTimeout adds the timeout to the modify workspace load balancer params.
 func (o *ModifyWorkspaceLoadBalancerParams) WithTimeout(timeout time.Duration) *ModifyWorkspaceLoadBalancerParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the modify workspace load balancer params
+// SetTimeout adds the timeout to the modify workspace load balancer params.
 func (o *ModifyWorkspaceLoadBalancerParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the modify workspace load balancer params
+// WithContext adds the context to the modify workspace load balancer params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ModifyWorkspaceLoadBalancerParams].
 func (o *ModifyWorkspaceLoadBalancerParams) WithContext(ctx context.Context) *ModifyWorkspaceLoadBalancerParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the modify workspace load balancer params
+// SetContext adds the context to the modify workspace load balancer params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ModifyWorkspaceLoadBalancerParams].
 func (o *ModifyWorkspaceLoadBalancerParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the modify workspace load balancer params
+// WithHTTPClient adds the HTTPClient to the modify workspace load balancer params.
 func (o *ModifyWorkspaceLoadBalancerParams) WithHTTPClient(client *http.Client) *ModifyWorkspaceLoadBalancerParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the modify workspace load balancer params
+// SetHTTPClient adds the HTTPClient to the modify workspace load balancer params.
 func (o *ModifyWorkspaceLoadBalancerParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the modify workspace load balancer params
+// WithInput adds the input to the modify workspace load balancer params.
 func (o *ModifyWorkspaceLoadBalancerParams) WithInput(input *models.ModifyWorkspaceLoadBalancerRequest) *ModifyWorkspaceLoadBalancerParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the modify workspace load balancer params
+// SetInput adds the input to the modify workspace load balancer params.
 func (o *ModifyWorkspaceLoadBalancerParams) SetInput(input *models.ModifyWorkspaceLoadBalancerRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ModifyWorkspaceLoadBalancerParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

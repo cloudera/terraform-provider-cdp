@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -44,7 +45,7 @@ func (m *GetClusterHostStatusResponse) validateHosts(formats strfmt.Registry) er
 	}
 
 	for i := 0; i < len(m.Hosts); i++ {
-		if swag.IsZero(m.Hosts[i]) { // not required
+		if typeutils.IsZero(m.Hosts[i]) { // not required
 			continue
 		}
 
@@ -88,7 +89,7 @@ func (m *GetClusterHostStatusResponse) contextValidateHosts(ctx context.Context,
 
 		if m.Hosts[i] != nil {
 
-			if swag.IsZero(m.Hosts[i]) { // not required
+			if typeutils.IsZero(m.Hosts[i]) { // not required
 				return nil
 			}
 
@@ -116,13 +117,13 @@ func (m *GetClusterHostStatusResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetClusterHostStatusResponse) UnmarshalBinary(b []byte) error {
 	var res GetClusterHostStatusResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

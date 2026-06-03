@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -157,7 +158,7 @@ func (m *CreatePrivateEnvironmentRequest) validateAuthenticationTokenTypeEnum(pa
 }
 
 func (m *CreatePrivateEnvironmentRequest) validateAuthenticationTokenType(formats strfmt.Registry) error {
-	if swag.IsZero(m.AuthenticationTokenType) { // not required
+	if typeutils.IsZero(m.AuthenticationTokenType) { // not required
 		return nil
 	}
 
@@ -179,7 +180,7 @@ func (m *CreatePrivateEnvironmentRequest) validateClusterNames(formats strfmt.Re
 }
 
 func (m *CreatePrivateEnvironmentRequest) validateDockerUserPass(formats strfmt.Registry) error {
-	if swag.IsZero(m.DockerUserPass) { // not required
+	if typeutils.IsZero(m.DockerUserPass) { // not required
 		return nil
 	}
 
@@ -211,7 +212,7 @@ func (m *CreatePrivateEnvironmentRequest) validateEnvironmentName(formats strfmt
 }
 
 func (m *CreatePrivateEnvironmentRequest) validateEnvironmentQuota(formats strfmt.Registry) error {
-	if swag.IsZero(m.EnvironmentQuota) { // not required
+	if typeutils.IsZero(m.EnvironmentQuota) { // not required
 		return nil
 	}
 
@@ -264,7 +265,7 @@ func (m *CreatePrivateEnvironmentRequest) contextValidateDockerUserPass(ctx cont
 
 	if m.DockerUserPass != nil {
 
-		if swag.IsZero(m.DockerUserPass) { // not required
+		if typeutils.IsZero(m.DockerUserPass) { // not required
 			return nil
 		}
 
@@ -289,7 +290,7 @@ func (m *CreatePrivateEnvironmentRequest) contextValidateEnvironmentQuota(ctx co
 
 	if m.EnvironmentQuota != nil {
 
-		if swag.IsZero(m.EnvironmentQuota) { // not required
+		if typeutils.IsZero(m.EnvironmentQuota) { // not required
 			return nil
 		}
 
@@ -315,13 +316,13 @@ func (m *CreatePrivateEnvironmentRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreatePrivateEnvironmentRequest) UnmarshalBinary(b []byte) error {
 	var res CreatePrivateEnvironmentRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -408,13 +409,13 @@ func (m *CreatePrivateEnvironmentRequestDockerUserPass) MarshalBinary() ([]byte,
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreatePrivateEnvironmentRequestDockerUserPass) UnmarshalBinary(b []byte) error {
 	var res CreatePrivateEnvironmentRequestDockerUserPass
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

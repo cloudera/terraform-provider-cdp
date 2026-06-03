@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // StorageDetailsForWorker Storage details for the worker node for AWS, Azure, and GCP cloud providers.
@@ -41,7 +42,7 @@ func (m *StorageDetailsForWorker) Validate(formats strfmt.Registry) error {
 }
 
 func (m *StorageDetailsForWorker) validateVolumeType(formats strfmt.Registry) error {
-	if swag.IsZero(m.VolumeType) { // not required
+	if typeutils.IsZero(m.VolumeType) { // not required
 		return nil
 	}
 
@@ -77,7 +78,7 @@ func (m *StorageDetailsForWorker) ContextValidate(ctx context.Context, formats s
 
 func (m *StorageDetailsForWorker) contextValidateVolumeType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.VolumeType) { // not required
+	if typeutils.IsZero(m.VolumeType) { // not required
 		return nil
 	}
 
@@ -102,13 +103,13 @@ func (m *StorageDetailsForWorker) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *StorageDetailsForWorker) UnmarshalBinary(b []byte) error {
 	var res StorageDetailsForWorker
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

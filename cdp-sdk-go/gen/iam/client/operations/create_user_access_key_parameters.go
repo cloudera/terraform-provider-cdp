@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewCreateUserAccessKeyParams creates a new CreateUserAccessKeyParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateUserAccessKeyParams() *CreateUserAccessKeyParams {
-	return &CreateUserAccessKeyParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateUserAccessKeyParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateUserAccessKeyParamsWithTimeout creates a new CreateUserAccessKeyParams object
 // with the ability to set a timeout on a request.
 func NewCreateUserAccessKeyParamsWithTimeout(timeout time.Duration) *CreateUserAccessKeyParams {
 	return &CreateUserAccessKeyParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateUserAccessKeyParamsWithContext creates a new CreateUserAccessKeyParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateUserAccessKeyParams].
 func NewCreateUserAccessKeyParamsWithContext(ctx context.Context) *CreateUserAccessKeyParams {
 	return &CreateUserAccessKeyParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateUserAccessKeyParams struct {
 	// Input.
 	Input *models.CreateUserAccessKeyRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create user access key params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateUserAccessKeyParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create user access key params
+// WithTimeout adds the timeout to the create user access key params.
 func (o *CreateUserAccessKeyParams) WithTimeout(timeout time.Duration) *CreateUserAccessKeyParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create user access key params
+// SetTimeout adds the timeout to the create user access key params.
 func (o *CreateUserAccessKeyParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create user access key params
+// WithContext adds the context to the create user access key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateUserAccessKeyParams].
 func (o *CreateUserAccessKeyParams) WithContext(ctx context.Context) *CreateUserAccessKeyParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create user access key params
+// SetContext adds the context to the create user access key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateUserAccessKeyParams].
 func (o *CreateUserAccessKeyParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create user access key params
+// WithHTTPClient adds the HTTPClient to the create user access key params.
 func (o *CreateUserAccessKeyParams) WithHTTPClient(client *http.Client) *CreateUserAccessKeyParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create user access key params
+// SetHTTPClient adds the HTTPClient to the create user access key params.
 func (o *CreateUserAccessKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create user access key params
+// WithInput adds the input to the create user access key params.
 func (o *CreateUserAccessKeyParams) WithInput(input *models.CreateUserAccessKeyRequest) *CreateUserAccessKeyParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create user access key params
+// SetInput adds the input to the create user access key params.
 func (o *CreateUserAccessKeyParams) SetInput(input *models.CreateUserAccessKeyRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateUserAccessKeyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

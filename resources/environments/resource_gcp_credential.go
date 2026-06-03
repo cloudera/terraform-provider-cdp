@@ -70,7 +70,7 @@ func (r *gcpCredentialResource) Create(ctx context.Context, req resource.CreateR
 
 	credentialKey := string(dec)
 
-	params := operations.NewCreateGCPCredentialParamsWithContext(ctx)
+	params := operations.NewCreateGCPCredentialParams()
 	params.WithInput(&environmentsmodels.CreateGCPCredentialRequest{
 		CredentialName: data.CredentialName.ValueStringPointer(),
 		Description:    data.Description.ValueString(),
@@ -105,7 +105,7 @@ func (r *gcpCredentialResource) Read(ctx context.Context, req resource.ReadReque
 
 	// Get refreshed value from CDP
 	credentialName := state.CredentialName.ValueString()
-	params := operations.NewListCredentialsParamsWithContext(ctx)
+	params := operations.NewListCredentialsParams()
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
 	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
 	if err != nil {
@@ -148,7 +148,7 @@ func (r *gcpCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	credentialName := state.CredentialName.ValueString()
-	params := operations.NewDeleteCredentialParamsWithContext(ctx)
+	params := operations.NewDeleteCredentialParams()
 	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &credentialName})
 	_, err := r.client.Environments.Operations.DeleteCredential(params)
 	if err != nil {

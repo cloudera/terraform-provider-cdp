@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewCollectDatalakeDiagnosticsParams creates a new CollectDatalakeDiagnosticsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCollectDatalakeDiagnosticsParams() *CollectDatalakeDiagnosticsParams {
-	return &CollectDatalakeDiagnosticsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCollectDatalakeDiagnosticsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCollectDatalakeDiagnosticsParamsWithTimeout creates a new CollectDatalakeDiagnosticsParams object
 // with the ability to set a timeout on a request.
 func NewCollectDatalakeDiagnosticsParamsWithTimeout(timeout time.Duration) *CollectDatalakeDiagnosticsParams {
 	return &CollectDatalakeDiagnosticsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCollectDatalakeDiagnosticsParamsWithContext creates a new CollectDatalakeDiagnosticsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CollectDatalakeDiagnosticsParams].
 func NewCollectDatalakeDiagnosticsParamsWithContext(ctx context.Context) *CollectDatalakeDiagnosticsParams {
 	return &CollectDatalakeDiagnosticsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CollectDatalakeDiagnosticsParams struct {
 	// Input.
 	Input *models.CollectDatalakeDiagnosticsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the collect datalake diagnostics params (not the query body).
@@ -83,54 +86,57 @@ func (o *CollectDatalakeDiagnosticsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the collect datalake diagnostics params
+// WithTimeout adds the timeout to the collect datalake diagnostics params.
 func (o *CollectDatalakeDiagnosticsParams) WithTimeout(timeout time.Duration) *CollectDatalakeDiagnosticsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the collect datalake diagnostics params
+// SetTimeout adds the timeout to the collect datalake diagnostics params.
 func (o *CollectDatalakeDiagnosticsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the collect datalake diagnostics params
+// WithContext adds the context to the collect datalake diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CollectDatalakeDiagnosticsParams].
 func (o *CollectDatalakeDiagnosticsParams) WithContext(ctx context.Context) *CollectDatalakeDiagnosticsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the collect datalake diagnostics params
+// SetContext adds the context to the collect datalake diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CollectDatalakeDiagnosticsParams].
 func (o *CollectDatalakeDiagnosticsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the collect datalake diagnostics params
+// WithHTTPClient adds the HTTPClient to the collect datalake diagnostics params.
 func (o *CollectDatalakeDiagnosticsParams) WithHTTPClient(client *http.Client) *CollectDatalakeDiagnosticsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the collect datalake diagnostics params
+// SetHTTPClient adds the HTTPClient to the collect datalake diagnostics params.
 func (o *CollectDatalakeDiagnosticsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the collect datalake diagnostics params
+// WithInput adds the input to the collect datalake diagnostics params.
 func (o *CollectDatalakeDiagnosticsParams) WithInput(input *models.CollectDatalakeDiagnosticsRequest) *CollectDatalakeDiagnosticsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the collect datalake diagnostics params
+// SetInput adds the input to the collect datalake diagnostics params.
 func (o *CollectDatalakeDiagnosticsParams) SetInput(input *models.CollectDatalakeDiagnosticsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CollectDatalakeDiagnosticsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

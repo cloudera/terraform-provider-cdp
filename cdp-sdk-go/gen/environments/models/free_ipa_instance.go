@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // FreeIpaInstance Object for a FreeIPA instance providing specific information about the instance.
@@ -75,12 +76,12 @@ func (m *FreeIpaInstance) Validate(formats strfmt.Registry) error {
 }
 
 func (m *FreeIpaInstance) validateAttachedVolumes(formats strfmt.Registry) error {
-	if swag.IsZero(m.AttachedVolumes) { // not required
+	if typeutils.IsZero(m.AttachedVolumes) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.AttachedVolumes); i++ {
-		if swag.IsZero(m.AttachedVolumes[i]) { // not required
+		if typeutils.IsZero(m.AttachedVolumes[i]) { // not required
 			continue
 		}
 
@@ -124,7 +125,7 @@ func (m *FreeIpaInstance) contextValidateAttachedVolumes(ctx context.Context, fo
 
 		if m.AttachedVolumes[i] != nil {
 
-			if swag.IsZero(m.AttachedVolumes[i]) { // not required
+			if typeutils.IsZero(m.AttachedVolumes[i]) { // not required
 				return nil
 			}
 
@@ -152,13 +153,13 @@ func (m *FreeIpaInstance) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *FreeIpaInstance) UnmarshalBinary(b []byte) error {
 	var res FreeIpaInstance
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewDeleteInstanceGroupParams creates a new DeleteInstanceGroupParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteInstanceGroupParams() *DeleteInstanceGroupParams {
-	return &DeleteInstanceGroupParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteInstanceGroupParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteInstanceGroupParamsWithTimeout creates a new DeleteInstanceGroupParams object
 // with the ability to set a timeout on a request.
 func NewDeleteInstanceGroupParamsWithTimeout(timeout time.Duration) *DeleteInstanceGroupParams {
 	return &DeleteInstanceGroupParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteInstanceGroupParamsWithContext creates a new DeleteInstanceGroupParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteInstanceGroupParams].
 func NewDeleteInstanceGroupParamsWithContext(ctx context.Context) *DeleteInstanceGroupParams {
 	return &DeleteInstanceGroupParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteInstanceGroupParams struct {
 	// Input.
 	Input *models.DeleteInstanceGroupRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete instance group params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteInstanceGroupParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete instance group params
+// WithTimeout adds the timeout to the delete instance group params.
 func (o *DeleteInstanceGroupParams) WithTimeout(timeout time.Duration) *DeleteInstanceGroupParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete instance group params
+// SetTimeout adds the timeout to the delete instance group params.
 func (o *DeleteInstanceGroupParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete instance group params
+// WithContext adds the context to the delete instance group params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteInstanceGroupParams].
 func (o *DeleteInstanceGroupParams) WithContext(ctx context.Context) *DeleteInstanceGroupParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete instance group params
+// SetContext adds the context to the delete instance group params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteInstanceGroupParams].
 func (o *DeleteInstanceGroupParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete instance group params
+// WithHTTPClient adds the HTTPClient to the delete instance group params.
 func (o *DeleteInstanceGroupParams) WithHTTPClient(client *http.Client) *DeleteInstanceGroupParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete instance group params
+// SetHTTPClient adds the HTTPClient to the delete instance group params.
 func (o *DeleteInstanceGroupParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete instance group params
+// WithInput adds the input to the delete instance group params.
 func (o *DeleteInstanceGroupParams) WithInput(input *models.DeleteInstanceGroupRequest) *DeleteInstanceGroupParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete instance group params
+// SetInput adds the input to the delete instance group params.
 func (o *DeleteInstanceGroupParams) SetInput(input *models.DeleteInstanceGroupRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteInstanceGroupParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -66,7 +66,7 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 
 	client := r.client.Environments
 
-	params := operations.NewCreateAzureEnvironmentParamsWithContext(ctx)
+	params := operations.NewCreateAzureEnvironmentParams()
 	params.WithInput(ToAzureEnvironmentRequest(ctx, &data))
 
 	responseOk, err := client.Operations.CreateAzureEnvironment(params)

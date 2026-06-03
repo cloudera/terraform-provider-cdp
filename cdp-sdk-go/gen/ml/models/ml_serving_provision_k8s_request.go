@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -68,12 +69,12 @@ func (m *MlServingProvisionK8sRequest) validateEnvironmentCrn(formats strfmt.Reg
 }
 
 func (m *MlServingProvisionK8sRequest) validateInstanceGroups(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceGroups) { // not required
+	if typeutils.IsZero(m.InstanceGroups) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.InstanceGroups); i++ {
-		if swag.IsZero(m.InstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -98,7 +99,7 @@ func (m *MlServingProvisionK8sRequest) validateInstanceGroups(formats strfmt.Reg
 }
 
 func (m *MlServingProvisionK8sRequest) validateNetwork(formats strfmt.Registry) error {
-	if swag.IsZero(m.Network) { // not required
+	if typeutils.IsZero(m.Network) { // not required
 		return nil
 	}
 
@@ -121,12 +122,12 @@ func (m *MlServingProvisionK8sRequest) validateNetwork(formats strfmt.Registry) 
 }
 
 func (m *MlServingProvisionK8sRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -178,7 +179,7 @@ func (m *MlServingProvisionK8sRequest) contextValidateInstanceGroups(ctx context
 
 		if m.InstanceGroups[i] != nil {
 
-			if swag.IsZero(m.InstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -205,7 +206,7 @@ func (m *MlServingProvisionK8sRequest) contextValidateNetwork(ctx context.Contex
 
 	if m.Network != nil {
 
-		if swag.IsZero(m.Network) { // not required
+		if typeutils.IsZero(m.Network) { // not required
 			return nil
 		}
 
@@ -232,7 +233,7 @@ func (m *MlServingProvisionK8sRequest) contextValidateTags(ctx context.Context, 
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -260,13 +261,13 @@ func (m *MlServingProvisionK8sRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *MlServingProvisionK8sRequest) UnmarshalBinary(b []byte) error {
 	var res MlServingProvisionK8sRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

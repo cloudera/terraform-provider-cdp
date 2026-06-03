@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewGetIDBrokerMappingsSyncStatusParams creates a new GetIDBrokerMappingsSyncStatusParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetIDBrokerMappingsSyncStatusParams() *GetIDBrokerMappingsSyncStatusParams {
-	return &GetIDBrokerMappingsSyncStatusParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetIDBrokerMappingsSyncStatusParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetIDBrokerMappingsSyncStatusParamsWithTimeout creates a new GetIDBrokerMappingsSyncStatusParams object
 // with the ability to set a timeout on a request.
 func NewGetIDBrokerMappingsSyncStatusParamsWithTimeout(timeout time.Duration) *GetIDBrokerMappingsSyncStatusParams {
 	return &GetIDBrokerMappingsSyncStatusParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetIDBrokerMappingsSyncStatusParamsWithContext creates a new GetIDBrokerMappingsSyncStatusParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetIDBrokerMappingsSyncStatusParams].
 func NewGetIDBrokerMappingsSyncStatusParamsWithContext(ctx context.Context) *GetIDBrokerMappingsSyncStatusParams {
 	return &GetIDBrokerMappingsSyncStatusParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetIDBrokerMappingsSyncStatusParams struct {
 	// Input.
 	Input *models.GetIDBrokerMappingsSyncStatusRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get Id broker mappings sync status params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetIDBrokerMappingsSyncStatusParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get Id broker mappings sync status params
+// WithTimeout adds the timeout to the get Id broker mappings sync status params.
 func (o *GetIDBrokerMappingsSyncStatusParams) WithTimeout(timeout time.Duration) *GetIDBrokerMappingsSyncStatusParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get Id broker mappings sync status params
+// SetTimeout adds the timeout to the get Id broker mappings sync status params.
 func (o *GetIDBrokerMappingsSyncStatusParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get Id broker mappings sync status params
+// WithContext adds the context to the get Id broker mappings sync status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetIDBrokerMappingsSyncStatusParams].
 func (o *GetIDBrokerMappingsSyncStatusParams) WithContext(ctx context.Context) *GetIDBrokerMappingsSyncStatusParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get Id broker mappings sync status params
+// SetContext adds the context to the get Id broker mappings sync status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetIDBrokerMappingsSyncStatusParams].
 func (o *GetIDBrokerMappingsSyncStatusParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get Id broker mappings sync status params
+// WithHTTPClient adds the HTTPClient to the get Id broker mappings sync status params.
 func (o *GetIDBrokerMappingsSyncStatusParams) WithHTTPClient(client *http.Client) *GetIDBrokerMappingsSyncStatusParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get Id broker mappings sync status params
+// SetHTTPClient adds the HTTPClient to the get Id broker mappings sync status params.
 func (o *GetIDBrokerMappingsSyncStatusParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get Id broker mappings sync status params
+// WithInput adds the input to the get Id broker mappings sync status params.
 func (o *GetIDBrokerMappingsSyncStatusParams) WithInput(input *models.GetIDBrokerMappingsSyncStatusRequest) *GetIDBrokerMappingsSyncStatusParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get Id broker mappings sync status params
+// SetInput adds the input to the get Id broker mappings sync status params.
 func (o *GetIDBrokerMappingsSyncStatusParams) SetInput(input *models.GetIDBrokerMappingsSyncStatusRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetIDBrokerMappingsSyncStatusParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

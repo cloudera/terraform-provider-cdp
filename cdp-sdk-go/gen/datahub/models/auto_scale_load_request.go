@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -79,7 +80,7 @@ func (m *AutoScaleLoadRequest) validateConfiguration(formats strfmt.Registry) er
 }
 
 func (m *AutoScaleLoadRequest) validateDescription(formats strfmt.Registry) error {
-	if swag.IsZero(m.Description) { // not required
+	if typeutils.IsZero(m.Description) { // not required
 		return nil
 	}
 
@@ -95,7 +96,7 @@ func (m *AutoScaleLoadRequest) validateDescription(formats strfmt.Registry) erro
 }
 
 func (m *AutoScaleLoadRequest) validateIdentifier(formats strfmt.Registry) error {
-	if swag.IsZero(m.Identifier) { // not required
+	if typeutils.IsZero(m.Identifier) { // not required
 		return nil
 	}
 
@@ -150,13 +151,13 @@ func (m *AutoScaleLoadRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AutoScaleLoadRequest) UnmarshalBinary(b []byte) error {
 	var res AutoScaleLoadRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewLastSyncStatusParams creates a new LastSyncStatusParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLastSyncStatusParams() *LastSyncStatusParams {
-	return &LastSyncStatusParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewLastSyncStatusParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewLastSyncStatusParamsWithTimeout creates a new LastSyncStatusParams object
 // with the ability to set a timeout on a request.
 func NewLastSyncStatusParamsWithTimeout(timeout time.Duration) *LastSyncStatusParams {
 	return &LastSyncStatusParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewLastSyncStatusParamsWithContext creates a new LastSyncStatusParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [LastSyncStatusParams].
 func NewLastSyncStatusParamsWithContext(ctx context.Context) *LastSyncStatusParams {
 	return &LastSyncStatusParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type LastSyncStatusParams struct {
 	// Input.
 	Input *models.LastSyncStatusRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the last sync status params (not the query body).
@@ -83,54 +86,57 @@ func (o *LastSyncStatusParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the last sync status params
+// WithTimeout adds the timeout to the last sync status params.
 func (o *LastSyncStatusParams) WithTimeout(timeout time.Duration) *LastSyncStatusParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the last sync status params
+// SetTimeout adds the timeout to the last sync status params.
 func (o *LastSyncStatusParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the last sync status params
+// WithContext adds the context to the last sync status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [LastSyncStatusParams].
 func (o *LastSyncStatusParams) WithContext(ctx context.Context) *LastSyncStatusParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the last sync status params
+// SetContext adds the context to the last sync status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [LastSyncStatusParams].
 func (o *LastSyncStatusParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the last sync status params
+// WithHTTPClient adds the HTTPClient to the last sync status params.
 func (o *LastSyncStatusParams) WithHTTPClient(client *http.Client) *LastSyncStatusParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the last sync status params
+// SetHTTPClient adds the HTTPClient to the last sync status params.
 func (o *LastSyncStatusParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the last sync status params
+// WithInput adds the input to the last sync status params.
 func (o *LastSyncStatusParams) WithInput(input *models.LastSyncStatusRequest) *LastSyncStatusParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the last sync status params
+// SetInput adds the input to the last sync status params.
 func (o *LastSyncStatusParams) SetInput(input *models.LastSyncStatusRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *LastSyncStatusParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

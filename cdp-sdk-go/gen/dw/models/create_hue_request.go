@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -101,7 +102,7 @@ func (m *CreateHueRequest) validateClusterID(formats strfmt.Registry) error {
 }
 
 func (m *CreateHueRequest) validateConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.Config) { // not required
+	if typeutils.IsZero(m.Config) { // not required
 		return nil
 	}
 
@@ -156,7 +157,7 @@ func (m *CreateHueRequest) validateDbInitStrategyEnum(path, location string, val
 }
 
 func (m *CreateHueRequest) validateDbInitStrategy(formats strfmt.Registry) error {
-	if swag.IsZero(m.DbInitStrategy) { // not required
+	if typeutils.IsZero(m.DbInitStrategy) { // not required
 		return nil
 	}
 
@@ -169,7 +170,7 @@ func (m *CreateHueRequest) validateDbInitStrategy(formats strfmt.Registry) error
 }
 
 func (m *CreateHueRequest) validateInstanceCount(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceCount) { // not required
+	if typeutils.IsZero(m.InstanceCount) { // not required
 		return nil
 	}
 
@@ -190,12 +191,12 @@ func (m *CreateHueRequest) validateName(formats strfmt.Registry) error {
 }
 
 func (m *CreateHueRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -241,7 +242,7 @@ func (m *CreateHueRequest) contextValidateConfig(ctx context.Context, formats st
 
 	if m.Config != nil {
 
-		if swag.IsZero(m.Config) { // not required
+		if typeutils.IsZero(m.Config) { // not required
 			return nil
 		}
 
@@ -268,7 +269,7 @@ func (m *CreateHueRequest) contextValidateTags(ctx context.Context, formats strf
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -296,13 +297,13 @@ func (m *CreateHueRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateHueRequest) UnmarshalBinary(b []byte) error {
 	var res CreateHueRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

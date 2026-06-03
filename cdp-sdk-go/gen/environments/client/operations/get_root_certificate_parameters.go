@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewGetRootCertificateParams creates a new GetRootCertificateParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetRootCertificateParams() *GetRootCertificateParams {
-	return &GetRootCertificateParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetRootCertificateParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetRootCertificateParamsWithTimeout creates a new GetRootCertificateParams object
 // with the ability to set a timeout on a request.
 func NewGetRootCertificateParamsWithTimeout(timeout time.Duration) *GetRootCertificateParams {
 	return &GetRootCertificateParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetRootCertificateParamsWithContext creates a new GetRootCertificateParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetRootCertificateParams].
 func NewGetRootCertificateParamsWithContext(ctx context.Context) *GetRootCertificateParams {
 	return &GetRootCertificateParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetRootCertificateParams struct {
 	// Input.
 	Input *models.GetRootCertificateRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get root certificate params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetRootCertificateParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get root certificate params
+// WithTimeout adds the timeout to the get root certificate params.
 func (o *GetRootCertificateParams) WithTimeout(timeout time.Duration) *GetRootCertificateParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get root certificate params
+// SetTimeout adds the timeout to the get root certificate params.
 func (o *GetRootCertificateParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get root certificate params
+// WithContext adds the context to the get root certificate params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetRootCertificateParams].
 func (o *GetRootCertificateParams) WithContext(ctx context.Context) *GetRootCertificateParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get root certificate params
+// SetContext adds the context to the get root certificate params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetRootCertificateParams].
 func (o *GetRootCertificateParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get root certificate params
+// WithHTTPClient adds the HTTPClient to the get root certificate params.
 func (o *GetRootCertificateParams) WithHTTPClient(client *http.Client) *GetRootCertificateParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get root certificate params
+// SetHTTPClient adds the HTTPClient to the get root certificate params.
 func (o *GetRootCertificateParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get root certificate params
+// WithInput adds the input to the get root certificate params.
 func (o *GetRootCertificateParams) WithInput(input *models.GetRootCertificateRequest) *GetRootCertificateParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get root certificate params
+// SetInput adds the input to the get root certificate params.
 func (o *GetRootCertificateParams) SetInput(input *models.GetRootCertificateRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetRootCertificateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

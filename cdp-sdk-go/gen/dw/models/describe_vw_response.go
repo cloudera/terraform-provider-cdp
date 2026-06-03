@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DescribeVwResponse Response object for the describeVw method.
@@ -35,7 +36,7 @@ func (m *DescribeVwResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DescribeVwResponse) validateVw(formats strfmt.Registry) error {
-	if swag.IsZero(m.Vw) { // not required
+	if typeutils.IsZero(m.Vw) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *DescribeVwResponse) contextValidateVw(ctx context.Context, formats strf
 
 	if m.Vw != nil {
 
-		if swag.IsZero(m.Vw) { // not required
+		if typeutils.IsZero(m.Vw) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *DescribeVwResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeVwResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeVwResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

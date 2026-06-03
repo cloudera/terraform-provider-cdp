@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewBackupClusterParams creates a new BackupClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewBackupClusterParams() *BackupClusterParams {
-	return &BackupClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewBackupClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewBackupClusterParamsWithTimeout creates a new BackupClusterParams object
 // with the ability to set a timeout on a request.
 func NewBackupClusterParamsWithTimeout(timeout time.Duration) *BackupClusterParams {
 	return &BackupClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewBackupClusterParamsWithContext creates a new BackupClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [BackupClusterParams].
 func NewBackupClusterParamsWithContext(ctx context.Context) *BackupClusterParams {
 	return &BackupClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type BackupClusterParams struct {
 	// Input.
 	Input *models.BackupClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the backup cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *BackupClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the backup cluster params
+// WithTimeout adds the timeout to the backup cluster params.
 func (o *BackupClusterParams) WithTimeout(timeout time.Duration) *BackupClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the backup cluster params
+// SetTimeout adds the timeout to the backup cluster params.
 func (o *BackupClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the backup cluster params
+// WithContext adds the context to the backup cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [BackupClusterParams].
 func (o *BackupClusterParams) WithContext(ctx context.Context) *BackupClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the backup cluster params
+// SetContext adds the context to the backup cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [BackupClusterParams].
 func (o *BackupClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the backup cluster params
+// WithHTTPClient adds the HTTPClient to the backup cluster params.
 func (o *BackupClusterParams) WithHTTPClient(client *http.Client) *BackupClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the backup cluster params
+// SetHTTPClient adds the HTTPClient to the backup cluster params.
 func (o *BackupClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the backup cluster params
+// WithInput adds the input to the backup cluster params.
 func (o *BackupClusterParams) WithInput(input *models.BackupClusterRequest) *BackupClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the backup cluster params
+// SetInput adds the input to the backup cluster params.
 func (o *BackupClusterParams) SetInput(input *models.BackupClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *BackupClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

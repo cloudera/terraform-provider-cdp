@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -100,7 +101,7 @@ func (m *UpdateVwRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *UpdateVwRequest) validateAutoscaling(formats strfmt.Registry) error {
-	if swag.IsZero(m.Autoscaling) { // not required
+	if typeutils.IsZero(m.Autoscaling) { // not required
 		return nil
 	}
 
@@ -132,7 +133,7 @@ func (m *UpdateVwRequest) validateClusterID(formats strfmt.Registry) error {
 }
 
 func (m *UpdateVwRequest) validateConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.Config) { // not required
+	if typeutils.IsZero(m.Config) { // not required
 		return nil
 	}
 
@@ -155,7 +156,7 @@ func (m *UpdateVwRequest) validateConfig(formats strfmt.Registry) error {
 }
 
 func (m *UpdateVwRequest) validateImpalaHaSettings(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImpalaHaSettings) { // not required
+	if typeutils.IsZero(m.ImpalaHaSettings) { // not required
 		return nil
 	}
 
@@ -178,7 +179,7 @@ func (m *UpdateVwRequest) validateImpalaHaSettings(formats strfmt.Registry) erro
 }
 
 func (m *UpdateVwRequest) validateQueryIsolationOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.QueryIsolationOptions) { // not required
+	if typeutils.IsZero(m.QueryIsolationOptions) { // not required
 		return nil
 	}
 
@@ -236,7 +237,7 @@ func (m *UpdateVwRequest) validateTShirtSizeEnum(path, location string, value st
 }
 
 func (m *UpdateVwRequest) validateTShirtSize(formats strfmt.Registry) error {
-	if swag.IsZero(m.TShirtSize) { // not required
+	if typeutils.IsZero(m.TShirtSize) { // not required
 		return nil
 	}
 
@@ -287,7 +288,7 @@ func (m *UpdateVwRequest) contextValidateAutoscaling(ctx context.Context, format
 
 	if m.Autoscaling != nil {
 
-		if swag.IsZero(m.Autoscaling) { // not required
+		if typeutils.IsZero(m.Autoscaling) { // not required
 			return nil
 		}
 
@@ -312,7 +313,7 @@ func (m *UpdateVwRequest) contextValidateConfig(ctx context.Context, formats str
 
 	if m.Config != nil {
 
-		if swag.IsZero(m.Config) { // not required
+		if typeutils.IsZero(m.Config) { // not required
 			return nil
 		}
 
@@ -337,7 +338,7 @@ func (m *UpdateVwRequest) contextValidateImpalaHaSettings(ctx context.Context, f
 
 	if m.ImpalaHaSettings != nil {
 
-		if swag.IsZero(m.ImpalaHaSettings) { // not required
+		if typeutils.IsZero(m.ImpalaHaSettings) { // not required
 			return nil
 		}
 
@@ -362,7 +363,7 @@ func (m *UpdateVwRequest) contextValidateQueryIsolationOptions(ctx context.Conte
 
 	if m.QueryIsolationOptions != nil {
 
-		if swag.IsZero(m.QueryIsolationOptions) { // not required
+		if typeutils.IsZero(m.QueryIsolationOptions) { // not required
 			return nil
 		}
 
@@ -388,13 +389,13 @@ func (m *UpdateVwRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateVwRequest) UnmarshalBinary(b []byte) error {
 	var res UpdateVwRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

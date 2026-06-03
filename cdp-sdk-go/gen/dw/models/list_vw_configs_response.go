@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListVwConfigsResponse Response object for the listVwConfigs method.
@@ -36,12 +37,12 @@ func (m *ListVwConfigsResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListVwConfigsResponse) validateConfigHistory(formats strfmt.Registry) error {
-	if swag.IsZero(m.ConfigHistory) { // not required
+	if typeutils.IsZero(m.ConfigHistory) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ConfigHistory); i++ {
-		if swag.IsZero(m.ConfigHistory[i]) { // not required
+		if typeutils.IsZero(m.ConfigHistory[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListVwConfigsResponse) contextValidateConfigHistory(ctx context.Context
 
 		if m.ConfigHistory[i] != nil {
 
-			if swag.IsZero(m.ConfigHistory[i]) { // not required
+			if typeutils.IsZero(m.ConfigHistory[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListVwConfigsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListVwConfigsResponse) UnmarshalBinary(b []byte) error {
 	var res ListVwConfigsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

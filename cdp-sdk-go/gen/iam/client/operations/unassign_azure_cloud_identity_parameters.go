@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewUnassignAzureCloudIdentityParams creates a new UnassignAzureCloudIdentityParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUnassignAzureCloudIdentityParams() *UnassignAzureCloudIdentityParams {
-	return &UnassignAzureCloudIdentityParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUnassignAzureCloudIdentityParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUnassignAzureCloudIdentityParamsWithTimeout creates a new UnassignAzureCloudIdentityParams object
 // with the ability to set a timeout on a request.
 func NewUnassignAzureCloudIdentityParamsWithTimeout(timeout time.Duration) *UnassignAzureCloudIdentityParams {
 	return &UnassignAzureCloudIdentityParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUnassignAzureCloudIdentityParamsWithContext creates a new UnassignAzureCloudIdentityParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnassignAzureCloudIdentityParams].
 func NewUnassignAzureCloudIdentityParamsWithContext(ctx context.Context) *UnassignAzureCloudIdentityParams {
 	return &UnassignAzureCloudIdentityParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UnassignAzureCloudIdentityParams struct {
 	// Input.
 	Input *models.UnassignAzureCloudIdentityRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the unassign azure cloud identity params (not the query body).
@@ -83,54 +86,57 @@ func (o *UnassignAzureCloudIdentityParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the unassign azure cloud identity params
+// WithTimeout adds the timeout to the unassign azure cloud identity params.
 func (o *UnassignAzureCloudIdentityParams) WithTimeout(timeout time.Duration) *UnassignAzureCloudIdentityParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the unassign azure cloud identity params
+// SetTimeout adds the timeout to the unassign azure cloud identity params.
 func (o *UnassignAzureCloudIdentityParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the unassign azure cloud identity params
+// WithContext adds the context to the unassign azure cloud identity params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnassignAzureCloudIdentityParams].
 func (o *UnassignAzureCloudIdentityParams) WithContext(ctx context.Context) *UnassignAzureCloudIdentityParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the unassign azure cloud identity params
+// SetContext adds the context to the unassign azure cloud identity params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnassignAzureCloudIdentityParams].
 func (o *UnassignAzureCloudIdentityParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the unassign azure cloud identity params
+// WithHTTPClient adds the HTTPClient to the unassign azure cloud identity params.
 func (o *UnassignAzureCloudIdentityParams) WithHTTPClient(client *http.Client) *UnassignAzureCloudIdentityParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the unassign azure cloud identity params
+// SetHTTPClient adds the HTTPClient to the unassign azure cloud identity params.
 func (o *UnassignAzureCloudIdentityParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the unassign azure cloud identity params
+// WithInput adds the input to the unassign azure cloud identity params.
 func (o *UnassignAzureCloudIdentityParams) WithInput(input *models.UnassignAzureCloudIdentityRequest) *UnassignAzureCloudIdentityParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the unassign azure cloud identity params
+// SetInput adds the input to the unassign azure cloud identity params.
 func (o *UnassignAzureCloudIdentityParams) SetInput(input *models.UnassignAzureCloudIdentityRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UnassignAzureCloudIdentityParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

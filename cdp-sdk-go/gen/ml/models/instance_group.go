@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -70,7 +71,7 @@ func (m *InstanceGroup) Validate(formats strfmt.Registry) error {
 }
 
 func (m *InstanceGroup) validateAccelerator(formats strfmt.Registry) error {
-	if swag.IsZero(m.Accelerator) { // not required
+	if typeutils.IsZero(m.Accelerator) { // not required
 		return nil
 	}
 
@@ -93,7 +94,7 @@ func (m *InstanceGroup) validateAccelerator(formats strfmt.Registry) error {
 }
 
 func (m *InstanceGroup) validateAutoscaling(formats strfmt.Registry) error {
-	if swag.IsZero(m.Autoscaling) { // not required
+	if typeutils.IsZero(m.Autoscaling) { // not required
 		return nil
 	}
 
@@ -125,7 +126,7 @@ func (m *InstanceGroup) validateInstanceType(formats strfmt.Registry) error {
 }
 
 func (m *InstanceGroup) validateRootVolume(formats strfmt.Registry) error {
-	if swag.IsZero(m.RootVolume) { // not required
+	if typeutils.IsZero(m.RootVolume) { // not required
 		return nil
 	}
 
@@ -173,7 +174,7 @@ func (m *InstanceGroup) contextValidateAccelerator(ctx context.Context, formats 
 
 	if m.Accelerator != nil {
 
-		if swag.IsZero(m.Accelerator) { // not required
+		if typeutils.IsZero(m.Accelerator) { // not required
 			return nil
 		}
 
@@ -198,7 +199,7 @@ func (m *InstanceGroup) contextValidateAutoscaling(ctx context.Context, formats 
 
 	if m.Autoscaling != nil {
 
-		if swag.IsZero(m.Autoscaling) { // not required
+		if typeutils.IsZero(m.Autoscaling) { // not required
 			return nil
 		}
 
@@ -223,7 +224,7 @@ func (m *InstanceGroup) contextValidateRootVolume(ctx context.Context, formats s
 
 	if m.RootVolume != nil {
 
-		if swag.IsZero(m.RootVolume) { // not required
+		if typeutils.IsZero(m.RootVolume) { // not required
 			return nil
 		}
 
@@ -249,13 +250,13 @@ func (m *InstanceGroup) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *InstanceGroup) UnmarshalBinary(b []byte) error {
 	var res InstanceGroup
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

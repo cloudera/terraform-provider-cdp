@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewGetBackupRestoreConfigurationParams creates a new GetBackupRestoreConfigurationParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetBackupRestoreConfigurationParams() *GetBackupRestoreConfigurationParams {
-	return &GetBackupRestoreConfigurationParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetBackupRestoreConfigurationParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetBackupRestoreConfigurationParamsWithTimeout creates a new GetBackupRestoreConfigurationParams object
 // with the ability to set a timeout on a request.
 func NewGetBackupRestoreConfigurationParamsWithTimeout(timeout time.Duration) *GetBackupRestoreConfigurationParams {
 	return &GetBackupRestoreConfigurationParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetBackupRestoreConfigurationParamsWithContext creates a new GetBackupRestoreConfigurationParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetBackupRestoreConfigurationParams].
 func NewGetBackupRestoreConfigurationParamsWithContext(ctx context.Context) *GetBackupRestoreConfigurationParams {
 	return &GetBackupRestoreConfigurationParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetBackupRestoreConfigurationParams struct {
 	// Input.
 	Input *models.GetBackupRestoreConfigurationRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get backup restore configuration params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetBackupRestoreConfigurationParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get backup restore configuration params
+// WithTimeout adds the timeout to the get backup restore configuration params.
 func (o *GetBackupRestoreConfigurationParams) WithTimeout(timeout time.Duration) *GetBackupRestoreConfigurationParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get backup restore configuration params
+// SetTimeout adds the timeout to the get backup restore configuration params.
 func (o *GetBackupRestoreConfigurationParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get backup restore configuration params
+// WithContext adds the context to the get backup restore configuration params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetBackupRestoreConfigurationParams].
 func (o *GetBackupRestoreConfigurationParams) WithContext(ctx context.Context) *GetBackupRestoreConfigurationParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get backup restore configuration params
+// SetContext adds the context to the get backup restore configuration params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetBackupRestoreConfigurationParams].
 func (o *GetBackupRestoreConfigurationParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get backup restore configuration params
+// WithHTTPClient adds the HTTPClient to the get backup restore configuration params.
 func (o *GetBackupRestoreConfigurationParams) WithHTTPClient(client *http.Client) *GetBackupRestoreConfigurationParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get backup restore configuration params
+// SetHTTPClient adds the HTTPClient to the get backup restore configuration params.
 func (o *GetBackupRestoreConfigurationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get backup restore configuration params
+// WithInput adds the input to the get backup restore configuration params.
 func (o *GetBackupRestoreConfigurationParams) WithInput(input *models.GetBackupRestoreConfigurationRequest) *GetBackupRestoreConfigurationParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get backup restore configuration params
+// SetInput adds the input to the get backup restore configuration params.
 func (o *GetBackupRestoreConfigurationParams) SetInput(input *models.GetBackupRestoreConfigurationRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetBackupRestoreConfigurationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -73,7 +73,7 @@ func (e *datahubListDataSource) Read(ctx context.Context, request datasource.Rea
 }
 
 func getDatahubs(ctx context.Context, client *client.Datahub) (*DatahubListModel, error) {
-	params := operations.NewListClustersParamsWithContext(ctx).WithInput(&models.ListClustersRequest{})
+	params := operations.NewListClustersParams().WithInput(&models.ListClustersRequest{})
 	resp, err := client.Operations.ListClusters(params)
 	if err != nil {
 		tflog.Warn(ctx, fmt.Sprintf("Error during datahub collection due to : %s", err.Error()))

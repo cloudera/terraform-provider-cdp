@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewAddSSHPublicKeyParams creates a new AddSSHPublicKeyParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAddSSHPublicKeyParams() *AddSSHPublicKeyParams {
-	return &AddSSHPublicKeyParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewAddSSHPublicKeyParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewAddSSHPublicKeyParamsWithTimeout creates a new AddSSHPublicKeyParams object
 // with the ability to set a timeout on a request.
 func NewAddSSHPublicKeyParamsWithTimeout(timeout time.Duration) *AddSSHPublicKeyParams {
 	return &AddSSHPublicKeyParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewAddSSHPublicKeyParamsWithContext creates a new AddSSHPublicKeyParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddSSHPublicKeyParams].
 func NewAddSSHPublicKeyParamsWithContext(ctx context.Context) *AddSSHPublicKeyParams {
 	return &AddSSHPublicKeyParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type AddSSHPublicKeyParams struct {
 	// Input.
 	Input *models.AddSSHPublicKeyRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the add Ssh public key params (not the query body).
@@ -83,54 +86,57 @@ func (o *AddSSHPublicKeyParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the add Ssh public key params
+// WithTimeout adds the timeout to the add Ssh public key params.
 func (o *AddSSHPublicKeyParams) WithTimeout(timeout time.Duration) *AddSSHPublicKeyParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the add Ssh public key params
+// SetTimeout adds the timeout to the add Ssh public key params.
 func (o *AddSSHPublicKeyParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the add Ssh public key params
+// WithContext adds the context to the add Ssh public key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddSSHPublicKeyParams].
 func (o *AddSSHPublicKeyParams) WithContext(ctx context.Context) *AddSSHPublicKeyParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the add Ssh public key params
+// SetContext adds the context to the add Ssh public key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddSSHPublicKeyParams].
 func (o *AddSSHPublicKeyParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the add Ssh public key params
+// WithHTTPClient adds the HTTPClient to the add Ssh public key params.
 func (o *AddSSHPublicKeyParams) WithHTTPClient(client *http.Client) *AddSSHPublicKeyParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the add Ssh public key params
+// SetHTTPClient adds the HTTPClient to the add Ssh public key params.
 func (o *AddSSHPublicKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the add Ssh public key params
+// WithInput adds the input to the add Ssh public key params.
 func (o *AddSSHPublicKeyParams) WithInput(input *models.AddSSHPublicKeyRequest) *AddSSHPublicKeyParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the add Ssh public key params
+// SetInput adds the input to the add Ssh public key params.
 func (o *AddSSHPublicKeyParams) SetInput(input *models.AddSSHPublicKeyRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *AddSSHPublicKeyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

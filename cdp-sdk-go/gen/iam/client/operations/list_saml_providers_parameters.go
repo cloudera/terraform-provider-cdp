@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListSamlProvidersParams creates a new ListSamlProvidersParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListSamlProvidersParams() *ListSamlProvidersParams {
-	return &ListSamlProvidersParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListSamlProvidersParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListSamlProvidersParamsWithTimeout creates a new ListSamlProvidersParams object
 // with the ability to set a timeout on a request.
 func NewListSamlProvidersParamsWithTimeout(timeout time.Duration) *ListSamlProvidersParams {
 	return &ListSamlProvidersParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListSamlProvidersParamsWithContext creates a new ListSamlProvidersParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListSamlProvidersParams].
 func NewListSamlProvidersParamsWithContext(ctx context.Context) *ListSamlProvidersParams {
 	return &ListSamlProvidersParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListSamlProvidersParams struct {
 	// Input.
 	Input *models.ListSamlProvidersRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list saml providers params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListSamlProvidersParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list saml providers params
+// WithTimeout adds the timeout to the list saml providers params.
 func (o *ListSamlProvidersParams) WithTimeout(timeout time.Duration) *ListSamlProvidersParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list saml providers params
+// SetTimeout adds the timeout to the list saml providers params.
 func (o *ListSamlProvidersParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list saml providers params
+// WithContext adds the context to the list saml providers params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListSamlProvidersParams].
 func (o *ListSamlProvidersParams) WithContext(ctx context.Context) *ListSamlProvidersParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list saml providers params
+// SetContext adds the context to the list saml providers params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListSamlProvidersParams].
 func (o *ListSamlProvidersParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list saml providers params
+// WithHTTPClient adds the HTTPClient to the list saml providers params.
 func (o *ListSamlProvidersParams) WithHTTPClient(client *http.Client) *ListSamlProvidersParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list saml providers params
+// SetHTTPClient adds the HTTPClient to the list saml providers params.
 func (o *ListSamlProvidersParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list saml providers params
+// WithInput adds the input to the list saml providers params.
 func (o *ListSamlProvidersParams) WithInput(input *models.ListSamlProvidersRequest) *ListSamlProvidersParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list saml providers params
+// SetInput adds the input to the list saml providers params.
 func (o *ListSamlProvidersParams) SetInput(input *models.ListSamlProvidersRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListSamlProvidersParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

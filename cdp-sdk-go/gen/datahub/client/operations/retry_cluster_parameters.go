@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewRetryClusterParams creates a new RetryClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRetryClusterParams() *RetryClusterParams {
-	return &RetryClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRetryClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRetryClusterParamsWithTimeout creates a new RetryClusterParams object
 // with the ability to set a timeout on a request.
 func NewRetryClusterParamsWithTimeout(timeout time.Duration) *RetryClusterParams {
 	return &RetryClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRetryClusterParamsWithContext creates a new RetryClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RetryClusterParams].
 func NewRetryClusterParamsWithContext(ctx context.Context) *RetryClusterParams {
 	return &RetryClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RetryClusterParams struct {
 	// Input.
 	Input *models.RetryClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the retry cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *RetryClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the retry cluster params
+// WithTimeout adds the timeout to the retry cluster params.
 func (o *RetryClusterParams) WithTimeout(timeout time.Duration) *RetryClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the retry cluster params
+// SetTimeout adds the timeout to the retry cluster params.
 func (o *RetryClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the retry cluster params
+// WithContext adds the context to the retry cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RetryClusterParams].
 func (o *RetryClusterParams) WithContext(ctx context.Context) *RetryClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the retry cluster params
+// SetContext adds the context to the retry cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RetryClusterParams].
 func (o *RetryClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the retry cluster params
+// WithHTTPClient adds the HTTPClient to the retry cluster params.
 func (o *RetryClusterParams) WithHTTPClient(client *http.Client) *RetryClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the retry cluster params
+// SetHTTPClient adds the HTTPClient to the retry cluster params.
 func (o *RetryClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the retry cluster params
+// WithInput adds the input to the retry cluster params.
 func (o *RetryClusterParams) WithInput(input *models.RetryClusterRequest) *RetryClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the retry cluster params
+// SetInput adds the input to the retry cluster params.
 func (o *RetryClusterParams) SetInput(input *models.RetryClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RetryClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSetEndpointAccessGatewayParams creates a new SetEndpointAccessGatewayParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetEndpointAccessGatewayParams() *SetEndpointAccessGatewayParams {
-	return &SetEndpointAccessGatewayParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetEndpointAccessGatewayParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetEndpointAccessGatewayParamsWithTimeout creates a new SetEndpointAccessGatewayParams object
 // with the ability to set a timeout on a request.
 func NewSetEndpointAccessGatewayParamsWithTimeout(timeout time.Duration) *SetEndpointAccessGatewayParams {
 	return &SetEndpointAccessGatewayParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetEndpointAccessGatewayParamsWithContext creates a new SetEndpointAccessGatewayParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetEndpointAccessGatewayParams].
 func NewSetEndpointAccessGatewayParamsWithContext(ctx context.Context) *SetEndpointAccessGatewayParams {
 	return &SetEndpointAccessGatewayParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetEndpointAccessGatewayParams struct {
 	// Input.
 	Input *models.SetEndpointAccessGatewayRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set endpoint access gateway params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetEndpointAccessGatewayParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set endpoint access gateway params
+// WithTimeout adds the timeout to the set endpoint access gateway params.
 func (o *SetEndpointAccessGatewayParams) WithTimeout(timeout time.Duration) *SetEndpointAccessGatewayParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set endpoint access gateway params
+// SetTimeout adds the timeout to the set endpoint access gateway params.
 func (o *SetEndpointAccessGatewayParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set endpoint access gateway params
+// WithContext adds the context to the set endpoint access gateway params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetEndpointAccessGatewayParams].
 func (o *SetEndpointAccessGatewayParams) WithContext(ctx context.Context) *SetEndpointAccessGatewayParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set endpoint access gateway params
+// SetContext adds the context to the set endpoint access gateway params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetEndpointAccessGatewayParams].
 func (o *SetEndpointAccessGatewayParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set endpoint access gateway params
+// WithHTTPClient adds the HTTPClient to the set endpoint access gateway params.
 func (o *SetEndpointAccessGatewayParams) WithHTTPClient(client *http.Client) *SetEndpointAccessGatewayParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set endpoint access gateway params
+// SetHTTPClient adds the HTTPClient to the set endpoint access gateway params.
 func (o *SetEndpointAccessGatewayParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set endpoint access gateway params
+// WithInput adds the input to the set endpoint access gateway params.
 func (o *SetEndpointAccessGatewayParams) WithInput(input *models.SetEndpointAccessGatewayRequest) *SetEndpointAccessGatewayParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set endpoint access gateway params
+// SetInput adds the input to the set endpoint access gateway params.
 func (o *SetEndpointAccessGatewayParams) SetInput(input *models.SetEndpointAccessGatewayRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetEndpointAccessGatewayParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

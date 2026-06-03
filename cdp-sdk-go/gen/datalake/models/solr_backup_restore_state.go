@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -113,7 +114,7 @@ func (m *SolrBackupRestoreState) validateEdgeIndexCollection(formats strfmt.Regi
 }
 
 func (m *SolrBackupRestoreState) validateEdgeIndexCollectionDelete(formats strfmt.Registry) error {
-	if swag.IsZero(m.EdgeIndexCollectionDelete) { // not required
+	if typeutils.IsZero(m.EdgeIndexCollectionDelete) { // not required
 		return nil
 	}
 
@@ -160,7 +161,7 @@ func (m *SolrBackupRestoreState) validateFulltextIndexCollection(formats strfmt.
 }
 
 func (m *SolrBackupRestoreState) validateFulltextIndexCollectionDelete(formats strfmt.Registry) error {
-	if swag.IsZero(m.FulltextIndexCollectionDelete) { // not required
+	if typeutils.IsZero(m.FulltextIndexCollectionDelete) { // not required
 		return nil
 	}
 
@@ -207,7 +208,7 @@ func (m *SolrBackupRestoreState) validateRangerAuditsCollection(formats strfmt.R
 }
 
 func (m *SolrBackupRestoreState) validateRangerAuditsCollectionDelete(formats strfmt.Registry) error {
-	if swag.IsZero(m.RangerAuditsCollectionDelete) { // not required
+	if typeutils.IsZero(m.RangerAuditsCollectionDelete) { // not required
 		return nil
 	}
 
@@ -254,7 +255,7 @@ func (m *SolrBackupRestoreState) validateVertexIndexCollection(formats strfmt.Re
 }
 
 func (m *SolrBackupRestoreState) validateVertexIndexCollectionDelete(formats strfmt.Registry) error {
-	if swag.IsZero(m.VertexIndexCollectionDelete) { // not required
+	if typeutils.IsZero(m.VertexIndexCollectionDelete) { // not required
 		return nil
 	}
 
@@ -343,7 +344,7 @@ func (m *SolrBackupRestoreState) contextValidateEdgeIndexCollectionDelete(ctx co
 
 	if m.EdgeIndexCollectionDelete != nil {
 
-		if swag.IsZero(m.EdgeIndexCollectionDelete) { // not required
+		if typeutils.IsZero(m.EdgeIndexCollectionDelete) { // not required
 			return nil
 		}
 
@@ -389,7 +390,7 @@ func (m *SolrBackupRestoreState) contextValidateFulltextIndexCollectionDelete(ct
 
 	if m.FulltextIndexCollectionDelete != nil {
 
-		if swag.IsZero(m.FulltextIndexCollectionDelete) { // not required
+		if typeutils.IsZero(m.FulltextIndexCollectionDelete) { // not required
 			return nil
 		}
 
@@ -435,7 +436,7 @@ func (m *SolrBackupRestoreState) contextValidateRangerAuditsCollectionDelete(ctx
 
 	if m.RangerAuditsCollectionDelete != nil {
 
-		if swag.IsZero(m.RangerAuditsCollectionDelete) { // not required
+		if typeutils.IsZero(m.RangerAuditsCollectionDelete) { // not required
 			return nil
 		}
 
@@ -481,7 +482,7 @@ func (m *SolrBackupRestoreState) contextValidateVertexIndexCollectionDelete(ctx 
 
 	if m.VertexIndexCollectionDelete != nil {
 
-		if swag.IsZero(m.VertexIndexCollectionDelete) { // not required
+		if typeutils.IsZero(m.VertexIndexCollectionDelete) { // not required
 			return nil
 		}
 
@@ -507,13 +508,13 @@ func (m *SolrBackupRestoreState) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *SolrBackupRestoreState) UnmarshalBinary(b []byte) error {
 	var res SolrBackupRestoreState
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

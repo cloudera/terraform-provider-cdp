@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateTagsParams creates a new UpdateTagsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateTagsParams() *UpdateTagsParams {
-	return &UpdateTagsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateTagsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateTagsParamsWithTimeout creates a new UpdateTagsParams object
 // with the ability to set a timeout on a request.
 func NewUpdateTagsParamsWithTimeout(timeout time.Duration) *UpdateTagsParams {
 	return &UpdateTagsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateTagsParamsWithContext creates a new UpdateTagsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateTagsParams].
 func NewUpdateTagsParamsWithContext(ctx context.Context) *UpdateTagsParams {
 	return &UpdateTagsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateTagsParams struct {
 	// Input.
 	Input *models.UpdateTagsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update tags params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateTagsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update tags params
+// WithTimeout adds the timeout to the update tags params.
 func (o *UpdateTagsParams) WithTimeout(timeout time.Duration) *UpdateTagsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update tags params
+// SetTimeout adds the timeout to the update tags params.
 func (o *UpdateTagsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update tags params
+// WithContext adds the context to the update tags params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateTagsParams].
 func (o *UpdateTagsParams) WithContext(ctx context.Context) *UpdateTagsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update tags params
+// SetContext adds the context to the update tags params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateTagsParams].
 func (o *UpdateTagsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update tags params
+// WithHTTPClient adds the HTTPClient to the update tags params.
 func (o *UpdateTagsParams) WithHTTPClient(client *http.Client) *UpdateTagsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update tags params
+// SetHTTPClient adds the HTTPClient to the update tags params.
 func (o *UpdateTagsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update tags params
+// WithInput adds the input to the update tags params.
 func (o *UpdateTagsParams) WithInput(input *models.UpdateTagsRequest) *UpdateTagsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update tags params
+// SetInput adds the input to the update tags params.
 func (o *UpdateTagsParams) SetInput(input *models.UpdateTagsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateTagsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

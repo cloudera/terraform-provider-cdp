@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DescribeMlServingAppResponse Response object for the DescribeMlServingApp method.
@@ -35,7 +36,7 @@ func (m *DescribeMlServingAppResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DescribeMlServingAppResponse) validateApp(formats strfmt.Registry) error {
-	if swag.IsZero(m.App) { // not required
+	if typeutils.IsZero(m.App) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *DescribeMlServingAppResponse) contextValidateApp(ctx context.Context, f
 
 	if m.App != nil {
 
-		if swag.IsZero(m.App) { // not required
+		if typeutils.IsZero(m.App) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *DescribeMlServingAppResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeMlServingAppResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeMlServingAppResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

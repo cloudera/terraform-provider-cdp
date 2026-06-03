@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewListRestoresParams creates a new ListRestoresParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListRestoresParams() *ListRestoresParams {
-	return &ListRestoresParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListRestoresParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListRestoresParamsWithTimeout creates a new ListRestoresParams object
 // with the ability to set a timeout on a request.
 func NewListRestoresParamsWithTimeout(timeout time.Duration) *ListRestoresParams {
 	return &ListRestoresParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListRestoresParamsWithContext creates a new ListRestoresParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListRestoresParams].
 func NewListRestoresParamsWithContext(ctx context.Context) *ListRestoresParams {
 	return &ListRestoresParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListRestoresParams struct {
 	// Input.
 	Input *models.ListRestoresRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list restores params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListRestoresParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list restores params
+// WithTimeout adds the timeout to the list restores params.
 func (o *ListRestoresParams) WithTimeout(timeout time.Duration) *ListRestoresParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list restores params
+// SetTimeout adds the timeout to the list restores params.
 func (o *ListRestoresParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list restores params
+// WithContext adds the context to the list restores params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListRestoresParams].
 func (o *ListRestoresParams) WithContext(ctx context.Context) *ListRestoresParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list restores params
+// SetContext adds the context to the list restores params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListRestoresParams].
 func (o *ListRestoresParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list restores params
+// WithHTTPClient adds the HTTPClient to the list restores params.
 func (o *ListRestoresParams) WithHTTPClient(client *http.Client) *ListRestoresParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list restores params
+// SetHTTPClient adds the HTTPClient to the list restores params.
 func (o *ListRestoresParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list restores params
+// WithInput adds the input to the list restores params.
 func (o *ListRestoresParams) WithInput(input *models.ListRestoresRequest) *ListRestoresParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list restores params
+// SetInput adds the input to the list restores params.
 func (o *ListRestoresParams) SetInput(input *models.ListRestoresRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListRestoresParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

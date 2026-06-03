@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -73,7 +74,7 @@ func (m *ListVwDiagnosticDataJobsRequest) validateClusterID(formats strfmt.Regis
 }
 
 func (m *ListVwDiagnosticDataJobsRequest) validatePageSize(formats strfmt.Registry) error {
-	if swag.IsZero(m.PageSize) { // not required
+	if typeutils.IsZero(m.PageSize) { // not required
 		return nil
 	}
 
@@ -89,7 +90,7 @@ func (m *ListVwDiagnosticDataJobsRequest) validatePageSize(formats strfmt.Regist
 }
 
 func (m *ListVwDiagnosticDataJobsRequest) validateStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -134,7 +135,7 @@ func (m *ListVwDiagnosticDataJobsRequest) ContextValidate(ctx context.Context, f
 
 func (m *ListVwDiagnosticDataJobsRequest) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -159,13 +160,13 @@ func (m *ListVwDiagnosticDataJobsRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListVwDiagnosticDataJobsRequest) UnmarshalBinary(b []byte) error {
 	var res ListVwDiagnosticDataJobsRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

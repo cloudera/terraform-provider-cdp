@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSetupMitTrustParams creates a new SetupMitTrustParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetupMitTrustParams() *SetupMitTrustParams {
-	return &SetupMitTrustParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetupMitTrustParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetupMitTrustParamsWithTimeout creates a new SetupMitTrustParams object
 // with the ability to set a timeout on a request.
 func NewSetupMitTrustParamsWithTimeout(timeout time.Duration) *SetupMitTrustParams {
 	return &SetupMitTrustParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetupMitTrustParamsWithContext creates a new SetupMitTrustParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetupMitTrustParams].
 func NewSetupMitTrustParamsWithContext(ctx context.Context) *SetupMitTrustParams {
 	return &SetupMitTrustParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetupMitTrustParams struct {
 	// Input.
 	Input *models.SetupMitTrustRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the setup mit trust params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetupMitTrustParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the setup mit trust params
+// WithTimeout adds the timeout to the setup mit trust params.
 func (o *SetupMitTrustParams) WithTimeout(timeout time.Duration) *SetupMitTrustParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the setup mit trust params
+// SetTimeout adds the timeout to the setup mit trust params.
 func (o *SetupMitTrustParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the setup mit trust params
+// WithContext adds the context to the setup mit trust params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetupMitTrustParams].
 func (o *SetupMitTrustParams) WithContext(ctx context.Context) *SetupMitTrustParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the setup mit trust params
+// SetContext adds the context to the setup mit trust params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetupMitTrustParams].
 func (o *SetupMitTrustParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the setup mit trust params
+// WithHTTPClient adds the HTTPClient to the setup mit trust params.
 func (o *SetupMitTrustParams) WithHTTPClient(client *http.Client) *SetupMitTrustParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the setup mit trust params
+// SetHTTPClient adds the HTTPClient to the setup mit trust params.
 func (o *SetupMitTrustParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the setup mit trust params
+// WithInput adds the input to the setup mit trust params.
 func (o *SetupMitTrustParams) WithInput(input *models.SetupMitTrustRequest) *SetupMitTrustParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the setup mit trust params
+// SetInput adds the input to the setup mit trust params.
 func (o *SetupMitTrustParams) SetInput(input *models.SetupMitTrustRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetupMitTrustParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

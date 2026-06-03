@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -127,7 +128,7 @@ func (m *VcDescription) Validate(formats strfmt.Registry) error {
 }
 
 func (m *VcDescription) validateAccessControl(formats strfmt.Registry) error {
-	if swag.IsZero(m.AccessControl) { // not required
+	if typeutils.IsZero(m.AccessControl) { // not required
 		return nil
 	}
 
@@ -150,12 +151,12 @@ func (m *VcDescription) validateAccessControl(formats strfmt.Registry) error {
 }
 
 func (m *VcDescription) validateChartValueOverrides(formats strfmt.Registry) error {
-	if swag.IsZero(m.ChartValueOverrides) { // not required
+	if typeutils.IsZero(m.ChartValueOverrides) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ChartValueOverrides); i++ {
-		if swag.IsZero(m.ChartValueOverrides[i]) { // not required
+		if typeutils.IsZero(m.ChartValueOverrides[i]) { // not required
 			continue
 		}
 
@@ -189,7 +190,7 @@ func (m *VcDescription) validateClusterID(formats strfmt.Registry) error {
 }
 
 func (m *VcDescription) validateResources(formats strfmt.Registry) error {
-	if swag.IsZero(m.Resources) { // not required
+	if typeutils.IsZero(m.Resources) { // not required
 		return nil
 	}
 
@@ -212,7 +213,7 @@ func (m *VcDescription) validateResources(formats strfmt.Registry) error {
 }
 
 func (m *VcDescription) validateSMTPConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.SMTPConfig) { // not required
+	if typeutils.IsZero(m.SMTPConfig) { // not required
 		return nil
 	}
 
@@ -282,7 +283,7 @@ func (m *VcDescription) contextValidateAccessControl(ctx context.Context, format
 
 	if m.AccessControl != nil {
 
-		if swag.IsZero(m.AccessControl) { // not required
+		if typeutils.IsZero(m.AccessControl) { // not required
 			return nil
 		}
 
@@ -309,7 +310,7 @@ func (m *VcDescription) contextValidateChartValueOverrides(ctx context.Context, 
 
 		if m.ChartValueOverrides[i] != nil {
 
-			if swag.IsZero(m.ChartValueOverrides[i]) { // not required
+			if typeutils.IsZero(m.ChartValueOverrides[i]) { // not required
 				return nil
 			}
 
@@ -336,7 +337,7 @@ func (m *VcDescription) contextValidateResources(ctx context.Context, formats st
 
 	if m.Resources != nil {
 
-		if swag.IsZero(m.Resources) { // not required
+		if typeutils.IsZero(m.Resources) { // not required
 			return nil
 		}
 
@@ -361,7 +362,7 @@ func (m *VcDescription) contextValidateSMTPConfig(ctx context.Context, formats s
 
 	if m.SMTPConfig != nil {
 
-		if swag.IsZero(m.SMTPConfig) { // not required
+		if typeutils.IsZero(m.SMTPConfig) { // not required
 			return nil
 		}
 
@@ -387,13 +388,13 @@ func (m *VcDescription) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *VcDescription) UnmarshalBinary(b []byte) error {
 	var res VcDescription
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewGenerateWorkloadAuthTokenParams creates a new GenerateWorkloadAuthTokenParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGenerateWorkloadAuthTokenParams() *GenerateWorkloadAuthTokenParams {
-	return &GenerateWorkloadAuthTokenParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGenerateWorkloadAuthTokenParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGenerateWorkloadAuthTokenParamsWithTimeout creates a new GenerateWorkloadAuthTokenParams object
 // with the ability to set a timeout on a request.
 func NewGenerateWorkloadAuthTokenParamsWithTimeout(timeout time.Duration) *GenerateWorkloadAuthTokenParams {
 	return &GenerateWorkloadAuthTokenParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGenerateWorkloadAuthTokenParamsWithContext creates a new GenerateWorkloadAuthTokenParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GenerateWorkloadAuthTokenParams].
 func NewGenerateWorkloadAuthTokenParamsWithContext(ctx context.Context) *GenerateWorkloadAuthTokenParams {
 	return &GenerateWorkloadAuthTokenParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GenerateWorkloadAuthTokenParams struct {
 	// Input.
 	Input *models.GenerateWorkloadAuthTokenRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the generate workload auth token params (not the query body).
@@ -83,54 +86,57 @@ func (o *GenerateWorkloadAuthTokenParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the generate workload auth token params
+// WithTimeout adds the timeout to the generate workload auth token params.
 func (o *GenerateWorkloadAuthTokenParams) WithTimeout(timeout time.Duration) *GenerateWorkloadAuthTokenParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the generate workload auth token params
+// SetTimeout adds the timeout to the generate workload auth token params.
 func (o *GenerateWorkloadAuthTokenParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the generate workload auth token params
+// WithContext adds the context to the generate workload auth token params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GenerateWorkloadAuthTokenParams].
 func (o *GenerateWorkloadAuthTokenParams) WithContext(ctx context.Context) *GenerateWorkloadAuthTokenParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the generate workload auth token params
+// SetContext adds the context to the generate workload auth token params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GenerateWorkloadAuthTokenParams].
 func (o *GenerateWorkloadAuthTokenParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the generate workload auth token params
+// WithHTTPClient adds the HTTPClient to the generate workload auth token params.
 func (o *GenerateWorkloadAuthTokenParams) WithHTTPClient(client *http.Client) *GenerateWorkloadAuthTokenParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the generate workload auth token params
+// SetHTTPClient adds the HTTPClient to the generate workload auth token params.
 func (o *GenerateWorkloadAuthTokenParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the generate workload auth token params
+// WithInput adds the input to the generate workload auth token params.
 func (o *GenerateWorkloadAuthTokenParams) WithInput(input *models.GenerateWorkloadAuthTokenRequest) *GenerateWorkloadAuthTokenParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the generate workload auth token params
+// SetInput adds the input to the generate workload auth token params.
 func (o *GenerateWorkloadAuthTokenParams) SetInput(input *models.GenerateWorkloadAuthTokenRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GenerateWorkloadAuthTokenParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewSuspendClusterParams creates a new SuspendClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSuspendClusterParams() *SuspendClusterParams {
-	return &SuspendClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSuspendClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSuspendClusterParamsWithTimeout creates a new SuspendClusterParams object
 // with the ability to set a timeout on a request.
 func NewSuspendClusterParamsWithTimeout(timeout time.Duration) *SuspendClusterParams {
 	return &SuspendClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSuspendClusterParamsWithContext creates a new SuspendClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendClusterParams].
 func NewSuspendClusterParamsWithContext(ctx context.Context) *SuspendClusterParams {
 	return &SuspendClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SuspendClusterParams struct {
 	// Input.
 	Input *models.SuspendClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the suspend cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *SuspendClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the suspend cluster params
+// WithTimeout adds the timeout to the suspend cluster params.
 func (o *SuspendClusterParams) WithTimeout(timeout time.Duration) *SuspendClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the suspend cluster params
+// SetTimeout adds the timeout to the suspend cluster params.
 func (o *SuspendClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the suspend cluster params
+// WithContext adds the context to the suspend cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendClusterParams].
 func (o *SuspendClusterParams) WithContext(ctx context.Context) *SuspendClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the suspend cluster params
+// SetContext adds the context to the suspend cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendClusterParams].
 func (o *SuspendClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the suspend cluster params
+// WithHTTPClient adds the HTTPClient to the suspend cluster params.
 func (o *SuspendClusterParams) WithHTTPClient(client *http.Client) *SuspendClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the suspend cluster params
+// SetHTTPClient adds the HTTPClient to the suspend cluster params.
 func (o *SuspendClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the suspend cluster params
+// WithInput adds the input to the suspend cluster params.
 func (o *SuspendClusterParams) WithInput(input *models.SuspendClusterRequest) *SuspendClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the suspend cluster params
+// SetInput adds the input to the suspend cluster params.
 func (o *SuspendClusterParams) SetInput(input *models.SuspendClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SuspendClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

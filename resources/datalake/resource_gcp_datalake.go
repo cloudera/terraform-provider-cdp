@@ -61,7 +61,7 @@ func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 
 	client := r.client.Datalake
 
-	params := operations.NewCreateGCPDatalakeParamsWithContext(ctx)
+	params := operations.NewCreateGCPDatalakeParams()
 	params.WithInput(toGcpDatalakeRequest(ctx, &state))
 	responseOk, err := client.Operations.CreateGCPDatalake(params)
 	if err != nil {
@@ -90,7 +90,7 @@ func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 		}
 	}
 
-	descParams := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	descParams := operations.NewDescribeDatalakeParams()
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
 	if err != nil {
@@ -122,7 +122,7 @@ func (r *gcpDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	if len(dlName) == 0 {
 		dlName = state.ID.ValueString()
 	}
-	params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	params := operations.NewDescribeDatalakeParams()
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &dlName})
 	responseOk, err := client.Operations.DescribeDatalake(params)
 	if err != nil {
@@ -167,7 +167,7 @@ func (r *gcpDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 	if state.DeleteOptions != nil {
 		forceDelete = state.DeleteOptions.Forced.ValueBool()
 	}
-	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
+	params := operations.NewDeleteDatalakeParams()
 	params.WithInput(&datalakemodels.DeleteDatalakeRequest{
 		DatalakeName: state.DatalakeName.ValueStringPointer(),
 		Force:        forceDelete,

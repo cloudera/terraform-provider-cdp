@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewListVwEventsParams creates a new ListVwEventsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListVwEventsParams() *ListVwEventsParams {
-	return &ListVwEventsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListVwEventsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListVwEventsParamsWithTimeout creates a new ListVwEventsParams object
 // with the ability to set a timeout on a request.
 func NewListVwEventsParamsWithTimeout(timeout time.Duration) *ListVwEventsParams {
 	return &ListVwEventsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListVwEventsParamsWithContext creates a new ListVwEventsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListVwEventsParams].
 func NewListVwEventsParamsWithContext(ctx context.Context) *ListVwEventsParams {
 	return &ListVwEventsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListVwEventsParams struct {
 	// Input.
 	Input *models.ListVwEventsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list vw events params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListVwEventsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list vw events params
+// WithTimeout adds the timeout to the list vw events params.
 func (o *ListVwEventsParams) WithTimeout(timeout time.Duration) *ListVwEventsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list vw events params
+// SetTimeout adds the timeout to the list vw events params.
 func (o *ListVwEventsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list vw events params
+// WithContext adds the context to the list vw events params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListVwEventsParams].
 func (o *ListVwEventsParams) WithContext(ctx context.Context) *ListVwEventsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list vw events params
+// SetContext adds the context to the list vw events params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListVwEventsParams].
 func (o *ListVwEventsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list vw events params
+// WithHTTPClient adds the HTTPClient to the list vw events params.
 func (o *ListVwEventsParams) WithHTTPClient(client *http.Client) *ListVwEventsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list vw events params
+// SetHTTPClient adds the HTTPClient to the list vw events params.
 func (o *ListVwEventsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list vw events params
+// WithInput adds the input to the list vw events params.
 func (o *ListVwEventsParams) WithInput(input *models.ListVwEventsRequest) *ListVwEventsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list vw events params
+// SetInput adds the input to the list vw events params.
 func (o *ListVwEventsParams) SetInput(input *models.ListVwEventsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListVwEventsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

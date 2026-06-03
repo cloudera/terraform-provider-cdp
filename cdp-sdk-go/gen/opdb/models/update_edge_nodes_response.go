@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -62,12 +63,12 @@ func (m *UpdateEdgeNodesResponse) validateDatabase(formats strfmt.Registry) erro
 }
 
 func (m *UpdateEdgeNodesResponse) validateEdgeNodes(formats strfmt.Registry) error {
-	if swag.IsZero(m.EdgeNodes) { // not required
+	if typeutils.IsZero(m.EdgeNodes) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.EdgeNodes); i++ {
-		if swag.IsZero(m.EdgeNodes[i]) { // not required
+		if typeutils.IsZero(m.EdgeNodes[i]) { // not required
 			continue
 		}
 
@@ -120,7 +121,7 @@ func (m *UpdateEdgeNodesResponse) contextValidateEdgeNodes(ctx context.Context, 
 
 		if m.EdgeNodes[i] != nil {
 
-			if swag.IsZero(m.EdgeNodes[i]) { // not required
+			if typeutils.IsZero(m.EdgeNodes[i]) { // not required
 				return nil
 			}
 
@@ -148,13 +149,13 @@ func (m *UpdateEdgeNodesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateEdgeNodesResponse) UnmarshalBinary(b []byte) error {
 	var res UpdateEdgeNodesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

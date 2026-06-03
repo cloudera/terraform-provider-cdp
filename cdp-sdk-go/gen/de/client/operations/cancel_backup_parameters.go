@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewCancelBackupParams creates a new CancelBackupParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCancelBackupParams() *CancelBackupParams {
-	return &CancelBackupParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCancelBackupParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCancelBackupParamsWithTimeout creates a new CancelBackupParams object
 // with the ability to set a timeout on a request.
 func NewCancelBackupParamsWithTimeout(timeout time.Duration) *CancelBackupParams {
 	return &CancelBackupParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCancelBackupParamsWithContext creates a new CancelBackupParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelBackupParams].
 func NewCancelBackupParamsWithContext(ctx context.Context) *CancelBackupParams {
 	return &CancelBackupParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CancelBackupParams struct {
 	// Input.
 	Input *models.CancelBackupRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the cancel backup params (not the query body).
@@ -83,54 +86,57 @@ func (o *CancelBackupParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the cancel backup params
+// WithTimeout adds the timeout to the cancel backup params.
 func (o *CancelBackupParams) WithTimeout(timeout time.Duration) *CancelBackupParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the cancel backup params
+// SetTimeout adds the timeout to the cancel backup params.
 func (o *CancelBackupParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the cancel backup params
+// WithContext adds the context to the cancel backup params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelBackupParams].
 func (o *CancelBackupParams) WithContext(ctx context.Context) *CancelBackupParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the cancel backup params
+// SetContext adds the context to the cancel backup params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelBackupParams].
 func (o *CancelBackupParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the cancel backup params
+// WithHTTPClient adds the HTTPClient to the cancel backup params.
 func (o *CancelBackupParams) WithHTTPClient(client *http.Client) *CancelBackupParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the cancel backup params
+// SetHTTPClient adds the HTTPClient to the cancel backup params.
 func (o *CancelBackupParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the cancel backup params
+// WithInput adds the input to the cancel backup params.
 func (o *CancelBackupParams) WithInput(input *models.CancelBackupRequest) *CancelBackupParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the cancel backup params
+// SetInput adds the input to the cancel backup params.
 func (o *CancelBackupParams) SetInput(input *models.CancelBackupRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CancelBackupParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

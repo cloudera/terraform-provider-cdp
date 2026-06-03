@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -81,7 +82,7 @@ func (m *UpdateDatabaseRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *UpdateDatabaseRequest) validateAutoScalingParameters(formats strfmt.Registry) error {
-	if swag.IsZero(m.AutoScalingParameters) { // not required
+	if typeutils.IsZero(m.AutoScalingParameters) { // not required
 		return nil
 	}
 
@@ -122,7 +123,7 @@ func (m *UpdateDatabaseRequest) validateEnvironmentName(formats strfmt.Registry)
 }
 
 func (m *UpdateDatabaseRequest) validateSwitchInstanceType(formats strfmt.Registry) error {
-	if swag.IsZero(m.SwitchInstanceType) { // not required
+	if typeutils.IsZero(m.SwitchInstanceType) { // not required
 		return nil
 	}
 
@@ -145,7 +146,7 @@ func (m *UpdateDatabaseRequest) validateSwitchInstanceType(formats strfmt.Regist
 }
 
 func (m *UpdateDatabaseRequest) validateVerticalScale(formats strfmt.Registry) error {
-	if swag.IsZero(m.VerticalScale) { // not required
+	if typeutils.IsZero(m.VerticalScale) { // not required
 		return nil
 	}
 
@@ -191,7 +192,7 @@ func (m *UpdateDatabaseRequest) contextValidateAutoScalingParameters(ctx context
 
 	if m.AutoScalingParameters != nil {
 
-		if swag.IsZero(m.AutoScalingParameters) { // not required
+		if typeutils.IsZero(m.AutoScalingParameters) { // not required
 			return nil
 		}
 
@@ -216,7 +217,7 @@ func (m *UpdateDatabaseRequest) contextValidateSwitchInstanceType(ctx context.Co
 
 	if m.SwitchInstanceType != nil {
 
-		if swag.IsZero(m.SwitchInstanceType) { // not required
+		if typeutils.IsZero(m.SwitchInstanceType) { // not required
 			return nil
 		}
 
@@ -239,7 +240,7 @@ func (m *UpdateDatabaseRequest) contextValidateSwitchInstanceType(ctx context.Co
 
 func (m *UpdateDatabaseRequest) contextValidateVerticalScale(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.VerticalScale) { // not required
+	if typeutils.IsZero(m.VerticalScale) { // not required
 		return nil
 	}
 
@@ -264,13 +265,13 @@ func (m *UpdateDatabaseRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateDatabaseRequest) UnmarshalBinary(b []byte) error {
 	var res UpdateDatabaseRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

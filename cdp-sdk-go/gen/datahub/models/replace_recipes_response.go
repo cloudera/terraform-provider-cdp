@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ReplaceRecipesResponse The response for replacing recipes.
@@ -43,12 +44,12 @@ func (m *ReplaceRecipesResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ReplaceRecipesResponse) validateAttachedRecipes(formats strfmt.Registry) error {
-	if swag.IsZero(m.AttachedRecipes) { // not required
+	if typeutils.IsZero(m.AttachedRecipes) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.AttachedRecipes); i++ {
-		if swag.IsZero(m.AttachedRecipes[i]) { // not required
+		if typeutils.IsZero(m.AttachedRecipes[i]) { // not required
 			continue
 		}
 
@@ -73,12 +74,12 @@ func (m *ReplaceRecipesResponse) validateAttachedRecipes(formats strfmt.Registry
 }
 
 func (m *ReplaceRecipesResponse) validateDetachedRecipes(formats strfmt.Registry) error {
-	if swag.IsZero(m.DetachedRecipes) { // not required
+	if typeutils.IsZero(m.DetachedRecipes) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.DetachedRecipes); i++ {
-		if swag.IsZero(m.DetachedRecipes[i]) { // not required
+		if typeutils.IsZero(m.DetachedRecipes[i]) { // not required
 			continue
 		}
 
@@ -126,7 +127,7 @@ func (m *ReplaceRecipesResponse) contextValidateAttachedRecipes(ctx context.Cont
 
 		if m.AttachedRecipes[i] != nil {
 
-			if swag.IsZero(m.AttachedRecipes[i]) { // not required
+			if typeutils.IsZero(m.AttachedRecipes[i]) { // not required
 				return nil
 			}
 
@@ -155,7 +156,7 @@ func (m *ReplaceRecipesResponse) contextValidateDetachedRecipes(ctx context.Cont
 
 		if m.DetachedRecipes[i] != nil {
 
-			if swag.IsZero(m.DetachedRecipes[i]) { // not required
+			if typeutils.IsZero(m.DetachedRecipes[i]) { // not required
 				return nil
 			}
 
@@ -183,13 +184,13 @@ func (m *ReplaceRecipesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ReplaceRecipesResponse) UnmarshalBinary(b []byte) error {
 	var res ReplaceRecipesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

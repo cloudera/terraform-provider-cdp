@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // AutoscalingOptionsUpdateRequest Auto-scaling configuration for a Virtual Warehouse. Provide those values only that you want to update.
@@ -65,7 +66,7 @@ func (m *AutoscalingOptionsUpdateRequest) Validate(formats strfmt.Registry) erro
 }
 
 func (m *AutoscalingOptionsUpdateRequest) validateImpalaExecutorGroupSets(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImpalaExecutorGroupSets) { // not required
+	if typeutils.IsZero(m.ImpalaExecutorGroupSets) { // not required
 		return nil
 	}
 
@@ -105,7 +106,7 @@ func (m *AutoscalingOptionsUpdateRequest) contextValidateImpalaExecutorGroupSets
 
 	if m.ImpalaExecutorGroupSets != nil {
 
-		if swag.IsZero(m.ImpalaExecutorGroupSets) { // not required
+		if typeutils.IsZero(m.ImpalaExecutorGroupSets) { // not required
 			return nil
 		}
 
@@ -131,13 +132,13 @@ func (m *AutoscalingOptionsUpdateRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AutoscalingOptionsUpdateRequest) UnmarshalBinary(b []byte) error {
 	var res AutoscalingOptionsUpdateRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

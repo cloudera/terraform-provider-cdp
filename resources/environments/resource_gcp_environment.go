@@ -63,7 +63,7 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 
 	client := r.client.Environments
 
-	params := operations.NewCreateGCPEnvironmentParamsWithContext(ctx)
+	params := operations.NewCreateGCPEnvironmentParams()
 	params.WithInput(toGcpEnvironmentRequest(ctx, &data))
 
 	responseOk, err := client.Operations.CreateGCPEnvironment(params)

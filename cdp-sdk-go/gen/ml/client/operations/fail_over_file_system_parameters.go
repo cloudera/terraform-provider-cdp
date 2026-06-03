@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewFailOverFileSystemParams creates a new FailOverFileSystemParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewFailOverFileSystemParams() *FailOverFileSystemParams {
-	return &FailOverFileSystemParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewFailOverFileSystemParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewFailOverFileSystemParamsWithTimeout creates a new FailOverFileSystemParams object
 // with the ability to set a timeout on a request.
 func NewFailOverFileSystemParamsWithTimeout(timeout time.Duration) *FailOverFileSystemParams {
 	return &FailOverFileSystemParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewFailOverFileSystemParamsWithContext creates a new FailOverFileSystemParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [FailOverFileSystemParams].
 func NewFailOverFileSystemParamsWithContext(ctx context.Context) *FailOverFileSystemParams {
 	return &FailOverFileSystemParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type FailOverFileSystemParams struct {
 	// Input.
 	Input *models.FailOverFileSystemRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the fail over file system params (not the query body).
@@ -83,54 +86,57 @@ func (o *FailOverFileSystemParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the fail over file system params
+// WithTimeout adds the timeout to the fail over file system params.
 func (o *FailOverFileSystemParams) WithTimeout(timeout time.Duration) *FailOverFileSystemParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the fail over file system params
+// SetTimeout adds the timeout to the fail over file system params.
 func (o *FailOverFileSystemParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the fail over file system params
+// WithContext adds the context to the fail over file system params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [FailOverFileSystemParams].
 func (o *FailOverFileSystemParams) WithContext(ctx context.Context) *FailOverFileSystemParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the fail over file system params
+// SetContext adds the context to the fail over file system params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [FailOverFileSystemParams].
 func (o *FailOverFileSystemParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the fail over file system params
+// WithHTTPClient adds the HTTPClient to the fail over file system params.
 func (o *FailOverFileSystemParams) WithHTTPClient(client *http.Client) *FailOverFileSystemParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the fail over file system params
+// SetHTTPClient adds the HTTPClient to the fail over file system params.
 func (o *FailOverFileSystemParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the fail over file system params
+// WithInput adds the input to the fail over file system params.
 func (o *FailOverFileSystemParams) WithInput(input *models.FailOverFileSystemRequest) *FailOverFileSystemParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the fail over file system params
+// SetInput adds the input to the fail over file system params.
 func (o *FailOverFileSystemParams) SetInput(input *models.FailOverFileSystemRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *FailOverFileSystemParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

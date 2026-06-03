@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewCheckKubernetesConnectivityParams creates a new CheckKubernetesConnectivityParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCheckKubernetesConnectivityParams() *CheckKubernetesConnectivityParams {
-	return &CheckKubernetesConnectivityParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCheckKubernetesConnectivityParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCheckKubernetesConnectivityParamsWithTimeout creates a new CheckKubernetesConnectivityParams object
 // with the ability to set a timeout on a request.
 func NewCheckKubernetesConnectivityParamsWithTimeout(timeout time.Duration) *CheckKubernetesConnectivityParams {
 	return &CheckKubernetesConnectivityParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCheckKubernetesConnectivityParamsWithContext creates a new CheckKubernetesConnectivityParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CheckKubernetesConnectivityParams].
 func NewCheckKubernetesConnectivityParamsWithContext(ctx context.Context) *CheckKubernetesConnectivityParams {
 	return &CheckKubernetesConnectivityParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CheckKubernetesConnectivityParams struct {
 	// Input.
 	Input *models.CheckKubernetesConnectivityRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the check kubernetes connectivity params (not the query body).
@@ -83,54 +86,57 @@ func (o *CheckKubernetesConnectivityParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the check kubernetes connectivity params
+// WithTimeout adds the timeout to the check kubernetes connectivity params.
 func (o *CheckKubernetesConnectivityParams) WithTimeout(timeout time.Duration) *CheckKubernetesConnectivityParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the check kubernetes connectivity params
+// SetTimeout adds the timeout to the check kubernetes connectivity params.
 func (o *CheckKubernetesConnectivityParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the check kubernetes connectivity params
+// WithContext adds the context to the check kubernetes connectivity params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CheckKubernetesConnectivityParams].
 func (o *CheckKubernetesConnectivityParams) WithContext(ctx context.Context) *CheckKubernetesConnectivityParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the check kubernetes connectivity params
+// SetContext adds the context to the check kubernetes connectivity params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CheckKubernetesConnectivityParams].
 func (o *CheckKubernetesConnectivityParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the check kubernetes connectivity params
+// WithHTTPClient adds the HTTPClient to the check kubernetes connectivity params.
 func (o *CheckKubernetesConnectivityParams) WithHTTPClient(client *http.Client) *CheckKubernetesConnectivityParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the check kubernetes connectivity params
+// SetHTTPClient adds the HTTPClient to the check kubernetes connectivity params.
 func (o *CheckKubernetesConnectivityParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the check kubernetes connectivity params
+// WithInput adds the input to the check kubernetes connectivity params.
 func (o *CheckKubernetesConnectivityParams) WithInput(input *models.CheckKubernetesConnectivityRequest) *CheckKubernetesConnectivityParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the check kubernetes connectivity params
+// SetInput adds the input to the check kubernetes connectivity params.
 func (o *CheckKubernetesConnectivityParams) SetInput(input *models.CheckKubernetesConnectivityRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CheckKubernetesConnectivityParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

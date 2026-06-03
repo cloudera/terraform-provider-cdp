@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListScalingEventsResponse List scaling events response.
@@ -39,12 +40,12 @@ func (m *ListScalingEventsResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListScalingEventsResponse) validateScalingEvents(formats strfmt.Registry) error {
-	if swag.IsZero(m.ScalingEvents) { // not required
+	if typeutils.IsZero(m.ScalingEvents) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ScalingEvents); i++ {
-		if swag.IsZero(m.ScalingEvents[i]) { // not required
+		if typeutils.IsZero(m.ScalingEvents[i]) { // not required
 			continue
 		}
 
@@ -88,7 +89,7 @@ func (m *ListScalingEventsResponse) contextValidateScalingEvents(ctx context.Con
 
 		if m.ScalingEvents[i] != nil {
 
-			if swag.IsZero(m.ScalingEvents[i]) { // not required
+			if typeutils.IsZero(m.ScalingEvents[i]) { // not required
 				return nil
 			}
 
@@ -116,13 +117,13 @@ func (m *ListScalingEventsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListScalingEventsResponse) UnmarshalBinary(b []byte) error {
 	var res ListScalingEventsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

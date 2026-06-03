@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewListAuditCredentialsParams creates a new ListAuditCredentialsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListAuditCredentialsParams() *ListAuditCredentialsParams {
-	return &ListAuditCredentialsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListAuditCredentialsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListAuditCredentialsParamsWithTimeout creates a new ListAuditCredentialsParams object
 // with the ability to set a timeout on a request.
 func NewListAuditCredentialsParamsWithTimeout(timeout time.Duration) *ListAuditCredentialsParams {
 	return &ListAuditCredentialsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListAuditCredentialsParamsWithContext creates a new ListAuditCredentialsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListAuditCredentialsParams].
 func NewListAuditCredentialsParamsWithContext(ctx context.Context) *ListAuditCredentialsParams {
 	return &ListAuditCredentialsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListAuditCredentialsParams struct {
 	// Input.
 	Input models.ListAuditCredentialsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list audit credentials params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListAuditCredentialsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list audit credentials params
+// WithTimeout adds the timeout to the list audit credentials params.
 func (o *ListAuditCredentialsParams) WithTimeout(timeout time.Duration) *ListAuditCredentialsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list audit credentials params
+// SetTimeout adds the timeout to the list audit credentials params.
 func (o *ListAuditCredentialsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list audit credentials params
+// WithContext adds the context to the list audit credentials params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListAuditCredentialsParams].
 func (o *ListAuditCredentialsParams) WithContext(ctx context.Context) *ListAuditCredentialsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list audit credentials params
+// SetContext adds the context to the list audit credentials params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListAuditCredentialsParams].
 func (o *ListAuditCredentialsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list audit credentials params
+// WithHTTPClient adds the HTTPClient to the list audit credentials params.
 func (o *ListAuditCredentialsParams) WithHTTPClient(client *http.Client) *ListAuditCredentialsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list audit credentials params
+// SetHTTPClient adds the HTTPClient to the list audit credentials params.
 func (o *ListAuditCredentialsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list audit credentials params
+// WithInput adds the input to the list audit credentials params.
 func (o *ListAuditCredentialsParams) WithInput(input models.ListAuditCredentialsRequest) *ListAuditCredentialsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list audit credentials params
+// SetInput adds the input to the list audit credentials params.
 func (o *ListAuditCredentialsParams) SetInput(input models.ListAuditCredentialsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListAuditCredentialsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

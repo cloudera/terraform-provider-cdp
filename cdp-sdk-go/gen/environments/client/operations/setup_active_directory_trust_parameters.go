@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSetupActiveDirectoryTrustParams creates a new SetupActiveDirectoryTrustParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetupActiveDirectoryTrustParams() *SetupActiveDirectoryTrustParams {
-	return &SetupActiveDirectoryTrustParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetupActiveDirectoryTrustParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetupActiveDirectoryTrustParamsWithTimeout creates a new SetupActiveDirectoryTrustParams object
 // with the ability to set a timeout on a request.
 func NewSetupActiveDirectoryTrustParamsWithTimeout(timeout time.Duration) *SetupActiveDirectoryTrustParams {
 	return &SetupActiveDirectoryTrustParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetupActiveDirectoryTrustParamsWithContext creates a new SetupActiveDirectoryTrustParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetupActiveDirectoryTrustParams].
 func NewSetupActiveDirectoryTrustParamsWithContext(ctx context.Context) *SetupActiveDirectoryTrustParams {
 	return &SetupActiveDirectoryTrustParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetupActiveDirectoryTrustParams struct {
 	// Input.
 	Input *models.SetupActiveDirectoryTrustRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the setup active directory trust params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetupActiveDirectoryTrustParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the setup active directory trust params
+// WithTimeout adds the timeout to the setup active directory trust params.
 func (o *SetupActiveDirectoryTrustParams) WithTimeout(timeout time.Duration) *SetupActiveDirectoryTrustParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the setup active directory trust params
+// SetTimeout adds the timeout to the setup active directory trust params.
 func (o *SetupActiveDirectoryTrustParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the setup active directory trust params
+// WithContext adds the context to the setup active directory trust params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetupActiveDirectoryTrustParams].
 func (o *SetupActiveDirectoryTrustParams) WithContext(ctx context.Context) *SetupActiveDirectoryTrustParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the setup active directory trust params
+// SetContext adds the context to the setup active directory trust params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetupActiveDirectoryTrustParams].
 func (o *SetupActiveDirectoryTrustParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the setup active directory trust params
+// WithHTTPClient adds the HTTPClient to the setup active directory trust params.
 func (o *SetupActiveDirectoryTrustParams) WithHTTPClient(client *http.Client) *SetupActiveDirectoryTrustParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the setup active directory trust params
+// SetHTTPClient adds the HTTPClient to the setup active directory trust params.
 func (o *SetupActiveDirectoryTrustParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the setup active directory trust params
+// WithInput adds the input to the setup active directory trust params.
 func (o *SetupActiveDirectoryTrustParams) WithInput(input *models.SetupActiveDirectoryTrustRequest) *SetupActiveDirectoryTrustParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the setup active directory trust params
+// SetInput adds the input to the setup active directory trust params.
 func (o *SetupActiveDirectoryTrustParams) SetInput(input *models.SetupActiveDirectoryTrustRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetupActiveDirectoryTrustParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

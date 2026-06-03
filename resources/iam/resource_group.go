@@ -101,7 +101,7 @@ func (r *groupResource) Create(ctx context.Context, req resource.CreateRequest, 
 
 	client := r.client.Iam
 
-	params := operations.NewCreateGroupParamsWithContext(ctx)
+	params := operations.NewCreateGroupParams()
 	params.WithInput(&iammodels.CreateGroupRequest{
 		GroupName:                 data.GroupName.ValueStringPointer(),
 		SyncMembershipOnUserLogin: data.SyncMembershipOnUserLogin.ValueBoolPointer(),
@@ -140,7 +140,7 @@ func sharedGroupRead(ctx context.Context, client *client.Iam, state *groupModel,
 	}
 
 	groupName := state.GroupName.ValueString()
-	params := operations.NewListGroupsParamsWithContext(ctx)
+	params := operations.NewListGroupsParams()
 	params.WithInput(&iammodels.ListGroupsRequest{GroupNames: []string{groupName}})
 	listGroupsOk, err := client.Operations.ListGroups(params)
 	if err != nil {
@@ -182,7 +182,7 @@ func (r *groupResource) Update(ctx context.Context, req resource.UpdateRequest, 
 	client := r.client.Iam
 
 	if !plan.SyncMembershipOnUserLogin.Equal(state.SyncMembershipOnUserLogin) {
-		params := operations.NewUpdateGroupParamsWithContext(ctx)
+		params := operations.NewUpdateGroupParams()
 		// TODO: Below works for false -> true, but does not work for true -> false since swagger generates the
 		// the UpdateGroupRequest.SyncMembershipOnUserLogin with `omitempty` which then gets omitted in the request
 		// resulting in the server side not seeing the intended change to this field at all. We need to take a look
@@ -217,7 +217,7 @@ func (r *groupResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 	client := r.client.Iam
 
 	groupName := state.ID.ValueString()
-	params := operations.NewDeleteGroupParamsWithContext(ctx)
+	params := operations.NewDeleteGroupParams()
 	params.WithInput(&iammodels.DeleteGroupRequest{GroupName: &groupName})
 	_, err := client.Operations.DeleteGroup(params)
 	if err != nil {

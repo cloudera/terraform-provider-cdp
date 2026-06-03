@@ -97,12 +97,20 @@ type MockTransport struct {
 	runtime.ClientTransport
 }
 
+func (m *MockTransport) Submit(op *runtime.ClientOperation) (any, error) {
+	return nil, nil
+}
+
+func (m *MockTransport) SubmitContext(ctx context.Context, op *runtime.ClientOperation) (any, error) {
+	return m.Submit(op)
+}
+
 func NewDwApi(client *mocks.MockDwClientService) *dwDatabaseCatalogResource {
 	return &dwDatabaseCatalogResource{
 		client: &cdp.Client{
 			Dw: &dwclient.Dw{
 				Operations: client,
-				Transport:  MockTransport{},
+				Transport:  &MockTransport{},
 			}}}
 }
 

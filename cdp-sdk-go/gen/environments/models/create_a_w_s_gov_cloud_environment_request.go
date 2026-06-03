@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -199,7 +200,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateCredentialName(formats str
 }
 
 func (m *CreateAWSGovCloudEnvironmentRequest) validateCustomDockerRegistry(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomDockerRegistry) { // not required
+	if typeutils.IsZero(m.CustomDockerRegistry) { // not required
 		return nil
 	}
 
@@ -251,7 +252,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateEndpointAccessGatewaySchem
 }
 
 func (m *CreateAWSGovCloudEnvironmentRequest) validateEndpointAccessGatewayScheme(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndpointAccessGatewayScheme) { // not required
+	if typeutils.IsZero(m.EndpointAccessGatewayScheme) { // not required
 		return nil
 	}
 
@@ -273,7 +274,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateEnvironmentName(formats st
 }
 
 func (m *CreateAWSGovCloudEnvironmentRequest) validateFreeIpa(formats strfmt.Registry) error {
-	if swag.IsZero(m.FreeIpa) { // not required
+	if typeutils.IsZero(m.FreeIpa) { // not required
 		return nil
 	}
 
@@ -296,7 +297,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateFreeIpa(formats strfmt.Reg
 }
 
 func (m *CreateAWSGovCloudEnvironmentRequest) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
+	if typeutils.IsZero(m.Image) { // not required
 		return nil
 	}
 
@@ -352,7 +353,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateRegion(formats strfmt.Regi
 }
 
 func (m *CreateAWSGovCloudEnvironmentRequest) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -399,7 +400,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateSecurityAccess(formats str
 }
 
 func (m *CreateAWSGovCloudEnvironmentRequest) validateSubnetIds(formats strfmt.Registry) error {
-	if swag.IsZero(m.SubnetIds) { // not required
+	if typeutils.IsZero(m.SubnetIds) { // not required
 		return nil
 	}
 
@@ -411,12 +412,12 @@ func (m *CreateAWSGovCloudEnvironmentRequest) validateSubnetIds(formats strfmt.R
 }
 
 func (m *CreateAWSGovCloudEnvironmentRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -507,7 +508,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateCustomDockerRegistr
 
 	if m.CustomDockerRegistry != nil {
 
-		if swag.IsZero(m.CustomDockerRegistry) { // not required
+		if typeutils.IsZero(m.CustomDockerRegistry) { // not required
 			return nil
 		}
 
@@ -532,7 +533,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateFreeIpa(ctx context
 
 	if m.FreeIpa != nil {
 
-		if swag.IsZero(m.FreeIpa) { // not required
+		if typeutils.IsZero(m.FreeIpa) { // not required
 			return nil
 		}
 
@@ -557,7 +558,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateImage(ctx context.C
 
 	if m.Image != nil {
 
-		if swag.IsZero(m.Image) { // not required
+		if typeutils.IsZero(m.Image) { // not required
 			return nil
 		}
 
@@ -603,7 +604,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateSecurity(ctx contex
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -651,7 +652,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateTags(ctx context.Co
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -679,13 +680,13 @@ func (m *CreateAWSGovCloudEnvironmentRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateAWSGovCloudEnvironmentRequest) UnmarshalBinary(b []byte) error {
 	var res CreateAWSGovCloudEnvironmentRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

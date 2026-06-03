@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -49,7 +50,7 @@ func (m *ServiceConfigReq) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ServiceConfigReq) validateApplicationConfigs(formats strfmt.Registry) error {
-	if swag.IsZero(m.ApplicationConfigs) { // not required
+	if typeutils.IsZero(m.ApplicationConfigs) { // not required
 		return nil
 	}
 
@@ -79,7 +80,7 @@ func (m *ServiceConfigReq) validateApplicationConfigs(formats strfmt.Registry) e
 }
 
 func (m *ServiceConfigReq) validateCommonConfigs(formats strfmt.Registry) error {
-	if swag.IsZero(m.CommonConfigs) { // not required
+	if typeutils.IsZero(m.CommonConfigs) { // not required
 		return nil
 	}
 
@@ -138,7 +139,7 @@ func (m *ServiceConfigReq) contextValidateCommonConfigs(ctx context.Context, for
 
 	if m.CommonConfigs != nil {
 
-		if swag.IsZero(m.CommonConfigs) { // not required
+		if typeutils.IsZero(m.CommonConfigs) { // not required
 			return nil
 		}
 
@@ -164,13 +165,13 @@ func (m *ServiceConfigReq) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ServiceConfigReq) UnmarshalBinary(b []byte) error {
 	var res ServiceConfigReq
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

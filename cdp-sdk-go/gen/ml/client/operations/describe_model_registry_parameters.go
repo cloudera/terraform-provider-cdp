@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewDescribeModelRegistryParams creates a new DescribeModelRegistryParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeModelRegistryParams() *DescribeModelRegistryParams {
-	return &DescribeModelRegistryParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeModelRegistryParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeModelRegistryParamsWithTimeout creates a new DescribeModelRegistryParams object
 // with the ability to set a timeout on a request.
 func NewDescribeModelRegistryParamsWithTimeout(timeout time.Duration) *DescribeModelRegistryParams {
 	return &DescribeModelRegistryParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeModelRegistryParamsWithContext creates a new DescribeModelRegistryParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeModelRegistryParams].
 func NewDescribeModelRegistryParamsWithContext(ctx context.Context) *DescribeModelRegistryParams {
 	return &DescribeModelRegistryParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeModelRegistryParams struct {
 	// Input.
 	Input *models.DescribeModelRegistryRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe model registry params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeModelRegistryParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe model registry params
+// WithTimeout adds the timeout to the describe model registry params.
 func (o *DescribeModelRegistryParams) WithTimeout(timeout time.Duration) *DescribeModelRegistryParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe model registry params
+// SetTimeout adds the timeout to the describe model registry params.
 func (o *DescribeModelRegistryParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe model registry params
+// WithContext adds the context to the describe model registry params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeModelRegistryParams].
 func (o *DescribeModelRegistryParams) WithContext(ctx context.Context) *DescribeModelRegistryParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe model registry params
+// SetContext adds the context to the describe model registry params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeModelRegistryParams].
 func (o *DescribeModelRegistryParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe model registry params
+// WithHTTPClient adds the HTTPClient to the describe model registry params.
 func (o *DescribeModelRegistryParams) WithHTTPClient(client *http.Client) *DescribeModelRegistryParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe model registry params
+// SetHTTPClient adds the HTTPClient to the describe model registry params.
 func (o *DescribeModelRegistryParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe model registry params
+// WithInput adds the input to the describe model registry params.
 func (o *DescribeModelRegistryParams) WithInput(input *models.DescribeModelRegistryRequest) *DescribeModelRegistryParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe model registry params
+// SetInput adds the input to the describe model registry params.
 func (o *DescribeModelRegistryParams) SetInput(input *models.DescribeModelRegistryRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeModelRegistryParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

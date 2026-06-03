@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewDisableS3GuardParams creates a new DisableS3GuardParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDisableS3GuardParams() *DisableS3GuardParams {
-	return &DisableS3GuardParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDisableS3GuardParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDisableS3GuardParamsWithTimeout creates a new DisableS3GuardParams object
 // with the ability to set a timeout on a request.
 func NewDisableS3GuardParamsWithTimeout(timeout time.Duration) *DisableS3GuardParams {
 	return &DisableS3GuardParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDisableS3GuardParamsWithContext creates a new DisableS3GuardParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DisableS3GuardParams].
 func NewDisableS3GuardParamsWithContext(ctx context.Context) *DisableS3GuardParams {
 	return &DisableS3GuardParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DisableS3GuardParams struct {
 	// Input.
 	Input *models.DisableS3GuardRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the disable s3 guard params (not the query body).
@@ -83,54 +86,57 @@ func (o *DisableS3GuardParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the disable s3 guard params
+// WithTimeout adds the timeout to the disable s3 guard params.
 func (o *DisableS3GuardParams) WithTimeout(timeout time.Duration) *DisableS3GuardParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the disable s3 guard params
+// SetTimeout adds the timeout to the disable s3 guard params.
 func (o *DisableS3GuardParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the disable s3 guard params
+// WithContext adds the context to the disable s3 guard params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DisableS3GuardParams].
 func (o *DisableS3GuardParams) WithContext(ctx context.Context) *DisableS3GuardParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the disable s3 guard params
+// SetContext adds the context to the disable s3 guard params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DisableS3GuardParams].
 func (o *DisableS3GuardParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the disable s3 guard params
+// WithHTTPClient adds the HTTPClient to the disable s3 guard params.
 func (o *DisableS3GuardParams) WithHTTPClient(client *http.Client) *DisableS3GuardParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the disable s3 guard params
+// SetHTTPClient adds the HTTPClient to the disable s3 guard params.
 func (o *DisableS3GuardParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the disable s3 guard params
+// WithInput adds the input to the disable s3 guard params.
 func (o *DisableS3GuardParams) WithInput(input *models.DisableS3GuardRequest) *DisableS3GuardParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the disable s3 guard params
+// SetInput adds the input to the disable s3 guard params.
 func (o *DisableS3GuardParams) SetInput(input *models.DisableS3GuardRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DisableS3GuardParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

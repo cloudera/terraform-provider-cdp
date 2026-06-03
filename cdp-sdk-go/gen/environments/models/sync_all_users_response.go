@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -91,7 +92,7 @@ func (m *SyncAllUsersResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *SyncAllUsersResponse) validateEndDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndDate) { // not required
+	if typeutils.IsZero(m.EndDate) { // not required
 		return nil
 	}
 
@@ -103,12 +104,12 @@ func (m *SyncAllUsersResponse) validateEndDate(formats strfmt.Registry) error {
 }
 
 func (m *SyncAllUsersResponse) validateFailure(formats strfmt.Registry) error {
-	if swag.IsZero(m.Failure) { // not required
+	if typeutils.IsZero(m.Failure) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Failure); i++ {
-		if swag.IsZero(m.Failure[i]) { // not required
+		if typeutils.IsZero(m.Failure[i]) { // not required
 			continue
 		}
 
@@ -142,7 +143,7 @@ func (m *SyncAllUsersResponse) validateOperationID(formats strfmt.Registry) erro
 }
 
 func (m *SyncAllUsersResponse) validateOperationType(formats strfmt.Registry) error {
-	if swag.IsZero(m.OperationType) { // not required
+	if typeutils.IsZero(m.OperationType) { // not required
 		return nil
 	}
 
@@ -163,7 +164,7 @@ func (m *SyncAllUsersResponse) validateOperationType(formats strfmt.Registry) er
 }
 
 func (m *SyncAllUsersResponse) validateStartDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.StartDate) { // not required
+	if typeutils.IsZero(m.StartDate) { // not required
 		return nil
 	}
 
@@ -175,7 +176,7 @@ func (m *SyncAllUsersResponse) validateStartDate(formats strfmt.Registry) error 
 }
 
 func (m *SyncAllUsersResponse) validateStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -196,12 +197,12 @@ func (m *SyncAllUsersResponse) validateStatus(formats strfmt.Registry) error {
 }
 
 func (m *SyncAllUsersResponse) validateSuccess(formats strfmt.Registry) error {
-	if swag.IsZero(m.Success) { // not required
+	if typeutils.IsZero(m.Success) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Success); i++ {
-		if swag.IsZero(m.Success[i]) { // not required
+		if typeutils.IsZero(m.Success[i]) { // not required
 			continue
 		}
 
@@ -257,7 +258,7 @@ func (m *SyncAllUsersResponse) contextValidateFailure(ctx context.Context, forma
 
 		if m.Failure[i] != nil {
 
-			if swag.IsZero(m.Failure[i]) { // not required
+			if typeutils.IsZero(m.Failure[i]) { // not required
 				return nil
 			}
 
@@ -282,7 +283,7 @@ func (m *SyncAllUsersResponse) contextValidateFailure(ctx context.Context, forma
 
 func (m *SyncAllUsersResponse) contextValidateOperationType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.OperationType) { // not required
+	if typeutils.IsZero(m.OperationType) { // not required
 		return nil
 	}
 
@@ -304,7 +305,7 @@ func (m *SyncAllUsersResponse) contextValidateOperationType(ctx context.Context,
 
 func (m *SyncAllUsersResponse) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -330,7 +331,7 @@ func (m *SyncAllUsersResponse) contextValidateSuccess(ctx context.Context, forma
 
 		if m.Success[i] != nil {
 
-			if swag.IsZero(m.Success[i]) { // not required
+			if typeutils.IsZero(m.Success[i]) { // not required
 				return nil
 			}
 
@@ -358,13 +359,13 @@ func (m *SyncAllUsersResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *SyncAllUsersResponse) UnmarshalBinary(b []byte) error {
 	var res SyncAllUsersResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

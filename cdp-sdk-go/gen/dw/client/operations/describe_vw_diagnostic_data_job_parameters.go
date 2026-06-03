@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDescribeVwDiagnosticDataJobParams creates a new DescribeVwDiagnosticDataJobParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeVwDiagnosticDataJobParams() *DescribeVwDiagnosticDataJobParams {
-	return &DescribeVwDiagnosticDataJobParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeVwDiagnosticDataJobParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeVwDiagnosticDataJobParamsWithTimeout creates a new DescribeVwDiagnosticDataJobParams object
 // with the ability to set a timeout on a request.
 func NewDescribeVwDiagnosticDataJobParamsWithTimeout(timeout time.Duration) *DescribeVwDiagnosticDataJobParams {
 	return &DescribeVwDiagnosticDataJobParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeVwDiagnosticDataJobParamsWithContext creates a new DescribeVwDiagnosticDataJobParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeVwDiagnosticDataJobParams].
 func NewDescribeVwDiagnosticDataJobParamsWithContext(ctx context.Context) *DescribeVwDiagnosticDataJobParams {
 	return &DescribeVwDiagnosticDataJobParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeVwDiagnosticDataJobParams struct {
 	// Input.
 	Input *models.DescribeVwDiagnosticDataJobRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe vw diagnostic data job params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeVwDiagnosticDataJobParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe vw diagnostic data job params
+// WithTimeout adds the timeout to the describe vw diagnostic data job params.
 func (o *DescribeVwDiagnosticDataJobParams) WithTimeout(timeout time.Duration) *DescribeVwDiagnosticDataJobParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe vw diagnostic data job params
+// SetTimeout adds the timeout to the describe vw diagnostic data job params.
 func (o *DescribeVwDiagnosticDataJobParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe vw diagnostic data job params
+// WithContext adds the context to the describe vw diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeVwDiagnosticDataJobParams].
 func (o *DescribeVwDiagnosticDataJobParams) WithContext(ctx context.Context) *DescribeVwDiagnosticDataJobParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe vw diagnostic data job params
+// SetContext adds the context to the describe vw diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeVwDiagnosticDataJobParams].
 func (o *DescribeVwDiagnosticDataJobParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe vw diagnostic data job params
+// WithHTTPClient adds the HTTPClient to the describe vw diagnostic data job params.
 func (o *DescribeVwDiagnosticDataJobParams) WithHTTPClient(client *http.Client) *DescribeVwDiagnosticDataJobParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe vw diagnostic data job params
+// SetHTTPClient adds the HTTPClient to the describe vw diagnostic data job params.
 func (o *DescribeVwDiagnosticDataJobParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe vw diagnostic data job params
+// WithInput adds the input to the describe vw diagnostic data job params.
 func (o *DescribeVwDiagnosticDataJobParams) WithInput(input *models.DescribeVwDiagnosticDataJobRequest) *DescribeVwDiagnosticDataJobParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe vw diagnostic data job params
+// SetInput adds the input to the describe vw diagnostic data job params.
 func (o *DescribeVwDiagnosticDataJobParams) SetInput(input *models.DescribeVwDiagnosticDataJobRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeVwDiagnosticDataJobParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewListClusterTemplatesParams creates a new ListClusterTemplatesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListClusterTemplatesParams() *ListClusterTemplatesParams {
-	return &ListClusterTemplatesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListClusterTemplatesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListClusterTemplatesParamsWithTimeout creates a new ListClusterTemplatesParams object
 // with the ability to set a timeout on a request.
 func NewListClusterTemplatesParamsWithTimeout(timeout time.Duration) *ListClusterTemplatesParams {
 	return &ListClusterTemplatesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListClusterTemplatesParamsWithContext creates a new ListClusterTemplatesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListClusterTemplatesParams].
 func NewListClusterTemplatesParamsWithContext(ctx context.Context) *ListClusterTemplatesParams {
 	return &ListClusterTemplatesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListClusterTemplatesParams struct {
 	// Input.
 	Input models.ListClusterTemplatesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list cluster templates params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListClusterTemplatesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list cluster templates params
+// WithTimeout adds the timeout to the list cluster templates params.
 func (o *ListClusterTemplatesParams) WithTimeout(timeout time.Duration) *ListClusterTemplatesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list cluster templates params
+// SetTimeout adds the timeout to the list cluster templates params.
 func (o *ListClusterTemplatesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list cluster templates params
+// WithContext adds the context to the list cluster templates params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListClusterTemplatesParams].
 func (o *ListClusterTemplatesParams) WithContext(ctx context.Context) *ListClusterTemplatesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list cluster templates params
+// SetContext adds the context to the list cluster templates params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListClusterTemplatesParams].
 func (o *ListClusterTemplatesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list cluster templates params
+// WithHTTPClient adds the HTTPClient to the list cluster templates params.
 func (o *ListClusterTemplatesParams) WithHTTPClient(client *http.Client) *ListClusterTemplatesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list cluster templates params
+// SetHTTPClient adds the HTTPClient to the list cluster templates params.
 func (o *ListClusterTemplatesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list cluster templates params
+// WithInput adds the input to the list cluster templates params.
 func (o *ListClusterTemplatesParams) WithInput(input models.ListClusterTemplatesRequest) *ListClusterTemplatesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list cluster templates params
+// SetInput adds the input to the list cluster templates params.
 func (o *ListClusterTemplatesParams) SetInput(input models.ListClusterTemplatesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListClusterTemplatesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

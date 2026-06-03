@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewCreateAWSGovCloudDatalakeParams creates a new CreateAWSGovCloudDatalakeParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateAWSGovCloudDatalakeParams() *CreateAWSGovCloudDatalakeParams {
-	return &CreateAWSGovCloudDatalakeParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateAWSGovCloudDatalakeParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateAWSGovCloudDatalakeParamsWithTimeout creates a new CreateAWSGovCloudDatalakeParams object
 // with the ability to set a timeout on a request.
 func NewCreateAWSGovCloudDatalakeParamsWithTimeout(timeout time.Duration) *CreateAWSGovCloudDatalakeParams {
 	return &CreateAWSGovCloudDatalakeParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateAWSGovCloudDatalakeParamsWithContext creates a new CreateAWSGovCloudDatalakeParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSGovCloudDatalakeParams].
 func NewCreateAWSGovCloudDatalakeParamsWithContext(ctx context.Context) *CreateAWSGovCloudDatalakeParams {
 	return &CreateAWSGovCloudDatalakeParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateAWSGovCloudDatalakeParams struct {
 	// Input.
 	Input *models.CreateAWSGovCloudDatalakeRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create a w s gov cloud datalake params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateAWSGovCloudDatalakeParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create a w s gov cloud datalake params
+// WithTimeout adds the timeout to the create a w s gov cloud datalake params.
 func (o *CreateAWSGovCloudDatalakeParams) WithTimeout(timeout time.Duration) *CreateAWSGovCloudDatalakeParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create a w s gov cloud datalake params
+// SetTimeout adds the timeout to the create a w s gov cloud datalake params.
 func (o *CreateAWSGovCloudDatalakeParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create a w s gov cloud datalake params
+// WithContext adds the context to the create a w s gov cloud datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSGovCloudDatalakeParams].
 func (o *CreateAWSGovCloudDatalakeParams) WithContext(ctx context.Context) *CreateAWSGovCloudDatalakeParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create a w s gov cloud datalake params
+// SetContext adds the context to the create a w s gov cloud datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSGovCloudDatalakeParams].
 func (o *CreateAWSGovCloudDatalakeParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create a w s gov cloud datalake params
+// WithHTTPClient adds the HTTPClient to the create a w s gov cloud datalake params.
 func (o *CreateAWSGovCloudDatalakeParams) WithHTTPClient(client *http.Client) *CreateAWSGovCloudDatalakeParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create a w s gov cloud datalake params
+// SetHTTPClient adds the HTTPClient to the create a w s gov cloud datalake params.
 func (o *CreateAWSGovCloudDatalakeParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create a w s gov cloud datalake params
+// WithInput adds the input to the create a w s gov cloud datalake params.
 func (o *CreateAWSGovCloudDatalakeParams) WithInput(input *models.CreateAWSGovCloudDatalakeRequest) *CreateAWSGovCloudDatalakeParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create a w s gov cloud datalake params
+// SetInput adds the input to the create a w s gov cloud datalake params.
 func (o *CreateAWSGovCloudDatalakeParams) SetInput(input *models.CreateAWSGovCloudDatalakeRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateAWSGovCloudDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

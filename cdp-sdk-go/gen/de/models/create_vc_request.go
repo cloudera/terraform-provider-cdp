@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -142,12 +143,12 @@ func (m *CreateVcRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateVcRequest) validateChartValueOverrides(formats strfmt.Registry) error {
-	if swag.IsZero(m.ChartValueOverrides) { // not required
+	if typeutils.IsZero(m.ChartValueOverrides) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ChartValueOverrides); i++ {
-		if swag.IsZero(m.ChartValueOverrides[i]) { // not required
+		if typeutils.IsZero(m.ChartValueOverrides[i]) { // not required
 			continue
 		}
 
@@ -237,7 +238,7 @@ func (m *CreateVcRequest) validateRuntimeSpotComponentEnum(path, location string
 }
 
 func (m *CreateVcRequest) validateRuntimeSpotComponent(formats strfmt.Registry) error {
-	if swag.IsZero(m.RuntimeSpotComponent) { // not required
+	if typeutils.IsZero(m.RuntimeSpotComponent) { // not required
 		return nil
 	}
 
@@ -250,7 +251,7 @@ func (m *CreateVcRequest) validateRuntimeSpotComponent(formats strfmt.Registry) 
 }
 
 func (m *CreateVcRequest) validateSMTPConfigs(formats strfmt.Registry) error {
-	if swag.IsZero(m.SMTPConfigs) { // not required
+	if typeutils.IsZero(m.SMTPConfigs) { // not required
 		return nil
 	}
 
@@ -302,7 +303,7 @@ func (m *CreateVcRequest) validateSparkOSNameEnum(path, location string, value s
 }
 
 func (m *CreateVcRequest) validateSparkOSName(formats strfmt.Registry) error {
-	if swag.IsZero(m.SparkOSName) { // not required
+	if typeutils.IsZero(m.SparkOSName) { // not required
 		return nil
 	}
 
@@ -365,7 +366,7 @@ func (m *CreateVcRequest) validateSparkVersionEnum(path, location string, value 
 }
 
 func (m *CreateVcRequest) validateSparkVersion(formats strfmt.Registry) error {
-	if swag.IsZero(m.SparkVersion) { // not required
+	if typeutils.IsZero(m.SparkVersion) { // not required
 		return nil
 	}
 
@@ -407,7 +408,7 @@ func (m *CreateVcRequest) validateVcTierEnum(path, location string, value string
 }
 
 func (m *CreateVcRequest) validateVcTier(formats strfmt.Registry) error {
-	if swag.IsZero(m.VcTier) { // not required
+	if typeutils.IsZero(m.VcTier) { // not required
 		return nil
 	}
 
@@ -443,7 +444,7 @@ func (m *CreateVcRequest) contextValidateChartValueOverrides(ctx context.Context
 
 		if m.ChartValueOverrides[i] != nil {
 
-			if swag.IsZero(m.ChartValueOverrides[i]) { // not required
+			if typeutils.IsZero(m.ChartValueOverrides[i]) { // not required
 				return nil
 			}
 
@@ -470,7 +471,7 @@ func (m *CreateVcRequest) contextValidateSMTPConfigs(ctx context.Context, format
 
 	if m.SMTPConfigs != nil {
 
-		if swag.IsZero(m.SMTPConfigs) { // not required
+		if typeutils.IsZero(m.SMTPConfigs) { // not required
 			return nil
 		}
 
@@ -496,13 +497,13 @@ func (m *CreateVcRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateVcRequest) UnmarshalBinary(b []byte) error {
 	var res CreateVcRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

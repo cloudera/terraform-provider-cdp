@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 )
 
 // SetDefaultJavaVersionResponse Response object for setting the default Java version on the Data Lake cluster.
@@ -33,13 +33,13 @@ func (m *SetDefaultJavaVersionResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *SetDefaultJavaVersionResponse) UnmarshalBinary(b []byte) error {
 	var res SetDefaultJavaVersionResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

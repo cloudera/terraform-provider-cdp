@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewDescribeAutoScaleRulesParams creates a new DescribeAutoScaleRulesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeAutoScaleRulesParams() *DescribeAutoScaleRulesParams {
-	return &DescribeAutoScaleRulesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeAutoScaleRulesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeAutoScaleRulesParamsWithTimeout creates a new DescribeAutoScaleRulesParams object
 // with the ability to set a timeout on a request.
 func NewDescribeAutoScaleRulesParamsWithTimeout(timeout time.Duration) *DescribeAutoScaleRulesParams {
 	return &DescribeAutoScaleRulesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeAutoScaleRulesParamsWithContext creates a new DescribeAutoScaleRulesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeAutoScaleRulesParams].
 func NewDescribeAutoScaleRulesParamsWithContext(ctx context.Context) *DescribeAutoScaleRulesParams {
 	return &DescribeAutoScaleRulesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeAutoScaleRulesParams struct {
 	// Input.
 	Input *models.DescribeAutoScaleRulesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe auto scale rules params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeAutoScaleRulesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe auto scale rules params
+// WithTimeout adds the timeout to the describe auto scale rules params.
 func (o *DescribeAutoScaleRulesParams) WithTimeout(timeout time.Duration) *DescribeAutoScaleRulesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe auto scale rules params
+// SetTimeout adds the timeout to the describe auto scale rules params.
 func (o *DescribeAutoScaleRulesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe auto scale rules params
+// WithContext adds the context to the describe auto scale rules params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeAutoScaleRulesParams].
 func (o *DescribeAutoScaleRulesParams) WithContext(ctx context.Context) *DescribeAutoScaleRulesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe auto scale rules params
+// SetContext adds the context to the describe auto scale rules params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeAutoScaleRulesParams].
 func (o *DescribeAutoScaleRulesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe auto scale rules params
+// WithHTTPClient adds the HTTPClient to the describe auto scale rules params.
 func (o *DescribeAutoScaleRulesParams) WithHTTPClient(client *http.Client) *DescribeAutoScaleRulesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe auto scale rules params
+// SetHTTPClient adds the HTTPClient to the describe auto scale rules params.
 func (o *DescribeAutoScaleRulesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe auto scale rules params
+// WithInput adds the input to the describe auto scale rules params.
 func (o *DescribeAutoScaleRulesParams) WithInput(input *models.DescribeAutoScaleRulesRequest) *DescribeAutoScaleRulesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe auto scale rules params
+// SetInput adds the input to the describe auto scale rules params.
 func (o *DescribeAutoScaleRulesParams) SetInput(input *models.DescribeAutoScaleRulesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeAutoScaleRulesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

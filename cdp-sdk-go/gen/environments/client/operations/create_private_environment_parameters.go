@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewCreatePrivateEnvironmentParams creates a new CreatePrivateEnvironmentParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreatePrivateEnvironmentParams() *CreatePrivateEnvironmentParams {
-	return &CreatePrivateEnvironmentParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreatePrivateEnvironmentParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreatePrivateEnvironmentParamsWithTimeout creates a new CreatePrivateEnvironmentParams object
 // with the ability to set a timeout on a request.
 func NewCreatePrivateEnvironmentParamsWithTimeout(timeout time.Duration) *CreatePrivateEnvironmentParams {
 	return &CreatePrivateEnvironmentParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreatePrivateEnvironmentParamsWithContext creates a new CreatePrivateEnvironmentParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreatePrivateEnvironmentParams].
 func NewCreatePrivateEnvironmentParamsWithContext(ctx context.Context) *CreatePrivateEnvironmentParams {
 	return &CreatePrivateEnvironmentParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreatePrivateEnvironmentParams struct {
 	// Input.
 	Input *models.CreatePrivateEnvironmentRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create private environment params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreatePrivateEnvironmentParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create private environment params
+// WithTimeout adds the timeout to the create private environment params.
 func (o *CreatePrivateEnvironmentParams) WithTimeout(timeout time.Duration) *CreatePrivateEnvironmentParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create private environment params
+// SetTimeout adds the timeout to the create private environment params.
 func (o *CreatePrivateEnvironmentParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create private environment params
+// WithContext adds the context to the create private environment params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreatePrivateEnvironmentParams].
 func (o *CreatePrivateEnvironmentParams) WithContext(ctx context.Context) *CreatePrivateEnvironmentParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create private environment params
+// SetContext adds the context to the create private environment params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreatePrivateEnvironmentParams].
 func (o *CreatePrivateEnvironmentParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create private environment params
+// WithHTTPClient adds the HTTPClient to the create private environment params.
 func (o *CreatePrivateEnvironmentParams) WithHTTPClient(client *http.Client) *CreatePrivateEnvironmentParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create private environment params
+// SetHTTPClient adds the HTTPClient to the create private environment params.
 func (o *CreatePrivateEnvironmentParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create private environment params
+// WithInput adds the input to the create private environment params.
 func (o *CreatePrivateEnvironmentParams) WithInput(input *models.CreatePrivateEnvironmentRequest) *CreatePrivateEnvironmentParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create private environment params
+// SetInput adds the input to the create private environment params.
 func (o *CreatePrivateEnvironmentParams) SetInput(input *models.CreatePrivateEnvironmentRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreatePrivateEnvironmentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

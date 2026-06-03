@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateDataServiceResourcesParams creates a new UpdateDataServiceResourcesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateDataServiceResourcesParams() *UpdateDataServiceResourcesParams {
-	return &UpdateDataServiceResourcesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateDataServiceResourcesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateDataServiceResourcesParamsWithTimeout creates a new UpdateDataServiceResourcesParams object
 // with the ability to set a timeout on a request.
 func NewUpdateDataServiceResourcesParamsWithTimeout(timeout time.Duration) *UpdateDataServiceResourcesParams {
 	return &UpdateDataServiceResourcesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateDataServiceResourcesParamsWithContext creates a new UpdateDataServiceResourcesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateDataServiceResourcesParams].
 func NewUpdateDataServiceResourcesParamsWithContext(ctx context.Context) *UpdateDataServiceResourcesParams {
 	return &UpdateDataServiceResourcesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateDataServiceResourcesParams struct {
 	// Input.
 	Input *models.UpdateDataServiceResourcesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update data service resources params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateDataServiceResourcesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update data service resources params
+// WithTimeout adds the timeout to the update data service resources params.
 func (o *UpdateDataServiceResourcesParams) WithTimeout(timeout time.Duration) *UpdateDataServiceResourcesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update data service resources params
+// SetTimeout adds the timeout to the update data service resources params.
 func (o *UpdateDataServiceResourcesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update data service resources params
+// WithContext adds the context to the update data service resources params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateDataServiceResourcesParams].
 func (o *UpdateDataServiceResourcesParams) WithContext(ctx context.Context) *UpdateDataServiceResourcesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update data service resources params
+// SetContext adds the context to the update data service resources params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateDataServiceResourcesParams].
 func (o *UpdateDataServiceResourcesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update data service resources params
+// WithHTTPClient adds the HTTPClient to the update data service resources params.
 func (o *UpdateDataServiceResourcesParams) WithHTTPClient(client *http.Client) *UpdateDataServiceResourcesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update data service resources params
+// SetHTTPClient adds the HTTPClient to the update data service resources params.
 func (o *UpdateDataServiceResourcesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update data service resources params
+// WithInput adds the input to the update data service resources params.
 func (o *UpdateDataServiceResourcesParams) WithInput(input *models.UpdateDataServiceResourcesRequest) *UpdateDataServiceResourcesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update data service resources params
+// SetInput adds the input to the update data service resources params.
 func (o *UpdateDataServiceResourcesParams) SetInput(input *models.UpdateDataServiceResourcesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateDataServiceResourcesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

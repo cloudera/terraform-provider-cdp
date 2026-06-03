@@ -61,7 +61,7 @@ func (d *awsCredentialPrerequisitesDataSource) Read(ctx context.Context, req dat
 	client := d.client.Environments
 	cloudPlatform := "AWS"
 
-	params := operations.NewGetCredentialPrerequisitesParamsWithContext(ctx)
+	params := operations.NewGetCredentialPrerequisitesParams()
 	params.WithInput(&environmentsmodels.GetCredentialPrerequisitesRequest{CloudPlatform: &cloudPlatform})
 
 	response, err := client.Operations.GetCredentialPrerequisites(params)

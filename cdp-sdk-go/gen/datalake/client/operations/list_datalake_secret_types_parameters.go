@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewListDatalakeSecretTypesParams creates a new ListDatalakeSecretTypesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListDatalakeSecretTypesParams() *ListDatalakeSecretTypesParams {
-	return &ListDatalakeSecretTypesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListDatalakeSecretTypesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListDatalakeSecretTypesParamsWithTimeout creates a new ListDatalakeSecretTypesParams object
 // with the ability to set a timeout on a request.
 func NewListDatalakeSecretTypesParamsWithTimeout(timeout time.Duration) *ListDatalakeSecretTypesParams {
 	return &ListDatalakeSecretTypesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListDatalakeSecretTypesParamsWithContext creates a new ListDatalakeSecretTypesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakeSecretTypesParams].
 func NewListDatalakeSecretTypesParamsWithContext(ctx context.Context) *ListDatalakeSecretTypesParams {
 	return &ListDatalakeSecretTypesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListDatalakeSecretTypesParams struct {
 	// Input.
 	Input *models.ListDatalakeSecretTypesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list datalake secret types params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListDatalakeSecretTypesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list datalake secret types params
+// WithTimeout adds the timeout to the list datalake secret types params.
 func (o *ListDatalakeSecretTypesParams) WithTimeout(timeout time.Duration) *ListDatalakeSecretTypesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list datalake secret types params
+// SetTimeout adds the timeout to the list datalake secret types params.
 func (o *ListDatalakeSecretTypesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list datalake secret types params
+// WithContext adds the context to the list datalake secret types params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakeSecretTypesParams].
 func (o *ListDatalakeSecretTypesParams) WithContext(ctx context.Context) *ListDatalakeSecretTypesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list datalake secret types params
+// SetContext adds the context to the list datalake secret types params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakeSecretTypesParams].
 func (o *ListDatalakeSecretTypesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list datalake secret types params
+// WithHTTPClient adds the HTTPClient to the list datalake secret types params.
 func (o *ListDatalakeSecretTypesParams) WithHTTPClient(client *http.Client) *ListDatalakeSecretTypesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list datalake secret types params
+// SetHTTPClient adds the HTTPClient to the list datalake secret types params.
 func (o *ListDatalakeSecretTypesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list datalake secret types params
+// WithInput adds the input to the list datalake secret types params.
 func (o *ListDatalakeSecretTypesParams) WithInput(input *models.ListDatalakeSecretTypesRequest) *ListDatalakeSecretTypesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list datalake secret types params
+// SetInput adds the input to the list datalake secret types params.
 func (o *ListDatalakeSecretTypesParams) SetInput(input *models.ListDatalakeSecretTypesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListDatalakeSecretTypesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

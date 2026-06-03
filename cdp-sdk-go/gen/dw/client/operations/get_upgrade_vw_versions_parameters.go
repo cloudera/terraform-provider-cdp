@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewGetUpgradeVwVersionsParams creates a new GetUpgradeVwVersionsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetUpgradeVwVersionsParams() *GetUpgradeVwVersionsParams {
-	return &GetUpgradeVwVersionsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetUpgradeVwVersionsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetUpgradeVwVersionsParamsWithTimeout creates a new GetUpgradeVwVersionsParams object
 // with the ability to set a timeout on a request.
 func NewGetUpgradeVwVersionsParamsWithTimeout(timeout time.Duration) *GetUpgradeVwVersionsParams {
 	return &GetUpgradeVwVersionsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetUpgradeVwVersionsParamsWithContext creates a new GetUpgradeVwVersionsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetUpgradeVwVersionsParams].
 func NewGetUpgradeVwVersionsParamsWithContext(ctx context.Context) *GetUpgradeVwVersionsParams {
 	return &GetUpgradeVwVersionsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetUpgradeVwVersionsParams struct {
 	// Input.
 	Input *models.GetUpgradeVwVersionsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get upgrade vw versions params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetUpgradeVwVersionsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get upgrade vw versions params
+// WithTimeout adds the timeout to the get upgrade vw versions params.
 func (o *GetUpgradeVwVersionsParams) WithTimeout(timeout time.Duration) *GetUpgradeVwVersionsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get upgrade vw versions params
+// SetTimeout adds the timeout to the get upgrade vw versions params.
 func (o *GetUpgradeVwVersionsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get upgrade vw versions params
+// WithContext adds the context to the get upgrade vw versions params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetUpgradeVwVersionsParams].
 func (o *GetUpgradeVwVersionsParams) WithContext(ctx context.Context) *GetUpgradeVwVersionsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get upgrade vw versions params
+// SetContext adds the context to the get upgrade vw versions params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetUpgradeVwVersionsParams].
 func (o *GetUpgradeVwVersionsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get upgrade vw versions params
+// WithHTTPClient adds the HTTPClient to the get upgrade vw versions params.
 func (o *GetUpgradeVwVersionsParams) WithHTTPClient(client *http.Client) *GetUpgradeVwVersionsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get upgrade vw versions params
+// SetHTTPClient adds the HTTPClient to the get upgrade vw versions params.
 func (o *GetUpgradeVwVersionsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get upgrade vw versions params
+// WithInput adds the input to the get upgrade vw versions params.
 func (o *GetUpgradeVwVersionsParams) WithInput(input *models.GetUpgradeVwVersionsRequest) *GetUpgradeVwVersionsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get upgrade vw versions params
+// SetInput adds the input to the get upgrade vw versions params.
 func (o *GetUpgradeVwVersionsParams) SetInput(input *models.GetUpgradeVwVersionsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetUpgradeVwVersionsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

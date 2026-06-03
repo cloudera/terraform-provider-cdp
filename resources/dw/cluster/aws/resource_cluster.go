@@ -68,7 +68,7 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 	}
 
 	// Generate API request body from plan
-	clusterParams := operations.NewCreateAwsClusterParamsWithContext(ctx).
+	clusterParams := operations.NewCreateAwsClusterParams().
 		WithInput(plan.convertToCreateAwsClusterRequest())
 
 	// Create new AWS cluster
@@ -84,7 +84,7 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 	clusterID := &payload.ClusterID
 	plan.ClusterID = types.StringValue(*clusterID)
 
-	desc := operations.NewDescribeClusterParamsWithContext(ctx).
+	desc := operations.NewDescribeClusterParams().
 		WithInput(&models.DescribeClusterRequest{ClusterID: clusterID})
 	describe, err := r.client.Dw.Operations.DescribeCluster(desc)
 	if err != nil {
@@ -155,7 +155,7 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 	}
 
 	clusterID := state.ClusterID.ValueStringPointer()
-	op := operations.NewDeleteClusterParamsWithContext(ctx).
+	op := operations.NewDeleteClusterParams().
 		WithInput(&models.DeleteClusterRequest{
 			ClusterID: clusterID,
 		})
@@ -191,7 +191,7 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 func (r *dwClusterResource) stateRefresh(ctx context.Context, clusterID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
 	return func() (any, string, error) {
 		tflog.Debug(ctx, "About to describe cluster")
-		params := operations.NewDescribeClusterParamsWithContext(ctx).
+		params := operations.NewDescribeClusterParams().
 			WithInput(&models.DescribeClusterRequest{ClusterID: clusterID})
 		resp, err := r.client.Dw.Operations.DescribeCluster(params)
 		if err != nil {

@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -62,12 +63,12 @@ func (m *AzureCredentialPrerequisitesResponse) validateAppCreationCommand(format
 }
 
 func (m *AzureCredentialPrerequisitesResponse) validatePolicies(formats strfmt.Registry) error {
-	if swag.IsZero(m.Policies) { // not required
+	if typeutils.IsZero(m.Policies) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Policies); i++ {
-		if swag.IsZero(m.Policies[i]) { // not required
+		if typeutils.IsZero(m.Policies[i]) { // not required
 			continue
 		}
 
@@ -120,7 +121,7 @@ func (m *AzureCredentialPrerequisitesResponse) contextValidatePolicies(ctx conte
 
 		if m.Policies[i] != nil {
 
-			if swag.IsZero(m.Policies[i]) { // not required
+			if typeutils.IsZero(m.Policies[i]) { // not required
 				return nil
 			}
 
@@ -148,13 +149,13 @@ func (m *AzureCredentialPrerequisitesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AzureCredentialPrerequisitesResponse) UnmarshalBinary(b []byte) error {
 	var res AzureCredentialPrerequisitesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

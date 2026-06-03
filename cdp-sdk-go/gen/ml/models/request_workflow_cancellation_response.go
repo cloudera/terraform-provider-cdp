@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // RequestWorkflowCancellationResponse Response object for RequestWorkflowCancellation.
@@ -36,12 +37,12 @@ func (m *RequestWorkflowCancellationResponse) Validate(formats strfmt.Registry) 
 }
 
 func (m *RequestWorkflowCancellationResponse) validateWorkflowMetadata(formats strfmt.Registry) error {
-	if swag.IsZero(m.WorkflowMetadata) { // not required
+	if typeutils.IsZero(m.WorkflowMetadata) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.WorkflowMetadata); i++ {
-		if swag.IsZero(m.WorkflowMetadata[i]) { // not required
+		if typeutils.IsZero(m.WorkflowMetadata[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *RequestWorkflowCancellationResponse) contextValidateWorkflowMetadata(ct
 
 		if m.WorkflowMetadata[i] != nil {
 
-			if swag.IsZero(m.WorkflowMetadata[i]) { // not required
+			if typeutils.IsZero(m.WorkflowMetadata[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *RequestWorkflowCancellationResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *RequestWorkflowCancellationResponse) UnmarshalBinary(b []byte) error {
 	var res RequestWorkflowCancellationResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

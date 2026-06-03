@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewUpdateAutoScaleRulesParams creates a new UpdateAutoScaleRulesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateAutoScaleRulesParams() *UpdateAutoScaleRulesParams {
-	return &UpdateAutoScaleRulesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateAutoScaleRulesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateAutoScaleRulesParamsWithTimeout creates a new UpdateAutoScaleRulesParams object
 // with the ability to set a timeout on a request.
 func NewUpdateAutoScaleRulesParamsWithTimeout(timeout time.Duration) *UpdateAutoScaleRulesParams {
 	return &UpdateAutoScaleRulesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateAutoScaleRulesParamsWithContext creates a new UpdateAutoScaleRulesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAutoScaleRulesParams].
 func NewUpdateAutoScaleRulesParamsWithContext(ctx context.Context) *UpdateAutoScaleRulesParams {
 	return &UpdateAutoScaleRulesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateAutoScaleRulesParams struct {
 	// Input.
 	Input *models.UpdateAutoScaleRulesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update auto scale rules params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateAutoScaleRulesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update auto scale rules params
+// WithTimeout adds the timeout to the update auto scale rules params.
 func (o *UpdateAutoScaleRulesParams) WithTimeout(timeout time.Duration) *UpdateAutoScaleRulesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update auto scale rules params
+// SetTimeout adds the timeout to the update auto scale rules params.
 func (o *UpdateAutoScaleRulesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update auto scale rules params
+// WithContext adds the context to the update auto scale rules params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAutoScaleRulesParams].
 func (o *UpdateAutoScaleRulesParams) WithContext(ctx context.Context) *UpdateAutoScaleRulesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update auto scale rules params
+// SetContext adds the context to the update auto scale rules params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAutoScaleRulesParams].
 func (o *UpdateAutoScaleRulesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update auto scale rules params
+// WithHTTPClient adds the HTTPClient to the update auto scale rules params.
 func (o *UpdateAutoScaleRulesParams) WithHTTPClient(client *http.Client) *UpdateAutoScaleRulesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update auto scale rules params
+// SetHTTPClient adds the HTTPClient to the update auto scale rules params.
 func (o *UpdateAutoScaleRulesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update auto scale rules params
+// WithInput adds the input to the update auto scale rules params.
 func (o *UpdateAutoScaleRulesParams) WithInput(input *models.UpdateAutoScaleRulesRequest) *UpdateAutoScaleRulesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update auto scale rules params
+// SetInput adds the input to the update auto scale rules params.
 func (o *UpdateAutoScaleRulesParams) SetInput(input *models.UpdateAutoScaleRulesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateAutoScaleRulesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewListCertificatesParams creates a new ListCertificatesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListCertificatesParams() *ListCertificatesParams {
-	return &ListCertificatesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListCertificatesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListCertificatesParamsWithTimeout creates a new ListCertificatesParams object
 // with the ability to set a timeout on a request.
 func NewListCertificatesParamsWithTimeout(timeout time.Duration) *ListCertificatesParams {
 	return &ListCertificatesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListCertificatesParamsWithContext creates a new ListCertificatesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListCertificatesParams].
 func NewListCertificatesParamsWithContext(ctx context.Context) *ListCertificatesParams {
 	return &ListCertificatesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListCertificatesParams struct {
 	// Input.
 	Input *models.ListCertificatesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list certificates params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListCertificatesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list certificates params
+// WithTimeout adds the timeout to the list certificates params.
 func (o *ListCertificatesParams) WithTimeout(timeout time.Duration) *ListCertificatesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list certificates params
+// SetTimeout adds the timeout to the list certificates params.
 func (o *ListCertificatesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list certificates params
+// WithContext adds the context to the list certificates params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListCertificatesParams].
 func (o *ListCertificatesParams) WithContext(ctx context.Context) *ListCertificatesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list certificates params
+// SetContext adds the context to the list certificates params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListCertificatesParams].
 func (o *ListCertificatesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list certificates params
+// WithHTTPClient adds the HTTPClient to the list certificates params.
 func (o *ListCertificatesParams) WithHTTPClient(client *http.Client) *ListCertificatesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list certificates params
+// SetHTTPClient adds the HTTPClient to the list certificates params.
 func (o *ListCertificatesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list certificates params
+// WithInput adds the input to the list certificates params.
 func (o *ListCertificatesParams) WithInput(input *models.ListCertificatesRequest) *ListCertificatesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list certificates params
+// SetInput adds the input to the list certificates params.
 func (o *ListCertificatesParams) SetInput(input *models.ListCertificatesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListCertificatesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

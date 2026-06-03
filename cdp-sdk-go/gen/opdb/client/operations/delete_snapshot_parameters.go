@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewDeleteSnapshotParams creates a new DeleteSnapshotParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteSnapshotParams() *DeleteSnapshotParams {
-	return &DeleteSnapshotParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteSnapshotParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteSnapshotParamsWithTimeout creates a new DeleteSnapshotParams object
 // with the ability to set a timeout on a request.
 func NewDeleteSnapshotParamsWithTimeout(timeout time.Duration) *DeleteSnapshotParams {
 	return &DeleteSnapshotParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteSnapshotParamsWithContext creates a new DeleteSnapshotParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteSnapshotParams].
 func NewDeleteSnapshotParamsWithContext(ctx context.Context) *DeleteSnapshotParams {
 	return &DeleteSnapshotParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteSnapshotParams struct {
 	// Input.
 	Input *models.DeleteSnapshotRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete snapshot params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteSnapshotParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete snapshot params
+// WithTimeout adds the timeout to the delete snapshot params.
 func (o *DeleteSnapshotParams) WithTimeout(timeout time.Duration) *DeleteSnapshotParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete snapshot params
+// SetTimeout adds the timeout to the delete snapshot params.
 func (o *DeleteSnapshotParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete snapshot params
+// WithContext adds the context to the delete snapshot params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteSnapshotParams].
 func (o *DeleteSnapshotParams) WithContext(ctx context.Context) *DeleteSnapshotParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete snapshot params
+// SetContext adds the context to the delete snapshot params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteSnapshotParams].
 func (o *DeleteSnapshotParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete snapshot params
+// WithHTTPClient adds the HTTPClient to the delete snapshot params.
 func (o *DeleteSnapshotParams) WithHTTPClient(client *http.Client) *DeleteSnapshotParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete snapshot params
+// SetHTTPClient adds the HTTPClient to the delete snapshot params.
 func (o *DeleteSnapshotParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete snapshot params
+// WithInput adds the input to the delete snapshot params.
 func (o *DeleteSnapshotParams) WithInput(input *models.DeleteSnapshotRequest) *DeleteSnapshotParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete snapshot params
+// SetInput adds the input to the delete snapshot params.
 func (o *DeleteSnapshotParams) SetInput(input *models.DeleteSnapshotRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteSnapshotParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ImpalaExecutorGroupSetsCreateRequest Configure executor group sets for workload aware autoscaling.
@@ -63,7 +64,7 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) Validate(formats strfmt.Registry)
 }
 
 func (m *ImpalaExecutorGroupSetsCreateRequest) validateCustom1(formats strfmt.Registry) error {
-	if swag.IsZero(m.Custom1) { // not required
+	if typeutils.IsZero(m.Custom1) { // not required
 		return nil
 	}
 
@@ -86,7 +87,7 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) validateCustom1(formats strfmt.Re
 }
 
 func (m *ImpalaExecutorGroupSetsCreateRequest) validateCustom2(formats strfmt.Registry) error {
-	if swag.IsZero(m.Custom2) { // not required
+	if typeutils.IsZero(m.Custom2) { // not required
 		return nil
 	}
 
@@ -109,7 +110,7 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) validateCustom2(formats strfmt.Re
 }
 
 func (m *ImpalaExecutorGroupSetsCreateRequest) validateCustom3(formats strfmt.Registry) error {
-	if swag.IsZero(m.Custom3) { // not required
+	if typeutils.IsZero(m.Custom3) { // not required
 		return nil
 	}
 
@@ -132,7 +133,7 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) validateCustom3(formats strfmt.Re
 }
 
 func (m *ImpalaExecutorGroupSetsCreateRequest) validateLarge(formats strfmt.Registry) error {
-	if swag.IsZero(m.Large) { // not required
+	if typeutils.IsZero(m.Large) { // not required
 		return nil
 	}
 
@@ -155,7 +156,7 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) validateLarge(formats strfmt.Regi
 }
 
 func (m *ImpalaExecutorGroupSetsCreateRequest) validateSmall(formats strfmt.Registry) error {
-	if swag.IsZero(m.Small) { // not required
+	if typeutils.IsZero(m.Small) { // not required
 		return nil
 	}
 
@@ -211,7 +212,7 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) contextValidateCustom1(ctx contex
 
 	if m.Custom1 != nil {
 
-		if swag.IsZero(m.Custom1) { // not required
+		if typeutils.IsZero(m.Custom1) { // not required
 			return nil
 		}
 
@@ -236,7 +237,7 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) contextValidateCustom2(ctx contex
 
 	if m.Custom2 != nil {
 
-		if swag.IsZero(m.Custom2) { // not required
+		if typeutils.IsZero(m.Custom2) { // not required
 			return nil
 		}
 
@@ -261,7 +262,7 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) contextValidateCustom3(ctx contex
 
 	if m.Custom3 != nil {
 
-		if swag.IsZero(m.Custom3) { // not required
+		if typeutils.IsZero(m.Custom3) { // not required
 			return nil
 		}
 
@@ -286,7 +287,7 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) contextValidateLarge(ctx context.
 
 	if m.Large != nil {
 
-		if swag.IsZero(m.Large) { // not required
+		if typeutils.IsZero(m.Large) { // not required
 			return nil
 		}
 
@@ -311,7 +312,7 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) contextValidateSmall(ctx context.
 
 	if m.Small != nil {
 
-		if swag.IsZero(m.Small) { // not required
+		if typeutils.IsZero(m.Small) { // not required
 			return nil
 		}
 
@@ -337,13 +338,13 @@ func (m *ImpalaExecutorGroupSetsCreateRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ImpalaExecutorGroupSetsCreateRequest) UnmarshalBinary(b []byte) error {
 	var res ImpalaExecutorGroupSetsCreateRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

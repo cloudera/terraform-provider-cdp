@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewEnableServiceParams creates a new EnableServiceParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewEnableServiceParams() *EnableServiceParams {
-	return &EnableServiceParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewEnableServiceParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewEnableServiceParamsWithTimeout creates a new EnableServiceParams object
 // with the ability to set a timeout on a request.
 func NewEnableServiceParamsWithTimeout(timeout time.Duration) *EnableServiceParams {
 	return &EnableServiceParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewEnableServiceParamsWithContext creates a new EnableServiceParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableServiceParams].
 func NewEnableServiceParamsWithContext(ctx context.Context) *EnableServiceParams {
 	return &EnableServiceParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type EnableServiceParams struct {
 	// Input.
 	Input *models.EnableServiceRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the enable service params (not the query body).
@@ -83,54 +86,57 @@ func (o *EnableServiceParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the enable service params
+// WithTimeout adds the timeout to the enable service params.
 func (o *EnableServiceParams) WithTimeout(timeout time.Duration) *EnableServiceParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the enable service params
+// SetTimeout adds the timeout to the enable service params.
 func (o *EnableServiceParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the enable service params
+// WithContext adds the context to the enable service params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableServiceParams].
 func (o *EnableServiceParams) WithContext(ctx context.Context) *EnableServiceParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the enable service params
+// SetContext adds the context to the enable service params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableServiceParams].
 func (o *EnableServiceParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the enable service params
+// WithHTTPClient adds the HTTPClient to the enable service params.
 func (o *EnableServiceParams) WithHTTPClient(client *http.Client) *EnableServiceParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the enable service params
+// SetHTTPClient adds the HTTPClient to the enable service params.
 func (o *EnableServiceParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the enable service params
+// WithInput adds the input to the enable service params.
 func (o *EnableServiceParams) WithInput(input *models.EnableServiceRequest) *EnableServiceParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the enable service params
+// SetInput adds the input to the enable service params.
 func (o *EnableServiceParams) SetInput(input *models.EnableServiceRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *EnableServiceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

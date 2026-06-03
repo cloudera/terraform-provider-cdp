@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -63,7 +64,7 @@ func (m *DescribeWorkspaceBackupResponse) Validate(formats strfmt.Registry) erro
 }
 
 func (m *DescribeWorkspaceBackupResponse) validateCreatedAt(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreatedAt) { // not required
+	if typeutils.IsZero(m.CreatedAt) { // not required
 		return nil
 	}
 
@@ -75,12 +76,12 @@ func (m *DescribeWorkspaceBackupResponse) validateCreatedAt(formats strfmt.Regis
 }
 
 func (m *DescribeWorkspaceBackupResponse) validateInstanceGroups(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceGroups) { // not required
+	if typeutils.IsZero(m.InstanceGroups) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.InstanceGroups); i++ {
-		if swag.IsZero(m.InstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -124,7 +125,7 @@ func (m *DescribeWorkspaceBackupResponse) contextValidateInstanceGroups(ctx cont
 
 		if m.InstanceGroups[i] != nil {
 
-			if swag.IsZero(m.InstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -152,13 +153,13 @@ func (m *DescribeWorkspaceBackupResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeWorkspaceBackupResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeWorkspaceBackupResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

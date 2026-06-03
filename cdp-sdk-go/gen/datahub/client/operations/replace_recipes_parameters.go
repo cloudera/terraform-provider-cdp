@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewReplaceRecipesParams creates a new ReplaceRecipesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewReplaceRecipesParams() *ReplaceRecipesParams {
-	return &ReplaceRecipesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewReplaceRecipesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewReplaceRecipesParamsWithTimeout creates a new ReplaceRecipesParams object
 // with the ability to set a timeout on a request.
 func NewReplaceRecipesParamsWithTimeout(timeout time.Duration) *ReplaceRecipesParams {
 	return &ReplaceRecipesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewReplaceRecipesParamsWithContext creates a new ReplaceRecipesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ReplaceRecipesParams].
 func NewReplaceRecipesParamsWithContext(ctx context.Context) *ReplaceRecipesParams {
 	return &ReplaceRecipesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ReplaceRecipesParams struct {
 	// Input.
 	Input *models.ReplaceRecipesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the replace recipes params (not the query body).
@@ -83,54 +86,57 @@ func (o *ReplaceRecipesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the replace recipes params
+// WithTimeout adds the timeout to the replace recipes params.
 func (o *ReplaceRecipesParams) WithTimeout(timeout time.Duration) *ReplaceRecipesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the replace recipes params
+// SetTimeout adds the timeout to the replace recipes params.
 func (o *ReplaceRecipesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the replace recipes params
+// WithContext adds the context to the replace recipes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ReplaceRecipesParams].
 func (o *ReplaceRecipesParams) WithContext(ctx context.Context) *ReplaceRecipesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the replace recipes params
+// SetContext adds the context to the replace recipes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ReplaceRecipesParams].
 func (o *ReplaceRecipesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the replace recipes params
+// WithHTTPClient adds the HTTPClient to the replace recipes params.
 func (o *ReplaceRecipesParams) WithHTTPClient(client *http.Client) *ReplaceRecipesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the replace recipes params
+// SetHTTPClient adds the HTTPClient to the replace recipes params.
 func (o *ReplaceRecipesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the replace recipes params
+// WithInput adds the input to the replace recipes params.
 func (o *ReplaceRecipesParams) WithInput(input *models.ReplaceRecipesRequest) *ReplaceRecipesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the replace recipes params
+// SetInput adds the input to the replace recipes params.
 func (o *ReplaceRecipesParams) SetInput(input *models.ReplaceRecipesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ReplaceRecipesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

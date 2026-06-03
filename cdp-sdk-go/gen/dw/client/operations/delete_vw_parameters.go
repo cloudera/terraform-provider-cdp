@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDeleteVwParams creates a new DeleteVwParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteVwParams() *DeleteVwParams {
-	return &DeleteVwParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteVwParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteVwParamsWithTimeout creates a new DeleteVwParams object
 // with the ability to set a timeout on a request.
 func NewDeleteVwParamsWithTimeout(timeout time.Duration) *DeleteVwParams {
 	return &DeleteVwParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteVwParamsWithContext creates a new DeleteVwParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteVwParams].
 func NewDeleteVwParamsWithContext(ctx context.Context) *DeleteVwParams {
 	return &DeleteVwParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteVwParams struct {
 	// Input.
 	Input *models.DeleteVwRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete vw params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteVwParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete vw params
+// WithTimeout adds the timeout to the delete vw params.
 func (o *DeleteVwParams) WithTimeout(timeout time.Duration) *DeleteVwParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete vw params
+// SetTimeout adds the timeout to the delete vw params.
 func (o *DeleteVwParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete vw params
+// WithContext adds the context to the delete vw params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteVwParams].
 func (o *DeleteVwParams) WithContext(ctx context.Context) *DeleteVwParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete vw params
+// SetContext adds the context to the delete vw params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteVwParams].
 func (o *DeleteVwParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete vw params
+// WithHTTPClient adds the HTTPClient to the delete vw params.
 func (o *DeleteVwParams) WithHTTPClient(client *http.Client) *DeleteVwParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete vw params
+// SetHTTPClient adds the HTTPClient to the delete vw params.
 func (o *DeleteVwParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete vw params
+// WithInput adds the input to the delete vw params.
 func (o *DeleteVwParams) WithInput(input *models.DeleteVwRequest) *DeleteVwParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete vw params
+// SetInput adds the input to the delete vw params.
 func (o *DeleteVwParams) SetInput(input *models.DeleteVwRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteVwParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

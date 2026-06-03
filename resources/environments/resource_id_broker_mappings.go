@@ -75,7 +75,7 @@ func (r *idBrokerMappingsResource) Create(ctx context.Context, req resource.Crea
 
 	client := r.client.Environments
 
-	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
+	params := operations.NewSetIDBrokerMappingsParams()
 	params.WithInput(toSetIDBrokerMappingsRequest(ctx, &state, &resp.Diagnostics))
 	responseOk, err := client.Operations.SetIDBrokerMappings(params)
 	if err != nil {
@@ -117,7 +117,7 @@ func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	params := operations.NewGetIDBrokerMappingsParamsWithContext(ctx)
+	params := operations.NewGetIDBrokerMappingsParams()
 	params.WithInput(&environmentsmodels.GetIDBrokerMappingsRequest{
 		EnvironmentName: state.EnvironmentName.ValueStringPointer(),
 	})
@@ -163,7 +163,7 @@ func (r *idBrokerMappingsResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
+	params := operations.NewSetIDBrokerMappingsParams()
 	params.WithInput(toSetIDBrokerMappingsRequest(ctx, &state, &resp.Diagnostics))
 	responseOk, err := client.Operations.SetIDBrokerMappings(params)
 	if err != nil {
@@ -206,7 +206,7 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
+	params := operations.NewSetIDBrokerMappingsParams()
 	input := &environmentsmodels.SetIDBrokerMappingsRequest{}
 	input.EnvironmentName = state.EnvironmentName.ValueStringPointer()
 	input.DataAccessRole = state.DataAccessRole.ValueStringPointer()
@@ -229,7 +229,7 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func queryEnvironment(ctx context.Context, client *client.Environments, envName string, state *idBrokerMappingsResourceModel) error {
-	envParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+	envParams := operations.NewDescribeEnvironmentParams()
 	envParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
 		EnvironmentName: &envName,
 	})

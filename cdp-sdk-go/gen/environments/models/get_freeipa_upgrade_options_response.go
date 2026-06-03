@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // GetFreeipaUpgradeOptionsResponse The response object with available FreeIPA upgrade candidates.
@@ -43,7 +44,7 @@ func (m *GetFreeipaUpgradeOptionsResponse) Validate(formats strfmt.Registry) err
 }
 
 func (m *GetFreeipaUpgradeOptionsResponse) validateCurrentImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.CurrentImage) { // not required
+	if typeutils.IsZero(m.CurrentImage) { // not required
 		return nil
 	}
 
@@ -66,12 +67,12 @@ func (m *GetFreeipaUpgradeOptionsResponse) validateCurrentImage(formats strfmt.R
 }
 
 func (m *GetFreeipaUpgradeOptionsResponse) validateImages(formats strfmt.Registry) error {
-	if swag.IsZero(m.Images) { // not required
+	if typeutils.IsZero(m.Images) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Images); i++ {
-		if swag.IsZero(m.Images[i]) { // not required
+		if typeutils.IsZero(m.Images[i]) { // not required
 			continue
 		}
 
@@ -117,7 +118,7 @@ func (m *GetFreeipaUpgradeOptionsResponse) contextValidateCurrentImage(ctx conte
 
 	if m.CurrentImage != nil {
 
-		if swag.IsZero(m.CurrentImage) { // not required
+		if typeutils.IsZero(m.CurrentImage) { // not required
 			return nil
 		}
 
@@ -144,7 +145,7 @@ func (m *GetFreeipaUpgradeOptionsResponse) contextValidateImages(ctx context.Con
 
 		if m.Images[i] != nil {
 
-			if swag.IsZero(m.Images[i]) { // not required
+			if typeutils.IsZero(m.Images[i]) { // not required
 				return nil
 			}
 
@@ -172,13 +173,13 @@ func (m *GetFreeipaUpgradeOptionsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetFreeipaUpgradeOptionsResponse) UnmarshalBinary(b []byte) error {
 	var res GetFreeipaUpgradeOptionsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

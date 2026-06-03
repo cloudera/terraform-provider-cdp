@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -47,7 +48,7 @@ func (m *ListScimAccessTokensResponse) validateAccessTokens(formats strfmt.Regis
 	}
 
 	for i := 0; i < len(m.AccessTokens); i++ {
-		if swag.IsZero(m.AccessTokens[i]) { // not required
+		if typeutils.IsZero(m.AccessTokens[i]) { // not required
 			continue
 		}
 
@@ -91,7 +92,7 @@ func (m *ListScimAccessTokensResponse) contextValidateAccessTokens(ctx context.C
 
 		if m.AccessTokens[i] != nil {
 
-			if swag.IsZero(m.AccessTokens[i]) { // not required
+			if typeutils.IsZero(m.AccessTokens[i]) { // not required
 				return nil
 			}
 
@@ -119,13 +120,13 @@ func (m *ListScimAccessTokensResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListScimAccessTokensResponse) UnmarshalBinary(b []byte) error {
 	var res ListScimAccessTokensResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

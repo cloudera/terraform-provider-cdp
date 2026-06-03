@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewGetLatestModelRegistryVersionParams creates a new GetLatestModelRegistryVersionParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetLatestModelRegistryVersionParams() *GetLatestModelRegistryVersionParams {
-	return &GetLatestModelRegistryVersionParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetLatestModelRegistryVersionParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetLatestModelRegistryVersionParamsWithTimeout creates a new GetLatestModelRegistryVersionParams object
 // with the ability to set a timeout on a request.
 func NewGetLatestModelRegistryVersionParamsWithTimeout(timeout time.Duration) *GetLatestModelRegistryVersionParams {
 	return &GetLatestModelRegistryVersionParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetLatestModelRegistryVersionParamsWithContext creates a new GetLatestModelRegistryVersionParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetLatestModelRegistryVersionParams].
 func NewGetLatestModelRegistryVersionParamsWithContext(ctx context.Context) *GetLatestModelRegistryVersionParams {
 	return &GetLatestModelRegistryVersionParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetLatestModelRegistryVersionParams struct {
 	// Input.
 	Input models.GetLatestModelRegistryVersionRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get latest model registry version params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetLatestModelRegistryVersionParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get latest model registry version params
+// WithTimeout adds the timeout to the get latest model registry version params.
 func (o *GetLatestModelRegistryVersionParams) WithTimeout(timeout time.Duration) *GetLatestModelRegistryVersionParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get latest model registry version params
+// SetTimeout adds the timeout to the get latest model registry version params.
 func (o *GetLatestModelRegistryVersionParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get latest model registry version params
+// WithContext adds the context to the get latest model registry version params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetLatestModelRegistryVersionParams].
 func (o *GetLatestModelRegistryVersionParams) WithContext(ctx context.Context) *GetLatestModelRegistryVersionParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get latest model registry version params
+// SetContext adds the context to the get latest model registry version params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetLatestModelRegistryVersionParams].
 func (o *GetLatestModelRegistryVersionParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get latest model registry version params
+// WithHTTPClient adds the HTTPClient to the get latest model registry version params.
 func (o *GetLatestModelRegistryVersionParams) WithHTTPClient(client *http.Client) *GetLatestModelRegistryVersionParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get latest model registry version params
+// SetHTTPClient adds the HTTPClient to the get latest model registry version params.
 func (o *GetLatestModelRegistryVersionParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get latest model registry version params
+// WithInput adds the input to the get latest model registry version params.
 func (o *GetLatestModelRegistryVersionParams) WithInput(input models.GetLatestModelRegistryVersionRequest) *GetLatestModelRegistryVersionParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get latest model registry version params
+// SetInput adds the input to the get latest model registry version params.
 func (o *GetLatestModelRegistryVersionParams) SetInput(input models.GetLatestModelRegistryVersionRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetLatestModelRegistryVersionParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

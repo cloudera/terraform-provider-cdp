@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewCreateDbcDiagnosticDataJobParams creates a new CreateDbcDiagnosticDataJobParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateDbcDiagnosticDataJobParams() *CreateDbcDiagnosticDataJobParams {
-	return &CreateDbcDiagnosticDataJobParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateDbcDiagnosticDataJobParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateDbcDiagnosticDataJobParamsWithTimeout creates a new CreateDbcDiagnosticDataJobParams object
 // with the ability to set a timeout on a request.
 func NewCreateDbcDiagnosticDataJobParamsWithTimeout(timeout time.Duration) *CreateDbcDiagnosticDataJobParams {
 	return &CreateDbcDiagnosticDataJobParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateDbcDiagnosticDataJobParamsWithContext creates a new CreateDbcDiagnosticDataJobParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateDbcDiagnosticDataJobParams].
 func NewCreateDbcDiagnosticDataJobParamsWithContext(ctx context.Context) *CreateDbcDiagnosticDataJobParams {
 	return &CreateDbcDiagnosticDataJobParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateDbcDiagnosticDataJobParams struct {
 	// Input.
 	Input *models.CreateDbcDiagnosticDataJobRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create dbc diagnostic data job params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateDbcDiagnosticDataJobParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create dbc diagnostic data job params
+// WithTimeout adds the timeout to the create dbc diagnostic data job params.
 func (o *CreateDbcDiagnosticDataJobParams) WithTimeout(timeout time.Duration) *CreateDbcDiagnosticDataJobParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create dbc diagnostic data job params
+// SetTimeout adds the timeout to the create dbc diagnostic data job params.
 func (o *CreateDbcDiagnosticDataJobParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create dbc diagnostic data job params
+// WithContext adds the context to the create dbc diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateDbcDiagnosticDataJobParams].
 func (o *CreateDbcDiagnosticDataJobParams) WithContext(ctx context.Context) *CreateDbcDiagnosticDataJobParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create dbc diagnostic data job params
+// SetContext adds the context to the create dbc diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateDbcDiagnosticDataJobParams].
 func (o *CreateDbcDiagnosticDataJobParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create dbc diagnostic data job params
+// WithHTTPClient adds the HTTPClient to the create dbc diagnostic data job params.
 func (o *CreateDbcDiagnosticDataJobParams) WithHTTPClient(client *http.Client) *CreateDbcDiagnosticDataJobParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create dbc diagnostic data job params
+// SetHTTPClient adds the HTTPClient to the create dbc diagnostic data job params.
 func (o *CreateDbcDiagnosticDataJobParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create dbc diagnostic data job params
+// WithInput adds the input to the create dbc diagnostic data job params.
 func (o *CreateDbcDiagnosticDataJobParams) WithInput(input *models.CreateDbcDiagnosticDataJobRequest) *CreateDbcDiagnosticDataJobParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create dbc diagnostic data job params
+// SetInput adds the input to the create dbc diagnostic data job params.
 func (o *CreateDbcDiagnosticDataJobParams) SetInput(input *models.CreateDbcDiagnosticDataJobRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateDbcDiagnosticDataJobParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

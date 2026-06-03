@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewListRelevantInstancesParams creates a new ListRelevantInstancesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListRelevantInstancesParams() *ListRelevantInstancesParams {
-	return &ListRelevantInstancesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListRelevantInstancesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListRelevantInstancesParamsWithTimeout creates a new ListRelevantInstancesParams object
 // with the ability to set a timeout on a request.
 func NewListRelevantInstancesParamsWithTimeout(timeout time.Duration) *ListRelevantInstancesParams {
 	return &ListRelevantInstancesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListRelevantInstancesParamsWithContext creates a new ListRelevantInstancesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListRelevantInstancesParams].
 func NewListRelevantInstancesParamsWithContext(ctx context.Context) *ListRelevantInstancesParams {
 	return &ListRelevantInstancesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListRelevantInstancesParams struct {
 	// Input.
 	Input *models.ListRelevantInstancesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list relevant instances params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListRelevantInstancesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list relevant instances params
+// WithTimeout adds the timeout to the list relevant instances params.
 func (o *ListRelevantInstancesParams) WithTimeout(timeout time.Duration) *ListRelevantInstancesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list relevant instances params
+// SetTimeout adds the timeout to the list relevant instances params.
 func (o *ListRelevantInstancesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list relevant instances params
+// WithContext adds the context to the list relevant instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListRelevantInstancesParams].
 func (o *ListRelevantInstancesParams) WithContext(ctx context.Context) *ListRelevantInstancesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list relevant instances params
+// SetContext adds the context to the list relevant instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListRelevantInstancesParams].
 func (o *ListRelevantInstancesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list relevant instances params
+// WithHTTPClient adds the HTTPClient to the list relevant instances params.
 func (o *ListRelevantInstancesParams) WithHTTPClient(client *http.Client) *ListRelevantInstancesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list relevant instances params
+// SetHTTPClient adds the HTTPClient to the list relevant instances params.
 func (o *ListRelevantInstancesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list relevant instances params
+// WithInput adds the input to the list relevant instances params.
 func (o *ListRelevantInstancesParams) WithInput(input *models.ListRelevantInstancesRequest) *ListRelevantInstancesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list relevant instances params
+// SetInput adds the input to the list relevant instances params.
 func (o *ListRelevantInstancesParams) SetInput(input *models.ListRelevantInstancesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListRelevantInstancesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

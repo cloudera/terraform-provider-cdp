@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewListModelRegistryAccessParams creates a new ListModelRegistryAccessParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListModelRegistryAccessParams() *ListModelRegistryAccessParams {
-	return &ListModelRegistryAccessParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListModelRegistryAccessParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListModelRegistryAccessParamsWithTimeout creates a new ListModelRegistryAccessParams object
 // with the ability to set a timeout on a request.
 func NewListModelRegistryAccessParamsWithTimeout(timeout time.Duration) *ListModelRegistryAccessParams {
 	return &ListModelRegistryAccessParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListModelRegistryAccessParamsWithContext creates a new ListModelRegistryAccessParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListModelRegistryAccessParams].
 func NewListModelRegistryAccessParamsWithContext(ctx context.Context) *ListModelRegistryAccessParams {
 	return &ListModelRegistryAccessParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListModelRegistryAccessParams struct {
 	// Input.
 	Input *models.ListModelRegistryAccessRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list model registry access params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListModelRegistryAccessParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list model registry access params
+// WithTimeout adds the timeout to the list model registry access params.
 func (o *ListModelRegistryAccessParams) WithTimeout(timeout time.Duration) *ListModelRegistryAccessParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list model registry access params
+// SetTimeout adds the timeout to the list model registry access params.
 func (o *ListModelRegistryAccessParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list model registry access params
+// WithContext adds the context to the list model registry access params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListModelRegistryAccessParams].
 func (o *ListModelRegistryAccessParams) WithContext(ctx context.Context) *ListModelRegistryAccessParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list model registry access params
+// SetContext adds the context to the list model registry access params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListModelRegistryAccessParams].
 func (o *ListModelRegistryAccessParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list model registry access params
+// WithHTTPClient adds the HTTPClient to the list model registry access params.
 func (o *ListModelRegistryAccessParams) WithHTTPClient(client *http.Client) *ListModelRegistryAccessParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list model registry access params
+// SetHTTPClient adds the HTTPClient to the list model registry access params.
 func (o *ListModelRegistryAccessParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list model registry access params
+// WithInput adds the input to the list model registry access params.
 func (o *ListModelRegistryAccessParams) WithInput(input *models.ListModelRegistryAccessRequest) *ListModelRegistryAccessParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list model registry access params
+// SetInput adds the input to the list model registry access params.
 func (o *ListModelRegistryAccessParams) SetInput(input *models.ListModelRegistryAccessRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListModelRegistryAccessParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewRestartDatalakeInstancesParams creates a new RestartDatalakeInstancesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRestartDatalakeInstancesParams() *RestartDatalakeInstancesParams {
-	return &RestartDatalakeInstancesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRestartDatalakeInstancesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRestartDatalakeInstancesParamsWithTimeout creates a new RestartDatalakeInstancesParams object
 // with the ability to set a timeout on a request.
 func NewRestartDatalakeInstancesParamsWithTimeout(timeout time.Duration) *RestartDatalakeInstancesParams {
 	return &RestartDatalakeInstancesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRestartDatalakeInstancesParamsWithContext creates a new RestartDatalakeInstancesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestartDatalakeInstancesParams].
 func NewRestartDatalakeInstancesParamsWithContext(ctx context.Context) *RestartDatalakeInstancesParams {
 	return &RestartDatalakeInstancesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RestartDatalakeInstancesParams struct {
 	// Input.
 	Input *models.RestartDatalakeInstancesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the restart datalake instances params (not the query body).
@@ -83,54 +86,57 @@ func (o *RestartDatalakeInstancesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the restart datalake instances params
+// WithTimeout adds the timeout to the restart datalake instances params.
 func (o *RestartDatalakeInstancesParams) WithTimeout(timeout time.Duration) *RestartDatalakeInstancesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the restart datalake instances params
+// SetTimeout adds the timeout to the restart datalake instances params.
 func (o *RestartDatalakeInstancesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the restart datalake instances params
+// WithContext adds the context to the restart datalake instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestartDatalakeInstancesParams].
 func (o *RestartDatalakeInstancesParams) WithContext(ctx context.Context) *RestartDatalakeInstancesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the restart datalake instances params
+// SetContext adds the context to the restart datalake instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestartDatalakeInstancesParams].
 func (o *RestartDatalakeInstancesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the restart datalake instances params
+// WithHTTPClient adds the HTTPClient to the restart datalake instances params.
 func (o *RestartDatalakeInstancesParams) WithHTTPClient(client *http.Client) *RestartDatalakeInstancesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the restart datalake instances params
+// SetHTTPClient adds the HTTPClient to the restart datalake instances params.
 func (o *RestartDatalakeInstancesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the restart datalake instances params
+// WithInput adds the input to the restart datalake instances params.
 func (o *RestartDatalakeInstancesParams) WithInput(input *models.RestartDatalakeInstancesRequest) *RestartDatalakeInstancesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the restart datalake instances params
+// SetInput adds the input to the restart datalake instances params.
 func (o *RestartDatalakeInstancesParams) SetInput(input *models.RestartDatalakeInstancesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RestartDatalakeInstancesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

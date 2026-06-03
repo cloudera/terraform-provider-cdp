@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListClustersResponse Response object for the listClusters method.
@@ -36,12 +37,12 @@ func (m *ListClustersResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListClustersResponse) validateClusters(formats strfmt.Registry) error {
-	if swag.IsZero(m.Clusters) { // not required
+	if typeutils.IsZero(m.Clusters) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Clusters); i++ {
-		if swag.IsZero(m.Clusters[i]) { // not required
+		if typeutils.IsZero(m.Clusters[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListClustersResponse) contextValidateClusters(ctx context.Context, form
 
 		if m.Clusters[i] != nil {
 
-			if swag.IsZero(m.Clusters[i]) { // not required
+			if typeutils.IsZero(m.Clusters[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListClustersResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListClustersResponse) UnmarshalBinary(b []byte) error {
 	var res ListClustersResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

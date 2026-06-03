@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewCreateAzureEnvironmentParams creates a new CreateAzureEnvironmentParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateAzureEnvironmentParams() *CreateAzureEnvironmentParams {
-	return &CreateAzureEnvironmentParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateAzureEnvironmentParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateAzureEnvironmentParamsWithTimeout creates a new CreateAzureEnvironmentParams object
 // with the ability to set a timeout on a request.
 func NewCreateAzureEnvironmentParamsWithTimeout(timeout time.Duration) *CreateAzureEnvironmentParams {
 	return &CreateAzureEnvironmentParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateAzureEnvironmentParamsWithContext creates a new CreateAzureEnvironmentParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAzureEnvironmentParams].
 func NewCreateAzureEnvironmentParamsWithContext(ctx context.Context) *CreateAzureEnvironmentParams {
 	return &CreateAzureEnvironmentParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateAzureEnvironmentParams struct {
 	// Input.
 	Input *models.CreateAzureEnvironmentRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create azure environment params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateAzureEnvironmentParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create azure environment params
+// WithTimeout adds the timeout to the create azure environment params.
 func (o *CreateAzureEnvironmentParams) WithTimeout(timeout time.Duration) *CreateAzureEnvironmentParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create azure environment params
+// SetTimeout adds the timeout to the create azure environment params.
 func (o *CreateAzureEnvironmentParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create azure environment params
+// WithContext adds the context to the create azure environment params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAzureEnvironmentParams].
 func (o *CreateAzureEnvironmentParams) WithContext(ctx context.Context) *CreateAzureEnvironmentParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create azure environment params
+// SetContext adds the context to the create azure environment params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAzureEnvironmentParams].
 func (o *CreateAzureEnvironmentParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create azure environment params
+// WithHTTPClient adds the HTTPClient to the create azure environment params.
 func (o *CreateAzureEnvironmentParams) WithHTTPClient(client *http.Client) *CreateAzureEnvironmentParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create azure environment params
+// SetHTTPClient adds the HTTPClient to the create azure environment params.
 func (o *CreateAzureEnvironmentParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create azure environment params
+// WithInput adds the input to the create azure environment params.
 func (o *CreateAzureEnvironmentParams) WithInput(input *models.CreateAzureEnvironmentRequest) *CreateAzureEnvironmentParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create azure environment params
+// SetInput adds the input to the create azure environment params.
 func (o *CreateAzureEnvironmentParams) SetInput(input *models.CreateAzureEnvironmentRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateAzureEnvironmentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

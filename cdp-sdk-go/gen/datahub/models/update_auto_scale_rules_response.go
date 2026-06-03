@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // UpdateAutoScaleRulesResponse The AutoScale rules for the cluster.
@@ -35,7 +36,7 @@ func (m *UpdateAutoScaleRulesResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *UpdateAutoScaleRulesResponse) validateAutoScaleRules(formats strfmt.Registry) error {
-	if swag.IsZero(m.AutoScaleRules) { // not required
+	if typeutils.IsZero(m.AutoScaleRules) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *UpdateAutoScaleRulesResponse) contextValidateAutoScaleRules(ctx context
 
 	if m.AutoScaleRules != nil {
 
-		if swag.IsZero(m.AutoScaleRules) { // not required
+		if typeutils.IsZero(m.AutoScaleRules) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *UpdateAutoScaleRulesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateAutoScaleRulesResponse) UnmarshalBinary(b []byte) error {
 	var res UpdateAutoScaleRulesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateCustomDockerRegistryParams creates a new UpdateCustomDockerRegistryParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateCustomDockerRegistryParams() *UpdateCustomDockerRegistryParams {
-	return &UpdateCustomDockerRegistryParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateCustomDockerRegistryParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateCustomDockerRegistryParamsWithTimeout creates a new UpdateCustomDockerRegistryParams object
 // with the ability to set a timeout on a request.
 func NewUpdateCustomDockerRegistryParamsWithTimeout(timeout time.Duration) *UpdateCustomDockerRegistryParams {
 	return &UpdateCustomDockerRegistryParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateCustomDockerRegistryParamsWithContext creates a new UpdateCustomDockerRegistryParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateCustomDockerRegistryParams].
 func NewUpdateCustomDockerRegistryParamsWithContext(ctx context.Context) *UpdateCustomDockerRegistryParams {
 	return &UpdateCustomDockerRegistryParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateCustomDockerRegistryParams struct {
 	// Input.
 	Input *models.UpdateCustomDockerRegistryRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update custom docker registry params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateCustomDockerRegistryParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update custom docker registry params
+// WithTimeout adds the timeout to the update custom docker registry params.
 func (o *UpdateCustomDockerRegistryParams) WithTimeout(timeout time.Duration) *UpdateCustomDockerRegistryParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update custom docker registry params
+// SetTimeout adds the timeout to the update custom docker registry params.
 func (o *UpdateCustomDockerRegistryParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update custom docker registry params
+// WithContext adds the context to the update custom docker registry params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateCustomDockerRegistryParams].
 func (o *UpdateCustomDockerRegistryParams) WithContext(ctx context.Context) *UpdateCustomDockerRegistryParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update custom docker registry params
+// SetContext adds the context to the update custom docker registry params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateCustomDockerRegistryParams].
 func (o *UpdateCustomDockerRegistryParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update custom docker registry params
+// WithHTTPClient adds the HTTPClient to the update custom docker registry params.
 func (o *UpdateCustomDockerRegistryParams) WithHTTPClient(client *http.Client) *UpdateCustomDockerRegistryParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update custom docker registry params
+// SetHTTPClient adds the HTTPClient to the update custom docker registry params.
 func (o *UpdateCustomDockerRegistryParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update custom docker registry params
+// WithInput adds the input to the update custom docker registry params.
 func (o *UpdateCustomDockerRegistryParams) WithInput(input *models.UpdateCustomDockerRegistryRequest) *UpdateCustomDockerRegistryParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update custom docker registry params
+// SetInput adds the input to the update custom docker registry params.
 func (o *UpdateCustomDockerRegistryParams) SetInput(input *models.UpdateCustomDockerRegistryRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateCustomDockerRegistryParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

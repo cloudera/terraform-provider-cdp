@@ -3,17 +3,21 @@
 package operations
 
 import (
+	"context"
+	"time"
+
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operations API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+func New(transport runtime.ContextualTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
 // New creates a new operations API client with basic auth credentials.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -27,6 +31,7 @@ func NewClientWithBasicAuth(host, basePath, scheme, user, password string) Clien
 }
 
 // New creates a new operations API client with a bearer token for authentication.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -39,245 +44,698 @@ func NewClientWithBearerToken(host, basePath, scheme, bearerToken string) Client
 }
 
 /*
-Client for operations API
+Client for operations API.
 */
 type Client struct {
-	transport runtime.ClientTransport
+	transport runtime.ContextualTransport
 	formats   strfmt.Registry
 }
 
 // ClientOption may be used to customize the behavior of Client methods.
 type ClientOption func(*runtime.ClientOperation)
 
-// ClientService is the interface for Client methods
+// ClientService is the interface for Client methods.
 type ClientService interface {
+
+	// AddUser adds the given user to the cluster.
 	AddUser(params *AddUserParams, opts ...ClientOption) (*AddUserOK, error)
 
+	// AddUserContext adds the given user to the cluster.
+	AddUserContext(ctx context.Context, params *AddUserParams, opts ...ClientOption) (*AddUserOK, error)
+
+	// BackupCluster creates a backup from the cluster configuration and settings.
 	BackupCluster(params *BackupClusterParams, opts ...ClientOption) (*BackupClusterOK, error)
 
+	// BackupClusterContext creates a backup from the cluster configuration and settings.
+	BackupClusterContext(ctx context.Context, params *BackupClusterParams, opts ...ClientOption) (*BackupClusterOK, error)
+
+	// CreateAwsCluster create an a w s cluster in the cloudera data warehouse.
 	CreateAwsCluster(params *CreateAwsClusterParams, opts ...ClientOption) (*CreateAwsClusterOK, error)
 
+	// CreateAwsClusterContext create an a w s cluster in the cloudera data warehouse.
+	CreateAwsClusterContext(ctx context.Context, params *CreateAwsClusterParams, opts ...ClientOption) (*CreateAwsClusterOK, error)
+
+	// CreateAzureCluster create an azure cluster in the cloudera data warehouse.
 	CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error)
 
+	// CreateAzureClusterContext create an azure cluster in the cloudera data warehouse.
+	CreateAzureClusterContext(ctx context.Context, params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error)
+
+	// CreateBackup creates a backup for the data warehouse.
 	CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error)
 
+	// CreateBackupContext creates a backup for the data warehouse.
+	CreateBackupContext(ctx context.Context, params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error)
+
+	// CreateCluster create a cloudera data warehouse cluster.
 	CreateCluster(params *CreateClusterParams, opts ...ClientOption) (*CreateClusterOK, error)
 
+	// CreateClusterContext create a cloudera data warehouse cluster.
+	CreateClusterContext(ctx context.Context, params *CreateClusterParams, opts ...ClientOption) (*CreateClusterOK, error)
+
+	// CreateClusterDiagnosticDataJob create a diagnostic job for the given cluster.
 	CreateClusterDiagnosticDataJob(params *CreateClusterDiagnosticDataJobParams, opts ...ClientOption) (*CreateClusterDiagnosticDataJobOK, error)
 
+	// CreateClusterDiagnosticDataJobContext create a diagnostic job for the given cluster.
+	CreateClusterDiagnosticDataJobContext(ctx context.Context, params *CreateClusterDiagnosticDataJobParams, opts ...ClientOption) (*CreateClusterDiagnosticDataJobOK, error)
+
+	// CreateConnector creates a connector.
 	CreateConnector(params *CreateConnectorParams, opts ...ClientOption) (*CreateConnectorOK, error)
 
+	// CreateConnectorContext creates a connector.
+	CreateConnectorContext(ctx context.Context, params *CreateConnectorParams, opts ...ClientOption) (*CreateConnectorOK, error)
+
+	// CreateDataVisualization creates a cloudera data visualization.
 	CreateDataVisualization(params *CreateDataVisualizationParams, opts ...ClientOption) (*CreateDataVisualizationOK, error)
 
+	// CreateDataVisualizationContext creates a cloudera data visualization.
+	CreateDataVisualizationContext(ctx context.Context, params *CreateDataVisualizationParams, opts ...ClientOption) (*CreateDataVisualizationOK, error)
+
+	// CreateDbc create a database catalog.
 	CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*CreateDbcOK, error)
 
+	// CreateDbcContext create a database catalog.
+	CreateDbcContext(ctx context.Context, params *CreateDbcParams, opts ...ClientOption) (*CreateDbcOK, error)
+
+	// CreateDbcDiagnosticDataJob create a diagnostic job for the given database catalog.
 	CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobParams, opts ...ClientOption) (*CreateDbcDiagnosticDataJobOK, error)
 
+	// CreateDbcDiagnosticDataJobContext create a diagnostic job for the given database catalog.
+	CreateDbcDiagnosticDataJobContext(ctx context.Context, params *CreateDbcDiagnosticDataJobParams, opts ...ClientOption) (*CreateDbcDiagnosticDataJobOK, error)
+
+	// CreateHue create hue query editor in a c d w cluster.
 	CreateHue(params *CreateHueParams, opts ...ClientOption) (*CreateHueOK, error)
 
+	// CreateHueContext create hue query editor in a c d w cluster.
+	CreateHueContext(ctx context.Context, params *CreateHueParams, opts ...ClientOption) (*CreateHueOK, error)
+
+	// CreatePrivateCluster create a a private cloud cluster in the cloudera data warehouse.
 	CreatePrivateCluster(params *CreatePrivateClusterParams, opts ...ClientOption) (*CreatePrivateClusterOK, error)
 
+	// CreatePrivateClusterContext create a a private cloud cluster in the cloudera data warehouse.
+	CreatePrivateClusterContext(ctx context.Context, params *CreatePrivateClusterParams, opts ...ClientOption) (*CreatePrivateClusterOK, error)
+
+	// CreateResourceTemplate create a resource allocation template.
 	CreateResourceTemplate(params *CreateResourceTemplateParams, opts ...ClientOption) (*CreateResourceTemplateOK, error)
 
+	// CreateResourceTemplateContext create a resource allocation template.
+	CreateResourceTemplateContext(ctx context.Context, params *CreateResourceTemplateParams, opts ...ClientOption) (*CreateResourceTemplateOK, error)
+
+	// CreateVw create a virtual warehouse.
 	CreateVw(params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error)
 
+	// CreateVwContext create a virtual warehouse.
+	CreateVwContext(ctx context.Context, params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error)
+
+	// CreateVwDiagnosticDataJob create a diagnostic job for the given virtual warehouse.
 	CreateVwDiagnosticDataJob(params *CreateVwDiagnosticDataJobParams, opts ...ClientOption) (*CreateVwDiagnosticDataJobOK, error)
 
+	// CreateVwDiagnosticDataJobContext create a diagnostic job for the given virtual warehouse.
+	CreateVwDiagnosticDataJobContext(ctx context.Context, params *CreateVwDiagnosticDataJobParams, opts ...ClientOption) (*CreateVwDiagnosticDataJobOK, error)
+
+	// DeleteBackup deletes a data warehouse backup.
 	DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
 
+	// DeleteBackupContext deletes a data warehouse backup.
+	DeleteBackupContext(ctx context.Context, params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
+
+	// DeleteCluster delete a cloudera data warehouse cluster.
 	DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error)
 
+	// DeleteClusterContext delete a cloudera data warehouse cluster.
+	DeleteClusterContext(ctx context.Context, params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error)
+
+	// DeleteClusterDiagnosticDataJob deletes a diagnostic job for the given cluster.
 	DeleteClusterDiagnosticDataJob(params *DeleteClusterDiagnosticDataJobParams, opts ...ClientOption) (*DeleteClusterDiagnosticDataJobOK, error)
 
+	// DeleteClusterDiagnosticDataJobContext deletes a diagnostic job for the given cluster.
+	DeleteClusterDiagnosticDataJobContext(ctx context.Context, params *DeleteClusterDiagnosticDataJobParams, opts ...ClientOption) (*DeleteClusterDiagnosticDataJobOK, error)
+
+	// DeleteConnector deletes a database connector.
 	DeleteConnector(params *DeleteConnectorParams, opts ...ClientOption) (*DeleteConnectorOK, error)
 
+	// DeleteConnectorContext deletes a database connector.
+	DeleteConnectorContext(ctx context.Context, params *DeleteConnectorParams, opts ...ClientOption) (*DeleteConnectorOK, error)
+
+	// DeleteDataVisualization asynchronous operation that deletes a cloudera data visualization when the d v is in deleting state we can still use describe data visualization to check the status once it is deleted the describe data visualization would return a not found error.
 	DeleteDataVisualization(params *DeleteDataVisualizationParams, opts ...ClientOption) (*DeleteDataVisualizationOK, error)
 
+	// DeleteDataVisualizationContext asynchronous operation that deletes a cloudera data visualization when the d v is in deleting state we can still use describe data visualization to check the status once it is deleted the describe data visualization would return a not found error.
+	DeleteDataVisualizationContext(ctx context.Context, params *DeleteDataVisualizationParams, opts ...ClientOption) (*DeleteDataVisualizationOK, error)
+
+	// DeleteDbc delete a database catalog.
 	DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*DeleteDbcOK, error)
 
+	// DeleteDbcContext delete a database catalog.
+	DeleteDbcContext(ctx context.Context, params *DeleteDbcParams, opts ...ClientOption) (*DeleteDbcOK, error)
+
+	// DeleteDbcDiagnosticDataJob deletes a diagnostic job for the given database catalog.
 	DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobParams, opts ...ClientOption) (*DeleteDbcDiagnosticDataJobOK, error)
 
+	// DeleteDbcDiagnosticDataJobContext deletes a diagnostic job for the given database catalog.
+	DeleteDbcDiagnosticDataJobContext(ctx context.Context, params *DeleteDbcDiagnosticDataJobParams, opts ...ClientOption) (*DeleteDbcDiagnosticDataJobOK, error)
+
+	// DeleteHue asynchronous operation that deletes a hue query editor when the hue is in deleting state we can still use describe hue to check the status once it is deleted the describe hue would return a not found error.
 	DeleteHue(params *DeleteHueParams, opts ...ClientOption) (*DeleteHueOK, error)
 
+	// DeleteHueContext asynchronous operation that deletes a hue query editor when the hue is in deleting state we can still use describe hue to check the status once it is deleted the describe hue would return a not found error.
+	DeleteHueContext(ctx context.Context, params *DeleteHueParams, opts ...ClientOption) (*DeleteHueOK, error)
+
+	// DeleteResourceTemplate delete a resource allocation template.
 	DeleteResourceTemplate(params *DeleteResourceTemplateParams, opts ...ClientOption) (*DeleteResourceTemplateOK, error)
 
+	// DeleteResourceTemplateContext delete a resource allocation template.
+	DeleteResourceTemplateContext(ctx context.Context, params *DeleteResourceTemplateParams, opts ...ClientOption) (*DeleteResourceTemplateOK, error)
+
+	// DeleteSecret deletes a secret.
 	DeleteSecret(params *DeleteSecretParams, opts ...ClientOption) (*DeleteSecretOK, error)
 
+	// DeleteSecretContext deletes a secret.
+	DeleteSecretContext(ctx context.Context, params *DeleteSecretParams, opts ...ClientOption) (*DeleteSecretOK, error)
+
+	// DeleteUser deletes the given user from the cluster.
 	DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error)
 
+	// DeleteUserContext deletes the given user from the cluster.
+	DeleteUserContext(ctx context.Context, params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error)
+
+	// DeleteVw delete a virtual warehouse.
 	DeleteVw(params *DeleteVwParams, opts ...ClientOption) (*DeleteVwOK, error)
 
+	// DeleteVwContext delete a virtual warehouse.
+	DeleteVwContext(ctx context.Context, params *DeleteVwParams, opts ...ClientOption) (*DeleteVwOK, error)
+
+	// DeleteVwDiagnosticDataJob delete a diagnostic job for the given virtual warehouse.
 	DeleteVwDiagnosticDataJob(params *DeleteVwDiagnosticDataJobParams, opts ...ClientOption) (*DeleteVwDiagnosticDataJobOK, error)
 
+	// DeleteVwDiagnosticDataJobContext delete a diagnostic job for the given virtual warehouse.
+	DeleteVwDiagnosticDataJobContext(ctx context.Context, params *DeleteVwDiagnosticDataJobParams, opts ...ClientOption) (*DeleteVwDiagnosticDataJobOK, error)
+
+	// DescribeAllowedInstanceTypes get allowed compute instance types for both a w s and azure cluster types and their default values.
 	DescribeAllowedInstanceTypes(params *DescribeAllowedInstanceTypesParams, opts ...ClientOption) (*DescribeAllowedInstanceTypesOK, error)
 
+	// DescribeAllowedInstanceTypesContext get allowed compute instance types for both a w s and azure cluster types and their default values.
+	DescribeAllowedInstanceTypesContext(ctx context.Context, params *DescribeAllowedInstanceTypesParams, opts ...ClientOption) (*DescribeAllowedInstanceTypesOK, error)
+
+	// DescribeBackup describes the backup.
 	DescribeBackup(params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error)
 
+	// DescribeBackupContext describes the backup.
+	DescribeBackupContext(ctx context.Context, params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error)
+
+	// DescribeCluster describe a cloudera data warehouse cluster.
 	DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error)
 
+	// DescribeClusterContext describe a cloudera data warehouse cluster.
+	DescribeClusterContext(ctx context.Context, params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error)
+
+	// DescribeClusterDiagnosticDataJob describes a diagnostic job for the given cluster.
 	DescribeClusterDiagnosticDataJob(params *DescribeClusterDiagnosticDataJobParams, opts ...ClientOption) (*DescribeClusterDiagnosticDataJobOK, error)
 
+	// DescribeClusterDiagnosticDataJobContext describes a diagnostic job for the given cluster.
+	DescribeClusterDiagnosticDataJobContext(ctx context.Context, params *DescribeClusterDiagnosticDataJobParams, opts ...ClientOption) (*DescribeClusterDiagnosticDataJobOK, error)
+
+	// DescribeConfig describe a service configuration.
 	DescribeConfig(params *DescribeConfigParams, opts ...ClientOption) (*DescribeConfigOK, error)
 
+	// DescribeConfigContext describe a service configuration.
+	DescribeConfigContext(ctx context.Context, params *DescribeConfigParams, opts ...ClientOption) (*DescribeConfigOK, error)
+
+	// DescribeConfigDiff get differences between two service configurations.
 	DescribeConfigDiff(params *DescribeConfigDiffParams, opts ...ClientOption) (*DescribeConfigDiffOK, error)
 
+	// DescribeConfigDiffContext get differences between two service configurations.
+	DescribeConfigDiffContext(ctx context.Context, params *DescribeConfigDiffParams, opts ...ClientOption) (*DescribeConfigDiffOK, error)
+
+	// DescribeDataVisualization describes a cloudera data visualization.
 	DescribeDataVisualization(params *DescribeDataVisualizationParams, opts ...ClientOption) (*DescribeDataVisualizationOK, error)
 
+	// DescribeDataVisualizationContext describes a cloudera data visualization.
+	DescribeDataVisualizationContext(ctx context.Context, params *DescribeDataVisualizationParams, opts ...ClientOption) (*DescribeDataVisualizationOK, error)
+
+	// DescribeDbc describe a database catalog.
 	DescribeDbc(params *DescribeDbcParams, opts ...ClientOption) (*DescribeDbcOK, error)
 
+	// DescribeDbcContext describe a database catalog.
+	DescribeDbcContext(ctx context.Context, params *DescribeDbcParams, opts ...ClientOption) (*DescribeDbcOK, error)
+
+	// DescribeDbcConfig describes the database catalog current configuration.
 	DescribeDbcConfig(params *DescribeDbcConfigParams, opts ...ClientOption) (*DescribeDbcConfigOK, error)
 
+	// DescribeDbcConfigContext describes the database catalog current configuration.
+	DescribeDbcConfigContext(ctx context.Context, params *DescribeDbcConfigParams, opts ...ClientOption) (*DescribeDbcConfigOK, error)
+
+	// DescribeDbcDiagnosticDataJob describes a diagnostic job for the given database catalog.
 	DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJobParams, opts ...ClientOption) (*DescribeDbcDiagnosticDataJobOK, error)
 
+	// DescribeDbcDiagnosticDataJobContext describes a diagnostic job for the given database catalog.
+	DescribeDbcDiagnosticDataJobContext(ctx context.Context, params *DescribeDbcDiagnosticDataJobParams, opts ...ClientOption) (*DescribeDbcDiagnosticDataJobOK, error)
+
+	// DescribeHue describes a hue query editor.
 	DescribeHue(params *DescribeHueParams, opts ...ClientOption) (*DescribeHueOK, error)
 
+	// DescribeHueContext describes a hue query editor.
+	DescribeHueContext(ctx context.Context, params *DescribeHueParams, opts ...ClientOption) (*DescribeHueOK, error)
+
+	// DescribeKubeconfig get kubeconfig for a cloudera data warehouse cluster.
 	DescribeKubeconfig(params *DescribeKubeconfigParams, opts ...ClientOption) (*DescribeKubeconfigOK, error)
 
+	// DescribeKubeconfigContext get kubeconfig for a cloudera data warehouse cluster.
+	DescribeKubeconfigContext(ctx context.Context, params *DescribeKubeconfigParams, opts ...ClientOption) (*DescribeKubeconfigOK, error)
+
+	// DescribeRestore describes the restore.
 	DescribeRestore(params *DescribeRestoreParams, opts ...ClientOption) (*DescribeRestoreOK, error)
 
+	// DescribeRestoreContext describes the restore.
+	DescribeRestoreContext(ctx context.Context, params *DescribeRestoreParams, opts ...ClientOption) (*DescribeRestoreOK, error)
+
+	// DescribeServerSetting get the d w x server settings.
 	DescribeServerSetting(params *DescribeServerSettingParams, opts ...ClientOption) (*DescribeServerSettingOK, error)
 
+	// DescribeServerSettingContext get the d w x server settings.
+	DescribeServerSettingContext(ctx context.Context, params *DescribeServerSettingParams, opts ...ClientOption) (*DescribeServerSettingOK, error)
+
+	// DescribeVw describe a virtual warehouse.
 	DescribeVw(params *DescribeVwParams, opts ...ClientOption) (*DescribeVwOK, error)
 
+	// DescribeVwContext describe a virtual warehouse.
+	DescribeVwContext(ctx context.Context, params *DescribeVwParams, opts ...ClientOption) (*DescribeVwOK, error)
+
+	// DescribeVwConfig describes the current configuration of a hive or impala virtual warehouse.
 	DescribeVwConfig(params *DescribeVwConfigParams, opts ...ClientOption) (*DescribeVwConfigOK, error)
 
+	// DescribeVwConfigContext describes the current configuration of a hive or impala virtual warehouse.
+	DescribeVwConfigContext(ctx context.Context, params *DescribeVwConfigParams, opts ...ClientOption) (*DescribeVwConfigOK, error)
+
+	// DescribeVwDiagnosticDataJob describe a diagnostic jobs for the given virtual warehouse.
 	DescribeVwDiagnosticDataJob(params *DescribeVwDiagnosticDataJobParams, opts ...ClientOption) (*DescribeVwDiagnosticDataJobOK, error)
 
+	// DescribeVwDiagnosticDataJobContext describe a diagnostic jobs for the given virtual warehouse.
+	DescribeVwDiagnosticDataJobContext(ctx context.Context, params *DescribeVwDiagnosticDataJobParams, opts ...ClientOption) (*DescribeVwDiagnosticDataJobOK, error)
+
+	// GetDataVisualizationUpgradeVersion gets latest version and latest compatible version for cloudera data visualization.
 	GetDataVisualizationUpgradeVersion(params *GetDataVisualizationUpgradeVersionParams, opts ...ClientOption) (*GetDataVisualizationUpgradeVersionOK, error)
 
+	// GetDataVisualizationUpgradeVersionContext gets latest version and latest compatible version for cloudera data visualization.
+	GetDataVisualizationUpgradeVersionContext(ctx context.Context, params *GetDataVisualizationUpgradeVersionParams, opts ...ClientOption) (*GetDataVisualizationUpgradeVersionOK, error)
+
+	// GetHueUpgradeVersion gets latest version and latest compatible version for hue query editor.
 	GetHueUpgradeVersion(params *GetHueUpgradeVersionParams, opts ...ClientOption) (*GetHueUpgradeVersionOK, error)
 
+	// GetHueUpgradeVersionContext gets latest version and latest compatible version for hue query editor.
+	GetHueUpgradeVersionContext(ctx context.Context, params *GetHueUpgradeVersionParams, opts ...ClientOption) (*GetHueUpgradeVersionOK, error)
+
+	// GetK8sCertJKS gets kubernetes certificates in j k s format.
 	GetK8sCertJKS(params *GetK8sCertJKSParams, opts ...ClientOption) (*GetK8sCertJKSOK, error)
 
+	// GetK8sCertJKSContext gets kubernetes certificates in j k s format.
+	GetK8sCertJKSContext(ctx context.Context, params *GetK8sCertJKSParams, opts ...ClientOption) (*GetK8sCertJKSOK, error)
+
+	// GetK8sCertPEM gets kubernetes certificate in p e m format.
 	GetK8sCertPEM(params *GetK8sCertPEMParams, opts ...ClientOption) (*GetK8sCertPEMOK, error)
 
+	// GetK8sCertPEMContext gets kubernetes certificate in p e m format.
+	GetK8sCertPEMContext(ctx context.Context, params *GetK8sCertPEMParams, opts ...ClientOption) (*GetK8sCertPEMOK, error)
+
+	// GetLogs gets job logs.
 	GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error)
 
+	// GetLogsContext gets job logs.
+	GetLogsContext(ctx context.Context, params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error)
+
+	// GetUpgradeDbcVersions gets the latest version and latest compatible version for database catalog.
 	GetUpgradeDbcVersions(params *GetUpgradeDbcVersionsParams, opts ...ClientOption) (*GetUpgradeDbcVersionsOK, error)
 
+	// GetUpgradeDbcVersionsContext gets the latest version and latest compatible version for database catalog.
+	GetUpgradeDbcVersionsContext(ctx context.Context, params *GetUpgradeDbcVersionsParams, opts ...ClientOption) (*GetUpgradeDbcVersionsOK, error)
+
+	// GetUpgradeVwVersions gets the latest version and latest compatible version for virtual warehouse.
 	GetUpgradeVwVersions(params *GetUpgradeVwVersionsParams, opts ...ClientOption) (*GetUpgradeVwVersionsOK, error)
 
+	// GetUpgradeVwVersionsContext gets the latest version and latest compatible version for virtual warehouse.
+	GetUpgradeVwVersionsContext(ctx context.Context, params *GetUpgradeVwVersionsParams, opts ...ClientOption) (*GetUpgradeVwVersionsOK, error)
+
+	// HealthCheck check the health of the API.
 	HealthCheck(params *HealthCheckParams, opts ...ClientOption) (*HealthCheckOK, error)
 
+	// HealthCheckContext check the health of the API.
+	HealthCheckContext(ctx context.Context, params *HealthCheckParams, opts ...ClientOption) (*HealthCheckOK, error)
+
+	// ListBackupEntities lists potential backup entities associated with the data warehouse.
 	ListBackupEntities(params *ListBackupEntitiesParams, opts ...ClientOption) (*ListBackupEntitiesOK, error)
 
+	// ListBackupEntitiesContext lists potential backup entities associated with the data warehouse.
+	ListBackupEntitiesContext(ctx context.Context, params *ListBackupEntitiesParams, opts ...ClientOption) (*ListBackupEntitiesOK, error)
+
+	// ListBackups lists backups.
 	ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error)
 
+	// ListBackupsContext lists backups.
+	ListBackupsContext(ctx context.Context, params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error)
+
+	// ListClusterDiagnosticDataJobs get a list of diagnostic jobs for the given cluster.
 	ListClusterDiagnosticDataJobs(params *ListClusterDiagnosticDataJobsParams, opts ...ClientOption) (*ListClusterDiagnosticDataJobsOK, error)
 
+	// ListClusterDiagnosticDataJobsContext get a list of diagnostic jobs for the given cluster.
+	ListClusterDiagnosticDataJobsContext(ctx context.Context, params *ListClusterDiagnosticDataJobsParams, opts ...ClientOption) (*ListClusterDiagnosticDataJobsOK, error)
+
+	// ListClusters list cloudera data warehouse clusters.
 	ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error)
 
+	// ListClustersContext list cloudera data warehouse clusters.
+	ListClustersContext(ctx context.Context, params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error)
+
+	// ListConnectors lists database connectors.
 	ListConnectors(params *ListConnectorsParams, opts ...ClientOption) (*ListConnectorsOK, error)
 
+	// ListConnectorsContext lists database connectors.
+	ListConnectorsContext(ctx context.Context, params *ListConnectorsParams, opts ...ClientOption) (*ListConnectorsOK, error)
+
+	// ListDataVisualizations lists cloudera data visualization in the provided c d w cluster.
 	ListDataVisualizations(params *ListDataVisualizationsParams, opts ...ClientOption) (*ListDataVisualizationsOK, error)
 
+	// ListDataVisualizationsContext lists cloudera data visualization in the provided c d w cluster.
+	ListDataVisualizationsContext(ctx context.Context, params *ListDataVisualizationsParams, opts ...ClientOption) (*ListDataVisualizationsOK, error)
+
+	// ListDbcConfigs get the configuration history of a database catalog.
 	ListDbcConfigs(params *ListDbcConfigsParams, opts ...ClientOption) (*ListDbcConfigsOK, error)
 
+	// ListDbcConfigsContext get the configuration history of a database catalog.
+	ListDbcConfigsContext(ctx context.Context, params *ListDbcConfigsParams, opts ...ClientOption) (*ListDbcConfigsOK, error)
+
+	// ListDbcDiagnosticDataJobs get a list of diagnostic jobs for the given database catalog.
 	ListDbcDiagnosticDataJobs(params *ListDbcDiagnosticDataJobsParams, opts ...ClientOption) (*ListDbcDiagnosticDataJobsOK, error)
 
+	// ListDbcDiagnosticDataJobsContext get a list of diagnostic jobs for the given database catalog.
+	ListDbcDiagnosticDataJobsContext(ctx context.Context, params *ListDbcDiagnosticDataJobsParams, opts ...ClientOption) (*ListDbcDiagnosticDataJobsOK, error)
+
+	// ListDbcEvents get the list of events for the given database catalog.
 	ListDbcEvents(params *ListDbcEventsParams, opts ...ClientOption) (*ListDbcEventsOK, error)
 
+	// ListDbcEventsContext get the list of events for the given database catalog.
+	ListDbcEventsContext(ctx context.Context, params *ListDbcEventsParams, opts ...ClientOption) (*ListDbcEventsOK, error)
+
+	// ListDbcs list database catalogs.
 	ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDbcsOK, error)
 
+	// ListDbcsContext list database catalogs.
+	ListDbcsContext(ctx context.Context, params *ListDbcsParams, opts ...ClientOption) (*ListDbcsOK, error)
+
+	// ListEvents get the list of events.
 	ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error)
 
+	// ListEventsContext get the list of events.
+	ListEventsContext(ctx context.Context, params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error)
+
+	// ListHues list hue query editors in the provided c d w cluster.
 	ListHues(params *ListHuesParams, opts ...ClientOption) (*ListHuesOK, error)
 
+	// ListHuesContext list hue query editors in the provided c d w cluster.
+	ListHuesContext(ctx context.Context, params *ListHuesParams, opts ...ClientOption) (*ListHuesOK, error)
+
+	// ListLatestVersions lists the latest version of the product if available for all catalogs in the environment.
 	ListLatestVersions(params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error)
 
+	// ListLatestVersionsContext lists the latest version of the product if available for all catalogs in the environment.
+	ListLatestVersionsContext(ctx context.Context, params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error)
+
+	// ListResourceTemplates get default resource allocation templates.
 	ListResourceTemplates(params *ListResourceTemplatesParams, opts ...ClientOption) (*ListResourceTemplatesOK, error)
 
+	// ListResourceTemplatesContext get default resource allocation templates.
+	ListResourceTemplatesContext(ctx context.Context, params *ListResourceTemplatesParams, opts ...ClientOption) (*ListResourceTemplatesOK, error)
+
+	// ListRestores lists restores.
 	ListRestores(params *ListRestoresParams, opts ...ClientOption) (*ListRestoresOK, error)
 
+	// ListRestoresContext lists restores.
+	ListRestoresContext(ctx context.Context, params *ListRestoresParams, opts ...ClientOption) (*ListRestoresOK, error)
+
+	// ListSecrets lists all secrets.
 	ListSecrets(params *ListSecretsParams, opts ...ClientOption) (*ListSecretsOK, error)
 
+	// ListSecretsContext lists all secrets.
+	ListSecretsContext(ctx context.Context, params *ListSecretsParams, opts ...ClientOption) (*ListSecretsOK, error)
+
+	// ListUsers lists the users who have access to the cluster.
 	ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error)
 
+	// ListUsersContext lists the users who have access to the cluster.
+	ListUsersContext(ctx context.Context, params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error)
+
+	// ListVwConfigs get the configuration history of a virtual warehouse.
 	ListVwConfigs(params *ListVwConfigsParams, opts ...ClientOption) (*ListVwConfigsOK, error)
 
+	// ListVwConfigsContext get the configuration history of a virtual warehouse.
+	ListVwConfigsContext(ctx context.Context, params *ListVwConfigsParams, opts ...ClientOption) (*ListVwConfigsOK, error)
+
+	// ListVwDiagnosticDataJobs get a list of diagnostic jobs for the given virtual warehouse.
 	ListVwDiagnosticDataJobs(params *ListVwDiagnosticDataJobsParams, opts ...ClientOption) (*ListVwDiagnosticDataJobsOK, error)
 
+	// ListVwDiagnosticDataJobsContext get a list of diagnostic jobs for the given virtual warehouse.
+	ListVwDiagnosticDataJobsContext(ctx context.Context, params *ListVwDiagnosticDataJobsParams, opts ...ClientOption) (*ListVwDiagnosticDataJobsOK, error)
+
+	// ListVwEvents get the list of events for the given virtual warehouse.
 	ListVwEvents(params *ListVwEventsParams, opts ...ClientOption) (*ListVwEventsOK, error)
 
+	// ListVwEventsContext get the list of events for the given virtual warehouse.
+	ListVwEventsContext(ctx context.Context, params *ListVwEventsParams, opts ...ClientOption) (*ListVwEventsOK, error)
+
+	// ListVws list virtual warehouses.
 	ListVws(params *ListVwsParams, opts ...ClientOption) (*ListVwsOK, error)
 
+	// ListVwsContext list virtual warehouses.
+	ListVwsContext(ctx context.Context, params *ListVwsParams, opts ...ClientOption) (*ListVwsOK, error)
+
+	// RebuildDbc rebuild a database catalog.
 	RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*RebuildDbcOK, error)
 
+	// RebuildDbcContext rebuild a database catalog.
+	RebuildDbcContext(ctx context.Context, params *RebuildDbcParams, opts ...ClientOption) (*RebuildDbcOK, error)
+
+	// RebuildHue asynchronous operation that rebuilds a hue query editor keeping the same version.
 	RebuildHue(params *RebuildHueParams, opts ...ClientOption) (*RebuildHueOK, error)
 
+	// RebuildHueContext asynchronous operation that rebuilds a hue query editor keeping the same version.
+	RebuildHueContext(ctx context.Context, params *RebuildHueParams, opts ...ClientOption) (*RebuildHueOK, error)
+
+	// RebuildVw rebuild a virtual warehouse.
 	RebuildVw(params *RebuildVwParams, opts ...ClientOption) (*RebuildVwOK, error)
 
+	// RebuildVwContext rebuild a virtual warehouse.
+	RebuildVwContext(ctx context.Context, params *RebuildVwParams, opts ...ClientOption) (*RebuildVwOK, error)
+
+	// RegisterSecret registers a reference to a secret stored in the vault of the cloud provider.
 	RegisterSecret(params *RegisterSecretParams, opts ...ClientOption) (*RegisterSecretOK, error)
 
+	// RegisterSecretContext registers a reference to a secret stored in the vault of the cloud provider.
+	RegisterSecretContext(ctx context.Context, params *RegisterSecretParams, opts ...ClientOption) (*RegisterSecretOK, error)
+
+	// RenewCertificates renew certificates for a cloudera data warehouse azure cluster.
 	RenewCertificates(params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error)
 
+	// RenewCertificatesContext renew certificates for a cloudera data warehouse azure cluster.
+	RenewCertificatesContext(ctx context.Context, params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error)
+
+	// ResetServerSettings restores the d w x server settings to the default values.
 	ResetServerSettings(params *ResetServerSettingsParams, opts ...ClientOption) (*ResetServerSettingsOK, error)
 
+	// ResetServerSettingsContext restores the d w x server settings to the default values.
+	ResetServerSettingsContext(ctx context.Context, params *ResetServerSettingsParams, opts ...ClientOption) (*ResetServerSettingsOK, error)
+
+	// RestoreBackup restores backup.
 	RestoreBackup(params *RestoreBackupParams, opts ...ClientOption) (*RestoreBackupOK, error)
 
+	// RestoreBackupContext restores backup.
+	RestoreBackupContext(ctx context.Context, params *RestoreBackupParams, opts ...ClientOption) (*RestoreBackupOK, error)
+
+	// RestoreCluster restores the cluster from a backup data made by backup cluster command.
 	RestoreCluster(params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error)
 
+	// RestoreClusterContext restores the cluster from a backup data made by backup cluster command.
+	RestoreClusterContext(ctx context.Context, params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error)
+
+	// ResumeCluster resume cloudera data warehouse cluster.
 	ResumeCluster(params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error)
 
+	// ResumeClusterContext resume cloudera data warehouse cluster.
+	ResumeClusterContext(ctx context.Context, params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error)
+
+	// StartDbc start a database catalog.
 	StartDbc(params *StartDbcParams, opts ...ClientOption) (*StartDbcOK, error)
 
+	// StartDbcContext start a database catalog.
+	StartDbcContext(ctx context.Context, params *StartDbcParams, opts ...ClientOption) (*StartDbcOK, error)
+
+	// StartVw starts a suspended virtual warehouse.
 	StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwOK, error)
 
+	// StartVwContext starts a suspended virtual warehouse.
+	StartVwContext(ctx context.Context, params *StartVwParams, opts ...ClientOption) (*StartVwOK, error)
+
+	// SuspendCluster suspend cloudera data warehouse cluster.
 	SuspendCluster(params *SuspendClusterParams, opts ...ClientOption) (*SuspendClusterOK, error)
 
+	// SuspendClusterContext suspend cloudera data warehouse cluster.
+	SuspendClusterContext(ctx context.Context, params *SuspendClusterParams, opts ...ClientOption) (*SuspendClusterOK, error)
+
+	// SuspendDbc suspends a running database catalog.
 	SuspendDbc(params *SuspendDbcParams, opts ...ClientOption) (*SuspendDbcOK, error)
 
+	// SuspendDbcContext suspends a running database catalog.
+	SuspendDbcContext(ctx context.Context, params *SuspendDbcParams, opts ...ClientOption) (*SuspendDbcOK, error)
+
+	// SuspendVw suspends a running virtual warehouse.
 	SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*SuspendVwOK, error)
 
+	// SuspendVwContext suspends a running virtual warehouse.
+	SuspendVwContext(ctx context.Context, params *SuspendVwParams, opts ...ClientOption) (*SuspendVwOK, error)
+
+	// UpdateAwsCluster updates an a w s cluster in the cloudera data warehouse.
 	UpdateAwsCluster(params *UpdateAwsClusterParams, opts ...ClientOption) (*UpdateAwsClusterOK, error)
 
+	// UpdateAwsClusterContext updates an a w s cluster in the cloudera data warehouse.
+	UpdateAwsClusterContext(ctx context.Context, params *UpdateAwsClusterParams, opts ...ClientOption) (*UpdateAwsClusterOK, error)
+
+	// UpdateAzureCluster updates an azure cluster in the cloudera data warehouse.
 	UpdateAzureCluster(params *UpdateAzureClusterParams, opts ...ClientOption) (*UpdateAzureClusterOK, error)
 
+	// UpdateAzureClusterContext updates an azure cluster in the cloudera data warehouse.
+	UpdateAzureClusterContext(ctx context.Context, params *UpdateAzureClusterParams, opts ...ClientOption) (*UpdateAzureClusterOK, error)
+
+	// UpdateCluster updates the cloudera data warehouse cluster.
 	UpdateCluster(params *UpdateClusterParams, opts ...ClientOption) (*UpdateClusterOK, error)
 
+	// UpdateClusterContext updates the cloudera data warehouse cluster.
+	UpdateClusterContext(ctx context.Context, params *UpdateClusterParams, opts ...ClientOption) (*UpdateClusterOK, error)
+
+	// UpdateConnector updates the cloudera data warehouse connector.
 	UpdateConnector(params *UpdateConnectorParams, opts ...ClientOption) (*UpdateConnectorOK, error)
 
+	// UpdateConnectorContext updates the cloudera data warehouse connector.
+	UpdateConnectorContext(ctx context.Context, params *UpdateConnectorParams, opts ...ClientOption) (*UpdateConnectorOK, error)
+
+	// UpdateDataVisualization asynchronous operation that updates the configuration of a cloudera data visualization the describe data visualization can be used at any time to get the latest status of a data visualization.
 	UpdateDataVisualization(params *UpdateDataVisualizationParams, opts ...ClientOption) (*UpdateDataVisualizationOK, error)
 
+	// UpdateDataVisualizationContext asynchronous operation that updates the configuration of a cloudera data visualization the describe data visualization can be used at any time to get the latest status of a data visualization.
+	UpdateDataVisualizationContext(ctx context.Context, params *UpdateDataVisualizationParams, opts ...ClientOption) (*UpdateDataVisualizationOK, error)
+
+	// UpdateDbc update the configuration of a database catalog.
 	UpdateDbc(params *UpdateDbcParams, opts ...ClientOption) (*UpdateDbcOK, error)
 
+	// UpdateDbcContext update the configuration of a database catalog.
+	UpdateDbcContext(ctx context.Context, params *UpdateDbcParams, opts ...ClientOption) (*UpdateDbcOK, error)
+
+	// UpdateDbcConfig update a database catalog configuration.
 	UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error)
 
+	// UpdateDbcConfigContext update a database catalog configuration.
+	UpdateDbcConfigContext(ctx context.Context, params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error)
+
+	// UpdateHue asynchronous operation that updates the configuration of a hue query editor the describe hue can be used at any time to get the latest status of a hue query editor.
 	UpdateHue(params *UpdateHueParams, opts ...ClientOption) (*UpdateHueOK, error)
 
+	// UpdateHueContext asynchronous operation that updates the configuration of a hue query editor the describe hue can be used at any time to get the latest status of a hue query editor.
+	UpdateHueContext(ctx context.Context, params *UpdateHueParams, opts ...ClientOption) (*UpdateHueOK, error)
+
+	// UpdatePrivateCluster updates a private cloud pv c cluster in the cloudera data warehouse.
 	UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts ...ClientOption) (*UpdatePrivateClusterOK, error)
 
+	// UpdatePrivateClusterContext updates a private cloud pv c cluster in the cloudera data warehouse.
+	UpdatePrivateClusterContext(ctx context.Context, params *UpdatePrivateClusterParams, opts ...ClientOption) (*UpdatePrivateClusterOK, error)
+
+	// UpdateResourceTemplate update a resource allocation template.
 	UpdateResourceTemplate(params *UpdateResourceTemplateParams, opts ...ClientOption) (*UpdateResourceTemplateOK, error)
 
+	// UpdateResourceTemplateContext update a resource allocation template.
+	UpdateResourceTemplateContext(ctx context.Context, params *UpdateResourceTemplateParams, opts ...ClientOption) (*UpdateResourceTemplateOK, error)
+
+	// UpdateServerSetting update the d w x server settings.
 	UpdateServerSetting(params *UpdateServerSettingParams, opts ...ClientOption) (*UpdateServerSettingOK, error)
 
+	// UpdateServerSettingContext update the d w x server settings.
+	UpdateServerSettingContext(ctx context.Context, params *UpdateServerSettingParams, opts ...ClientOption) (*UpdateServerSettingOK, error)
+
+	// UpdateSSHKey update the SSH key for a cloudera data warehouse cluster.
 	UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error)
 
+	// UpdateSSHKeyContext update the SSH key for a cloudera data warehouse cluster.
+	UpdateSSHKeyContext(ctx context.Context, params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error)
+
+	// UpdateVw update the configuration of a virtual warehouse.
 	UpdateVw(params *UpdateVwParams, opts ...ClientOption) (*UpdateVwOK, error)
 
+	// UpdateVwContext update the configuration of a virtual warehouse.
+	UpdateVwContext(ctx context.Context, params *UpdateVwParams, opts ...ClientOption) (*UpdateVwOK, error)
+
+	// UpdateVwConfig update a virtual warehouse configuration.
 	UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOption) (*UpdateVwConfigOK, error)
 
+	// UpdateVwConfigContext update a virtual warehouse configuration.
+	UpdateVwConfigContext(ctx context.Context, params *UpdateVwConfigParams, opts ...ClientOption) (*UpdateVwConfigOK, error)
+
+	// UpgradeDataVisualization asynchronous operation that upgrades a cloudera data visualization to a compatible version the describe data visualization can be used at any time to get the latest status of a data visualization.
 	UpgradeDataVisualization(params *UpgradeDataVisualizationParams, opts ...ClientOption) (*UpgradeDataVisualizationOK, error)
 
+	// UpgradeDataVisualizationContext asynchronous operation that upgrades a cloudera data visualization to a compatible version the describe data visualization can be used at any time to get the latest status of a data visualization.
+	UpgradeDataVisualizationContext(ctx context.Context, params *UpgradeDataVisualizationParams, opts ...ClientOption) (*UpgradeDataVisualizationOK, error)
+
+	// UpgradeDbc upgrades the database catalog to a compatible version.
 	UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*UpgradeDbcOK, error)
 
+	// UpgradeDbcContext upgrades the database catalog to a compatible version.
+	UpgradeDbcContext(ctx context.Context, params *UpgradeDbcParams, opts ...ClientOption) (*UpgradeDbcOK, error)
+
+	// UpgradeHue asynchronous operation that upgrades a hue query editor to a compatible version the describe hue can be used at any time to get the latest status of a hue query editor.
 	UpgradeHue(params *UpgradeHueParams, opts ...ClientOption) (*UpgradeHueOK, error)
 
+	// UpgradeHueContext asynchronous operation that upgrades a hue query editor to a compatible version the describe hue can be used at any time to get the latest status of a hue query editor.
+	UpgradeHueContext(ctx context.Context, params *UpgradeHueParams, opts ...ClientOption) (*UpgradeHueOK, error)
+
+	// UpgradeVw upgrades the virtual warehouse to a compatible version.
 	UpgradeVw(params *UpgradeVwParams, opts ...ClientOption) (*UpgradeVwOK, error)
 
-	SetTransport(transport runtime.ClientTransport)
+	// UpgradeVwContext upgrades the virtual warehouse to a compatible version.
+	UpgradeVwContext(ctx context.Context, params *UpgradeVwParams, opts ...ClientOption) (*UpgradeVwOK, error)
+
+	SetTransport(transport runtime.ContextualTransport)
 }
 
 /*
-AddUser adds the given user to the cluster
+AddUseradds the given user to the cluster.
 
-Adds the given user to the cluster. Please note that the user must pre-exist.
+Adds the given user to the cluster. Please note that the user must pre-exist..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.AddUserContext] instead.
 */
 func (a *Client) AddUser(params *AddUserParams, opts ...ClientOption) (*AddUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AddUserContext(ctx, params, opts...)
+}
+
+/*
+AddUserContextadds the given user to the cluster.
+
+Adds the given user to the cluster. Please note that the user must pre-exist..
+
+Do not use the deprecated [AddUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) AddUserContext(ctx context.Context, params *AddUserParams, opts ...ClientOption) (*AddUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "addUser",
 		Method:             "POST",
@@ -287,13 +745,14 @@ func (a *Client) AddUser(params *AddUserParams, opts ...ClientOption) (*AddUserO
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AddUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -313,15 +772,39 @@ func (a *Client) AddUser(params *AddUserParams, opts ...ClientOption) (*AddUserO
 }
 
 /*
-BackupCluster creates a backup from the cluster configuration and settings
+BackupClustercreates a backup from the cluster configuration and settings.
 
-Creates a backup from the configuration and settings, including all the connected DbCatalogs, Virtual Warehouses and Data Visualisation Apps. The returned data may be used to restore all the entities by using the "restore-cluster" command. The CDW doesn't provide centralized management of the backups. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html
+Creates a backup from the configuration and settings, including all the connected DbCatalogs, Virtual Warehouses and Data Visualisation Apps. The returned data may be used to restore all the entities by using the "restore-cluster" command. The CDW doesn't provide centralized management of the backups. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.BackupClusterContext] instead.
 */
 func (a *Client) BackupCluster(params *BackupClusterParams, opts ...ClientOption) (*BackupClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.BackupClusterContext(ctx, params, opts...)
+}
+
+/*
+BackupClusterContextcreates a backup from the cluster configuration and settings.
+
+Creates a backup from the configuration and settings, including all the connected DbCatalogs, Virtual Warehouses and Data Visualisation Apps. The returned data may be used to restore all the entities by using the "restore-cluster" command. The CDW doesn't provide centralized management of the backups. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html.
+
+Do not use the deprecated [BackupClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) BackupClusterContext(ctx context.Context, params *BackupClusterParams, opts ...ClientOption) (*BackupClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewBackupClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "backupCluster",
 		Method:             "POST",
@@ -331,13 +814,14 @@ func (a *Client) BackupCluster(params *BackupClusterParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &BackupClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -357,15 +841,39 @@ func (a *Client) BackupCluster(params *BackupClusterParams, opts ...ClientOption
 }
 
 /*
-CreateAwsCluster creates an a w s cluster in the cloudera data warehouse
+CreateAwsClustercreates an a w s cluster in the cloudera data warehouse.
 
-Create an AWS cluster in the Cloudera Data Warehouse environment with the provided settings.
+Create an AWS cluster in the Cloudera Data Warehouse environment with the provided settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAwsClusterContext] instead.
 */
 func (a *Client) CreateAwsCluster(params *CreateAwsClusterParams, opts ...ClientOption) (*CreateAwsClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAwsClusterContext(ctx, params, opts...)
+}
+
+/*
+CreateAwsClusterContextcreates an a w s cluster in the cloudera data warehouse.
+
+Create an AWS cluster in the Cloudera Data Warehouse environment with the provided settings..
+
+Do not use the deprecated [CreateAwsClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAwsClusterContext(ctx context.Context, params *CreateAwsClusterParams, opts ...ClientOption) (*CreateAwsClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAwsClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAwsCluster",
 		Method:             "POST",
@@ -375,13 +883,14 @@ func (a *Client) CreateAwsCluster(params *CreateAwsClusterParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAwsClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -401,15 +910,39 @@ func (a *Client) CreateAwsCluster(params *CreateAwsClusterParams, opts ...Client
 }
 
 /*
-CreateAzureCluster creates an azure cluster in the cloudera data warehouse
+CreateAzureClustercreates an azure cluster in the cloudera data warehouse.
 
-Create an Azure cluster in the Cloudera Data Warehouse environment with the provided settings.
+Create an Azure cluster in the Cloudera Data Warehouse environment with the provided settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateAzureClusterContext] instead.
 */
 func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAzureClusterContext(ctx, params, opts...)
+}
+
+/*
+CreateAzureClusterContextcreates an azure cluster in the cloudera data warehouse.
+
+Create an Azure cluster in the Cloudera Data Warehouse environment with the provided settings..
+
+Do not use the deprecated [CreateAzureClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateAzureClusterContext(ctx context.Context, params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAzureClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAzureCluster",
 		Method:             "POST",
@@ -419,13 +952,14 @@ func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAzureClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -445,15 +979,39 @@ func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...Cl
 }
 
 /*
-CreateBackup creates a backup for the data warehouse
+CreateBackupcreates a backup for the data warehouse.
 
-Creates an on-demand backup for the data warehouse including Kubernetes objects, persistent volumes, etc. Backup requests are processed asynchronously and instantaneously.
+Creates an on-demand backup for the data warehouse including Kubernetes objects, persistent volumes, etc. Backup requests are processed asynchronously and instantaneously..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateBackupContext] instead.
 */
 func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateBackupContext(ctx, params, opts...)
+}
+
+/*
+CreateBackupContextcreates a backup for the data warehouse.
+
+Creates an on-demand backup for the data warehouse including Kubernetes objects, persistent volumes, etc. Backup requests are processed asynchronously and instantaneously..
+
+Do not use the deprecated [CreateBackupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateBackupContext(ctx context.Context, params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createBackup",
 		Method:             "POST",
@@ -463,13 +1021,14 @@ func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -489,15 +1048,39 @@ func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) 
 }
 
 /*
-CreateCluster creates a cloudera data warehouse cluster
+CreateClustercreates a cloudera data warehouse cluster.
 
-Create a Cloudera Data Warehouse cluster.
+Create a Cloudera Data Warehouse cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateClusterContext] instead.
 */
 func (a *Client) CreateCluster(params *CreateClusterParams, opts ...ClientOption) (*CreateClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateClusterContext(ctx, params, opts...)
+}
+
+/*
+CreateClusterContextcreates a cloudera data warehouse cluster.
+
+Create a Cloudera Data Warehouse cluster..
+
+Do not use the deprecated [CreateClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateClusterContext(ctx context.Context, params *CreateClusterParams, opts ...ClientOption) (*CreateClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createCluster",
 		Method:             "POST",
@@ -507,13 +1090,14 @@ func (a *Client) CreateCluster(params *CreateClusterParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -533,15 +1117,39 @@ func (a *Client) CreateCluster(params *CreateClusterParams, opts ...ClientOption
 }
 
 /*
-CreateClusterDiagnosticDataJob creates a diagnostic job for the given cluster
+CreateClusterDiagnosticDataJobcreates a diagnostic job for the given cluster.
 
-Creates a diagnostic job for the given cluster. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file.
+Creates a diagnostic job for the given cluster. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateClusterDiagnosticDataJobContext] instead.
 */
 func (a *Client) CreateClusterDiagnosticDataJob(params *CreateClusterDiagnosticDataJobParams, opts ...ClientOption) (*CreateClusterDiagnosticDataJobOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateClusterDiagnosticDataJobContext(ctx, params, opts...)
+}
+
+/*
+CreateClusterDiagnosticDataJobContextcreates a diagnostic job for the given cluster.
+
+Creates a diagnostic job for the given cluster. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file..
+
+Do not use the deprecated [CreateClusterDiagnosticDataJobParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateClusterDiagnosticDataJobContext(ctx context.Context, params *CreateClusterDiagnosticDataJobParams, opts ...ClientOption) (*CreateClusterDiagnosticDataJobOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateClusterDiagnosticDataJobParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createClusterDiagnosticDataJob",
 		Method:             "POST",
@@ -551,13 +1159,14 @@ func (a *Client) CreateClusterDiagnosticDataJob(params *CreateClusterDiagnosticD
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateClusterDiagnosticDataJobReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -577,15 +1186,39 @@ func (a *Client) CreateClusterDiagnosticDataJob(params *CreateClusterDiagnosticD
 }
 
 /*
-CreateConnector creates a connector
+CreateConnectorcreates a connector.
 
-Creates a new Connector in the specified cluster.
+Creates a new Connector in the specified cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateConnectorContext] instead.
 */
 func (a *Client) CreateConnector(params *CreateConnectorParams, opts ...ClientOption) (*CreateConnectorOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateConnectorContext(ctx, params, opts...)
+}
+
+/*
+CreateConnectorContextcreates a connector.
+
+Creates a new Connector in the specified cluster..
+
+Do not use the deprecated [CreateConnectorParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateConnectorContext(ctx context.Context, params *CreateConnectorParams, opts ...ClientOption) (*CreateConnectorOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateConnectorParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createConnector",
 		Method:             "POST",
@@ -595,13 +1228,14 @@ func (a *Client) CreateConnector(params *CreateConnectorParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateConnectorReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -621,15 +1255,39 @@ func (a *Client) CreateConnector(params *CreateConnectorParams, opts ...ClientOp
 }
 
 /*
-CreateDataVisualization creates a cloudera data visualization
+CreateDataVisualizationcreates a cloudera data visualization.
 
-Creates a Cloudera Data Visualization.
+Creates a Cloudera Data Visualization..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateDataVisualizationContext] instead.
 */
 func (a *Client) CreateDataVisualization(params *CreateDataVisualizationParams, opts ...ClientOption) (*CreateDataVisualizationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateDataVisualizationContext(ctx, params, opts...)
+}
+
+/*
+CreateDataVisualizationContextcreates a cloudera data visualization.
+
+Creates a Cloudera Data Visualization..
+
+Do not use the deprecated [CreateDataVisualizationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateDataVisualizationContext(ctx context.Context, params *CreateDataVisualizationParams, opts ...ClientOption) (*CreateDataVisualizationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateDataVisualizationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createDataVisualization",
 		Method:             "POST",
@@ -639,13 +1297,14 @@ func (a *Client) CreateDataVisualization(params *CreateDataVisualizationParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateDataVisualizationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -665,15 +1324,39 @@ func (a *Client) CreateDataVisualization(params *CreateDataVisualizationParams, 
 }
 
 /*
-CreateDbc creates a database catalog
+CreateDbccreates a database catalog.
 
-DEPRECATED: Create a Database Catalog. The Database Catalog creation is deprecated and will be removed in subsequent releases. The Default Database Catalog is getting created during the cluster activation (create-cluster).
+DEPRECATED: Create a Database Catalog. The Database Catalog creation is deprecated and will be removed in subsequent releases. The Default Database Catalog is getting created during the cluster activation (create-cluster)..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateDbcContext] instead.
 */
 func (a *Client) CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*CreateDbcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateDbcContext(ctx, params, opts...)
+}
+
+/*
+CreateDbcContextcreates a database catalog.
+
+DEPRECATED: Create a Database Catalog. The Database Catalog creation is deprecated and will be removed in subsequent releases. The Default Database Catalog is getting created during the cluster activation (create-cluster)..
+
+Do not use the deprecated [CreateDbcParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateDbcContext(ctx context.Context, params *CreateDbcParams, opts ...ClientOption) (*CreateDbcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateDbcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createDbc",
 		Method:             "POST",
@@ -683,13 +1366,14 @@ func (a *Client) CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*Crea
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateDbcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -709,15 +1393,39 @@ func (a *Client) CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*Crea
 }
 
 /*
-CreateDbcDiagnosticDataJob creates a diagnostic job for the given database catalog
+CreateDbcDiagnosticDataJobcreates a diagnostic job for the given database catalog.
 
-Creates a diagnostic job for the given database catalog. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file.
+Creates a diagnostic job for the given database catalog. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateDbcDiagnosticDataJobContext] instead.
 */
 func (a *Client) CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobParams, opts ...ClientOption) (*CreateDbcDiagnosticDataJobOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateDbcDiagnosticDataJobContext(ctx, params, opts...)
+}
+
+/*
+CreateDbcDiagnosticDataJobContextcreates a diagnostic job for the given database catalog.
+
+Creates a diagnostic job for the given database catalog. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file..
+
+Do not use the deprecated [CreateDbcDiagnosticDataJobParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateDbcDiagnosticDataJobContext(ctx context.Context, params *CreateDbcDiagnosticDataJobParams, opts ...ClientOption) (*CreateDbcDiagnosticDataJobOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateDbcDiagnosticDataJobParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createDbcDiagnosticDataJob",
 		Method:             "POST",
@@ -727,13 +1435,14 @@ func (a *Client) CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateDbcDiagnosticDataJobReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -753,15 +1462,39 @@ func (a *Client) CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobPa
 }
 
 /*
-CreateHue creates hue query editor in a c d w cluster
+CreateHuecreates hue query editor in a c d w cluster.
 
-Create Hue Query Editor in a CDW cluster.
+Create Hue Query Editor in a CDW cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateHueContext] instead.
 */
 func (a *Client) CreateHue(params *CreateHueParams, opts ...ClientOption) (*CreateHueOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateHueContext(ctx, params, opts...)
+}
+
+/*
+CreateHueContextcreates hue query editor in a c d w cluster.
+
+Create Hue Query Editor in a CDW cluster..
+
+Do not use the deprecated [CreateHueParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateHueContext(ctx context.Context, params *CreateHueParams, opts ...ClientOption) (*CreateHueOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateHueParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createHue",
 		Method:             "POST",
@@ -771,13 +1504,14 @@ func (a *Client) CreateHue(params *CreateHueParams, opts ...ClientOption) (*Crea
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateHueReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -797,15 +1531,39 @@ func (a *Client) CreateHue(params *CreateHueParams, opts ...ClientOption) (*Crea
 }
 
 /*
-CreatePrivateCluster creates a a private cloud cluster in the cloudera data warehouse
+CreatePrivateClustercreates a a private cloud cluster in the cloudera data warehouse.
 
-Create a Private Cloud cluster in the Cloudera Data Warehouse environment with the provided settings.
+Create a Private Cloud cluster in the Cloudera Data Warehouse environment with the provided settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreatePrivateClusterContext] instead.
 */
 func (a *Client) CreatePrivateCluster(params *CreatePrivateClusterParams, opts ...ClientOption) (*CreatePrivateClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreatePrivateClusterContext(ctx, params, opts...)
+}
+
+/*
+CreatePrivateClusterContextcreates a a private cloud cluster in the cloudera data warehouse.
+
+Create a Private Cloud cluster in the Cloudera Data Warehouse environment with the provided settings..
+
+Do not use the deprecated [CreatePrivateClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreatePrivateClusterContext(ctx context.Context, params *CreatePrivateClusterParams, opts ...ClientOption) (*CreatePrivateClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreatePrivateClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createPrivateCluster",
 		Method:             "POST",
@@ -815,13 +1573,14 @@ func (a *Client) CreatePrivateCluster(params *CreatePrivateClusterParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreatePrivateClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -841,15 +1600,39 @@ func (a *Client) CreatePrivateCluster(params *CreatePrivateClusterParams, opts .
 }
 
 /*
-CreateResourceTemplate creates a resource allocation template
+CreateResourceTemplatecreates a resource allocation template.
 
-This command's purpose is to facilitate the creation of resource templates in CDW. Users are allowed to tailor default CPU and Memory settings according to their needs. Setting up these values correctly is crucial when creating Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object must be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field to specify the chosen resource allocation size. Please note, that the 'default' fields in the response denote the default supplied value if the 'template' is not specified in the create commands. These templates are versioned so that users can rollback to a particular version. Existing resources are not affected by rollback. Learn more about each resource allocation with the 'describe-resource' command.
+This command's purpose is to facilitate the creation of resource templates in CDW. Users are allowed to tailor default CPU and Memory settings according to their needs. Setting up these values correctly is crucial when creating Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object must be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field to specify the chosen resource allocation size. Please note, that the 'default' fields in the response denote the default supplied value if the 'template' is not specified in the create commands. These templates are versioned so that users can rollback to a particular version. Existing resources are not affected by rollback. Learn more about each resource allocation with the 'describe-resource' command..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateResourceTemplateContext] instead.
 */
 func (a *Client) CreateResourceTemplate(params *CreateResourceTemplateParams, opts ...ClientOption) (*CreateResourceTemplateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateResourceTemplateContext(ctx, params, opts...)
+}
+
+/*
+CreateResourceTemplateContextcreates a resource allocation template.
+
+This command's purpose is to facilitate the creation of resource templates in CDW. Users are allowed to tailor default CPU and Memory settings according to their needs. Setting up these values correctly is crucial when creating Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object must be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field to specify the chosen resource allocation size. Please note, that the 'default' fields in the response denote the default supplied value if the 'template' is not specified in the create commands. These templates are versioned so that users can rollback to a particular version. Existing resources are not affected by rollback. Learn more about each resource allocation with the 'describe-resource' command..
+
+Do not use the deprecated [CreateResourceTemplateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateResourceTemplateContext(ctx context.Context, params *CreateResourceTemplateParams, opts ...ClientOption) (*CreateResourceTemplateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateResourceTemplateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createResourceTemplate",
 		Method:             "POST",
@@ -859,13 +1642,14 @@ func (a *Client) CreateResourceTemplate(params *CreateResourceTemplateParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateResourceTemplateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -885,15 +1669,39 @@ func (a *Client) CreateResourceTemplate(params *CreateResourceTemplateParams, op
 }
 
 /*
-CreateVw creates a virtual warehouse
+CreateVwcreates a virtual warehouse.
 
-Create a Virtual Warehouse.
+Create a Virtual Warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateVwContext] instead.
 */
 func (a *Client) CreateVw(params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateVwContext(ctx, params, opts...)
+}
+
+/*
+CreateVwContextcreates a virtual warehouse.
+
+Create a Virtual Warehouse..
+
+Do not use the deprecated [CreateVwParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateVwContext(ctx context.Context, params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateVwParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createVw",
 		Method:             "POST",
@@ -903,13 +1711,14 @@ func (a *Client) CreateVw(params *CreateVwParams, opts ...ClientOption) (*Create
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateVwReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -929,15 +1738,39 @@ func (a *Client) CreateVw(params *CreateVwParams, opts ...ClientOption) (*Create
 }
 
 /*
-CreateVwDiagnosticDataJob creates a diagnostic job for the given virtual warehouse
+CreateVwDiagnosticDataJobcreates a diagnostic job for the given virtual warehouse.
 
-Creates a job for the given Virtual Warehouse. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --hive-download-options, --impala-download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file.
+Creates a job for the given Virtual Warehouse. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --hive-download-options, --impala-download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.CreateVwDiagnosticDataJobContext] instead.
 */
 func (a *Client) CreateVwDiagnosticDataJob(params *CreateVwDiagnosticDataJobParams, opts ...ClientOption) (*CreateVwDiagnosticDataJobOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateVwDiagnosticDataJobContext(ctx, params, opts...)
+}
+
+/*
+CreateVwDiagnosticDataJobContextcreates a diagnostic job for the given virtual warehouse.
+
+Creates a job for the given Virtual Warehouse. The diagnostic data job is useful for troubleshooting purposes. The job collects logs and metrics (see --hive-download-options, --impala-download-options to see available options) which are going to be bundled into a single file and will be available at the desired location (see --destination). General metadata about the diagnostics will also be included as the bundle-info.json file..
+
+Do not use the deprecated [CreateVwDiagnosticDataJobParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) CreateVwDiagnosticDataJobContext(ctx context.Context, params *CreateVwDiagnosticDataJobParams, opts ...ClientOption) (*CreateVwDiagnosticDataJobOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateVwDiagnosticDataJobParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createVwDiagnosticDataJob",
 		Method:             "POST",
@@ -947,13 +1780,14 @@ func (a *Client) CreateVwDiagnosticDataJob(params *CreateVwDiagnosticDataJobPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateVwDiagnosticDataJobReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -973,15 +1807,39 @@ func (a *Client) CreateVwDiagnosticDataJob(params *CreateVwDiagnosticDataJobPara
 }
 
 /*
-DeleteBackup deletes a data warehouse backup
+DeleteBackupdeletes a data warehouse backup.
 
-Deletes an existing data warehouse backup. The call returns immediately.
+Deletes an existing data warehouse backup. The call returns immediately..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteBackupContext] instead.
 */
 func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteBackupContext(ctx, params, opts...)
+}
+
+/*
+DeleteBackupContextdeletes a data warehouse backup.
+
+Deletes an existing data warehouse backup. The call returns immediately..
+
+Do not use the deprecated [DeleteBackupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteBackupContext(ctx context.Context, params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteBackup",
 		Method:             "POST",
@@ -991,13 +1849,14 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1017,15 +1876,39 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 }
 
 /*
-DeleteCluster deletes a cloudera data warehouse cluster
+DeleteClusterdeletes a cloudera data warehouse cluster.
 
-Delete a Cloudera Data Warehouse cluster.
+Delete a Cloudera Data Warehouse cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteClusterContext] instead.
 */
 func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteClusterContext(ctx, params, opts...)
+}
+
+/*
+DeleteClusterContextdeletes a cloudera data warehouse cluster.
+
+Delete a Cloudera Data Warehouse cluster..
+
+Do not use the deprecated [DeleteClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteClusterContext(ctx context.Context, params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteCluster",
 		Method:             "POST",
@@ -1035,13 +1918,14 @@ func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1061,15 +1945,39 @@ func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption
 }
 
 /*
-DeleteClusterDiagnosticDataJob deletes a diagnostic job for the given cluster
+DeleteClusterDiagnosticDataJobdeletes a diagnostic job for the given cluster.
 
-Deletes a diagnostic job for the given cluster. The job can be deleted even when its status is "Running".
+Deletes a diagnostic job for the given cluster. The job can be deleted even when its status is "Running"..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteClusterDiagnosticDataJobContext] instead.
 */
 func (a *Client) DeleteClusterDiagnosticDataJob(params *DeleteClusterDiagnosticDataJobParams, opts ...ClientOption) (*DeleteClusterDiagnosticDataJobOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteClusterDiagnosticDataJobContext(ctx, params, opts...)
+}
+
+/*
+DeleteClusterDiagnosticDataJobContextdeletes a diagnostic job for the given cluster.
+
+Deletes a diagnostic job for the given cluster. The job can be deleted even when its status is "Running"..
+
+Do not use the deprecated [DeleteClusterDiagnosticDataJobParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteClusterDiagnosticDataJobContext(ctx context.Context, params *DeleteClusterDiagnosticDataJobParams, opts ...ClientOption) (*DeleteClusterDiagnosticDataJobOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteClusterDiagnosticDataJobParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteClusterDiagnosticDataJob",
 		Method:             "POST",
@@ -1079,13 +1987,14 @@ func (a *Client) DeleteClusterDiagnosticDataJob(params *DeleteClusterDiagnosticD
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteClusterDiagnosticDataJobReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1105,15 +2014,39 @@ func (a *Client) DeleteClusterDiagnosticDataJob(params *DeleteClusterDiagnosticD
 }
 
 /*
-DeleteConnector deletes a database connector
+DeleteConnectordeletes a database connector.
 
-Deletes a Database connector.
+Deletes a Database connector..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteConnectorContext] instead.
 */
 func (a *Client) DeleteConnector(params *DeleteConnectorParams, opts ...ClientOption) (*DeleteConnectorOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteConnectorContext(ctx, params, opts...)
+}
+
+/*
+DeleteConnectorContextdeletes a database connector.
+
+Deletes a Database connector..
+
+Do not use the deprecated [DeleteConnectorParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteConnectorContext(ctx context.Context, params *DeleteConnectorParams, opts ...ClientOption) (*DeleteConnectorOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteConnectorParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteConnector",
 		Method:             "POST",
@@ -1123,13 +2056,14 @@ func (a *Client) DeleteConnector(params *DeleteConnectorParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteConnectorReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1149,15 +2083,39 @@ func (a *Client) DeleteConnector(params *DeleteConnectorParams, opts ...ClientOp
 }
 
 /*
-DeleteDataVisualization asynchronous operation that deletes a cloudera data visualization when the d v is in deleting state we can still use describe data visualization to check the status once it is deleted the describe data visualization would return a not found error
+DeleteDataVisualizationasynchronous operation that deletes a cloudera data visualization when the d v is in deleting state we can still use describe data visualization to check the status once it is deleted the describe data visualization would return a not found error.
 
-Asynchronous operation that deletes a Cloudera Data Visualization. When the DV is in deleting state, we can still use describe-data-visualization to check the status. Once it is deleted, the describe-data-visualization would return a not found error.
+Asynchronous operation that deletes a Cloudera Data Visualization. When the DV is in deleting state, we can still use describe-data-visualization to check the status. Once it is deleted, the describe-data-visualization would return a not found error..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteDataVisualizationContext] instead.
 */
 func (a *Client) DeleteDataVisualization(params *DeleteDataVisualizationParams, opts ...ClientOption) (*DeleteDataVisualizationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteDataVisualizationContext(ctx, params, opts...)
+}
+
+/*
+DeleteDataVisualizationContextasynchronous operation that deletes a cloudera data visualization when the d v is in deleting state we can still use describe data visualization to check the status once it is deleted the describe data visualization would return a not found error.
+
+Asynchronous operation that deletes a Cloudera Data Visualization. When the DV is in deleting state, we can still use describe-data-visualization to check the status. Once it is deleted, the describe-data-visualization would return a not found error..
+
+Do not use the deprecated [DeleteDataVisualizationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteDataVisualizationContext(ctx context.Context, params *DeleteDataVisualizationParams, opts ...ClientOption) (*DeleteDataVisualizationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteDataVisualizationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteDataVisualization",
 		Method:             "POST",
@@ -1167,13 +2125,14 @@ func (a *Client) DeleteDataVisualization(params *DeleteDataVisualizationParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteDataVisualizationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1193,15 +2152,39 @@ func (a *Client) DeleteDataVisualization(params *DeleteDataVisualizationParams, 
 }
 
 /*
-DeleteDbc deletes a database catalog
+DeleteDbcdeletes a database catalog.
 
-Delete a Database Catalog.
+Delete a Database Catalog..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteDbcContext] instead.
 */
 func (a *Client) DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*DeleteDbcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteDbcContext(ctx, params, opts...)
+}
+
+/*
+DeleteDbcContextdeletes a database catalog.
+
+Delete a Database Catalog..
+
+Do not use the deprecated [DeleteDbcParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteDbcContext(ctx context.Context, params *DeleteDbcParams, opts ...ClientOption) (*DeleteDbcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteDbcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteDbc",
 		Method:             "POST",
@@ -1211,13 +2194,14 @@ func (a *Client) DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*Dele
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteDbcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1237,15 +2221,39 @@ func (a *Client) DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*Dele
 }
 
 /*
-DeleteDbcDiagnosticDataJob deletes a diagnostic job for the given database catalog
+DeleteDbcDiagnosticDataJobdeletes a diagnostic job for the given database catalog.
 
-Deletes a diagnostic job for the given Database Catalog. The job can be deleted even when its status is "Running".
+Deletes a diagnostic job for the given Database Catalog. The job can be deleted even when its status is "Running"..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteDbcDiagnosticDataJobContext] instead.
 */
 func (a *Client) DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobParams, opts ...ClientOption) (*DeleteDbcDiagnosticDataJobOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteDbcDiagnosticDataJobContext(ctx, params, opts...)
+}
+
+/*
+DeleteDbcDiagnosticDataJobContextdeletes a diagnostic job for the given database catalog.
+
+Deletes a diagnostic job for the given Database Catalog. The job can be deleted even when its status is "Running"..
+
+Do not use the deprecated [DeleteDbcDiagnosticDataJobParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteDbcDiagnosticDataJobContext(ctx context.Context, params *DeleteDbcDiagnosticDataJobParams, opts ...ClientOption) (*DeleteDbcDiagnosticDataJobOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteDbcDiagnosticDataJobParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteDbcDiagnosticDataJob",
 		Method:             "POST",
@@ -1255,13 +2263,14 @@ func (a *Client) DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteDbcDiagnosticDataJobReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1281,15 +2290,39 @@ func (a *Client) DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobPa
 }
 
 /*
-DeleteHue asynchronous operation that deletes a hue query editor when the hue is in deleting state we can still use describe hue to check the status once it is deleted the describe hue would return a not found error
+DeleteHueasynchronous operation that deletes a hue query editor when the hue is in deleting state we can still use describe hue to check the status once it is deleted the describe hue would return a not found error.
 
-Asynchronous operation that deletes a Hue Query Editor. When the Hue is in deleting state, we can still use describe-hue to check the status. Once it is deleted, the describe-hue would return a not found error.
+Asynchronous operation that deletes a Hue Query Editor. When the Hue is in deleting state, we can still use describe-hue to check the status. Once it is deleted, the describe-hue would return a not found error..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteHueContext] instead.
 */
 func (a *Client) DeleteHue(params *DeleteHueParams, opts ...ClientOption) (*DeleteHueOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteHueContext(ctx, params, opts...)
+}
+
+/*
+DeleteHueContextasynchronous operation that deletes a hue query editor when the hue is in deleting state we can still use describe hue to check the status once it is deleted the describe hue would return a not found error.
+
+Asynchronous operation that deletes a Hue Query Editor. When the Hue is in deleting state, we can still use describe-hue to check the status. Once it is deleted, the describe-hue would return a not found error..
+
+Do not use the deprecated [DeleteHueParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteHueContext(ctx context.Context, params *DeleteHueParams, opts ...ClientOption) (*DeleteHueOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteHueParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteHue",
 		Method:             "POST",
@@ -1299,13 +2332,14 @@ func (a *Client) DeleteHue(params *DeleteHueParams, opts ...ClientOption) (*Dele
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteHueReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1325,15 +2359,39 @@ func (a *Client) DeleteHue(params *DeleteHueParams, opts ...ClientOption) (*Dele
 }
 
 /*
-DeleteResourceTemplate deletes a resource allocation template
+DeleteResourceTemplatedeletes a resource allocation template.
 
-This command's purpose is to facilitate the delete of resource templates in CDW.
+This command's purpose is to facilitate the delete of resource templates in CDW..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteResourceTemplateContext] instead.
 */
 func (a *Client) DeleteResourceTemplate(params *DeleteResourceTemplateParams, opts ...ClientOption) (*DeleteResourceTemplateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteResourceTemplateContext(ctx, params, opts...)
+}
+
+/*
+DeleteResourceTemplateContextdeletes a resource allocation template.
+
+This command's purpose is to facilitate the delete of resource templates in CDW..
+
+Do not use the deprecated [DeleteResourceTemplateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteResourceTemplateContext(ctx context.Context, params *DeleteResourceTemplateParams, opts ...ClientOption) (*DeleteResourceTemplateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteResourceTemplateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteResourceTemplate",
 		Method:             "POST",
@@ -1343,13 +2401,14 @@ func (a *Client) DeleteResourceTemplate(params *DeleteResourceTemplateParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteResourceTemplateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1369,15 +2428,39 @@ func (a *Client) DeleteResourceTemplate(params *DeleteResourceTemplateParams, op
 }
 
 /*
-DeleteSecret deletes a secret
+DeleteSecretdeletes a secret.
 
-Deletes a secret from the database.
+Deletes a secret from the database..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteSecretContext] instead.
 */
 func (a *Client) DeleteSecret(params *DeleteSecretParams, opts ...ClientOption) (*DeleteSecretOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteSecretContext(ctx, params, opts...)
+}
+
+/*
+DeleteSecretContextdeletes a secret.
+
+Deletes a secret from the database..
+
+Do not use the deprecated [DeleteSecretParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteSecretContext(ctx context.Context, params *DeleteSecretParams, opts ...ClientOption) (*DeleteSecretOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteSecretParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteSecret",
 		Method:             "POST",
@@ -1387,13 +2470,14 @@ func (a *Client) DeleteSecret(params *DeleteSecretParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteSecretReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1413,15 +2497,39 @@ func (a *Client) DeleteSecret(params *DeleteSecretParams, opts ...ClientOption) 
 }
 
 /*
-DeleteUser deletes the given user from the cluster
+DeleteUserdeletes the given user from the cluster.
 
-Deletes the given user from the cluster. Please note that the user itself won't be deleted, only removed from the cluster.
+Deletes the given user from the cluster. Please note that the user itself won't be deleted, only removed from the cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteUserContext] instead.
 */
 func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteUserContext(ctx, params, opts...)
+}
+
+/*
+DeleteUserContextdeletes the given user from the cluster.
+
+Deletes the given user from the cluster. Please note that the user itself won't be deleted, only removed from the cluster..
+
+Do not use the deprecated [DeleteUserParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteUserContext(ctx context.Context, params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteUserParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteUser",
 		Method:             "POST",
@@ -1431,13 +2539,14 @@ func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*De
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteUserReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1457,15 +2566,39 @@ func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*De
 }
 
 /*
-DeleteVw deletes a virtual warehouse
+DeleteVwdeletes a virtual warehouse.
 
-Delete a Virtual Warehouse.
+Delete a Virtual Warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteVwContext] instead.
 */
 func (a *Client) DeleteVw(params *DeleteVwParams, opts ...ClientOption) (*DeleteVwOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteVwContext(ctx, params, opts...)
+}
+
+/*
+DeleteVwContextdeletes a virtual warehouse.
+
+Delete a Virtual Warehouse..
+
+Do not use the deprecated [DeleteVwParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteVwContext(ctx context.Context, params *DeleteVwParams, opts ...ClientOption) (*DeleteVwOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteVwParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteVw",
 		Method:             "POST",
@@ -1475,13 +2608,14 @@ func (a *Client) DeleteVw(params *DeleteVwParams, opts ...ClientOption) (*Delete
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteVwReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1501,15 +2635,39 @@ func (a *Client) DeleteVw(params *DeleteVwParams, opts ...ClientOption) (*Delete
 }
 
 /*
-DeleteVwDiagnosticDataJob deletes a diagnostic job for the given virtual warehouse
+DeleteVwDiagnosticDataJobdeletes a diagnostic job for the given virtual warehouse.
 
-Delete a diagnostic job for the given Virtual Warehouse. The job can be deleted even when its status is "Running".
+Delete a diagnostic job for the given Virtual Warehouse. The job can be deleted even when its status is "Running"..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DeleteVwDiagnosticDataJobContext] instead.
 */
 func (a *Client) DeleteVwDiagnosticDataJob(params *DeleteVwDiagnosticDataJobParams, opts ...ClientOption) (*DeleteVwDiagnosticDataJobOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteVwDiagnosticDataJobContext(ctx, params, opts...)
+}
+
+/*
+DeleteVwDiagnosticDataJobContextdeletes a diagnostic job for the given virtual warehouse.
+
+Delete a diagnostic job for the given Virtual Warehouse. The job can be deleted even when its status is "Running"..
+
+Do not use the deprecated [DeleteVwDiagnosticDataJobParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DeleteVwDiagnosticDataJobContext(ctx context.Context, params *DeleteVwDiagnosticDataJobParams, opts ...ClientOption) (*DeleteVwDiagnosticDataJobOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteVwDiagnosticDataJobParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteVwDiagnosticDataJob",
 		Method:             "POST",
@@ -1519,13 +2677,14 @@ func (a *Client) DeleteVwDiagnosticDataJob(params *DeleteVwDiagnosticDataJobPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteVwDiagnosticDataJobReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1545,15 +2704,39 @@ func (a *Client) DeleteVwDiagnosticDataJob(params *DeleteVwDiagnosticDataJobPara
 }
 
 /*
-DescribeAllowedInstanceTypes gets allowed compute instance types for both a w s and azure cluster types and their default values
+DescribeAllowedInstanceTypesgets allowed compute instance types for both a w s and azure cluster types and their default values.
 
-Get allowed compute instance types for both AWS and Azure cluster types and their default values.
+Get allowed compute instance types for both AWS and Azure cluster types and their default values..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeAllowedInstanceTypesContext] instead.
 */
 func (a *Client) DescribeAllowedInstanceTypes(params *DescribeAllowedInstanceTypesParams, opts ...ClientOption) (*DescribeAllowedInstanceTypesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeAllowedInstanceTypesContext(ctx, params, opts...)
+}
+
+/*
+DescribeAllowedInstanceTypesContextgets allowed compute instance types for both a w s and azure cluster types and their default values.
+
+Get allowed compute instance types for both AWS and Azure cluster types and their default values..
+
+Do not use the deprecated [DescribeAllowedInstanceTypesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeAllowedInstanceTypesContext(ctx context.Context, params *DescribeAllowedInstanceTypesParams, opts ...ClientOption) (*DescribeAllowedInstanceTypesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeAllowedInstanceTypesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeAllowedInstanceTypes",
 		Method:             "POST",
@@ -1563,13 +2746,14 @@ func (a *Client) DescribeAllowedInstanceTypes(params *DescribeAllowedInstanceTyp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeAllowedInstanceTypesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1589,15 +2773,39 @@ func (a *Client) DescribeAllowedInstanceTypes(params *DescribeAllowedInstanceTyp
 }
 
 /*
-DescribeBackup describes the backup
+DescribeBackupdescribes the backup.
 
-Returns the description of an existing data warehouse backup.
+Returns the description of an existing data warehouse backup..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeBackupContext] instead.
 */
 func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeBackupContext(ctx, params, opts...)
+}
+
+/*
+DescribeBackupContextdescribes the backup.
+
+Returns the description of an existing data warehouse backup..
+
+Do not use the deprecated [DescribeBackupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeBackupContext(ctx context.Context, params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeBackup",
 		Method:             "POST",
@@ -1607,13 +2815,14 @@ func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1633,15 +2842,39 @@ func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOpti
 }
 
 /*
-DescribeCluster describes a cloudera data warehouse cluster
+DescribeClusterdescribes a cloudera data warehouse cluster.
 
-Describe a Cloudera Data Warehouse cluster.
+Describe a Cloudera Data Warehouse cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeClusterContext] instead.
 */
 func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeClusterContext(ctx, params, opts...)
+}
+
+/*
+DescribeClusterContextdescribes a cloudera data warehouse cluster.
+
+Describe a Cloudera Data Warehouse cluster..
+
+Do not use the deprecated [DescribeClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeClusterContext(ctx context.Context, params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeCluster",
 		Method:             "POST",
@@ -1651,13 +2884,14 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1677,15 +2911,39 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOp
 }
 
 /*
-DescribeClusterDiagnosticDataJob describes a diagnostic job for the given cluster
+DescribeClusterDiagnosticDataJobdescribes a diagnostic job for the given cluster.
 
-Describes a diagnostic job for the given Cluster. The output includes a list of jobs along with their current status and some metadata related to each job.
+Describes a diagnostic job for the given Cluster. The output includes a list of jobs along with their current status and some metadata related to each job..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeClusterDiagnosticDataJobContext] instead.
 */
 func (a *Client) DescribeClusterDiagnosticDataJob(params *DescribeClusterDiagnosticDataJobParams, opts ...ClientOption) (*DescribeClusterDiagnosticDataJobOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeClusterDiagnosticDataJobContext(ctx, params, opts...)
+}
+
+/*
+DescribeClusterDiagnosticDataJobContextdescribes a diagnostic job for the given cluster.
+
+Describes a diagnostic job for the given Cluster. The output includes a list of jobs along with their current status and some metadata related to each job..
+
+Do not use the deprecated [DescribeClusterDiagnosticDataJobParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeClusterDiagnosticDataJobContext(ctx context.Context, params *DescribeClusterDiagnosticDataJobParams, opts ...ClientOption) (*DescribeClusterDiagnosticDataJobOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeClusterDiagnosticDataJobParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeClusterDiagnosticDataJob",
 		Method:             "POST",
@@ -1695,13 +2953,14 @@ func (a *Client) DescribeClusterDiagnosticDataJob(params *DescribeClusterDiagnos
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeClusterDiagnosticDataJobReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1721,15 +2980,39 @@ func (a *Client) DescribeClusterDiagnosticDataJob(params *DescribeClusterDiagnos
 }
 
 /*
-DescribeConfig describes a service configuration
+DescribeConfigdescribes a service configuration.
 
-Describe a service configuration.
+Describe a service configuration..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeConfigContext] instead.
 */
 func (a *Client) DescribeConfig(params *DescribeConfigParams, opts ...ClientOption) (*DescribeConfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeConfigContext(ctx, params, opts...)
+}
+
+/*
+DescribeConfigContextdescribes a service configuration.
+
+Describe a service configuration..
+
+Do not use the deprecated [DescribeConfigParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeConfigContext(ctx context.Context, params *DescribeConfigParams, opts ...ClientOption) (*DescribeConfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeConfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeConfig",
 		Method:             "POST",
@@ -1739,13 +3022,14 @@ func (a *Client) DescribeConfig(params *DescribeConfigParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeConfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1765,15 +3049,39 @@ func (a *Client) DescribeConfig(params *DescribeConfigParams, opts ...ClientOpti
 }
 
 /*
-DescribeConfigDiff gets differences between two service configurations
+DescribeConfigDiffgets differences between two service configurations.
 
-Get differences between two service configurations.
+Get differences between two service configurations..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeConfigDiffContext] instead.
 */
 func (a *Client) DescribeConfigDiff(params *DescribeConfigDiffParams, opts ...ClientOption) (*DescribeConfigDiffOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeConfigDiffContext(ctx, params, opts...)
+}
+
+/*
+DescribeConfigDiffContextgets differences between two service configurations.
+
+Get differences between two service configurations..
+
+Do not use the deprecated [DescribeConfigDiffParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeConfigDiffContext(ctx context.Context, params *DescribeConfigDiffParams, opts ...ClientOption) (*DescribeConfigDiffOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeConfigDiffParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeConfigDiff",
 		Method:             "POST",
@@ -1783,13 +3091,14 @@ func (a *Client) DescribeConfigDiff(params *DescribeConfigDiffParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeConfigDiffReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1809,15 +3118,39 @@ func (a *Client) DescribeConfigDiff(params *DescribeConfigDiffParams, opts ...Cl
 }
 
 /*
-DescribeDataVisualization describes a cloudera data visualization
+DescribeDataVisualizationdescribes a cloudera data visualization.
 
-Describes a Cloudera Data Visualization.
+Describes a Cloudera Data Visualization..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeDataVisualizationContext] instead.
 */
 func (a *Client) DescribeDataVisualization(params *DescribeDataVisualizationParams, opts ...ClientOption) (*DescribeDataVisualizationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeDataVisualizationContext(ctx, params, opts...)
+}
+
+/*
+DescribeDataVisualizationContextdescribes a cloudera data visualization.
+
+Describes a Cloudera Data Visualization..
+
+Do not use the deprecated [DescribeDataVisualizationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeDataVisualizationContext(ctx context.Context, params *DescribeDataVisualizationParams, opts ...ClientOption) (*DescribeDataVisualizationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDataVisualizationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeDataVisualization",
 		Method:             "POST",
@@ -1827,13 +3160,14 @@ func (a *Client) DescribeDataVisualization(params *DescribeDataVisualizationPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeDataVisualizationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1853,15 +3187,39 @@ func (a *Client) DescribeDataVisualization(params *DescribeDataVisualizationPara
 }
 
 /*
-DescribeDbc describes a database catalog
+DescribeDbcdescribes a database catalog.
 
-Describe a Database Catalog.
+Describe a Database Catalog..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeDbcContext] instead.
 */
 func (a *Client) DescribeDbc(params *DescribeDbcParams, opts ...ClientOption) (*DescribeDbcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeDbcContext(ctx, params, opts...)
+}
+
+/*
+DescribeDbcContextdescribes a database catalog.
+
+Describe a Database Catalog..
+
+Do not use the deprecated [DescribeDbcParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeDbcContext(ctx context.Context, params *DescribeDbcParams, opts ...ClientOption) (*DescribeDbcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDbcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeDbc",
 		Method:             "POST",
@@ -1871,13 +3229,14 @@ func (a *Client) DescribeDbc(params *DescribeDbcParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeDbcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1897,15 +3256,39 @@ func (a *Client) DescribeDbc(params *DescribeDbcParams, opts ...ClientOption) (*
 }
 
 /*
-DescribeDbcConfig describes the database catalog current configuration
+DescribeDbcConfigdescribes the database catalog current configuration.
 
-Describes the Database Catalog current configuration.
+Describes the Database Catalog current configuration..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeDbcConfigContext] instead.
 */
 func (a *Client) DescribeDbcConfig(params *DescribeDbcConfigParams, opts ...ClientOption) (*DescribeDbcConfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeDbcConfigContext(ctx, params, opts...)
+}
+
+/*
+DescribeDbcConfigContextdescribes the database catalog current configuration.
+
+Describes the Database Catalog current configuration..
+
+Do not use the deprecated [DescribeDbcConfigParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeDbcConfigContext(ctx context.Context, params *DescribeDbcConfigParams, opts ...ClientOption) (*DescribeDbcConfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDbcConfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeDbcConfig",
 		Method:             "POST",
@@ -1915,13 +3298,14 @@ func (a *Client) DescribeDbcConfig(params *DescribeDbcConfigParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeDbcConfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1941,15 +3325,39 @@ func (a *Client) DescribeDbcConfig(params *DescribeDbcConfigParams, opts ...Clie
 }
 
 /*
-DescribeDbcDiagnosticDataJob describes a diagnostic job for the given database catalog
+DescribeDbcDiagnosticDataJobdescribes a diagnostic job for the given database catalog.
 
-Describes a diagnostic job for the given Database Catalog. The output includes a list of jobs along with their current status and some metadata related to each job.
+Describes a diagnostic job for the given Database Catalog. The output includes a list of jobs along with their current status and some metadata related to each job..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeDbcDiagnosticDataJobContext] instead.
 */
 func (a *Client) DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJobParams, opts ...ClientOption) (*DescribeDbcDiagnosticDataJobOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeDbcDiagnosticDataJobContext(ctx, params, opts...)
+}
+
+/*
+DescribeDbcDiagnosticDataJobContextdescribes a diagnostic job for the given database catalog.
+
+Describes a diagnostic job for the given Database Catalog. The output includes a list of jobs along with their current status and some metadata related to each job..
+
+Do not use the deprecated [DescribeDbcDiagnosticDataJobParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeDbcDiagnosticDataJobContext(ctx context.Context, params *DescribeDbcDiagnosticDataJobParams, opts ...ClientOption) (*DescribeDbcDiagnosticDataJobOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDbcDiagnosticDataJobParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeDbcDiagnosticDataJob",
 		Method:             "POST",
@@ -1959,13 +3367,14 @@ func (a *Client) DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJ
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeDbcDiagnosticDataJobReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1985,15 +3394,39 @@ func (a *Client) DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJ
 }
 
 /*
-DescribeHue describes a hue query editor
+DescribeHuedescribes a hue query editor.
 
-Describes a Hue Query Editor.
+Describes a Hue Query Editor..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeHueContext] instead.
 */
 func (a *Client) DescribeHue(params *DescribeHueParams, opts ...ClientOption) (*DescribeHueOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeHueContext(ctx, params, opts...)
+}
+
+/*
+DescribeHueContextdescribes a hue query editor.
+
+Describes a Hue Query Editor..
+
+Do not use the deprecated [DescribeHueParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeHueContext(ctx context.Context, params *DescribeHueParams, opts ...ClientOption) (*DescribeHueOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeHueParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeHue",
 		Method:             "POST",
@@ -2003,13 +3436,14 @@ func (a *Client) DescribeHue(params *DescribeHueParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeHueReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2029,15 +3463,39 @@ func (a *Client) DescribeHue(params *DescribeHueParams, opts ...ClientOption) (*
 }
 
 /*
-DescribeKubeconfig gets kubeconfig for a cloudera data warehouse cluster
+DescribeKubeconfiggets kubeconfig for a cloudera data warehouse cluster.
 
-Get Kubeconfig for a Cloudera Data Warehouse cluster.
+Get Kubeconfig for a Cloudera Data Warehouse cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeKubeconfigContext] instead.
 */
 func (a *Client) DescribeKubeconfig(params *DescribeKubeconfigParams, opts ...ClientOption) (*DescribeKubeconfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeKubeconfigContext(ctx, params, opts...)
+}
+
+/*
+DescribeKubeconfigContextgets kubeconfig for a cloudera data warehouse cluster.
+
+Get Kubeconfig for a Cloudera Data Warehouse cluster..
+
+Do not use the deprecated [DescribeKubeconfigParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeKubeconfigContext(ctx context.Context, params *DescribeKubeconfigParams, opts ...ClientOption) (*DescribeKubeconfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeKubeconfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeKubeconfig",
 		Method:             "POST",
@@ -2047,13 +3505,14 @@ func (a *Client) DescribeKubeconfig(params *DescribeKubeconfigParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeKubeconfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2073,15 +3532,39 @@ func (a *Client) DescribeKubeconfig(params *DescribeKubeconfigParams, opts ...Cl
 }
 
 /*
-DescribeRestore describes the restore
+DescribeRestoredescribes the restore.
 
-Returns the description of a data warehouse restore operation.
+Returns the description of a data warehouse restore operation..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeRestoreContext] instead.
 */
 func (a *Client) DescribeRestore(params *DescribeRestoreParams, opts ...ClientOption) (*DescribeRestoreOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeRestoreContext(ctx, params, opts...)
+}
+
+/*
+DescribeRestoreContextdescribes the restore.
+
+Returns the description of a data warehouse restore operation..
+
+Do not use the deprecated [DescribeRestoreParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeRestoreContext(ctx context.Context, params *DescribeRestoreParams, opts ...ClientOption) (*DescribeRestoreOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeRestoreParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeRestore",
 		Method:             "POST",
@@ -2091,13 +3574,14 @@ func (a *Client) DescribeRestore(params *DescribeRestoreParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeRestoreReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2117,15 +3601,39 @@ func (a *Client) DescribeRestore(params *DescribeRestoreParams, opts ...ClientOp
 }
 
 /*
-DescribeServerSetting gets the d w x server settings
+DescribeServerSettinggets the d w x server settings.
 
-Get the DWX server settings. This method can be used from DWX Private Cloud version 1.4.1.
+Get the DWX server settings. This method can be used from DWX Private Cloud version 1.4.1..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeServerSettingContext] instead.
 */
 func (a *Client) DescribeServerSetting(params *DescribeServerSettingParams, opts ...ClientOption) (*DescribeServerSettingOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeServerSettingContext(ctx, params, opts...)
+}
+
+/*
+DescribeServerSettingContextgets the d w x server settings.
+
+Get the DWX server settings. This method can be used from DWX Private Cloud version 1.4.1..
+
+Do not use the deprecated [DescribeServerSettingParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeServerSettingContext(ctx context.Context, params *DescribeServerSettingParams, opts ...ClientOption) (*DescribeServerSettingOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeServerSettingParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeServerSetting",
 		Method:             "POST",
@@ -2135,13 +3643,14 @@ func (a *Client) DescribeServerSetting(params *DescribeServerSettingParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeServerSettingReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2161,15 +3670,39 @@ func (a *Client) DescribeServerSetting(params *DescribeServerSettingParams, opts
 }
 
 /*
-DescribeVw describes a virtual warehouse
+DescribeVwdescribes a virtual warehouse.
 
-Describe a Virtual Warehouse.
+Describe a Virtual Warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeVwContext] instead.
 */
 func (a *Client) DescribeVw(params *DescribeVwParams, opts ...ClientOption) (*DescribeVwOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeVwContext(ctx, params, opts...)
+}
+
+/*
+DescribeVwContextdescribes a virtual warehouse.
+
+Describe a Virtual Warehouse..
+
+Do not use the deprecated [DescribeVwParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeVwContext(ctx context.Context, params *DescribeVwParams, opts ...ClientOption) (*DescribeVwOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeVwParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeVw",
 		Method:             "POST",
@@ -2179,13 +3712,14 @@ func (a *Client) DescribeVw(params *DescribeVwParams, opts ...ClientOption) (*De
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeVwReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2205,15 +3739,39 @@ func (a *Client) DescribeVw(params *DescribeVwParams, opts ...ClientOption) (*De
 }
 
 /*
-DescribeVwConfig describes the current configuration of a hive or impala virtual warehouse
+DescribeVwConfigdescribes the current configuration of a hive or impala virtual warehouse.
 
-Describes the current configuration of a Hive or Impala Virtual Warehouse.
+Describes the current configuration of a Hive or Impala Virtual Warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeVwConfigContext] instead.
 */
 func (a *Client) DescribeVwConfig(params *DescribeVwConfigParams, opts ...ClientOption) (*DescribeVwConfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeVwConfigContext(ctx, params, opts...)
+}
+
+/*
+DescribeVwConfigContextdescribes the current configuration of a hive or impala virtual warehouse.
+
+Describes the current configuration of a Hive or Impala Virtual Warehouse..
+
+Do not use the deprecated [DescribeVwConfigParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeVwConfigContext(ctx context.Context, params *DescribeVwConfigParams, opts ...ClientOption) (*DescribeVwConfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeVwConfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeVwConfig",
 		Method:             "POST",
@@ -2223,13 +3781,14 @@ func (a *Client) DescribeVwConfig(params *DescribeVwConfigParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeVwConfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2249,15 +3808,39 @@ func (a *Client) DescribeVwConfig(params *DescribeVwConfigParams, opts ...Client
 }
 
 /*
-DescribeVwDiagnosticDataJob describes a diagnostic jobs for the given virtual warehouse
+DescribeVwDiagnosticDataJobdescribes a diagnostic jobs for the given virtual warehouse.
 
-Describes a diagnostic job for the given Virtual Warehouse. The output includes a list of jobs along with their current status and metadata related to each job.
+Describes a diagnostic job for the given Virtual Warehouse. The output includes a list of jobs along with their current status and metadata related to each job..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.DescribeVwDiagnosticDataJobContext] instead.
 */
 func (a *Client) DescribeVwDiagnosticDataJob(params *DescribeVwDiagnosticDataJobParams, opts ...ClientOption) (*DescribeVwDiagnosticDataJobOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeVwDiagnosticDataJobContext(ctx, params, opts...)
+}
+
+/*
+DescribeVwDiagnosticDataJobContextdescribes a diagnostic jobs for the given virtual warehouse.
+
+Describes a diagnostic job for the given Virtual Warehouse. The output includes a list of jobs along with their current status and metadata related to each job..
+
+Do not use the deprecated [DescribeVwDiagnosticDataJobParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) DescribeVwDiagnosticDataJobContext(ctx context.Context, params *DescribeVwDiagnosticDataJobParams, opts ...ClientOption) (*DescribeVwDiagnosticDataJobOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeVwDiagnosticDataJobParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeVwDiagnosticDataJob",
 		Method:             "POST",
@@ -2267,13 +3850,14 @@ func (a *Client) DescribeVwDiagnosticDataJob(params *DescribeVwDiagnosticDataJob
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeVwDiagnosticDataJobReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2293,15 +3877,39 @@ func (a *Client) DescribeVwDiagnosticDataJob(params *DescribeVwDiagnosticDataJob
 }
 
 /*
-GetDataVisualizationUpgradeVersion gets latest version and latest compatible version for cloudera data visualization
+GetDataVisualizationUpgradeVersiongets latest version and latest compatible version for cloudera data visualization.
 
-Gets latest version and latest compatible version for Cloudera Data Visualization.
+Gets latest version and latest compatible version for Cloudera Data Visualization..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetDataVisualizationUpgradeVersionContext] instead.
 */
 func (a *Client) GetDataVisualizationUpgradeVersion(params *GetDataVisualizationUpgradeVersionParams, opts ...ClientOption) (*GetDataVisualizationUpgradeVersionOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetDataVisualizationUpgradeVersionContext(ctx, params, opts...)
+}
+
+/*
+GetDataVisualizationUpgradeVersionContextgets latest version and latest compatible version for cloudera data visualization.
+
+Gets latest version and latest compatible version for Cloudera Data Visualization..
+
+Do not use the deprecated [GetDataVisualizationUpgradeVersionParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetDataVisualizationUpgradeVersionContext(ctx context.Context, params *GetDataVisualizationUpgradeVersionParams, opts ...ClientOption) (*GetDataVisualizationUpgradeVersionOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetDataVisualizationUpgradeVersionParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getDataVisualizationUpgradeVersion",
 		Method:             "POST",
@@ -2311,13 +3919,14 @@ func (a *Client) GetDataVisualizationUpgradeVersion(params *GetDataVisualization
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetDataVisualizationUpgradeVersionReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2337,15 +3946,39 @@ func (a *Client) GetDataVisualizationUpgradeVersion(params *GetDataVisualization
 }
 
 /*
-GetHueUpgradeVersion gets latest version and latest compatible version for hue query editor
+GetHueUpgradeVersiongets latest version and latest compatible version for hue query editor.
 
-Gets latest version and latest compatible version for Hue Query Editor.
+Gets latest version and latest compatible version for Hue Query Editor..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetHueUpgradeVersionContext] instead.
 */
 func (a *Client) GetHueUpgradeVersion(params *GetHueUpgradeVersionParams, opts ...ClientOption) (*GetHueUpgradeVersionOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetHueUpgradeVersionContext(ctx, params, opts...)
+}
+
+/*
+GetHueUpgradeVersionContextgets latest version and latest compatible version for hue query editor.
+
+Gets latest version and latest compatible version for Hue Query Editor..
+
+Do not use the deprecated [GetHueUpgradeVersionParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetHueUpgradeVersionContext(ctx context.Context, params *GetHueUpgradeVersionParams, opts ...ClientOption) (*GetHueUpgradeVersionOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetHueUpgradeVersionParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getHueUpgradeVersion",
 		Method:             "POST",
@@ -2355,13 +3988,14 @@ func (a *Client) GetHueUpgradeVersion(params *GetHueUpgradeVersionParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetHueUpgradeVersionReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2381,15 +4015,39 @@ func (a *Client) GetHueUpgradeVersion(params *GetHueUpgradeVersionParams, opts .
 }
 
 /*
-GetK8sCertJKS gets kubernetes certificates in j k s format
+GetK8sCertJKSgets kubernetes certificates in j k s format.
 
-Gets the Kubernetes certificate in a Java Truststore for the given cluster ID of the CDW environment.
+Gets the Kubernetes certificate in a Java Truststore for the given cluster ID of the CDW environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetK8sCertJKSContext] instead.
 */
 func (a *Client) GetK8sCertJKS(params *GetK8sCertJKSParams, opts ...ClientOption) (*GetK8sCertJKSOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetK8sCertJKSContext(ctx, params, opts...)
+}
+
+/*
+GetK8sCertJKSContextgets kubernetes certificates in j k s format.
+
+Gets the Kubernetes certificate in a Java Truststore for the given cluster ID of the CDW environment..
+
+Do not use the deprecated [GetK8sCertJKSParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetK8sCertJKSContext(ctx context.Context, params *GetK8sCertJKSParams, opts ...ClientOption) (*GetK8sCertJKSOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetK8sCertJKSParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getK8sCertJKS",
 		Method:             "POST",
@@ -2399,13 +4057,14 @@ func (a *Client) GetK8sCertJKS(params *GetK8sCertJKSParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetK8sCertJKSReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2425,15 +4084,39 @@ func (a *Client) GetK8sCertJKS(params *GetK8sCertJKSParams, opts ...ClientOption
 }
 
 /*
-GetK8sCertPEM gets kubernetes certificate in p e m format
+GetK8sCertPEMgets kubernetes certificate in p e m format.
 
-Gets the Kubernetes certificate in PEM format for the given cluster ID of the CDW environment.
+Gets the Kubernetes certificate in PEM format for the given cluster ID of the CDW environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetK8sCertPEMContext] instead.
 */
 func (a *Client) GetK8sCertPEM(params *GetK8sCertPEMParams, opts ...ClientOption) (*GetK8sCertPEMOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetK8sCertPEMContext(ctx, params, opts...)
+}
+
+/*
+GetK8sCertPEMContextgets kubernetes certificate in p e m format.
+
+Gets the Kubernetes certificate in PEM format for the given cluster ID of the CDW environment..
+
+Do not use the deprecated [GetK8sCertPEMParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetK8sCertPEMContext(ctx context.Context, params *GetK8sCertPEMParams, opts ...ClientOption) (*GetK8sCertPEMOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetK8sCertPEMParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getK8sCertPEM",
 		Method:             "POST",
@@ -2443,13 +4126,14 @@ func (a *Client) GetK8sCertPEM(params *GetK8sCertPEMParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetK8sCertPEMReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2469,15 +4153,39 @@ func (a *Client) GetK8sCertPEM(params *GetK8sCertPEMParams, opts ...ClientOption
 }
 
 /*
-GetLogs gets job logs
+GetLogsgets job logs.
 
-Given the CRN, returns the corresponding job logs.
+Given the CRN, returns the corresponding job logs..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetLogsContext] instead.
 */
 func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetLogsContext(ctx, params, opts...)
+}
+
+/*
+GetLogsContextgets job logs.
+
+Given the CRN, returns the corresponding job logs..
+
+Do not use the deprecated [GetLogsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetLogsContext(ctx context.Context, params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetLogsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getLogs",
 		Method:             "POST",
@@ -2487,13 +4195,14 @@ func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsO
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetLogsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2513,15 +4222,39 @@ func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsO
 }
 
 /*
-GetUpgradeDbcVersions gets the latest version and latest compatible version for database catalog
+GetUpgradeDbcVersionsgets the latest version and latest compatible version for database catalog.
 
-Gets the latest version and latest compatible version for Database Catalog.
+Gets the latest version and latest compatible version for Database Catalog..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetUpgradeDbcVersionsContext] instead.
 */
 func (a *Client) GetUpgradeDbcVersions(params *GetUpgradeDbcVersionsParams, opts ...ClientOption) (*GetUpgradeDbcVersionsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetUpgradeDbcVersionsContext(ctx, params, opts...)
+}
+
+/*
+GetUpgradeDbcVersionsContextgets the latest version and latest compatible version for database catalog.
+
+Gets the latest version and latest compatible version for Database Catalog..
+
+Do not use the deprecated [GetUpgradeDbcVersionsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetUpgradeDbcVersionsContext(ctx context.Context, params *GetUpgradeDbcVersionsParams, opts ...ClientOption) (*GetUpgradeDbcVersionsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetUpgradeDbcVersionsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getUpgradeDbcVersions",
 		Method:             "POST",
@@ -2531,13 +4264,14 @@ func (a *Client) GetUpgradeDbcVersions(params *GetUpgradeDbcVersionsParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUpgradeDbcVersionsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2557,15 +4291,39 @@ func (a *Client) GetUpgradeDbcVersions(params *GetUpgradeDbcVersionsParams, opts
 }
 
 /*
-GetUpgradeVwVersions gets the latest version and latest compatible version for virtual warehouse
+GetUpgradeVwVersionsgets the latest version and latest compatible version for virtual warehouse.
 
-Gets the latest version and latest compatible version for Virtual Warehouse.
+Gets the latest version and latest compatible version for Virtual Warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.GetUpgradeVwVersionsContext] instead.
 */
 func (a *Client) GetUpgradeVwVersions(params *GetUpgradeVwVersionsParams, opts ...ClientOption) (*GetUpgradeVwVersionsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetUpgradeVwVersionsContext(ctx, params, opts...)
+}
+
+/*
+GetUpgradeVwVersionsContextgets the latest version and latest compatible version for virtual warehouse.
+
+Gets the latest version and latest compatible version for Virtual Warehouse..
+
+Do not use the deprecated [GetUpgradeVwVersionsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) GetUpgradeVwVersionsContext(ctx context.Context, params *GetUpgradeVwVersionsParams, opts ...ClientOption) (*GetUpgradeVwVersionsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetUpgradeVwVersionsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getUpgradeVwVersions",
 		Method:             "POST",
@@ -2575,13 +4333,14 @@ func (a *Client) GetUpgradeVwVersions(params *GetUpgradeVwVersionsParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUpgradeVwVersionsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2601,15 +4360,39 @@ func (a *Client) GetUpgradeVwVersions(params *GetUpgradeVwVersionsParams, opts .
 }
 
 /*
-HealthCheck checks the health of the API
+HealthCheckchecks the health of the API.
 
-Check the health of the API.
+Check the health of the API..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.HealthCheckContext] instead.
 */
 func (a *Client) HealthCheck(params *HealthCheckParams, opts ...ClientOption) (*HealthCheckOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.HealthCheckContext(ctx, params, opts...)
+}
+
+/*
+HealthCheckContextchecks the health of the API.
+
+Check the health of the API..
+
+Do not use the deprecated [HealthCheckParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) HealthCheckContext(ctx context.Context, params *HealthCheckParams, opts ...ClientOption) (*HealthCheckOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewHealthCheckParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "healthCheck",
 		Method:             "POST",
@@ -2619,13 +4402,14 @@ func (a *Client) HealthCheck(params *HealthCheckParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &HealthCheckReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2645,15 +4429,39 @@ func (a *Client) HealthCheck(params *HealthCheckParams, opts ...ClientOption) (*
 }
 
 /*
-ListBackupEntities lists potential backup entities associated with the data warehouse
+ListBackupEntitieslists potential backup entities associated with the data warehouse.
 
-Lists potential backup entities associated with the data warehouse.
+Lists potential backup entities associated with the data warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListBackupEntitiesContext] instead.
 */
 func (a *Client) ListBackupEntities(params *ListBackupEntitiesParams, opts ...ClientOption) (*ListBackupEntitiesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListBackupEntitiesContext(ctx, params, opts...)
+}
+
+/*
+ListBackupEntitiesContextlists potential backup entities associated with the data warehouse.
+
+Lists potential backup entities associated with the data warehouse..
+
+Do not use the deprecated [ListBackupEntitiesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListBackupEntitiesContext(ctx context.Context, params *ListBackupEntitiesParams, opts ...ClientOption) (*ListBackupEntitiesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListBackupEntitiesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listBackupEntities",
 		Method:             "POST",
@@ -2663,13 +4471,14 @@ func (a *Client) ListBackupEntities(params *ListBackupEntitiesParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListBackupEntitiesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2689,15 +4498,39 @@ func (a *Client) ListBackupEntities(params *ListBackupEntitiesParams, opts ...Cl
 }
 
 /*
-ListBackups lists backups
+ListBackupslists backups.
 
-Lists backups associated with the data warehouse.
+Lists backups associated with the data warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListBackupsContext] instead.
 */
 func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListBackupsContext(ctx, params, opts...)
+}
+
+/*
+ListBackupsContextlists backups.
+
+Lists backups associated with the data warehouse..
+
+Do not use the deprecated [ListBackupsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListBackupsContext(ctx context.Context, params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListBackupsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listBackups",
 		Method:             "POST",
@@ -2707,13 +4540,14 @@ func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListBackupsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2733,15 +4567,39 @@ func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*
 }
 
 /*
-ListClusterDiagnosticDataJobs gets a list of diagnostic jobs for the given cluster
+ListClusterDiagnosticDataJobsgets a list of diagnostic jobs for the given cluster.
 
-Lists diagnostic jobs for the given cluster. The output includes a list of jobs along with their current status and metadata related to each job.
+Lists diagnostic jobs for the given cluster. The output includes a list of jobs along with their current status and metadata related to each job..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListClusterDiagnosticDataJobsContext] instead.
 */
 func (a *Client) ListClusterDiagnosticDataJobs(params *ListClusterDiagnosticDataJobsParams, opts ...ClientOption) (*ListClusterDiagnosticDataJobsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListClusterDiagnosticDataJobsContext(ctx, params, opts...)
+}
+
+/*
+ListClusterDiagnosticDataJobsContextgets a list of diagnostic jobs for the given cluster.
+
+Lists diagnostic jobs for the given cluster. The output includes a list of jobs along with their current status and metadata related to each job..
+
+Do not use the deprecated [ListClusterDiagnosticDataJobsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListClusterDiagnosticDataJobsContext(ctx context.Context, params *ListClusterDiagnosticDataJobsParams, opts ...ClientOption) (*ListClusterDiagnosticDataJobsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClusterDiagnosticDataJobsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listClusterDiagnosticDataJobs",
 		Method:             "POST",
@@ -2751,13 +4609,14 @@ func (a *Client) ListClusterDiagnosticDataJobs(params *ListClusterDiagnosticData
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListClusterDiagnosticDataJobsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2777,15 +4636,39 @@ func (a *Client) ListClusterDiagnosticDataJobs(params *ListClusterDiagnosticData
 }
 
 /*
-ListClusters lists cloudera data warehouse clusters
+ListClusterslists cloudera data warehouse clusters.
 
-List Cloudera Data Warehouse clusters.
+List Cloudera Data Warehouse clusters..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListClustersContext] instead.
 */
 func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListClustersContext(ctx, params, opts...)
+}
+
+/*
+ListClustersContextlists cloudera data warehouse clusters.
+
+List Cloudera Data Warehouse clusters..
+
+Do not use the deprecated [ListClustersParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListClustersContext(ctx context.Context, params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListClustersParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listClusters",
 		Method:             "POST",
@@ -2795,13 +4678,14 @@ func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListClustersReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2821,15 +4705,39 @@ func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) 
 }
 
 /*
-ListConnectors lists database connectors
+ListConnectorslists database connectors.
 
-Lists Database Connectors.
+Lists Database Connectors..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListConnectorsContext] instead.
 */
 func (a *Client) ListConnectors(params *ListConnectorsParams, opts ...ClientOption) (*ListConnectorsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListConnectorsContext(ctx, params, opts...)
+}
+
+/*
+ListConnectorsContextlists database connectors.
+
+Lists Database Connectors..
+
+Do not use the deprecated [ListConnectorsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListConnectorsContext(ctx context.Context, params *ListConnectorsParams, opts ...ClientOption) (*ListConnectorsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListConnectorsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listConnectors",
 		Method:             "POST",
@@ -2839,13 +4747,14 @@ func (a *Client) ListConnectors(params *ListConnectorsParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListConnectorsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2865,15 +4774,39 @@ func (a *Client) ListConnectors(params *ListConnectorsParams, opts ...ClientOpti
 }
 
 /*
-ListDataVisualizations lists cloudera data visualization in the provided c d w cluster
+ListDataVisualizationslists cloudera data visualization in the provided c d w cluster.
 
-Lists Cloudera Data Visualization in the provided CDW cluster.
+Lists Cloudera Data Visualization in the provided CDW cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListDataVisualizationsContext] instead.
 */
 func (a *Client) ListDataVisualizations(params *ListDataVisualizationsParams, opts ...ClientOption) (*ListDataVisualizationsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDataVisualizationsContext(ctx, params, opts...)
+}
+
+/*
+ListDataVisualizationsContextlists cloudera data visualization in the provided c d w cluster.
+
+Lists Cloudera Data Visualization in the provided CDW cluster..
+
+Do not use the deprecated [ListDataVisualizationsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListDataVisualizationsContext(ctx context.Context, params *ListDataVisualizationsParams, opts ...ClientOption) (*ListDataVisualizationsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDataVisualizationsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDataVisualizations",
 		Method:             "POST",
@@ -2883,13 +4816,14 @@ func (a *Client) ListDataVisualizations(params *ListDataVisualizationsParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDataVisualizationsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2909,15 +4843,39 @@ func (a *Client) ListDataVisualizations(params *ListDataVisualizationsParams, op
 }
 
 /*
-ListDbcConfigs gets the configuration history of a database catalog
+ListDbcConfigsgets the configuration history of a database catalog.
 
-Get the configuration history of a Database Catalog.
+Get the configuration history of a Database Catalog..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListDbcConfigsContext] instead.
 */
 func (a *Client) ListDbcConfigs(params *ListDbcConfigsParams, opts ...ClientOption) (*ListDbcConfigsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDbcConfigsContext(ctx, params, opts...)
+}
+
+/*
+ListDbcConfigsContextgets the configuration history of a database catalog.
+
+Get the configuration history of a Database Catalog..
+
+Do not use the deprecated [ListDbcConfigsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListDbcConfigsContext(ctx context.Context, params *ListDbcConfigsParams, opts ...ClientOption) (*ListDbcConfigsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDbcConfigsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDbcConfigs",
 		Method:             "POST",
@@ -2927,13 +4885,14 @@ func (a *Client) ListDbcConfigs(params *ListDbcConfigsParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDbcConfigsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2953,15 +4912,39 @@ func (a *Client) ListDbcConfigs(params *ListDbcConfigsParams, opts ...ClientOpti
 }
 
 /*
-ListDbcDiagnosticDataJobs gets a list of diagnostic jobs for the given database catalog
+ListDbcDiagnosticDataJobsgets a list of diagnostic jobs for the given database catalog.
 
-Lists diagnostic jobs for the given Database Catalog. The output includes a list of jobs along with their current status and metadata related to each job.
+Lists diagnostic jobs for the given Database Catalog. The output includes a list of jobs along with their current status and metadata related to each job..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListDbcDiagnosticDataJobsContext] instead.
 */
 func (a *Client) ListDbcDiagnosticDataJobs(params *ListDbcDiagnosticDataJobsParams, opts ...ClientOption) (*ListDbcDiagnosticDataJobsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDbcDiagnosticDataJobsContext(ctx, params, opts...)
+}
+
+/*
+ListDbcDiagnosticDataJobsContextgets a list of diagnostic jobs for the given database catalog.
+
+Lists diagnostic jobs for the given Database Catalog. The output includes a list of jobs along with their current status and metadata related to each job..
+
+Do not use the deprecated [ListDbcDiagnosticDataJobsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListDbcDiagnosticDataJobsContext(ctx context.Context, params *ListDbcDiagnosticDataJobsParams, opts ...ClientOption) (*ListDbcDiagnosticDataJobsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDbcDiagnosticDataJobsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDbcDiagnosticDataJobs",
 		Method:             "POST",
@@ -2971,13 +4954,14 @@ func (a *Client) ListDbcDiagnosticDataJobs(params *ListDbcDiagnosticDataJobsPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDbcDiagnosticDataJobsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2997,15 +4981,39 @@ func (a *Client) ListDbcDiagnosticDataJobs(params *ListDbcDiagnosticDataJobsPara
 }
 
 /*
-ListDbcEvents gets the list of events for the given database catalog
+ListDbcEventsgets the list of events for the given database catalog.
 
-Get the list of events for the given Database Catalog.
+Get the list of events for the given Database Catalog..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListDbcEventsContext] instead.
 */
 func (a *Client) ListDbcEvents(params *ListDbcEventsParams, opts ...ClientOption) (*ListDbcEventsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDbcEventsContext(ctx, params, opts...)
+}
+
+/*
+ListDbcEventsContextgets the list of events for the given database catalog.
+
+Get the list of events for the given Database Catalog..
+
+Do not use the deprecated [ListDbcEventsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListDbcEventsContext(ctx context.Context, params *ListDbcEventsParams, opts ...ClientOption) (*ListDbcEventsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDbcEventsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDbcEvents",
 		Method:             "POST",
@@ -3015,13 +5023,14 @@ func (a *Client) ListDbcEvents(params *ListDbcEventsParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDbcEventsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3041,15 +5050,39 @@ func (a *Client) ListDbcEvents(params *ListDbcEventsParams, opts ...ClientOption
 }
 
 /*
-ListDbcs lists database catalogs
+ListDbcslists database catalogs.
 
-List Database Catalogs.
+List Database Catalogs..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListDbcsContext] instead.
 */
 func (a *Client) ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDbcsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDbcsContext(ctx, params, opts...)
+}
+
+/*
+ListDbcsContextlists database catalogs.
+
+List Database Catalogs..
+
+Do not use the deprecated [ListDbcsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListDbcsContext(ctx context.Context, params *ListDbcsParams, opts ...ClientOption) (*ListDbcsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDbcsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDbcs",
 		Method:             "POST",
@@ -3059,13 +5092,14 @@ func (a *Client) ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDb
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDbcsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3085,15 +5119,39 @@ func (a *Client) ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDb
 }
 
 /*
-ListEvents gets the list of events
+ListEventsgets the list of events.
 
-Get the list of events for the given Operation or a specific Service (Cluster, Database Catalog, Virtual Warehouse, or Data Visualization App). Events can belong to a particular Operation which might span across multiple Services. This happens if the given operation affects one or more Services e.g.: restore-cluster. It is also possible to return the events only for a given Service, in this case it is enough to pass the Id of a Service (e.g.: env-sq7hfv, warehouse-1696571829-pps2, compute-1696571962-8dd8, impala-1696572085-cn44).
+Get the list of events for the given Operation or a specific Service (Cluster, Database Catalog, Virtual Warehouse, or Data Visualization App). Events can belong to a particular Operation which might span across multiple Services. This happens if the given operation affects one or more Services e.g.: restore-cluster. It is also possible to return the events only for a given Service, in this case it is enough to pass the Id of a Service (e.g.: env-sq7hfv, warehouse-1696571829-pps2, compute-1696571962-8dd8, impala-1696572085-cn44)..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListEventsContext] instead.
 */
 func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListEventsContext(ctx, params, opts...)
+}
+
+/*
+ListEventsContextgets the list of events.
+
+Get the list of events for the given Operation or a specific Service (Cluster, Database Catalog, Virtual Warehouse, or Data Visualization App). Events can belong to a particular Operation which might span across multiple Services. This happens if the given operation affects one or more Services e.g.: restore-cluster. It is also possible to return the events only for a given Service, in this case it is enough to pass the Id of a Service (e.g.: env-sq7hfv, warehouse-1696571829-pps2, compute-1696571962-8dd8, impala-1696572085-cn44)..
+
+Do not use the deprecated [ListEventsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListEventsContext(ctx context.Context, params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListEventsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listEvents",
 		Method:             "POST",
@@ -3103,13 +5161,14 @@ func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*Li
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListEventsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3129,15 +5188,39 @@ func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*Li
 }
 
 /*
-ListHues lists hue query editors in the provided c d w cluster
+ListHueslists hue query editors in the provided c d w cluster.
 
-List Hue Query Editors in the provided CDW cluster.
+List Hue Query Editors in the provided CDW cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListHuesContext] instead.
 */
 func (a *Client) ListHues(params *ListHuesParams, opts ...ClientOption) (*ListHuesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListHuesContext(ctx, params, opts...)
+}
+
+/*
+ListHuesContextlists hue query editors in the provided c d w cluster.
+
+List Hue Query Editors in the provided CDW cluster..
+
+Do not use the deprecated [ListHuesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListHuesContext(ctx context.Context, params *ListHuesParams, opts ...ClientOption) (*ListHuesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListHuesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listHues",
 		Method:             "POST",
@@ -3147,13 +5230,14 @@ func (a *Client) ListHues(params *ListHuesParams, opts ...ClientOption) (*ListHu
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListHuesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3173,15 +5257,39 @@ func (a *Client) ListHues(params *ListHuesParams, opts ...ClientOption) (*ListHu
 }
 
 /*
-ListLatestVersions lists the latest version of the product if available for all catalogs in the environment
+ListLatestVersionslists the latest version of the product if available for all catalogs in the environment.
 
-Lists the latest version of the product (if available) for all catalogs in the environment.
+Lists the latest version of the product (if available) for all catalogs in the environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListLatestVersionsContext] instead.
 */
 func (a *Client) ListLatestVersions(params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListLatestVersionsContext(ctx, params, opts...)
+}
+
+/*
+ListLatestVersionsContextlists the latest version of the product if available for all catalogs in the environment.
+
+Lists the latest version of the product (if available) for all catalogs in the environment..
+
+Do not use the deprecated [ListLatestVersionsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListLatestVersionsContext(ctx context.Context, params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListLatestVersionsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listLatestVersions",
 		Method:             "POST",
@@ -3191,13 +5299,14 @@ func (a *Client) ListLatestVersions(params *ListLatestVersionsParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListLatestVersionsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3217,15 +5326,39 @@ func (a *Client) ListLatestVersions(params *ListLatestVersionsParams, opts ...Cl
 }
 
 /*
-ListResourceTemplates gets default resource allocation templates
+ListResourceTemplatesgets default resource allocation templates.
 
-This command provides a predefined set of available resource configuration in CDW. Users allowed to tailor these default CPU and Memory settings according their needs using the 'update-resource'  command. Setting up these values correctly is crucial when creating a Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object has to be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field respectively, in order to specify the chosen resource allocation size. Please note, the 'default' fields in the response denotes default supplied value if the 'template' not specified in the create commands. These templates are versioned, so users are able to roll-back to a particular version. Existing resources not affected by roll-back. Learn more about each of the resource allocations with the 'describe-resource' command.
+This command provides a predefined set of available resource configuration in CDW. Users allowed to tailor these default CPU and Memory settings according their needs using the 'update-resource'  command. Setting up these values correctly is crucial when creating a Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object has to be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field respectively, in order to specify the chosen resource allocation size. Please note, the 'default' fields in the response denotes default supplied value if the 'template' not specified in the create commands. These templates are versioned, so users are able to roll-back to a particular version. Existing resources not affected by roll-back. Learn more about each of the resource allocations with the 'describe-resource' command..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListResourceTemplatesContext] instead.
 */
 func (a *Client) ListResourceTemplates(params *ListResourceTemplatesParams, opts ...ClientOption) (*ListResourceTemplatesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListResourceTemplatesContext(ctx, params, opts...)
+}
+
+/*
+ListResourceTemplatesContextgets default resource allocation templates.
+
+This command provides a predefined set of available resource configuration in CDW. Users allowed to tailor these default CPU and Memory settings according their needs using the 'update-resource'  command. Setting up these values correctly is crucial when creating a Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object has to be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field respectively, in order to specify the chosen resource allocation size. Please note, the 'default' fields in the response denotes default supplied value if the 'template' not specified in the create commands. These templates are versioned, so users are able to roll-back to a particular version. Existing resources not affected by roll-back. Learn more about each of the resource allocations with the 'describe-resource' command..
+
+Do not use the deprecated [ListResourceTemplatesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListResourceTemplatesContext(ctx context.Context, params *ListResourceTemplatesParams, opts ...ClientOption) (*ListResourceTemplatesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListResourceTemplatesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listResourceTemplates",
 		Method:             "POST",
@@ -3235,13 +5368,14 @@ func (a *Client) ListResourceTemplates(params *ListResourceTemplatesParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListResourceTemplatesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3261,15 +5395,39 @@ func (a *Client) ListResourceTemplates(params *ListResourceTemplatesParams, opts
 }
 
 /*
-ListRestores lists restores
+ListRestoreslists restores.
 
-Lists restores associated with the data warehouse.
+Lists restores associated with the data warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListRestoresContext] instead.
 */
 func (a *Client) ListRestores(params *ListRestoresParams, opts ...ClientOption) (*ListRestoresOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListRestoresContext(ctx, params, opts...)
+}
+
+/*
+ListRestoresContextlists restores.
+
+Lists restores associated with the data warehouse..
+
+Do not use the deprecated [ListRestoresParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListRestoresContext(ctx context.Context, params *ListRestoresParams, opts ...ClientOption) (*ListRestoresOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRestoresParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listRestores",
 		Method:             "POST",
@@ -3279,13 +5437,14 @@ func (a *Client) ListRestores(params *ListRestoresParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListRestoresReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3305,15 +5464,39 @@ func (a *Client) ListRestores(params *ListRestoresParams, opts ...ClientOption) 
 }
 
 /*
-ListSecrets lists all secrets
+ListSecretslists all secrets.
 
-Lists all the cloud provider secrets in a particular environment.
+Lists all the cloud provider secrets in a particular environment..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListSecretsContext] instead.
 */
 func (a *Client) ListSecrets(params *ListSecretsParams, opts ...ClientOption) (*ListSecretsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListSecretsContext(ctx, params, opts...)
+}
+
+/*
+ListSecretsContextlists all secrets.
+
+Lists all the cloud provider secrets in a particular environment..
+
+Do not use the deprecated [ListSecretsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListSecretsContext(ctx context.Context, params *ListSecretsParams, opts ...ClientOption) (*ListSecretsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListSecretsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listSecrets",
 		Method:             "POST",
@@ -3323,13 +5506,14 @@ func (a *Client) ListSecrets(params *ListSecretsParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListSecretsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3349,15 +5533,39 @@ func (a *Client) ListSecrets(params *ListSecretsParams, opts ...ClientOption) (*
 }
 
 /*
-ListUsers lists the users who have access to the cluster
+ListUserslists the users who have access to the cluster.
 
-Lists the users who have access to the cluster.
+Lists the users who have access to the cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListUsersContext] instead.
 */
 func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListUsersContext(ctx, params, opts...)
+}
+
+/*
+ListUsersContextlists the users who have access to the cluster.
+
+Lists the users who have access to the cluster..
+
+Do not use the deprecated [ListUsersParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListUsersContext(ctx context.Context, params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListUsersParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listUsers",
 		Method:             "POST",
@@ -3367,13 +5575,14 @@ func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*List
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListUsersReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3393,15 +5602,39 @@ func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*List
 }
 
 /*
-ListVwConfigs gets the configuration history of a virtual warehouse
+ListVwConfigsgets the configuration history of a virtual warehouse.
 
-Get the configuration history of a Virtual Warehouse.
+Get the configuration history of a Virtual Warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListVwConfigsContext] instead.
 */
 func (a *Client) ListVwConfigs(params *ListVwConfigsParams, opts ...ClientOption) (*ListVwConfigsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListVwConfigsContext(ctx, params, opts...)
+}
+
+/*
+ListVwConfigsContextgets the configuration history of a virtual warehouse.
+
+Get the configuration history of a Virtual Warehouse..
+
+Do not use the deprecated [ListVwConfigsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListVwConfigsContext(ctx context.Context, params *ListVwConfigsParams, opts ...ClientOption) (*ListVwConfigsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListVwConfigsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listVwConfigs",
 		Method:             "POST",
@@ -3411,13 +5644,14 @@ func (a *Client) ListVwConfigs(params *ListVwConfigsParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListVwConfigsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3437,15 +5671,39 @@ func (a *Client) ListVwConfigs(params *ListVwConfigsParams, opts ...ClientOption
 }
 
 /*
-ListVwDiagnosticDataJobs gets a list of diagnostic jobs for the given virtual warehouse
+ListVwDiagnosticDataJobsgets a list of diagnostic jobs for the given virtual warehouse.
 
-Lists diagnostic jobs for the given Virtual Warehouse. The output includes a list of jobs along with their current status and metadata related to each job.
+Lists diagnostic jobs for the given Virtual Warehouse. The output includes a list of jobs along with their current status and metadata related to each job..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListVwDiagnosticDataJobsContext] instead.
 */
 func (a *Client) ListVwDiagnosticDataJobs(params *ListVwDiagnosticDataJobsParams, opts ...ClientOption) (*ListVwDiagnosticDataJobsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListVwDiagnosticDataJobsContext(ctx, params, opts...)
+}
+
+/*
+ListVwDiagnosticDataJobsContextgets a list of diagnostic jobs for the given virtual warehouse.
+
+Lists diagnostic jobs for the given Virtual Warehouse. The output includes a list of jobs along with their current status and metadata related to each job..
+
+Do not use the deprecated [ListVwDiagnosticDataJobsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListVwDiagnosticDataJobsContext(ctx context.Context, params *ListVwDiagnosticDataJobsParams, opts ...ClientOption) (*ListVwDiagnosticDataJobsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListVwDiagnosticDataJobsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listVwDiagnosticDataJobs",
 		Method:             "POST",
@@ -3455,13 +5713,14 @@ func (a *Client) ListVwDiagnosticDataJobs(params *ListVwDiagnosticDataJobsParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListVwDiagnosticDataJobsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3481,15 +5740,39 @@ func (a *Client) ListVwDiagnosticDataJobs(params *ListVwDiagnosticDataJobsParams
 }
 
 /*
-ListVwEvents gets the list of events for the given virtual warehouse
+ListVwEventsgets the list of events for the given virtual warehouse.
 
-Get the list of events for the given Virtual Warehouse.
+Get the list of events for the given Virtual Warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListVwEventsContext] instead.
 */
 func (a *Client) ListVwEvents(params *ListVwEventsParams, opts ...ClientOption) (*ListVwEventsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListVwEventsContext(ctx, params, opts...)
+}
+
+/*
+ListVwEventsContextgets the list of events for the given virtual warehouse.
+
+Get the list of events for the given Virtual Warehouse..
+
+Do not use the deprecated [ListVwEventsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListVwEventsContext(ctx context.Context, params *ListVwEventsParams, opts ...ClientOption) (*ListVwEventsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListVwEventsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listVwEvents",
 		Method:             "POST",
@@ -3499,13 +5782,14 @@ func (a *Client) ListVwEvents(params *ListVwEventsParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListVwEventsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3525,15 +5809,39 @@ func (a *Client) ListVwEvents(params *ListVwEventsParams, opts ...ClientOption) 
 }
 
 /*
-ListVws lists virtual warehouses
+ListVwslists virtual warehouses.
 
-List Virtual Warehouses.
+List Virtual Warehouses..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ListVwsContext] instead.
 */
 func (a *Client) ListVws(params *ListVwsParams, opts ...ClientOption) (*ListVwsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListVwsContext(ctx, params, opts...)
+}
+
+/*
+ListVwsContextlists virtual warehouses.
+
+List Virtual Warehouses..
+
+Do not use the deprecated [ListVwsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ListVwsContext(ctx context.Context, params *ListVwsParams, opts ...ClientOption) (*ListVwsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListVwsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listVws",
 		Method:             "POST",
@@ -3543,13 +5851,14 @@ func (a *Client) ListVws(params *ListVwsParams, opts ...ClientOption) (*ListVwsO
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListVwsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3569,15 +5878,39 @@ func (a *Client) ListVws(params *ListVwsParams, opts ...ClientOption) (*ListVwsO
 }
 
 /*
-RebuildDbc rebuilds a database catalog
+RebuildDbcrebuilds a database catalog.
 
-Rebuild a Database Catalog. Please use this feature for Database Catalogs which are in inconsistent or erroneous state. Running/Stopped Database Catalogs are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
+Rebuild a Database Catalog. Please use this feature for Database Catalogs which are in inconsistent or erroneous state. Running/Stopped Database Catalogs are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RebuildDbcContext] instead.
 */
 func (a *Client) RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*RebuildDbcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RebuildDbcContext(ctx, params, opts...)
+}
+
+/*
+RebuildDbcContextrebuilds a database catalog.
+
+Rebuild a Database Catalog. Please use this feature for Database Catalogs which are in inconsistent or erroneous state. Running/Stopped Database Catalogs are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state..
+
+Do not use the deprecated [RebuildDbcParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RebuildDbcContext(ctx context.Context, params *RebuildDbcParams, opts ...ClientOption) (*RebuildDbcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRebuildDbcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rebuildDbc",
 		Method:             "POST",
@@ -3587,13 +5920,14 @@ func (a *Client) RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*Re
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RebuildDbcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3613,15 +5947,39 @@ func (a *Client) RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*Re
 }
 
 /*
-RebuildHue asynchronous operation that rebuilds a hue query editor keeping the same version
+RebuildHueasynchronous operation that rebuilds a hue query editor keeping the same version.
 
-Asynchronous operation that rebuilds a Hue Query Editor keeping the same version. Please use this feature for Hue Query Editors which are in inconsistent or erroneous state. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
+Asynchronous operation that rebuilds a Hue Query Editor keeping the same version. Please use this feature for Hue Query Editors which are in inconsistent or erroneous state. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RebuildHueContext] instead.
 */
 func (a *Client) RebuildHue(params *RebuildHueParams, opts ...ClientOption) (*RebuildHueOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RebuildHueContext(ctx, params, opts...)
+}
+
+/*
+RebuildHueContextasynchronous operation that rebuilds a hue query editor keeping the same version.
+
+Asynchronous operation that rebuilds a Hue Query Editor keeping the same version. Please use this feature for Hue Query Editors which are in inconsistent or erroneous state. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state..
+
+Do not use the deprecated [RebuildHueParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RebuildHueContext(ctx context.Context, params *RebuildHueParams, opts ...ClientOption) (*RebuildHueOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRebuildHueParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rebuildHue",
 		Method:             "POST",
@@ -3631,13 +5989,14 @@ func (a *Client) RebuildHue(params *RebuildHueParams, opts ...ClientOption) (*Re
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RebuildHueReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3657,15 +6016,39 @@ func (a *Client) RebuildHue(params *RebuildHueParams, opts ...ClientOption) (*Re
 }
 
 /*
-RebuildVw rebuilds a virtual warehouse
+RebuildVwrebuilds a virtual warehouse.
 
-Rebuild a Virtual Warehouse. Please use this feature for Virtual Warehouses which are in inconsistent or erroneous state. Running/Stopped Virtual Warehouses are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state.
+Rebuild a Virtual Warehouse. Please use this feature for Virtual Warehouses which are in inconsistent or erroneous state. Running/Stopped Virtual Warehouses are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RebuildVwContext] instead.
 */
 func (a *Client) RebuildVw(params *RebuildVwParams, opts ...ClientOption) (*RebuildVwOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RebuildVwContext(ctx, params, opts...)
+}
+
+/*
+RebuildVwContextrebuilds a virtual warehouse.
+
+Rebuild a Virtual Warehouse. Please use this feature for Virtual Warehouses which are in inconsistent or erroneous state. Running/Stopped Virtual Warehouses are safe to rebuild as well. This is a Beta feature. If a rebuild has been initiated, try to avoid rebuilding it again until it is completed or in erroneous state..
+
+Do not use the deprecated [RebuildVwParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RebuildVwContext(ctx context.Context, params *RebuildVwParams, opts ...ClientOption) (*RebuildVwOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRebuildVwParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rebuildVw",
 		Method:             "POST",
@@ -3675,13 +6058,14 @@ func (a *Client) RebuildVw(params *RebuildVwParams, opts ...ClientOption) (*Rebu
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RebuildVwReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3701,15 +6085,39 @@ func (a *Client) RebuildVw(params *RebuildVwParams, opts ...ClientOption) (*Rebu
 }
 
 /*
-RegisterSecret registers a reference to a secret stored in the vault of the cloud provider
+RegisterSecretregisters a reference to a secret stored in the vault of the cloud provider.
 
-Registers a reference to a secret stored in the vault of the cloud provider and stores its metadata in the database. The secret is used to connect to an external data source.
+Registers a reference to a secret stored in the vault of the cloud provider and stores its metadata in the database. The secret is used to connect to an external data source..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RegisterSecretContext] instead.
 */
 func (a *Client) RegisterSecret(params *RegisterSecretParams, opts ...ClientOption) (*RegisterSecretOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RegisterSecretContext(ctx, params, opts...)
+}
+
+/*
+RegisterSecretContextregisters a reference to a secret stored in the vault of the cloud provider.
+
+Registers a reference to a secret stored in the vault of the cloud provider and stores its metadata in the database. The secret is used to connect to an external data source..
+
+Do not use the deprecated [RegisterSecretParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RegisterSecretContext(ctx context.Context, params *RegisterSecretParams, opts ...ClientOption) (*RegisterSecretOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRegisterSecretParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "registerSecret",
 		Method:             "POST",
@@ -3719,13 +6127,14 @@ func (a *Client) RegisterSecret(params *RegisterSecretParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RegisterSecretReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3745,15 +6154,39 @@ func (a *Client) RegisterSecret(params *RegisterSecretParams, opts ...ClientOpti
 }
 
 /*
-RenewCertificates renews certificates for a cloudera data warehouse azure cluster
+RenewCertificatesrenews certificates for a cloudera data warehouse azure cluster.
 
-Renew certificate for a Cloudera Data Warehouse Azure cluster.
+Renew certificate for a Cloudera Data Warehouse Azure cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RenewCertificatesContext] instead.
 */
 func (a *Client) RenewCertificates(params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RenewCertificatesContext(ctx, params, opts...)
+}
+
+/*
+RenewCertificatesContextrenews certificates for a cloudera data warehouse azure cluster.
+
+Renew certificate for a Cloudera Data Warehouse Azure cluster..
+
+Do not use the deprecated [RenewCertificatesParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RenewCertificatesContext(ctx context.Context, params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRenewCertificatesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "renewCertificates",
 		Method:             "POST",
@@ -3763,13 +6196,14 @@ func (a *Client) RenewCertificates(params *RenewCertificatesParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RenewCertificatesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3789,15 +6223,39 @@ func (a *Client) RenewCertificates(params *RenewCertificatesParams, opts ...Clie
 }
 
 /*
-ResetServerSettings restores the d w x server settings to the default values
+ResetServerSettingsrestores the d w x server settings to the default values.
 
-Restores the DWX server settings to the default values. Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server settings list returned by the describeServerSetting functionality.
+Restores the DWX server settings to the default values. Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server settings list returned by the describeServerSetting functionality..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ResetServerSettingsContext] instead.
 */
 func (a *Client) ResetServerSettings(params *ResetServerSettingsParams, opts ...ClientOption) (*ResetServerSettingsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ResetServerSettingsContext(ctx, params, opts...)
+}
+
+/*
+ResetServerSettingsContextrestores the d w x server settings to the default values.
+
+Restores the DWX server settings to the default values. Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server settings list returned by the describeServerSetting functionality..
+
+Do not use the deprecated [ResetServerSettingsParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ResetServerSettingsContext(ctx context.Context, params *ResetServerSettingsParams, opts ...ClientOption) (*ResetServerSettingsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewResetServerSettingsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "resetServerSettings",
 		Method:             "POST",
@@ -3807,13 +6265,14 @@ func (a *Client) ResetServerSettings(params *ResetServerSettingsParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ResetServerSettingsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3833,15 +6292,39 @@ func (a *Client) ResetServerSettings(params *ResetServerSettingsParams, opts ...
 }
 
 /*
-RestoreBackup restores backup
+RestoreBackuprestores backup.
 
-Restores the state of the data warehouse from an existing backup.
+Restores the state of the data warehouse from an existing backup..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RestoreBackupContext] instead.
 */
 func (a *Client) RestoreBackup(params *RestoreBackupParams, opts ...ClientOption) (*RestoreBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RestoreBackupContext(ctx, params, opts...)
+}
+
+/*
+RestoreBackupContextrestores backup.
+
+Restores the state of the data warehouse from an existing backup..
+
+Do not use the deprecated [RestoreBackupParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RestoreBackupContext(ctx context.Context, params *RestoreBackupParams, opts ...ClientOption) (*RestoreBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "restoreBackup",
 		Method:             "POST",
@@ -3851,13 +6334,14 @@ func (a *Client) RestoreBackup(params *RestoreBackupParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RestoreBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3877,15 +6361,39 @@ func (a *Client) RestoreBackup(params *RestoreBackupParams, opts ...ClientOption
 }
 
 /*
-RestoreCluster restores the cluster from a backup data made by backup cluster command
+RestoreClusterrestores the cluster from a backup data made by backup cluster command.
 
-Restores the cluster from a backup data made by "backup-cluster" command. The operation restores the default DbCatalog configuration, the Virtual Warehouses and the Data Visualisation Apps. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html
+Restores the cluster from a backup data made by "backup-cluster" command. The operation restores the default DbCatalog configuration, the Virtual Warehouses and the Data Visualisation Apps. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.RestoreClusterContext] instead.
 */
 func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RestoreClusterContext(ctx, params, opts...)
+}
+
+/*
+RestoreClusterContextrestores the cluster from a backup data made by backup cluster command.
+
+Restores the cluster from a backup data made by "backup-cluster" command. The operation restores the default DbCatalog configuration, the Virtual Warehouses and the Data Visualisation Apps. Learn more at https://docs.cloudera.com/data-warehouse/cloud/backup-and-restore/topics/dw-environment-reactivation.html.
+
+Do not use the deprecated [RestoreClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) RestoreClusterContext(ctx context.Context, params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "restoreCluster",
 		Method:             "POST",
@@ -3895,13 +6403,14 @@ func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RestoreClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3921,15 +6430,39 @@ func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOpti
 }
 
 /*
-ResumeCluster resumes cloudera data warehouse cluster
+ResumeClusterresumes cloudera data warehouse cluster.
 
-Resume Cloudera Data Warehouse cluster. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS or EKS instance which belongs to this CDW. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
+Resume Cloudera Data Warehouse cluster. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS or EKS instance which belongs to this CDW. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.ResumeClusterContext] instead.
 */
 func (a *Client) ResumeCluster(params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ResumeClusterContext(ctx, params, opts...)
+}
+
+/*
+ResumeClusterContextresumes cloudera data warehouse cluster.
+
+Resume Cloudera Data Warehouse cluster. Resume cluster will start a stopped CDW cluster. Resuming a cluster in "Running" or "Error" state is not supported. Resume will start the AKS or EKS instance which belongs to this CDW. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli.
+
+Do not use the deprecated [ResumeClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) ResumeClusterContext(ctx context.Context, params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewResumeClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "resumeCluster",
 		Method:             "POST",
@@ -3939,13 +6472,14 @@ func (a *Client) ResumeCluster(params *ResumeClusterParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ResumeClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -3965,15 +6499,39 @@ func (a *Client) ResumeCluster(params *ResumeClusterParams, opts ...ClientOption
 }
 
 /*
-StartDbc starts a database catalog
+StartDbcstarts a database catalog.
 
-Start a Database Catalog.
+Start a Database Catalog..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StartDbcContext] instead.
 */
 func (a *Client) StartDbc(params *StartDbcParams, opts ...ClientOption) (*StartDbcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartDbcContext(ctx, params, opts...)
+}
+
+/*
+StartDbcContextstarts a database catalog.
+
+Start a Database Catalog..
+
+Do not use the deprecated [StartDbcParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StartDbcContext(ctx context.Context, params *StartDbcParams, opts ...ClientOption) (*StartDbcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDbcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startDbc",
 		Method:             "POST",
@@ -3983,13 +6541,14 @@ func (a *Client) StartDbc(params *StartDbcParams, opts ...ClientOption) (*StartD
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartDbcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4009,15 +6568,39 @@ func (a *Client) StartDbc(params *StartDbcParams, opts ...ClientOption) (*StartD
 }
 
 /*
-StartVw starts a suspended virtual warehouse
+StartVwstarts a suspended virtual warehouse.
 
-Starts a suspended Virtual Warehouse. Has no effect if the VW is already started.
+Starts a suspended Virtual Warehouse. Has no effect if the VW is already started..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.StartVwContext] instead.
 */
 func (a *Client) StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartVwContext(ctx, params, opts...)
+}
+
+/*
+StartVwContextstarts a suspended virtual warehouse.
+
+Starts a suspended Virtual Warehouse. Has no effect if the VW is already started..
+
+Do not use the deprecated [StartVwParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) StartVwContext(ctx context.Context, params *StartVwParams, opts ...ClientOption) (*StartVwOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartVwParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startVw",
 		Method:             "POST",
@@ -4027,13 +6610,14 @@ func (a *Client) StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwO
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartVwReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4053,15 +6637,39 @@ func (a *Client) StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwO
 }
 
 /*
-SuspendCluster suspends cloudera data warehouse cluster
+SuspendClustersuspends cloudera data warehouse cluster.
 
-Suspend Cloudera Data Warehouse cluster. Suspend cluster requires a "Running" Azure or AWS CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS or EKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli
+Suspend Cloudera Data Warehouse cluster. Suspend cluster requires a "Running" Azure or AWS CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS or EKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SuspendClusterContext] instead.
 */
 func (a *Client) SuspendCluster(params *SuspendClusterParams, opts ...ClientOption) (*SuspendClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SuspendClusterContext(ctx, params, opts...)
+}
+
+/*
+SuspendClusterContextsuspends cloudera data warehouse cluster.
+
+Suspend Cloudera Data Warehouse cluster. Suspend cluster requires a "Running" Azure or AWS CDW, trying to suspend a cluster already in "Stopped" or "Error" state is not supported. Every Virtual Warehouse and Database Catalog which belongs to that CDW must be stopped first. This operation will stop the AKS or EKS cluster for this CDW instance, however leaves other cloud resources in "Running" state, including the Postgres database. Please refer to the following AKS documentation for start/stop feature https://learn.microsoft.com/en-us/azure/aks/start-stop-cluster?tabs=azure-cli.
+
+Do not use the deprecated [SuspendClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SuspendClusterContext(ctx context.Context, params *SuspendClusterParams, opts ...ClientOption) (*SuspendClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "suspendCluster",
 		Method:             "POST",
@@ -4071,13 +6679,14 @@ func (a *Client) SuspendCluster(params *SuspendClusterParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SuspendClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4097,15 +6706,39 @@ func (a *Client) SuspendCluster(params *SuspendClusterParams, opts ...ClientOpti
 }
 
 /*
-SuspendDbc suspends a running database catalog
+SuspendDbcsuspends a running database catalog.
 
-Suspends a running Database Catalog. Has no effect if the DBC is already suspended.
+Suspends a running Database Catalog. Has no effect if the DBC is already suspended..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SuspendDbcContext] instead.
 */
 func (a *Client) SuspendDbc(params *SuspendDbcParams, opts ...ClientOption) (*SuspendDbcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SuspendDbcContext(ctx, params, opts...)
+}
+
+/*
+SuspendDbcContextsuspends a running database catalog.
+
+Suspends a running Database Catalog. Has no effect if the DBC is already suspended..
+
+Do not use the deprecated [SuspendDbcParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SuspendDbcContext(ctx context.Context, params *SuspendDbcParams, opts ...ClientOption) (*SuspendDbcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendDbcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "suspendDbc",
 		Method:             "POST",
@@ -4115,13 +6748,14 @@ func (a *Client) SuspendDbc(params *SuspendDbcParams, opts ...ClientOption) (*Su
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SuspendDbcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4141,15 +6775,39 @@ func (a *Client) SuspendDbc(params *SuspendDbcParams, opts ...ClientOption) (*Su
 }
 
 /*
-SuspendVw suspends a running virtual warehouse
+SuspendVwsuspends a running virtual warehouse.
 
-Suspends a running Virtual Warehouse. Has no effect if the VW is already suspended.
+Suspends a running Virtual Warehouse. Has no effect if the VW is already suspended..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.SuspendVwContext] instead.
 */
 func (a *Client) SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*SuspendVwOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SuspendVwContext(ctx, params, opts...)
+}
+
+/*
+SuspendVwContextsuspends a running virtual warehouse.
+
+Suspends a running Virtual Warehouse. Has no effect if the VW is already suspended..
+
+Do not use the deprecated [SuspendVwParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) SuspendVwContext(ctx context.Context, params *SuspendVwParams, opts ...ClientOption) (*SuspendVwOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendVwParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "suspendVw",
 		Method:             "POST",
@@ -4159,13 +6817,14 @@ func (a *Client) SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*Susp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SuspendVwReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4185,15 +6844,39 @@ func (a *Client) SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*Susp
 }
 
 /*
-UpdateAwsCluster updates an a w s cluster in the cloudera data warehouse
+UpdateAwsClusterupdates an a w s cluster in the cloudera data warehouse.
 
-Update an AWS cluster in the Cloudera Data Warehouse with the provided settings.
+Update an AWS cluster in the Cloudera Data Warehouse with the provided settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAwsClusterContext] instead.
 */
 func (a *Client) UpdateAwsCluster(params *UpdateAwsClusterParams, opts ...ClientOption) (*UpdateAwsClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAwsClusterContext(ctx, params, opts...)
+}
+
+/*
+UpdateAwsClusterContextupdates an a w s cluster in the cloudera data warehouse.
+
+Update an AWS cluster in the Cloudera Data Warehouse with the provided settings..
+
+Do not use the deprecated [UpdateAwsClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAwsClusterContext(ctx context.Context, params *UpdateAwsClusterParams, opts ...ClientOption) (*UpdateAwsClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAwsClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAwsCluster",
 		Method:             "POST",
@@ -4203,13 +6886,14 @@ func (a *Client) UpdateAwsCluster(params *UpdateAwsClusterParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAwsClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4229,15 +6913,39 @@ func (a *Client) UpdateAwsCluster(params *UpdateAwsClusterParams, opts ...Client
 }
 
 /*
-UpdateAzureCluster updates an azure cluster in the cloudera data warehouse
+UpdateAzureClusterupdates an azure cluster in the cloudera data warehouse.
 
-Update an Azure cluster in the Cloudera Data Warehouse with the provided settings.
+Update an Azure cluster in the Cloudera Data Warehouse with the provided settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateAzureClusterContext] instead.
 */
 func (a *Client) UpdateAzureCluster(params *UpdateAzureClusterParams, opts ...ClientOption) (*UpdateAzureClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateAzureClusterContext(ctx, params, opts...)
+}
+
+/*
+UpdateAzureClusterContextupdates an azure cluster in the cloudera data warehouse.
+
+Update an Azure cluster in the Cloudera Data Warehouse with the provided settings..
+
+Do not use the deprecated [UpdateAzureClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateAzureClusterContext(ctx context.Context, params *UpdateAzureClusterParams, opts ...ClientOption) (*UpdateAzureClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateAzureClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateAzureCluster",
 		Method:             "POST",
@@ -4247,13 +6955,14 @@ func (a *Client) UpdateAzureCluster(params *UpdateAzureClusterParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateAzureClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4273,15 +6982,39 @@ func (a *Client) UpdateAzureCluster(params *UpdateAzureClusterParams, opts ...Cl
 }
 
 /*
-UpdateCluster updates the cloudera data warehouse cluster
+UpdateClusterupdates the cloudera data warehouse cluster.
 
-Update the Cloudera Data Warehouse cluster.
+Update the Cloudera Data Warehouse cluster..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateClusterContext] instead.
 */
 func (a *Client) UpdateCluster(params *UpdateClusterParams, opts ...ClientOption) (*UpdateClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateClusterContext(ctx, params, opts...)
+}
+
+/*
+UpdateClusterContextupdates the cloudera data warehouse cluster.
+
+Update the Cloudera Data Warehouse cluster..
+
+Do not use the deprecated [UpdateClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateClusterContext(ctx context.Context, params *UpdateClusterParams, opts ...ClientOption) (*UpdateClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateCluster",
 		Method:             "POST",
@@ -4291,13 +7024,14 @@ func (a *Client) UpdateCluster(params *UpdateClusterParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4317,15 +7051,39 @@ func (a *Client) UpdateCluster(params *UpdateClusterParams, opts ...ClientOption
 }
 
 /*
-UpdateConnector updates the cloudera data warehouse connector
+UpdateConnectorupdates the cloudera data warehouse connector.
 
-Update the Cloudera Data Warehouse connector.
+Update the Cloudera Data Warehouse connector..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateConnectorContext] instead.
 */
 func (a *Client) UpdateConnector(params *UpdateConnectorParams, opts ...ClientOption) (*UpdateConnectorOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateConnectorContext(ctx, params, opts...)
+}
+
+/*
+UpdateConnectorContextupdates the cloudera data warehouse connector.
+
+Update the Cloudera Data Warehouse connector..
+
+Do not use the deprecated [UpdateConnectorParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateConnectorContext(ctx context.Context, params *UpdateConnectorParams, opts ...ClientOption) (*UpdateConnectorOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateConnectorParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateConnector",
 		Method:             "POST",
@@ -4335,13 +7093,14 @@ func (a *Client) UpdateConnector(params *UpdateConnectorParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateConnectorReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4361,15 +7120,39 @@ func (a *Client) UpdateConnector(params *UpdateConnectorParams, opts ...ClientOp
 }
 
 /*
-UpdateDataVisualization asynchronous operation that updates the configuration of a cloudera data visualization the describe data visualization can be used at any time to get the latest status of a data visualization
+UpdateDataVisualizationasynchronous operation that updates the configuration of a cloudera data visualization the describe data visualization can be used at any time to get the latest status of a data visualization.
 
-Asynchronous operation that updates the configuration of a Cloudera Data Visualization. The describe-data-visualization can be used at any time to get the latest status of a Data Visualization.
+Asynchronous operation that updates the configuration of a Cloudera Data Visualization. The describe-data-visualization can be used at any time to get the latest status of a Data Visualization..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateDataVisualizationContext] instead.
 */
 func (a *Client) UpdateDataVisualization(params *UpdateDataVisualizationParams, opts ...ClientOption) (*UpdateDataVisualizationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateDataVisualizationContext(ctx, params, opts...)
+}
+
+/*
+UpdateDataVisualizationContextasynchronous operation that updates the configuration of a cloudera data visualization the describe data visualization can be used at any time to get the latest status of a data visualization.
+
+Asynchronous operation that updates the configuration of a Cloudera Data Visualization. The describe-data-visualization can be used at any time to get the latest status of a Data Visualization..
+
+Do not use the deprecated [UpdateDataVisualizationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateDataVisualizationContext(ctx context.Context, params *UpdateDataVisualizationParams, opts ...ClientOption) (*UpdateDataVisualizationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateDataVisualizationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateDataVisualization",
 		Method:             "POST",
@@ -4379,13 +7162,14 @@ func (a *Client) UpdateDataVisualization(params *UpdateDataVisualizationParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateDataVisualizationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4405,15 +7189,39 @@ func (a *Client) UpdateDataVisualization(params *UpdateDataVisualizationParams, 
 }
 
 /*
-UpdateDbc updates the configuration of a database catalog
+UpdateDbcupdates the configuration of a database catalog.
 
-Update the configuration of a Database Catalog.
+Update the configuration of a Database Catalog..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateDbcContext] instead.
 */
 func (a *Client) UpdateDbc(params *UpdateDbcParams, opts ...ClientOption) (*UpdateDbcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateDbcContext(ctx, params, opts...)
+}
+
+/*
+UpdateDbcContextupdates the configuration of a database catalog.
+
+Update the configuration of a Database Catalog..
+
+Do not use the deprecated [UpdateDbcParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateDbcContext(ctx context.Context, params *UpdateDbcParams, opts ...ClientOption) (*UpdateDbcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateDbcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateDbc",
 		Method:             "POST",
@@ -4423,13 +7231,14 @@ func (a *Client) UpdateDbc(params *UpdateDbcParams, opts ...ClientOption) (*Upda
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateDbcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4449,15 +7258,39 @@ func (a *Client) UpdateDbc(params *UpdateDbcParams, opts ...ClientOption) (*Upda
 }
 
 /*
-UpdateDbcConfig updates a database catalog configuration
+UpdateDbcConfigupdates a database catalog configuration.
 
-Update a Database Catalog configuration.
+Update a Database Catalog configuration..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateDbcConfigContext] instead.
 */
 func (a *Client) UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateDbcConfigContext(ctx, params, opts...)
+}
+
+/*
+UpdateDbcConfigContextupdates a database catalog configuration.
+
+Update a Database Catalog configuration..
+
+Do not use the deprecated [UpdateDbcConfigParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateDbcConfigContext(ctx context.Context, params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateDbcConfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateDbcConfig",
 		Method:             "POST",
@@ -4467,13 +7300,14 @@ func (a *Client) UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateDbcConfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4493,15 +7327,39 @@ func (a *Client) UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOp
 }
 
 /*
-UpdateHue asynchronous operation that updates the configuration of a hue query editor the describe hue can be used at any time to get the latest status of a hue query editor
+UpdateHueasynchronous operation that updates the configuration of a hue query editor the describe hue can be used at any time to get the latest status of a hue query editor.
 
-Asynchronous operation that updates the configuration of a Hue Query Editor. The describe-hue can be used at any time to get the latest status of a Hue Query Editor.
+Asynchronous operation that updates the configuration of a Hue Query Editor. The describe-hue can be used at any time to get the latest status of a Hue Query Editor..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateHueContext] instead.
 */
 func (a *Client) UpdateHue(params *UpdateHueParams, opts ...ClientOption) (*UpdateHueOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateHueContext(ctx, params, opts...)
+}
+
+/*
+UpdateHueContextasynchronous operation that updates the configuration of a hue query editor the describe hue can be used at any time to get the latest status of a hue query editor.
+
+Asynchronous operation that updates the configuration of a Hue Query Editor. The describe-hue can be used at any time to get the latest status of a Hue Query Editor..
+
+Do not use the deprecated [UpdateHueParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateHueContext(ctx context.Context, params *UpdateHueParams, opts ...ClientOption) (*UpdateHueOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateHueParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateHue",
 		Method:             "POST",
@@ -4511,13 +7369,14 @@ func (a *Client) UpdateHue(params *UpdateHueParams, opts ...ClientOption) (*Upda
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateHueReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4537,15 +7396,39 @@ func (a *Client) UpdateHue(params *UpdateHueParams, opts ...ClientOption) (*Upda
 }
 
 /*
-UpdatePrivateCluster updates a private cloud pv c cluster in the cloudera data warehouse
+UpdatePrivateClusterupdates a private cloud pv c cluster in the cloudera data warehouse.
 
-Update a Private Cloud cluster (PvC) in the Cloudera Data Warehouse with the provided settings.
+Update a Private Cloud cluster (PvC) in the Cloudera Data Warehouse with the provided settings..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdatePrivateClusterContext] instead.
 */
 func (a *Client) UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts ...ClientOption) (*UpdatePrivateClusterOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdatePrivateClusterContext(ctx, params, opts...)
+}
+
+/*
+UpdatePrivateClusterContextupdates a private cloud pv c cluster in the cloudera data warehouse.
+
+Update a Private Cloud cluster (PvC) in the Cloudera Data Warehouse with the provided settings..
+
+Do not use the deprecated [UpdatePrivateClusterParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdatePrivateClusterContext(ctx context.Context, params *UpdatePrivateClusterParams, opts ...ClientOption) (*UpdatePrivateClusterOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdatePrivateClusterParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updatePrivateCluster",
 		Method:             "POST",
@@ -4555,13 +7438,14 @@ func (a *Client) UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdatePrivateClusterReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4581,15 +7465,39 @@ func (a *Client) UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts .
 }
 
 /*
-UpdateResourceTemplate updates a resource allocation template
+UpdateResourceTemplateupdates a resource allocation template.
 
-This command's purpose is to facilitate the update of resource templates in CDW. Users are allowed to tailor default CPU and Memory settings according to their needs. Setting up these values correctly is crucial when creating Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object must be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field to specify the chosen resource allocation size. Please note, that the 'default' fields in the response denote the default supplied value if the 'template' is not specified in the create commands. These templates are versioned so that users can rollback to a particular version. Existing resources are not affected by rollback. Learn more about each resource allocation with the 'describe-resource' command.
+This command's purpose is to facilitate the update of resource templates in CDW. Users are allowed to tailor default CPU and Memory settings according to their needs. Setting up these values correctly is crucial when creating Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object must be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field to specify the chosen resource allocation size. Please note, that the 'default' fields in the response denote the default supplied value if the 'template' is not specified in the create commands. These templates are versioned so that users can rollback to a particular version. Existing resources are not affected by rollback. Learn more about each resource allocation with the 'describe-resource' command..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateResourceTemplateContext] instead.
 */
 func (a *Client) UpdateResourceTemplate(params *UpdateResourceTemplateParams, opts ...ClientOption) (*UpdateResourceTemplateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateResourceTemplateContext(ctx, params, opts...)
+}
+
+/*
+UpdateResourceTemplateContextupdates a resource allocation template.
+
+This command's purpose is to facilitate the update of resource templates in CDW. Users are allowed to tailor default CPU and Memory settings according to their needs. Setting up these values correctly is crucial when creating Hive / Impala and DataViz instances using the 'create-vw' / 'create-data-visualisation' commands. The 'id' of the response object must be supplied in the 'create-vw' / 'create-data-visualisation' command 'template' field to specify the chosen resource allocation size. Please note, that the 'default' fields in the response denote the default supplied value if the 'template' is not specified in the create commands. These templates are versioned so that users can rollback to a particular version. Existing resources are not affected by rollback. Learn more about each resource allocation with the 'describe-resource' command..
+
+Do not use the deprecated [UpdateResourceTemplateParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateResourceTemplateContext(ctx context.Context, params *UpdateResourceTemplateParams, opts ...ClientOption) (*UpdateResourceTemplateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateResourceTemplateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateResourceTemplate",
 		Method:             "POST",
@@ -4599,13 +7507,14 @@ func (a *Client) UpdateResourceTemplate(params *UpdateResourceTemplateParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateResourceTemplateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4625,15 +7534,39 @@ func (a *Client) UpdateResourceTemplate(params *UpdateResourceTemplateParams, op
 }
 
 /*
-UpdateServerSetting updates the d w x server settings
+UpdateServerSettingupdates the d w x server settings.
 
-Update the DWX server settings. The input list of server settings will be updated accordingly (turns on if enabled: true is set, turns off if enabled: false is set). Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server setting list returned by the describeServerSetting functionality. This method can be used from DWX Private Cloud version 1.4.1.
+Update the DWX server settings. The input list of server settings will be updated accordingly (turns on if enabled: true is set, turns off if enabled: false is set). Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server setting list returned by the describeServerSetting functionality. This method can be used from DWX Private Cloud version 1.4.1..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateServerSettingContext] instead.
 */
 func (a *Client) UpdateServerSetting(params *UpdateServerSettingParams, opts ...ClientOption) (*UpdateServerSettingOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateServerSettingContext(ctx, params, opts...)
+}
+
+/*
+UpdateServerSettingContextupdates the d w x server settings.
+
+Update the DWX server settings. The input list of server settings will be updated accordingly (turns on if enabled: true is set, turns off if enabled: false is set). Some settings need further actions to be taken (e.g. recreating a Virtual Warehouse), this is indicated in the server setting list returned by the describeServerSetting functionality. This method can be used from DWX Private Cloud version 1.4.1..
+
+Do not use the deprecated [UpdateServerSettingParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateServerSettingContext(ctx context.Context, params *UpdateServerSettingParams, opts ...ClientOption) (*UpdateServerSettingOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateServerSettingParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateServerSetting",
 		Method:             "POST",
@@ -4643,13 +7576,14 @@ func (a *Client) UpdateServerSetting(params *UpdateServerSettingParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateServerSettingReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4669,15 +7603,39 @@ func (a *Client) UpdateServerSetting(params *UpdateServerSettingParams, opts ...
 }
 
 /*
-UpdateSSHKey updates the SSH key for a cloudera data warehouse cluster
+UpdateSSHKeyupdates the SSH key for a cloudera data warehouse cluster.
 
-Update the SSH Key for a Cloudera Data Warehouse cluster
+Update the SSH Key for a Cloudera Data Warehouse cluster.
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateSSHKeyContext] instead.
 */
 func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateSSHKeyContext(ctx, params, opts...)
+}
+
+/*
+UpdateSSHKeyContextupdates the SSH key for a cloudera data warehouse cluster.
+
+Update the SSH Key for a Cloudera Data Warehouse cluster.
+
+Do not use the deprecated [UpdateSSHKeyParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateSSHKeyContext(ctx context.Context, params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateSSHKeyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateSshKey",
 		Method:             "POST",
@@ -4687,13 +7645,14 @@ func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateSSHKeyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4713,15 +7672,39 @@ func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) 
 }
 
 /*
-UpdateVw updates the configuration of a virtual warehouse
+UpdateVwupdates the configuration of a virtual warehouse.
 
-Update the configuration of a Virtual Warehouse.
+Update the configuration of a Virtual Warehouse..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateVwContext] instead.
 */
 func (a *Client) UpdateVw(params *UpdateVwParams, opts ...ClientOption) (*UpdateVwOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateVwContext(ctx, params, opts...)
+}
+
+/*
+UpdateVwContextupdates the configuration of a virtual warehouse.
+
+Update the configuration of a Virtual Warehouse..
+
+Do not use the deprecated [UpdateVwParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateVwContext(ctx context.Context, params *UpdateVwParams, opts ...ClientOption) (*UpdateVwOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateVwParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateVw",
 		Method:             "POST",
@@ -4731,13 +7714,14 @@ func (a *Client) UpdateVw(params *UpdateVwParams, opts ...ClientOption) (*Update
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateVwReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4757,15 +7741,39 @@ func (a *Client) UpdateVw(params *UpdateVwParams, opts ...ClientOption) (*Update
 }
 
 /*
-UpdateVwConfig updates a virtual warehouse configuration
+UpdateVwConfigupdates a virtual warehouse configuration.
 
-Update a Virtual Warehouse configuration.
+Update a Virtual Warehouse configuration..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpdateVwConfigContext] instead.
 */
 func (a *Client) UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOption) (*UpdateVwConfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateVwConfigContext(ctx, params, opts...)
+}
+
+/*
+UpdateVwConfigContextupdates a virtual warehouse configuration.
+
+Update a Virtual Warehouse configuration..
+
+Do not use the deprecated [UpdateVwConfigParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpdateVwConfigContext(ctx context.Context, params *UpdateVwConfigParams, opts ...ClientOption) (*UpdateVwConfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateVwConfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateVwConfig",
 		Method:             "POST",
@@ -4775,13 +7783,14 @@ func (a *Client) UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateVwConfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4801,15 +7810,39 @@ func (a *Client) UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOpti
 }
 
 /*
-UpgradeDataVisualization asynchronous operation that upgrades a cloudera data visualization to a compatible version the describe data visualization can be used at any time to get the latest status of a data visualization
+UpgradeDataVisualizationasynchronous operation that upgrades a cloudera data visualization to a compatible version the describe data visualization can be used at any time to get the latest status of a data visualization.
 
-Asynchronous operation that upgrades a Cloudera Data Visualization to a compatible version. The describe-data-visualization can be used at any time to get the latest status of a Data Visualization.
+Asynchronous operation that upgrades a Cloudera Data Visualization to a compatible version. The describe-data-visualization can be used at any time to get the latest status of a Data Visualization..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpgradeDataVisualizationContext] instead.
 */
 func (a *Client) UpgradeDataVisualization(params *UpgradeDataVisualizationParams, opts ...ClientOption) (*UpgradeDataVisualizationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeDataVisualizationContext(ctx, params, opts...)
+}
+
+/*
+UpgradeDataVisualizationContextasynchronous operation that upgrades a cloudera data visualization to a compatible version the describe data visualization can be used at any time to get the latest status of a data visualization.
+
+Asynchronous operation that upgrades a Cloudera Data Visualization to a compatible version. The describe-data-visualization can be used at any time to get the latest status of a Data Visualization..
+
+Do not use the deprecated [UpgradeDataVisualizationParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpgradeDataVisualizationContext(ctx context.Context, params *UpgradeDataVisualizationParams, opts ...ClientOption) (*UpgradeDataVisualizationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeDataVisualizationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeDataVisualization",
 		Method:             "POST",
@@ -4819,13 +7852,14 @@ func (a *Client) UpgradeDataVisualization(params *UpgradeDataVisualizationParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeDataVisualizationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4845,15 +7879,39 @@ func (a *Client) UpgradeDataVisualization(params *UpgradeDataVisualizationParams
 }
 
 /*
-UpgradeDbc upgrades the database catalog to a compatible version
+UpgradeDbcupgrades the database catalog to a compatible version.
 
-Upgrades the Database Catalog to a compatible version.
+Upgrades the Database Catalog to a compatible version..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpgradeDbcContext] instead.
 */
 func (a *Client) UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*UpgradeDbcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeDbcContext(ctx, params, opts...)
+}
+
+/*
+UpgradeDbcContextupgrades the database catalog to a compatible version.
+
+Upgrades the Database Catalog to a compatible version..
+
+Do not use the deprecated [UpgradeDbcParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpgradeDbcContext(ctx context.Context, params *UpgradeDbcParams, opts ...ClientOption) (*UpgradeDbcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeDbcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeDbc",
 		Method:             "POST",
@@ -4863,13 +7921,14 @@ func (a *Client) UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*Up
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeDbcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4889,15 +7948,39 @@ func (a *Client) UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*Up
 }
 
 /*
-UpgradeHue asynchronous operation that upgrades a hue query editor to a compatible version the describe hue can be used at any time to get the latest status of a hue query editor
+UpgradeHueasynchronous operation that upgrades a hue query editor to a compatible version the describe hue can be used at any time to get the latest status of a hue query editor.
 
-Asynchronous operation that upgrades a Hue Query Editor to a compatible version. The describe-hue can be used at any time to get the latest status of a Hue Query Editor.
+Asynchronous operation that upgrades a Hue Query Editor to a compatible version. The describe-hue can be used at any time to get the latest status of a Hue Query Editor..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpgradeHueContext] instead.
 */
 func (a *Client) UpgradeHue(params *UpgradeHueParams, opts ...ClientOption) (*UpgradeHueOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeHueContext(ctx, params, opts...)
+}
+
+/*
+UpgradeHueContextasynchronous operation that upgrades a hue query editor to a compatible version the describe hue can be used at any time to get the latest status of a hue query editor.
+
+Asynchronous operation that upgrades a Hue Query Editor to a compatible version. The describe-hue can be used at any time to get the latest status of a Hue Query Editor..
+
+Do not use the deprecated [UpgradeHueParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpgradeHueContext(ctx context.Context, params *UpgradeHueParams, opts ...ClientOption) (*UpgradeHueOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeHueParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeHue",
 		Method:             "POST",
@@ -4907,13 +7990,14 @@ func (a *Client) UpgradeHue(params *UpgradeHueParams, opts ...ClientOption) (*Up
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeHueReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4933,15 +8017,39 @@ func (a *Client) UpgradeHue(params *UpgradeHueParams, opts ...ClientOption) (*Up
 }
 
 /*
-UpgradeVw upgrades the virtual warehouse to a compatible version
+UpgradeVwupgrades the virtual warehouse to a compatible version.
 
-Upgrades the Virtual Warehouse to a compatible version.
+Upgrades the Virtual Warehouse to a compatible version..
+
+This method does not support injected context.
+However, timeout and opentracing contexts are honored whenever enabled.
+
+If you need to pass a specific context, use [Client.UpgradeVwContext] instead.
 */
 func (a *Client) UpgradeVw(params *UpgradeVwParams, opts ...ClientOption) (*UpgradeVwOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeVwContext(ctx, params, opts...)
+}
+
+/*
+UpgradeVwContextupgrades the virtual warehouse to a compatible version.
+
+Upgrades the Virtual Warehouse to a compatible version..
+
+Do not use the deprecated [UpgradeVwParams.Context] with this method: it would be ignored.
+*/
+func (a *Client) UpgradeVwContext(ctx context.Context, params *UpgradeVwParams, opts ...ClientOption) (*UpgradeVwOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeVwParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeVw",
 		Method:             "POST",
@@ -4951,13 +8059,14 @@ func (a *Client) UpgradeVw(params *UpgradeVwParams, opts ...ClientOption) (*Upgr
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeVwReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -4977,6 +8086,14 @@ func (a *Client) UpgradeVw(params *UpgradeVwParams, opts ...ClientOption) (*Upgr
 }
 
 // SetTransport changes the transport on the client
-func (a *Client) SetTransport(transport runtime.ClientTransport) {
+func (a *Client) SetTransport(transport runtime.ContextualTransport) {
 	a.transport = transport
+}
+
+// innerParams captures internal fields so they don't conflict with user-supplied parameters.
+type innerParams struct {
+	timeout time.Duration
+
+	// Deprecated: use the operation call with context to pass the context instead of [OperationsParams].
+	ctx context.Context
 }

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDeleteResourceTemplateParams creates a new DeleteResourceTemplateParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteResourceTemplateParams() *DeleteResourceTemplateParams {
-	return &DeleteResourceTemplateParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteResourceTemplateParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteResourceTemplateParamsWithTimeout creates a new DeleteResourceTemplateParams object
 // with the ability to set a timeout on a request.
 func NewDeleteResourceTemplateParamsWithTimeout(timeout time.Duration) *DeleteResourceTemplateParams {
 	return &DeleteResourceTemplateParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteResourceTemplateParamsWithContext creates a new DeleteResourceTemplateParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteResourceTemplateParams].
 func NewDeleteResourceTemplateParamsWithContext(ctx context.Context) *DeleteResourceTemplateParams {
 	return &DeleteResourceTemplateParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteResourceTemplateParams struct {
 	// Input.
 	Input *models.DeleteResourceTemplateRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete resource template params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteResourceTemplateParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete resource template params
+// WithTimeout adds the timeout to the delete resource template params.
 func (o *DeleteResourceTemplateParams) WithTimeout(timeout time.Duration) *DeleteResourceTemplateParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete resource template params
+// SetTimeout adds the timeout to the delete resource template params.
 func (o *DeleteResourceTemplateParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete resource template params
+// WithContext adds the context to the delete resource template params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteResourceTemplateParams].
 func (o *DeleteResourceTemplateParams) WithContext(ctx context.Context) *DeleteResourceTemplateParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete resource template params
+// SetContext adds the context to the delete resource template params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteResourceTemplateParams].
 func (o *DeleteResourceTemplateParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete resource template params
+// WithHTTPClient adds the HTTPClient to the delete resource template params.
 func (o *DeleteResourceTemplateParams) WithHTTPClient(client *http.Client) *DeleteResourceTemplateParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete resource template params
+// SetHTTPClient adds the HTTPClient to the delete resource template params.
 func (o *DeleteResourceTemplateParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete resource template params
+// WithInput adds the input to the delete resource template params.
 func (o *DeleteResourceTemplateParams) WithInput(input *models.DeleteResourceTemplateRequest) *DeleteResourceTemplateParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete resource template params
+// SetInput adds the input to the delete resource template params.
 func (o *DeleteResourceTemplateParams) SetInput(input *models.DeleteResourceTemplateRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteResourceTemplateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

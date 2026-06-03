@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // BackupStorage Storage configuration for backup.
@@ -52,7 +53,7 @@ func (m *BackupStorage) Validate(formats strfmt.Registry) error {
 }
 
 func (m *BackupStorage) validateAwsDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.AwsDetails) { // not required
+	if typeutils.IsZero(m.AwsDetails) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *BackupStorage) validateAwsDetails(formats strfmt.Registry) error {
 }
 
 func (m *BackupStorage) validateAzureDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureDetails) { // not required
+	if typeutils.IsZero(m.AzureDetails) { // not required
 		return nil
 	}
 
@@ -98,7 +99,7 @@ func (m *BackupStorage) validateAzureDetails(formats strfmt.Registry) error {
 }
 
 func (m *BackupStorage) validateGcpDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.GcpDetails) { // not required
+	if typeutils.IsZero(m.GcpDetails) { // not required
 		return nil
 	}
 
@@ -146,7 +147,7 @@ func (m *BackupStorage) contextValidateAwsDetails(ctx context.Context, formats s
 
 	if m.AwsDetails != nil {
 
-		if swag.IsZero(m.AwsDetails) { // not required
+		if typeutils.IsZero(m.AwsDetails) { // not required
 			return nil
 		}
 
@@ -171,7 +172,7 @@ func (m *BackupStorage) contextValidateAzureDetails(ctx context.Context, formats
 
 	if m.AzureDetails != nil {
 
-		if swag.IsZero(m.AzureDetails) { // not required
+		if typeutils.IsZero(m.AzureDetails) { // not required
 			return nil
 		}
 
@@ -196,7 +197,7 @@ func (m *BackupStorage) contextValidateGcpDetails(ctx context.Context, formats s
 
 	if m.GcpDetails != nil {
 
-		if swag.IsZero(m.GcpDetails) { // not required
+		if typeutils.IsZero(m.GcpDetails) { // not required
 			return nil
 		}
 
@@ -222,13 +223,13 @@ func (m *BackupStorage) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *BackupStorage) UnmarshalBinary(b []byte) error {
 	var res BackupStorage
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -262,13 +263,13 @@ func (m *BackupStorageAwsDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *BackupStorageAwsDetails) UnmarshalBinary(b []byte) error {
 	var res BackupStorageAwsDetails
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -302,13 +303,13 @@ func (m *BackupStorageAzureDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *BackupStorageAzureDetails) UnmarshalBinary(b []byte) error {
 	var res BackupStorageAzureDetails
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -342,13 +343,13 @@ func (m *BackupStorageGcpDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *BackupStorageGcpDetails) UnmarshalBinary(b []byte) error {
 	var res BackupStorageGcpDetails
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

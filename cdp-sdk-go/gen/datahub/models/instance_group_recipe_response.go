@@ -7,7 +7,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -53,7 +54,7 @@ func (m *InstanceGroupRecipeResponse) validateInstanceGroupName(formats strfmt.R
 }
 
 func (m *InstanceGroupRecipeResponse) validateRecipeNames(formats strfmt.Registry) error {
-	if swag.IsZero(m.RecipeNames) { // not required
+	if typeutils.IsZero(m.RecipeNames) { // not required
 		return nil
 	}
 
@@ -74,13 +75,13 @@ func (m *InstanceGroupRecipeResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *InstanceGroupRecipeResponse) UnmarshalBinary(b []byte) error {
 	var res InstanceGroupRecipeResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

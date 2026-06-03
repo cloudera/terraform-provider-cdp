@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -125,7 +126,7 @@ func (m *AccessKey) validateCrn(formats strfmt.Registry) error {
 }
 
 func (m *AccessKey) validateLastUsage(formats strfmt.Registry) error {
-	if swag.IsZero(m.LastUsage) { // not required
+	if typeutils.IsZero(m.LastUsage) { // not required
 		return nil
 	}
 
@@ -177,7 +178,7 @@ func (m *AccessKey) validateStatusEnum(path, location string, value string) erro
 }
 
 func (m *AccessKey) validateStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -190,7 +191,7 @@ func (m *AccessKey) validateStatus(formats strfmt.Registry) error {
 }
 
 func (m *AccessKey) validateType(formats strfmt.Registry) error {
-	if swag.IsZero(m.Type) { // not required
+	if typeutils.IsZero(m.Type) { // not required
 		return nil
 	}
 
@@ -232,7 +233,7 @@ func (m *AccessKey) contextValidateLastUsage(ctx context.Context, formats strfmt
 
 	if m.LastUsage != nil {
 
-		if swag.IsZero(m.LastUsage) { // not required
+		if typeutils.IsZero(m.LastUsage) { // not required
 			return nil
 		}
 
@@ -255,7 +256,7 @@ func (m *AccessKey) contextValidateLastUsage(ctx context.Context, formats strfmt
 
 func (m *AccessKey) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Type) { // not required
+	if typeutils.IsZero(m.Type) { // not required
 		return nil
 	}
 
@@ -280,13 +281,13 @@ func (m *AccessKey) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AccessKey) UnmarshalBinary(b []byte) error {
 	var res AccessKey
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

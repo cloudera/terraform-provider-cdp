@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateAzureAvailabilityZonesParams creates a new UpdateAzureAvailabilityZonesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateAzureAvailabilityZonesParams() *UpdateAzureAvailabilityZonesParams {
-	return &UpdateAzureAvailabilityZonesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateAzureAvailabilityZonesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateAzureAvailabilityZonesParamsWithTimeout creates a new UpdateAzureAvailabilityZonesParams object
 // with the ability to set a timeout on a request.
 func NewUpdateAzureAvailabilityZonesParamsWithTimeout(timeout time.Duration) *UpdateAzureAvailabilityZonesParams {
 	return &UpdateAzureAvailabilityZonesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateAzureAvailabilityZonesParamsWithContext creates a new UpdateAzureAvailabilityZonesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureAvailabilityZonesParams].
 func NewUpdateAzureAvailabilityZonesParamsWithContext(ctx context.Context) *UpdateAzureAvailabilityZonesParams {
 	return &UpdateAzureAvailabilityZonesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateAzureAvailabilityZonesParams struct {
 	// Input.
 	Input *models.UpdateAzureAvailabilityZonesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update azure availability zones params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateAzureAvailabilityZonesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update azure availability zones params
+// WithTimeout adds the timeout to the update azure availability zones params.
 func (o *UpdateAzureAvailabilityZonesParams) WithTimeout(timeout time.Duration) *UpdateAzureAvailabilityZonesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update azure availability zones params
+// SetTimeout adds the timeout to the update azure availability zones params.
 func (o *UpdateAzureAvailabilityZonesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update azure availability zones params
+// WithContext adds the context to the update azure availability zones params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureAvailabilityZonesParams].
 func (o *UpdateAzureAvailabilityZonesParams) WithContext(ctx context.Context) *UpdateAzureAvailabilityZonesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update azure availability zones params
+// SetContext adds the context to the update azure availability zones params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureAvailabilityZonesParams].
 func (o *UpdateAzureAvailabilityZonesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update azure availability zones params
+// WithHTTPClient adds the HTTPClient to the update azure availability zones params.
 func (o *UpdateAzureAvailabilityZonesParams) WithHTTPClient(client *http.Client) *UpdateAzureAvailabilityZonesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update azure availability zones params
+// SetHTTPClient adds the HTTPClient to the update azure availability zones params.
 func (o *UpdateAzureAvailabilityZonesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update azure availability zones params
+// WithInput adds the input to the update azure availability zones params.
 func (o *UpdateAzureAvailabilityZonesParams) WithInput(input *models.UpdateAzureAvailabilityZonesRequest) *UpdateAzureAvailabilityZonesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update azure availability zones params
+// SetInput adds the input to the update azure availability zones params.
 func (o *UpdateAzureAvailabilityZonesParams) SetInput(input *models.UpdateAzureAvailabilityZonesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateAzureAvailabilityZonesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

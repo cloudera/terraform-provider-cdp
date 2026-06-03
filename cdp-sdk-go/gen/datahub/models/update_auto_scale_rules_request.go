@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -53,12 +54,12 @@ func (m *UpdateAutoScaleRulesRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *UpdateAutoScaleRulesRequest) validateAutoScalePolicies(formats strfmt.Registry) error {
-	if swag.IsZero(m.AutoScalePolicies) { // not required
+	if typeutils.IsZero(m.AutoScalePolicies) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.AutoScalePolicies); i++ {
-		if swag.IsZero(m.AutoScalePolicies[i]) { // not required
+		if typeutils.IsZero(m.AutoScalePolicies[i]) { // not required
 			continue
 		}
 
@@ -119,7 +120,7 @@ func (m *UpdateAutoScaleRulesRequest) contextValidateAutoScalePolicies(ctx conte
 
 		if m.AutoScalePolicies[i] != nil {
 
-			if swag.IsZero(m.AutoScalePolicies[i]) { // not required
+			if typeutils.IsZero(m.AutoScalePolicies[i]) { // not required
 				return nil
 			}
 
@@ -147,13 +148,13 @@ func (m *UpdateAutoScaleRulesRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateAutoScaleRulesRequest) UnmarshalBinary(b []byte) error {
 	var res UpdateAutoScaleRulesRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

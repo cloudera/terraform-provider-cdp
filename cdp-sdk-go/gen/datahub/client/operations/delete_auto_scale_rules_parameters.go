@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewDeleteAutoScaleRulesParams creates a new DeleteAutoScaleRulesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteAutoScaleRulesParams() *DeleteAutoScaleRulesParams {
-	return &DeleteAutoScaleRulesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteAutoScaleRulesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteAutoScaleRulesParamsWithTimeout creates a new DeleteAutoScaleRulesParams object
 // with the ability to set a timeout on a request.
 func NewDeleteAutoScaleRulesParamsWithTimeout(timeout time.Duration) *DeleteAutoScaleRulesParams {
 	return &DeleteAutoScaleRulesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteAutoScaleRulesParamsWithContext creates a new DeleteAutoScaleRulesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteAutoScaleRulesParams].
 func NewDeleteAutoScaleRulesParamsWithContext(ctx context.Context) *DeleteAutoScaleRulesParams {
 	return &DeleteAutoScaleRulesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteAutoScaleRulesParams struct {
 	// Input.
 	Input *models.DeleteAutoScaleRulesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete auto scale rules params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteAutoScaleRulesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete auto scale rules params
+// WithTimeout adds the timeout to the delete auto scale rules params.
 func (o *DeleteAutoScaleRulesParams) WithTimeout(timeout time.Duration) *DeleteAutoScaleRulesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete auto scale rules params
+// SetTimeout adds the timeout to the delete auto scale rules params.
 func (o *DeleteAutoScaleRulesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete auto scale rules params
+// WithContext adds the context to the delete auto scale rules params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteAutoScaleRulesParams].
 func (o *DeleteAutoScaleRulesParams) WithContext(ctx context.Context) *DeleteAutoScaleRulesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete auto scale rules params
+// SetContext adds the context to the delete auto scale rules params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteAutoScaleRulesParams].
 func (o *DeleteAutoScaleRulesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete auto scale rules params
+// WithHTTPClient adds the HTTPClient to the delete auto scale rules params.
 func (o *DeleteAutoScaleRulesParams) WithHTTPClient(client *http.Client) *DeleteAutoScaleRulesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete auto scale rules params
+// SetHTTPClient adds the HTTPClient to the delete auto scale rules params.
 func (o *DeleteAutoScaleRulesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete auto scale rules params
+// WithInput adds the input to the delete auto scale rules params.
 func (o *DeleteAutoScaleRulesParams) WithInput(input *models.DeleteAutoScaleRulesRequest) *DeleteAutoScaleRulesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete auto scale rules params
+// SetInput adds the input to the delete auto scale rules params.
 func (o *DeleteAutoScaleRulesParams) SetInput(input *models.DeleteAutoScaleRulesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteAutoScaleRulesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

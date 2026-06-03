@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewGetK8sCertJKSParams creates a new GetK8sCertJKSParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetK8sCertJKSParams() *GetK8sCertJKSParams {
-	return &GetK8sCertJKSParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetK8sCertJKSParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetK8sCertJKSParamsWithTimeout creates a new GetK8sCertJKSParams object
 // with the ability to set a timeout on a request.
 func NewGetK8sCertJKSParamsWithTimeout(timeout time.Duration) *GetK8sCertJKSParams {
 	return &GetK8sCertJKSParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetK8sCertJKSParamsWithContext creates a new GetK8sCertJKSParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetK8sCertJKSParams].
 func NewGetK8sCertJKSParamsWithContext(ctx context.Context) *GetK8sCertJKSParams {
 	return &GetK8sCertJKSParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetK8sCertJKSParams struct {
 	// Input.
 	Input *models.GetK8sCertJKSRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get k8s cert j k s params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetK8sCertJKSParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get k8s cert j k s params
+// WithTimeout adds the timeout to the get k8s cert j k s params.
 func (o *GetK8sCertJKSParams) WithTimeout(timeout time.Duration) *GetK8sCertJKSParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get k8s cert j k s params
+// SetTimeout adds the timeout to the get k8s cert j k s params.
 func (o *GetK8sCertJKSParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get k8s cert j k s params
+// WithContext adds the context to the get k8s cert j k s params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetK8sCertJKSParams].
 func (o *GetK8sCertJKSParams) WithContext(ctx context.Context) *GetK8sCertJKSParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get k8s cert j k s params
+// SetContext adds the context to the get k8s cert j k s params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetK8sCertJKSParams].
 func (o *GetK8sCertJKSParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get k8s cert j k s params
+// WithHTTPClient adds the HTTPClient to the get k8s cert j k s params.
 func (o *GetK8sCertJKSParams) WithHTTPClient(client *http.Client) *GetK8sCertJKSParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get k8s cert j k s params
+// SetHTTPClient adds the HTTPClient to the get k8s cert j k s params.
 func (o *GetK8sCertJKSParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get k8s cert j k s params
+// WithInput adds the input to the get k8s cert j k s params.
 func (o *GetK8sCertJKSParams) WithInput(input *models.GetK8sCertJKSRequest) *GetK8sCertJKSParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get k8s cert j k s params
+// SetInput adds the input to the get k8s cert j k s params.
 func (o *GetK8sCertJKSParams) SetInput(input *models.GetK8sCertJKSRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetK8sCertJKSParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

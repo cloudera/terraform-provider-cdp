@@ -59,7 +59,7 @@ func (r *gcpDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	params := operations.NewCreateGCPClusterParamsWithContext(ctx)
+	params := operations.NewCreateGCPClusterParams()
 	params.WithInput(fromModelToGcpRequest(data, ctx))
 
 	res, err := r.client.Datahub.Operations.CreateGCPCluster(params)
@@ -108,7 +108,7 @@ func (r *gcpDatahubResource) Read(ctx context.Context, req resource.ReadRequest,
 	if len(clusterName) == 0 {
 		clusterName = state.ID.ValueString()
 	}
-	params := operations.NewDescribeClusterParamsWithContext(ctx)
+	params := operations.NewDescribeClusterParams()
 	params.WithInput(&datahubmodels.DescribeClusterRequest{
 		ClusterName: &clusterName,
 	})
@@ -150,7 +150,7 @@ func (r *gcpDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	params := operations.NewDeleteClusterParamsWithContext(ctx).WithInput(&datahubmodels.DeleteClusterRequest{
+	params := operations.NewDeleteClusterParams().WithInput(&datahubmodels.DeleteClusterRequest{
 		ClusterName: state.ID.ValueStringPointer(),
 		Force:       state.forceDeleteRequested(),
 	})
