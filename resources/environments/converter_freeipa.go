@@ -17,7 +17,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
+	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
@@ -147,4 +150,50 @@ func FreeIpaModelToRequest(model *types.Object, ctx context.Context) (*FreeIpaTr
 			ID:      freeIpaDetails.ImageID.ValueString(),
 			Os:      freeIpaDetails.Os.ValueString(),
 		}
+}
+
+func SetCatalogIfChanged(ctx context.Context, planFreeIpa types.Object, stateFreeIpa *types.Object, environmentName string, client *environmentsclient.Environments, diags *diag.Diagnostics) {
+	var planDetails FreeIpaDetails
+	diags.Append(planFreeIpa.As(ctx, &planDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
+	if diags.HasError() {
+		return
+	}
+
+	var stateDetails FreeIpaDetails
+	diags.Append(stateFreeIpa.As(ctx, &stateDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
+	if diags.HasError() {
+		return
+	}
+
+	if planDetails.Catalog.IsNull() || planDetails.Catalog.IsUnknown() || planDetails.Catalog.Equal(stateDetails.Catalog) {
+		return
+	}
+
+	catalog := planDetails.Catalog.ValueString()
+	tflog.Info(ctx, fmt.Sprintf("Catalog change detected for environment '%s', calling SetCatalog.", environmentName))
+
+	params := operations.NewSetCatalogParamsWithContext(ctx)
+	params.WithInput(&environmentsmodels.SetCatalogRequest{
+		Catalog:     &catalog,
+		Environment: &environmentName,
+	})
+	_, err := client.Operations.SetCatalog(params)
+	if err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, diags, "set catalog")
+		return
+	}
+
+	updateFreeIpaCatalogInState(ctx, stateFreeIpa, planDetails.Catalog, diags)
+}
+
+func updateFreeIpaCatalogInState(ctx context.Context, freeIpaObj *types.Object, newCatalog types.String, diags *diag.Diagnostics) {
+	var details FreeIpaDetails
+	diags.Append(freeIpaObj.As(ctx, &details, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
+	if diags.HasError() {
+		return
+	}
+	details.Catalog = newCatalog
+	newObj, objDiags := types.ObjectValueFrom(ctx, FreeIpaDetailsType.AttrTypes, &details)
+	diags.Append(objDiags...)
+	*freeIpaObj = newObj
 }
