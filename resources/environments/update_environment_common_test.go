@@ -15,6 +15,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	rsschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
@@ -25,7 +26,9 @@ import (
 
 	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/mocks"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 const (
@@ -632,4 +635,169 @@ func TestUpdateProxyConfigurationIfChanged_APIError_DoesNotUpdateState(t *testin
 
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, testOldProxyConfigName, state.ValueString())
+}
+func TestSetEndpointAccessGatewayIfChanged_SchemeChanged_CallsApiAndPolls(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planScheme := types.StringValue("PUBLIC")
+	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"})
+	stateScheme := types.StringValue("PRIVATE")
+	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"})
+
+	matcher := func(params *operations.SetEndpointAccessGatewayParams) bool {
+		return *params.Input.EndpointAccessGatewayScheme == "PUBLIC" &&
+			*params.Input.Environment == "test-env" &&
+			len(params.Input.EndpointAccessGatewaySubnetIds) == 2
+	}
+	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.MatchedBy(matcher), mock.Anything).Return(&operations.SetEndpointAccessGatewayOK{
+		Payload: &environmentsmodels.SetEndpointAccessGatewayResponse{
+			OperationID: "op-123",
+		},
+	}, nil)
+
+	opMatcher := func(params *operations.GetOperationParams) bool {
+		return *params.Input.EnvironmentName == "test-env" && params.Input.OperationID == "op-123"
+	}
+	mockClient.On("GetOperationContext", mock.Anything, mock.MatchedBy(opMatcher), mock.Anything).Return(&operations.GetOperationOK{
+		Payload: &environmentsmodels.GetOperationResponse{
+			OperationID:     "op-123",
+			OperationStatus: "FINISHED",
+		},
+	}, nil)
+
+	var diags diag.Diagnostics
+	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+
+	assert.False(t, diags.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestSetEndpointAccessGatewayIfChanged_SubnetIdsChanged_CallsApiAndPolls(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planScheme := types.StringValue("PUBLIC")
+	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2", "subnet-3"})
+	stateScheme := types.StringValue("PUBLIC")
+	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"})
+
+	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything).Return(&operations.SetEndpointAccessGatewayOK{
+		Payload: &environmentsmodels.SetEndpointAccessGatewayResponse{
+			OperationID: "op-456",
+		},
+	}, nil)
+
+	mockClient.On("GetOperationContext", mock.Anything, mock.Anything, mock.Anything).Return(&operations.GetOperationOK{
+		Payload: &environmentsmodels.GetOperationResponse{
+			OperationID:     "op-456",
+			OperationStatus: "FINISHED",
+		},
+	}, nil)
+
+	var diags diag.Diagnostics
+	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+
+	assert.False(t, diags.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestSetEndpointAccessGatewayIfChanged_NothingChanged_DoesNotCallApi(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planScheme := types.StringValue("PUBLIC")
+	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+	stateScheme := types.StringValue("PUBLIC")
+	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+
+	var diags diag.Diagnostics
+	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+
+	assert.False(t, diags.HasError())
+	mockClient.AssertNotCalled(t, "SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestSetEndpointAccessGatewayIfChanged_PlanSchemeNull_DoesNotCallApi(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planScheme := types.StringNull()
+	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+	stateScheme := types.StringValue("PUBLIC")
+	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+
+	var diags diag.Diagnostics
+	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+
+	assert.False(t, diags.HasError())
+	mockClient.AssertNotCalled(t, "SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestSetEndpointAccessGatewayIfChanged_ApiError_AddsDiagnostics(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planScheme := types.StringValue("PUBLIC")
+	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+	stateScheme := types.StringValue("PRIVATE")
+	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+
+	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything).Return((*operations.SetEndpointAccessGatewayOK)(nil), errors.New("API connection failed"))
+
+	var diags diag.Diagnostics
+	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+
+	assert.True(t, diags.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestSetEndpointAccessGatewayIfChanged_OperationFailed_AddsDiagnostics(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planScheme := types.StringValue("PUBLIC")
+	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+	stateScheme := types.StringValue("PRIVATE")
+	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+
+	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything).Return(&operations.SetEndpointAccessGatewayOK{
+		Payload: &environmentsmodels.SetEndpointAccessGatewayResponse{
+			OperationID: "op-fail",
+		},
+	}, nil)
+
+	mockClient.On("GetOperationContext", mock.Anything, mock.Anything, mock.Anything).Return(&operations.GetOperationOK{
+		Payload: &environmentsmodels.GetOperationResponse{
+			OperationID:     "op-fail",
+			OperationStatus: "FAILED",
+		},
+	}, nil)
+
+	var diags diag.Diagnostics
+	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+
+	assert.True(t, diags.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestSetEndpointAccessGatewayIfChanged_NoOperationId_SkipsPolling(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planScheme := types.StringValue("PUBLIC")
+	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+	stateScheme := types.StringValue("PRIVATE")
+	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+
+	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything).Return(&operations.SetEndpointAccessGatewayOK{
+		Payload: &environmentsmodels.SetEndpointAccessGatewayResponse{},
+	}, nil)
+
+	var diags diag.Diagnostics
+	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+
+	assert.False(t, diags.HasError())
+	mockClient.AssertNotCalled(t, "GetOperationContext", mock.Anything, mock.Anything, mock.Anything)
+	mockClient.AssertExpectations(t)
 }

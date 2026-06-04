@@ -12,11 +12,15 @@ package environments
 
 import (
 	"context"
+	"fmt"
 	"reflect"
+	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
@@ -105,4 +109,94 @@ func updateProxyConfigurationIfChanged(ctx context.Context, client *environments
 
 	*state = *plan
 	return resp
+}
+
+func SetEndpointAccessGatewayIfChanged(ctx context.Context, planScheme types.String, planSubnetIds types.Set, stateScheme types.String, stateSubnetIds types.Set, environmentName string, client *environmentsclient.Environments, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+	if planScheme.IsNull() || planScheme.IsUnknown() {
+		return
+	}
+	if planSubnetIds.IsUnknown() {
+		return
+	}
+
+	schemeChanged := !planScheme.Equal(stateScheme)
+	subnetIdsChanged := !planSubnetIds.Equal(stateSubnetIds)
+
+	if !schemeChanged && !subnetIdsChanged {
+		return
+	}
+
+	scheme := planScheme.ValueString()
+	tflog.Info(ctx, fmt.Sprintf("Endpoint access gateway change detected for environment '%s', calling SetEndpointAccessGateway.", environmentName))
+
+	params := operations.NewSetEndpointAccessGatewayParams()
+	params.WithInput(&environmentsmodels.SetEndpointAccessGatewayRequest{
+		EndpointAccessGatewayScheme:    &scheme,
+		EndpointAccessGatewaySubnetIds: utils.FromSetValueToStringList(planSubnetIds),
+		Environment:                    &environmentName,
+	})
+	resp, err := client.Operations.SetEndpointAccessGatewayContext(ctx, params)
+	if err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, diags, "set endpoint access gateway")
+		return
+	}
+
+	if resp.Payload != nil && resp.Payload.OperationID != "" {
+		if err := waitForOperationToComplete(ctx, environmentName, resp.Payload.OperationID, client, pollingOptions); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, diags, "wait for set endpoint access gateway operation to complete")
+			return
+		}
+	}
+}
+
+func waitForOperationToComplete(ctx context.Context, environmentName string, operationID string, client *environmentsclient.Environments, pollingOptions *utils.PollingOptions) error {
+	timeout, err := utils.CalculateTimeoutOrDefault(ctx, pollingOptions, timeoutOneHour)
+	if err != nil {
+		return err
+	}
+	callFailureThresholdVal, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, pollingOptions, callFailureThreshold)
+	if failureThresholdError != nil {
+		return failureThresholdError
+	}
+	callFailedCount := 0
+
+	stateConf := &retry.StateChangeConf{
+		Pending:      []string{"RUNNING", "UNKNOWN"},
+		Target:       []string{"FINISHED"},
+		Delay:        0,
+		Timeout:      *timeout,
+		PollInterval: 10 * time.Second,
+		Refresh: func() (interface{}, string, error) {
+			tflog.Debug(ctx, fmt.Sprintf("Polling operation '%s' for environment '%s'", operationID, environmentName))
+			params := operations.NewGetOperationParams()
+			params.WithInput(&environmentsmodels.GetOperationRequest{
+				EnvironmentName: &environmentName,
+				OperationID:     operationID,
+			})
+			resp, err := client.Operations.GetOperationContext(ctx, params)
+			if err != nil {
+				callFailedCount++
+				if callFailedCount <= callFailureThresholdVal {
+					tflog.Warn(ctx, fmt.Sprintf("Error polling operation due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThresholdVal))
+					return nil, "RUNNING", nil
+				}
+				return nil, "", err
+			}
+			callFailedCount = 0
+			if resp.Payload == nil {
+				return nil, "UNKNOWN", nil
+			}
+			status := resp.Payload.OperationStatus
+			if status == "" {
+				return nil, "UNKNOWN", nil
+			}
+			tflog.Info(ctx, fmt.Sprintf("Operation '%s' status: %s", operationID, status))
+			if status == "FAILED" || status == "CANCELLED" {
+				return nil, status, fmt.Errorf("operation '%s' ended with status %s", operationID, status)
+			}
+			return resp, status, nil
+		},
+	}
+	_, err = stateConf.WaitForStateContext(ctx)
+	return err
 }
