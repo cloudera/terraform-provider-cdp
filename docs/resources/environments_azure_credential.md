@@ -84,3 +84,7 @@ Required:
 
 - `application_id` (String) The ID of the application registered in Azure.
 - `secret_key` (String, Sensitive) The client secret key (also referred to as application password) for the registered application.
+
+Optional:
+
+- `authentication_type` (String) Authentication type of the credential. Available values: SECRET, CERTIFICATE. Defaults to SECRET if not provided at creation.

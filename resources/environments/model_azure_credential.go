@@ -23,6 +23,7 @@ type azureCredentialResourceModel struct {
 }
 
 type AppBased struct {
-	ApplicationID types.String `tfsdk:"application_id"`
-	SecretKey     types.String `tfsdk:"secret_key"`
+	AuthenticationType types.String `tfsdk:"authentication_type"`
+	ApplicationID      types.String `tfsdk:"application_id"`
+	SecretKey          types.String `tfsdk:"secret_key"`
 }

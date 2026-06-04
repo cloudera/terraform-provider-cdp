@@ -13,10 +13,13 @@ package environments
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
@@ -42,6 +45,17 @@ func (r *azureCredentialResource) Schema(_ context.Context, _ resource.SchemaReq
 		"app_based": schema.SingleNestedAttribute{
 			Required: true,
 			Attributes: map[string]schema.Attribute{
+				"authentication_type": schema.StringAttribute{
+					Description:         "Authentication type of the credential. Available values: SECRET, CERTIFICATE. Defaults to SECRET if not provided at creation.",
+					MarkdownDescription: "Authentication type of the credential. Available values: SECRET, CERTIFICATE. Defaults to SECRET if not provided at creation.",
+					Validators: []validator.String{
+						stringvalidator.OneOf("CERTIFICATE", "SECRET"),
+					},
+					Default:   stringdefault.StaticString("SECRET"),
+					Sensitive: false,
+					Computed:  true,
+					Optional:  true,
+				},
 				"application_id": schema.StringAttribute{
 					Description: "The ID of the application registered in Azure.",
 					PlanModifiers: []planmodifier.String{
