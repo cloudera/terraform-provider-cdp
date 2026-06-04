@@ -40,6 +40,14 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 	if resp.Diagnostics.HasError() {
 		return resp
 	}
+	SetEndpointAccessGatewayIfChanged(ctx, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, state.EndpointAccessGatewayScheme, state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), client, plan.PollingOptions, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+	if !plan.EndpointAccessGatewayScheme.IsNull() && !plan.EndpointAccessGatewayScheme.IsUnknown() && !plan.EndpointAccessGatewaySubnetIds.IsUnknown() {
+		state.EndpointAccessGatewayScheme = plan.EndpointAccessGatewayScheme
+		state.EndpointAccessGatewaySubnetIds = plan.EndpointAccessGatewaySubnetIds
+	}
 
 	resp = updateAzureAvailabilityZonesIfChanged(ctx, client, plan.AvailabilityZones, &state.AvailabilityZones, plan.EnvironmentName.ValueStringPointer(), resp)
 	if resp.Diagnostics.HasError() {
