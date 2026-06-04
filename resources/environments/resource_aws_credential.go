@@ -95,7 +95,7 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 	// updated afterward thus if they are set in the plan, we need to update the credential right away
 	if credentialNeedsToBeUpdatedAfterCreation(plan) {
 		tflog.Debug(ctx, "Updating AWS credential required due to plan configuration")
-		updateErr := r.updateCredential(ctx, client, plan)
+		updateErr := r.updateAwsCredential(ctx, client, plan)
 		if updateErr != nil {
 			utils.AddEnvironmentDiagnosticsError(updateErr, &resp.Diagnostics, "update AWS Credential")
 			return
@@ -183,7 +183,7 @@ func (r *awsCredentialResource) Update(ctx context.Context, req resource.UpdateR
 
 	client := r.client.Environments
 
-	err := r.updateCredential(ctx, client, plan)
+	err := r.updateAwsCredential(ctx, client, plan)
 
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update AWS Credential")
@@ -215,7 +215,7 @@ func (r *awsCredentialResource) ImportState(ctx context.Context, req resource.Im
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *awsCredentialResource) updateCredential(ctx context.Context, client *environmentsclient.Environments, plan awsCredentialResourceModel) error {
+func (r *awsCredentialResource) updateAwsCredential(ctx context.Context, client *environmentsclient.Environments, plan awsCredentialResourceModel) error {
 	params := operations.NewUpdateAwsCredentialParamsWithContext(ctx)
 	params.WithInput(&environmentsmodels.UpdateAwsCredentialRequest{
 		RoleArn:                plan.RoleArn.ValueStringPointer(),
@@ -228,8 +228,7 @@ func (r *awsCredentialResource) updateCredential(ctx context.Context, client *en
 		tflog.Debug(ctx, "Updating AWS credential")
 		_, err := client.Operations.UpdateAwsCredential(params)
 		if err != nil {
-			var envErr *operations.UpdateAwsCredentialDefault
-			if errors.As(err, &envErr) {
+			if envErr, ok := errors.AsType[*operations.UpdateAwsCredentialDefault](err); ok {
 				if utils.IsRetryableError(envErr.Code()) {
 					return retry.RetryableError(err)
 				}

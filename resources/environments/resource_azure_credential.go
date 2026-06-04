@@ -12,12 +12,16 @@ package environments
 
 import (
 	"context"
+	"errors"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -65,8 +69,9 @@ func (r *azureCredentialResource) Create(ctx context.Context, req resource.Creat
 		SubscriptionID: data.SubscriptionID.ValueString(),
 		TenantID:       data.TenantID.ValueString(),
 		AppBased: &environmentsmodels.CreateAzureCredentialRequestAppBased{
-			ApplicationID: data.AppBased.ApplicationID.ValueString(),
-			SecretKey:     data.AppBased.SecretKey.ValueString(),
+			ApplicationID:      data.AppBased.ApplicationID.ValueString(),
+			SecretKey:          data.AppBased.SecretKey.ValueString(),
+			AuthenticationType: environmentsmodels.AzureAuthenticationTypeProperties(data.AppBased.AuthenticationType.ValueString()),
 		},
 	})
 
@@ -122,6 +127,7 @@ func (r *azureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 	if c.AzureCredentialProperties != nil {
 		state.AppBased.ApplicationID = types.StringValue(c.AzureCredentialProperties.AppID)
 		state.SubscriptionID = types.StringValue(c.AzureCredentialProperties.SubscriptionID)
+		state.AppBased.AuthenticationType = types.StringValue(string(c.AzureCredentialProperties.AuthenticationType))
 	}
 
 	// Set refreshed state
@@ -133,6 +139,22 @@ func (r *azureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 }
 
 func (r *azureCredentialResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan azureCredentialResourceModel
+	diags := req.Plan.Get(ctx, &plan)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	client := r.client.Environments
+
+	err := r.updateAzureCredential(ctx, client, plan)
+
+	if err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update Azure Credential")
+		return
+	}
+	resp.State.Set(ctx, plan)
 }
 
 func (r *azureCredentialResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -150,4 +172,35 @@ func (r *azureCredentialResource) Delete(ctx context.Context, req resource.Delet
 		return
 	}
 
+}
+
+func (r *azureCredentialResource) updateAzureCredential(ctx context.Context, client *environmentsclient.Environments, model azureCredentialResourceModel) error {
+	params := operations.NewUpdateAzureCredentialParamsWithContext(ctx)
+	authType := model.AppBased.AuthenticationType.ValueString()
+	if authType == "" {
+		authType = string(environmentsmodels.AzureAuthenticationTypePropertiesSECRET)
+	}
+	params.WithInput(&environmentsmodels.UpdateAzureCredentialRequest{
+		AppBased: &environmentsmodels.UpdateAzureCredentialRequestAppBased{
+			ApplicationID:      model.AppBased.ApplicationID.ValueStringPointer(),
+			AuthenticationType: environmentsmodels.AzureAuthenticationTypeProperties(authType).Pointer(),
+		},
+		CredentialName: model.CredentialName.ValueStringPointer(),
+		Description:    model.Description.ValueString(),
+		SubscriptionID: model.SubscriptionID.ValueStringPointer(),
+		TenantID:       model.TenantID.ValueStringPointer(),
+	})
+	return retry.RetryContext(ctx, credentialCreateRetryDuration, func() *retry.RetryError {
+		tflog.Debug(ctx, "Updating Azure credential")
+		_, err := client.Operations.UpdateAzureCredential(params)
+		if err != nil {
+			if envErr, ok := errors.AsType[*operations.UpdateAzureCredentialDefault](err); ok {
+				if utils.IsRetryableError(envErr.Code()) {
+					return retry.RetryableError(err)
+				}
+			}
+			return retry.NonRetryableError(err)
+		}
+		return nil
+	})
 }
