@@ -46,6 +46,12 @@ func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel
 		}
 		state.EncryptionKeyArn = plan.EncryptionKeyArn
 	}
+
+	SetCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+
 	return resp
 }
 

@@ -20,5 +20,14 @@ import (
 
 func updateGcpEnvironment(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	resp = updateSshKeyIfChanged(ctx, client, plan.PublicKey, &state.PublicKey, plan.EnvironmentName.ValueStringPointer(), resp)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+
+	SetCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, &resp.Diagnostics)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+
 	return resp
 }
