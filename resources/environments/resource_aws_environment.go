@@ -134,25 +134,7 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 }
 
 func (r *awsEnvironmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var plan awsEnvironmentResourceModel
-	var state awsEnvironmentResourceModel
-	planDiags := req.Plan.Get(ctx, &plan)
-	var stateDiags = req.State.Get(ctx, &state)
-	resp.Diagnostics.Append(planDiags...)
-	resp.Diagnostics.Append(stateDiags...)
-	if resp.Diagnostics.HasError() {
-		tflog.Error(ctx, "Got Error while trying to set plan")
-		return
-	}
-
-	updateAwsEnvironment(ctx, &plan, &state, r.client.Environments, resp)
-
-	stateDiags = resp.State.Set(ctx, state)
-	resp.Diagnostics.Append(stateDiags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-	resp.State.Set(ctx, state)
+	performEnvironmentUpdate(ctx, req, resp, r.client.Environments, updateAwsEnvironment)
 }
 
 func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

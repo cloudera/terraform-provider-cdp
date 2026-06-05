@@ -31,6 +31,7 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 		return resp
 	}
 	// further update operations shall come here
+	resp = updateSshKeyIfChanged(ctx, client, plan.PublicKey, &state.PublicKey, plan.EnvironmentName.ValueStringPointer(), resp)
 	return resp
 }
 
@@ -55,7 +56,7 @@ func enableComputeClustersForAzureIfNecessary(ctx context.Context, plan *azureEn
 			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "wait for environment to be available")
 		}
 	}
-	return nil
+	return resp
 }
 
 func enableComputeClusterForAzure(ctx context.Context, config *AzureComputeClusterConfiguration, environmentName string, envSubnets types.Set, envClient *environmentsclient.Environments) error {

@@ -131,8 +131,8 @@ func (r *gcpEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 	}
 }
 
-func (r *gcpEnvironmentResource) Update(ctx context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
-	tflog.Warn(ctx, "Update operation is not implemented yet.")
+func (r *gcpEnvironmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	performEnvironmentUpdate(ctx, req, resp, r.client.Environments, updateGcpEnvironment)
 }
 
 func (r *gcpEnvironmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
