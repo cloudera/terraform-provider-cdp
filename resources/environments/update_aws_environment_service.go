@@ -13,6 +13,7 @@ package environments
 import (
 	"context"
 	"fmt"
+	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -31,6 +32,13 @@ func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel
 		return resp
 	}
 	// further update operations shall come here
+	if plan.Authentication != nil && !reflect.DeepEqual(plan.Authentication, state.Authentication) {
+		if err := updateSshKeyForAws(ctx, client, plan.Authentication, plan.EnvironmentName.ValueStringPointer()); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update SSH key")
+			return resp
+		}
+		state.Authentication = plan.Authentication
+	}
 	return resp
 }
 
@@ -49,7 +57,7 @@ func enableComputeClustersForAwsIfNecessary(ctx context.Context, plan *awsEnviro
 			return resp
 		}
 	}
-	return nil
+	return resp
 }
 
 func enableComputeClusterForAws(ctx context.Context, config *AwsComputeClusterConfiguration, environmentName string, envSubnets types.Set, envClient *environmentsclient.Environments) error {
@@ -92,4 +100,25 @@ func waitForUpdateToFinish(ctx context.Context, id string, client *environmentsc
 		return err
 	}
 	return nil
+}
+
+func updateSshKeyForAws(ctx context.Context, client *environmentsclient.Environments, authPlan *Authentication, env *string) error {
+	if authPlan == nil {
+		return nil
+	}
+	params := operations.NewUpdateSSHKeyParamsWithContext(ctx)
+	if !authPlan.PublicKey.IsNull() && !authPlan.PublicKey.IsUnknown() && authPlan.PublicKey.ValueString() != "" {
+		params.WithInput(&environmentsmodels.UpdateSSHKeyRequest{
+			Environment:         env,
+			NewPublicKey:        authPlan.PublicKey.ValueString(),
+			ExistingPublicKeyID: "",
+		})
+	} else {
+		if authPlan.PublicKeyID.IsNull() || authPlan.PublicKeyID.IsUnknown() || authPlan.PublicKeyID.ValueString() == "" {
+			return fmt.Errorf("either authentication.public_key or authentication.public_key_id must be set")
+		}
+	}
+	tflog.Info(ctx, "Updating SSH key in the environment")
+	_, err := client.Operations.UpdateSSHKey(params)
+	return err
 }
