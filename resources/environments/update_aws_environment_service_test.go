@@ -11,13 +11,28 @@
 package environments
 
 import (
+	"context"
+	"errors"
 	"reflect"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/stretchr/testify/mock"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/mocks"
 	"github.com/cloudera/terraform-provider-cdp/utils"
+)
+
+const (
+	testIpRange1         = "192.168.1.1/32"
+	testIpRange2         = "10.0.0.0/24"
+	testSubnet1          = "subnet-12345"
+	testSubnet2          = "subnet-67890"
+	testFallbackSubnet1  = "subnet-abcde"
+	testFallbackSubnet2  = "subnet-fghij"
+	testEncryptionKeyArn = "arn:aws:kms:us-west-2:123456789012:key/test-key-id"
 )
 
 func TestConvertNilConfigReturnsNilRequestForAws(t *testing.T) {
@@ -31,15 +46,15 @@ func TestConvertNilConfigReturnsNilRequestForAws(t *testing.T) {
 
 func TestConvertValidConfigReturnsCorrectRequestForAws(t *testing.T) {
 	config := &AwsComputeClusterConfiguration{
-		KubeApiAuthorizedIpRanges: utils.ToSetValueFromStringList([]string{"192.168.1.1/32", "10.0.0.0/24"}),
+		KubeApiAuthorizedIpRanges: utils.ToSetValueFromStringList([]string{testIpRange1, testIpRange2}),
 		PrivateCluster:            types.BoolValue(true),
-		WorkerNodeSubnets:         utils.ToSetValueFromStringList([]string{"subnet-12345", "subnet-67890"}),
+		WorkerNodeSubnets:         utils.ToSetValueFromStringList([]string{testSubnet1, testSubnet2}),
 	}
 	fallbackSubnetIds := types.Set{}
 	want := &environmentsmodels.AWSComputeClusterConfigurationRequest{
-		KubeAPIAuthorizedIPRanges: []string{"192.168.1.1/32", "10.0.0.0/24"},
+		KubeAPIAuthorizedIPRanges: []string{testIpRange1, testIpRange2},
 		PrivateCluster:            true,
-		WorkerNodeSubnets:         []string{"subnet-12345", "subnet-67890"},
+		WorkerNodeSubnets:         []string{testSubnet1, testSubnet2},
 	}
 	if got := convertConfigToAwsComputeClusterConfigurationRequest(config, fallbackSubnetIds); !reflect.DeepEqual(got, want) {
 		t.Errorf("convertConfigToAwsComputeClusterConfigurationRequest() = %v, want %v", got, want)
@@ -65,17 +80,57 @@ func TestConvertConfigWithEmptyFieldsReturnsCorrectRequestForAws(t *testing.T) {
 
 func TestConvertConfigWithFallbackSubnetsReturnsCorrectRequestForAws(t *testing.T) {
 	config := &AwsComputeClusterConfiguration{
-		KubeApiAuthorizedIpRanges: utils.ToSetValueFromStringList([]string{"192.168.1.1/32"}),
+		KubeApiAuthorizedIpRanges: utils.ToSetValueFromStringList([]string{testIpRange1}),
 		PrivateCluster:            types.BoolValue(true),
 		WorkerNodeSubnets:         types.Set{},
 	}
-	fallbackSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-abcde", "subnet-fghij"})
+	fallbackSubnetIds := utils.ToSetValueFromStringList([]string{testFallbackSubnet1, testFallbackSubnet2})
 	want := &environmentsmodels.AWSComputeClusterConfigurationRequest{
-		KubeAPIAuthorizedIPRanges: []string{"192.168.1.1/32"},
+		KubeAPIAuthorizedIPRanges: []string{testIpRange1},
 		PrivateCluster:            true,
-		WorkerNodeSubnets:         []string{"subnet-abcde", "subnet-fghij"},
+		WorkerNodeSubnets:         []string{testFallbackSubnet1, testFallbackSubnet2},
 	}
 	if got := convertConfigToAwsComputeClusterConfigurationRequest(config, fallbackSubnetIds); !reflect.DeepEqual(got, want) {
 		t.Errorf("convertConfigToAwsComputeClusterConfigurationRequest() = %v, want %v", got, want)
+	}
+}
+
+func TestUpdateDiskEncryption_Success(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	keyArn := types.StringValue(testEncryptionKeyArn)
+
+	mockClient.On("UpdateAwsDiskEncryptionParameters", mock.MatchedBy(func(params *operations.UpdateAwsDiskEncryptionParametersParams) bool {
+		return params.Input != nil &&
+			*params.Input.EncryptionKeyArn == testEncryptionKeyArn &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).
+		Return(&operations.UpdateAwsDiskEncryptionParametersOK{}, nil)
+
+	err := updateDiskEncryption(ctx, client, new(testEnvName), keyArn)
+
+	if err != nil {
+		t.Errorf("expected no error, got: %v", err)
+	}
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateDiskEncryption_ReturnsError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	keyArn := types.StringValue(testEncryptionKeyArn)
+
+	mockClient.On("UpdateAwsDiskEncryptionParameters", mock.Anything, mock.Anything).
+		Return((*operations.UpdateAwsDiskEncryptionParametersOK)(nil), errors.New(testServiceUnavailable))
+
+	err := updateDiskEncryption(ctx, client, new(testEnvName), keyArn)
+
+	if err == nil {
+		t.Fatalf("expected an error, got nil")
+	}
+	if err.Error() != testServiceUnavailable {
+		t.Errorf("expected error message '%s', got: %s", testServiceUnavailable, err.Error())
 	}
 }

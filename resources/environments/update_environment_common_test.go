@@ -46,8 +46,6 @@ const (
 	testOldValue   = "old-value"
 )
 
-func stringPtr(s string) *string { return &s }
-
 func TestUpdateSshKeyIfChanged_KeyChanged_UpdatesStateAndCallsAPI(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := mocks.NewMockEnvironmentClientService(t)
@@ -59,7 +57,7 @@ func TestUpdateSshKeyIfChanged_KeyChanged_UpdatesStateAndCallsAPI(t *testing.T) 
 	mockClient.On("UpdateSSHKey", mock.Anything, mock.Anything).
 		Return(&operations.UpdateSSHKeyOK{}, nil)
 
-	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, stringPtr(testEnvName), resp)
+	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, new(testEnvName), resp)
 
 	if result.Diagnostics.HasError() {
 		t.Errorf("expected no errors, got: %v", result.Diagnostics.Errors())
@@ -78,7 +76,7 @@ func TestUpdateSshKeyIfChanged_KeyUnchanged_SkipsAPICall(t *testing.T) {
 	stateKey := types.StringValue(testSameKey)
 	resp := &resource.UpdateResponse{}
 
-	result := updateSshKeyIfChanged(ctx, client, sameKey, &stateKey, stringPtr(testEnvName), resp)
+	result := updateSshKeyIfChanged(ctx, client, sameKey, &stateKey, new(testEnvName), resp)
 
 	if result.Diagnostics.HasError() {
 		t.Errorf("expected no errors, got: %v", result.Diagnostics.Errors())
@@ -94,7 +92,7 @@ func TestUpdateSshKeyIfChanged_PlanKeyNull_SkipsAPICall(t *testing.T) {
 	stateKey := types.StringValue(testOldKey)
 	resp := &resource.UpdateResponse{}
 
-	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, stringPtr(testEnvName), resp)
+	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, new(testEnvName), resp)
 
 	if result.Diagnostics.HasError() {
 		t.Errorf("expected no errors, got: %v", result.Diagnostics.Errors())
@@ -113,7 +111,7 @@ func TestUpdateSshKeyIfChanged_PlanKeyUnknown_SkipsUpdate(t *testing.T) {
 	stateKey := types.StringValue(testOldKey)
 	resp := &resource.UpdateResponse{}
 
-	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, stringPtr(testEnvName), resp)
+	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, new(testEnvName), resp)
 
 	if result.Diagnostics.HasError() {
 		t.Errorf("expected no errors, got: %v", result.Diagnostics.Errors())
@@ -132,7 +130,7 @@ func TestUpdateSshKeyIfChanged_PlanKeyEmpty_AddsValidationError(t *testing.T) {
 	stateKey := types.StringValue(testOldKey)
 	resp := &resource.UpdateResponse{}
 
-	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, stringPtr(testEnvName), resp)
+	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, new(testEnvName), resp)
 
 	if !result.Diagnostics.HasError() {
 		t.Errorf("expected diagnostics to contain a validation error")
@@ -154,7 +152,7 @@ func TestUpdateSshKeyIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
 	mockClient.On("UpdateSSHKey", mock.Anything, mock.Anything).
 		Return((*operations.UpdateSSHKeyOK)(nil), errors.New("API connection failed"))
 
-	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, stringPtr(testEnvName), resp)
+	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, new(testEnvName), resp)
 
 	if !result.Diagnostics.HasError() {
 		t.Errorf("expected diagnostics to contain an error")
@@ -177,7 +175,7 @@ func TestUpdateSshKey_Success(t *testing.T) {
 	}), mock.Anything).
 		Return(&operations.UpdateSSHKeyOK{}, nil)
 
-	err := updateSshKey(ctx, client, publicKey, stringPtr(testEnvName))
+	err := updateSshKey(ctx, client, publicKey, new(testEnvName))
 
 	if err != nil {
 		t.Errorf("expected no error, got: %v", err)
@@ -194,7 +192,7 @@ func TestUpdateSshKey_ReturnsError(t *testing.T) {
 	mockClient.On("UpdateSSHKey", mock.Anything, mock.Anything).
 		Return((*operations.UpdateSSHKeyOK)(nil), errors.New(testServiceUnavailable))
 
-	err := updateSshKey(ctx, client, publicKey, stringPtr(testEnvName))
+	err := updateSshKey(ctx, client, publicKey, new(testEnvName))
 
 	if err == nil {
 		t.Fatalf("expected an error, got nil")
@@ -210,7 +208,7 @@ func TestUpdateSshKey_NullPublicKey_DoesNotSetInput(t *testing.T) {
 	client := NewMockEnvironments(mockClient)
 	publicKey := types.StringNull()
 
-	err := updateSshKey(ctx, client, publicKey, stringPtr(testEnvName))
+	err := updateSshKey(ctx, client, publicKey, new(testEnvName))
 
 	if err != nil {
 		t.Errorf("expected no error, got: %v", err)
@@ -224,7 +222,7 @@ func TestUpdateSshKey_EmptyPublicKey_DoesNotSetInput(t *testing.T) {
 	client := NewMockEnvironments(mockClient)
 	publicKey := types.StringValue("")
 
-	err := updateSshKey(ctx, client, publicKey, stringPtr(testEnvName))
+	err := updateSshKey(ctx, client, publicKey, new(testEnvName))
 
 	if err != nil {
 		t.Errorf("expected no error, got: %v", err)
@@ -238,7 +236,7 @@ func TestUpdateSshKey_UnknownPublicKey_DoesNotCallAPI(t *testing.T) {
 	client := NewMockEnvironments(mockClient)
 	publicKey := types.StringUnknown()
 
-	err := updateSshKey(ctx, client, publicKey, stringPtr(testEnvName))
+	err := updateSshKey(ctx, client, publicKey, new(testEnvName))
 
 	if err != nil {
 		t.Errorf("expected no error, got: %v", err)

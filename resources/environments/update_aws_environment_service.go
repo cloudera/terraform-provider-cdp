@@ -39,6 +39,13 @@ func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel
 		}
 		state.Authentication = plan.Authentication
 	}
+	if !reflect.DeepEqual(plan.EncryptionKeyArn, state.EncryptionKeyArn) {
+		if err := updateDiskEncryption(ctx, client, plan.EnvironmentName.ValueStringPointer(), plan.EncryptionKeyArn); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update disk encryption param(s)")
+			return resp
+		}
+		state.EncryptionKeyArn = plan.EncryptionKeyArn
+	}
 	return resp
 }
 
@@ -120,5 +127,14 @@ func updateSshKeyForAws(ctx context.Context, client *environmentsclient.Environm
 	}
 	tflog.Info(ctx, "Updating SSH key in the environment")
 	_, err := client.Operations.UpdateSSHKey(params)
+	return err
+}
+
+func updateDiskEncryption(ctx context.Context, client *environmentsclient.Environments, env *string, keyArn types.String) error {
+	params := operations.NewUpdateAwsDiskEncryptionParametersParamsWithContext(ctx).WithInput(&environmentsmodels.UpdateAwsDiskEncryptionParametersRequest{
+		EncryptionKeyArn: keyArn.ValueStringPointer(),
+		Environment:      env,
+	})
+	_, err := client.Operations.UpdateAwsDiskEncryptionParameters(params)
 	return err
 }
