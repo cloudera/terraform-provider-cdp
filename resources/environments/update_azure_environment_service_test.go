@@ -27,6 +27,12 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
+const (
+	testEncryptionKeyURL               = "https://my-vault.vault.azure.net/keys/my-key/abc123"
+	testEncryptionKeyResourceGroupName = "my-encryption-rg"
+	testEncryptionUserManagedIdentity  = "/subscriptions/sub-id/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/my-identity"
+)
+
 func TestConvertNilConfigReturnsNilRequestForAzure(t *testing.T) {
 	config := (*AzureComputeClusterConfiguration)(nil)
 	fallbackSubnetIds := types.Set{}
@@ -195,4 +201,58 @@ func TestUpdateAzureAvailabilityZonesIfChanged_APISuccess_UpdatesStateToPlan(t *
 	updateAzureAvailabilityZonesIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
 
 	assert.Equal(t, plan, state)
+}
+
+func TestUpdateAzureEncryptionResources_Success(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+
+	mockClient.On("UpdateAzureEncryptionResourcesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateAzureEncryptionResourcesParams) bool {
+		return params.Input != nil &&
+			*params.Input.EncryptionKeyURL == testEncryptionKeyURL &&
+			*params.Input.Environment == testEnvName &&
+			params.Input.EncryptionKeyResourceGroupName == testEncryptionKeyResourceGroupName &&
+			params.Input.EncryptionUserManagedIdentity == testEncryptionUserManagedIdentity
+	})).
+		Return(&operations.UpdateAzureEncryptionResourcesOK{}, nil)
+
+	envName := testEnvName
+	err := updateAzureEncryptionResources(ctx, client, &envName, plan)
+
+	if err != nil {
+		t.Errorf("expected no error, got: %v", err)
+	}
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureEncryptionResources_ReturnsError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+
+	mockClient.On("UpdateAzureEncryptionResourcesContext", mock.Anything, mock.Anything).
+		Return((*operations.UpdateAzureEncryptionResourcesOK)(nil), errors.New(testServiceUnavailable))
+
+	envName := testEnvName
+	err := updateAzureEncryptionResources(ctx, client, &envName, plan)
+
+	if err == nil {
+		t.Fatalf("expected an error, got nil")
+	}
+	if err.Error() != testServiceUnavailable {
+		t.Errorf("expected error message '%s', got: %s", testServiceUnavailable, err.Error())
+	}
 }
