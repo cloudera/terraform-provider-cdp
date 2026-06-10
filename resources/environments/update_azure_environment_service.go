@@ -13,6 +13,7 @@ package environments
 import (
 	"context"
 	"fmt"
+	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -30,7 +31,6 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 	if resp.Diagnostics.HasError() {
 		return resp
 	}
-	// further update operations shall come here
 	resp = updateSshKeyIfChanged(ctx, client, plan.PublicKey, &state.PublicKey, plan.EnvironmentName.ValueStringPointer(), resp)
 	if resp.Diagnostics.HasError() {
 		return resp
@@ -55,6 +55,19 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 	}
 
 	resp = updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
+	if azureEncryptionFieldsChanged(plan, state) {
+		if plan.EncryptionKeyURL.IsNull() || plan.EncryptionKeyURL.IsUnknown() {
+			resp.Diagnostics.AddError("update Azure encryption resources", "encryption_key_url must be set to a known value when updating encryption parameters")
+			return resp
+		}
+		if err := updateAzureEncryptionResources(ctx, client, plan.EnvironmentName.ValueStringPointer(), plan); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update Azure encryption resources")
+			return resp
+		}
+		state.EncryptionKeyURL = plan.EncryptionKeyURL
+		state.EncryptionKeyResourceGroupName = plan.EncryptionKeyResourceGroupName
+		state.EncryptionUserManagedIdentity = plan.EncryptionUserManagedIdentity
+	}
 	return resp
 }
 
@@ -91,6 +104,23 @@ func enableComputeClusterForAzure(ctx context.Context, config *AzureComputeClust
 	params.WithInput(&request)
 	tflog.Info(ctx, fmt.Sprintf("Initializing Azure compute cluster for environment '%s'", environmentName))
 	_, err := envClient.Operations.InitializeAzureComputeClusterContext(ctx, params)
+	return err
+}
+
+func azureEncryptionFieldsChanged(plan, state *azureEnvironmentResourceModel) bool {
+	return !reflect.DeepEqual(plan.EncryptionKeyURL, state.EncryptionKeyURL) ||
+		!reflect.DeepEqual(plan.EncryptionKeyResourceGroupName, state.EncryptionKeyResourceGroupName) ||
+		!reflect.DeepEqual(plan.EncryptionUserManagedIdentity, state.EncryptionUserManagedIdentity)
+}
+
+func updateAzureEncryptionResources(ctx context.Context, client *environmentsclient.Environments, env *string, plan *azureEnvironmentResourceModel) error {
+	params := operations.NewUpdateAzureEncryptionResourcesParams().WithInput(&environmentsmodels.UpdateAzureEncryptionResourcesRequest{
+		EncryptionKeyURL:               plan.EncryptionKeyURL.ValueStringPointer(),
+		Environment:                    env,
+		EncryptionKeyResourceGroupName: plan.EncryptionKeyResourceGroupName.ValueString(),
+		EncryptionUserManagedIdentity:  plan.EncryptionUserManagedIdentity.ValueString(),
+	})
+	_, err := client.Operations.UpdateAzureEncryptionResourcesContext(ctx, params)
 	return err
 }
 
