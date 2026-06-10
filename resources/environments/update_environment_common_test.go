@@ -44,6 +44,9 @@ const (
 	testNewValue   = "new-value"
 	testOldName    = "old-name"
 	testOldValue   = "old-value"
+
+	testOldProxyConfigName = "proxy1"
+	testNewProxyConfigName = "proxy2"
 )
 
 func TestUpdateSshKeyIfChanged_KeyChanged_UpdatesStateAndCallsAPI(t *testing.T) {
@@ -73,10 +76,9 @@ func TestUpdateSshKeyIfChanged_KeyUnchanged_SkipsAPICall(t *testing.T) {
 	mockClient := mocks.NewMockEnvironmentClientService(t)
 	client := NewMockEnvironments(mockClient)
 	sameKey := types.StringValue(testSameKey)
-	stateKey := types.StringValue(testSameKey)
 	resp := &resource.UpdateResponse{}
 
-	result := updateSshKeyIfChanged(ctx, client, sameKey, &stateKey, new(testEnvName), resp)
+	result := updateSshKeyIfChanged(ctx, client, sameKey, new(types.StringValue(testSameKey)), new(testEnvName), resp)
 
 	if result.Diagnostics.HasError() {
 		t.Errorf("expected no errors, got: %v", result.Diagnostics.Errors())
@@ -415,4 +417,219 @@ func TestPerformEnvironmentUpdate_PassesClientToUpdateFunction(t *testing.T) {
 
 	assert.False(t, resp.Diagnostics.HasError())
 	assert.Same(t, client, capturedClient)
+}
+
+func TestUpdateProxyConfigurationIfChanged_NoChange_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringValue(testOldProxyConfigName)), new(types.StringValue(testOldProxyConfigName)), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateProxyConfigurationIfChanged_ProxyChanged_UpdatesProxy_RemoveProxyFalse(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateProxyConfigParams) bool {
+		return params.Input != nil &&
+			params.Input.ProxyConfigName == testNewProxyConfigName &&
+			params.Input.RemoveProxy == false &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateProxyConfigOK{}, nil)
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringValue(testOldProxyConfigName)), new(types.StringValue(testNewProxyConfigName)), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateProxyConfigurationIfChanged_ProxyChanged_ToEmpty_UpdatesProxy_RemoveProxyTrue(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateProxyConfigParams) bool {
+		return params.Input != nil &&
+			params.Input.ProxyConfigName == "" &&
+			params.Input.RemoveProxy == true &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateProxyConfigOK{}, nil)
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringValue(testOldProxyConfigName)), new(types.StringValue("")), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateProxyConfigurationIfChanged_ProxyChanged_ToNull_UpdatesProxy_RemoveProxyTrue(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateProxyConfigParams) bool {
+		return params.Input != nil &&
+			params.Input.ProxyConfigName == "" &&
+			params.Input.RemoveProxy == true &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateProxyConfigOK{}, nil)
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringValue(testOldProxyConfigName)), new(types.StringNull()), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateProxyConfigurationIfChanged_PlanNil_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringValue(testOldProxyConfigName)), nil, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateProxyConfigurationIfChanged_PlanUnknown_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringValue(testOldProxyConfigName)), new(types.StringUnknown()), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateProxyConfigurationIfChanged_StateNil_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	result := updateProxyConfigurationIfChanged(ctx, client, nil, new(types.StringValue(testNewProxyConfigName)), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateProxyConfigurationIfChanged_BothNull_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringNull()), new(types.StringNull()), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateProxyConfigurationIfChanged_BothEmpty_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringValue("")), new(types.StringValue("")), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateProxyConfigurationIfChanged_StateNull_PlanValued_UpdatesProxy(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateProxyConfigParams) bool {
+		return params.Input != nil &&
+			params.Input.ProxyConfigName == testNewProxyConfigName &&
+			params.Input.RemoveProxy == false &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateProxyConfigOK{}, nil)
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringNull()), new(types.StringValue(testNewProxyConfigName)), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateProxyConfigurationIfChanged_StateEmpty_PlanValued_UpdatesProxy(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateProxyConfigParams) bool {
+		return params.Input != nil &&
+			params.Input.ProxyConfigName == testNewProxyConfigName &&
+			params.Input.RemoveProxy == false &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateProxyConfigOK{}, nil)
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringValue("")), new(types.StringValue(testNewProxyConfigName)), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateProxyConfigurationIfChanged_Success_UpdatesState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything).
+		Return(&operations.UpdateProxyConfigOK{}, nil)
+
+	state := types.StringValue(testOldProxyConfigName)
+	plan := types.StringValue(testNewProxyConfigName)
+	result := updateProxyConfigurationIfChanged(ctx, client, &state, &plan, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, testNewProxyConfigName, state.ValueString())
+}
+
+func TestUpdateProxyConfigurationIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateProxyConfigOK)(nil), errors.New("API error"))
+
+	result := updateProxyConfigurationIfChanged(ctx, client, new(types.StringValue(testOldProxyConfigName)), new(types.StringValue(testNewProxyConfigName)), new(testEnvName), resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+}
+
+func TestUpdateProxyConfigurationIfChanged_APIError_DoesNotUpdateState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateProxyConfigOK)(nil), errors.New("API error"))
+
+	state := types.StringValue(testOldProxyConfigName)
+	plan := types.StringValue(testNewProxyConfigName)
+	result := updateProxyConfigurationIfChanged(ctx, client, &state, &plan, new(testEnvName), resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, testOldProxyConfigName, state.ValueString())
 }
