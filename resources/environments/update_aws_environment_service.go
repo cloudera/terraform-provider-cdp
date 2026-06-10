@@ -51,7 +51,7 @@ func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel
 	if resp.Diagnostics.HasError() {
 		return resp
 	}
-
+	resp = updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
 	return resp
 }
 
