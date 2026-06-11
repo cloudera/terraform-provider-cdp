@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // RootDiskOptions Root volume properties to modify.
@@ -35,7 +36,7 @@ func (m *RootDiskOptions) Validate(formats strfmt.Registry) error {
 }
 
 func (m *RootDiskOptions) validateModifyDisks(formats strfmt.Registry) error {
-	if swag.IsZero(m.ModifyDisks) { // not required
+	if typeutils.IsZero(m.ModifyDisks) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *RootDiskOptions) contextValidateModifyDisks(ctx context.Context, format
 
 	if m.ModifyDisks != nil {
 
-		if swag.IsZero(m.ModifyDisks) { // not required
+		if typeutils.IsZero(m.ModifyDisks) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *RootDiskOptions) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *RootDiskOptions) UnmarshalBinary(b []byte) error {
 	var res RootDiskOptions
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

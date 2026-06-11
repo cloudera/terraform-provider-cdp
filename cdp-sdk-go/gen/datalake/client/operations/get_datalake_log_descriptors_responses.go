@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // GetDatalakeLogDescriptorsReader is a Reader for the GetDatalakeLogDescriptors structure.
@@ -45,11 +44,9 @@ func NewGetDatalakeLogDescriptorsOK() *GetDatalakeLogDescriptorsOK {
 	return &GetDatalakeLogDescriptorsOK{}
 }
 
-/*
-GetDatalakeLogDescriptorsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetDatalakeLogDescriptorsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetDatalakeLogDescriptorsOK struct {
 	Payload *models.GetDatalakeLogDescriptorsResponse
 }
@@ -117,11 +114,9 @@ func NewGetDatalakeLogDescriptorsDefault(code int) *GetDatalakeLogDescriptorsDef
 	}
 }
 
-/*
-GetDatalakeLogDescriptorsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetDatalakeLogDescriptorsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetDatalakeLogDescriptorsDefault struct {
 	_statusCode int
 

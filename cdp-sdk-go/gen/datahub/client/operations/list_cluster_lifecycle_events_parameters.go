@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewListClusterLifecycleEventsParams creates a new ListClusterLifecycleEventsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListClusterLifecycleEventsParams() *ListClusterLifecycleEventsParams {
-	return &ListClusterLifecycleEventsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListClusterLifecycleEventsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListClusterLifecycleEventsParamsWithTimeout creates a new ListClusterLifecycleEventsParams object
 // with the ability to set a timeout on a request.
 func NewListClusterLifecycleEventsParamsWithTimeout(timeout time.Duration) *ListClusterLifecycleEventsParams {
 	return &ListClusterLifecycleEventsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListClusterLifecycleEventsParamsWithContext creates a new ListClusterLifecycleEventsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListClusterLifecycleEventsParams].
 func NewListClusterLifecycleEventsParamsWithContext(ctx context.Context) *ListClusterLifecycleEventsParams {
 	return &ListClusterLifecycleEventsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListClusterLifecycleEventsParams struct {
 	// Input.
 	Input *models.ListClusterLifecycleEventsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list cluster lifecycle events params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListClusterLifecycleEventsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list cluster lifecycle events params
+// WithTimeout adds the timeout to the list cluster lifecycle events params.
 func (o *ListClusterLifecycleEventsParams) WithTimeout(timeout time.Duration) *ListClusterLifecycleEventsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list cluster lifecycle events params
+// SetTimeout adds the timeout to the list cluster lifecycle events params.
 func (o *ListClusterLifecycleEventsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list cluster lifecycle events params
+// WithContext adds the context to the list cluster lifecycle events params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListClusterLifecycleEventsParams].
 func (o *ListClusterLifecycleEventsParams) WithContext(ctx context.Context) *ListClusterLifecycleEventsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list cluster lifecycle events params
+// SetContext adds the context to the list cluster lifecycle events params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListClusterLifecycleEventsParams].
 func (o *ListClusterLifecycleEventsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list cluster lifecycle events params
+// WithHTTPClient adds the HTTPClient to the list cluster lifecycle events params.
 func (o *ListClusterLifecycleEventsParams) WithHTTPClient(client *http.Client) *ListClusterLifecycleEventsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list cluster lifecycle events params
+// SetHTTPClient adds the HTTPClient to the list cluster lifecycle events params.
 func (o *ListClusterLifecycleEventsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list cluster lifecycle events params
+// WithInput adds the input to the list cluster lifecycle events params.
 func (o *ListClusterLifecycleEventsParams) WithInput(input *models.ListClusterLifecycleEventsRequest) *ListClusterLifecycleEventsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list cluster lifecycle events params
+// SetInput adds the input to the list cluster lifecycle events params.
 func (o *ListClusterLifecycleEventsParams) SetInput(input *models.ListClusterLifecycleEventsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListClusterLifecycleEventsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

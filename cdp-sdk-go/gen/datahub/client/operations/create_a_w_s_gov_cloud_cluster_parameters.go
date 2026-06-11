@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewCreateAWSGovCloudClusterParams creates a new CreateAWSGovCloudClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateAWSGovCloudClusterParams() *CreateAWSGovCloudClusterParams {
-	return &CreateAWSGovCloudClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateAWSGovCloudClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateAWSGovCloudClusterParamsWithTimeout creates a new CreateAWSGovCloudClusterParams object
 // with the ability to set a timeout on a request.
 func NewCreateAWSGovCloudClusterParamsWithTimeout(timeout time.Duration) *CreateAWSGovCloudClusterParams {
 	return &CreateAWSGovCloudClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateAWSGovCloudClusterParamsWithContext creates a new CreateAWSGovCloudClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSGovCloudClusterParams].
 func NewCreateAWSGovCloudClusterParamsWithContext(ctx context.Context) *CreateAWSGovCloudClusterParams {
 	return &CreateAWSGovCloudClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateAWSGovCloudClusterParams struct {
 	// Input.
 	Input *models.CreateAWSGovCloudClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create a w s gov cloud cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateAWSGovCloudClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create a w s gov cloud cluster params
+// WithTimeout adds the timeout to the create a w s gov cloud cluster params.
 func (o *CreateAWSGovCloudClusterParams) WithTimeout(timeout time.Duration) *CreateAWSGovCloudClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create a w s gov cloud cluster params
+// SetTimeout adds the timeout to the create a w s gov cloud cluster params.
 func (o *CreateAWSGovCloudClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create a w s gov cloud cluster params
+// WithContext adds the context to the create a w s gov cloud cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSGovCloudClusterParams].
 func (o *CreateAWSGovCloudClusterParams) WithContext(ctx context.Context) *CreateAWSGovCloudClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create a w s gov cloud cluster params
+// SetContext adds the context to the create a w s gov cloud cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSGovCloudClusterParams].
 func (o *CreateAWSGovCloudClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create a w s gov cloud cluster params
+// WithHTTPClient adds the HTTPClient to the create a w s gov cloud cluster params.
 func (o *CreateAWSGovCloudClusterParams) WithHTTPClient(client *http.Client) *CreateAWSGovCloudClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create a w s gov cloud cluster params
+// SetHTTPClient adds the HTTPClient to the create a w s gov cloud cluster params.
 func (o *CreateAWSGovCloudClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create a w s gov cloud cluster params
+// WithInput adds the input to the create a w s gov cloud cluster params.
 func (o *CreateAWSGovCloudClusterParams) WithInput(input *models.CreateAWSGovCloudClusterRequest) *CreateAWSGovCloudClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create a w s gov cloud cluster params
+// SetInput adds the input to the create a w s gov cloud cluster params.
 func (o *CreateAWSGovCloudClusterParams) SetInput(input *models.CreateAWSGovCloudClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateAWSGovCloudClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

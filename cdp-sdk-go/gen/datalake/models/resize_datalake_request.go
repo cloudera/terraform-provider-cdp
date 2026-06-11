@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -78,7 +79,7 @@ func (m *ResizeDatalakeRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ResizeDatalakeRequest) validateCustomDatabaseComputeStorage(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomDatabaseComputeStorage) { // not required
+	if typeutils.IsZero(m.CustomDatabaseComputeStorage) { // not required
 		return nil
 	}
 
@@ -101,12 +102,12 @@ func (m *ResizeDatalakeRequest) validateCustomDatabaseComputeStorage(formats str
 }
 
 func (m *ResizeDatalakeRequest) validateCustomInstanceDisks(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomInstanceDisks) { // not required
+	if typeutils.IsZero(m.CustomInstanceDisks) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.CustomInstanceDisks); i++ {
-		if swag.IsZero(m.CustomInstanceDisks[i]) { // not required
+		if typeutils.IsZero(m.CustomInstanceDisks[i]) { // not required
 			continue
 		}
 
@@ -131,12 +132,12 @@ func (m *ResizeDatalakeRequest) validateCustomInstanceDisks(formats strfmt.Regis
 }
 
 func (m *ResizeDatalakeRequest) validateCustomInstanceTypes(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomInstanceTypes) { // not required
+	if typeutils.IsZero(m.CustomInstanceTypes) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.CustomInstanceTypes); i++ {
-		if swag.IsZero(m.CustomInstanceTypes[i]) { // not required
+		if typeutils.IsZero(m.CustomInstanceTypes[i]) { // not required
 			continue
 		}
 
@@ -238,7 +239,7 @@ func (m *ResizeDatalakeRequest) contextValidateCustomDatabaseComputeStorage(ctx 
 
 	if m.CustomDatabaseComputeStorage != nil {
 
-		if swag.IsZero(m.CustomDatabaseComputeStorage) { // not required
+		if typeutils.IsZero(m.CustomDatabaseComputeStorage) { // not required
 			return nil
 		}
 
@@ -265,7 +266,7 @@ func (m *ResizeDatalakeRequest) contextValidateCustomInstanceDisks(ctx context.C
 
 		if m.CustomInstanceDisks[i] != nil {
 
-			if swag.IsZero(m.CustomInstanceDisks[i]) { // not required
+			if typeutils.IsZero(m.CustomInstanceDisks[i]) { // not required
 				return nil
 			}
 
@@ -294,7 +295,7 @@ func (m *ResizeDatalakeRequest) contextValidateCustomInstanceTypes(ctx context.C
 
 		if m.CustomInstanceTypes[i] != nil {
 
-			if swag.IsZero(m.CustomInstanceTypes[i]) { // not required
+			if typeutils.IsZero(m.CustomInstanceTypes[i]) { // not required
 				return nil
 			}
 
@@ -322,13 +323,13 @@ func (m *ResizeDatalakeRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ResizeDatalakeRequest) UnmarshalBinary(b []byte) error {
 	var res ResizeDatalakeRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

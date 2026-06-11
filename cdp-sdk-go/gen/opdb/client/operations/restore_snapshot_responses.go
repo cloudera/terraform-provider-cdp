@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // RestoreSnapshotReader is a Reader for the RestoreSnapshot structure.
@@ -45,11 +44,9 @@ func NewRestoreSnapshotOK() *RestoreSnapshotOK {
 	return &RestoreSnapshotOK{}
 }
 
-/*
-RestoreSnapshotOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RestoreSnapshotOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RestoreSnapshotOK struct {
 	Payload *models.RestoreSnapshotResponse
 }
@@ -117,11 +114,9 @@ func NewRestoreSnapshotDefault(code int) *RestoreSnapshotDefault {
 	}
 }
 
-/*
-RestoreSnapshotDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RestoreSnapshotDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RestoreSnapshotDefault struct {
 	_statusCode int
 

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // UpgradeModelRegistryReader is a Reader for the UpgradeModelRegistry structure.
@@ -45,11 +44,9 @@ func NewUpgradeModelRegistryOK() *UpgradeModelRegistryOK {
 	return &UpgradeModelRegistryOK{}
 }
 
-/*
-UpgradeModelRegistryOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpgradeModelRegistryOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpgradeModelRegistryOK struct {
 	Payload *models.UpgradeModelRegistryResponse
 }
@@ -117,11 +114,9 @@ func NewUpgradeModelRegistryDefault(code int) *UpgradeModelRegistryDefault {
 	}
 }
 
-/*
-UpgradeModelRegistryDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpgradeModelRegistryDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpgradeModelRegistryDefault struct {
 	_statusCode int
 

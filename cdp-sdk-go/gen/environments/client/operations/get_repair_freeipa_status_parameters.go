@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewGetRepairFreeipaStatusParams creates a new GetRepairFreeipaStatusParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetRepairFreeipaStatusParams() *GetRepairFreeipaStatusParams {
-	return &GetRepairFreeipaStatusParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetRepairFreeipaStatusParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetRepairFreeipaStatusParamsWithTimeout creates a new GetRepairFreeipaStatusParams object
 // with the ability to set a timeout on a request.
 func NewGetRepairFreeipaStatusParamsWithTimeout(timeout time.Duration) *GetRepairFreeipaStatusParams {
 	return &GetRepairFreeipaStatusParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetRepairFreeipaStatusParamsWithContext creates a new GetRepairFreeipaStatusParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetRepairFreeipaStatusParams].
 func NewGetRepairFreeipaStatusParamsWithContext(ctx context.Context) *GetRepairFreeipaStatusParams {
 	return &GetRepairFreeipaStatusParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetRepairFreeipaStatusParams struct {
 	// Input.
 	Input *models.GetRepairFreeipaStatusRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get repair freeipa status params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetRepairFreeipaStatusParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get repair freeipa status params
+// WithTimeout adds the timeout to the get repair freeipa status params.
 func (o *GetRepairFreeipaStatusParams) WithTimeout(timeout time.Duration) *GetRepairFreeipaStatusParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get repair freeipa status params
+// SetTimeout adds the timeout to the get repair freeipa status params.
 func (o *GetRepairFreeipaStatusParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get repair freeipa status params
+// WithContext adds the context to the get repair freeipa status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetRepairFreeipaStatusParams].
 func (o *GetRepairFreeipaStatusParams) WithContext(ctx context.Context) *GetRepairFreeipaStatusParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get repair freeipa status params
+// SetContext adds the context to the get repair freeipa status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetRepairFreeipaStatusParams].
 func (o *GetRepairFreeipaStatusParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get repair freeipa status params
+// WithHTTPClient adds the HTTPClient to the get repair freeipa status params.
 func (o *GetRepairFreeipaStatusParams) WithHTTPClient(client *http.Client) *GetRepairFreeipaStatusParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get repair freeipa status params
+// SetHTTPClient adds the HTTPClient to the get repair freeipa status params.
 func (o *GetRepairFreeipaStatusParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get repair freeipa status params
+// WithInput adds the input to the get repair freeipa status params.
 func (o *GetRepairFreeipaStatusParams) WithInput(input *models.GetRepairFreeipaStatusRequest) *GetRepairFreeipaStatusParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get repair freeipa status params
+// SetInput adds the input to the get repair freeipa status params.
 func (o *GetRepairFreeipaStatusParams) SetInput(input *models.GetRepairFreeipaStatusRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetRepairFreeipaStatusParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

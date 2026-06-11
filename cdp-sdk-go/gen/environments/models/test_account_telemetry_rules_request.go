@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -52,7 +53,7 @@ func (m *TestAccountTelemetryRulesRequest) validateRules(formats strfmt.Registry
 	}
 
 	for i := 0; i < len(m.Rules); i++ {
-		if swag.IsZero(m.Rules[i]) { // not required
+		if typeutils.IsZero(m.Rules[i]) { // not required
 			continue
 		}
 
@@ -105,7 +106,7 @@ func (m *TestAccountTelemetryRulesRequest) contextValidateRules(ctx context.Cont
 
 		if m.Rules[i] != nil {
 
-			if swag.IsZero(m.Rules[i]) { // not required
+			if typeutils.IsZero(m.Rules[i]) { // not required
 				return nil
 			}
 
@@ -133,13 +134,13 @@ func (m *TestAccountTelemetryRulesRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *TestAccountTelemetryRulesRequest) UnmarshalBinary(b []byte) error {
 	var res TestAccountTelemetryRulesRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

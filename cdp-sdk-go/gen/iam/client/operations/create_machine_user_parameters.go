@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewCreateMachineUserParams creates a new CreateMachineUserParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateMachineUserParams() *CreateMachineUserParams {
-	return &CreateMachineUserParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateMachineUserParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateMachineUserParamsWithTimeout creates a new CreateMachineUserParams object
 // with the ability to set a timeout on a request.
 func NewCreateMachineUserParamsWithTimeout(timeout time.Duration) *CreateMachineUserParams {
 	return &CreateMachineUserParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateMachineUserParamsWithContext creates a new CreateMachineUserParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateMachineUserParams].
 func NewCreateMachineUserParamsWithContext(ctx context.Context) *CreateMachineUserParams {
 	return &CreateMachineUserParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateMachineUserParams struct {
 	// Input.
 	Input *models.CreateMachineUserRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create machine user params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateMachineUserParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create machine user params
+// WithTimeout adds the timeout to the create machine user params.
 func (o *CreateMachineUserParams) WithTimeout(timeout time.Duration) *CreateMachineUserParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create machine user params
+// SetTimeout adds the timeout to the create machine user params.
 func (o *CreateMachineUserParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create machine user params
+// WithContext adds the context to the create machine user params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateMachineUserParams].
 func (o *CreateMachineUserParams) WithContext(ctx context.Context) *CreateMachineUserParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create machine user params
+// SetContext adds the context to the create machine user params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateMachineUserParams].
 func (o *CreateMachineUserParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create machine user params
+// WithHTTPClient adds the HTTPClient to the create machine user params.
 func (o *CreateMachineUserParams) WithHTTPClient(client *http.Client) *CreateMachineUserParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create machine user params
+// SetHTTPClient adds the HTTPClient to the create machine user params.
 func (o *CreateMachineUserParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create machine user params
+// WithInput adds the input to the create machine user params.
 func (o *CreateMachineUserParams) WithInput(input *models.CreateMachineUserRequest) *CreateMachineUserParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create machine user params
+// SetInput adds the input to the create machine user params.
 func (o *CreateMachineUserParams) SetInput(input *models.CreateMachineUserRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateMachineUserParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

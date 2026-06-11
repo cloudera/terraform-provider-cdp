@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewCreateLdapProviderParams creates a new CreateLdapProviderParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateLdapProviderParams() *CreateLdapProviderParams {
-	return &CreateLdapProviderParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateLdapProviderParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateLdapProviderParamsWithTimeout creates a new CreateLdapProviderParams object
 // with the ability to set a timeout on a request.
 func NewCreateLdapProviderParamsWithTimeout(timeout time.Duration) *CreateLdapProviderParams {
 	return &CreateLdapProviderParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateLdapProviderParamsWithContext creates a new CreateLdapProviderParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateLdapProviderParams].
 func NewCreateLdapProviderParamsWithContext(ctx context.Context) *CreateLdapProviderParams {
 	return &CreateLdapProviderParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateLdapProviderParams struct {
 	// Input.
 	Input *models.CreateLdapProviderRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create ldap provider params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateLdapProviderParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create ldap provider params
+// WithTimeout adds the timeout to the create ldap provider params.
 func (o *CreateLdapProviderParams) WithTimeout(timeout time.Duration) *CreateLdapProviderParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create ldap provider params
+// SetTimeout adds the timeout to the create ldap provider params.
 func (o *CreateLdapProviderParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create ldap provider params
+// WithContext adds the context to the create ldap provider params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateLdapProviderParams].
 func (o *CreateLdapProviderParams) WithContext(ctx context.Context) *CreateLdapProviderParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create ldap provider params
+// SetContext adds the context to the create ldap provider params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateLdapProviderParams].
 func (o *CreateLdapProviderParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create ldap provider params
+// WithHTTPClient adds the HTTPClient to the create ldap provider params.
 func (o *CreateLdapProviderParams) WithHTTPClient(client *http.Client) *CreateLdapProviderParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create ldap provider params
+// SetHTTPClient adds the HTTPClient to the create ldap provider params.
 func (o *CreateLdapProviderParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create ldap provider params
+// WithInput adds the input to the create ldap provider params.
 func (o *CreateLdapProviderParams) WithInput(input *models.CreateLdapProviderRequest) *CreateLdapProviderParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create ldap provider params
+// SetInput adds the input to the create ldap provider params.
 func (o *CreateLdapProviderParams) SetInput(input *models.CreateLdapProviderRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateLdapProviderParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // UnassignGroupResourceRoleReader is a Reader for the UnassignGroupResourceRole structure.
@@ -45,11 +44,9 @@ func NewUnassignGroupResourceRoleOK() *UnassignGroupResourceRoleOK {
 	return &UnassignGroupResourceRoleOK{}
 }
 
-/*
-UnassignGroupResourceRoleOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UnassignGroupResourceRoleOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UnassignGroupResourceRoleOK struct {
 	Payload models.UnassignGroupResourceRoleResponse
 }
@@ -115,11 +112,9 @@ func NewUnassignGroupResourceRoleDefault(code int) *UnassignGroupResourceRoleDef
 	}
 }
 
-/*
-UnassignGroupResourceRoleDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UnassignGroupResourceRoleDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UnassignGroupResourceRoleDefault struct {
 	_statusCode int
 

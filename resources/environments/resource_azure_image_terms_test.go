@@ -77,7 +77,7 @@ func TestCreateAzureImageTerms(t *testing.T) {
 			createMatcher := func(params *operations.UpdateAzureImageTermsPolicyParams) bool {
 				return *params.Input.Accepted
 			}
-			mockClient.On("UpdateAzureImageTermsPolicy", mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("UpdateAzureImageTermsPolicyContext", mock.Anything, mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			aitpResource := &azureImageTermsResource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
@@ -153,7 +153,7 @@ func TestReadAzureImageTermsPolicy(t *testing.T) {
 			readMatcher := func(params *operations.GetAzureImageTermsPolicyParams) bool {
 				return true
 			}
-			mockClient.On("GetAzureImageTermsPolicy", mock.MatchedBy(readMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("GetAzureImageTermsPolicyContext", mock.Anything, mock.MatchedBy(readMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			aitpResource := &azureImageTermsResource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
@@ -232,7 +232,7 @@ func TestUpdateAzureImageTermsPolicy(t *testing.T) {
 			updateMatcher := func(params *operations.UpdateAzureImageTermsPolicyParams) bool {
 				return *params.Input.Accepted
 			}
-			mockClient.On("UpdateAzureImageTermsPolicy", mock.MatchedBy(updateMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("UpdateAzureImageTermsPolicyContext", mock.Anything, mock.MatchedBy(updateMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			aitpResource := &azureImageTermsResource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
@@ -312,7 +312,7 @@ func TestDeleteAzureImageTermsPolicy(t *testing.T) {
 			updateMatcher := func(params *operations.UpdateAzureImageTermsPolicyParams) bool {
 				return !*params.Input.Accepted
 			}
-			mockClient.On("UpdateAzureImageTermsPolicy", mock.MatchedBy(updateMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("UpdateAzureImageTermsPolicyContext", mock.Anything, mock.MatchedBy(updateMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			aitpResource := &azureImageTermsResource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},

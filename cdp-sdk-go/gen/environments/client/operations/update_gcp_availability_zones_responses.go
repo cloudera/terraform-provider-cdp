@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // UpdateGcpAvailabilityZonesReader is a Reader for the UpdateGcpAvailabilityZones structure.
@@ -45,11 +44,9 @@ func NewUpdateGcpAvailabilityZonesOK() *UpdateGcpAvailabilityZonesOK {
 	return &UpdateGcpAvailabilityZonesOK{}
 }
 
-/*
-UpdateGcpAvailabilityZonesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateGcpAvailabilityZonesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateGcpAvailabilityZonesOK struct {
 	Payload *models.UpdateGcpAvailabilityZonesResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateGcpAvailabilityZonesDefault(code int) *UpdateGcpAvailabilityZonesD
 	}
 }
 
-/*
-UpdateGcpAvailabilityZonesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateGcpAvailabilityZonesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateGcpAvailabilityZonesDefault struct {
 	_statusCode int
 

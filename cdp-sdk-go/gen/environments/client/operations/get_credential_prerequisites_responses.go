@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // GetCredentialPrerequisitesReader is a Reader for the GetCredentialPrerequisites structure.
@@ -45,11 +44,9 @@ func NewGetCredentialPrerequisitesOK() *GetCredentialPrerequisitesOK {
 	return &GetCredentialPrerequisitesOK{}
 }
 
-/*
-GetCredentialPrerequisitesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetCredentialPrerequisitesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetCredentialPrerequisitesOK struct {
 	Payload *models.GetCredentialPrerequisitesResponse
 }
@@ -117,11 +114,9 @@ func NewGetCredentialPrerequisitesDefault(code int) *GetCredentialPrerequisitesD
 	}
 }
 
-/*
-GetCredentialPrerequisitesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetCredentialPrerequisitesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetCredentialPrerequisitesDefault struct {
 	_statusCode int
 

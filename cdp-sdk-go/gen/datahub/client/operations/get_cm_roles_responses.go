@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // GetCmRolesReader is a Reader for the GetCmRoles structure.
@@ -45,11 +44,9 @@ func NewGetCmRolesOK() *GetCmRolesOK {
 	return &GetCmRolesOK{}
 }
 
-/*
-GetCmRolesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetCmRolesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetCmRolesOK struct {
 	Payload *models.GetCmRolesResponse
 }
@@ -117,11 +114,9 @@ func NewGetCmRolesDefault(code int) *GetCmRolesDefault {
 	}
 }
 
-/*
-GetCmRolesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetCmRolesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetCmRolesDefault struct {
 	_statusCode int
 

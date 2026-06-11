@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // CreateAzureCredentialReader is a Reader for the CreateAzureCredential structure.
@@ -45,11 +44,9 @@ func NewCreateAzureCredentialOK() *CreateAzureCredentialOK {
 	return &CreateAzureCredentialOK{}
 }
 
-/*
-CreateAzureCredentialOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateAzureCredentialOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateAzureCredentialOK struct {
 	Payload *models.CreateAzureCredentialResponse
 }
@@ -117,11 +114,9 @@ func NewCreateAzureCredentialDefault(code int) *CreateAzureCredentialDefault {
 	}
 }
 
-/*
-CreateAzureCredentialDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateAzureCredentialDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateAzureCredentialDefault struct {
 	_statusCode int
 

@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -108,7 +109,7 @@ func (m *CreateAWSGovCloudClusterRequest) Validate(formats strfmt.Registry) erro
 }
 
 func (m *CreateAWSGovCloudClusterRequest) validateClusterExtension(formats strfmt.Registry) error {
-	if swag.IsZero(m.ClusterExtension) { // not required
+	if typeutils.IsZero(m.ClusterExtension) { // not required
 		return nil
 	}
 
@@ -131,7 +132,7 @@ func (m *CreateAWSGovCloudClusterRequest) validateClusterExtension(formats strfm
 }
 
 func (m *CreateAWSGovCloudClusterRequest) validateClusterName(formats strfmt.Registry) error {
-	if swag.IsZero(m.ClusterName) { // not required
+	if typeutils.IsZero(m.ClusterName) { // not required
 		return nil
 	}
 
@@ -147,7 +148,7 @@ func (m *CreateAWSGovCloudClusterRequest) validateClusterName(formats strfmt.Reg
 }
 
 func (m *CreateAWSGovCloudClusterRequest) validateDatahubDatabase(formats strfmt.Registry) error {
-	if swag.IsZero(m.DatahubDatabase) { // not required
+	if typeutils.IsZero(m.DatahubDatabase) { // not required
 		return nil
 	}
 
@@ -168,7 +169,7 @@ func (m *CreateAWSGovCloudClusterRequest) validateDatahubDatabase(formats strfmt
 }
 
 func (m *CreateAWSGovCloudClusterRequest) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
+	if typeutils.IsZero(m.Image) { // not required
 		return nil
 	}
 
@@ -191,12 +192,12 @@ func (m *CreateAWSGovCloudClusterRequest) validateImage(formats strfmt.Registry)
 }
 
 func (m *CreateAWSGovCloudClusterRequest) validateInstanceGroups(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceGroups) { // not required
+	if typeutils.IsZero(m.InstanceGroups) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.InstanceGroups); i++ {
-		if swag.IsZero(m.InstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -221,7 +222,7 @@ func (m *CreateAWSGovCloudClusterRequest) validateInstanceGroups(formats strfmt.
 }
 
 func (m *CreateAWSGovCloudClusterRequest) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -244,12 +245,12 @@ func (m *CreateAWSGovCloudClusterRequest) validateSecurity(formats strfmt.Regist
 }
 
 func (m *CreateAWSGovCloudClusterRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -311,7 +312,7 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateClusterExtension(ctx co
 
 	if m.ClusterExtension != nil {
 
-		if swag.IsZero(m.ClusterExtension) { // not required
+		if typeutils.IsZero(m.ClusterExtension) { // not required
 			return nil
 		}
 
@@ -334,7 +335,7 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateClusterExtension(ctx co
 
 func (m *CreateAWSGovCloudClusterRequest) contextValidateDatahubDatabase(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.DatahubDatabase) { // not required
+	if typeutils.IsZero(m.DatahubDatabase) { // not required
 		return nil
 	}
 
@@ -358,7 +359,7 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateImage(ctx context.Conte
 
 	if m.Image != nil {
 
-		if swag.IsZero(m.Image) { // not required
+		if typeutils.IsZero(m.Image) { // not required
 			return nil
 		}
 
@@ -385,7 +386,7 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateInstanceGroups(ctx cont
 
 		if m.InstanceGroups[i] != nil {
 
-			if swag.IsZero(m.InstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -412,7 +413,7 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateSecurity(ctx context.Co
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -439,7 +440,7 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateTags(ctx context.Contex
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -467,13 +468,13 @@ func (m *CreateAWSGovCloudClusterRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateAWSGovCloudClusterRequest) UnmarshalBinary(b []byte) error {
 	var res CreateAWSGovCloudClusterRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

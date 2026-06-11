@@ -25,11 +25,11 @@ import (
 
 func describeDatahubWithDiagnosticHandle(datahub string, id string, ctx context.Context, client *cdp.Client, diags *diag.Diagnostics, state *tfsdk.State) (*datahubmodels.Cluster, error) {
 	tflog.Info(ctx, "About to describe datahub '"+datahub+"'.")
-	params := operations.NewDescribeClusterParamsWithContext(ctx)
+	params := operations.NewDescribeClusterParams()
 	params.WithInput(&datahubmodels.DescribeClusterRequest{
 		ClusterName: &datahub,
 	})
-	describeResp, err := client.Datahub.Operations.DescribeCluster(params)
+	describeResp, err := client.Datahub.Operations.DescribeClusterContext(ctx, params)
 	if err != nil {
 		tflog.Warn(ctx, "Something happened during datahub fetch: "+err.Error())
 		if isNotFoundError(err) {

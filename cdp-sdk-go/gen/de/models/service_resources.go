@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ServiceResources Object to store resources for a CDE service.
@@ -71,7 +72,7 @@ func (m *ServiceResources) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ServiceResources) validateAllPurposeInstanceGroupDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.AllPurposeInstanceGroupDetails) { // not required
+	if typeutils.IsZero(m.AllPurposeInstanceGroupDetails) { // not required
 		return nil
 	}
 
@@ -111,7 +112,7 @@ func (m *ServiceResources) contextValidateAllPurposeInstanceGroupDetails(ctx con
 
 	if m.AllPurposeInstanceGroupDetails != nil {
 
-		if swag.IsZero(m.AllPurposeInstanceGroupDetails) { // not required
+		if typeutils.IsZero(m.AllPurposeInstanceGroupDetails) { // not required
 			return nil
 		}
 
@@ -137,13 +138,13 @@ func (m *ServiceResources) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ServiceResources) UnmarshalBinary(b []byte) error {
 	var res ServiceResources
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

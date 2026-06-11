@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateSubnetParams creates a new UpdateSubnetParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateSubnetParams() *UpdateSubnetParams {
-	return &UpdateSubnetParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateSubnetParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateSubnetParamsWithTimeout creates a new UpdateSubnetParams object
 // with the ability to set a timeout on a request.
 func NewUpdateSubnetParamsWithTimeout(timeout time.Duration) *UpdateSubnetParams {
 	return &UpdateSubnetParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateSubnetParamsWithContext creates a new UpdateSubnetParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateSubnetParams].
 func NewUpdateSubnetParamsWithContext(ctx context.Context) *UpdateSubnetParams {
 	return &UpdateSubnetParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateSubnetParams struct {
 	// Input.
 	Input *models.UpdateSubnetRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update subnet params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateSubnetParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update subnet params
+// WithTimeout adds the timeout to the update subnet params.
 func (o *UpdateSubnetParams) WithTimeout(timeout time.Duration) *UpdateSubnetParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update subnet params
+// SetTimeout adds the timeout to the update subnet params.
 func (o *UpdateSubnetParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update subnet params
+// WithContext adds the context to the update subnet params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateSubnetParams].
 func (o *UpdateSubnetParams) WithContext(ctx context.Context) *UpdateSubnetParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update subnet params
+// SetContext adds the context to the update subnet params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateSubnetParams].
 func (o *UpdateSubnetParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update subnet params
+// WithHTTPClient adds the HTTPClient to the update subnet params.
 func (o *UpdateSubnetParams) WithHTTPClient(client *http.Client) *UpdateSubnetParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update subnet params
+// SetHTTPClient adds the HTTPClient to the update subnet params.
 func (o *UpdateSubnetParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update subnet params
+// WithInput adds the input to the update subnet params.
 func (o *UpdateSubnetParams) WithInput(input *models.UpdateSubnetRequest) *UpdateSubnetParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update subnet params
+// SetInput adds the input to the update subnet params.
 func (o *UpdateSubnetParams) SetInput(input *models.UpdateSubnetRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateSubnetParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

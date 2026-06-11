@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -74,7 +75,7 @@ func (m *DownscaleFreeipaResponse) validateOriginalAvailabilityTypeEnum(path, lo
 }
 
 func (m *DownscaleFreeipaResponse) validateOriginalAvailabilityType(formats strfmt.Registry) error {
-	if swag.IsZero(m.OriginalAvailabilityType) { // not required
+	if typeutils.IsZero(m.OriginalAvailabilityType) { // not required
 		return nil
 	}
 
@@ -116,7 +117,7 @@ func (m *DownscaleFreeipaResponse) validateTargetAvailabilityTypeEnum(path, loca
 }
 
 func (m *DownscaleFreeipaResponse) validateTargetAvailabilityType(formats strfmt.Registry) error {
-	if swag.IsZero(m.TargetAvailabilityType) { // not required
+	if typeutils.IsZero(m.TargetAvailabilityType) { // not required
 		return nil
 	}
 
@@ -138,13 +139,13 @@ func (m *DownscaleFreeipaResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DownscaleFreeipaResponse) UnmarshalBinary(b []byte) error {
 	var res DownscaleFreeipaResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

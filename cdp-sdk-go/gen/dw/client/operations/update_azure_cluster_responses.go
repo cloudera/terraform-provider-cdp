@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // UpdateAzureClusterReader is a Reader for the UpdateAzureCluster structure.
@@ -45,11 +44,9 @@ func NewUpdateAzureClusterOK() *UpdateAzureClusterOK {
 	return &UpdateAzureClusterOK{}
 }
 
-/*
-UpdateAzureClusterOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateAzureClusterOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateAzureClusterOK struct {
 	Payload models.UpdateAzureClusterResponse
 }
@@ -115,11 +112,9 @@ func NewUpdateAzureClusterDefault(code int) *UpdateAzureClusterDefault {
 	}
 }
 
-/*
-UpdateAzureClusterDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateAzureClusterDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateAzureClusterDefault struct {
 	_statusCode int
 

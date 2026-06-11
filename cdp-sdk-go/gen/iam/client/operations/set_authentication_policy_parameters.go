@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewSetAuthenticationPolicyParams creates a new SetAuthenticationPolicyParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetAuthenticationPolicyParams() *SetAuthenticationPolicyParams {
-	return &SetAuthenticationPolicyParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetAuthenticationPolicyParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetAuthenticationPolicyParamsWithTimeout creates a new SetAuthenticationPolicyParams object
 // with the ability to set a timeout on a request.
 func NewSetAuthenticationPolicyParamsWithTimeout(timeout time.Duration) *SetAuthenticationPolicyParams {
 	return &SetAuthenticationPolicyParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetAuthenticationPolicyParamsWithContext creates a new SetAuthenticationPolicyParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAuthenticationPolicyParams].
 func NewSetAuthenticationPolicyParamsWithContext(ctx context.Context) *SetAuthenticationPolicyParams {
 	return &SetAuthenticationPolicyParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetAuthenticationPolicyParams struct {
 	// Input.
 	Input *models.SetAuthenticationPolicyRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set authentication policy params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetAuthenticationPolicyParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set authentication policy params
+// WithTimeout adds the timeout to the set authentication policy params.
 func (o *SetAuthenticationPolicyParams) WithTimeout(timeout time.Duration) *SetAuthenticationPolicyParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set authentication policy params
+// SetTimeout adds the timeout to the set authentication policy params.
 func (o *SetAuthenticationPolicyParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set authentication policy params
+// WithContext adds the context to the set authentication policy params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAuthenticationPolicyParams].
 func (o *SetAuthenticationPolicyParams) WithContext(ctx context.Context) *SetAuthenticationPolicyParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set authentication policy params
+// SetContext adds the context to the set authentication policy params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAuthenticationPolicyParams].
 func (o *SetAuthenticationPolicyParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set authentication policy params
+// WithHTTPClient adds the HTTPClient to the set authentication policy params.
 func (o *SetAuthenticationPolicyParams) WithHTTPClient(client *http.Client) *SetAuthenticationPolicyParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set authentication policy params
+// SetHTTPClient adds the HTTPClient to the set authentication policy params.
 func (o *SetAuthenticationPolicyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set authentication policy params
+// WithInput adds the input to the set authentication policy params.
 func (o *SetAuthenticationPolicyParams) WithInput(input *models.SetAuthenticationPolicyRequest) *SetAuthenticationPolicyParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set authentication policy params
+// SetInput adds the input to the set authentication policy params.
 func (o *SetAuthenticationPolicyParams) SetInput(input *models.SetAuthenticationPolicyRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetAuthenticationPolicyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

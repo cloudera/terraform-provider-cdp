@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // RetryDatalakeReader is a Reader for the RetryDatalake structure.
@@ -45,11 +44,9 @@ func NewRetryDatalakeOK() *RetryDatalakeOK {
 	return &RetryDatalakeOK{}
 }
 
-/*
-RetryDatalakeOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RetryDatalakeOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RetryDatalakeOK struct {
 	Payload *models.RetryDatalakeResponse
 }
@@ -117,11 +114,9 @@ func NewRetryDatalakeDefault(code int) *RetryDatalakeDefault {
 	}
 }
 
-/*
-RetryDatalakeDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RetryDatalakeDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RetryDatalakeDefault struct {
 	_statusCode int
 

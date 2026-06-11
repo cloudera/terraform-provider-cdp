@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DeleteVwDiagnosticDataJobReader is a Reader for the DeleteVwDiagnosticDataJob structure.
@@ -45,11 +44,9 @@ func NewDeleteVwDiagnosticDataJobOK() *DeleteVwDiagnosticDataJobOK {
 	return &DeleteVwDiagnosticDataJobOK{}
 }
 
-/*
-DeleteVwDiagnosticDataJobOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteVwDiagnosticDataJobOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteVwDiagnosticDataJobOK struct {
 	Payload models.DeleteVwDiagnosticDataJobResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteVwDiagnosticDataJobDefault(code int) *DeleteVwDiagnosticDataJobDef
 	}
 }
 
-/*
-DeleteVwDiagnosticDataJobDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteVwDiagnosticDataJobDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteVwDiagnosticDataJobDefault struct {
 	_statusCode int
 

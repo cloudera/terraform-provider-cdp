@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListUserAssignedResourceRolesParams creates a new ListUserAssignedResourceRolesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListUserAssignedResourceRolesParams() *ListUserAssignedResourceRolesParams {
-	return &ListUserAssignedResourceRolesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListUserAssignedResourceRolesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListUserAssignedResourceRolesParamsWithTimeout creates a new ListUserAssignedResourceRolesParams object
 // with the ability to set a timeout on a request.
 func NewListUserAssignedResourceRolesParamsWithTimeout(timeout time.Duration) *ListUserAssignedResourceRolesParams {
 	return &ListUserAssignedResourceRolesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListUserAssignedResourceRolesParamsWithContext creates a new ListUserAssignedResourceRolesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListUserAssignedResourceRolesParams].
 func NewListUserAssignedResourceRolesParamsWithContext(ctx context.Context) *ListUserAssignedResourceRolesParams {
 	return &ListUserAssignedResourceRolesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListUserAssignedResourceRolesParams struct {
 	// Input.
 	Input *models.ListUserAssignedResourceRolesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list user assigned resource roles params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListUserAssignedResourceRolesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list user assigned resource roles params
+// WithTimeout adds the timeout to the list user assigned resource roles params.
 func (o *ListUserAssignedResourceRolesParams) WithTimeout(timeout time.Duration) *ListUserAssignedResourceRolesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list user assigned resource roles params
+// SetTimeout adds the timeout to the list user assigned resource roles params.
 func (o *ListUserAssignedResourceRolesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list user assigned resource roles params
+// WithContext adds the context to the list user assigned resource roles params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListUserAssignedResourceRolesParams].
 func (o *ListUserAssignedResourceRolesParams) WithContext(ctx context.Context) *ListUserAssignedResourceRolesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list user assigned resource roles params
+// SetContext adds the context to the list user assigned resource roles params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListUserAssignedResourceRolesParams].
 func (o *ListUserAssignedResourceRolesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list user assigned resource roles params
+// WithHTTPClient adds the HTTPClient to the list user assigned resource roles params.
 func (o *ListUserAssignedResourceRolesParams) WithHTTPClient(client *http.Client) *ListUserAssignedResourceRolesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list user assigned resource roles params
+// SetHTTPClient adds the HTTPClient to the list user assigned resource roles params.
 func (o *ListUserAssignedResourceRolesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list user assigned resource roles params
+// WithInput adds the input to the list user assigned resource roles params.
 func (o *ListUserAssignedResourceRolesParams) WithInput(input *models.ListUserAssignedResourceRolesRequest) *ListUserAssignedResourceRolesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list user assigned resource roles params
+// SetInput adds the input to the list user assigned resource roles params.
 func (o *ListUserAssignedResourceRolesParams) SetInput(input *models.ListUserAssignedResourceRolesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListUserAssignedResourceRolesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

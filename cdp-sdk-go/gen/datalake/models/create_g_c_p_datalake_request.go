@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -134,12 +135,12 @@ func (m *CreateGCPDatalakeRequest) validateCloudProviderConfiguration(formats st
 }
 
 func (m *CreateGCPDatalakeRequest) validateCustomInstanceGroups(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomInstanceGroups) { // not required
+	if typeutils.IsZero(m.CustomInstanceGroups) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.CustomInstanceGroups); i++ {
-		if swag.IsZero(m.CustomInstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.CustomInstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -190,7 +191,7 @@ func (m *CreateGCPDatalakeRequest) validateEnvironmentName(formats strfmt.Regist
 }
 
 func (m *CreateGCPDatalakeRequest) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
+	if typeutils.IsZero(m.Image) { // not required
 		return nil
 	}
 
@@ -213,12 +214,12 @@ func (m *CreateGCPDatalakeRequest) validateImage(formats strfmt.Registry) error 
 }
 
 func (m *CreateGCPDatalakeRequest) validateRecipes(formats strfmt.Registry) error {
-	if swag.IsZero(m.Recipes) { // not required
+	if typeutils.IsZero(m.Recipes) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Recipes); i++ {
-		if swag.IsZero(m.Recipes[i]) { // not required
+		if typeutils.IsZero(m.Recipes[i]) { // not required
 			continue
 		}
 
@@ -243,7 +244,7 @@ func (m *CreateGCPDatalakeRequest) validateRecipes(formats strfmt.Registry) erro
 }
 
 func (m *CreateGCPDatalakeRequest) validateScale(formats strfmt.Registry) error {
-	if swag.IsZero(m.Scale) { // not required
+	if typeutils.IsZero(m.Scale) { // not required
 		return nil
 	}
 
@@ -264,7 +265,7 @@ func (m *CreateGCPDatalakeRequest) validateScale(formats strfmt.Registry) error 
 }
 
 func (m *CreateGCPDatalakeRequest) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -287,12 +288,12 @@ func (m *CreateGCPDatalakeRequest) validateSecurity(formats strfmt.Registry) err
 }
 
 func (m *CreateGCPDatalakeRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -381,7 +382,7 @@ func (m *CreateGCPDatalakeRequest) contextValidateCustomInstanceGroups(ctx conte
 
 		if m.CustomInstanceGroups[i] != nil {
 
-			if swag.IsZero(m.CustomInstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.CustomInstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -408,7 +409,7 @@ func (m *CreateGCPDatalakeRequest) contextValidateImage(ctx context.Context, for
 
 	if m.Image != nil {
 
-		if swag.IsZero(m.Image) { // not required
+		if typeutils.IsZero(m.Image) { // not required
 			return nil
 		}
 
@@ -435,7 +436,7 @@ func (m *CreateGCPDatalakeRequest) contextValidateRecipes(ctx context.Context, f
 
 		if m.Recipes[i] != nil {
 
-			if swag.IsZero(m.Recipes[i]) { // not required
+			if typeutils.IsZero(m.Recipes[i]) { // not required
 				return nil
 			}
 
@@ -460,7 +461,7 @@ func (m *CreateGCPDatalakeRequest) contextValidateRecipes(ctx context.Context, f
 
 func (m *CreateGCPDatalakeRequest) contextValidateScale(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Scale) { // not required
+	if typeutils.IsZero(m.Scale) { // not required
 		return nil
 	}
 
@@ -484,7 +485,7 @@ func (m *CreateGCPDatalakeRequest) contextValidateSecurity(ctx context.Context, 
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -511,7 +512,7 @@ func (m *CreateGCPDatalakeRequest) contextValidateTags(ctx context.Context, form
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -539,13 +540,13 @@ func (m *CreateGCPDatalakeRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateGCPDatalakeRequest) UnmarshalBinary(b []byte) error {
 	var res CreateGCPDatalakeRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

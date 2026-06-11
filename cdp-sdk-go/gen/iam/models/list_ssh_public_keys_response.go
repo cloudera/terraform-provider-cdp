@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -44,7 +45,7 @@ func (m *ListSSHPublicKeysResponse) validateSSHPublicKeys(formats strfmt.Registr
 	}
 
 	for i := 0; i < len(m.SSHPublicKeys); i++ {
-		if swag.IsZero(m.SSHPublicKeys[i]) { // not required
+		if typeutils.IsZero(m.SSHPublicKeys[i]) { // not required
 			continue
 		}
 
@@ -88,7 +89,7 @@ func (m *ListSSHPublicKeysResponse) contextValidateSSHPublicKeys(ctx context.Con
 
 		if m.SSHPublicKeys[i] != nil {
 
-			if swag.IsZero(m.SSHPublicKeys[i]) { // not required
+			if typeutils.IsZero(m.SSHPublicKeys[i]) { // not required
 				return nil
 			}
 
@@ -116,13 +117,13 @@ func (m *ListSSHPublicKeysResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListSSHPublicKeysResponse) UnmarshalBinary(b []byte) error {
 	var res ListSSHPublicKeysResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

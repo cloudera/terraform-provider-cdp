@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListVwDiagnosticDataJobsResponse Response object for the listVwDiagnosticDataJobsRequest method.
@@ -39,12 +40,12 @@ func (m *ListVwDiagnosticDataJobsResponse) Validate(formats strfmt.Registry) err
 }
 
 func (m *ListVwDiagnosticDataJobsResponse) validateJobs(formats strfmt.Registry) error {
-	if swag.IsZero(m.Jobs) { // not required
+	if typeutils.IsZero(m.Jobs) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Jobs); i++ {
-		if swag.IsZero(m.Jobs[i]) { // not required
+		if typeutils.IsZero(m.Jobs[i]) { // not required
 			continue
 		}
 
@@ -88,7 +89,7 @@ func (m *ListVwDiagnosticDataJobsResponse) contextValidateJobs(ctx context.Conte
 
 		if m.Jobs[i] != nil {
 
-			if swag.IsZero(m.Jobs[i]) { // not required
+			if typeutils.IsZero(m.Jobs[i]) { // not required
 				return nil
 			}
 
@@ -116,13 +117,13 @@ func (m *ListVwDiagnosticDataJobsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListVwDiagnosticDataJobsResponse) UnmarshalBinary(b []byte) error {
 	var res ListVwDiagnosticDataJobsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // StopClusterReader is a Reader for the StopCluster structure.
@@ -45,11 +44,9 @@ func NewStopClusterOK() *StopClusterOK {
 	return &StopClusterOK{}
 }
 
-/*
-StopClusterOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// StopClusterOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type StopClusterOK struct {
 	Payload *models.StopClusterResponse
 }
@@ -117,11 +114,9 @@ func NewStopClusterDefault(code int) *StopClusterDefault {
 	}
 }
 
-/*
-StopClusterDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// StopClusterDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type StopClusterDefault struct {
 	_statusCode int
 

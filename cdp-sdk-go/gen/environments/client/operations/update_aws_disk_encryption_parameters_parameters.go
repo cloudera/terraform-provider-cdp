@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateAwsDiskEncryptionParametersParams creates a new UpdateAwsDiskEncryptionParametersParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateAwsDiskEncryptionParametersParams() *UpdateAwsDiskEncryptionParametersParams {
-	return &UpdateAwsDiskEncryptionParametersParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateAwsDiskEncryptionParametersParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateAwsDiskEncryptionParametersParamsWithTimeout creates a new UpdateAwsDiskEncryptionParametersParams object
 // with the ability to set a timeout on a request.
 func NewUpdateAwsDiskEncryptionParametersParamsWithTimeout(timeout time.Duration) *UpdateAwsDiskEncryptionParametersParams {
 	return &UpdateAwsDiskEncryptionParametersParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateAwsDiskEncryptionParametersParamsWithContext creates a new UpdateAwsDiskEncryptionParametersParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAwsDiskEncryptionParametersParams].
 func NewUpdateAwsDiskEncryptionParametersParamsWithContext(ctx context.Context) *UpdateAwsDiskEncryptionParametersParams {
 	return &UpdateAwsDiskEncryptionParametersParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateAwsDiskEncryptionParametersParams struct {
 	// Input.
 	Input *models.UpdateAwsDiskEncryptionParametersRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update aws disk encryption parameters params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateAwsDiskEncryptionParametersParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update aws disk encryption parameters params
+// WithTimeout adds the timeout to the update aws disk encryption parameters params.
 func (o *UpdateAwsDiskEncryptionParametersParams) WithTimeout(timeout time.Duration) *UpdateAwsDiskEncryptionParametersParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update aws disk encryption parameters params
+// SetTimeout adds the timeout to the update aws disk encryption parameters params.
 func (o *UpdateAwsDiskEncryptionParametersParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update aws disk encryption parameters params
+// WithContext adds the context to the update aws disk encryption parameters params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAwsDiskEncryptionParametersParams].
 func (o *UpdateAwsDiskEncryptionParametersParams) WithContext(ctx context.Context) *UpdateAwsDiskEncryptionParametersParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update aws disk encryption parameters params
+// SetContext adds the context to the update aws disk encryption parameters params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAwsDiskEncryptionParametersParams].
 func (o *UpdateAwsDiskEncryptionParametersParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update aws disk encryption parameters params
+// WithHTTPClient adds the HTTPClient to the update aws disk encryption parameters params.
 func (o *UpdateAwsDiskEncryptionParametersParams) WithHTTPClient(client *http.Client) *UpdateAwsDiskEncryptionParametersParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update aws disk encryption parameters params
+// SetHTTPClient adds the HTTPClient to the update aws disk encryption parameters params.
 func (o *UpdateAwsDiskEncryptionParametersParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update aws disk encryption parameters params
+// WithInput adds the input to the update aws disk encryption parameters params.
 func (o *UpdateAwsDiskEncryptionParametersParams) WithInput(input *models.UpdateAwsDiskEncryptionParametersRequest) *UpdateAwsDiskEncryptionParametersParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update aws disk encryption parameters params
+// SetInput adds the input to the update aws disk encryption parameters params.
 func (o *UpdateAwsDiskEncryptionParametersParams) SetInput(input *models.UpdateAwsDiskEncryptionParametersRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateAwsDiskEncryptionParametersParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDescribeConfigDiffParams creates a new DescribeConfigDiffParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeConfigDiffParams() *DescribeConfigDiffParams {
-	return &DescribeConfigDiffParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeConfigDiffParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeConfigDiffParamsWithTimeout creates a new DescribeConfigDiffParams object
 // with the ability to set a timeout on a request.
 func NewDescribeConfigDiffParamsWithTimeout(timeout time.Duration) *DescribeConfigDiffParams {
 	return &DescribeConfigDiffParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeConfigDiffParamsWithContext creates a new DescribeConfigDiffParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeConfigDiffParams].
 func NewDescribeConfigDiffParamsWithContext(ctx context.Context) *DescribeConfigDiffParams {
 	return &DescribeConfigDiffParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeConfigDiffParams struct {
 	// Input.
 	Input *models.DescribeConfigDiffRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe config diff params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeConfigDiffParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe config diff params
+// WithTimeout adds the timeout to the describe config diff params.
 func (o *DescribeConfigDiffParams) WithTimeout(timeout time.Duration) *DescribeConfigDiffParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe config diff params
+// SetTimeout adds the timeout to the describe config diff params.
 func (o *DescribeConfigDiffParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe config diff params
+// WithContext adds the context to the describe config diff params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeConfigDiffParams].
 func (o *DescribeConfigDiffParams) WithContext(ctx context.Context) *DescribeConfigDiffParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe config diff params
+// SetContext adds the context to the describe config diff params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeConfigDiffParams].
 func (o *DescribeConfigDiffParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe config diff params
+// WithHTTPClient adds the HTTPClient to the describe config diff params.
 func (o *DescribeConfigDiffParams) WithHTTPClient(client *http.Client) *DescribeConfigDiffParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe config diff params
+// SetHTTPClient adds the HTTPClient to the describe config diff params.
 func (o *DescribeConfigDiffParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe config diff params
+// WithInput adds the input to the describe config diff params.
 func (o *DescribeConfigDiffParams) WithInput(input *models.DescribeConfigDiffRequest) *DescribeConfigDiffParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe config diff params
+// SetInput adds the input to the describe config diff params.
 func (o *DescribeConfigDiffParams) SetInput(input *models.DescribeConfigDiffRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeConfigDiffParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

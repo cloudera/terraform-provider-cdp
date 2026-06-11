@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSetGCPAuditCredentialParams creates a new SetGCPAuditCredentialParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetGCPAuditCredentialParams() *SetGCPAuditCredentialParams {
-	return &SetGCPAuditCredentialParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetGCPAuditCredentialParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetGCPAuditCredentialParamsWithTimeout creates a new SetGCPAuditCredentialParams object
 // with the ability to set a timeout on a request.
 func NewSetGCPAuditCredentialParamsWithTimeout(timeout time.Duration) *SetGCPAuditCredentialParams {
 	return &SetGCPAuditCredentialParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetGCPAuditCredentialParamsWithContext creates a new SetGCPAuditCredentialParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetGCPAuditCredentialParams].
 func NewSetGCPAuditCredentialParamsWithContext(ctx context.Context) *SetGCPAuditCredentialParams {
 	return &SetGCPAuditCredentialParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetGCPAuditCredentialParams struct {
 	// Input.
 	Input *models.SetGCPAuditCredentialRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set g c p audit credential params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetGCPAuditCredentialParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set g c p audit credential params
+// WithTimeout adds the timeout to the set g c p audit credential params.
 func (o *SetGCPAuditCredentialParams) WithTimeout(timeout time.Duration) *SetGCPAuditCredentialParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set g c p audit credential params
+// SetTimeout adds the timeout to the set g c p audit credential params.
 func (o *SetGCPAuditCredentialParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set g c p audit credential params
+// WithContext adds the context to the set g c p audit credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetGCPAuditCredentialParams].
 func (o *SetGCPAuditCredentialParams) WithContext(ctx context.Context) *SetGCPAuditCredentialParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set g c p audit credential params
+// SetContext adds the context to the set g c p audit credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetGCPAuditCredentialParams].
 func (o *SetGCPAuditCredentialParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set g c p audit credential params
+// WithHTTPClient adds the HTTPClient to the set g c p audit credential params.
 func (o *SetGCPAuditCredentialParams) WithHTTPClient(client *http.Client) *SetGCPAuditCredentialParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set g c p audit credential params
+// SetHTTPClient adds the HTTPClient to the set g c p audit credential params.
 func (o *SetGCPAuditCredentialParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set g c p audit credential params
+// WithInput adds the input to the set g c p audit credential params.
 func (o *SetGCPAuditCredentialParams) WithInput(input *models.SetGCPAuditCredentialRequest) *SetGCPAuditCredentialParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set g c p audit credential params
+// SetInput adds the input to the set g c p audit credential params.
 func (o *SetGCPAuditCredentialParams) SetInput(input *models.SetGCPAuditCredentialRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetGCPAuditCredentialParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // ResizeDatalakeReader is a Reader for the ResizeDatalake structure.
@@ -45,11 +44,9 @@ func NewResizeDatalakeOK() *ResizeDatalakeOK {
 	return &ResizeDatalakeOK{}
 }
 
-/*
-ResizeDatalakeOK describes a response with status code 200, with default header values.
-
-Expected response to a valid resize datalake request.
-*/
+// ResizeDatalakeOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid resize datalake request.
 type ResizeDatalakeOK struct {
 	Payload *models.ResizeDatalakeResponse
 }
@@ -117,11 +114,9 @@ func NewResizeDatalakeDefault(code int) *ResizeDatalakeDefault {
 	}
 }
 
-/*
-ResizeDatalakeDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ResizeDatalakeDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ResizeDatalakeDefault struct {
 	_statusCode int
 

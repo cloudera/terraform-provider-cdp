@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewDeleteAccessKeyParams creates a new DeleteAccessKeyParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteAccessKeyParams() *DeleteAccessKeyParams {
-	return &DeleteAccessKeyParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteAccessKeyParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteAccessKeyParamsWithTimeout creates a new DeleteAccessKeyParams object
 // with the ability to set a timeout on a request.
 func NewDeleteAccessKeyParamsWithTimeout(timeout time.Duration) *DeleteAccessKeyParams {
 	return &DeleteAccessKeyParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteAccessKeyParamsWithContext creates a new DeleteAccessKeyParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteAccessKeyParams].
 func NewDeleteAccessKeyParamsWithContext(ctx context.Context) *DeleteAccessKeyParams {
 	return &DeleteAccessKeyParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteAccessKeyParams struct {
 	// Input.
 	Input *models.DeleteAccessKeyRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete access key params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteAccessKeyParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete access key params
+// WithTimeout adds the timeout to the delete access key params.
 func (o *DeleteAccessKeyParams) WithTimeout(timeout time.Duration) *DeleteAccessKeyParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete access key params
+// SetTimeout adds the timeout to the delete access key params.
 func (o *DeleteAccessKeyParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete access key params
+// WithContext adds the context to the delete access key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteAccessKeyParams].
 func (o *DeleteAccessKeyParams) WithContext(ctx context.Context) *DeleteAccessKeyParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete access key params
+// SetContext adds the context to the delete access key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteAccessKeyParams].
 func (o *DeleteAccessKeyParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete access key params
+// WithHTTPClient adds the HTTPClient to the delete access key params.
 func (o *DeleteAccessKeyParams) WithHTTPClient(client *http.Client) *DeleteAccessKeyParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete access key params
+// SetHTTPClient adds the HTTPClient to the delete access key params.
 func (o *DeleteAccessKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete access key params
+// WithInput adds the input to the delete access key params.
 func (o *DeleteAccessKeyParams) WithInput(input *models.DeleteAccessKeyRequest) *DeleteAccessKeyParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete access key params
+// SetInput adds the input to the delete access key params.
 func (o *DeleteAccessKeyParams) SetInput(input *models.DeleteAccessKeyRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteAccessKeyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

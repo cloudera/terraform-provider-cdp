@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // GetK8sCertPEMReader is a Reader for the GetK8sCertPEM structure.
@@ -45,11 +44,9 @@ func NewGetK8sCertPEMOK() *GetK8sCertPEMOK {
 	return &GetK8sCertPEMOK{}
 }
 
-/*
-GetK8sCertPEMOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetK8sCertPEMOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetK8sCertPEMOK struct {
 	Payload *models.GetK8sCertPEMResponse
 }
@@ -117,11 +114,9 @@ func NewGetK8sCertPEMDefault(code int) *GetK8sCertPEMDefault {
 	}
 }
 
-/*
-GetK8sCertPEMDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetK8sCertPEMDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetK8sCertPEMDefault struct {
 	_statusCode int
 

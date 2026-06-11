@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewSyncComponentVersionsFromCmParams creates a new SyncComponentVersionsFromCmParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSyncComponentVersionsFromCmParams() *SyncComponentVersionsFromCmParams {
-	return &SyncComponentVersionsFromCmParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSyncComponentVersionsFromCmParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSyncComponentVersionsFromCmParamsWithTimeout creates a new SyncComponentVersionsFromCmParams object
 // with the ability to set a timeout on a request.
 func NewSyncComponentVersionsFromCmParamsWithTimeout(timeout time.Duration) *SyncComponentVersionsFromCmParams {
 	return &SyncComponentVersionsFromCmParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSyncComponentVersionsFromCmParamsWithContext creates a new SyncComponentVersionsFromCmParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SyncComponentVersionsFromCmParams].
 func NewSyncComponentVersionsFromCmParamsWithContext(ctx context.Context) *SyncComponentVersionsFromCmParams {
 	return &SyncComponentVersionsFromCmParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SyncComponentVersionsFromCmParams struct {
 	// Input.
 	Input *models.SyncComponentVersionsFromCmRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the sync component versions from cm params (not the query body).
@@ -83,54 +86,57 @@ func (o *SyncComponentVersionsFromCmParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the sync component versions from cm params
+// WithTimeout adds the timeout to the sync component versions from cm params.
 func (o *SyncComponentVersionsFromCmParams) WithTimeout(timeout time.Duration) *SyncComponentVersionsFromCmParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the sync component versions from cm params
+// SetTimeout adds the timeout to the sync component versions from cm params.
 func (o *SyncComponentVersionsFromCmParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the sync component versions from cm params
+// WithContext adds the context to the sync component versions from cm params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SyncComponentVersionsFromCmParams].
 func (o *SyncComponentVersionsFromCmParams) WithContext(ctx context.Context) *SyncComponentVersionsFromCmParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the sync component versions from cm params
+// SetContext adds the context to the sync component versions from cm params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SyncComponentVersionsFromCmParams].
 func (o *SyncComponentVersionsFromCmParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the sync component versions from cm params
+// WithHTTPClient adds the HTTPClient to the sync component versions from cm params.
 func (o *SyncComponentVersionsFromCmParams) WithHTTPClient(client *http.Client) *SyncComponentVersionsFromCmParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the sync component versions from cm params
+// SetHTTPClient adds the HTTPClient to the sync component versions from cm params.
 func (o *SyncComponentVersionsFromCmParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the sync component versions from cm params
+// WithInput adds the input to the sync component versions from cm params.
 func (o *SyncComponentVersionsFromCmParams) WithInput(input *models.SyncComponentVersionsFromCmRequest) *SyncComponentVersionsFromCmParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the sync component versions from cm params
+// SetInput adds the input to the sync component versions from cm params.
 func (o *SyncComponentVersionsFromCmParams) SetInput(input *models.SyncComponentVersionsFromCmRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SyncComponentVersionsFromCmParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

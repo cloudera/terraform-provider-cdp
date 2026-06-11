@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // ResumeClusterReader is a Reader for the ResumeCluster structure.
@@ -45,11 +44,9 @@ func NewResumeClusterOK() *ResumeClusterOK {
 	return &ResumeClusterOK{}
 }
 
-/*
-ResumeClusterOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ResumeClusterOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ResumeClusterOK struct {
 	Payload *models.ResumeClusterResponse
 }
@@ -117,11 +114,9 @@ func NewResumeClusterDefault(code int) *ResumeClusterDefault {
 	}
 }
 
-/*
-ResumeClusterDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ResumeClusterDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ResumeClusterDefault struct {
 	_statusCode int
 

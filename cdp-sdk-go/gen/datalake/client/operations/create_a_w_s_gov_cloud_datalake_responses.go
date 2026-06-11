@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // CreateAWSGovCloudDatalakeReader is a Reader for the CreateAWSGovCloudDatalake structure.
@@ -45,11 +44,9 @@ func NewCreateAWSGovCloudDatalakeOK() *CreateAWSGovCloudDatalakeOK {
 	return &CreateAWSGovCloudDatalakeOK{}
 }
 
-/*
-CreateAWSGovCloudDatalakeOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateAWSGovCloudDatalakeOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateAWSGovCloudDatalakeOK struct {
 	Payload *models.CreateAWSGovCloudDatalakeResponse
 }
@@ -117,11 +114,9 @@ func NewCreateAWSGovCloudDatalakeDefault(code int) *CreateAWSGovCloudDatalakeDef
 	}
 }
 
-/*
-CreateAWSGovCloudDatalakeDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateAWSGovCloudDatalakeDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateAWSGovCloudDatalakeDefault struct {
 	_statusCode int
 

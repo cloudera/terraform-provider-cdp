@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // UpdateCustomDockerRegistryReader is a Reader for the UpdateCustomDockerRegistry structure.
@@ -45,11 +44,9 @@ func NewUpdateCustomDockerRegistryOK() *UpdateCustomDockerRegistryOK {
 	return &UpdateCustomDockerRegistryOK{}
 }
 
-/*
-UpdateCustomDockerRegistryOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateCustomDockerRegistryOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateCustomDockerRegistryOK struct {
 	Payload *models.UpdateCustomDockerRegistryResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateCustomDockerRegistryDefault(code int) *UpdateCustomDockerRegistryD
 	}
 }
 
-/*
-UpdateCustomDockerRegistryDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateCustomDockerRegistryDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateCustomDockerRegistryDefault struct {
 	_statusCode int
 

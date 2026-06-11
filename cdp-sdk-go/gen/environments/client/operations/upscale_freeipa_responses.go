@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // UpscaleFreeipaReader is a Reader for the UpscaleFreeipa structure.
@@ -45,11 +44,9 @@ func NewUpscaleFreeipaOK() *UpscaleFreeipaOK {
 	return &UpscaleFreeipaOK{}
 }
 
-/*
-UpscaleFreeipaOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpscaleFreeipaOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpscaleFreeipaOK struct {
 	Payload *models.UpscaleFreeipaResponse
 }
@@ -117,11 +114,9 @@ func NewUpscaleFreeipaDefault(code int) *UpscaleFreeipaDefault {
 	}
 }
 
-/*
-UpscaleFreeipaDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpscaleFreeipaDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpscaleFreeipaDefault struct {
 	_statusCode int
 

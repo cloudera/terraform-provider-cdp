@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // UpdateDbcConfigReader is a Reader for the UpdateDbcConfig structure.
@@ -45,11 +44,9 @@ func NewUpdateDbcConfigOK() *UpdateDbcConfigOK {
 	return &UpdateDbcConfigOK{}
 }
 
-/*
-UpdateDbcConfigOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateDbcConfigOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateDbcConfigOK struct {
 	Payload models.UpdateDbcConfigResponse
 }
@@ -115,11 +112,9 @@ func NewUpdateDbcConfigDefault(code int) *UpdateDbcConfigDefault {
 	}
 }
 
-/*
-UpdateDbcConfigDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateDbcConfigDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateDbcConfigDefault struct {
 	_statusCode int
 

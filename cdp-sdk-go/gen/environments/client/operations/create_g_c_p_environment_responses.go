@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // CreateGCPEnvironmentReader is a Reader for the CreateGCPEnvironment structure.
@@ -45,11 +44,9 @@ func NewCreateGCPEnvironmentOK() *CreateGCPEnvironmentOK {
 	return &CreateGCPEnvironmentOK{}
 }
 
-/*
-CreateGCPEnvironmentOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateGCPEnvironmentOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateGCPEnvironmentOK struct {
 	Payload *models.CreateGCPEnvironmentResponse
 }
@@ -117,11 +114,9 @@ func NewCreateGCPEnvironmentDefault(code int) *CreateGCPEnvironmentDefault {
 	}
 }
 
-/*
-CreateGCPEnvironmentDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateGCPEnvironmentDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateGCPEnvironmentDefault struct {
 	_statusCode int
 

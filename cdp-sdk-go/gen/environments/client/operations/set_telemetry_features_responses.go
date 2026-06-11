@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // SetTelemetryFeaturesReader is a Reader for the SetTelemetryFeatures structure.
@@ -45,11 +44,9 @@ func NewSetTelemetryFeaturesOK() *SetTelemetryFeaturesOK {
 	return &SetTelemetryFeaturesOK{}
 }
 
-/*
-SetTelemetryFeaturesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SetTelemetryFeaturesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SetTelemetryFeaturesOK struct {
 	Payload models.SetTelemetryFeaturesResponse
 }
@@ -115,11 +112,9 @@ func NewSetTelemetryFeaturesDefault(code int) *SetTelemetryFeaturesDefault {
 	}
 }
 
-/*
-SetTelemetryFeaturesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SetTelemetryFeaturesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SetTelemetryFeaturesDefault struct {
 	_statusCode int
 

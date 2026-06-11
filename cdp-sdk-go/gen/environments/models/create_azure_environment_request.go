@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -211,7 +212,7 @@ func (m *CreateAzureEnvironmentRequest) Validate(formats strfmt.Registry) error 
 }
 
 func (m *CreateAzureEnvironmentRequest) validateComputeClusterConfiguration(formats strfmt.Registry) error {
-	if swag.IsZero(m.ComputeClusterConfiguration) { // not required
+	if typeutils.IsZero(m.ComputeClusterConfiguration) { // not required
 		return nil
 	}
 
@@ -243,7 +244,7 @@ func (m *CreateAzureEnvironmentRequest) validateCredentialName(formats strfmt.Re
 }
 
 func (m *CreateAzureEnvironmentRequest) validateCustomDockerRegistry(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomDockerRegistry) { // not required
+	if typeutils.IsZero(m.CustomDockerRegistry) { // not required
 		return nil
 	}
 
@@ -266,7 +267,7 @@ func (m *CreateAzureEnvironmentRequest) validateCustomDockerRegistry(formats str
 }
 
 func (m *CreateAzureEnvironmentRequest) validateDataServices(formats strfmt.Registry) error {
-	if swag.IsZero(m.DataServices) { // not required
+	if typeutils.IsZero(m.DataServices) { // not required
 		return nil
 	}
 
@@ -318,7 +319,7 @@ func (m *CreateAzureEnvironmentRequest) validateEndpointAccessGatewaySchemeEnum(
 }
 
 func (m *CreateAzureEnvironmentRequest) validateEndpointAccessGatewayScheme(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndpointAccessGatewayScheme) { // not required
+	if typeutils.IsZero(m.EndpointAccessGatewayScheme) { // not required
 		return nil
 	}
 
@@ -369,7 +370,7 @@ func (m *CreateAzureEnvironmentRequest) validateEnvironmentTypeEnum(path, locati
 }
 
 func (m *CreateAzureEnvironmentRequest) validateEnvironmentType(formats strfmt.Registry) error {
-	if swag.IsZero(m.EnvironmentType) { // not required
+	if typeutils.IsZero(m.EnvironmentType) { // not required
 		return nil
 	}
 
@@ -406,7 +407,7 @@ func (m *CreateAzureEnvironmentRequest) validateExistingNetworkParams(formats st
 }
 
 func (m *CreateAzureEnvironmentRequest) validateFreeIpa(formats strfmt.Registry) error {
-	if swag.IsZero(m.FreeIpa) { // not required
+	if typeutils.IsZero(m.FreeIpa) { // not required
 		return nil
 	}
 
@@ -429,7 +430,7 @@ func (m *CreateAzureEnvironmentRequest) validateFreeIpa(formats strfmt.Registry)
 }
 
 func (m *CreateAzureEnvironmentRequest) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
+	if typeutils.IsZero(m.Image) { // not required
 		return nil
 	}
 
@@ -494,7 +495,7 @@ func (m *CreateAzureEnvironmentRequest) validateRegion(formats strfmt.Registry) 
 }
 
 func (m *CreateAzureEnvironmentRequest) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -541,12 +542,12 @@ func (m *CreateAzureEnvironmentRequest) validateSecurityAccess(formats strfmt.Re
 }
 
 func (m *CreateAzureEnvironmentRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -633,7 +634,7 @@ func (m *CreateAzureEnvironmentRequest) contextValidateComputeClusterConfigurati
 
 	if m.ComputeClusterConfiguration != nil {
 
-		if swag.IsZero(m.ComputeClusterConfiguration) { // not required
+		if typeutils.IsZero(m.ComputeClusterConfiguration) { // not required
 			return nil
 		}
 
@@ -658,7 +659,7 @@ func (m *CreateAzureEnvironmentRequest) contextValidateCustomDockerRegistry(ctx 
 
 	if m.CustomDockerRegistry != nil {
 
-		if swag.IsZero(m.CustomDockerRegistry) { // not required
+		if typeutils.IsZero(m.CustomDockerRegistry) { // not required
 			return nil
 		}
 
@@ -683,7 +684,7 @@ func (m *CreateAzureEnvironmentRequest) contextValidateDataServices(ctx context.
 
 	if m.DataServices != nil {
 
-		if swag.IsZero(m.DataServices) { // not required
+		if typeutils.IsZero(m.DataServices) { // not required
 			return nil
 		}
 
@@ -729,7 +730,7 @@ func (m *CreateAzureEnvironmentRequest) contextValidateFreeIpa(ctx context.Conte
 
 	if m.FreeIpa != nil {
 
-		if swag.IsZero(m.FreeIpa) { // not required
+		if typeutils.IsZero(m.FreeIpa) { // not required
 			return nil
 		}
 
@@ -754,7 +755,7 @@ func (m *CreateAzureEnvironmentRequest) contextValidateImage(ctx context.Context
 
 	if m.Image != nil {
 
-		if swag.IsZero(m.Image) { // not required
+		if typeutils.IsZero(m.Image) { // not required
 			return nil
 		}
 
@@ -800,7 +801,7 @@ func (m *CreateAzureEnvironmentRequest) contextValidateSecurity(ctx context.Cont
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -848,7 +849,7 @@ func (m *CreateAzureEnvironmentRequest) contextValidateTags(ctx context.Context,
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -876,13 +877,13 @@ func (m *CreateAzureEnvironmentRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateAzureEnvironmentRequest) UnmarshalBinary(b []byte) error {
 	var res CreateAzureEnvironmentRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

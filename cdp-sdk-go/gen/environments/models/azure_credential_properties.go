@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // AzureCredentialProperties The credential properties that closely related to those that have been created on Azure.
@@ -51,7 +52,7 @@ func (m *AzureCredentialProperties) Validate(formats strfmt.Registry) error {
 }
 
 func (m *AzureCredentialProperties) validateAuthenticationType(formats strfmt.Registry) error {
-	if swag.IsZero(m.AuthenticationType) { // not required
+	if typeutils.IsZero(m.AuthenticationType) { // not required
 		return nil
 	}
 
@@ -72,7 +73,7 @@ func (m *AzureCredentialProperties) validateAuthenticationType(formats strfmt.Re
 }
 
 func (m *AzureCredentialProperties) validateCertificate(formats strfmt.Registry) error {
-	if swag.IsZero(m.Certificate) { // not required
+	if typeutils.IsZero(m.Certificate) { // not required
 		return nil
 	}
 
@@ -114,7 +115,7 @@ func (m *AzureCredentialProperties) ContextValidate(ctx context.Context, formats
 
 func (m *AzureCredentialProperties) contextValidateAuthenticationType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.AuthenticationType) { // not required
+	if typeutils.IsZero(m.AuthenticationType) { // not required
 		return nil
 	}
 
@@ -138,7 +139,7 @@ func (m *AzureCredentialProperties) contextValidateCertificate(ctx context.Conte
 
 	if m.Certificate != nil {
 
-		if swag.IsZero(m.Certificate) { // not required
+		if typeutils.IsZero(m.Certificate) { // not required
 			return nil
 		}
 
@@ -164,13 +165,13 @@ func (m *AzureCredentialProperties) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AzureCredentialProperties) UnmarshalBinary(b []byte) error {
 	var res AzureCredentialProperties
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

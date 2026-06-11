@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // RevokeMlServingAppAccessReader is a Reader for the RevokeMlServingAppAccess structure.
@@ -45,11 +44,9 @@ func NewRevokeMlServingAppAccessOK() *RevokeMlServingAppAccessOK {
 	return &RevokeMlServingAppAccessOK{}
 }
 
-/*
-RevokeMlServingAppAccessOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RevokeMlServingAppAccessOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RevokeMlServingAppAccessOK struct {
 	Payload models.RevokeMlServingAppAccessResponse
 }
@@ -115,11 +112,9 @@ func NewRevokeMlServingAppAccessDefault(code int) *RevokeMlServingAppAccessDefau
 	}
 }
 
-/*
-RevokeMlServingAppAccessDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RevokeMlServingAppAccessDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RevokeMlServingAppAccessDefault struct {
 	_statusCode int
 

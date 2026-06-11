@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListGroupMembersParams creates a new ListGroupMembersParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListGroupMembersParams() *ListGroupMembersParams {
-	return &ListGroupMembersParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListGroupMembersParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListGroupMembersParamsWithTimeout creates a new ListGroupMembersParams object
 // with the ability to set a timeout on a request.
 func NewListGroupMembersParamsWithTimeout(timeout time.Duration) *ListGroupMembersParams {
 	return &ListGroupMembersParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListGroupMembersParamsWithContext creates a new ListGroupMembersParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupMembersParams].
 func NewListGroupMembersParamsWithContext(ctx context.Context) *ListGroupMembersParams {
 	return &ListGroupMembersParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListGroupMembersParams struct {
 	// Input.
 	Input *models.ListGroupMembersRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list group members params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListGroupMembersParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list group members params
+// WithTimeout adds the timeout to the list group members params.
 func (o *ListGroupMembersParams) WithTimeout(timeout time.Duration) *ListGroupMembersParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list group members params
+// SetTimeout adds the timeout to the list group members params.
 func (o *ListGroupMembersParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list group members params
+// WithContext adds the context to the list group members params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupMembersParams].
 func (o *ListGroupMembersParams) WithContext(ctx context.Context) *ListGroupMembersParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list group members params
+// SetContext adds the context to the list group members params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupMembersParams].
 func (o *ListGroupMembersParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list group members params
+// WithHTTPClient adds the HTTPClient to the list group members params.
 func (o *ListGroupMembersParams) WithHTTPClient(client *http.Client) *ListGroupMembersParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list group members params
+// SetHTTPClient adds the HTTPClient to the list group members params.
 func (o *ListGroupMembersParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list group members params
+// WithInput adds the input to the list group members params.
 func (o *ListGroupMembersParams) WithInput(input *models.ListGroupMembersRequest) *ListGroupMembersParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list group members params
+// SetInput adds the input to the list group members params.
 func (o *ListGroupMembersParams) SetInput(input *models.ListGroupMembersRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListGroupMembersParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

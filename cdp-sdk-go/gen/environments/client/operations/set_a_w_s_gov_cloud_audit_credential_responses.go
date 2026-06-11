@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // SetAWSGovCloudAuditCredentialReader is a Reader for the SetAWSGovCloudAuditCredential structure.
@@ -45,11 +44,9 @@ func NewSetAWSGovCloudAuditCredentialOK() *SetAWSGovCloudAuditCredentialOK {
 	return &SetAWSGovCloudAuditCredentialOK{}
 }
 
-/*
-SetAWSGovCloudAuditCredentialOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SetAWSGovCloudAuditCredentialOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SetAWSGovCloudAuditCredentialOK struct {
 	Payload *models.SetAWSGovCloudAuditCredentialResponse
 }
@@ -117,11 +114,9 @@ func NewSetAWSGovCloudAuditCredentialDefault(code int) *SetAWSGovCloudAuditCrede
 	}
 }
 
-/*
-SetAWSGovCloudAuditCredentialDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SetAWSGovCloudAuditCredentialDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SetAWSGovCloudAuditCredentialDefault struct {
 	_statusCode int
 

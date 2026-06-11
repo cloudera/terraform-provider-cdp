@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListGroupsForUserParams creates a new ListGroupsForUserParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListGroupsForUserParams() *ListGroupsForUserParams {
-	return &ListGroupsForUserParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListGroupsForUserParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListGroupsForUserParamsWithTimeout creates a new ListGroupsForUserParams object
 // with the ability to set a timeout on a request.
 func NewListGroupsForUserParamsWithTimeout(timeout time.Duration) *ListGroupsForUserParams {
 	return &ListGroupsForUserParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListGroupsForUserParamsWithContext creates a new ListGroupsForUserParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupsForUserParams].
 func NewListGroupsForUserParamsWithContext(ctx context.Context) *ListGroupsForUserParams {
 	return &ListGroupsForUserParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListGroupsForUserParams struct {
 	// Input.
 	Input *models.ListGroupsForUserRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list groups for user params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListGroupsForUserParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list groups for user params
+// WithTimeout adds the timeout to the list groups for user params.
 func (o *ListGroupsForUserParams) WithTimeout(timeout time.Duration) *ListGroupsForUserParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list groups for user params
+// SetTimeout adds the timeout to the list groups for user params.
 func (o *ListGroupsForUserParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list groups for user params
+// WithContext adds the context to the list groups for user params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupsForUserParams].
 func (o *ListGroupsForUserParams) WithContext(ctx context.Context) *ListGroupsForUserParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list groups for user params
+// SetContext adds the context to the list groups for user params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupsForUserParams].
 func (o *ListGroupsForUserParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list groups for user params
+// WithHTTPClient adds the HTTPClient to the list groups for user params.
 func (o *ListGroupsForUserParams) WithHTTPClient(client *http.Client) *ListGroupsForUserParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list groups for user params
+// SetHTTPClient adds the HTTPClient to the list groups for user params.
 func (o *ListGroupsForUserParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list groups for user params
+// WithInput adds the input to the list groups for user params.
 func (o *ListGroupsForUserParams) WithInput(input *models.ListGroupsForUserRequest) *ListGroupsForUserParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list groups for user params
+// SetInput adds the input to the list groups for user params.
 func (o *ListGroupsForUserParams) SetInput(input *models.ListGroupsForUserRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListGroupsForUserParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

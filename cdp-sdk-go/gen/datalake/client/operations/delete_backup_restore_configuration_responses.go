@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // DeleteBackupRestoreConfigurationReader is a Reader for the DeleteBackupRestoreConfiguration structure.
@@ -45,11 +44,9 @@ func NewDeleteBackupRestoreConfigurationOK() *DeleteBackupRestoreConfigurationOK
 	return &DeleteBackupRestoreConfigurationOK{}
 }
 
-/*
-DeleteBackupRestoreConfigurationOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteBackupRestoreConfigurationOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteBackupRestoreConfigurationOK struct {
 	Payload models.DeleteBackupRestoreConfigurationResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteBackupRestoreConfigurationDefault(code int) *DeleteBackupRestoreCo
 	}
 }
 
-/*
-DeleteBackupRestoreConfigurationDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteBackupRestoreConfigurationDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteBackupRestoreConfigurationDefault struct {
 	_statusCode int
 

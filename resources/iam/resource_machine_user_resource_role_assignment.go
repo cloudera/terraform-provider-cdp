@@ -62,14 +62,14 @@ func (r *machineUserResourceRoleAssignmentResource) Create(ctx context.Context, 
 		return
 	}
 
-	request := operations.NewAssignMachineUserResourceRoleParamsWithContext(ctx).WithInput(
+	request := operations.NewAssignMachineUserResourceRoleParams().WithInput(
 		&models.AssignMachineUserResourceRoleRequest{
 			MachineUserName: data.MachineUser.ValueStringPointer(),
 			ResourceCrn:     data.ResourceCrn.ValueStringPointer(),
 			ResourceRoleCrn: data.ResourceRoleCrn.ValueStringPointer(),
 		})
 
-	responseOk, err := r.client.Iam.Operations.AssignMachineUserResourceRole(request)
+	responseOk, err := r.client.Iam.Operations.AssignMachineUserResourceRoleContext(ctx, request)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "assign Machine User Resource Role")
 		return
@@ -88,12 +88,12 @@ func (r *machineUserResourceRoleAssignmentResource) Read(ctx context.Context, re
 
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 
-	params := operations.NewListMachineUserAssignedResourceRolesParamsWithContext(ctx)
+	params := operations.NewListMachineUserAssignedResourceRolesParams()
 	params.WithInput(&models.ListMachineUserAssignedResourceRolesRequest{
 		MachineUserName: data.MachineUser.ValueStringPointer(),
 	})
 
-	machineUser, err := r.client.Iam.Operations.ListMachineUserAssignedResourceRoles(params)
+	machineUser, err := r.client.Iam.Operations.ListMachineUserAssignedResourceRolesContext(ctx, params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "list Machine User Assigned Resource Roles")
 		return
@@ -129,7 +129,7 @@ func (r *machineUserResourceRoleAssignmentResource) Delete(ctx context.Context, 
 		return
 	}
 
-	request := operations.NewUnassignMachineUserResourceRoleParamsWithContext(ctx).WithInput(
+	request := operations.NewUnassignMachineUserResourceRoleParams().WithInput(
 		&models.UnassignMachineUserResourceRoleRequest{
 			MachineUserName: data.MachineUser.ValueStringPointer(),
 			ResourceCrn:     data.ResourceCrn.ValueStringPointer(),
@@ -137,7 +137,7 @@ func (r *machineUserResourceRoleAssignmentResource) Delete(ctx context.Context, 
 		},
 	)
 
-	_, err := r.client.Iam.Operations.UnassignMachineUserResourceRole(request) // void method, does not have any return value
+	_, err := r.client.Iam.Operations.UnassignMachineUserResourceRoleContext(ctx, request) // void method, does not have any return value
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "un-assign Machine User Resource Role")
 		return

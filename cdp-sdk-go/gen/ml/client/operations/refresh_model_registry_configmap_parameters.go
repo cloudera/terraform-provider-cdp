@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewRefreshModelRegistryConfigmapParams creates a new RefreshModelRegistryConfigmapParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRefreshModelRegistryConfigmapParams() *RefreshModelRegistryConfigmapParams {
-	return &RefreshModelRegistryConfigmapParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRefreshModelRegistryConfigmapParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRefreshModelRegistryConfigmapParamsWithTimeout creates a new RefreshModelRegistryConfigmapParams object
 // with the ability to set a timeout on a request.
 func NewRefreshModelRegistryConfigmapParamsWithTimeout(timeout time.Duration) *RefreshModelRegistryConfigmapParams {
 	return &RefreshModelRegistryConfigmapParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRefreshModelRegistryConfigmapParamsWithContext creates a new RefreshModelRegistryConfigmapParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RefreshModelRegistryConfigmapParams].
 func NewRefreshModelRegistryConfigmapParamsWithContext(ctx context.Context) *RefreshModelRegistryConfigmapParams {
 	return &RefreshModelRegistryConfigmapParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RefreshModelRegistryConfigmapParams struct {
 	// Input.
 	Input *models.RefreshModelRegistryConfigmapRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the refresh model registry configmap params (not the query body).
@@ -83,54 +86,57 @@ func (o *RefreshModelRegistryConfigmapParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the refresh model registry configmap params
+// WithTimeout adds the timeout to the refresh model registry configmap params.
 func (o *RefreshModelRegistryConfigmapParams) WithTimeout(timeout time.Duration) *RefreshModelRegistryConfigmapParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the refresh model registry configmap params
+// SetTimeout adds the timeout to the refresh model registry configmap params.
 func (o *RefreshModelRegistryConfigmapParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the refresh model registry configmap params
+// WithContext adds the context to the refresh model registry configmap params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RefreshModelRegistryConfigmapParams].
 func (o *RefreshModelRegistryConfigmapParams) WithContext(ctx context.Context) *RefreshModelRegistryConfigmapParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the refresh model registry configmap params
+// SetContext adds the context to the refresh model registry configmap params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RefreshModelRegistryConfigmapParams].
 func (o *RefreshModelRegistryConfigmapParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the refresh model registry configmap params
+// WithHTTPClient adds the HTTPClient to the refresh model registry configmap params.
 func (o *RefreshModelRegistryConfigmapParams) WithHTTPClient(client *http.Client) *RefreshModelRegistryConfigmapParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the refresh model registry configmap params
+// SetHTTPClient adds the HTTPClient to the refresh model registry configmap params.
 func (o *RefreshModelRegistryConfigmapParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the refresh model registry configmap params
+// WithInput adds the input to the refresh model registry configmap params.
 func (o *RefreshModelRegistryConfigmapParams) WithInput(input *models.RefreshModelRegistryConfigmapRequest) *RefreshModelRegistryConfigmapParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the refresh model registry configmap params
+// SetInput adds the input to the refresh model registry configmap params.
 func (o *RefreshModelRegistryConfigmapParams) SetInput(input *models.RefreshModelRegistryConfigmapRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RefreshModelRegistryConfigmapParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

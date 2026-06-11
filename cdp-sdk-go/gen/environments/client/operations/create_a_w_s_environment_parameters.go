@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewCreateAWSEnvironmentParams creates a new CreateAWSEnvironmentParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateAWSEnvironmentParams() *CreateAWSEnvironmentParams {
-	return &CreateAWSEnvironmentParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateAWSEnvironmentParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateAWSEnvironmentParamsWithTimeout creates a new CreateAWSEnvironmentParams object
 // with the ability to set a timeout on a request.
 func NewCreateAWSEnvironmentParamsWithTimeout(timeout time.Duration) *CreateAWSEnvironmentParams {
 	return &CreateAWSEnvironmentParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateAWSEnvironmentParamsWithContext creates a new CreateAWSEnvironmentParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSEnvironmentParams].
 func NewCreateAWSEnvironmentParamsWithContext(ctx context.Context) *CreateAWSEnvironmentParams {
 	return &CreateAWSEnvironmentParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateAWSEnvironmentParams struct {
 	// Input.
 	Input *models.CreateAWSEnvironmentRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create a w s environment params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateAWSEnvironmentParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create a w s environment params
+// WithTimeout adds the timeout to the create a w s environment params.
 func (o *CreateAWSEnvironmentParams) WithTimeout(timeout time.Duration) *CreateAWSEnvironmentParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create a w s environment params
+// SetTimeout adds the timeout to the create a w s environment params.
 func (o *CreateAWSEnvironmentParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create a w s environment params
+// WithContext adds the context to the create a w s environment params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSEnvironmentParams].
 func (o *CreateAWSEnvironmentParams) WithContext(ctx context.Context) *CreateAWSEnvironmentParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create a w s environment params
+// SetContext adds the context to the create a w s environment params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSEnvironmentParams].
 func (o *CreateAWSEnvironmentParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create a w s environment params
+// WithHTTPClient adds the HTTPClient to the create a w s environment params.
 func (o *CreateAWSEnvironmentParams) WithHTTPClient(client *http.Client) *CreateAWSEnvironmentParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create a w s environment params
+// SetHTTPClient adds the HTTPClient to the create a w s environment params.
 func (o *CreateAWSEnvironmentParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create a w s environment params
+// WithInput adds the input to the create a w s environment params.
 func (o *CreateAWSEnvironmentParams) WithInput(input *models.CreateAWSEnvironmentRequest) *CreateAWSEnvironmentParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create a w s environment params
+// SetInput adds the input to the create a w s environment params.
 func (o *CreateAWSEnvironmentParams) SetInput(input *models.CreateAWSEnvironmentRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateAWSEnvironmentParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

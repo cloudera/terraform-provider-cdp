@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewUnlockUserInControlPlaneParams creates a new UnlockUserInControlPlaneParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUnlockUserInControlPlaneParams() *UnlockUserInControlPlaneParams {
-	return &UnlockUserInControlPlaneParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUnlockUserInControlPlaneParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUnlockUserInControlPlaneParamsWithTimeout creates a new UnlockUserInControlPlaneParams object
 // with the ability to set a timeout on a request.
 func NewUnlockUserInControlPlaneParamsWithTimeout(timeout time.Duration) *UnlockUserInControlPlaneParams {
 	return &UnlockUserInControlPlaneParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUnlockUserInControlPlaneParamsWithContext creates a new UnlockUserInControlPlaneParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnlockUserInControlPlaneParams].
 func NewUnlockUserInControlPlaneParamsWithContext(ctx context.Context) *UnlockUserInControlPlaneParams {
 	return &UnlockUserInControlPlaneParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UnlockUserInControlPlaneParams struct {
 	// Input.
 	Input *models.UnlockUserInControlPlaneRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the unlock user in control plane params (not the query body).
@@ -83,54 +86,57 @@ func (o *UnlockUserInControlPlaneParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the unlock user in control plane params
+// WithTimeout adds the timeout to the unlock user in control plane params.
 func (o *UnlockUserInControlPlaneParams) WithTimeout(timeout time.Duration) *UnlockUserInControlPlaneParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the unlock user in control plane params
+// SetTimeout adds the timeout to the unlock user in control plane params.
 func (o *UnlockUserInControlPlaneParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the unlock user in control plane params
+// WithContext adds the context to the unlock user in control plane params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnlockUserInControlPlaneParams].
 func (o *UnlockUserInControlPlaneParams) WithContext(ctx context.Context) *UnlockUserInControlPlaneParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the unlock user in control plane params
+// SetContext adds the context to the unlock user in control plane params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnlockUserInControlPlaneParams].
 func (o *UnlockUserInControlPlaneParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the unlock user in control plane params
+// WithHTTPClient adds the HTTPClient to the unlock user in control plane params.
 func (o *UnlockUserInControlPlaneParams) WithHTTPClient(client *http.Client) *UnlockUserInControlPlaneParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the unlock user in control plane params
+// SetHTTPClient adds the HTTPClient to the unlock user in control plane params.
 func (o *UnlockUserInControlPlaneParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the unlock user in control plane params
+// WithInput adds the input to the unlock user in control plane params.
 func (o *UnlockUserInControlPlaneParams) WithInput(input *models.UnlockUserInControlPlaneRequest) *UnlockUserInControlPlaneParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the unlock user in control plane params
+// SetInput adds the input to the unlock user in control plane params.
 func (o *UnlockUserInControlPlaneParams) SetInput(input *models.UnlockUserInControlPlaneRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UnlockUserInControlPlaneParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

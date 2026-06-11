@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewRemoveUserFromGroupParams creates a new RemoveUserFromGroupParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRemoveUserFromGroupParams() *RemoveUserFromGroupParams {
-	return &RemoveUserFromGroupParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRemoveUserFromGroupParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRemoveUserFromGroupParamsWithTimeout creates a new RemoveUserFromGroupParams object
 // with the ability to set a timeout on a request.
 func NewRemoveUserFromGroupParamsWithTimeout(timeout time.Duration) *RemoveUserFromGroupParams {
 	return &RemoveUserFromGroupParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRemoveUserFromGroupParamsWithContext creates a new RemoveUserFromGroupParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RemoveUserFromGroupParams].
 func NewRemoveUserFromGroupParamsWithContext(ctx context.Context) *RemoveUserFromGroupParams {
 	return &RemoveUserFromGroupParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RemoveUserFromGroupParams struct {
 	// Input.
 	Input *models.RemoveUserFromGroupRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the remove user from group params (not the query body).
@@ -83,54 +86,57 @@ func (o *RemoveUserFromGroupParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the remove user from group params
+// WithTimeout adds the timeout to the remove user from group params.
 func (o *RemoveUserFromGroupParams) WithTimeout(timeout time.Duration) *RemoveUserFromGroupParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the remove user from group params
+// SetTimeout adds the timeout to the remove user from group params.
 func (o *RemoveUserFromGroupParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the remove user from group params
+// WithContext adds the context to the remove user from group params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RemoveUserFromGroupParams].
 func (o *RemoveUserFromGroupParams) WithContext(ctx context.Context) *RemoveUserFromGroupParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the remove user from group params
+// SetContext adds the context to the remove user from group params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RemoveUserFromGroupParams].
 func (o *RemoveUserFromGroupParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the remove user from group params
+// WithHTTPClient adds the HTTPClient to the remove user from group params.
 func (o *RemoveUserFromGroupParams) WithHTTPClient(client *http.Client) *RemoveUserFromGroupParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the remove user from group params
+// SetHTTPClient adds the HTTPClient to the remove user from group params.
 func (o *RemoveUserFromGroupParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the remove user from group params
+// WithInput adds the input to the remove user from group params.
 func (o *RemoveUserFromGroupParams) WithInput(input *models.RemoveUserFromGroupRequest) *RemoveUserFromGroupParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the remove user from group params
+// SetInput adds the input to the remove user from group params.
 func (o *RemoveUserFromGroupParams) SetInput(input *models.RemoveUserFromGroupRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RemoveUserFromGroupParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

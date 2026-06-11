@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -73,7 +74,7 @@ func (m *ListEventsRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListEventsRequest) validateEventType(formats strfmt.Registry) error {
-	if swag.IsZero(m.EventType) { // not required
+	if typeutils.IsZero(m.EventType) { // not required
 		return nil
 	}
 
@@ -94,7 +95,7 @@ func (m *ListEventsRequest) validateEventType(formats strfmt.Registry) error {
 }
 
 func (m *ListEventsRequest) validateFromTimestamp(formats strfmt.Registry) error {
-	if swag.IsZero(m.FromTimestamp) { // not required
+	if typeutils.IsZero(m.FromTimestamp) { // not required
 		return nil
 	}
 
@@ -106,7 +107,7 @@ func (m *ListEventsRequest) validateFromTimestamp(formats strfmt.Registry) error
 }
 
 func (m *ListEventsRequest) validatePageSize(formats strfmt.Registry) error {
-	if swag.IsZero(m.PageSize) { // not required
+	if typeutils.IsZero(m.PageSize) { // not required
 		return nil
 	}
 
@@ -122,7 +123,7 @@ func (m *ListEventsRequest) validatePageSize(formats strfmt.Registry) error {
 }
 
 func (m *ListEventsRequest) validateToTimestamp(formats strfmt.Registry) error {
-	if swag.IsZero(m.ToTimestamp) { // not required
+	if typeutils.IsZero(m.ToTimestamp) { // not required
 		return nil
 	}
 
@@ -149,7 +150,7 @@ func (m *ListEventsRequest) ContextValidate(ctx context.Context, formats strfmt.
 
 func (m *ListEventsRequest) contextValidateEventType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.EventType) { // not required
+	if typeutils.IsZero(m.EventType) { // not required
 		return nil
 	}
 
@@ -174,13 +175,13 @@ func (m *ListEventsRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListEventsRequest) UnmarshalBinary(b []byte) error {
 	var res ListEventsRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

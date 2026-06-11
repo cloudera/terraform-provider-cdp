@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDeleteDataVisualizationParams creates a new DeleteDataVisualizationParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteDataVisualizationParams() *DeleteDataVisualizationParams {
-	return &DeleteDataVisualizationParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteDataVisualizationParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteDataVisualizationParamsWithTimeout creates a new DeleteDataVisualizationParams object
 // with the ability to set a timeout on a request.
 func NewDeleteDataVisualizationParamsWithTimeout(timeout time.Duration) *DeleteDataVisualizationParams {
 	return &DeleteDataVisualizationParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteDataVisualizationParamsWithContext creates a new DeleteDataVisualizationParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteDataVisualizationParams].
 func NewDeleteDataVisualizationParamsWithContext(ctx context.Context) *DeleteDataVisualizationParams {
 	return &DeleteDataVisualizationParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteDataVisualizationParams struct {
 	// Input.
 	Input *models.DeleteDataVisualizationRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete data visualization params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteDataVisualizationParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete data visualization params
+// WithTimeout adds the timeout to the delete data visualization params.
 func (o *DeleteDataVisualizationParams) WithTimeout(timeout time.Duration) *DeleteDataVisualizationParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete data visualization params
+// SetTimeout adds the timeout to the delete data visualization params.
 func (o *DeleteDataVisualizationParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete data visualization params
+// WithContext adds the context to the delete data visualization params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteDataVisualizationParams].
 func (o *DeleteDataVisualizationParams) WithContext(ctx context.Context) *DeleteDataVisualizationParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete data visualization params
+// SetContext adds the context to the delete data visualization params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteDataVisualizationParams].
 func (o *DeleteDataVisualizationParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete data visualization params
+// WithHTTPClient adds the HTTPClient to the delete data visualization params.
 func (o *DeleteDataVisualizationParams) WithHTTPClient(client *http.Client) *DeleteDataVisualizationParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete data visualization params
+// SetHTTPClient adds the HTTPClient to the delete data visualization params.
 func (o *DeleteDataVisualizationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete data visualization params
+// WithInput adds the input to the delete data visualization params.
 func (o *DeleteDataVisualizationParams) WithInput(input *models.DeleteDataVisualizationRequest) *DeleteDataVisualizationParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete data visualization params
+// SetInput adds the input to the delete data visualization params.
 func (o *DeleteDataVisualizationParams) SetInput(input *models.DeleteDataVisualizationRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteDataVisualizationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

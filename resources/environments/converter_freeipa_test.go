@@ -77,7 +77,7 @@ func TestSetCatalogIfChanged_CatalogChanged_CallsSetCatalog(t *testing.T) {
 		return *params.Input.Catalog == "https://new-catalog.example.com" &&
 			*params.Input.Environment == "test-env"
 	}
-	mockClient.On("SetCatalog", mock.MatchedBy(matcher)).Return(&operations.SetCatalogOK{}, nil)
+	mockClient.On("SetCatalogContext", mock.Anything, mock.MatchedBy(matcher)).Return(&operations.SetCatalogOK{}, nil)
 
 	var diags diag.Diagnostics
 	SetCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), &diags)
@@ -126,7 +126,7 @@ func TestSetCatalogIfChanged_ApiError_AddsDiagnostics(t *testing.T) {
 	planFreeIpa := newFreeIpaObject("https://new-catalog.example.com")
 	stateFreeIpa := newFreeIpaObject("https://old-catalog.example.com")
 
-	mockClient.On("SetCatalog", mock.Anything).Return((*operations.SetCatalogOK)(nil), errors.New("API connection failed"))
+	mockClient.On("SetCatalogContext", mock.Anything, mock.Anything).Return((*operations.SetCatalogOK)(nil), errors.New("API connection failed"))
 
 	var diags diag.Diagnostics
 	SetCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), &diags)
@@ -151,7 +151,7 @@ func TestSetCatalogIfChanged_CatalogChangedFromNull_CallsSetCatalog(t *testing.T
 		return *params.Input.Catalog == "https://new-catalog.example.com" &&
 			*params.Input.Environment == "my-env"
 	}
-	mockClient.On("SetCatalog", mock.MatchedBy(matcher)).Return(&operations.SetCatalogOK{}, nil)
+	mockClient.On("SetCatalogContext", mock.Anything, mock.MatchedBy(matcher)).Return(&operations.SetCatalogOK{}, nil)
 
 	var diags diag.Diagnostics
 	SetCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "my-env", newMockEnvClient(mockClient), &diags)

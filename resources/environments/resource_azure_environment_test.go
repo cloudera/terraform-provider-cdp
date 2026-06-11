@@ -410,13 +410,13 @@ func TestCreateAzureEnvironment(t *testing.T) {
 			createMatcher := func(params *operations.CreateAzureEnvironmentParams) bool {
 				return true
 			}
-			mockClient.On("CreateAzureEnvironment", mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("CreateAzureEnvironmentContext", mock.Anything, mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			if !testCase.expectedError {
 				describeMatcher := func(params *operations.DescribeEnvironmentParams) bool {
 					return true
 				}
-				mockClient.On("DescribeEnvironment", mock.MatchedBy(describeMatcher)).Return(testCase.expectedDescribeResponse, testCase.expectedErrorResponse)
+				mockClient.On("DescribeEnvironmentContext", mock.Anything, mock.MatchedBy(describeMatcher)).Return(testCase.expectedDescribeResponse, testCase.expectedErrorResponse)
 			}
 			aitpResource := &azureEnvironmentResource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
@@ -511,7 +511,7 @@ func TestReadAzureEnvironment(t *testing.T) {
 			readMatcher := func(params *operations.DescribeEnvironmentParams) bool {
 				return true
 			}
-			mockClient.On("DescribeEnvironment", mock.MatchedBy(readMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("DescribeEnvironmentContext", mock.Anything, mock.MatchedBy(readMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			aitpResource := &azureEnvironmentResource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
@@ -599,12 +599,12 @@ func TestDeleteAzureEnvironmentPolicy(t *testing.T) {
 			delMatcher := func(params *operations.DeleteEnvironmentParams) bool {
 				return true
 			}
-			mockClient.On("DeleteEnvironment", mock.MatchedBy(delMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("DeleteEnvironmentContext", mock.Anything, mock.MatchedBy(delMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 			if !testCase.expectedError {
 				descMatcher := func(params *operations.DescribeEnvironmentParams) bool {
 					return true
 				}
-				mockClient.On("DescribeEnvironment", mock.MatchedBy(descMatcher)).Return(testCase.expectedDescribeResponse, testCase.expectedDescribeErrorResponse)
+				mockClient.On("DescribeEnvironmentContext", mock.Anything, mock.MatchedBy(descMatcher)).Return(testCase.expectedDescribeResponse, testCase.expectedDescribeErrorResponse)
 			}
 
 			aitpResource := &azureEnvironmentResource{

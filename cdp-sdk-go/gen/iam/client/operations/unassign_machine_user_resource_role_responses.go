@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // UnassignMachineUserResourceRoleReader is a Reader for the UnassignMachineUserResourceRole structure.
@@ -45,11 +44,9 @@ func NewUnassignMachineUserResourceRoleOK() *UnassignMachineUserResourceRoleOK {
 	return &UnassignMachineUserResourceRoleOK{}
 }
 
-/*
-UnassignMachineUserResourceRoleOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UnassignMachineUserResourceRoleOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UnassignMachineUserResourceRoleOK struct {
 	Payload models.UnassignMachineUserResourceRoleResponse
 }
@@ -115,11 +112,9 @@ func NewUnassignMachineUserResourceRoleDefault(code int) *UnassignMachineUserRes
 	}
 }
 
-/*
-UnassignMachineUserResourceRoleDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UnassignMachineUserResourceRoleDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UnassignMachineUserResourceRoleDefault struct {
 	_statusCode int
 

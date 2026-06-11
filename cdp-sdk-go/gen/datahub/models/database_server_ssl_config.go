@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -85,7 +86,7 @@ func (m *DatabaseServerSslConfig) validateSslCertificateTypeEnum(path, location 
 }
 
 func (m *DatabaseServerSslConfig) validateSslCertificateType(formats strfmt.Registry) error {
-	if swag.IsZero(m.SslCertificateType) { // not required
+	if typeutils.IsZero(m.SslCertificateType) { // not required
 		return nil
 	}
 
@@ -98,7 +99,7 @@ func (m *DatabaseServerSslConfig) validateSslCertificateType(formats strfmt.Regi
 }
 
 func (m *DatabaseServerSslConfig) validateSslCertificates(formats strfmt.Registry) error {
-	if swag.IsZero(m.SslCertificates) { // not required
+	if typeutils.IsZero(m.SslCertificates) { // not required
 		return nil
 	}
 
@@ -139,7 +140,7 @@ func (m *DatabaseServerSslConfig) validateSslModeEnum(path, location string, val
 }
 
 func (m *DatabaseServerSslConfig) validateSslMode(formats strfmt.Registry) error {
-	if swag.IsZero(m.SslMode) { // not required
+	if typeutils.IsZero(m.SslMode) { // not required
 		return nil
 	}
 
@@ -161,13 +162,13 @@ func (m *DatabaseServerSslConfig) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DatabaseServerSslConfig) UnmarshalBinary(b []byte) error {
 	var res DatabaseServerSslConfig
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

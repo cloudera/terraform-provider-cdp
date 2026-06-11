@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDescribeConfigParams creates a new DescribeConfigParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeConfigParams() *DescribeConfigParams {
-	return &DescribeConfigParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeConfigParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeConfigParamsWithTimeout creates a new DescribeConfigParams object
 // with the ability to set a timeout on a request.
 func NewDescribeConfigParamsWithTimeout(timeout time.Duration) *DescribeConfigParams {
 	return &DescribeConfigParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeConfigParamsWithContext creates a new DescribeConfigParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeConfigParams].
 func NewDescribeConfigParamsWithContext(ctx context.Context) *DescribeConfigParams {
 	return &DescribeConfigParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeConfigParams struct {
 	// Input.
 	Input *models.DescribeConfigRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe config params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeConfigParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe config params
+// WithTimeout adds the timeout to the describe config params.
 func (o *DescribeConfigParams) WithTimeout(timeout time.Duration) *DescribeConfigParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe config params
+// SetTimeout adds the timeout to the describe config params.
 func (o *DescribeConfigParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe config params
+// WithContext adds the context to the describe config params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeConfigParams].
 func (o *DescribeConfigParams) WithContext(ctx context.Context) *DescribeConfigParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe config params
+// SetContext adds the context to the describe config params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeConfigParams].
 func (o *DescribeConfigParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe config params
+// WithHTTPClient adds the HTTPClient to the describe config params.
 func (o *DescribeConfigParams) WithHTTPClient(client *http.Client) *DescribeConfigParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe config params
+// SetHTTPClient adds the HTTPClient to the describe config params.
 func (o *DescribeConfigParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe config params
+// WithInput adds the input to the describe config params.
 func (o *DescribeConfigParams) WithInput(input *models.DescribeConfigRequest) *DescribeConfigParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe config params
+// SetInput adds the input to the describe config params.
 func (o *DescribeConfigParams) SetInput(input *models.DescribeConfigRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeConfigParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

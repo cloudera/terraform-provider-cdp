@@ -73,8 +73,8 @@ func (e *datalakeListDataSource) Read(ctx context.Context, request datasource.Re
 }
 
 func getDatalakes(ctx context.Context, client *client.Datalake) (*DatalakeListModel, error) {
-	params := operations.NewListDatalakesParamsWithContext(ctx).WithInput(&models.ListDatalakesRequest{})
-	resp, err := client.Operations.ListDatalakes(params)
+	params := operations.NewListDatalakesParams().WithInput(&models.ListDatalakesRequest{})
+	resp, err := client.Operations.ListDatalakesContext(ctx, params)
 	if err != nil {
 		tflog.Warn(ctx, fmt.Sprintf("Error during datalake collection due to : %s", err.Error()))
 		return nil, err

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // UpgradeDbcReader is a Reader for the UpgradeDbc structure.
@@ -45,11 +44,9 @@ func NewUpgradeDbcOK() *UpgradeDbcOK {
 	return &UpgradeDbcOK{}
 }
 
-/*
-UpgradeDbcOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpgradeDbcOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpgradeDbcOK struct {
 	Payload *models.UpgradeDbcResponse
 }
@@ -117,11 +114,9 @@ func NewUpgradeDbcDefault(code int) *UpgradeDbcDefault {
 	}
 }
 
-/*
-UpgradeDbcDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpgradeDbcDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpgradeDbcDefault struct {
 	_statusCode int
 

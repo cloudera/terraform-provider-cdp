@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // UpdateHbaseConfigurationReader is a Reader for the UpdateHbaseConfiguration structure.
@@ -45,11 +44,9 @@ func NewUpdateHbaseConfigurationOK() *UpdateHbaseConfigurationOK {
 	return &UpdateHbaseConfigurationOK{}
 }
 
-/*
-UpdateHbaseConfigurationOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateHbaseConfigurationOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateHbaseConfigurationOK struct {
 	Payload *models.UpdateHbaseConfigurationResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateHbaseConfigurationDefault(code int) *UpdateHbaseConfigurationDefau
 	}
 }
 
-/*
-UpdateHbaseConfigurationDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateHbaseConfigurationDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateHbaseConfigurationDefault struct {
 	_statusCode int
 

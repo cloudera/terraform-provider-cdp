@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // DescribeSSHPublicKeyReader is a Reader for the DescribeSSHPublicKey structure.
@@ -45,11 +44,9 @@ func NewDescribeSSHPublicKeyOK() *DescribeSSHPublicKeyOK {
 	return &DescribeSSHPublicKeyOK{}
 }
 
-/*
-DescribeSSHPublicKeyOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DescribeSSHPublicKeyOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DescribeSSHPublicKeyOK struct {
 	Payload *models.DescribeSSHPublicKeyResponse
 }
@@ -117,11 +114,9 @@ func NewDescribeSSHPublicKeyDefault(code int) *DescribeSSHPublicKeyDefault {
 	}
 }
 
-/*
-DescribeSSHPublicKeyDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DescribeSSHPublicKeyDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DescribeSSHPublicKeyDefault struct {
 	_statusCode int
 

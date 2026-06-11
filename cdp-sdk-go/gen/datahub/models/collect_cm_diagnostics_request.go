@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -143,7 +144,7 @@ func (m *CollectCmDiagnosticsRequest) validateDestination(formats strfmt.Registr
 }
 
 func (m *CollectCmDiagnosticsRequest) validateEndDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndDate) { // not required
+	if typeutils.IsZero(m.EndDate) { // not required
 		return nil
 	}
 
@@ -155,7 +156,7 @@ func (m *CollectCmDiagnosticsRequest) validateEndDate(formats strfmt.Registry) e
 }
 
 func (m *CollectCmDiagnosticsRequest) validateRoles(formats strfmt.Registry) error {
-	if swag.IsZero(m.Roles) { // not required
+	if typeutils.IsZero(m.Roles) { // not required
 		return nil
 	}
 
@@ -167,7 +168,7 @@ func (m *CollectCmDiagnosticsRequest) validateRoles(formats strfmt.Registry) err
 }
 
 func (m *CollectCmDiagnosticsRequest) validateStartDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.StartDate) { // not required
+	if typeutils.IsZero(m.StartDate) { // not required
 		return nil
 	}
 
@@ -188,13 +189,13 @@ func (m *CollectCmDiagnosticsRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CollectCmDiagnosticsRequest) UnmarshalBinary(b []byte) error {
 	var res CollectCmDiagnosticsRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

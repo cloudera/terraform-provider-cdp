@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // SetupActiveDirectoryTrustReader is a Reader for the SetupActiveDirectoryTrust structure.
@@ -45,11 +44,9 @@ func NewSetupActiveDirectoryTrustOK() *SetupActiveDirectoryTrustOK {
 	return &SetupActiveDirectoryTrustOK{}
 }
 
-/*
-SetupActiveDirectoryTrustOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SetupActiveDirectoryTrustOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SetupActiveDirectoryTrustOK struct {
 	Payload *models.SetupActiveDirectoryTrustResponse
 }
@@ -117,11 +114,9 @@ func NewSetupActiveDirectoryTrustDefault(code int) *SetupActiveDirectoryTrustDef
 	}
 }
 
-/*
-SetupActiveDirectoryTrustDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SetupActiveDirectoryTrustDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SetupActiveDirectoryTrustDefault struct {
 	_statusCode int
 

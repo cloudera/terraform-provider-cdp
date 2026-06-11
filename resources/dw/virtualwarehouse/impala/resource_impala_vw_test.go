@@ -269,6 +269,10 @@ type MockTransport struct {
 	runtime.ClientTransport
 }
 
+func (m MockTransport) SubmitContext(_ context.Context, _ *runtime.ClientOperation) (interface{}, error) {
+	return nil, nil
+}
+
 func newDwApi(client *mocks.MockDwClientService) *impalaResource {
 	return &impalaResource{
 		client: &cdp.Client{
@@ -535,8 +539,8 @@ func (suite *ImpalaTestSuite) TestImpalaCreate_Success() {
 			}}}
 
 	client := new(mocks.MockDwClientService)
-	client.On("CreateVw", mock.Anything).Return(suite.expectedCreateResponse, nil)
-	client.On("DescribeVw", mock.Anything).Return(expectedDescribeResponse, nil)
+	client.On("CreateVwContext", mock.Anything, mock.Anything).Return(suite.expectedCreateResponse, nil)
+	client.On("DescribeVwContext", mock.Anything, mock.Anything).Return(expectedDescribeResponse, nil)
 	dwApi := newDwApi(client)
 
 	req := resource.CreateRequest{
@@ -566,7 +570,7 @@ func (suite *ImpalaTestSuite) TestImpalaCreate_Success() {
 func (suite *ImpalaTestSuite) TestImpalaCreate_CreationError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("CreateVw", mock.Anything).Return(&operations.CreateVwOK{}, fmt.Errorf("create error"))
+	client.On("CreateVwContext", mock.Anything, mock.Anything).Return(&operations.CreateVwOK{}, fmt.Errorf("create error"))
 	dwApi := newDwApi(client)
 
 	req := resource.CreateRequest{
@@ -591,7 +595,7 @@ func (suite *ImpalaTestSuite) TestImpalaCreate_CreationError() {
 func (suite *ImpalaTestSuite) TestImpalaDeletion_Success() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DeleteVw", mock.Anything).Return(&operations.DeleteVwOK{}, nil)
+	client.On("DeleteVwContext", mock.Anything, mock.Anything).Return(&operations.DeleteVwOK{}, nil)
 	dwApi := newDwApi(client)
 
 	req := resource.DeleteRequest{
@@ -610,7 +614,7 @@ func (suite *ImpalaTestSuite) TestImpalaDeletion_Success() {
 func (suite *ImpalaTestSuite) TestImpalaDeletion_ReturnsError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DeleteVw", mock.Anything).Return(&operations.DeleteVwOK{}, fmt.Errorf("deletion error"))
+	client.On("DeleteVwContext", mock.Anything, mock.Anything).Return(&operations.DeleteVwOK{}, fmt.Errorf("deletion error"))
 	dwApi := newDwApi(client)
 
 	req := resource.DeleteRequest{
@@ -630,7 +634,7 @@ func (suite *ImpalaTestSuite) TestImpalaDeletion_ReturnsError() {
 func (suite *ImpalaTestSuite) TestStateRefresh_Success() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DescribeVw", mock.Anything).Return(&operations.DescribeVwOK{
+	client.On("DescribeVwContext", mock.Anything, mock.Anything).Return(&operations.DescribeVwOK{
 		Payload: &models.DescribeVwResponse{
 			Vw: &models.VwSummary{
 				ID:     "impala-id",
@@ -654,7 +658,7 @@ func (suite *ImpalaTestSuite) TestStateRefresh_Success() {
 func (suite *ImpalaTestSuite) TestStateRefresh_FailureThresholdReached() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DescribeVw", mock.Anything).Return(
+	client.On("DescribeVwContext", mock.Anything, mock.Anything).Return(
 		&operations.DescribeVwOK{}, fmt.Errorf("unknown error"))
 	dwApi := newDwApi(client)
 

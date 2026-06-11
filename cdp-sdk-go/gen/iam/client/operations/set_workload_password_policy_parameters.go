@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewSetWorkloadPasswordPolicyParams creates a new SetWorkloadPasswordPolicyParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetWorkloadPasswordPolicyParams() *SetWorkloadPasswordPolicyParams {
-	return &SetWorkloadPasswordPolicyParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetWorkloadPasswordPolicyParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetWorkloadPasswordPolicyParamsWithTimeout creates a new SetWorkloadPasswordPolicyParams object
 // with the ability to set a timeout on a request.
 func NewSetWorkloadPasswordPolicyParamsWithTimeout(timeout time.Duration) *SetWorkloadPasswordPolicyParams {
 	return &SetWorkloadPasswordPolicyParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetWorkloadPasswordPolicyParamsWithContext creates a new SetWorkloadPasswordPolicyParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetWorkloadPasswordPolicyParams].
 func NewSetWorkloadPasswordPolicyParamsWithContext(ctx context.Context) *SetWorkloadPasswordPolicyParams {
 	return &SetWorkloadPasswordPolicyParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetWorkloadPasswordPolicyParams struct {
 	// Input.
 	Input *models.SetWorkloadPasswordPolicyRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set workload password policy params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetWorkloadPasswordPolicyParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set workload password policy params
+// WithTimeout adds the timeout to the set workload password policy params.
 func (o *SetWorkloadPasswordPolicyParams) WithTimeout(timeout time.Duration) *SetWorkloadPasswordPolicyParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set workload password policy params
+// SetTimeout adds the timeout to the set workload password policy params.
 func (o *SetWorkloadPasswordPolicyParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set workload password policy params
+// WithContext adds the context to the set workload password policy params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetWorkloadPasswordPolicyParams].
 func (o *SetWorkloadPasswordPolicyParams) WithContext(ctx context.Context) *SetWorkloadPasswordPolicyParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set workload password policy params
+// SetContext adds the context to the set workload password policy params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetWorkloadPasswordPolicyParams].
 func (o *SetWorkloadPasswordPolicyParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set workload password policy params
+// WithHTTPClient adds the HTTPClient to the set workload password policy params.
 func (o *SetWorkloadPasswordPolicyParams) WithHTTPClient(client *http.Client) *SetWorkloadPasswordPolicyParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set workload password policy params
+// SetHTTPClient adds the HTTPClient to the set workload password policy params.
 func (o *SetWorkloadPasswordPolicyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set workload password policy params
+// WithInput adds the input to the set workload password policy params.
 func (o *SetWorkloadPasswordPolicyParams) WithInput(input *models.SetWorkloadPasswordPolicyRequest) *SetWorkloadPasswordPolicyParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set workload password policy params
+// SetInput adds the input to the set workload password policy params.
 func (o *SetWorkloadPasswordPolicyParams) SetInput(input *models.SetWorkloadPasswordPolicyRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetWorkloadPasswordPolicyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

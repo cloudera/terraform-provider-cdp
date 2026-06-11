@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // ListGroupAssignedResourceRolesReader is a Reader for the ListGroupAssignedResourceRoles structure.
@@ -45,11 +44,9 @@ func NewListGroupAssignedResourceRolesOK() *ListGroupAssignedResourceRolesOK {
 	return &ListGroupAssignedResourceRolesOK{}
 }
 
-/*
-ListGroupAssignedResourceRolesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListGroupAssignedResourceRolesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListGroupAssignedResourceRolesOK struct {
 	Payload *models.ListGroupAssignedResourceRolesResponse
 }
@@ -117,11 +114,9 @@ func NewListGroupAssignedResourceRolesDefault(code int) *ListGroupAssignedResour
 	}
 }
 
-/*
-ListGroupAssignedResourceRolesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListGroupAssignedResourceRolesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListGroupAssignedResourceRolesDefault struct {
 	_statusCode int
 

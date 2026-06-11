@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // GetAccountReader is a Reader for the GetAccount structure.
@@ -45,11 +44,9 @@ func NewGetAccountOK() *GetAccountOK {
 	return &GetAccountOK{}
 }
 
-/*
-GetAccountOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetAccountOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetAccountOK struct {
 	Payload *models.GetAccountResponse
 }
@@ -117,11 +114,9 @@ func NewGetAccountDefault(code int) *GetAccountDefault {
 	}
 }
 
-/*
-GetAccountDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetAccountDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetAccountDefault struct {
 	_statusCode int
 

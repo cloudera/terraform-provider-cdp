@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // GetOperationReader is a Reader for the GetOperation structure.
@@ -45,11 +44,9 @@ func NewGetOperationOK() *GetOperationOK {
 	return &GetOperationOK{}
 }
 
-/*
-GetOperationOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetOperationOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetOperationOK struct {
 	Payload *models.GetOperationResponse
 }
@@ -117,11 +114,9 @@ func NewGetOperationDefault(code int) *GetOperationDefault {
 	}
 }
 
-/*
-GetOperationDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetOperationDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetOperationDefault struct {
 	_statusCode int
 

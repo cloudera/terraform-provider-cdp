@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // RotateSaltPasswordReader is a Reader for the RotateSaltPassword structure.
@@ -45,11 +44,9 @@ func NewRotateSaltPasswordOK() *RotateSaltPasswordOK {
 	return &RotateSaltPasswordOK{}
 }
 
-/*
-RotateSaltPasswordOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RotateSaltPasswordOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RotateSaltPasswordOK struct {
 	Payload *models.RotateSaltPasswordResponse
 }
@@ -117,11 +114,9 @@ func NewRotateSaltPasswordDefault(code int) *RotateSaltPasswordDefault {
 	}
 }
 
-/*
-RotateSaltPasswordDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RotateSaltPasswordDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RotateSaltPasswordDefault struct {
 	_statusCode int
 

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // DeleteCredentialReader is a Reader for the DeleteCredential structure.
@@ -45,11 +44,9 @@ func NewDeleteCredentialOK() *DeleteCredentialOK {
 	return &DeleteCredentialOK{}
 }
 
-/*
-DeleteCredentialOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteCredentialOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteCredentialOK struct {
 	Payload models.DeleteCredentialResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteCredentialDefault(code int) *DeleteCredentialDefault {
 	}
 }
 
-/*
-DeleteCredentialDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteCredentialDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteCredentialDefault struct {
 	_statusCode int
 

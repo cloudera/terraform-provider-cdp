@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // UpdateDataVisualizationReader is a Reader for the UpdateDataVisualization structure.
@@ -45,11 +44,9 @@ func NewUpdateDataVisualizationOK() *UpdateDataVisualizationOK {
 	return &UpdateDataVisualizationOK{}
 }
 
-/*
-UpdateDataVisualizationOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateDataVisualizationOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateDataVisualizationOK struct {
 	Payload *models.UpdateDataVisualizationResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateDataVisualizationDefault(code int) *UpdateDataVisualizationDefault
 	}
 }
 
-/*
-UpdateDataVisualizationDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateDataVisualizationDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateDataVisualizationDefault struct {
 	_statusCode int
 

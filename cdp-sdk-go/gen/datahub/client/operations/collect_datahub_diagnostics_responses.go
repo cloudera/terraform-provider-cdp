@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // CollectDatahubDiagnosticsReader is a Reader for the CollectDatahubDiagnostics structure.
@@ -45,11 +44,9 @@ func NewCollectDatahubDiagnosticsOK() *CollectDatahubDiagnosticsOK {
 	return &CollectDatahubDiagnosticsOK{}
 }
 
-/*
-CollectDatahubDiagnosticsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CollectDatahubDiagnosticsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CollectDatahubDiagnosticsOK struct {
 	Payload *models.CollectDatahubDiagnosticsResponse
 }
@@ -117,11 +114,9 @@ func NewCollectDatahubDiagnosticsDefault(code int) *CollectDatahubDiagnosticsDef
 	}
 }
 
-/*
-CollectDatahubDiagnosticsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CollectDatahubDiagnosticsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CollectDatahubDiagnosticsDefault struct {
 	_statusCode int
 

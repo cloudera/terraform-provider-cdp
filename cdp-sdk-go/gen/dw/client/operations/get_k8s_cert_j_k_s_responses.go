@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // GetK8sCertJKSReader is a Reader for the GetK8sCertJKS structure.
@@ -45,11 +44,9 @@ func NewGetK8sCertJKSOK() *GetK8sCertJKSOK {
 	return &GetK8sCertJKSOK{}
 }
 
-/*
-GetK8sCertJKSOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetK8sCertJKSOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetK8sCertJKSOK struct {
 	Payload *models.GetK8sCertJKSResponse
 }
@@ -117,11 +114,9 @@ func NewGetK8sCertJKSDefault(code int) *GetK8sCertJKSDefault {
 	}
 }
 
-/*
-GetK8sCertJKSDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetK8sCertJKSDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetK8sCertJKSDefault struct {
 	_statusCode int
 

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // CollectCmDiagnosticsReader is a Reader for the CollectCmDiagnostics structure.
@@ -45,11 +44,9 @@ func NewCollectCmDiagnosticsOK() *CollectCmDiagnosticsOK {
 	return &CollectCmDiagnosticsOK{}
 }
 
-/*
-CollectCmDiagnosticsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CollectCmDiagnosticsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CollectCmDiagnosticsOK struct {
 	Payload *models.CollectCmDiagnosticsResponse
 }
@@ -117,11 +114,9 @@ func NewCollectCmDiagnosticsDefault(code int) *CollectCmDiagnosticsDefault {
 	}
 }
 
-/*
-CollectCmDiagnosticsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CollectCmDiagnosticsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CollectCmDiagnosticsDefault struct {
 	_statusCode int
 

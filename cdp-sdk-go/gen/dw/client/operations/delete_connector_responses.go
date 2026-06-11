@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DeleteConnectorReader is a Reader for the DeleteConnector structure.
@@ -45,11 +44,9 @@ func NewDeleteConnectorOK() *DeleteConnectorOK {
 	return &DeleteConnectorOK{}
 }
 
-/*
-DeleteConnectorOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteConnectorOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteConnectorOK struct {
 	Payload models.DeleteConnectorResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteConnectorDefault(code int) *DeleteConnectorDefault {
 	}
 }
 
-/*
-DeleteConnectorDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteConnectorDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteConnectorDefault struct {
 	_statusCode int
 

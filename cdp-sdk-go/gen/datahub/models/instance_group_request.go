@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -95,7 +96,7 @@ func (m *InstanceGroupRequest) validateAttachedVolumeConfiguration(formats strfm
 	}
 
 	for i := 0; i < len(m.AttachedVolumeConfiguration); i++ {
-		if swag.IsZero(m.AttachedVolumeConfiguration[i]) { // not required
+		if typeutils.IsZero(m.AttachedVolumeConfiguration[i]) { // not required
 			continue
 		}
 
@@ -156,7 +157,7 @@ func (m *InstanceGroupRequest) validateNodeCount(formats strfmt.Registry) error 
 }
 
 func (m *InstanceGroupRequest) validateVolumeEncryption(formats strfmt.Registry) error {
-	if swag.IsZero(m.VolumeEncryption) { // not required
+	if typeutils.IsZero(m.VolumeEncryption) { // not required
 		return nil
 	}
 
@@ -202,7 +203,7 @@ func (m *InstanceGroupRequest) contextValidateAttachedVolumeConfiguration(ctx co
 
 		if m.AttachedVolumeConfiguration[i] != nil {
 
-			if swag.IsZero(m.AttachedVolumeConfiguration[i]) { // not required
+			if typeutils.IsZero(m.AttachedVolumeConfiguration[i]) { // not required
 				return nil
 			}
 
@@ -229,7 +230,7 @@ func (m *InstanceGroupRequest) contextValidateVolumeEncryption(ctx context.Conte
 
 	if m.VolumeEncryption != nil {
 
-		if swag.IsZero(m.VolumeEncryption) { // not required
+		if typeutils.IsZero(m.VolumeEncryption) { // not required
 			return nil
 		}
 
@@ -255,13 +256,13 @@ func (m *InstanceGroupRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *InstanceGroupRequest) UnmarshalBinary(b []byte) error {
 	var res InstanceGroupRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // ScaleHorizontallyReader is a Reader for the ScaleHorizontally structure.
@@ -45,11 +44,9 @@ func NewScaleHorizontallyOK() *ScaleHorizontallyOK {
 	return &ScaleHorizontallyOK{}
 }
 
-/*
-ScaleHorizontallyOK describes a response with status code 200, with default header values.
-
-Successful response to a valid Data Lake horizontal scaling request.
-*/
+// ScaleHorizontallyOK describes a response with status code 200, with default header values.
+//
+// Successful response to a valid Data Lake horizontal scaling request.
 type ScaleHorizontallyOK struct {
 	Payload *models.ScaleHorizontallyResponse
 }
@@ -117,11 +114,9 @@ func NewScaleHorizontallyDefault(code int) *ScaleHorizontallyDefault {
 	}
 }
 
-/*
-ScaleHorizontallyDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ScaleHorizontallyDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ScaleHorizontallyDefault struct {
 	_statusCode int
 

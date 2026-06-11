@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // SetCatalogReader is a Reader for the SetCatalog structure.
@@ -45,11 +44,9 @@ func NewSetCatalogOK() *SetCatalogOK {
 	return &SetCatalogOK{}
 }
 
-/*
-SetCatalogOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SetCatalogOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SetCatalogOK struct {
 	Payload models.SetCatalogResponse
 }
@@ -115,11 +112,9 @@ func NewSetCatalogDefault(code int) *SetCatalogDefault {
 	}
 }
 
-/*
-SetCatalogDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SetCatalogDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SetCatalogDefault struct {
 	_statusCode int
 

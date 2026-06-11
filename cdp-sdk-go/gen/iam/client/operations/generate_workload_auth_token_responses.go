@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // GenerateWorkloadAuthTokenReader is a Reader for the GenerateWorkloadAuthToken structure.
@@ -45,11 +44,9 @@ func NewGenerateWorkloadAuthTokenOK() *GenerateWorkloadAuthTokenOK {
 	return &GenerateWorkloadAuthTokenOK{}
 }
 
-/*
-GenerateWorkloadAuthTokenOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GenerateWorkloadAuthTokenOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GenerateWorkloadAuthTokenOK struct {
 	Payload *models.GenerateWorkloadAuthTokenResponse
 }
@@ -117,11 +114,9 @@ func NewGenerateWorkloadAuthTokenDefault(code int) *GenerateWorkloadAuthTokenDef
 	}
 }
 
-/*
-GenerateWorkloadAuthTokenDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GenerateWorkloadAuthTokenDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GenerateWorkloadAuthTokenDefault struct {
 	_statusCode int
 

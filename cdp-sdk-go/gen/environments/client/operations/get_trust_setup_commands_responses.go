@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // GetTrustSetupCommandsReader is a Reader for the GetTrustSetupCommands structure.
@@ -45,11 +44,9 @@ func NewGetTrustSetupCommandsOK() *GetTrustSetupCommandsOK {
 	return &GetTrustSetupCommandsOK{}
 }
 
-/*
-GetTrustSetupCommandsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetTrustSetupCommandsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetTrustSetupCommandsOK struct {
 	Payload *models.GetTrustSetupCommandsResponse
 }
@@ -117,11 +114,9 @@ func NewGetTrustSetupCommandsDefault(code int) *GetTrustSetupCommandsDefault {
 	}
 }
 
-/*
-GetTrustSetupCommandsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetTrustSetupCommandsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetTrustSetupCommandsDefault struct {
 	_statusCode int
 

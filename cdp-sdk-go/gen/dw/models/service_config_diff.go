@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -46,7 +47,7 @@ func (m *ServiceConfigDiff) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ServiceConfigDiff) validateApplicationConfigsDiffs(formats strfmt.Registry) error {
-	if swag.IsZero(m.ApplicationConfigsDiffs) { // not required
+	if typeutils.IsZero(m.ApplicationConfigsDiffs) { // not required
 		return nil
 	}
 
@@ -76,7 +77,7 @@ func (m *ServiceConfigDiff) validateApplicationConfigsDiffs(formats strfmt.Regis
 }
 
 func (m *ServiceConfigDiff) validateCommonConfigsDiff(formats strfmt.Registry) error {
-	if swag.IsZero(m.CommonConfigsDiff) { // not required
+	if typeutils.IsZero(m.CommonConfigsDiff) { // not required
 		return nil
 	}
 
@@ -135,7 +136,7 @@ func (m *ServiceConfigDiff) contextValidateCommonConfigsDiff(ctx context.Context
 
 	if m.CommonConfigsDiff != nil {
 
-		if swag.IsZero(m.CommonConfigsDiff) { // not required
+		if typeutils.IsZero(m.CommonConfigsDiff) { // not required
 			return nil
 		}
 
@@ -161,13 +162,13 @@ func (m *ServiceConfigDiff) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ServiceConfigDiff) UnmarshalBinary(b []byte) error {
 	var res ServiceConfigDiff
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

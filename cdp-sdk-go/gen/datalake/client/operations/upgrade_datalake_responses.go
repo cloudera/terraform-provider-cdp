@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // UpgradeDatalakeReader is a Reader for the UpgradeDatalake structure.
@@ -45,11 +44,9 @@ func NewUpgradeDatalakeOK() *UpgradeDatalakeOK {
 	return &UpgradeDatalakeOK{}
 }
 
-/*
-UpgradeDatalakeOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpgradeDatalakeOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpgradeDatalakeOK struct {
 	Payload *models.UpgradeDatalakeResponse
 }
@@ -117,11 +114,9 @@ func NewUpgradeDatalakeDefault(code int) *UpgradeDatalakeDefault {
 	}
 }
 
-/*
-UpgradeDatalakeDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpgradeDatalakeDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpgradeDatalakeDefault struct {
 	_statusCode int
 

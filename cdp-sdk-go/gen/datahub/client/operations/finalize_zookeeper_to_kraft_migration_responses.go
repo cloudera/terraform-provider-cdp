@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // FinalizeZookeeperToKraftMigrationReader is a Reader for the FinalizeZookeeperToKraftMigration structure.
@@ -45,11 +44,9 @@ func NewFinalizeZookeeperToKraftMigrationOK() *FinalizeZookeeperToKraftMigration
 	return &FinalizeZookeeperToKraftMigrationOK{}
 }
 
-/*
-FinalizeZookeeperToKraftMigrationOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// FinalizeZookeeperToKraftMigrationOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type FinalizeZookeeperToKraftMigrationOK struct {
 	Payload *models.FinalizeZookeeperToKraftMigrationResponse
 }
@@ -117,11 +114,9 @@ func NewFinalizeZookeeperToKraftMigrationDefault(code int) *FinalizeZookeeperToK
 	}
 }
 
-/*
-FinalizeZookeeperToKraftMigrationDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// FinalizeZookeeperToKraftMigrationDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type FinalizeZookeeperToKraftMigrationDefault struct {
 	_statusCode int
 

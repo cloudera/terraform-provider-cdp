@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // DeleteEnvironmentReader is a Reader for the DeleteEnvironment structure.
@@ -45,11 +44,9 @@ func NewDeleteEnvironmentOK() *DeleteEnvironmentOK {
 	return &DeleteEnvironmentOK{}
 }
 
-/*
-DeleteEnvironmentOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteEnvironmentOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteEnvironmentOK struct {
 	Payload models.DeleteEnvironmentResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteEnvironmentDefault(code int) *DeleteEnvironmentDefault {
 	}
 }
 
-/*
-DeleteEnvironmentDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteEnvironmentDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteEnvironmentDefault struct {
 	_statusCode int
 

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateAwsCredentialParams creates a new UpdateAwsCredentialParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateAwsCredentialParams() *UpdateAwsCredentialParams {
-	return &UpdateAwsCredentialParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateAwsCredentialParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateAwsCredentialParamsWithTimeout creates a new UpdateAwsCredentialParams object
 // with the ability to set a timeout on a request.
 func NewUpdateAwsCredentialParamsWithTimeout(timeout time.Duration) *UpdateAwsCredentialParams {
 	return &UpdateAwsCredentialParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateAwsCredentialParamsWithContext creates a new UpdateAwsCredentialParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAwsCredentialParams].
 func NewUpdateAwsCredentialParamsWithContext(ctx context.Context) *UpdateAwsCredentialParams {
 	return &UpdateAwsCredentialParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateAwsCredentialParams struct {
 	// Input.
 	Input *models.UpdateAwsCredentialRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update aws credential params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateAwsCredentialParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update aws credential params
+// WithTimeout adds the timeout to the update aws credential params.
 func (o *UpdateAwsCredentialParams) WithTimeout(timeout time.Duration) *UpdateAwsCredentialParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update aws credential params
+// SetTimeout adds the timeout to the update aws credential params.
 func (o *UpdateAwsCredentialParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update aws credential params
+// WithContext adds the context to the update aws credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAwsCredentialParams].
 func (o *UpdateAwsCredentialParams) WithContext(ctx context.Context) *UpdateAwsCredentialParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update aws credential params
+// SetContext adds the context to the update aws credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAwsCredentialParams].
 func (o *UpdateAwsCredentialParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update aws credential params
+// WithHTTPClient adds the HTTPClient to the update aws credential params.
 func (o *UpdateAwsCredentialParams) WithHTTPClient(client *http.Client) *UpdateAwsCredentialParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update aws credential params
+// SetHTTPClient adds the HTTPClient to the update aws credential params.
 func (o *UpdateAwsCredentialParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update aws credential params
+// WithInput adds the input to the update aws credential params.
 func (o *UpdateAwsCredentialParams) WithInput(input *models.UpdateAwsCredentialRequest) *UpdateAwsCredentialParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update aws credential params
+// SetInput adds the input to the update aws credential params.
 func (o *UpdateAwsCredentialParams) SetInput(input *models.UpdateAwsCredentialRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateAwsCredentialParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

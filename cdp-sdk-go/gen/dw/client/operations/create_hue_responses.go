@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // CreateHueReader is a Reader for the CreateHue structure.
@@ -45,11 +44,9 @@ func NewCreateHueOK() *CreateHueOK {
 	return &CreateHueOK{}
 }
 
-/*
-CreateHueOK describes a response with status code 200, with default header values.
-
-successful operation
-*/
+// CreateHueOK describes a response with status code 200, with default header values.
+//
+// successful operation
 type CreateHueOK struct {
 	Payload *models.CreateHueResponse
 }
@@ -117,11 +114,9 @@ func NewCreateHueDefault(code int) *CreateHueDefault {
 	}
 }
 
-/*
-CreateHueDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateHueDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateHueDefault struct {
 	_statusCode int
 

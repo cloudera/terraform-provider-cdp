@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // SetWorkloadPasswordReader is a Reader for the SetWorkloadPassword structure.
@@ -45,11 +44,9 @@ func NewSetWorkloadPasswordOK() *SetWorkloadPasswordOK {
 	return &SetWorkloadPasswordOK{}
 }
 
-/*
-SetWorkloadPasswordOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SetWorkloadPasswordOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SetWorkloadPasswordOK struct {
 	Payload models.SetWorkloadPasswordResponse
 }
@@ -115,11 +112,9 @@ func NewSetWorkloadPasswordDefault(code int) *SetWorkloadPasswordDefault {
 	}
 }
 
-/*
-SetWorkloadPasswordDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SetWorkloadPasswordDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SetWorkloadPasswordDefault struct {
 	_statusCode int
 

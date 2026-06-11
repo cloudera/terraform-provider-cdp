@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // ListDiagnosticsReader is a Reader for the ListDiagnostics structure.
@@ -45,11 +44,9 @@ func NewListDiagnosticsOK() *ListDiagnosticsOK {
 	return &ListDiagnosticsOK{}
 }
 
-/*
-ListDiagnosticsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListDiagnosticsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListDiagnosticsOK struct {
 	Payload *models.ListDiagnosticsResponse
 }
@@ -117,11 +114,9 @@ func NewListDiagnosticsDefault(code int) *ListDiagnosticsDefault {
 	}
 }
 
-/*
-ListDiagnosticsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListDiagnosticsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListDiagnosticsDefault struct {
 	_statusCode int
 

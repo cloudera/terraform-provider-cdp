@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // DescribeDatabaseReader is a Reader for the DescribeDatabase structure.
@@ -45,11 +44,9 @@ func NewDescribeDatabaseOK() *DescribeDatabaseOK {
 	return &DescribeDatabaseOK{}
 }
 
-/*
-DescribeDatabaseOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DescribeDatabaseOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DescribeDatabaseOK struct {
 	Payload *models.DescribeDatabaseResponse
 }
@@ -117,11 +114,9 @@ func NewDescribeDatabaseDefault(code int) *DescribeDatabaseDefault {
 	}
 }
 
-/*
-DescribeDatabaseDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DescribeDatabaseDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DescribeDatabaseDefault struct {
 	_statusCode int
 

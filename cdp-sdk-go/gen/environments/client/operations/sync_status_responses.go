@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // SyncStatusReader is a Reader for the SyncStatus structure.
@@ -45,11 +44,9 @@ func NewSyncStatusOK() *SyncStatusOK {
 	return &SyncStatusOK{}
 }
 
-/*
-SyncStatusOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SyncStatusOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SyncStatusOK struct {
 	Payload *models.SyncStatusResponse
 }
@@ -117,11 +114,9 @@ func NewSyncStatusDefault(code int) *SyncStatusDefault {
 	}
 }
 
-/*
-SyncStatusDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SyncStatusDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SyncStatusDefault struct {
 	_statusCode int
 

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewFinishSetupTrustParams creates a new FinishSetupTrustParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewFinishSetupTrustParams() *FinishSetupTrustParams {
-	return &FinishSetupTrustParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewFinishSetupTrustParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewFinishSetupTrustParamsWithTimeout creates a new FinishSetupTrustParams object
 // with the ability to set a timeout on a request.
 func NewFinishSetupTrustParamsWithTimeout(timeout time.Duration) *FinishSetupTrustParams {
 	return &FinishSetupTrustParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewFinishSetupTrustParamsWithContext creates a new FinishSetupTrustParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [FinishSetupTrustParams].
 func NewFinishSetupTrustParamsWithContext(ctx context.Context) *FinishSetupTrustParams {
 	return &FinishSetupTrustParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type FinishSetupTrustParams struct {
 	// Input.
 	Input *models.FinishSetupTrustRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the finish setup trust params (not the query body).
@@ -83,54 +86,57 @@ func (o *FinishSetupTrustParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the finish setup trust params
+// WithTimeout adds the timeout to the finish setup trust params.
 func (o *FinishSetupTrustParams) WithTimeout(timeout time.Duration) *FinishSetupTrustParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the finish setup trust params
+// SetTimeout adds the timeout to the finish setup trust params.
 func (o *FinishSetupTrustParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the finish setup trust params
+// WithContext adds the context to the finish setup trust params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [FinishSetupTrustParams].
 func (o *FinishSetupTrustParams) WithContext(ctx context.Context) *FinishSetupTrustParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the finish setup trust params
+// SetContext adds the context to the finish setup trust params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [FinishSetupTrustParams].
 func (o *FinishSetupTrustParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the finish setup trust params
+// WithHTTPClient adds the HTTPClient to the finish setup trust params.
 func (o *FinishSetupTrustParams) WithHTTPClient(client *http.Client) *FinishSetupTrustParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the finish setup trust params
+// SetHTTPClient adds the HTTPClient to the finish setup trust params.
 func (o *FinishSetupTrustParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the finish setup trust params
+// WithInput adds the input to the finish setup trust params.
 func (o *FinishSetupTrustParams) WithInput(input *models.FinishSetupTrustRequest) *FinishSetupTrustParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the finish setup trust params
+// SetInput adds the input to the finish setup trust params.
 func (o *FinishSetupTrustParams) SetInput(input *models.FinishSetupTrustRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *FinishSetupTrustParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

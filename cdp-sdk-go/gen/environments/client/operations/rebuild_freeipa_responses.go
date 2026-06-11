@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // RebuildFreeipaReader is a Reader for the RebuildFreeipa structure.
@@ -45,11 +44,9 @@ func NewRebuildFreeipaOK() *RebuildFreeipaOK {
 	return &RebuildFreeipaOK{}
 }
 
-/*
-RebuildFreeipaOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RebuildFreeipaOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RebuildFreeipaOK struct {
 	Payload *models.RebuildFreeipaResponse
 }
@@ -117,11 +114,9 @@ func NewRebuildFreeipaDefault(code int) *RebuildFreeipaDefault {
 	}
 }
 
-/*
-RebuildFreeipaDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RebuildFreeipaDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RebuildFreeipaDefault struct {
 	_statusCode int
 

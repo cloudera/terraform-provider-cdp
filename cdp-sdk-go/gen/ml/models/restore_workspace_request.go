@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // RestoreWorkspaceRequest Request object for RestoreWorkspace method.
@@ -44,7 +45,7 @@ func (m *RestoreWorkspaceRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *RestoreWorkspaceRequest) validateNewWorkspaceParameters(formats strfmt.Registry) error {
-	if swag.IsZero(m.NewWorkspaceParameters) { // not required
+	if typeutils.IsZero(m.NewWorkspaceParameters) { // not required
 		return nil
 	}
 
@@ -84,7 +85,7 @@ func (m *RestoreWorkspaceRequest) contextValidateNewWorkspaceParameters(ctx cont
 
 	if m.NewWorkspaceParameters != nil {
 
-		if swag.IsZero(m.NewWorkspaceParameters) { // not required
+		if typeutils.IsZero(m.NewWorkspaceParameters) { // not required
 			return nil
 		}
 
@@ -110,13 +111,13 @@ func (m *RestoreWorkspaceRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *RestoreWorkspaceRequest) UnmarshalBinary(b []byte) error {
 	var res RestoreWorkspaceRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSetIDBrokerMappingsParams creates a new SetIDBrokerMappingsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetIDBrokerMappingsParams() *SetIDBrokerMappingsParams {
-	return &SetIDBrokerMappingsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetIDBrokerMappingsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetIDBrokerMappingsParamsWithTimeout creates a new SetIDBrokerMappingsParams object
 // with the ability to set a timeout on a request.
 func NewSetIDBrokerMappingsParamsWithTimeout(timeout time.Duration) *SetIDBrokerMappingsParams {
 	return &SetIDBrokerMappingsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetIDBrokerMappingsParamsWithContext creates a new SetIDBrokerMappingsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetIDBrokerMappingsParams].
 func NewSetIDBrokerMappingsParamsWithContext(ctx context.Context) *SetIDBrokerMappingsParams {
 	return &SetIDBrokerMappingsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetIDBrokerMappingsParams struct {
 	// Input.
 	Input *models.SetIDBrokerMappingsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set Id broker mappings params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetIDBrokerMappingsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set Id broker mappings params
+// WithTimeout adds the timeout to the set Id broker mappings params.
 func (o *SetIDBrokerMappingsParams) WithTimeout(timeout time.Duration) *SetIDBrokerMappingsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set Id broker mappings params
+// SetTimeout adds the timeout to the set Id broker mappings params.
 func (o *SetIDBrokerMappingsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set Id broker mappings params
+// WithContext adds the context to the set Id broker mappings params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetIDBrokerMappingsParams].
 func (o *SetIDBrokerMappingsParams) WithContext(ctx context.Context) *SetIDBrokerMappingsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set Id broker mappings params
+// SetContext adds the context to the set Id broker mappings params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetIDBrokerMappingsParams].
 func (o *SetIDBrokerMappingsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set Id broker mappings params
+// WithHTTPClient adds the HTTPClient to the set Id broker mappings params.
 func (o *SetIDBrokerMappingsParams) WithHTTPClient(client *http.Client) *SetIDBrokerMappingsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set Id broker mappings params
+// SetHTTPClient adds the HTTPClient to the set Id broker mappings params.
 func (o *SetIDBrokerMappingsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set Id broker mappings params
+// WithInput adds the input to the set Id broker mappings params.
 func (o *SetIDBrokerMappingsParams) WithInput(input *models.SetIDBrokerMappingsRequest) *SetIDBrokerMappingsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set Id broker mappings params
+// SetInput adds the input to the set Id broker mappings params.
 func (o *SetIDBrokerMappingsParams) SetInput(input *models.SetIDBrokerMappingsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetIDBrokerMappingsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

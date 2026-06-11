@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // ValidateAzureCloudStorageReader is a Reader for the ValidateAzureCloudStorage structure.
@@ -45,11 +44,9 @@ func NewValidateAzureCloudStorageOK() *ValidateAzureCloudStorageOK {
 	return &ValidateAzureCloudStorageOK{}
 }
 
-/*
-ValidateAzureCloudStorageOK describes a response with status code 200, with default header values.
-
-Azure cloud storage validation result for Data Lake.
-*/
+// ValidateAzureCloudStorageOK describes a response with status code 200, with default header values.
+//
+// Azure cloud storage validation result for Data Lake.
 type ValidateAzureCloudStorageOK struct {
 	Payload *models.ValidateAzureCloudStorageResponse
 }
@@ -117,11 +114,9 @@ func NewValidateAzureCloudStorageDefault(code int) *ValidateAzureCloudStorageDef
 	}
 }
 
-/*
-ValidateAzureCloudStorageDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ValidateAzureCloudStorageDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ValidateAzureCloudStorageDefault struct {
 	_statusCode int
 

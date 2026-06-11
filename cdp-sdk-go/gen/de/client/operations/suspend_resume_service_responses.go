@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // SuspendResumeServiceReader is a Reader for the SuspendResumeService structure.
@@ -45,11 +44,9 @@ func NewSuspendResumeServiceOK() *SuspendResumeServiceOK {
 	return &SuspendResumeServiceOK{}
 }
 
-/*
-SuspendResumeServiceOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SuspendResumeServiceOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SuspendResumeServiceOK struct {
 	Payload *models.SuspendResumeServiceResponse
 }
@@ -117,11 +114,9 @@ func NewSuspendResumeServiceDefault(code int) *SuspendResumeServiceDefault {
 	}
 }
 
-/*
-SuspendResumeServiceDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SuspendResumeServiceDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SuspendResumeServiceDefault struct {
 	_statusCode int
 

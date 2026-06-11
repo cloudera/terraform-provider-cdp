@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // SyncIDBrokerMappingsReader is a Reader for the SyncIDBrokerMappings structure.
@@ -45,11 +44,9 @@ func NewSyncIDBrokerMappingsOK() *SyncIDBrokerMappingsOK {
 	return &SyncIDBrokerMappingsOK{}
 }
 
-/*
-SyncIDBrokerMappingsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SyncIDBrokerMappingsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SyncIDBrokerMappingsOK struct {
 	Payload models.SyncIDBrokerMappingsResponse
 }
@@ -115,11 +112,9 @@ func NewSyncIDBrokerMappingsDefault(code int) *SyncIDBrokerMappingsDefault {
 	}
 }
 
-/*
-SyncIDBrokerMappingsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SyncIDBrokerMappingsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SyncIDBrokerMappingsDefault struct {
 	_statusCode int
 

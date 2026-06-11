@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListWorkspacesResponse Response object for the ListWorkspaces method.
@@ -36,12 +37,12 @@ func (m *ListWorkspacesResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListWorkspacesResponse) validateWorkspaces(formats strfmt.Registry) error {
-	if swag.IsZero(m.Workspaces) { // not required
+	if typeutils.IsZero(m.Workspaces) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Workspaces); i++ {
-		if swag.IsZero(m.Workspaces[i]) { // not required
+		if typeutils.IsZero(m.Workspaces[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListWorkspacesResponse) contextValidateWorkspaces(ctx context.Context, 
 
 		if m.Workspaces[i] != nil {
 
-			if swag.IsZero(m.Workspaces[i]) { // not required
+			if typeutils.IsZero(m.Workspaces[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListWorkspacesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListWorkspacesResponse) UnmarshalBinary(b []byte) error {
 	var res ListWorkspacesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

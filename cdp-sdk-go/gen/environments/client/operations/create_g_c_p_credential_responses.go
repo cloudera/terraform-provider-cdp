@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // CreateGCPCredentialReader is a Reader for the CreateGCPCredential structure.
@@ -45,11 +44,9 @@ func NewCreateGCPCredentialOK() *CreateGCPCredentialOK {
 	return &CreateGCPCredentialOK{}
 }
 
-/*
-CreateGCPCredentialOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateGCPCredentialOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateGCPCredentialOK struct {
 	Payload *models.CreateGCPCredentialResponse
 }
@@ -117,11 +114,9 @@ func NewCreateGCPCredentialDefault(code int) *CreateGCPCredentialDefault {
 	}
 }
 
-/*
-CreateGCPCredentialDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateGCPCredentialDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateGCPCredentialDefault struct {
 	_statusCode int
 

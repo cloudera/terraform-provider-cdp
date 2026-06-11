@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // RotateFreeipaSecretsReader is a Reader for the RotateFreeipaSecrets structure.
@@ -45,11 +44,9 @@ func NewRotateFreeipaSecretsOK() *RotateFreeipaSecretsOK {
 	return &RotateFreeipaSecretsOK{}
 }
 
-/*
-RotateFreeipaSecretsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RotateFreeipaSecretsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RotateFreeipaSecretsOK struct {
 	Payload *models.RotateFreeipaSecretsResponse
 }
@@ -117,11 +114,9 @@ func NewRotateFreeipaSecretsDefault(code int) *RotateFreeipaSecretsDefault {
 	}
 }
 
-/*
-RotateFreeipaSecretsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RotateFreeipaSecretsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RotateFreeipaSecretsDefault struct {
 	_statusCode int
 

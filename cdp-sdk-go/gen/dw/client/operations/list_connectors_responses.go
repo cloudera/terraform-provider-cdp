@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // ListConnectorsReader is a Reader for the ListConnectors structure.
@@ -45,11 +44,9 @@ func NewListConnectorsOK() *ListConnectorsOK {
 	return &ListConnectorsOK{}
 }
 
-/*
-ListConnectorsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListConnectorsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListConnectorsOK struct {
 	Payload *models.ListConnectorsResponse
 }
@@ -117,11 +114,9 @@ func NewListConnectorsDefault(code int) *ListConnectorsDefault {
 	}
 }
 
-/*
-ListConnectorsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListConnectorsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListConnectorsDefault struct {
 	_statusCode int
 

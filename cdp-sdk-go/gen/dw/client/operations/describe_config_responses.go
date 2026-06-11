@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DescribeConfigReader is a Reader for the DescribeConfig structure.
@@ -45,11 +44,9 @@ func NewDescribeConfigOK() *DescribeConfigOK {
 	return &DescribeConfigOK{}
 }
 
-/*
-DescribeConfigOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DescribeConfigOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DescribeConfigOK struct {
 	Payload *models.DescribeConfigResponse
 }
@@ -117,11 +114,9 @@ func NewDescribeConfigDefault(code int) *DescribeConfigDefault {
 	}
 }
 
-/*
-DescribeConfigDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DescribeConfigDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DescribeConfigDefault struct {
 	_statusCode int
 

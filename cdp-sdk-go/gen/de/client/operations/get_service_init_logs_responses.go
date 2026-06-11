@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // GetServiceInitLogsReader is a Reader for the GetServiceInitLogs structure.
@@ -45,11 +44,9 @@ func NewGetServiceInitLogsOK() *GetServiceInitLogsOK {
 	return &GetServiceInitLogsOK{}
 }
 
-/*
-GetServiceInitLogsOK describes a response with status code 200, with default header values.
-
-Response object for Get Service Init Logs command.
-*/
+// GetServiceInitLogsOK describes a response with status code 200, with default header values.
+//
+// Response object for Get Service Init Logs command.
 type GetServiceInitLogsOK struct {
 	Payload *models.GetServiceInitLogsResponse
 }
@@ -117,11 +114,9 @@ func NewGetServiceInitLogsDefault(code int) *GetServiceInitLogsDefault {
 	}
 }
 
-/*
-GetServiceInitLogsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetServiceInitLogsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetServiceInitLogsDefault struct {
 	_statusCode int
 

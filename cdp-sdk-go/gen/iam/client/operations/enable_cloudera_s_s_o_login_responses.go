@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // EnableClouderaSSOLoginReader is a Reader for the EnableClouderaSSOLogin structure.
@@ -45,11 +44,9 @@ func NewEnableClouderaSSOLoginOK() *EnableClouderaSSOLoginOK {
 	return &EnableClouderaSSOLoginOK{}
 }
 
-/*
-EnableClouderaSSOLoginOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// EnableClouderaSSOLoginOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type EnableClouderaSSOLoginOK struct {
 	Payload models.EnableClouderaSSOLoginResponse
 }
@@ -115,11 +112,9 @@ func NewEnableClouderaSSOLoginDefault(code int) *EnableClouderaSSOLoginDefault {
 	}
 }
 
-/*
-EnableClouderaSSOLoginDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// EnableClouderaSSOLoginDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type EnableClouderaSSOLoginDefault struct {
 	_statusCode int
 

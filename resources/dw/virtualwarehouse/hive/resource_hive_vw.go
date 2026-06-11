@@ -80,10 +80,10 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	vw := operations.NewCreateVwParamsWithContext(ctx).
+	vw := operations.NewCreateVwParams().
 		WithInput(createReq)
 
-	response, err := r.client.Dw.Operations.CreateVw(vw)
+	response, err := r.client.Dw.Operations.CreateVwContext(ctx, vw)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating hive virtual warehouse",
@@ -114,9 +114,9 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 			return
 		}
 	}
-	desc := operations.NewDescribeVwParamsWithContext(ctx).
+	desc := operations.NewDescribeVwParams().
 		WithInput(&models.DescribeVwRequest{VwID: vwID, ClusterID: clusterID})
-	describe, err := r.client.Dw.Operations.DescribeVw(desc)
+	describe, err := r.client.Dw.Operations.DescribeVwContext(ctx, desc)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating hive virtual warehouse",
@@ -149,13 +149,13 @@ func (r *hiveResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 
 	clusterID := state.ClusterID.ValueStringPointer()
 	vwID := state.ID.ValueStringPointer()
-	op := operations.NewDeleteVwParamsWithContext(ctx).
+	op := operations.NewDeleteVwParams().
 		WithInput(&models.DeleteVwRequest{
 			ClusterID: clusterID,
 			VwID:      vwID,
 		})
 
-	if _, err := r.client.Dw.Operations.DeleteVw(op); err != nil {
+	if _, err := r.client.Dw.Operations.DeleteVwContext(ctx, op); err != nil {
 		if strings.Contains(err.Error(), "Virtual Warehouse not found") {
 			return
 		}
@@ -189,9 +189,9 @@ func (r *hiveResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 func (r *hiveResource) stateRefresh(ctx context.Context, clusterID *string, vwID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
 	return func() (any, string, error) {
 		tflog.Debug(ctx, "About to describe hive")
-		params := operations.NewDescribeVwParamsWithContext(ctx).
+		params := operations.NewDescribeVwParams().
 			WithInput(&models.DescribeVwRequest{ClusterID: clusterID, VwID: vwID})
-		resp, err := r.client.Dw.Operations.DescribeVw(params)
+		resp, err := r.client.Dw.Operations.DescribeVwContext(ctx, params)
 		if err != nil {
 			if strings.Contains(err.Error(), "Virtual Warehouse not found") {
 				return &models.DescribeVwResponse{}, "Deleted", nil

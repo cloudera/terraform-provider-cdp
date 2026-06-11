@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // UpdateAwsCredentialReader is a Reader for the UpdateAwsCredential structure.
@@ -45,11 +44,9 @@ func NewUpdateAwsCredentialOK() *UpdateAwsCredentialOK {
 	return &UpdateAwsCredentialOK{}
 }
 
-/*
-UpdateAwsCredentialOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateAwsCredentialOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateAwsCredentialOK struct {
 	Payload *models.UpdateAwsCredentialResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateAwsCredentialDefault(code int) *UpdateAwsCredentialDefault {
 	}
 }
 
-/*
-UpdateAwsCredentialDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateAwsCredentialDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateAwsCredentialDefault struct {
 	_statusCode int
 

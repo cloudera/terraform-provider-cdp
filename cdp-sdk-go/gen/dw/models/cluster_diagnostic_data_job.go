@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -61,7 +62,7 @@ func (m *ClusterDiagnosticDataJob) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ClusterDiagnosticDataJob) validateEndTime(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndTime) { // not required
+	if typeutils.IsZero(m.EndTime) { // not required
 		return nil
 	}
 
@@ -73,7 +74,7 @@ func (m *ClusterDiagnosticDataJob) validateEndTime(formats strfmt.Registry) erro
 }
 
 func (m *ClusterDiagnosticDataJob) validateStartTime(formats strfmt.Registry) error {
-	if swag.IsZero(m.StartTime) { // not required
+	if typeutils.IsZero(m.StartTime) { // not required
 		return nil
 	}
 
@@ -85,7 +86,7 @@ func (m *ClusterDiagnosticDataJob) validateStartTime(formats strfmt.Registry) er
 }
 
 func (m *ClusterDiagnosticDataJob) validateStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -121,7 +122,7 @@ func (m *ClusterDiagnosticDataJob) ContextValidate(ctx context.Context, formats 
 
 func (m *ClusterDiagnosticDataJob) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -146,13 +147,13 @@ func (m *ClusterDiagnosticDataJob) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ClusterDiagnosticDataJob) UnmarshalBinary(b []byte) error {
 	var res ClusterDiagnosticDataJob
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

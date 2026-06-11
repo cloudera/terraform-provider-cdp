@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // CreateModelRegistryReader is a Reader for the CreateModelRegistry structure.
@@ -45,11 +44,9 @@ func NewCreateModelRegistryOK() *CreateModelRegistryOK {
 	return &CreateModelRegistryOK{}
 }
 
-/*
-CreateModelRegistryOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateModelRegistryOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateModelRegistryOK struct {
 	Payload models.CreateModelRegistryResponse
 }
@@ -115,11 +112,9 @@ func NewCreateModelRegistryDefault(code int) *CreateModelRegistryDefault {
 	}
 }
 
-/*
-CreateModelRegistryDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateModelRegistryDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateModelRegistryDefault struct {
 	_statusCode int
 

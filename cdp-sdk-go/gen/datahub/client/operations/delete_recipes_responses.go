@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // DeleteRecipesReader is a Reader for the DeleteRecipes structure.
@@ -45,11 +44,9 @@ func NewDeleteRecipesOK() *DeleteRecipesOK {
 	return &DeleteRecipesOK{}
 }
 
-/*
-DeleteRecipesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteRecipesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteRecipesOK struct {
 	Payload *models.DeleteRecipesResponse
 }
@@ -117,11 +114,9 @@ func NewDeleteRecipesDefault(code int) *DeleteRecipesDefault {
 	}
 }
 
-/*
-DeleteRecipesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteRecipesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteRecipesDefault struct {
 	_statusCode int
 

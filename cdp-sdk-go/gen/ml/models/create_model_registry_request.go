@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // CreateModelRegistryRequest Request object for creating model registry.
@@ -91,7 +92,7 @@ func (m *CreateModelRegistryRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateModelRegistryRequest) validateOutboundTypes(formats strfmt.Registry) error {
-	if swag.IsZero(m.OutboundTypes) { // not required
+	if typeutils.IsZero(m.OutboundTypes) { // not required
 		return nil
 	}
 
@@ -116,7 +117,7 @@ func (m *CreateModelRegistryRequest) validateOutboundTypes(formats strfmt.Regist
 }
 
 func (m *CreateModelRegistryRequest) validateProvisionK8sRequest(formats strfmt.Registry) error {
-	if swag.IsZero(m.ProvisionK8sRequest) { // not required
+	if typeutils.IsZero(m.ProvisionK8sRequest) { // not required
 		return nil
 	}
 
@@ -160,7 +161,7 @@ func (m *CreateModelRegistryRequest) contextValidateOutboundTypes(ctx context.Co
 
 	for i := 0; i < len(m.OutboundTypes); i++ {
 
-		if swag.IsZero(m.OutboundTypes[i]) { // not required
+		if typeutils.IsZero(m.OutboundTypes[i]) { // not required
 			return nil
 		}
 
@@ -186,7 +187,7 @@ func (m *CreateModelRegistryRequest) contextValidateProvisionK8sRequest(ctx cont
 
 	if m.ProvisionK8sRequest != nil {
 
-		if swag.IsZero(m.ProvisionK8sRequest) { // not required
+		if typeutils.IsZero(m.ProvisionK8sRequest) { // not required
 			return nil
 		}
 
@@ -212,13 +213,13 @@ func (m *CreateModelRegistryRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateModelRegistryRequest) UnmarshalBinary(b []byte) error {
 	var res CreateModelRegistryRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

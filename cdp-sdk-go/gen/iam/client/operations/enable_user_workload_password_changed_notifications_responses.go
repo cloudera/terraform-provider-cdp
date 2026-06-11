@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // EnableUserWorkloadPasswordChangedNotificationsReader is a Reader for the EnableUserWorkloadPasswordChangedNotifications structure.
@@ -45,11 +44,9 @@ func NewEnableUserWorkloadPasswordChangedNotificationsOK() *EnableUserWorkloadPa
 	return &EnableUserWorkloadPasswordChangedNotificationsOK{}
 }
 
-/*
-EnableUserWorkloadPasswordChangedNotificationsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// EnableUserWorkloadPasswordChangedNotificationsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type EnableUserWorkloadPasswordChangedNotificationsOK struct {
 	Payload *models.EnableUserWorkloadPasswordChangedNotificationsResponse
 }
@@ -117,11 +114,9 @@ func NewEnableUserWorkloadPasswordChangedNotificationsDefault(code int) *EnableU
 	}
 }
 
-/*
-EnableUserWorkloadPasswordChangedNotificationsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// EnableUserWorkloadPasswordChangedNotificationsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type EnableUserWorkloadPasswordChangedNotificationsDefault struct {
 	_statusCode int
 

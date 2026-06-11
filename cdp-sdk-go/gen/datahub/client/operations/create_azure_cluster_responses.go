@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // CreateAzureClusterReader is a Reader for the CreateAzureCluster structure.
@@ -45,11 +44,9 @@ func NewCreateAzureClusterOK() *CreateAzureClusterOK {
 	return &CreateAzureClusterOK{}
 }
 
-/*
-CreateAzureClusterOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateAzureClusterOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateAzureClusterOK struct {
 	Payload *models.CreateAzureClusterResponse
 }
@@ -117,11 +114,9 @@ func NewCreateAzureClusterDefault(code int) *CreateAzureClusterDefault {
 	}
 }
 
-/*
-CreateAzureClusterDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateAzureClusterDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateAzureClusterDefault struct {
 	_statusCode int
 

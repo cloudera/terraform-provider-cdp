@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // CreatePrivateEnvironmentReader is a Reader for the CreatePrivateEnvironment structure.
@@ -45,11 +44,9 @@ func NewCreatePrivateEnvironmentOK() *CreatePrivateEnvironmentOK {
 	return &CreatePrivateEnvironmentOK{}
 }
 
-/*
-CreatePrivateEnvironmentOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreatePrivateEnvironmentOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreatePrivateEnvironmentOK struct {
 	Payload *models.CreatePrivateEnvironmentResponse
 }
@@ -117,11 +114,9 @@ func NewCreatePrivateEnvironmentDefault(code int) *CreatePrivateEnvironmentDefau
 	}
 }
 
-/*
-CreatePrivateEnvironmentDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreatePrivateEnvironmentDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreatePrivateEnvironmentDefault struct {
 	_statusCode int
 

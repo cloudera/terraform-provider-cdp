@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -59,7 +60,7 @@ func (m *GetOperationResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *GetOperationResponse) validateEnded(formats strfmt.Registry) error {
-	if swag.IsZero(m.Ended) { // not required
+	if typeutils.IsZero(m.Ended) { // not required
 		return nil
 	}
 
@@ -109,7 +110,7 @@ func (m *GetOperationResponse) validateOperationStatusEnum(path, location string
 }
 
 func (m *GetOperationResponse) validateOperationStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.OperationStatus) { // not required
+	if typeutils.IsZero(m.OperationStatus) { // not required
 		return nil
 	}
 
@@ -122,7 +123,7 @@ func (m *GetOperationResponse) validateOperationStatus(formats strfmt.Registry) 
 }
 
 func (m *GetOperationResponse) validateStarted(formats strfmt.Registry) error {
-	if swag.IsZero(m.Started) { // not required
+	if typeutils.IsZero(m.Started) { // not required
 		return nil
 	}
 
@@ -143,13 +144,13 @@ func (m *GetOperationResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetOperationResponse) UnmarshalBinary(b []byte) error {
 	var res GetOperationResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

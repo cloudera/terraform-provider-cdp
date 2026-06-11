@@ -63,11 +63,11 @@ func (r *databaseResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	params := operations.NewCreateDatabaseParamsWithContext(ctx)
+	params := operations.NewCreateDatabaseParams()
 	params.WithInput(fromModelToDatabaseRequest(data, ctx))
 
 	tflog.Info(ctx, fmt.Sprintf("Sending create request for OPDB with name: %s", data.DatabaseName.ValueString()))
-	res, err := r.client.Opdb.Operations.CreateDatabase(params)
+	res, err := r.client.Opdb.Operations.CreateDatabaseContext(ctx, params)
 
 	tflog.Info(ctx, fmt.Sprintf("Create request for OPDB with name: %s has been sent with the result of: %+v", data.DatabaseName.ValueString(), res))
 	if err != nil {
@@ -109,13 +109,13 @@ func (r *databaseResource) Read(ctx context.Context, req resource.ReadRequest, r
 		return
 	}
 
-	params := operations.NewDescribeDatabaseParamsWithContext(ctx)
+	params := operations.NewDescribeDatabaseParams()
 	params.WithInput(&opdbmodels.DescribeDatabaseRequest{
 		DatabaseName:    state.DatabaseName.ValueStringPointer(),
 		EnvironmentName: state.Environment.ValueStringPointer(),
 	})
 
-	result, err := r.client.Opdb.Operations.DescribeDatabase(params)
+	result, err := r.client.Opdb.Operations.DescribeDatabaseContext(ctx, params)
 	if err != nil {
 		if isNotFoundError(err) {
 			resp.Diagnostics.AddWarning("Resource not found on provider", "COD not found, removing from state.")
@@ -177,11 +177,11 @@ func (r *databaseResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	params := operations.NewUpdateDatabaseParamsWithContext(ctx)
+	params := operations.NewUpdateDatabaseParams()
 	params.WithInput(fromModelToUpdateDatabaseRequest(data, ctx))
 
 	tflog.Info(ctx, fmt.Sprintf("Sending update request for OPDB with name: %s", data.DatabaseName.ValueString()))
-	res, err := r.client.Opdb.Operations.UpdateDatabase(params)
+	res, err := r.client.Opdb.Operations.UpdateDatabaseContext(ctx, params)
 
 	tflog.Info(ctx, fmt.Sprintf("Update request for OPDB with name: %s has been sent with the result of: %+v", data.DatabaseName.ValueString(), res))
 	if err != nil {
@@ -215,14 +215,14 @@ func (r *databaseResource) Delete(ctx context.Context, req resource.DeleteReques
 		return
 	}
 
-	params := operations.NewDropDatabaseParamsWithContext(ctx).WithInput(&opdbmodels.DropDatabaseRequest{
+	params := operations.NewDropDatabaseParams().WithInput(&opdbmodels.DropDatabaseRequest{
 		DatabaseName:    state.DatabaseName.ValueStringPointer(),
 		EnvironmentName: state.Environment.ValueStringPointer(),
 	})
 
 	tflog.Debug(ctx, fmt.Sprintf("Sending drop database request: %s %s", *params.Input.DatabaseName, *params.Input.EnvironmentName))
 
-	_, err := r.client.Opdb.Operations.DropDatabase(params)
+	_, err := r.client.Opdb.Operations.DropDatabaseContext(ctx, params)
 	if err != nil {
 		if !isNotFoundError(err) {
 			utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "delete database")

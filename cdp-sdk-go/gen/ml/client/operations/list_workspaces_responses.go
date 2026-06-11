@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // ListWorkspacesReader is a Reader for the ListWorkspaces structure.
@@ -45,11 +44,9 @@ func NewListWorkspacesOK() *ListWorkspacesOK {
 	return &ListWorkspacesOK{}
 }
 
-/*
-ListWorkspacesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListWorkspacesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListWorkspacesOK struct {
 	Payload *models.ListWorkspacesResponse
 }
@@ -117,11 +114,9 @@ func NewListWorkspacesDefault(code int) *ListWorkspacesDefault {
 	}
 }
 
-/*
-ListWorkspacesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListWorkspacesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListWorkspacesDefault struct {
 	_statusCode int
 

@@ -7,7 +7,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -42,7 +43,7 @@ func (m *ConfigHistoryItem) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ConfigHistoryItem) validateFrom(formats strfmt.Registry) error {
-	if swag.IsZero(m.From) { // not required
+	if typeutils.IsZero(m.From) { // not required
 		return nil
 	}
 
@@ -63,13 +64,13 @@ func (m *ConfigHistoryItem) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ConfigHistoryItem) UnmarshalBinary(b []byte) error {
 	var res ConfigHistoryItem
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

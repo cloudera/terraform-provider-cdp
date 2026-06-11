@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewRetryDatalakeParams creates a new RetryDatalakeParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRetryDatalakeParams() *RetryDatalakeParams {
-	return &RetryDatalakeParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRetryDatalakeParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRetryDatalakeParamsWithTimeout creates a new RetryDatalakeParams object
 // with the ability to set a timeout on a request.
 func NewRetryDatalakeParamsWithTimeout(timeout time.Duration) *RetryDatalakeParams {
 	return &RetryDatalakeParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRetryDatalakeParamsWithContext creates a new RetryDatalakeParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RetryDatalakeParams].
 func NewRetryDatalakeParamsWithContext(ctx context.Context) *RetryDatalakeParams {
 	return &RetryDatalakeParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RetryDatalakeParams struct {
 	// Input.
 	Input *models.RetryDatalakeRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the retry datalake params (not the query body).
@@ -83,54 +86,57 @@ func (o *RetryDatalakeParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the retry datalake params
+// WithTimeout adds the timeout to the retry datalake params.
 func (o *RetryDatalakeParams) WithTimeout(timeout time.Duration) *RetryDatalakeParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the retry datalake params
+// SetTimeout adds the timeout to the retry datalake params.
 func (o *RetryDatalakeParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the retry datalake params
+// WithContext adds the context to the retry datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RetryDatalakeParams].
 func (o *RetryDatalakeParams) WithContext(ctx context.Context) *RetryDatalakeParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the retry datalake params
+// SetContext adds the context to the retry datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RetryDatalakeParams].
 func (o *RetryDatalakeParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the retry datalake params
+// WithHTTPClient adds the HTTPClient to the retry datalake params.
 func (o *RetryDatalakeParams) WithHTTPClient(client *http.Client) *RetryDatalakeParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the retry datalake params
+// SetHTTPClient adds the HTTPClient to the retry datalake params.
 func (o *RetryDatalakeParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the retry datalake params
+// WithInput adds the input to the retry datalake params.
 func (o *RetryDatalakeParams) WithInput(input *models.RetryDatalakeRequest) *RetryDatalakeParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the retry datalake params
+// SetInput adds the input to the retry datalake params.
 func (o *RetryDatalakeParams) SetInput(input *models.RetryDatalakeRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RetryDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

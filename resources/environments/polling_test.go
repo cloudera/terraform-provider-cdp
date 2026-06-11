@@ -46,7 +46,7 @@ func TestWaitForEnvironmentToBeAvailable_PendingStatuses(t *testing.T) {
 
 			mockOps := mocks.NewMockEnvironmentClientService(t)
 			mockOps.EXPECT().
-				DescribeEnvironment(mock.Anything).
+				DescribeEnvironmentContext(mock.Anything, mock.Anything).
 				Return(describeEnvironmentOK(status), nil).
 				Maybe()
 
@@ -86,7 +86,7 @@ func TestWaitForEnvironmentToBeAvailable_TargetStatuses(t *testing.T) {
 
 			mockOps := mocks.NewMockEnvironmentClientService(t)
 			mockOps.EXPECT().
-				DescribeEnvironment(mock.Anything).
+				DescribeEnvironmentContext(mock.Anything, mock.Anything).
 				Return(describeEnvironmentOK(status), nil)
 
 			client := &envclient.Environments{

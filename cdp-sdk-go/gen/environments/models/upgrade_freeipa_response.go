@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // UpgradeFreeipaResponse The response object for FreeIPA upgrade.
@@ -45,7 +46,7 @@ func (m *UpgradeFreeipaResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *UpgradeFreeipaResponse) validateOriginalImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.OriginalImage) { // not required
+	if typeutils.IsZero(m.OriginalImage) { // not required
 		return nil
 	}
 
@@ -68,7 +69,7 @@ func (m *UpgradeFreeipaResponse) validateOriginalImage(formats strfmt.Registry) 
 }
 
 func (m *UpgradeFreeipaResponse) validateTargetImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.TargetImage) { // not required
+	if typeutils.IsZero(m.TargetImage) { // not required
 		return nil
 	}
 
@@ -112,7 +113,7 @@ func (m *UpgradeFreeipaResponse) contextValidateOriginalImage(ctx context.Contex
 
 	if m.OriginalImage != nil {
 
-		if swag.IsZero(m.OriginalImage) { // not required
+		if typeutils.IsZero(m.OriginalImage) { // not required
 			return nil
 		}
 
@@ -137,7 +138,7 @@ func (m *UpgradeFreeipaResponse) contextValidateTargetImage(ctx context.Context,
 
 	if m.TargetImage != nil {
 
-		if swag.IsZero(m.TargetImage) { // not required
+		if typeutils.IsZero(m.TargetImage) { // not required
 			return nil
 		}
 
@@ -163,13 +164,13 @@ func (m *UpgradeFreeipaResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpgradeFreeipaResponse) UnmarshalBinary(b []byte) error {
 	var res UpgradeFreeipaResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -32,11 +32,11 @@ const (
 
 func describeEnvironmentWithDiagnosticHandle(envName string, id string, ctx context.Context, client *cdp.Client, diags *diag.Diagnostics, state *tfsdk.State) (*environmentsmodels.Environment, error) {
 	tflog.Info(ctx, "About to describe environment '"+envName+"'.")
-	params := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+	params := operations.NewDescribeEnvironmentParams()
 	params.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
 		EnvironmentName: &envName,
 	})
-	descEnvResp, err := client.Environments.Operations.DescribeEnvironment(params)
+	descEnvResp, err := client.Environments.Operations.DescribeEnvironmentContext(ctx, params)
 	if err != nil {
 		tflog.Warn(ctx, "Something happened during environment fetch: "+err.Error())
 		if isEnvNotFoundError(err) {
@@ -54,9 +54,9 @@ func describeEnvironmentWithDiagnosticHandle(envName string, id string, ctx cont
 }
 
 func deleteEnvironmentWithDiagnosticHandle(environmentName string, cascading bool, forced bool, ctx context.Context, client *cdp.Client, resp *resource.DeleteResponse, pollingOptions *utils.PollingOptions) error {
-	params := operations.NewDeleteEnvironmentParamsWithContext(ctx)
+	params := operations.NewDeleteEnvironmentParams()
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName, Cascading: cascading, Forced: forced})
-	_, err := client.Environments.Operations.DeleteEnvironment(params)
+	_, err := client.Environments.Operations.DeleteEnvironmentContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Environment")
 		return err
@@ -87,11 +87,11 @@ func waitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *c
 	}
 
 	environmentName := envName
-	descParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+	descParams := operations.NewDescribeEnvironmentParams()
 	descParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
 		EnvironmentName: &environmentName,
 	})
-	descEnvResp, err := client.Environments.Operations.DescribeEnvironment(descParams)
+	descEnvResp, err := client.Environments.Operations.DescribeEnvironmentContext(ctx, descParams)
 	if err != nil {
 		if isEnvNotFoundError(err) {
 			resp.Diagnostics.AddWarning("Resource not found on provider", "Environment not found, removing from state.")

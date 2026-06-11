@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // UpdateFreeipaToAwsImdsV2Reader is a Reader for the UpdateFreeipaToAwsImdsV2 structure.
@@ -45,11 +44,9 @@ func NewUpdateFreeipaToAwsImdsV2OK() *UpdateFreeipaToAwsImdsV2OK {
 	return &UpdateFreeipaToAwsImdsV2OK{}
 }
 
-/*
-UpdateFreeipaToAwsImdsV2OK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateFreeipaToAwsImdsV2OK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateFreeipaToAwsImdsV2OK struct {
 	Payload *models.UpdateFreeipaToAwsImdsV2Response
 }
@@ -117,11 +114,9 @@ func NewUpdateFreeipaToAwsImdsV2Default(code int) *UpdateFreeipaToAwsImdsV2Defau
 	}
 }
 
-/*
-UpdateFreeipaToAwsImdsV2Default describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateFreeipaToAwsImdsV2Default describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateFreeipaToAwsImdsV2Default struct {
 	_statusCode int
 

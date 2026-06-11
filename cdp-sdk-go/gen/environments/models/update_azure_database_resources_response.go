@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -44,7 +45,7 @@ func (m *UpdateAzureDatabaseResourcesResponse) Validate(formats strfmt.Registry)
 }
 
 func (m *UpdateAzureDatabaseResourcesResponse) validateAzureDatabaseResources(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureDatabaseResources) { // not required
+	if typeutils.IsZero(m.AzureDatabaseResources) { // not required
 		return nil
 	}
 
@@ -112,7 +113,7 @@ func (m *UpdateAzureDatabaseResourcesResponse) contextValidateAzureDatabaseResou
 
 	if m.AzureDatabaseResources != nil {
 
-		if swag.IsZero(m.AzureDatabaseResources) { // not required
+		if typeutils.IsZero(m.AzureDatabaseResources) { // not required
 			return nil
 		}
 
@@ -159,13 +160,13 @@ func (m *UpdateAzureDatabaseResourcesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateAzureDatabaseResourcesResponse) UnmarshalBinary(b []byte) error {
 	var res UpdateAzureDatabaseResourcesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

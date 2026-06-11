@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -48,7 +49,7 @@ func (m *AttachedStorageForWorkers) Validate(formats strfmt.Registry) error {
 }
 
 func (m *AttachedStorageForWorkers) validateVolumeCount(formats strfmt.Registry) error {
-	if swag.IsZero(m.VolumeCount) { // not required
+	if typeutils.IsZero(m.VolumeCount) { // not required
 		return nil
 	}
 
@@ -64,7 +65,7 @@ func (m *AttachedStorageForWorkers) validateVolumeCount(formats strfmt.Registry)
 }
 
 func (m *AttachedStorageForWorkers) validateVolumeType(formats strfmt.Registry) error {
-	if swag.IsZero(m.VolumeType) { // not required
+	if typeutils.IsZero(m.VolumeType) { // not required
 		return nil
 	}
 
@@ -100,7 +101,7 @@ func (m *AttachedStorageForWorkers) ContextValidate(ctx context.Context, formats
 
 func (m *AttachedStorageForWorkers) contextValidateVolumeType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.VolumeType) { // not required
+	if typeutils.IsZero(m.VolumeType) { // not required
 		return nil
 	}
 
@@ -125,13 +126,13 @@ func (m *AttachedStorageForWorkers) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AttachedStorageForWorkers) UnmarshalBinary(b []byte) error {
 	var res AttachedStorageForWorkers
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

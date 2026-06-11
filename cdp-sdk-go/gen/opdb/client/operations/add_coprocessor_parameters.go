@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewAddCoprocessorParams creates a new AddCoprocessorParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAddCoprocessorParams() *AddCoprocessorParams {
-	return &AddCoprocessorParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewAddCoprocessorParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewAddCoprocessorParamsWithTimeout creates a new AddCoprocessorParams object
 // with the ability to set a timeout on a request.
 func NewAddCoprocessorParamsWithTimeout(timeout time.Duration) *AddCoprocessorParams {
 	return &AddCoprocessorParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewAddCoprocessorParamsWithContext creates a new AddCoprocessorParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddCoprocessorParams].
 func NewAddCoprocessorParamsWithContext(ctx context.Context) *AddCoprocessorParams {
 	return &AddCoprocessorParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type AddCoprocessorParams struct {
 	// Input.
 	Input *models.AddCoprocessorRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the add coprocessor params (not the query body).
@@ -83,54 +86,57 @@ func (o *AddCoprocessorParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the add coprocessor params
+// WithTimeout adds the timeout to the add coprocessor params.
 func (o *AddCoprocessorParams) WithTimeout(timeout time.Duration) *AddCoprocessorParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the add coprocessor params
+// SetTimeout adds the timeout to the add coprocessor params.
 func (o *AddCoprocessorParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the add coprocessor params
+// WithContext adds the context to the add coprocessor params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddCoprocessorParams].
 func (o *AddCoprocessorParams) WithContext(ctx context.Context) *AddCoprocessorParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the add coprocessor params
+// SetContext adds the context to the add coprocessor params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AddCoprocessorParams].
 func (o *AddCoprocessorParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the add coprocessor params
+// WithHTTPClient adds the HTTPClient to the add coprocessor params.
 func (o *AddCoprocessorParams) WithHTTPClient(client *http.Client) *AddCoprocessorParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the add coprocessor params
+// SetHTTPClient adds the HTTPClient to the add coprocessor params.
 func (o *AddCoprocessorParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the add coprocessor params
+// WithInput adds the input to the add coprocessor params.
 func (o *AddCoprocessorParams) WithInput(input *models.AddCoprocessorRequest) *AddCoprocessorParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the add coprocessor params
+// SetInput adds the input to the add coprocessor params.
 func (o *AddCoprocessorParams) SetInput(input *models.AddCoprocessorRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *AddCoprocessorParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

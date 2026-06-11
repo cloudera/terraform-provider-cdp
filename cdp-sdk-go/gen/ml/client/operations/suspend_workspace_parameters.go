@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewSuspendWorkspaceParams creates a new SuspendWorkspaceParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSuspendWorkspaceParams() *SuspendWorkspaceParams {
-	return &SuspendWorkspaceParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSuspendWorkspaceParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSuspendWorkspaceParamsWithTimeout creates a new SuspendWorkspaceParams object
 // with the ability to set a timeout on a request.
 func NewSuspendWorkspaceParamsWithTimeout(timeout time.Duration) *SuspendWorkspaceParams {
 	return &SuspendWorkspaceParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSuspendWorkspaceParamsWithContext creates a new SuspendWorkspaceParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendWorkspaceParams].
 func NewSuspendWorkspaceParamsWithContext(ctx context.Context) *SuspendWorkspaceParams {
 	return &SuspendWorkspaceParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SuspendWorkspaceParams struct {
 	// Input.
 	Input *models.SuspendWorkspaceRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the suspend workspace params (not the query body).
@@ -83,54 +86,57 @@ func (o *SuspendWorkspaceParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the suspend workspace params
+// WithTimeout adds the timeout to the suspend workspace params.
 func (o *SuspendWorkspaceParams) WithTimeout(timeout time.Duration) *SuspendWorkspaceParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the suspend workspace params
+// SetTimeout adds the timeout to the suspend workspace params.
 func (o *SuspendWorkspaceParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the suspend workspace params
+// WithContext adds the context to the suspend workspace params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendWorkspaceParams].
 func (o *SuspendWorkspaceParams) WithContext(ctx context.Context) *SuspendWorkspaceParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the suspend workspace params
+// SetContext adds the context to the suspend workspace params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SuspendWorkspaceParams].
 func (o *SuspendWorkspaceParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the suspend workspace params
+// WithHTTPClient adds the HTTPClient to the suspend workspace params.
 func (o *SuspendWorkspaceParams) WithHTTPClient(client *http.Client) *SuspendWorkspaceParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the suspend workspace params
+// SetHTTPClient adds the HTTPClient to the suspend workspace params.
 func (o *SuspendWorkspaceParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the suspend workspace params
+// WithInput adds the input to the suspend workspace params.
 func (o *SuspendWorkspaceParams) WithInput(input *models.SuspendWorkspaceRequest) *SuspendWorkspaceParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the suspend workspace params
+// SetInput adds the input to the suspend workspace params.
 func (o *SuspendWorkspaceParams) SetInput(input *models.SuspendWorkspaceRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SuspendWorkspaceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

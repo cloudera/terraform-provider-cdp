@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // RestoreDatalakeReader is a Reader for the RestoreDatalake structure.
@@ -45,11 +44,9 @@ func NewRestoreDatalakeOK() *RestoreDatalakeOK {
 	return &RestoreDatalakeOK{}
 }
 
-/*
-RestoreDatalakeOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RestoreDatalakeOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RestoreDatalakeOK struct {
 	Payload *models.RestoreDatalakeResponse
 }
@@ -117,11 +114,9 @@ func NewRestoreDatalakeDefault(code int) *RestoreDatalakeDefault {
 	}
 }
 
-/*
-RestoreDatalakeDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RestoreDatalakeDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RestoreDatalakeDefault struct {
 	_statusCode int
 

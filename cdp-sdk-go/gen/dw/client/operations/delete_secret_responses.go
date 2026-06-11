@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DeleteSecretReader is a Reader for the DeleteSecret structure.
@@ -45,11 +44,9 @@ func NewDeleteSecretOK() *DeleteSecretOK {
 	return &DeleteSecretOK{}
 }
 
-/*
-DeleteSecretOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteSecretOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteSecretOK struct {
 	Payload *models.DeleteSecretResponse
 }
@@ -117,11 +114,9 @@ func NewDeleteSecretDefault(code int) *DeleteSecretDefault {
 	}
 }
 
-/*
-DeleteSecretDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteSecretDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteSecretDefault struct {
 	_statusCode int
 

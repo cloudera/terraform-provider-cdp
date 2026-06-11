@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // DeleteAutoScaleRulesReader is a Reader for the DeleteAutoScaleRules structure.
@@ -45,11 +44,9 @@ func NewDeleteAutoScaleRulesOK() *DeleteAutoScaleRulesOK {
 	return &DeleteAutoScaleRulesOK{}
 }
 
-/*
-DeleteAutoScaleRulesOK describes a response with status code 200, with default header values.
-
-The AutoScale policy before deletion.
-*/
+// DeleteAutoScaleRulesOK describes a response with status code 200, with default header values.
+//
+// The AutoScale policy before deletion.
 type DeleteAutoScaleRulesOK struct {
 	Payload models.DeleteAutoScaleRulesResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteAutoScaleRulesDefault(code int) *DeleteAutoScaleRulesDefault {
 	}
 }
 
-/*
-DeleteAutoScaleRulesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteAutoScaleRulesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteAutoScaleRulesDefault struct {
 	_statusCode int
 

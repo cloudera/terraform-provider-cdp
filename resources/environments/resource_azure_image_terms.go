@@ -57,12 +57,12 @@ func (r *azureImageTermsResource) Create(ctx context.Context, req resource.Creat
 
 	client := r.client.Environments
 
-	params := operations.NewUpdateAzureImageTermsPolicyParamsWithContext(ctx)
+	params := operations.NewUpdateAzureImageTermsPolicyParams()
 	params.WithInput(&environmentsmodels.UpdateAzureImageTermsPolicyRequest{
 		Accepted: data.Accepted.ValueBoolPointer(),
 	})
 
-	_, err := client.Operations.UpdateAzureImageTermsPolicy(params)
+	_, err := client.Operations.UpdateAzureImageTermsPolicyContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Azure Image Terms Policy")
 		return
@@ -88,9 +88,9 @@ func (r *azureImageTermsResource) Read(ctx context.Context, req resource.ReadReq
 		return
 	}
 
-	params := operations.NewGetAzureImageTermsPolicyParamsWithContext(ctx)
+	params := operations.NewGetAzureImageTermsPolicyParams()
 	params.WithInput(getAzureImageTermsPolicyRequest{})
-	getPolicyResp, err := r.client.Environments.Operations.GetAzureImageTermsPolicy(params)
+	getPolicyResp, err := r.client.Environments.Operations.GetAzureImageTermsPolicyContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read Azure Image Terms Policy")
 		return
@@ -115,12 +115,12 @@ func (r *azureImageTermsResource) Update(ctx context.Context, req resource.Updat
 
 	client := r.client.Environments
 
-	params := operations.NewUpdateAzureImageTermsPolicyParamsWithContext(ctx)
+	params := operations.NewUpdateAzureImageTermsPolicyParams()
 	params.WithInput(&environmentsmodels.UpdateAzureImageTermsPolicyRequest{
 		Accepted: data.Accepted.ValueBoolPointer(),
 	})
 
-	_, err := client.Operations.UpdateAzureImageTermsPolicy(params)
+	_, err := client.Operations.UpdateAzureImageTermsPolicyContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update Azure Image Terms Policy")
 		return
@@ -145,12 +145,12 @@ func (r *azureImageTermsResource) Delete(ctx context.Context, req resource.Delet
 
 	defaultValue := false
 
-	params := operations.NewUpdateAzureImageTermsPolicyParamsWithContext(ctx)
+	params := operations.NewUpdateAzureImageTermsPolicyParams()
 	params.WithInput(&environmentsmodels.UpdateAzureImageTermsPolicyRequest{
 		Accepted: &defaultValue,
 	})
 
-	_, err := client.Operations.UpdateAzureImageTermsPolicy(params)
+	_, err := client.Operations.UpdateAzureImageTermsPolicyContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Azure Image Terms Policy")
 		return

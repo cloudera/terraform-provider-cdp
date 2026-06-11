@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // ListSupportedInstanceTypesReader is a Reader for the ListSupportedInstanceTypes structure.
@@ -45,11 +44,9 @@ func NewListSupportedInstanceTypesOK() *ListSupportedInstanceTypesOK {
 	return &ListSupportedInstanceTypesOK{}
 }
 
-/*
-ListSupportedInstanceTypesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListSupportedInstanceTypesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListSupportedInstanceTypesOK struct {
 	Payload *models.ListSupportedInstanceTypesResponse
 }
@@ -117,11 +114,9 @@ func NewListSupportedInstanceTypesDefault(code int) *ListSupportedInstanceTypesD
 	}
 }
 
-/*
-ListSupportedInstanceTypesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListSupportedInstanceTypesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListSupportedInstanceTypesDefault struct {
 	_statusCode int
 

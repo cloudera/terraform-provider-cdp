@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // UpgradeFreeipaReader is a Reader for the UpgradeFreeipa structure.
@@ -45,11 +44,9 @@ func NewUpgradeFreeipaOK() *UpgradeFreeipaOK {
 	return &UpgradeFreeipaOK{}
 }
 
-/*
-UpgradeFreeipaOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpgradeFreeipaOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpgradeFreeipaOK struct {
 	Payload *models.UpgradeFreeipaResponse
 }
@@ -117,11 +114,9 @@ func NewUpgradeFreeipaDefault(code int) *UpgradeFreeipaDefault {
 	}
 }
 
-/*
-UpgradeFreeipaDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpgradeFreeipaDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpgradeFreeipaDefault struct {
 	_statusCode int
 

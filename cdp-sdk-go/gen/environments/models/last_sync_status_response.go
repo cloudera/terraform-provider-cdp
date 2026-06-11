@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -85,7 +86,7 @@ func (m *LastSyncStatusResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *LastSyncStatusResponse) validateEndDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndDate) { // not required
+	if typeutils.IsZero(m.EndDate) { // not required
 		return nil
 	}
 
@@ -97,12 +98,12 @@ func (m *LastSyncStatusResponse) validateEndDate(formats strfmt.Registry) error 
 }
 
 func (m *LastSyncStatusResponse) validateFailure(formats strfmt.Registry) error {
-	if swag.IsZero(m.Failure) { // not required
+	if typeutils.IsZero(m.Failure) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Failure); i++ {
-		if swag.IsZero(m.Failure[i]) { // not required
+		if typeutils.IsZero(m.Failure[i]) { // not required
 			continue
 		}
 
@@ -136,7 +137,7 @@ func (m *LastSyncStatusResponse) validateOperationID(formats strfmt.Registry) er
 }
 
 func (m *LastSyncStatusResponse) validateOperationType(formats strfmt.Registry) error {
-	if swag.IsZero(m.OperationType) { // not required
+	if typeutils.IsZero(m.OperationType) { // not required
 		return nil
 	}
 
@@ -157,7 +158,7 @@ func (m *LastSyncStatusResponse) validateOperationType(formats strfmt.Registry) 
 }
 
 func (m *LastSyncStatusResponse) validateStartDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.StartDate) { // not required
+	if typeutils.IsZero(m.StartDate) { // not required
 		return nil
 	}
 
@@ -169,7 +170,7 @@ func (m *LastSyncStatusResponse) validateStartDate(formats strfmt.Registry) erro
 }
 
 func (m *LastSyncStatusResponse) validateStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -190,12 +191,12 @@ func (m *LastSyncStatusResponse) validateStatus(formats strfmt.Registry) error {
 }
 
 func (m *LastSyncStatusResponse) validateSuccess(formats strfmt.Registry) error {
-	if swag.IsZero(m.Success) { // not required
+	if typeutils.IsZero(m.Success) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Success); i++ {
-		if swag.IsZero(m.Success[i]) { // not required
+		if typeutils.IsZero(m.Success[i]) { // not required
 			continue
 		}
 
@@ -251,7 +252,7 @@ func (m *LastSyncStatusResponse) contextValidateFailure(ctx context.Context, for
 
 		if m.Failure[i] != nil {
 
-			if swag.IsZero(m.Failure[i]) { // not required
+			if typeutils.IsZero(m.Failure[i]) { // not required
 				return nil
 			}
 
@@ -276,7 +277,7 @@ func (m *LastSyncStatusResponse) contextValidateFailure(ctx context.Context, for
 
 func (m *LastSyncStatusResponse) contextValidateOperationType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.OperationType) { // not required
+	if typeutils.IsZero(m.OperationType) { // not required
 		return nil
 	}
 
@@ -298,7 +299,7 @@ func (m *LastSyncStatusResponse) contextValidateOperationType(ctx context.Contex
 
 func (m *LastSyncStatusResponse) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -324,7 +325,7 @@ func (m *LastSyncStatusResponse) contextValidateSuccess(ctx context.Context, for
 
 		if m.Success[i] != nil {
 
-			if swag.IsZero(m.Success[i]) { // not required
+			if typeutils.IsZero(m.Success[i]) { // not required
 				return nil
 			}
 
@@ -352,13 +353,13 @@ func (m *LastSyncStatusResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *LastSyncStatusResponse) UnmarshalBinary(b []byte) error {
 	var res LastSyncStatusResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

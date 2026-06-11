@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -137,7 +138,7 @@ func (m *CreateWorkspaceRequest) validateEnvironmentName(formats strfmt.Registry
 }
 
 func (m *CreateWorkspaceRequest) validateExistingDatabaseConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.ExistingDatabaseConfig) { // not required
+	if typeutils.IsZero(m.ExistingDatabaseConfig) { // not required
 		return nil
 	}
 
@@ -160,7 +161,7 @@ func (m *CreateWorkspaceRequest) validateExistingDatabaseConfig(formats strfmt.R
 }
 
 func (m *CreateWorkspaceRequest) validateOutboundTypes(formats strfmt.Registry) error {
-	if swag.IsZero(m.OutboundTypes) { // not required
+	if typeutils.IsZero(m.OutboundTypes) { // not required
 		return nil
 	}
 
@@ -185,7 +186,7 @@ func (m *CreateWorkspaceRequest) validateOutboundTypes(formats strfmt.Registry) 
 }
 
 func (m *CreateWorkspaceRequest) validateProvisionK8sRequest(formats strfmt.Registry) error {
-	if swag.IsZero(m.ProvisionK8sRequest) { // not required
+	if typeutils.IsZero(m.ProvisionK8sRequest) { // not required
 		return nil
 	}
 
@@ -208,7 +209,7 @@ func (m *CreateWorkspaceRequest) validateProvisionK8sRequest(formats strfmt.Regi
 }
 
 func (m *CreateWorkspaceRequest) validateResourcePoolConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.ResourcePoolConfig) { // not required
+	if typeutils.IsZero(m.ResourcePoolConfig) { // not required
 		return nil
 	}
 
@@ -269,7 +270,7 @@ func (m *CreateWorkspaceRequest) contextValidateExistingDatabaseConfig(ctx conte
 
 	if m.ExistingDatabaseConfig != nil {
 
-		if swag.IsZero(m.ExistingDatabaseConfig) { // not required
+		if typeutils.IsZero(m.ExistingDatabaseConfig) { // not required
 			return nil
 		}
 
@@ -294,7 +295,7 @@ func (m *CreateWorkspaceRequest) contextValidateOutboundTypes(ctx context.Contex
 
 	for i := 0; i < len(m.OutboundTypes); i++ {
 
-		if swag.IsZero(m.OutboundTypes[i]) { // not required
+		if typeutils.IsZero(m.OutboundTypes[i]) { // not required
 			return nil
 		}
 
@@ -320,7 +321,7 @@ func (m *CreateWorkspaceRequest) contextValidateProvisionK8sRequest(ctx context.
 
 	if m.ProvisionK8sRequest != nil {
 
-		if swag.IsZero(m.ProvisionK8sRequest) { // not required
+		if typeutils.IsZero(m.ProvisionK8sRequest) { // not required
 			return nil
 		}
 
@@ -345,7 +346,7 @@ func (m *CreateWorkspaceRequest) contextValidateResourcePoolConfig(ctx context.C
 
 	if m.ResourcePoolConfig != nil {
 
-		if swag.IsZero(m.ResourcePoolConfig) { // not required
+		if typeutils.IsZero(m.ResourcePoolConfig) { // not required
 			return nil
 		}
 
@@ -371,13 +372,13 @@ func (m *CreateWorkspaceRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateWorkspaceRequest) UnmarshalBinary(b []byte) error {
 	var res CreateWorkspaceRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

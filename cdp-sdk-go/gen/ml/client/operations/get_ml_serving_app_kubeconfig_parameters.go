@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewGetMlServingAppKubeconfigParams creates a new GetMlServingAppKubeconfigParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetMlServingAppKubeconfigParams() *GetMlServingAppKubeconfigParams {
-	return &GetMlServingAppKubeconfigParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetMlServingAppKubeconfigParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetMlServingAppKubeconfigParamsWithTimeout creates a new GetMlServingAppKubeconfigParams object
 // with the ability to set a timeout on a request.
 func NewGetMlServingAppKubeconfigParamsWithTimeout(timeout time.Duration) *GetMlServingAppKubeconfigParams {
 	return &GetMlServingAppKubeconfigParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetMlServingAppKubeconfigParamsWithContext creates a new GetMlServingAppKubeconfigParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetMlServingAppKubeconfigParams].
 func NewGetMlServingAppKubeconfigParamsWithContext(ctx context.Context) *GetMlServingAppKubeconfigParams {
 	return &GetMlServingAppKubeconfigParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetMlServingAppKubeconfigParams struct {
 	// Input.
 	Input *models.GetMlServingAppKubeconfigRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get ml serving app kubeconfig params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetMlServingAppKubeconfigParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get ml serving app kubeconfig params
+// WithTimeout adds the timeout to the get ml serving app kubeconfig params.
 func (o *GetMlServingAppKubeconfigParams) WithTimeout(timeout time.Duration) *GetMlServingAppKubeconfigParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get ml serving app kubeconfig params
+// SetTimeout adds the timeout to the get ml serving app kubeconfig params.
 func (o *GetMlServingAppKubeconfigParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get ml serving app kubeconfig params
+// WithContext adds the context to the get ml serving app kubeconfig params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetMlServingAppKubeconfigParams].
 func (o *GetMlServingAppKubeconfigParams) WithContext(ctx context.Context) *GetMlServingAppKubeconfigParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get ml serving app kubeconfig params
+// SetContext adds the context to the get ml serving app kubeconfig params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetMlServingAppKubeconfigParams].
 func (o *GetMlServingAppKubeconfigParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get ml serving app kubeconfig params
+// WithHTTPClient adds the HTTPClient to the get ml serving app kubeconfig params.
 func (o *GetMlServingAppKubeconfigParams) WithHTTPClient(client *http.Client) *GetMlServingAppKubeconfigParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get ml serving app kubeconfig params
+// SetHTTPClient adds the HTTPClient to the get ml serving app kubeconfig params.
 func (o *GetMlServingAppKubeconfigParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get ml serving app kubeconfig params
+// WithInput adds the input to the get ml serving app kubeconfig params.
 func (o *GetMlServingAppKubeconfigParams) WithInput(input *models.GetMlServingAppKubeconfigRequest) *GetMlServingAppKubeconfigParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get ml serving app kubeconfig params
+// SetInput adds the input to the get ml serving app kubeconfig params.
 func (o *GetMlServingAppKubeconfigParams) SetInput(input *models.GetMlServingAppKubeconfigRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetMlServingAppKubeconfigParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

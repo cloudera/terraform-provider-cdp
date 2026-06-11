@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewBackupWorkspaceParams creates a new BackupWorkspaceParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewBackupWorkspaceParams() *BackupWorkspaceParams {
-	return &BackupWorkspaceParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewBackupWorkspaceParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewBackupWorkspaceParamsWithTimeout creates a new BackupWorkspaceParams object
 // with the ability to set a timeout on a request.
 func NewBackupWorkspaceParamsWithTimeout(timeout time.Duration) *BackupWorkspaceParams {
 	return &BackupWorkspaceParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewBackupWorkspaceParamsWithContext creates a new BackupWorkspaceParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [BackupWorkspaceParams].
 func NewBackupWorkspaceParamsWithContext(ctx context.Context) *BackupWorkspaceParams {
 	return &BackupWorkspaceParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type BackupWorkspaceParams struct {
 	// Input.
 	Input *models.BackupWorkspaceRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the backup workspace params (not the query body).
@@ -83,54 +86,57 @@ func (o *BackupWorkspaceParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the backup workspace params
+// WithTimeout adds the timeout to the backup workspace params.
 func (o *BackupWorkspaceParams) WithTimeout(timeout time.Duration) *BackupWorkspaceParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the backup workspace params
+// SetTimeout adds the timeout to the backup workspace params.
 func (o *BackupWorkspaceParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the backup workspace params
+// WithContext adds the context to the backup workspace params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [BackupWorkspaceParams].
 func (o *BackupWorkspaceParams) WithContext(ctx context.Context) *BackupWorkspaceParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the backup workspace params
+// SetContext adds the context to the backup workspace params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [BackupWorkspaceParams].
 func (o *BackupWorkspaceParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the backup workspace params
+// WithHTTPClient adds the HTTPClient to the backup workspace params.
 func (o *BackupWorkspaceParams) WithHTTPClient(client *http.Client) *BackupWorkspaceParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the backup workspace params
+// SetHTTPClient adds the HTTPClient to the backup workspace params.
 func (o *BackupWorkspaceParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the backup workspace params
+// WithInput adds the input to the backup workspace params.
 func (o *BackupWorkspaceParams) WithInput(input *models.BackupWorkspaceRequest) *BackupWorkspaceParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the backup workspace params
+// SetInput adds the input to the backup workspace params.
 func (o *BackupWorkspaceParams) SetInput(input *models.BackupWorkspaceRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *BackupWorkspaceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // VwFilter Filter object for Virtual Warehouses.
@@ -44,7 +45,7 @@ func (m *VwFilter) Validate(formats strfmt.Registry) error {
 }
 
 func (m *VwFilter) validateVwType(formats strfmt.Registry) error {
-	if swag.IsZero(m.VwType) { // not required
+	if typeutils.IsZero(m.VwType) { // not required
 		return nil
 	}
 
@@ -80,7 +81,7 @@ func (m *VwFilter) ContextValidate(ctx context.Context, formats strfmt.Registry)
 
 func (m *VwFilter) contextValidateVwType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.VwType) { // not required
+	if typeutils.IsZero(m.VwType) { // not required
 		return nil
 	}
 
@@ -105,13 +106,13 @@ func (m *VwFilter) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *VwFilter) UnmarshalBinary(b []byte) error {
 	var res VwFilter
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

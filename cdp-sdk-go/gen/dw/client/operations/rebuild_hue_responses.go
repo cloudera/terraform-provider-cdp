@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // RebuildHueReader is a Reader for the RebuildHue structure.
@@ -45,11 +44,9 @@ func NewRebuildHueOK() *RebuildHueOK {
 	return &RebuildHueOK{}
 }
 
-/*
-RebuildHueOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RebuildHueOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RebuildHueOK struct {
 	Payload *models.RebuildHueResponse
 }
@@ -117,11 +114,9 @@ func NewRebuildHueDefault(code int) *RebuildHueDefault {
 	}
 }
 
-/*
-RebuildHueDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RebuildHueDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RebuildHueDefault struct {
 	_statusCode int
 

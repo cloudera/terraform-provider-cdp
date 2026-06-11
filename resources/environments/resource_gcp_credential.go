@@ -70,14 +70,14 @@ func (r *gcpCredentialResource) Create(ctx context.Context, req resource.CreateR
 
 	credentialKey := string(dec)
 
-	params := operations.NewCreateGCPCredentialParamsWithContext(ctx)
+	params := operations.NewCreateGCPCredentialParams()
 	params.WithInput(&environmentsmodels.CreateGCPCredentialRequest{
 		CredentialName: data.CredentialName.ValueStringPointer(),
 		Description:    data.Description.ValueString(),
 		CredentialKey:  &credentialKey,
 	})
 
-	responseOk, err := r.client.Environments.Operations.CreateGCPCredential(params)
+	responseOk, err := r.client.Environments.Operations.CreateGCPCredentialContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "creating GCP Credential")
 		return
@@ -105,9 +105,9 @@ func (r *gcpCredentialResource) Read(ctx context.Context, req resource.ReadReque
 
 	// Get refreshed value from CDP
 	credentialName := state.CredentialName.ValueString()
-	params := operations.NewListCredentialsParamsWithContext(ctx)
+	params := operations.NewListCredentialsParams()
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
-	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
+	listCredentialsResp, err := r.client.Environments.Operations.ListCredentialsContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "reading GCP Credential")
 		return
@@ -148,9 +148,9 @@ func (r *gcpCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	credentialName := state.CredentialName.ValueString()
-	params := operations.NewDeleteCredentialParamsWithContext(ctx)
+	params := operations.NewDeleteCredentialParams()
 	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &credentialName})
-	_, err := r.client.Environments.Operations.DeleteCredential(params)
+	_, err := r.client.Environments.Operations.DeleteCredentialContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "deleting GCP Credential")
 		return

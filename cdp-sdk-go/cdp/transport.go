@@ -11,6 +11,7 @@
 package cdp
 
 import (
+	"context"
 	"net/http"
 	"strings"
 	"time"
@@ -49,6 +50,11 @@ type RequestHeadersRoundTripper struct {
 
 func (t *ClientTransport) Submit(operation *runtime.ClientOperation) (interface{}, error) {
 	response, err := t.Runtime.Submit(operation)
+	return response, err
+}
+
+func (t *ClientTransport) SubmitContext(ctx context.Context, operation *runtime.ClientOperation) (interface{}, error) {
+	response, err := t.Runtime.SubmitContext(ctx, operation)
 	return response, err
 }
 

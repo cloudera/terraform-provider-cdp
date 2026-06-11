@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // GetAccessKeyReader is a Reader for the GetAccessKey structure.
@@ -45,11 +44,9 @@ func NewGetAccessKeyOK() *GetAccessKeyOK {
 	return &GetAccessKeyOK{}
 }
 
-/*
-GetAccessKeyOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetAccessKeyOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetAccessKeyOK struct {
 	Payload *models.GetAccessKeyResponse
 }
@@ -117,11 +114,9 @@ func NewGetAccessKeyDefault(code int) *GetAccessKeyDefault {
 	}
 }
 
-/*
-GetAccessKeyDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetAccessKeyDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetAccessKeyDefault struct {
 	_statusCode int
 

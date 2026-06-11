@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewDescribeUpgradeDatabaseParams creates a new DescribeUpgradeDatabaseParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeUpgradeDatabaseParams() *DescribeUpgradeDatabaseParams {
-	return &DescribeUpgradeDatabaseParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeUpgradeDatabaseParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeUpgradeDatabaseParamsWithTimeout creates a new DescribeUpgradeDatabaseParams object
 // with the ability to set a timeout on a request.
 func NewDescribeUpgradeDatabaseParamsWithTimeout(timeout time.Duration) *DescribeUpgradeDatabaseParams {
 	return &DescribeUpgradeDatabaseParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeUpgradeDatabaseParamsWithContext creates a new DescribeUpgradeDatabaseParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeUpgradeDatabaseParams].
 func NewDescribeUpgradeDatabaseParamsWithContext(ctx context.Context) *DescribeUpgradeDatabaseParams {
 	return &DescribeUpgradeDatabaseParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeUpgradeDatabaseParams struct {
 	// Input.
 	Input *models.DescribeUpgradeDatabaseRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe upgrade database params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeUpgradeDatabaseParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe upgrade database params
+// WithTimeout adds the timeout to the describe upgrade database params.
 func (o *DescribeUpgradeDatabaseParams) WithTimeout(timeout time.Duration) *DescribeUpgradeDatabaseParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe upgrade database params
+// SetTimeout adds the timeout to the describe upgrade database params.
 func (o *DescribeUpgradeDatabaseParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe upgrade database params
+// WithContext adds the context to the describe upgrade database params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeUpgradeDatabaseParams].
 func (o *DescribeUpgradeDatabaseParams) WithContext(ctx context.Context) *DescribeUpgradeDatabaseParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe upgrade database params
+// SetContext adds the context to the describe upgrade database params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeUpgradeDatabaseParams].
 func (o *DescribeUpgradeDatabaseParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe upgrade database params
+// WithHTTPClient adds the HTTPClient to the describe upgrade database params.
 func (o *DescribeUpgradeDatabaseParams) WithHTTPClient(client *http.Client) *DescribeUpgradeDatabaseParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe upgrade database params
+// SetHTTPClient adds the HTTPClient to the describe upgrade database params.
 func (o *DescribeUpgradeDatabaseParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe upgrade database params
+// WithInput adds the input to the describe upgrade database params.
 func (o *DescribeUpgradeDatabaseParams) WithInput(input *models.DescribeUpgradeDatabaseRequest) *DescribeUpgradeDatabaseParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe upgrade database params
+// SetInput adds the input to the describe upgrade database params.
 func (o *DescribeUpgradeDatabaseParams) SetInput(input *models.DescribeUpgradeDatabaseRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeUpgradeDatabaseParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

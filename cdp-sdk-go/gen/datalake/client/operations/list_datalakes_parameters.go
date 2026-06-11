@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewListDatalakesParams creates a new ListDatalakesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListDatalakesParams() *ListDatalakesParams {
-	return &ListDatalakesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListDatalakesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListDatalakesParamsWithTimeout creates a new ListDatalakesParams object
 // with the ability to set a timeout on a request.
 func NewListDatalakesParamsWithTimeout(timeout time.Duration) *ListDatalakesParams {
 	return &ListDatalakesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListDatalakesParamsWithContext creates a new ListDatalakesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakesParams].
 func NewListDatalakesParamsWithContext(ctx context.Context) *ListDatalakesParams {
 	return &ListDatalakesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListDatalakesParams struct {
 	// Input.
 	Input *models.ListDatalakesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list datalakes params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListDatalakesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list datalakes params
+// WithTimeout adds the timeout to the list datalakes params.
 func (o *ListDatalakesParams) WithTimeout(timeout time.Duration) *ListDatalakesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list datalakes params
+// SetTimeout adds the timeout to the list datalakes params.
 func (o *ListDatalakesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list datalakes params
+// WithContext adds the context to the list datalakes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakesParams].
 func (o *ListDatalakesParams) WithContext(ctx context.Context) *ListDatalakesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list datalakes params
+// SetContext adds the context to the list datalakes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakesParams].
 func (o *ListDatalakesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list datalakes params
+// WithHTTPClient adds the HTTPClient to the list datalakes params.
 func (o *ListDatalakesParams) WithHTTPClient(client *http.Client) *ListDatalakesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list datalakes params
+// SetHTTPClient adds the HTTPClient to the list datalakes params.
 func (o *ListDatalakesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list datalakes params
+// WithInput adds the input to the list datalakes params.
 func (o *ListDatalakesParams) WithInput(input *models.ListDatalakesRequest) *ListDatalakesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list datalakes params
+// SetInput adds the input to the list datalakes params.
 func (o *ListDatalakesParams) SetInput(input *models.ListDatalakesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListDatalakesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

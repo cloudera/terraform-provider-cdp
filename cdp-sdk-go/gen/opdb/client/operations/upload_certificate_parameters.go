@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewUploadCertificateParams creates a new UploadCertificateParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUploadCertificateParams() *UploadCertificateParams {
-	return &UploadCertificateParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUploadCertificateParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUploadCertificateParamsWithTimeout creates a new UploadCertificateParams object
 // with the ability to set a timeout on a request.
 func NewUploadCertificateParamsWithTimeout(timeout time.Duration) *UploadCertificateParams {
 	return &UploadCertificateParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUploadCertificateParamsWithContext creates a new UploadCertificateParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UploadCertificateParams].
 func NewUploadCertificateParamsWithContext(ctx context.Context) *UploadCertificateParams {
 	return &UploadCertificateParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UploadCertificateParams struct {
 	// Input.
 	Input *models.UploadCertificateRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the upload certificate params (not the query body).
@@ -83,54 +86,57 @@ func (o *UploadCertificateParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the upload certificate params
+// WithTimeout adds the timeout to the upload certificate params.
 func (o *UploadCertificateParams) WithTimeout(timeout time.Duration) *UploadCertificateParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the upload certificate params
+// SetTimeout adds the timeout to the upload certificate params.
 func (o *UploadCertificateParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the upload certificate params
+// WithContext adds the context to the upload certificate params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UploadCertificateParams].
 func (o *UploadCertificateParams) WithContext(ctx context.Context) *UploadCertificateParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the upload certificate params
+// SetContext adds the context to the upload certificate params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UploadCertificateParams].
 func (o *UploadCertificateParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the upload certificate params
+// WithHTTPClient adds the HTTPClient to the upload certificate params.
 func (o *UploadCertificateParams) WithHTTPClient(client *http.Client) *UploadCertificateParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the upload certificate params
+// SetHTTPClient adds the HTTPClient to the upload certificate params.
 func (o *UploadCertificateParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the upload certificate params
+// WithInput adds the input to the upload certificate params.
 func (o *UploadCertificateParams) WithInput(input *models.UploadCertificateRequest) *UploadCertificateParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the upload certificate params
+// SetInput adds the input to the upload certificate params.
 func (o *UploadCertificateParams) SetInput(input *models.UploadCertificateRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UploadCertificateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

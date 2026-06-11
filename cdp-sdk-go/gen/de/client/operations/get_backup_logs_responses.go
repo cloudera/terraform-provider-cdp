@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // GetBackupLogsReader is a Reader for the GetBackupLogs structure.
@@ -45,11 +44,9 @@ func NewGetBackupLogsOK() *GetBackupLogsOK {
 	return &GetBackupLogsOK{}
 }
 
-/*
-GetBackupLogsOK describes a response with status code 200, with default header values.
-
-Response object for Get Backup Logs command.
-*/
+// GetBackupLogsOK describes a response with status code 200, with default header values.
+//
+// Response object for Get Backup Logs command.
 type GetBackupLogsOK struct {
 	Payload *models.GetBackupLogsResponse
 }
@@ -117,11 +114,9 @@ func NewGetBackupLogsDefault(code int) *GetBackupLogsDefault {
 	}
 }
 
-/*
-GetBackupLogsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetBackupLogsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetBackupLogsDefault struct {
 	_statusCode int
 

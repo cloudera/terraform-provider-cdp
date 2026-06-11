@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // GetDataVisualizationUpgradeVersionReader is a Reader for the GetDataVisualizationUpgradeVersion structure.
@@ -45,11 +44,9 @@ func NewGetDataVisualizationUpgradeVersionOK() *GetDataVisualizationUpgradeVersi
 	return &GetDataVisualizationUpgradeVersionOK{}
 }
 
-/*
-GetDataVisualizationUpgradeVersionOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetDataVisualizationUpgradeVersionOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetDataVisualizationUpgradeVersionOK struct {
 	Payload *models.GetDataVisualizationUpgradeVersionResponse
 }
@@ -117,11 +114,9 @@ func NewGetDataVisualizationUpgradeVersionDefault(code int) *GetDataVisualizatio
 	}
 }
 
-/*
-GetDataVisualizationUpgradeVersionDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetDataVisualizationUpgradeVersionDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetDataVisualizationUpgradeVersionDefault struct {
 	_statusCode int
 

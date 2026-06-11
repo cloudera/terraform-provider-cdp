@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // ListRecipesReader is a Reader for the ListRecipes structure.
@@ -45,11 +44,9 @@ func NewListRecipesOK() *ListRecipesOK {
 	return &ListRecipesOK{}
 }
 
-/*
-ListRecipesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListRecipesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListRecipesOK struct {
 	Payload *models.ListRecipesResponse
 }
@@ -117,11 +114,9 @@ func NewListRecipesDefault(code int) *ListRecipesDefault {
 	}
 }
 
-/*
-ListRecipesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListRecipesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListRecipesDefault struct {
 	_statusCode int
 

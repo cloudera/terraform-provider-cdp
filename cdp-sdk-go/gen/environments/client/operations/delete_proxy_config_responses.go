@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // DeleteProxyConfigReader is a Reader for the DeleteProxyConfig structure.
@@ -45,11 +44,9 @@ func NewDeleteProxyConfigOK() *DeleteProxyConfigOK {
 	return &DeleteProxyConfigOK{}
 }
 
-/*
-DeleteProxyConfigOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteProxyConfigOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteProxyConfigOK struct {
 	Payload models.DeleteProxyConfigResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteProxyConfigDefault(code int) *DeleteProxyConfigDefault {
 	}
 }
 
-/*
-DeleteProxyConfigDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteProxyConfigDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteProxyConfigDefault struct {
 	_statusCode int
 

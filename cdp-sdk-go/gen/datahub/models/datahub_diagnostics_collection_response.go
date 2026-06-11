@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -62,7 +63,7 @@ func (m *DatahubDiagnosticsCollectionResponse) Validate(formats strfmt.Registry)
 }
 
 func (m *DatahubDiagnosticsCollectionResponse) validateCollectionDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.CollectionDetails) { // not required
+	if typeutils.IsZero(m.CollectionDetails) { // not required
 		return nil
 	}
 
@@ -85,7 +86,7 @@ func (m *DatahubDiagnosticsCollectionResponse) validateCollectionDetails(formats
 }
 
 func (m *DatahubDiagnosticsCollectionResponse) validateCreated(formats strfmt.Registry) error {
-	if swag.IsZero(m.Created) { // not required
+	if typeutils.IsZero(m.Created) { // not required
 		return nil
 	}
 
@@ -132,7 +133,7 @@ func (m *DatahubDiagnosticsCollectionResponse) validateStatusEnum(path, location
 }
 
 func (m *DatahubDiagnosticsCollectionResponse) validateStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -162,7 +163,7 @@ func (m *DatahubDiagnosticsCollectionResponse) contextValidateCollectionDetails(
 
 	if m.CollectionDetails != nil {
 
-		if swag.IsZero(m.CollectionDetails) { // not required
+		if typeutils.IsZero(m.CollectionDetails) { // not required
 			return nil
 		}
 
@@ -188,13 +189,13 @@ func (m *DatahubDiagnosticsCollectionResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DatahubDiagnosticsCollectionResponse) UnmarshalBinary(b []byte) error {
 	var res DatahubDiagnosticsCollectionResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

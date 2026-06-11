@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewGetTrustCleanupCommandsParams creates a new GetTrustCleanupCommandsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetTrustCleanupCommandsParams() *GetTrustCleanupCommandsParams {
-	return &GetTrustCleanupCommandsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetTrustCleanupCommandsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetTrustCleanupCommandsParamsWithTimeout creates a new GetTrustCleanupCommandsParams object
 // with the ability to set a timeout on a request.
 func NewGetTrustCleanupCommandsParamsWithTimeout(timeout time.Duration) *GetTrustCleanupCommandsParams {
 	return &GetTrustCleanupCommandsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetTrustCleanupCommandsParamsWithContext creates a new GetTrustCleanupCommandsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetTrustCleanupCommandsParams].
 func NewGetTrustCleanupCommandsParamsWithContext(ctx context.Context) *GetTrustCleanupCommandsParams {
 	return &GetTrustCleanupCommandsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetTrustCleanupCommandsParams struct {
 	// Input.
 	Input *models.GetTrustCleanupCommandsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get trust cleanup commands params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetTrustCleanupCommandsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get trust cleanup commands params
+// WithTimeout adds the timeout to the get trust cleanup commands params.
 func (o *GetTrustCleanupCommandsParams) WithTimeout(timeout time.Duration) *GetTrustCleanupCommandsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get trust cleanup commands params
+// SetTimeout adds the timeout to the get trust cleanup commands params.
 func (o *GetTrustCleanupCommandsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get trust cleanup commands params
+// WithContext adds the context to the get trust cleanup commands params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetTrustCleanupCommandsParams].
 func (o *GetTrustCleanupCommandsParams) WithContext(ctx context.Context) *GetTrustCleanupCommandsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get trust cleanup commands params
+// SetContext adds the context to the get trust cleanup commands params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetTrustCleanupCommandsParams].
 func (o *GetTrustCleanupCommandsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get trust cleanup commands params
+// WithHTTPClient adds the HTTPClient to the get trust cleanup commands params.
 func (o *GetTrustCleanupCommandsParams) WithHTTPClient(client *http.Client) *GetTrustCleanupCommandsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get trust cleanup commands params
+// SetHTTPClient adds the HTTPClient to the get trust cleanup commands params.
 func (o *GetTrustCleanupCommandsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get trust cleanup commands params
+// WithInput adds the input to the get trust cleanup commands params.
 func (o *GetTrustCleanupCommandsParams) WithInput(input *models.GetTrustCleanupCommandsRequest) *GetTrustCleanupCommandsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get trust cleanup commands params
+// SetInput adds the input to the get trust cleanup commands params.
 func (o *GetTrustCleanupCommandsParams) SetInput(input *models.GetTrustCleanupCommandsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetTrustCleanupCommandsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewCollectDiagnosticsParams creates a new CollectDiagnosticsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCollectDiagnosticsParams() *CollectDiagnosticsParams {
-	return &CollectDiagnosticsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCollectDiagnosticsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCollectDiagnosticsParamsWithTimeout creates a new CollectDiagnosticsParams object
 // with the ability to set a timeout on a request.
 func NewCollectDiagnosticsParamsWithTimeout(timeout time.Duration) *CollectDiagnosticsParams {
 	return &CollectDiagnosticsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCollectDiagnosticsParamsWithContext creates a new CollectDiagnosticsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CollectDiagnosticsParams].
 func NewCollectDiagnosticsParamsWithContext(ctx context.Context) *CollectDiagnosticsParams {
 	return &CollectDiagnosticsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CollectDiagnosticsParams struct {
 	// Input.
 	Input *models.CollectDiagnosticsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the collect diagnostics params (not the query body).
@@ -83,54 +86,57 @@ func (o *CollectDiagnosticsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the collect diagnostics params
+// WithTimeout adds the timeout to the collect diagnostics params.
 func (o *CollectDiagnosticsParams) WithTimeout(timeout time.Duration) *CollectDiagnosticsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the collect diagnostics params
+// SetTimeout adds the timeout to the collect diagnostics params.
 func (o *CollectDiagnosticsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the collect diagnostics params
+// WithContext adds the context to the collect diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CollectDiagnosticsParams].
 func (o *CollectDiagnosticsParams) WithContext(ctx context.Context) *CollectDiagnosticsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the collect diagnostics params
+// SetContext adds the context to the collect diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CollectDiagnosticsParams].
 func (o *CollectDiagnosticsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the collect diagnostics params
+// WithHTTPClient adds the HTTPClient to the collect diagnostics params.
 func (o *CollectDiagnosticsParams) WithHTTPClient(client *http.Client) *CollectDiagnosticsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the collect diagnostics params
+// SetHTTPClient adds the HTTPClient to the collect diagnostics params.
 func (o *CollectDiagnosticsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the collect diagnostics params
+// WithInput adds the input to the collect diagnostics params.
 func (o *CollectDiagnosticsParams) WithInput(input *models.CollectDiagnosticsRequest) *CollectDiagnosticsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the collect diagnostics params
+// SetInput adds the input to the collect diagnostics params.
 func (o *CollectDiagnosticsParams) SetInput(input *models.CollectDiagnosticsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CollectDiagnosticsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

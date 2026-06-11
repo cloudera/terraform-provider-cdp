@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewListWorkspaceAccessParams creates a new ListWorkspaceAccessParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListWorkspaceAccessParams() *ListWorkspaceAccessParams {
-	return &ListWorkspaceAccessParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListWorkspaceAccessParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListWorkspaceAccessParamsWithTimeout creates a new ListWorkspaceAccessParams object
 // with the ability to set a timeout on a request.
 func NewListWorkspaceAccessParamsWithTimeout(timeout time.Duration) *ListWorkspaceAccessParams {
 	return &ListWorkspaceAccessParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListWorkspaceAccessParamsWithContext creates a new ListWorkspaceAccessParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListWorkspaceAccessParams].
 func NewListWorkspaceAccessParamsWithContext(ctx context.Context) *ListWorkspaceAccessParams {
 	return &ListWorkspaceAccessParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListWorkspaceAccessParams struct {
 	// Input.
 	Input *models.ListWorkspaceAccessRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list workspace access params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListWorkspaceAccessParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list workspace access params
+// WithTimeout adds the timeout to the list workspace access params.
 func (o *ListWorkspaceAccessParams) WithTimeout(timeout time.Duration) *ListWorkspaceAccessParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list workspace access params
+// SetTimeout adds the timeout to the list workspace access params.
 func (o *ListWorkspaceAccessParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list workspace access params
+// WithContext adds the context to the list workspace access params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListWorkspaceAccessParams].
 func (o *ListWorkspaceAccessParams) WithContext(ctx context.Context) *ListWorkspaceAccessParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list workspace access params
+// SetContext adds the context to the list workspace access params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListWorkspaceAccessParams].
 func (o *ListWorkspaceAccessParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list workspace access params
+// WithHTTPClient adds the HTTPClient to the list workspace access params.
 func (o *ListWorkspaceAccessParams) WithHTTPClient(client *http.Client) *ListWorkspaceAccessParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list workspace access params
+// SetHTTPClient adds the HTTPClient to the list workspace access params.
 func (o *ListWorkspaceAccessParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list workspace access params
+// WithInput adds the input to the list workspace access params.
 func (o *ListWorkspaceAccessParams) WithInput(input *models.ListWorkspaceAccessRequest) *ListWorkspaceAccessParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list workspace access params
+// SetInput adds the input to the list workspace access params.
 func (o *ListWorkspaceAccessParams) SetInput(input *models.ListWorkspaceAccessRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListWorkspaceAccessParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

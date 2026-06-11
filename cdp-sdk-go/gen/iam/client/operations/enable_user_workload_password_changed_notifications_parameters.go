@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewEnableUserWorkloadPasswordChangedNotificationsParams creates a new EnableUserWorkloadPasswordChangedNotificationsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewEnableUserWorkloadPasswordChangedNotificationsParams() *EnableUserWorkloadPasswordChangedNotificationsParams {
-	return &EnableUserWorkloadPasswordChangedNotificationsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewEnableUserWorkloadPasswordChangedNotificationsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewEnableUserWorkloadPasswordChangedNotificationsParamsWithTimeout creates a new EnableUserWorkloadPasswordChangedNotificationsParams object
 // with the ability to set a timeout on a request.
 func NewEnableUserWorkloadPasswordChangedNotificationsParamsWithTimeout(timeout time.Duration) *EnableUserWorkloadPasswordChangedNotificationsParams {
 	return &EnableUserWorkloadPasswordChangedNotificationsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewEnableUserWorkloadPasswordChangedNotificationsParamsWithContext creates a new EnableUserWorkloadPasswordChangedNotificationsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableUserWorkloadPasswordChangedNotificationsParams].
 func NewEnableUserWorkloadPasswordChangedNotificationsParamsWithContext(ctx context.Context) *EnableUserWorkloadPasswordChangedNotificationsParams {
 	return &EnableUserWorkloadPasswordChangedNotificationsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type EnableUserWorkloadPasswordChangedNotificationsParams struct {
 	// Input.
 	Input models.EnableUserWorkloadPasswordChangedNotificationsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the enable user workload password changed notifications params (not the query body).
@@ -83,54 +86,57 @@ func (o *EnableUserWorkloadPasswordChangedNotificationsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the enable user workload password changed notifications params
+// WithTimeout adds the timeout to the enable user workload password changed notifications params.
 func (o *EnableUserWorkloadPasswordChangedNotificationsParams) WithTimeout(timeout time.Duration) *EnableUserWorkloadPasswordChangedNotificationsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the enable user workload password changed notifications params
+// SetTimeout adds the timeout to the enable user workload password changed notifications params.
 func (o *EnableUserWorkloadPasswordChangedNotificationsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the enable user workload password changed notifications params
+// WithContext adds the context to the enable user workload password changed notifications params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableUserWorkloadPasswordChangedNotificationsParams].
 func (o *EnableUserWorkloadPasswordChangedNotificationsParams) WithContext(ctx context.Context) *EnableUserWorkloadPasswordChangedNotificationsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the enable user workload password changed notifications params
+// SetContext adds the context to the enable user workload password changed notifications params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableUserWorkloadPasswordChangedNotificationsParams].
 func (o *EnableUserWorkloadPasswordChangedNotificationsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the enable user workload password changed notifications params
+// WithHTTPClient adds the HTTPClient to the enable user workload password changed notifications params.
 func (o *EnableUserWorkloadPasswordChangedNotificationsParams) WithHTTPClient(client *http.Client) *EnableUserWorkloadPasswordChangedNotificationsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the enable user workload password changed notifications params
+// SetHTTPClient adds the HTTPClient to the enable user workload password changed notifications params.
 func (o *EnableUserWorkloadPasswordChangedNotificationsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the enable user workload password changed notifications params
+// WithInput adds the input to the enable user workload password changed notifications params.
 func (o *EnableUserWorkloadPasswordChangedNotificationsParams) WithInput(input models.EnableUserWorkloadPasswordChangedNotificationsRequest) *EnableUserWorkloadPasswordChangedNotificationsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the enable user workload password changed notifications params
+// SetInput adds the input to the enable user workload password changed notifications params.
 func (o *EnableUserWorkloadPasswordChangedNotificationsParams) SetInput(input models.EnableUserWorkloadPasswordChangedNotificationsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *EnableUserWorkloadPasswordChangedNotificationsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

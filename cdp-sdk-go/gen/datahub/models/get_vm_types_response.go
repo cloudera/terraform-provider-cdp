@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // GetVMTypesResponse Response object from the VM type fetch operation.
@@ -39,12 +40,12 @@ func (m *GetVMTypesResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *GetVMTypesResponse) validateVMTypesWithMetadata(formats strfmt.Registry) error {
-	if swag.IsZero(m.VMTypesWithMetadata) { // not required
+	if typeutils.IsZero(m.VMTypesWithMetadata) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.VMTypesWithMetadata); i++ {
-		if swag.IsZero(m.VMTypesWithMetadata[i]) { // not required
+		if typeutils.IsZero(m.VMTypesWithMetadata[i]) { // not required
 			continue
 		}
 
@@ -88,7 +89,7 @@ func (m *GetVMTypesResponse) contextValidateVMTypesWithMetadata(ctx context.Cont
 
 		if m.VMTypesWithMetadata[i] != nil {
 
-			if swag.IsZero(m.VMTypesWithMetadata[i]) { // not required
+			if typeutils.IsZero(m.VMTypesWithMetadata[i]) { // not required
 				return nil
 			}
 
@@ -116,13 +117,13 @@ func (m *GetVMTypesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetVMTypesResponse) UnmarshalBinary(b []byte) error {
 	var res GetVMTypesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

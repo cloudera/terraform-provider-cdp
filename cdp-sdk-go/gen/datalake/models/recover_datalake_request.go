@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -83,7 +84,7 @@ func (m *RecoverDatalakeRequest) validateRecoveryTypeEnum(path, location string,
 }
 
 func (m *RecoverDatalakeRequest) validateRecoveryType(formats strfmt.Registry) error {
-	if swag.IsZero(m.RecoveryType) { // not required
+	if typeutils.IsZero(m.RecoveryType) { // not required
 		return nil
 	}
 
@@ -105,13 +106,13 @@ func (m *RecoverDatalakeRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *RecoverDatalakeRequest) UnmarshalBinary(b []byte) error {
 	var res RecoverDatalakeRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

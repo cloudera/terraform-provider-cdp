@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // UpdateMlServingAppS3CredsReader is a Reader for the UpdateMlServingAppS3Creds structure.
@@ -45,11 +44,9 @@ func NewUpdateMlServingAppS3CredsOK() *UpdateMlServingAppS3CredsOK {
 	return &UpdateMlServingAppS3CredsOK{}
 }
 
-/*
-UpdateMlServingAppS3CredsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateMlServingAppS3CredsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateMlServingAppS3CredsOK struct {
 	Payload models.UpdateMlServingAppS3CredsResponse
 }
@@ -115,11 +112,9 @@ func NewUpdateMlServingAppS3CredsDefault(code int) *UpdateMlServingAppS3CredsDef
 	}
 }
 
-/*
-UpdateMlServingAppS3CredsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateMlServingAppS3CredsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateMlServingAppS3CredsDefault struct {
 	_statusCode int
 

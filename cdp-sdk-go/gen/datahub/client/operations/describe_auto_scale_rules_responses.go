@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // DescribeAutoScaleRulesReader is a Reader for the DescribeAutoScaleRules structure.
@@ -45,11 +44,9 @@ func NewDescribeAutoScaleRulesOK() *DescribeAutoScaleRulesOK {
 	return &DescribeAutoScaleRulesOK{}
 }
 
-/*
-DescribeAutoScaleRulesOK describes a response with status code 200, with default header values.
-
-The AutoScaling policy for the request cluster.
-*/
+// DescribeAutoScaleRulesOK describes a response with status code 200, with default header values.
+//
+// The AutoScaling policy for the request cluster.
 type DescribeAutoScaleRulesOK struct {
 	Payload *models.DescribeAutoScaleRulesResponse
 }
@@ -117,11 +114,9 @@ func NewDescribeAutoScaleRulesDefault(code int) *DescribeAutoScaleRulesDefault {
 	}
 }
 
-/*
-DescribeAutoScaleRulesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DescribeAutoScaleRulesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DescribeAutoScaleRulesDefault struct {
 	_statusCode int
 

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewDescribeScalingActivityParams creates a new DescribeScalingActivityParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeScalingActivityParams() *DescribeScalingActivityParams {
-	return &DescribeScalingActivityParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeScalingActivityParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeScalingActivityParamsWithTimeout creates a new DescribeScalingActivityParams object
 // with the ability to set a timeout on a request.
 func NewDescribeScalingActivityParamsWithTimeout(timeout time.Duration) *DescribeScalingActivityParams {
 	return &DescribeScalingActivityParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeScalingActivityParamsWithContext creates a new DescribeScalingActivityParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeScalingActivityParams].
 func NewDescribeScalingActivityParamsWithContext(ctx context.Context) *DescribeScalingActivityParams {
 	return &DescribeScalingActivityParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeScalingActivityParams struct {
 	// Input.
 	Input *models.DescribeScalingActivityRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe scaling activity params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeScalingActivityParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe scaling activity params
+// WithTimeout adds the timeout to the describe scaling activity params.
 func (o *DescribeScalingActivityParams) WithTimeout(timeout time.Duration) *DescribeScalingActivityParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe scaling activity params
+// SetTimeout adds the timeout to the describe scaling activity params.
 func (o *DescribeScalingActivityParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe scaling activity params
+// WithContext adds the context to the describe scaling activity params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeScalingActivityParams].
 func (o *DescribeScalingActivityParams) WithContext(ctx context.Context) *DescribeScalingActivityParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe scaling activity params
+// SetContext adds the context to the describe scaling activity params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeScalingActivityParams].
 func (o *DescribeScalingActivityParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe scaling activity params
+// WithHTTPClient adds the HTTPClient to the describe scaling activity params.
 func (o *DescribeScalingActivityParams) WithHTTPClient(client *http.Client) *DescribeScalingActivityParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe scaling activity params
+// SetHTTPClient adds the HTTPClient to the describe scaling activity params.
 func (o *DescribeScalingActivityParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe scaling activity params
+// WithInput adds the input to the describe scaling activity params.
 func (o *DescribeScalingActivityParams) WithInput(input *models.DescribeScalingActivityRequest) *DescribeScalingActivityParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe scaling activity params
+// SetInput adds the input to the describe scaling activity params.
 func (o *DescribeScalingActivityParams) SetInput(input *models.DescribeScalingActivityRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeScalingActivityParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

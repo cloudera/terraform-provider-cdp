@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // GrantModelRegistryAccessReader is a Reader for the GrantModelRegistryAccess structure.
@@ -45,11 +44,9 @@ func NewGrantModelRegistryAccessOK() *GrantModelRegistryAccessOK {
 	return &GrantModelRegistryAccessOK{}
 }
 
-/*
-GrantModelRegistryAccessOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GrantModelRegistryAccessOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GrantModelRegistryAccessOK struct {
 	Payload *models.GrantModelRegistryAccessResponse
 }
@@ -117,11 +114,9 @@ func NewGrantModelRegistryAccessDefault(code int) *GrantModelRegistryAccessDefau
 	}
 }
 
-/*
-GrantModelRegistryAccessDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GrantModelRegistryAccessDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GrantModelRegistryAccessDefault struct {
 	_statusCode int
 

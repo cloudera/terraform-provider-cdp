@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewUpgradeDataVisualizationParams creates a new UpgradeDataVisualizationParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpgradeDataVisualizationParams() *UpgradeDataVisualizationParams {
-	return &UpgradeDataVisualizationParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpgradeDataVisualizationParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpgradeDataVisualizationParamsWithTimeout creates a new UpgradeDataVisualizationParams object
 // with the ability to set a timeout on a request.
 func NewUpgradeDataVisualizationParamsWithTimeout(timeout time.Duration) *UpgradeDataVisualizationParams {
 	return &UpgradeDataVisualizationParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpgradeDataVisualizationParamsWithContext creates a new UpgradeDataVisualizationParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeDataVisualizationParams].
 func NewUpgradeDataVisualizationParamsWithContext(ctx context.Context) *UpgradeDataVisualizationParams {
 	return &UpgradeDataVisualizationParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpgradeDataVisualizationParams struct {
 	// Input.
 	Input *models.UpgradeDataVisualizationRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the upgrade data visualization params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpgradeDataVisualizationParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the upgrade data visualization params
+// WithTimeout adds the timeout to the upgrade data visualization params.
 func (o *UpgradeDataVisualizationParams) WithTimeout(timeout time.Duration) *UpgradeDataVisualizationParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the upgrade data visualization params
+// SetTimeout adds the timeout to the upgrade data visualization params.
 func (o *UpgradeDataVisualizationParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the upgrade data visualization params
+// WithContext adds the context to the upgrade data visualization params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeDataVisualizationParams].
 func (o *UpgradeDataVisualizationParams) WithContext(ctx context.Context) *UpgradeDataVisualizationParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the upgrade data visualization params
+// SetContext adds the context to the upgrade data visualization params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeDataVisualizationParams].
 func (o *UpgradeDataVisualizationParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the upgrade data visualization params
+// WithHTTPClient adds the HTTPClient to the upgrade data visualization params.
 func (o *UpgradeDataVisualizationParams) WithHTTPClient(client *http.Client) *UpgradeDataVisualizationParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the upgrade data visualization params
+// SetHTTPClient adds the HTTPClient to the upgrade data visualization params.
 func (o *UpgradeDataVisualizationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the upgrade data visualization params
+// WithInput adds the input to the upgrade data visualization params.
 func (o *UpgradeDataVisualizationParams) WithInput(input *models.UpgradeDataVisualizationRequest) *UpgradeDataVisualizationParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the upgrade data visualization params
+// SetInput adds the input to the upgrade data visualization params.
 func (o *UpgradeDataVisualizationParams) SetInput(input *models.UpgradeDataVisualizationRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpgradeDataVisualizationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

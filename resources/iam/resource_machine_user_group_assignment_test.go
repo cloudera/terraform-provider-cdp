@@ -75,12 +75,12 @@ func testAccCheckIamMachineUserGroupAssignmentExists(rName string, grName string
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
 
-		params := operations.NewListGroupsForMachineUserParamsWithContext(context.TODO())
+		params := operations.NewListGroupsForMachineUserParams()
 		params.WithInput(&models.ListGroupsForMachineUserRequest{
 			MachineUserName: &rName,
 		})
 
-		responseOk, err := cdpClient.Iam.Operations.ListGroupsForMachineUser(params)
+		responseOk, err := cdpClient.Iam.Operations.ListGroupsForMachineUserContext(context.TODO(), params)
 		if err != nil {
 			if d, ok := err.(*operations.ListGroupsForMachineUserDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
 				return fmt.Errorf("machine user %s not found", rName)
@@ -88,12 +88,12 @@ func testAccCheckIamMachineUserGroupAssignmentExists(rName string, grName string
 			return nil
 		}
 
-		grParams := operations.NewListGroupsParamsWithContext(context.TODO())
+		grParams := operations.NewListGroupsParams()
 		grParams.WithInput(&models.ListGroupsRequest{
 			GroupNames: []string{grName},
 		})
 
-		grRespOk, err := cdpClient.Iam.Operations.ListGroups(grParams)
+		grRespOk, err := cdpClient.Iam.Operations.ListGroupsContext(context.TODO(), grParams)
 		if err != nil {
 			if d, ok := err.(*operations.ListGroupsDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
 				return fmt.Errorf("group %s not found", grName)

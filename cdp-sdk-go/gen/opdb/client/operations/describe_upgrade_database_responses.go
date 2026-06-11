@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // DescribeUpgradeDatabaseReader is a Reader for the DescribeUpgradeDatabase structure.
@@ -45,11 +44,9 @@ func NewDescribeUpgradeDatabaseOK() *DescribeUpgradeDatabaseOK {
 	return &DescribeUpgradeDatabaseOK{}
 }
 
-/*
-DescribeUpgradeDatabaseOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DescribeUpgradeDatabaseOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DescribeUpgradeDatabaseOK struct {
 	Payload *models.DescribeUpgradeDatabaseResponse
 }
@@ -117,11 +114,9 @@ func NewDescribeUpgradeDatabaseDefault(code int) *DescribeUpgradeDatabaseDefault
 	}
 }
 
-/*
-DescribeUpgradeDatabaseDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DescribeUpgradeDatabaseDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DescribeUpgradeDatabaseDefault struct {
 	_statusCode int
 

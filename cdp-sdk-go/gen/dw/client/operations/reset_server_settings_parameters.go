@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewResetServerSettingsParams creates a new ResetServerSettingsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewResetServerSettingsParams() *ResetServerSettingsParams {
-	return &ResetServerSettingsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewResetServerSettingsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewResetServerSettingsParamsWithTimeout creates a new ResetServerSettingsParams object
 // with the ability to set a timeout on a request.
 func NewResetServerSettingsParamsWithTimeout(timeout time.Duration) *ResetServerSettingsParams {
 	return &ResetServerSettingsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewResetServerSettingsParamsWithContext creates a new ResetServerSettingsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ResetServerSettingsParams].
 func NewResetServerSettingsParamsWithContext(ctx context.Context) *ResetServerSettingsParams {
 	return &ResetServerSettingsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ResetServerSettingsParams struct {
 	// Input.
 	Input models.ResetServerSettingsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the reset server settings params (not the query body).
@@ -83,54 +86,57 @@ func (o *ResetServerSettingsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the reset server settings params
+// WithTimeout adds the timeout to the reset server settings params.
 func (o *ResetServerSettingsParams) WithTimeout(timeout time.Duration) *ResetServerSettingsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the reset server settings params
+// SetTimeout adds the timeout to the reset server settings params.
 func (o *ResetServerSettingsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the reset server settings params
+// WithContext adds the context to the reset server settings params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ResetServerSettingsParams].
 func (o *ResetServerSettingsParams) WithContext(ctx context.Context) *ResetServerSettingsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the reset server settings params
+// SetContext adds the context to the reset server settings params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ResetServerSettingsParams].
 func (o *ResetServerSettingsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the reset server settings params
+// WithHTTPClient adds the HTTPClient to the reset server settings params.
 func (o *ResetServerSettingsParams) WithHTTPClient(client *http.Client) *ResetServerSettingsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the reset server settings params
+// SetHTTPClient adds the HTTPClient to the reset server settings params.
 func (o *ResetServerSettingsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the reset server settings params
+// WithInput adds the input to the reset server settings params.
 func (o *ResetServerSettingsParams) WithInput(input models.ResetServerSettingsRequest) *ResetServerSettingsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the reset server settings params
+// SetInput adds the input to the reset server settings params.
 func (o *ResetServerSettingsParams) SetInput(input models.ResetServerSettingsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ResetServerSettingsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // ListScalingActivitiesReader is a Reader for the ListScalingActivities structure.
@@ -45,11 +44,9 @@ func NewListScalingActivitiesOK() *ListScalingActivitiesOK {
 	return &ListScalingActivitiesOK{}
 }
 
-/*
-ListScalingActivitiesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListScalingActivitiesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListScalingActivitiesOK struct {
 	Payload *models.ListScalingActivitiesResponse
 }
@@ -117,11 +114,9 @@ func NewListScalingActivitiesDefault(code int) *ListScalingActivitiesDefault {
 	}
 }
 
-/*
-ListScalingActivitiesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListScalingActivitiesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListScalingActivitiesDefault struct {
 	_statusCode int
 

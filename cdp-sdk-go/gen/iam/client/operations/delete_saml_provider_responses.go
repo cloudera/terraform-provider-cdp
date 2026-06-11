@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // DeleteSamlProviderReader is a Reader for the DeleteSamlProvider structure.
@@ -45,11 +44,9 @@ func NewDeleteSamlProviderOK() *DeleteSamlProviderOK {
 	return &DeleteSamlProviderOK{}
 }
 
-/*
-DeleteSamlProviderOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteSamlProviderOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteSamlProviderOK struct {
 	Payload models.DeleteSamlProviderResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteSamlProviderDefault(code int) *DeleteSamlProviderDefault {
 	}
 }
 
-/*
-DeleteSamlProviderDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteSamlProviderDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteSamlProviderDefault struct {
 	_statusCode int
 

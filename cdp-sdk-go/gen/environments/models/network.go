@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -94,7 +95,7 @@ func (m *Network) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Network) validateAws(formats strfmt.Registry) error {
-	if swag.IsZero(m.Aws) { // not required
+	if typeutils.IsZero(m.Aws) { // not required
 		return nil
 	}
 
@@ -117,7 +118,7 @@ func (m *Network) validateAws(formats strfmt.Registry) error {
 }
 
 func (m *Network) validateAzure(formats strfmt.Registry) error {
-	if swag.IsZero(m.Azure) { // not required
+	if typeutils.IsZero(m.Azure) { // not required
 		return nil
 	}
 
@@ -169,7 +170,7 @@ func (m *Network) validateEndpointAccessGatewaySchemeEnum(path, location string,
 }
 
 func (m *Network) validateEndpointAccessGatewayScheme(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndpointAccessGatewayScheme) { // not required
+	if typeutils.IsZero(m.EndpointAccessGatewayScheme) { // not required
 		return nil
 	}
 
@@ -182,7 +183,7 @@ func (m *Network) validateEndpointAccessGatewayScheme(formats strfmt.Registry) e
 }
 
 func (m *Network) validateEndpointAccessGatewaySubnetIds(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndpointAccessGatewaySubnetIds) { // not required
+	if typeutils.IsZero(m.EndpointAccessGatewaySubnetIds) { // not required
 		return nil
 	}
 
@@ -194,7 +195,7 @@ func (m *Network) validateEndpointAccessGatewaySubnetIds(formats strfmt.Registry
 }
 
 func (m *Network) validateGcp(formats strfmt.Registry) error {
-	if swag.IsZero(m.Gcp) { // not required
+	if typeutils.IsZero(m.Gcp) { // not required
 		return nil
 	}
 
@@ -239,7 +240,7 @@ func (m *Network) validateSubnetIds(formats strfmt.Registry) error {
 }
 
 func (m *Network) validateSubnetMetadata(formats strfmt.Registry) error {
-	if swag.IsZero(m.SubnetMetadata) { // not required
+	if typeutils.IsZero(m.SubnetMetadata) { // not required
 		return nil
 	}
 
@@ -298,7 +299,7 @@ func (m *Network) contextValidateAws(ctx context.Context, formats strfmt.Registr
 
 	if m.Aws != nil {
 
-		if swag.IsZero(m.Aws) { // not required
+		if typeutils.IsZero(m.Aws) { // not required
 			return nil
 		}
 
@@ -323,7 +324,7 @@ func (m *Network) contextValidateAzure(ctx context.Context, formats strfmt.Regis
 
 	if m.Azure != nil {
 
-		if swag.IsZero(m.Azure) { // not required
+		if typeutils.IsZero(m.Azure) { // not required
 			return nil
 		}
 
@@ -348,7 +349,7 @@ func (m *Network) contextValidateGcp(ctx context.Context, formats strfmt.Registr
 
 	if m.Gcp != nil {
 
-		if swag.IsZero(m.Gcp) { // not required
+		if typeutils.IsZero(m.Gcp) { // not required
 			return nil
 		}
 
@@ -389,13 +390,13 @@ func (m *Network) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *Network) UnmarshalBinary(b []byte) error {
 	var res Network
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

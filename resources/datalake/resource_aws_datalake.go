@@ -138,9 +138,9 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 
 	client := r.client.Datalake
 
-	params := operations.NewCreateAWSDatalakeParamsWithContext(ctx)
+	params := operations.NewCreateAWSDatalakeParams()
 	params.WithInput(toAwsDatalakeRequest(ctx, &state))
-	responseOk, err := client.Operations.CreateAWSDatalake(params)
+	responseOk, err := client.Operations.CreateAWSDatalakeContext(ctx, params)
 	if err != nil {
 		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
 		return
@@ -167,9 +167,9 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 		}
 	}
 
-	descParams := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	descParams := operations.NewDescribeDatalakeParams()
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
-	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
+	descResponseOk, err := client.Operations.DescribeDatalakeContext(ctx, descParams)
 	if err != nil {
 		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
 		return
@@ -206,9 +206,9 @@ func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallba
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			log.Printf("About to describe datalake")
-			params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+			params := operations.NewDescribeDatalakeParams()
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
-			resp, err := client.Operations.DescribeDatalake(params)
+			resp, err := client.Operations.DescribeDatalakeContext(ctx, params)
 			if err != nil {
 				callFailedCount++
 				if callFailedCount <= callFailureThreshold {
@@ -258,9 +258,9 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 
 	client := r.client.Datalake
 
-	params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	params := operations.NewDescribeDatalakeParams()
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
-	responseOk, err := client.Operations.DescribeDatalake(params)
+	responseOk, err := client.Operations.DescribeDatalakeContext(ctx, params)
 	if err != nil {
 		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
@@ -366,12 +366,12 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 	if state.DeleteOptions != nil {
 		forceDelete = state.DeleteOptions.Forced.ValueBool()
 	}
-	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
+	params := operations.NewDeleteDatalakeParams()
 	params.WithInput(&datalakemodels.DeleteDatalakeRequest{
 		DatalakeName: &dlName,
 		Force:        forceDelete,
 	})
-	_, err := client.Operations.DeleteDatalake(params)
+	_, err := client.Operations.DeleteDatalakeContext(ctx, params)
 	if err != nil {
 		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
@@ -407,9 +407,9 @@ func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, fallba
 		Target:  []string{},
 		Timeout: *timeout,
 		Refresh: func() (interface{}, string, error) {
-			params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+			params := operations.NewDescribeDatalakeParams()
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
-			resp, err := datalake.Operations.DescribeDatalake(params)
+			resp, err := datalake.Operations.DescribeDatalakeContext(ctx, params)
 			if err != nil {
 				if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
 					if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {

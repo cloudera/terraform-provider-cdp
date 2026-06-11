@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewRestoreWorkspaceParams creates a new RestoreWorkspaceParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRestoreWorkspaceParams() *RestoreWorkspaceParams {
-	return &RestoreWorkspaceParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRestoreWorkspaceParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRestoreWorkspaceParamsWithTimeout creates a new RestoreWorkspaceParams object
 // with the ability to set a timeout on a request.
 func NewRestoreWorkspaceParamsWithTimeout(timeout time.Duration) *RestoreWorkspaceParams {
 	return &RestoreWorkspaceParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRestoreWorkspaceParamsWithContext creates a new RestoreWorkspaceParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreWorkspaceParams].
 func NewRestoreWorkspaceParamsWithContext(ctx context.Context) *RestoreWorkspaceParams {
 	return &RestoreWorkspaceParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RestoreWorkspaceParams struct {
 	// Input.
 	Input *models.RestoreWorkspaceRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the restore workspace params (not the query body).
@@ -83,54 +86,57 @@ func (o *RestoreWorkspaceParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the restore workspace params
+// WithTimeout adds the timeout to the restore workspace params.
 func (o *RestoreWorkspaceParams) WithTimeout(timeout time.Duration) *RestoreWorkspaceParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the restore workspace params
+// SetTimeout adds the timeout to the restore workspace params.
 func (o *RestoreWorkspaceParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the restore workspace params
+// WithContext adds the context to the restore workspace params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreWorkspaceParams].
 func (o *RestoreWorkspaceParams) WithContext(ctx context.Context) *RestoreWorkspaceParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the restore workspace params
+// SetContext adds the context to the restore workspace params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreWorkspaceParams].
 func (o *RestoreWorkspaceParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the restore workspace params
+// WithHTTPClient adds the HTTPClient to the restore workspace params.
 func (o *RestoreWorkspaceParams) WithHTTPClient(client *http.Client) *RestoreWorkspaceParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the restore workspace params
+// SetHTTPClient adds the HTTPClient to the restore workspace params.
 func (o *RestoreWorkspaceParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the restore workspace params
+// WithInput adds the input to the restore workspace params.
 func (o *RestoreWorkspaceParams) WithInput(input *models.RestoreWorkspaceRequest) *RestoreWorkspaceParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the restore workspace params
+// SetInput adds the input to the restore workspace params.
 func (o *RestoreWorkspaceParams) SetInput(input *models.RestoreWorkspaceRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RestoreWorkspaceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

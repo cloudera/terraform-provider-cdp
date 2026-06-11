@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -181,7 +182,7 @@ func (m *WorkspaceSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *WorkspaceSummary) validateBackupMetadata(formats strfmt.Registry) error {
-	if swag.IsZero(m.BackupMetadata) { // not required
+	if typeutils.IsZero(m.BackupMetadata) { // not required
 		return nil
 	}
 
@@ -213,7 +214,7 @@ func (m *WorkspaceSummary) validateCloudPlatform(formats strfmt.Registry) error 
 }
 
 func (m *WorkspaceSummary) validateCreationDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreationDate) { // not required
+	if typeutils.IsZero(m.CreationDate) { // not required
 		return nil
 	}
 
@@ -270,12 +271,12 @@ func (m *WorkspaceSummary) validateFilesystemID(formats strfmt.Registry) error {
 }
 
 func (m *WorkspaceSummary) validateHealthInfoLists(formats strfmt.Registry) error {
-	if swag.IsZero(m.HealthInfoLists) { // not required
+	if typeutils.IsZero(m.HealthInfoLists) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.HealthInfoLists); i++ {
-		if swag.IsZero(m.HealthInfoLists[i]) { // not required
+		if typeutils.IsZero(m.HealthInfoLists[i]) { // not required
 			continue
 		}
 
@@ -354,7 +355,7 @@ func (m *WorkspaceSummary) validateMonitoringEnabled(formats strfmt.Registry) er
 }
 
 func (m *WorkspaceSummary) validateUpgradeState(formats strfmt.Registry) error {
-	if swag.IsZero(m.UpgradeState) { // not required
+	if typeutils.IsZero(m.UpgradeState) { // not required
 		return nil
 	}
 
@@ -411,7 +412,7 @@ func (m *WorkspaceSummary) contextValidateBackupMetadata(ctx context.Context, fo
 
 	if m.BackupMetadata != nil {
 
-		if swag.IsZero(m.BackupMetadata) { // not required
+		if typeutils.IsZero(m.BackupMetadata) { // not required
 			return nil
 		}
 
@@ -438,7 +439,7 @@ func (m *WorkspaceSummary) contextValidateHealthInfoLists(ctx context.Context, f
 
 		if m.HealthInfoLists[i] != nil {
 
-			if swag.IsZero(m.HealthInfoLists[i]) { // not required
+			if typeutils.IsZero(m.HealthInfoLists[i]) { // not required
 				return nil
 			}
 
@@ -465,7 +466,7 @@ func (m *WorkspaceSummary) contextValidateUpgradeState(ctx context.Context, form
 
 	if m.UpgradeState != nil {
 
-		if swag.IsZero(m.UpgradeState) { // not required
+		if typeutils.IsZero(m.UpgradeState) { // not required
 			return nil
 		}
 
@@ -491,13 +492,13 @@ func (m *WorkspaceSummary) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *WorkspaceSummary) UnmarshalBinary(b []byte) error {
 	var res WorkspaceSummary
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

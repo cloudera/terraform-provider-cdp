@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DescribeAllowedInstanceTypesResponse Response object for the describeAllowedInstanceTypes method.
@@ -42,7 +43,7 @@ func (m *DescribeAllowedInstanceTypesResponse) Validate(formats strfmt.Registry)
 }
 
 func (m *DescribeAllowedInstanceTypesResponse) validateAws(formats strfmt.Registry) error {
-	if swag.IsZero(m.Aws) { // not required
+	if typeutils.IsZero(m.Aws) { // not required
 		return nil
 	}
 
@@ -65,7 +66,7 @@ func (m *DescribeAllowedInstanceTypesResponse) validateAws(formats strfmt.Regist
 }
 
 func (m *DescribeAllowedInstanceTypesResponse) validateAzure(formats strfmt.Registry) error {
-	if swag.IsZero(m.Azure) { // not required
+	if typeutils.IsZero(m.Azure) { // not required
 		return nil
 	}
 
@@ -109,7 +110,7 @@ func (m *DescribeAllowedInstanceTypesResponse) contextValidateAws(ctx context.Co
 
 	if m.Aws != nil {
 
-		if swag.IsZero(m.Aws) { // not required
+		if typeutils.IsZero(m.Aws) { // not required
 			return nil
 		}
 
@@ -134,7 +135,7 @@ func (m *DescribeAllowedInstanceTypesResponse) contextValidateAzure(ctx context.
 
 	if m.Azure != nil {
 
-		if swag.IsZero(m.Azure) { // not required
+		if typeutils.IsZero(m.Azure) { // not required
 			return nil
 		}
 
@@ -160,13 +161,13 @@ func (m *DescribeAllowedInstanceTypesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeAllowedInstanceTypesResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeAllowedInstanceTypesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

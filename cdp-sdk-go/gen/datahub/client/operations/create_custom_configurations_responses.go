@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // CreateCustomConfigurationsReader is a Reader for the CreateCustomConfigurations structure.
@@ -45,11 +44,9 @@ func NewCreateCustomConfigurationsOK() *CreateCustomConfigurationsOK {
 	return &CreateCustomConfigurationsOK{}
 }
 
-/*
-CreateCustomConfigurationsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateCustomConfigurationsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateCustomConfigurationsOK struct {
 	Payload *models.CreateCustomConfigurationsResponse
 }
@@ -117,11 +114,9 @@ func NewCreateCustomConfigurationsDefault(code int) *CreateCustomConfigurationsD
 	}
 }
 
-/*
-CreateCustomConfigurationsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateCustomConfigurationsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateCustomConfigurationsDefault struct {
 	_statusCode int
 

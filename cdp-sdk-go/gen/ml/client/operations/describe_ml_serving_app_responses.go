@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // DescribeMlServingAppReader is a Reader for the DescribeMlServingApp structure.
@@ -45,11 +44,9 @@ func NewDescribeMlServingAppOK() *DescribeMlServingAppOK {
 	return &DescribeMlServingAppOK{}
 }
 
-/*
-DescribeMlServingAppOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DescribeMlServingAppOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DescribeMlServingAppOK struct {
 	Payload *models.DescribeMlServingAppResponse
 }
@@ -117,11 +114,9 @@ func NewDescribeMlServingAppDefault(code int) *DescribeMlServingAppDefault {
 	}
 }
 
-/*
-DescribeMlServingAppDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DescribeMlServingAppDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DescribeMlServingAppDefault struct {
 	_statusCode int
 

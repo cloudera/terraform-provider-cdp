@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // ListSnapshotsReader is a Reader for the ListSnapshots structure.
@@ -45,11 +44,9 @@ func NewListSnapshotsOK() *ListSnapshotsOK {
 	return &ListSnapshotsOK{}
 }
 
-/*
-ListSnapshotsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListSnapshotsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListSnapshotsOK struct {
 	Payload *models.ListSnapshotsResponse
 }
@@ -117,11 +114,9 @@ func NewListSnapshotsDefault(code int) *ListSnapshotsDefault {
 	}
 }
 
-/*
-ListSnapshotsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListSnapshotsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListSnapshotsDefault struct {
 	_statusCode int
 

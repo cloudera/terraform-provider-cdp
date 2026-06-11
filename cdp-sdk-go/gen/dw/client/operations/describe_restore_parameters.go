@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDescribeRestoreParams creates a new DescribeRestoreParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeRestoreParams() *DescribeRestoreParams {
-	return &DescribeRestoreParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeRestoreParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeRestoreParamsWithTimeout creates a new DescribeRestoreParams object
 // with the ability to set a timeout on a request.
 func NewDescribeRestoreParamsWithTimeout(timeout time.Duration) *DescribeRestoreParams {
 	return &DescribeRestoreParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeRestoreParamsWithContext creates a new DescribeRestoreParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeRestoreParams].
 func NewDescribeRestoreParamsWithContext(ctx context.Context) *DescribeRestoreParams {
 	return &DescribeRestoreParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeRestoreParams struct {
 	// Input.
 	Input *models.DescribeRestoreRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe restore params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeRestoreParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe restore params
+// WithTimeout adds the timeout to the describe restore params.
 func (o *DescribeRestoreParams) WithTimeout(timeout time.Duration) *DescribeRestoreParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe restore params
+// SetTimeout adds the timeout to the describe restore params.
 func (o *DescribeRestoreParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe restore params
+// WithContext adds the context to the describe restore params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeRestoreParams].
 func (o *DescribeRestoreParams) WithContext(ctx context.Context) *DescribeRestoreParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe restore params
+// SetContext adds the context to the describe restore params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeRestoreParams].
 func (o *DescribeRestoreParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe restore params
+// WithHTTPClient adds the HTTPClient to the describe restore params.
 func (o *DescribeRestoreParams) WithHTTPClient(client *http.Client) *DescribeRestoreParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe restore params
+// SetHTTPClient adds the HTTPClient to the describe restore params.
 func (o *DescribeRestoreParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe restore params
+// WithInput adds the input to the describe restore params.
 func (o *DescribeRestoreParams) WithInput(input *models.DescribeRestoreRequest) *DescribeRestoreParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe restore params
+// SetInput adds the input to the describe restore params.
 func (o *DescribeRestoreParams) SetInput(input *models.DescribeRestoreRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeRestoreParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

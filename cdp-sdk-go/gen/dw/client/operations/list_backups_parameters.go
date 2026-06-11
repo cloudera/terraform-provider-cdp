@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewListBackupsParams creates a new ListBackupsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListBackupsParams() *ListBackupsParams {
-	return &ListBackupsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListBackupsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListBackupsParamsWithTimeout creates a new ListBackupsParams object
 // with the ability to set a timeout on a request.
 func NewListBackupsParamsWithTimeout(timeout time.Duration) *ListBackupsParams {
 	return &ListBackupsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListBackupsParamsWithContext creates a new ListBackupsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListBackupsParams].
 func NewListBackupsParamsWithContext(ctx context.Context) *ListBackupsParams {
 	return &ListBackupsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListBackupsParams struct {
 	// Input.
 	Input *models.ListBackupsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list backups params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListBackupsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list backups params
+// WithTimeout adds the timeout to the list backups params.
 func (o *ListBackupsParams) WithTimeout(timeout time.Duration) *ListBackupsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list backups params
+// SetTimeout adds the timeout to the list backups params.
 func (o *ListBackupsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list backups params
+// WithContext adds the context to the list backups params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListBackupsParams].
 func (o *ListBackupsParams) WithContext(ctx context.Context) *ListBackupsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list backups params
+// SetContext adds the context to the list backups params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListBackupsParams].
 func (o *ListBackupsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list backups params
+// WithHTTPClient adds the HTTPClient to the list backups params.
 func (o *ListBackupsParams) WithHTTPClient(client *http.Client) *ListBackupsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list backups params
+// SetHTTPClient adds the HTTPClient to the list backups params.
 func (o *ListBackupsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list backups params
+// WithInput adds the input to the list backups params.
 func (o *ListBackupsParams) WithInput(input *models.ListBackupsRequest) *ListBackupsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list backups params
+// SetInput adds the input to the list backups params.
 func (o *ListBackupsParams) SetInput(input *models.ListBackupsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListBackupsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

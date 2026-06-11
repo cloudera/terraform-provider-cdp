@@ -336,13 +336,13 @@ func testCheckClusterDestroy(s *terraform.State) error {
 		}
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
-		params := operations.NewDescribeClusterParamsWithContext(context.Background())
+		params := operations.NewDescribeClusterParams()
 		clusterID := rs.Primary.Attributes["cluster_id"]
 		params.WithInput(&models.DescribeClusterRequest{
 			ClusterID: &clusterID,
 		})
 
-		_, err := cdpClient.Dw.Operations.DescribeCluster(params)
+		_, err := cdpClient.Dw.Operations.DescribeClusterContext(context.Background(), params)
 		if err != nil {
 			if strings.Contains(err.Error(), "NOT_FOUND") {
 				continue

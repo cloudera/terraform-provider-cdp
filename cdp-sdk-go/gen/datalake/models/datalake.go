@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -121,7 +122,7 @@ func (m *Datalake) validateCertificateExpirationStateEnum(path, location string,
 }
 
 func (m *Datalake) validateCertificateExpirationState(formats strfmt.Registry) error {
-	if swag.IsZero(m.CertificateExpirationState) { // not required
+	if typeutils.IsZero(m.CertificateExpirationState) { // not required
 		return nil
 	}
 
@@ -134,7 +135,7 @@ func (m *Datalake) validateCertificateExpirationState(formats strfmt.Registry) e
 }
 
 func (m *Datalake) validateCreationDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreationDate) { // not required
+	if typeutils.IsZero(m.CreationDate) { // not required
 		return nil
 	}
 
@@ -164,7 +165,7 @@ func (m *Datalake) validateDatalakeName(formats strfmt.Registry) error {
 }
 
 func (m *Datalake) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -187,12 +188,12 @@ func (m *Datalake) validateSecurity(formats strfmt.Registry) error {
 }
 
 func (m *Datalake) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -238,7 +239,7 @@ func (m *Datalake) contextValidateSecurity(ctx context.Context, formats strfmt.R
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -265,7 +266,7 @@ func (m *Datalake) contextValidateTags(ctx context.Context, formats strfmt.Regis
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -293,13 +294,13 @@ func (m *Datalake) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *Datalake) UnmarshalBinary(b []byte) error {
 	var res Datalake
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

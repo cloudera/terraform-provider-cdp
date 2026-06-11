@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // DeleteDatalakeReader is a Reader for the DeleteDatalake structure.
@@ -45,11 +44,9 @@ func NewDeleteDatalakeOK() *DeleteDatalakeOK {
 	return &DeleteDatalakeOK{}
 }
 
-/*
-DeleteDatalakeOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteDatalakeOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteDatalakeOK struct {
 	Payload *models.DeleteDatalakeResponse
 }
@@ -117,11 +114,9 @@ func NewDeleteDatalakeDefault(code int) *DeleteDatalakeDefault {
 	}
 }
 
-/*
-DeleteDatalakeDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteDatalakeDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteDatalakeDefault struct {
 	_statusCode int
 

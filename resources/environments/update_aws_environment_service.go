@@ -78,10 +78,10 @@ func enableComputeClusterForAws(ctx context.Context, config *AwsComputeClusterCo
 		ComputeClusterConfiguration: convertConfigToAwsComputeClusterConfigurationRequest(config, envSubnets),
 		EnvironmentName:             &environmentName,
 	}
-	params := operations.NewInitializeAWSComputeClusterParamsWithContext(ctx)
+	params := operations.NewInitializeAWSComputeClusterParams()
 	params.WithInput(&request)
 	tflog.Info(ctx, fmt.Sprintf("Initializing AWS compute cluster for environment '%s'", environmentName))
-	_, err := envClient.Operations.InitializeAWSComputeCluster(params)
+	_, err := envClient.Operations.InitializeAWSComputeClusterContext(ctx, params)
 	return err
 }
 
@@ -119,7 +119,7 @@ func updateSshKeyForAws(ctx context.Context, client *environmentsclient.Environm
 	if authPlan == nil {
 		return nil
 	}
-	params := operations.NewUpdateSSHKeyParamsWithContext(ctx)
+	params := operations.NewUpdateSSHKeyParams()
 	if !authPlan.PublicKey.IsNull() && !authPlan.PublicKey.IsUnknown() && authPlan.PublicKey.ValueString() != "" {
 		params.WithInput(&environmentsmodels.UpdateSSHKeyRequest{
 			Environment:         env,
@@ -132,15 +132,15 @@ func updateSshKeyForAws(ctx context.Context, client *environmentsclient.Environm
 		}
 	}
 	tflog.Info(ctx, "Updating SSH key in the environment")
-	_, err := client.Operations.UpdateSSHKey(params)
+	_, err := client.Operations.UpdateSSHKeyContext(ctx, params)
 	return err
 }
 
 func updateDiskEncryption(ctx context.Context, client *environmentsclient.Environments, env *string, keyArn types.String) error {
-	params := operations.NewUpdateAwsDiskEncryptionParametersParamsWithContext(ctx).WithInput(&environmentsmodels.UpdateAwsDiskEncryptionParametersRequest{
+	params := operations.NewUpdateAwsDiskEncryptionParametersParams().WithInput(&environmentsmodels.UpdateAwsDiskEncryptionParametersRequest{
 		EncryptionKeyArn: keyArn.ValueStringPointer(),
 		Environment:      env,
 	})
-	_, err := client.Operations.UpdateAwsDiskEncryptionParameters(params)
+	_, err := client.Operations.UpdateAwsDiskEncryptionParametersContext(ctx, params)
 	return err
 }

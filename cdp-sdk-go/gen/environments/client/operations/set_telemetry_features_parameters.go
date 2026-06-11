@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSetTelemetryFeaturesParams creates a new SetTelemetryFeaturesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetTelemetryFeaturesParams() *SetTelemetryFeaturesParams {
-	return &SetTelemetryFeaturesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetTelemetryFeaturesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetTelemetryFeaturesParamsWithTimeout creates a new SetTelemetryFeaturesParams object
 // with the ability to set a timeout on a request.
 func NewSetTelemetryFeaturesParamsWithTimeout(timeout time.Duration) *SetTelemetryFeaturesParams {
 	return &SetTelemetryFeaturesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetTelemetryFeaturesParamsWithContext creates a new SetTelemetryFeaturesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetTelemetryFeaturesParams].
 func NewSetTelemetryFeaturesParamsWithContext(ctx context.Context) *SetTelemetryFeaturesParams {
 	return &SetTelemetryFeaturesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetTelemetryFeaturesParams struct {
 	// Input.
 	Input *models.SetTelemetryFeaturesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set telemetry features params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetTelemetryFeaturesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set telemetry features params
+// WithTimeout adds the timeout to the set telemetry features params.
 func (o *SetTelemetryFeaturesParams) WithTimeout(timeout time.Duration) *SetTelemetryFeaturesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set telemetry features params
+// SetTimeout adds the timeout to the set telemetry features params.
 func (o *SetTelemetryFeaturesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set telemetry features params
+// WithContext adds the context to the set telemetry features params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetTelemetryFeaturesParams].
 func (o *SetTelemetryFeaturesParams) WithContext(ctx context.Context) *SetTelemetryFeaturesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set telemetry features params
+// SetContext adds the context to the set telemetry features params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetTelemetryFeaturesParams].
 func (o *SetTelemetryFeaturesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set telemetry features params
+// WithHTTPClient adds the HTTPClient to the set telemetry features params.
 func (o *SetTelemetryFeaturesParams) WithHTTPClient(client *http.Client) *SetTelemetryFeaturesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set telemetry features params
+// SetHTTPClient adds the HTTPClient to the set telemetry features params.
 func (o *SetTelemetryFeaturesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set telemetry features params
+// WithInput adds the input to the set telemetry features params.
 func (o *SetTelemetryFeaturesParams) WithInput(input *models.SetTelemetryFeaturesRequest) *SetTelemetryFeaturesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set telemetry features params
+// SetInput adds the input to the set telemetry features params.
 func (o *SetTelemetryFeaturesParams) SetInput(input *models.SetTelemetryFeaturesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetTelemetryFeaturesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

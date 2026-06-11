@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // GetFreeipaStatusReader is a Reader for the GetFreeipaStatus structure.
@@ -45,11 +44,9 @@ func NewGetFreeipaStatusOK() *GetFreeipaStatusOK {
 	return &GetFreeipaStatusOK{}
 }
 
-/*
-GetFreeipaStatusOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetFreeipaStatusOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetFreeipaStatusOK struct {
 	Payload *models.GetFreeipaStatusResponse
 }
@@ -117,11 +114,9 @@ func NewGetFreeipaStatusDefault(code int) *GetFreeipaStatusDefault {
 	}
 }
 
-/*
-GetFreeipaStatusDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetFreeipaStatusDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetFreeipaStatusDefault struct {
 	_statusCode int
 

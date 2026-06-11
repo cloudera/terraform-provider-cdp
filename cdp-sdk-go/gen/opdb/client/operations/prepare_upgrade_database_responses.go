@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // PrepareUpgradeDatabaseReader is a Reader for the PrepareUpgradeDatabase structure.
@@ -45,11 +44,9 @@ func NewPrepareUpgradeDatabaseOK() *PrepareUpgradeDatabaseOK {
 	return &PrepareUpgradeDatabaseOK{}
 }
 
-/*
-PrepareUpgradeDatabaseOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// PrepareUpgradeDatabaseOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type PrepareUpgradeDatabaseOK struct {
 	Payload *models.PrepareUpgradeDatabaseResponse
 }
@@ -117,11 +114,9 @@ func NewPrepareUpgradeDatabaseDefault(code int) *PrepareUpgradeDatabaseDefault {
 	}
 }
 
-/*
-PrepareUpgradeDatabaseDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// PrepareUpgradeDatabaseDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type PrepareUpgradeDatabaseDefault struct {
 	_statusCode int
 

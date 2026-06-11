@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewUpgradeServiceParams creates a new UpgradeServiceParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpgradeServiceParams() *UpgradeServiceParams {
-	return &UpgradeServiceParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpgradeServiceParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpgradeServiceParamsWithTimeout creates a new UpgradeServiceParams object
 // with the ability to set a timeout on a request.
 func NewUpgradeServiceParamsWithTimeout(timeout time.Duration) *UpgradeServiceParams {
 	return &UpgradeServiceParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpgradeServiceParamsWithContext creates a new UpgradeServiceParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeServiceParams].
 func NewUpgradeServiceParamsWithContext(ctx context.Context) *UpgradeServiceParams {
 	return &UpgradeServiceParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpgradeServiceParams struct {
 	// Input.
 	Input *models.UpgradeServiceRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the upgrade service params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpgradeServiceParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the upgrade service params
+// WithTimeout adds the timeout to the upgrade service params.
 func (o *UpgradeServiceParams) WithTimeout(timeout time.Duration) *UpgradeServiceParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the upgrade service params
+// SetTimeout adds the timeout to the upgrade service params.
 func (o *UpgradeServiceParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the upgrade service params
+// WithContext adds the context to the upgrade service params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeServiceParams].
 func (o *UpgradeServiceParams) WithContext(ctx context.Context) *UpgradeServiceParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the upgrade service params
+// SetContext adds the context to the upgrade service params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpgradeServiceParams].
 func (o *UpgradeServiceParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the upgrade service params
+// WithHTTPClient adds the HTTPClient to the upgrade service params.
 func (o *UpgradeServiceParams) WithHTTPClient(client *http.Client) *UpgradeServiceParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the upgrade service params
+// SetHTTPClient adds the HTTPClient to the upgrade service params.
 func (o *UpgradeServiceParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the upgrade service params
+// WithInput adds the input to the upgrade service params.
 func (o *UpgradeServiceParams) WithInput(input *models.UpgradeServiceRequest) *UpgradeServiceParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the upgrade service params
+// SetInput adds the input to the upgrade service params.
 func (o *UpgradeServiceParams) SetInput(input *models.UpgradeServiceRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpgradeServiceParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

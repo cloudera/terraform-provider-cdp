@@ -65,13 +65,13 @@ func (r *machineUserGroupAssignmentResource) Create(ctx context.Context, req res
 
 	client := r.client.Iam
 
-	params := operations.NewAddMachineUserToGroupParamsWithContext(ctx)
+	params := operations.NewAddMachineUserToGroupParams()
 	params.WithInput(&models.AddMachineUserToGroupRequest{
 		MachineUserName: data.MachineUser.ValueStringPointer(),
 		GroupName:       data.Group.ValueStringPointer(),
 	})
 
-	responseOk, err := client.Operations.AddMachineUserToGroup(params)
+	responseOk, err := client.Operations.AddMachineUserToGroupContext(ctx, params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "create machine user group assignment")
 		return
@@ -98,12 +98,12 @@ func (r *machineUserGroupAssignmentResource) Read(ctx context.Context, req resou
 	// Read API call logic
 	client := r.client.Iam
 
-	params := operations.NewListGroupsForMachineUserParamsWithContext(ctx)
+	params := operations.NewListGroupsForMachineUserParams()
 	params.WithInput(&models.ListGroupsForMachineUserRequest{
 		MachineUserName: data.MachineUser.ValueStringPointer(),
 	})
 
-	responseOk, err := client.Operations.ListGroupsForMachineUser(params)
+	responseOk, err := client.Operations.ListGroupsForMachineUserContext(ctx, params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "read machine user group assignment")
 		if d, ok := err.(*operations.ListGroupsForMachineUserDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
@@ -112,12 +112,12 @@ func (r *machineUserGroupAssignmentResource) Read(ctx context.Context, req resou
 		return
 	}
 
-	grParams := operations.NewListGroupsParamsWithContext(ctx)
+	grParams := operations.NewListGroupsParams()
 	grParams.WithInput(&models.ListGroupsRequest{
 		GroupNames: []string{data.Group.ValueString()},
 	})
 
-	grRespOk, err := client.Operations.ListGroups(grParams)
+	grRespOk, err := client.Operations.ListGroupsContext(ctx, grParams)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "read machine user group assignment")
 		if d, ok := err.(*operations.ListGroupsDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
@@ -168,13 +168,13 @@ func (r *machineUserGroupAssignmentResource) Delete(ctx context.Context, req res
 	// Delete API call logic
 	client := r.client.Iam
 
-	params := operations.NewRemoveMachineUserFromGroupParamsWithContext(ctx)
+	params := operations.NewRemoveMachineUserFromGroupParams()
 	params.WithInput(&models.RemoveMachineUserFromGroupRequest{
 		MachineUserName: data.MachineUser.ValueStringPointer(),
 		GroupName:       data.Group.ValueStringPointer(),
 	})
 
-	_, err := client.Operations.RemoveMachineUserFromGroup(params)
+	_, err := client.Operations.RemoveMachineUserFromGroupContext(ctx, params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "delete machine user group assignment")
 		return

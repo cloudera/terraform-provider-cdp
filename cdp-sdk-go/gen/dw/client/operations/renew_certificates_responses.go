@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // RenewCertificatesReader is a Reader for the RenewCertificates structure.
@@ -51,11 +50,9 @@ func NewRenewCertificatesOK() *RenewCertificatesOK {
 	return &RenewCertificatesOK{}
 }
 
-/*
-RenewCertificatesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RenewCertificatesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RenewCertificatesOK struct {
 	Payload models.RenewCertificatesResponse
 }
@@ -119,11 +116,9 @@ func NewRenewCertificatesMethodNotAllowed() *RenewCertificatesMethodNotAllowed {
 	return &RenewCertificatesMethodNotAllowed{}
 }
 
-/*
-RenewCertificatesMethodNotAllowed describes a response with status code 405, with default header values.
-
-Operation not allowed on non-Azure clusters.
-*/
+// RenewCertificatesMethodNotAllowed describes a response with status code 405, with default header values.
+//
+// Operation not allowed on non-Azure clusters.
 type RenewCertificatesMethodNotAllowed struct {
 	Payload *models.Error
 }
@@ -191,11 +186,9 @@ func NewRenewCertificatesDefault(code int) *RenewCertificatesDefault {
 	}
 }
 
-/*
-RenewCertificatesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RenewCertificatesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RenewCertificatesDefault struct {
 	_statusCode int
 

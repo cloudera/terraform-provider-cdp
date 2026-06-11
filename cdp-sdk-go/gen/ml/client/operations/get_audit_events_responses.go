@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // GetAuditEventsReader is a Reader for the GetAuditEvents structure.
@@ -45,11 +44,9 @@ func NewGetAuditEventsOK() *GetAuditEventsOK {
 	return &GetAuditEventsOK{}
 }
 
-/*
-GetAuditEventsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetAuditEventsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetAuditEventsOK struct {
 	Payload *models.GetAuditEventsResponse
 }
@@ -117,11 +114,9 @@ func NewGetAuditEventsDefault(code int) *GetAuditEventsDefault {
 	}
 }
 
-/*
-GetAuditEventsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetAuditEventsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetAuditEventsDefault struct {
 	_statusCode int
 

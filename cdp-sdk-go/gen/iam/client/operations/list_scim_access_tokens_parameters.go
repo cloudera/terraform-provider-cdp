@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListScimAccessTokensParams creates a new ListScimAccessTokensParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListScimAccessTokensParams() *ListScimAccessTokensParams {
-	return &ListScimAccessTokensParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListScimAccessTokensParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListScimAccessTokensParamsWithTimeout creates a new ListScimAccessTokensParams object
 // with the ability to set a timeout on a request.
 func NewListScimAccessTokensParamsWithTimeout(timeout time.Duration) *ListScimAccessTokensParams {
 	return &ListScimAccessTokensParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListScimAccessTokensParamsWithContext creates a new ListScimAccessTokensParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListScimAccessTokensParams].
 func NewListScimAccessTokensParamsWithContext(ctx context.Context) *ListScimAccessTokensParams {
 	return &ListScimAccessTokensParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListScimAccessTokensParams struct {
 	// Input.
 	Input *models.ListScimAccessTokensRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list scim access tokens params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListScimAccessTokensParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list scim access tokens params
+// WithTimeout adds the timeout to the list scim access tokens params.
 func (o *ListScimAccessTokensParams) WithTimeout(timeout time.Duration) *ListScimAccessTokensParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list scim access tokens params
+// SetTimeout adds the timeout to the list scim access tokens params.
 func (o *ListScimAccessTokensParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list scim access tokens params
+// WithContext adds the context to the list scim access tokens params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListScimAccessTokensParams].
 func (o *ListScimAccessTokensParams) WithContext(ctx context.Context) *ListScimAccessTokensParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list scim access tokens params
+// SetContext adds the context to the list scim access tokens params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListScimAccessTokensParams].
 func (o *ListScimAccessTokensParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list scim access tokens params
+// WithHTTPClient adds the HTTPClient to the list scim access tokens params.
 func (o *ListScimAccessTokensParams) WithHTTPClient(client *http.Client) *ListScimAccessTokensParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list scim access tokens params
+// SetHTTPClient adds the HTTPClient to the list scim access tokens params.
 func (o *ListScimAccessTokensParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list scim access tokens params
+// WithInput adds the input to the list scim access tokens params.
 func (o *ListScimAccessTokensParams) WithInput(input *models.ListScimAccessTokensRequest) *ListScimAccessTokensParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list scim access tokens params
+// SetInput adds the input to the list scim access tokens params.
 func (o *ListScimAccessTokensParams) SetInput(input *models.ListScimAccessTokensRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListScimAccessTokensParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

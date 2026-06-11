@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // DownscaleFreeipaReader is a Reader for the DownscaleFreeipa structure.
@@ -45,11 +44,9 @@ func NewDownscaleFreeipaOK() *DownscaleFreeipaOK {
 	return &DownscaleFreeipaOK{}
 }
 
-/*
-DownscaleFreeipaOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DownscaleFreeipaOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DownscaleFreeipaOK struct {
 	Payload *models.DownscaleFreeipaResponse
 }
@@ -117,11 +114,9 @@ func NewDownscaleFreeipaDefault(code int) *DownscaleFreeipaDefault {
 	}
 }
 
-/*
-DownscaleFreeipaDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DownscaleFreeipaDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DownscaleFreeipaDefault struct {
 	_statusCode int
 

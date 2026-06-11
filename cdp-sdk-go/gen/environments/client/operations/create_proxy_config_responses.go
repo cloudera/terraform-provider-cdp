@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // CreateProxyConfigReader is a Reader for the CreateProxyConfig structure.
@@ -45,11 +44,9 @@ func NewCreateProxyConfigOK() *CreateProxyConfigOK {
 	return &CreateProxyConfigOK{}
 }
 
-/*
-CreateProxyConfigOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateProxyConfigOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateProxyConfigOK struct {
 	Payload *models.CreateProxyConfigResponse
 }
@@ -117,11 +114,9 @@ func NewCreateProxyConfigDefault(code int) *CreateProxyConfigDefault {
 	}
 }
 
-/*
-CreateProxyConfigDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateProxyConfigDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateProxyConfigDefault struct {
 	_statusCode int
 

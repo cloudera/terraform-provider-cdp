@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewCheckDatabaseConnectivityParams creates a new CheckDatabaseConnectivityParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCheckDatabaseConnectivityParams() *CheckDatabaseConnectivityParams {
-	return &CheckDatabaseConnectivityParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCheckDatabaseConnectivityParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCheckDatabaseConnectivityParamsWithTimeout creates a new CheckDatabaseConnectivityParams object
 // with the ability to set a timeout on a request.
 func NewCheckDatabaseConnectivityParamsWithTimeout(timeout time.Duration) *CheckDatabaseConnectivityParams {
 	return &CheckDatabaseConnectivityParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCheckDatabaseConnectivityParamsWithContext creates a new CheckDatabaseConnectivityParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CheckDatabaseConnectivityParams].
 func NewCheckDatabaseConnectivityParamsWithContext(ctx context.Context) *CheckDatabaseConnectivityParams {
 	return &CheckDatabaseConnectivityParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CheckDatabaseConnectivityParams struct {
 	// Input.
 	Input *models.CheckDatabaseConnectivityRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the check database connectivity params (not the query body).
@@ -83,54 +86,57 @@ func (o *CheckDatabaseConnectivityParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the check database connectivity params
+// WithTimeout adds the timeout to the check database connectivity params.
 func (o *CheckDatabaseConnectivityParams) WithTimeout(timeout time.Duration) *CheckDatabaseConnectivityParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the check database connectivity params
+// SetTimeout adds the timeout to the check database connectivity params.
 func (o *CheckDatabaseConnectivityParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the check database connectivity params
+// WithContext adds the context to the check database connectivity params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CheckDatabaseConnectivityParams].
 func (o *CheckDatabaseConnectivityParams) WithContext(ctx context.Context) *CheckDatabaseConnectivityParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the check database connectivity params
+// SetContext adds the context to the check database connectivity params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CheckDatabaseConnectivityParams].
 func (o *CheckDatabaseConnectivityParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the check database connectivity params
+// WithHTTPClient adds the HTTPClient to the check database connectivity params.
 func (o *CheckDatabaseConnectivityParams) WithHTTPClient(client *http.Client) *CheckDatabaseConnectivityParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the check database connectivity params
+// SetHTTPClient adds the HTTPClient to the check database connectivity params.
 func (o *CheckDatabaseConnectivityParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the check database connectivity params
+// WithInput adds the input to the check database connectivity params.
 func (o *CheckDatabaseConnectivityParams) WithInput(input *models.CheckDatabaseConnectivityRequest) *CheckDatabaseConnectivityParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the check database connectivity params
+// SetInput adds the input to the check database connectivity params.
 func (o *CheckDatabaseConnectivityParams) SetInput(input *models.CheckDatabaseConnectivityRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CheckDatabaseConnectivityParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

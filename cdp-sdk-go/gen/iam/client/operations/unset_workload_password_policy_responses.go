@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // UnsetWorkloadPasswordPolicyReader is a Reader for the UnsetWorkloadPasswordPolicy structure.
@@ -45,11 +44,9 @@ func NewUnsetWorkloadPasswordPolicyOK() *UnsetWorkloadPasswordPolicyOK {
 	return &UnsetWorkloadPasswordPolicyOK{}
 }
 
-/*
-UnsetWorkloadPasswordPolicyOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UnsetWorkloadPasswordPolicyOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UnsetWorkloadPasswordPolicyOK struct {
 	Payload models.UnsetWorkloadPasswordPolicyResponse
 }
@@ -115,11 +112,9 @@ func NewUnsetWorkloadPasswordPolicyDefault(code int) *UnsetWorkloadPasswordPolic
 	}
 }
 
-/*
-UnsetWorkloadPasswordPolicyDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UnsetWorkloadPasswordPolicyDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UnsetWorkloadPasswordPolicyDefault struct {
 	_statusCode int
 

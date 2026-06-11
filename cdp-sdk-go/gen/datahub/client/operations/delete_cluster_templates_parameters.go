@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewDeleteClusterTemplatesParams creates a new DeleteClusterTemplatesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteClusterTemplatesParams() *DeleteClusterTemplatesParams {
-	return &DeleteClusterTemplatesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteClusterTemplatesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteClusterTemplatesParamsWithTimeout creates a new DeleteClusterTemplatesParams object
 // with the ability to set a timeout on a request.
 func NewDeleteClusterTemplatesParamsWithTimeout(timeout time.Duration) *DeleteClusterTemplatesParams {
 	return &DeleteClusterTemplatesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteClusterTemplatesParamsWithContext creates a new DeleteClusterTemplatesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteClusterTemplatesParams].
 func NewDeleteClusterTemplatesParamsWithContext(ctx context.Context) *DeleteClusterTemplatesParams {
 	return &DeleteClusterTemplatesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteClusterTemplatesParams struct {
 	// Input.
 	Input *models.DeleteClusterTemplatesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete cluster templates params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteClusterTemplatesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete cluster templates params
+// WithTimeout adds the timeout to the delete cluster templates params.
 func (o *DeleteClusterTemplatesParams) WithTimeout(timeout time.Duration) *DeleteClusterTemplatesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete cluster templates params
+// SetTimeout adds the timeout to the delete cluster templates params.
 func (o *DeleteClusterTemplatesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete cluster templates params
+// WithContext adds the context to the delete cluster templates params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteClusterTemplatesParams].
 func (o *DeleteClusterTemplatesParams) WithContext(ctx context.Context) *DeleteClusterTemplatesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete cluster templates params
+// SetContext adds the context to the delete cluster templates params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteClusterTemplatesParams].
 func (o *DeleteClusterTemplatesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete cluster templates params
+// WithHTTPClient adds the HTTPClient to the delete cluster templates params.
 func (o *DeleteClusterTemplatesParams) WithHTTPClient(client *http.Client) *DeleteClusterTemplatesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete cluster templates params
+// SetHTTPClient adds the HTTPClient to the delete cluster templates params.
 func (o *DeleteClusterTemplatesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete cluster templates params
+// WithInput adds the input to the delete cluster templates params.
 func (o *DeleteClusterTemplatesParams) WithInput(input *models.DeleteClusterTemplatesRequest) *DeleteClusterTemplatesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete cluster templates params
+// SetInput adds the input to the delete cluster templates params.
 func (o *DeleteClusterTemplatesParams) SetInput(input *models.DeleteClusterTemplatesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteClusterTemplatesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

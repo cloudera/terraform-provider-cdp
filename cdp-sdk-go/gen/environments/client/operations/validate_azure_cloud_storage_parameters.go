@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewValidateAzureCloudStorageParams creates a new ValidateAzureCloudStorageParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewValidateAzureCloudStorageParams() *ValidateAzureCloudStorageParams {
-	return &ValidateAzureCloudStorageParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewValidateAzureCloudStorageParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewValidateAzureCloudStorageParamsWithTimeout creates a new ValidateAzureCloudStorageParams object
 // with the ability to set a timeout on a request.
 func NewValidateAzureCloudStorageParamsWithTimeout(timeout time.Duration) *ValidateAzureCloudStorageParams {
 	return &ValidateAzureCloudStorageParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewValidateAzureCloudStorageParamsWithContext creates a new ValidateAzureCloudStorageParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ValidateAzureCloudStorageParams].
 func NewValidateAzureCloudStorageParamsWithContext(ctx context.Context) *ValidateAzureCloudStorageParams {
 	return &ValidateAzureCloudStorageParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ValidateAzureCloudStorageParams struct {
 	// Input.
 	Input *models.ValidateAzureCloudStorageRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the validate azure cloud storage params (not the query body).
@@ -83,54 +86,57 @@ func (o *ValidateAzureCloudStorageParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the validate azure cloud storage params
+// WithTimeout adds the timeout to the validate azure cloud storage params.
 func (o *ValidateAzureCloudStorageParams) WithTimeout(timeout time.Duration) *ValidateAzureCloudStorageParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the validate azure cloud storage params
+// SetTimeout adds the timeout to the validate azure cloud storage params.
 func (o *ValidateAzureCloudStorageParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the validate azure cloud storage params
+// WithContext adds the context to the validate azure cloud storage params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ValidateAzureCloudStorageParams].
 func (o *ValidateAzureCloudStorageParams) WithContext(ctx context.Context) *ValidateAzureCloudStorageParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the validate azure cloud storage params
+// SetContext adds the context to the validate azure cloud storage params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ValidateAzureCloudStorageParams].
 func (o *ValidateAzureCloudStorageParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the validate azure cloud storage params
+// WithHTTPClient adds the HTTPClient to the validate azure cloud storage params.
 func (o *ValidateAzureCloudStorageParams) WithHTTPClient(client *http.Client) *ValidateAzureCloudStorageParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the validate azure cloud storage params
+// SetHTTPClient adds the HTTPClient to the validate azure cloud storage params.
 func (o *ValidateAzureCloudStorageParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the validate azure cloud storage params
+// WithInput adds the input to the validate azure cloud storage params.
 func (o *ValidateAzureCloudStorageParams) WithInput(input *models.ValidateAzureCloudStorageRequest) *ValidateAzureCloudStorageParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the validate azure cloud storage params
+// SetInput adds the input to the validate azure cloud storage params.
 func (o *ValidateAzureCloudStorageParams) SetInput(input *models.ValidateAzureCloudStorageRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ValidateAzureCloudStorageParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

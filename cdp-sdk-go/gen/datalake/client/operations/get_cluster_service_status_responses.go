@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // GetClusterServiceStatusReader is a Reader for the GetClusterServiceStatus structure.
@@ -45,11 +44,9 @@ func NewGetClusterServiceStatusOK() *GetClusterServiceStatusOK {
 	return &GetClusterServiceStatusOK{}
 }
 
-/*
-GetClusterServiceStatusOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetClusterServiceStatusOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetClusterServiceStatusOK struct {
 	Payload *models.GetClusterServiceStatusResponse
 }
@@ -117,11 +114,9 @@ func NewGetClusterServiceStatusDefault(code int) *GetClusterServiceStatusDefault
 	}
 }
 
-/*
-GetClusterServiceStatusDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetClusterServiceStatusDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetClusterServiceStatusDefault struct {
 	_statusCode int
 

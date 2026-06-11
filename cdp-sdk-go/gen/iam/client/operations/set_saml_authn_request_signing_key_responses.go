@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // SetSamlAuthnRequestSigningKeyReader is a Reader for the SetSamlAuthnRequestSigningKey structure.
@@ -45,11 +44,9 @@ func NewSetSamlAuthnRequestSigningKeyOK() *SetSamlAuthnRequestSigningKeyOK {
 	return &SetSamlAuthnRequestSigningKeyOK{}
 }
 
-/*
-SetSamlAuthnRequestSigningKeyOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SetSamlAuthnRequestSigningKeyOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SetSamlAuthnRequestSigningKeyOK struct {
 	Payload *models.SetSamlAuthnRequestSigningKeyResponse
 }
@@ -117,11 +114,9 @@ func NewSetSamlAuthnRequestSigningKeyDefault(code int) *SetSamlAuthnRequestSigni
 	}
 }
 
-/*
-SetSamlAuthnRequestSigningKeyDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SetSamlAuthnRequestSigningKeyDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SetSamlAuthnRequestSigningKeyDefault struct {
 	_statusCode int
 

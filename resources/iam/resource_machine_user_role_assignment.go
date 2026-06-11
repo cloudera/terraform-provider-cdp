@@ -62,13 +62,13 @@ func (r *machineUserRoleAssignmentResource) Create(ctx context.Context, req reso
 		return
 	}
 
-	request := operations.NewAssignMachineUserRoleParamsWithContext(ctx).WithInput(
+	request := operations.NewAssignMachineUserRoleParams().WithInput(
 		&models.AssignMachineUserRoleRequest{
 			MachineUserName: data.MachineUser.ValueStringPointer(),
 			Role:            data.Role.ValueStringPointer(),
 		})
 
-	responseOk, err := r.client.Iam.Operations.AssignMachineUserRole(request)
+	responseOk, err := r.client.Iam.Operations.AssignMachineUserRoleContext(ctx, request)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "assign Machine User Role")
 		return
@@ -87,12 +87,12 @@ func (r *machineUserRoleAssignmentResource) Read(ctx context.Context, req resour
 
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 
-	params := operations.NewListMachineUserAssignedRolesParamsWithContext(ctx)
+	params := operations.NewListMachineUserAssignedRolesParams()
 	params.WithInput(&models.ListMachineUserAssignedRolesRequest{
 		MachineUserName: data.MachineUser.ValueStringPointer(),
 	})
 
-	machineUser, err := r.client.Iam.Operations.ListMachineUserAssignedRoles(params)
+	machineUser, err := r.client.Iam.Operations.ListMachineUserAssignedRolesContext(ctx, params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "list Machine User Assigned Roles")
 		return
@@ -128,14 +128,14 @@ func (r *machineUserRoleAssignmentResource) Delete(ctx context.Context, req reso
 		return
 	}
 
-	request := operations.NewUnassignMachineUserRoleParamsWithContext(ctx).WithInput(
+	request := operations.NewUnassignMachineUserRoleParams().WithInput(
 		&models.UnassignMachineUserRoleRequest{
 			MachineUserName: data.MachineUser.ValueStringPointer(),
 			Role:            data.Role.ValueStringPointer(),
 		},
 	)
 
-	_, err := r.client.Iam.Operations.UnassignMachineUserRole(request) // void method, does not have any return value
+	_, err := r.client.Iam.Operations.UnassignMachineUserRoleContext(ctx, request) // void method, does not have any return value
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "un-assign Machine User Role")
 		return

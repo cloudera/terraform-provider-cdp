@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewGetVMTypesParams creates a new GetVMTypesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetVMTypesParams() *GetVMTypesParams {
-	return &GetVMTypesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetVMTypesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetVMTypesParamsWithTimeout creates a new GetVMTypesParams object
 // with the ability to set a timeout on a request.
 func NewGetVMTypesParamsWithTimeout(timeout time.Duration) *GetVMTypesParams {
 	return &GetVMTypesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetVMTypesParamsWithContext creates a new GetVMTypesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetVMTypesParams].
 func NewGetVMTypesParamsWithContext(ctx context.Context) *GetVMTypesParams {
 	return &GetVMTypesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetVMTypesParams struct {
 	// Input.
 	Input *models.GetVMTypesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get Vm types params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetVMTypesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get Vm types params
+// WithTimeout adds the timeout to the get Vm types params.
 func (o *GetVMTypesParams) WithTimeout(timeout time.Duration) *GetVMTypesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get Vm types params
+// SetTimeout adds the timeout to the get Vm types params.
 func (o *GetVMTypesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get Vm types params
+// WithContext adds the context to the get Vm types params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetVMTypesParams].
 func (o *GetVMTypesParams) WithContext(ctx context.Context) *GetVMTypesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get Vm types params
+// SetContext adds the context to the get Vm types params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetVMTypesParams].
 func (o *GetVMTypesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get Vm types params
+// WithHTTPClient adds the HTTPClient to the get Vm types params.
 func (o *GetVMTypesParams) WithHTTPClient(client *http.Client) *GetVMTypesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get Vm types params
+// SetHTTPClient adds the HTTPClient to the get Vm types params.
 func (o *GetVMTypesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get Vm types params
+// WithInput adds the input to the get Vm types params.
 func (o *GetVMTypesParams) WithInput(input *models.GetVMTypesRequest) *GetVMTypesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get Vm types params
+// SetInput adds the input to the get Vm types params.
 func (o *GetVMTypesParams) SetInput(input *models.GetVMTypesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetVMTypesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

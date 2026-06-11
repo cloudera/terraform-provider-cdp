@@ -3,17 +3,21 @@
 package operations
 
 import (
+	"context"
+	"time"
+
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operations API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+func New(transport runtime.ContextualTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
 // New creates a new operations API client with basic auth credentials.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -27,6 +31,7 @@ func NewClientWithBasicAuth(host, basePath, scheme, user, password string) Clien
 }
 
 // New creates a new operations API client with a bearer token for authentication.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -38,150 +43,405 @@ func NewClientWithBearerToken(host, basePath, scheme, bearerToken string) Client
 	return &Client{transport: transport, formats: strfmt.Default}
 }
 
-/*
-Client for operations API
-*/
+// Client for operations API.
 type Client struct {
-	transport runtime.ClientTransport
+	transport runtime.ContextualTransport
 	formats   strfmt.Registry
 }
 
 // ClientOption may be used to customize the behavior of Client methods.
 type ClientOption func(*runtime.ClientOperation)
 
-// ClientService is the interface for Client methods
+// ClientService is the interface for Client methods.
 type ClientService interface {
+
+	// BackupDatalake create backup of datalake.
 	BackupDatalake(params *BackupDatalakeParams, opts ...ClientOption) (*BackupDatalakeOK, error)
 
+	// BackupDatalakeContext create backup of datalake.
+	BackupDatalakeContext(ctx context.Context, params *BackupDatalakeParams, opts ...ClientOption) (*BackupDatalakeOK, error)
+
+	// BackupDatalakeStatus check the status of a datalake backup operation performed.
 	BackupDatalakeStatus(params *BackupDatalakeStatusParams, opts ...ClientOption) (*BackupDatalakeStatusOK, error)
 
+	// BackupDatalakeStatusContext check the status of a datalake backup operation performed.
+	BackupDatalakeStatusContext(ctx context.Context, params *BackupDatalakeStatusParams, opts ...ClientOption) (*BackupDatalakeStatusOK, error)
+
+	// CancelBackup cancels the specified ongoing backup operation.
 	CancelBackup(params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error)
 
+	// CancelBackupContext cancels the specified ongoing backup operation.
+	CancelBackupContext(ctx context.Context, params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error)
+
+	// CancelDatalakeDiagnostics cancel running datalake diagnostics collections.
 	CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsParams, opts ...ClientOption) (*CancelDatalakeDiagnosticsOK, error)
 
+	// CancelDatalakeDiagnosticsContext cancel running datalake diagnostics collections.
+	CancelDatalakeDiagnosticsContext(ctx context.Context, params *CancelDatalakeDiagnosticsParams, opts ...ClientOption) (*CancelDatalakeDiagnosticsOK, error)
+
+	// CancelRestore cancels the restore that was performed.
 	CancelRestore(params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error)
 
+	// CancelRestoreContext cancels the restore that was performed.
+	CancelRestoreContext(ctx context.Context, params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error)
+
+	// CollectCmDiagnostics start data lake cloudera manager based diagnostics collection.
 	CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error)
 
+	// CollectCmDiagnosticsContext start data lake cloudera manager based diagnostics collection.
+	CollectCmDiagnosticsContext(ctx context.Context, params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error)
+
+	// CollectDatalakeDiagnostics start data lake diagnostics collection.
 	CollectDatalakeDiagnostics(params *CollectDatalakeDiagnosticsParams, opts ...ClientOption) (*CollectDatalakeDiagnosticsOK, error)
 
+	// CollectDatalakeDiagnosticsContext start data lake diagnostics collection.
+	CollectDatalakeDiagnosticsContext(ctx context.Context, params *CollectDatalakeDiagnosticsParams, opts ...ClientOption) (*CollectDatalakeDiagnosticsOK, error)
+
+	// CreateAWSDatalake creates an a w s datalake.
 	CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...ClientOption) (*CreateAWSDatalakeOK, error)
 
+	// CreateAWSDatalakeContext creates an a w s datalake.
+	CreateAWSDatalakeContext(ctx context.Context, params *CreateAWSDatalakeParams, opts ...ClientOption) (*CreateAWSDatalakeOK, error)
+
+	// CreateAWSGovCloudDatalake creates a data lake on a w s gov cloud.
 	CreateAWSGovCloudDatalake(params *CreateAWSGovCloudDatalakeParams, opts ...ClientOption) (*CreateAWSGovCloudDatalakeOK, error)
 
+	// CreateAWSGovCloudDatalakeContext creates a data lake on a w s gov cloud.
+	CreateAWSGovCloudDatalakeContext(ctx context.Context, params *CreateAWSGovCloudDatalakeParams, opts ...ClientOption) (*CreateAWSGovCloudDatalakeOK, error)
+
+	// CreateAzureDatalake creates an azure datalake.
 	CreateAzureDatalake(params *CreateAzureDatalakeParams, opts ...ClientOption) (*CreateAzureDatalakeOK, error)
 
+	// CreateAzureDatalakeContext creates an azure datalake.
+	CreateAzureDatalakeContext(ctx context.Context, params *CreateAzureDatalakeParams, opts ...ClientOption) (*CreateAzureDatalakeOK, error)
+
+	// CreateGCPDatalake creates an g c p data lake.
 	CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...ClientOption) (*CreateGCPDatalakeOK, error)
 
+	// CreateGCPDatalakeContext creates an g c p data lake.
+	CreateGCPDatalakeContext(ctx context.Context, params *CreateGCPDatalakeParams, opts ...ClientOption) (*CreateGCPDatalakeOK, error)
+
+	// DeleteBackupRestoreConfiguration deletes the backup and restore configuration for the datalake.
 	DeleteBackupRestoreConfiguration(params *DeleteBackupRestoreConfigurationParams, opts ...ClientOption) (*DeleteBackupRestoreConfigurationOK, error)
 
+	// DeleteBackupRestoreConfigurationContext deletes the backup and restore configuration for the datalake.
+	DeleteBackupRestoreConfigurationContext(ctx context.Context, params *DeleteBackupRestoreConfigurationParams, opts ...ClientOption) (*DeleteBackupRestoreConfigurationOK, error)
+
+	// DeleteDatalake deletes a datalake.
 	DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOption) (*DeleteDatalakeOK, error)
 
+	// DeleteDatalakeContext deletes a datalake.
+	DeleteDatalakeContext(ctx context.Context, params *DeleteDatalakeParams, opts ...ClientOption) (*DeleteDatalakeOK, error)
+
+	// DescribeDatabaseServer gets external database server details.
 	DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error)
 
+	// DescribeDatabaseServerContext gets external database server details.
+	DescribeDatabaseServerContext(ctx context.Context, params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error)
+
+	// DescribeDatalake describes a datalake.
 	DescribeDatalake(params *DescribeDatalakeParams, opts ...ClientOption) (*DescribeDatalakeOK, error)
 
+	// DescribeDatalakeContext describes a datalake.
+	DescribeDatalakeContext(ctx context.Context, params *DescribeDatalakeParams, opts ...ClientOption) (*DescribeDatalakeOK, error)
+
+	// EnableRangerRaz sets the ranger raz enabled flag to true if raz is manually installed on the datalake.
 	EnableRangerRaz(params *EnableRangerRazParams, opts ...ClientOption) (*EnableRangerRazOK, error)
 
+	// EnableRangerRazContext sets the ranger raz enabled flag to true if raz is manually installed on the datalake.
+	EnableRangerRazContext(ctx context.Context, params *EnableRangerRazParams, opts ...ClientOption) (*EnableRangerRazOK, error)
+
+	// GetBackupRestoreConfiguration gets the backup and restore configuration for the datalake.
 	GetBackupRestoreConfiguration(params *GetBackupRestoreConfigurationParams, opts ...ClientOption) (*GetBackupRestoreConfigurationOK, error)
 
+	// GetBackupRestoreConfigurationContext gets the backup and restore configuration for the datalake.
+	GetBackupRestoreConfigurationContext(ctx context.Context, params *GetBackupRestoreConfigurationParams, opts ...ClientOption) (*GetBackupRestoreConfigurationOK, error)
+
+	// GetClusterHostStatus get cluster host status.
 	GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error)
 
+	// GetClusterHostStatusContext get cluster host status.
+	GetClusterHostStatusContext(ctx context.Context, params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error)
+
+	// GetClusterServiceStatus get cluster service status.
 	GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error)
 
+	// GetClusterServiceStatusContext get cluster service status.
+	GetClusterServiceStatusContext(ctx context.Context, params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error)
+
+	// GetCmRoles gather cloudera manager roles that can be used for filtering in c m based diagnostics collection.
 	GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error)
 
+	// GetCmRolesContext gather cloudera manager roles that can be used for filtering in c m based diagnostics collection.
+	GetCmRolesContext(ctx context.Context, params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error)
+
+	// GetDatalakeLogDescriptors gather log descriptors that are used for diagnostics collection.
 	GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsParams, opts ...ClientOption) (*GetDatalakeLogDescriptorsOK, error)
 
+	// GetDatalakeLogDescriptorsContext gather log descriptors that are used for diagnostics collection.
+	GetDatalakeLogDescriptorsContext(ctx context.Context, params *GetDatalakeLogDescriptorsParams, opts ...ClientOption) (*GetDatalakeLogDescriptorsOK, error)
+
+	// GetOperation used for retrieving operation status for the datalake cluster defaulting to the most recent operation provide an operation Id to view details of a specific historical operation.
 	GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
 
+	// GetOperationContext used for retrieving operation status for the datalake cluster defaulting to the most recent operation provide an operation Id to view details of a specific historical operation.
+	GetOperationContext(ctx context.Context, params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error)
+
+	// ListDatalakeBackups list all the backup operations that were performed on the datalake.
 	ListDatalakeBackups(params *ListDatalakeBackupsParams, opts ...ClientOption) (*ListDatalakeBackupsOK, error)
 
+	// ListDatalakeBackupsContext list all the backup operations that were performed on the datalake.
+	ListDatalakeBackupsContext(ctx context.Context, params *ListDatalakeBackupsParams, opts ...ClientOption) (*ListDatalakeBackupsOK, error)
+
+	// ListDatalakeDiagnostics list recent datalake diagnostics collections.
 	ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, opts ...ClientOption) (*ListDatalakeDiagnosticsOK, error)
 
+	// ListDatalakeDiagnosticsContext list recent datalake diagnostics collections.
+	ListDatalakeDiagnosticsContext(ctx context.Context, params *ListDatalakeDiagnosticsParams, opts ...ClientOption) (*ListDatalakeDiagnosticsOK, error)
+
+	// ListDatalakeSecretTypes lists all datalake related secret types.
 	ListDatalakeSecretTypes(params *ListDatalakeSecretTypesParams, opts ...ClientOption) (*ListDatalakeSecretTypesOK, error)
 
+	// ListDatalakeSecretTypesContext lists all datalake related secret types.
+	ListDatalakeSecretTypesContext(ctx context.Context, params *ListDatalakeSecretTypesParams, opts ...ClientOption) (*ListDatalakeSecretTypesOK, error)
+
+	// ListDatalakes lists datalakes.
 	ListDatalakes(params *ListDatalakesParams, opts ...ClientOption) (*ListDatalakesOK, error)
 
+	// ListDatalakesContext lists datalakes.
+	ListDatalakesContext(ctx context.Context, params *ListDatalakesParams, opts ...ClientOption) (*ListDatalakesOK, error)
+
+	// ListRuntimes lists the datalake versions.
 	ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) (*ListRuntimesOK, error)
 
+	// ListRuntimesContext lists the datalake versions.
+	ListRuntimesContext(ctx context.Context, params *ListRuntimesParams, opts ...ClientOption) (*ListRuntimesOK, error)
+
+	// MigrateSkus migrate the data lake to a new s k u.
 	MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error)
 
+	// MigrateSkusContext migrate the data lake to a new s k u.
+	MigrateSkusContext(ctx context.Context, params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error)
+
+	// PrepareDatalakeUpgrade prepares the data lake cluster for upgrade.
 	PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, opts ...ClientOption) (*PrepareDatalakeUpgradeOK, error)
 
+	// PrepareDatalakeUpgradeContext prepares the data lake cluster for upgrade.
+	PrepareDatalakeUpgradeContext(ctx context.Context, params *PrepareDatalakeUpgradeParams, opts ...ClientOption) (*PrepareDatalakeUpgradeOK, error)
+
+	// RecoverDatalake recover data lake to the original version after a failed upgrade.
 	RecoverDatalake(params *RecoverDatalakeParams, opts ...ClientOption) (*RecoverDatalakeOK, error)
 
+	// RecoverDatalakeContext recover data lake to the original version after a failed upgrade.
+	RecoverDatalakeContext(ctx context.Context, params *RecoverDatalakeParams, opts ...ClientOption) (*RecoverDatalakeOK, error)
+
+	// RenewCertificate renew certificate on datalake cluster by name or c r n.
 	RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error)
 
+	// RenewCertificateContext renew certificate on datalake cluster by name or c r n.
+	RenewCertificateContext(ctx context.Context, params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error)
+
+	// RenewPublicCertificate renews public certificate on datalake cluster by name or c r n.
 	RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error)
 
+	// RenewPublicCertificateContext renews public certificate on datalake cluster by name or c r n.
+	RenewPublicCertificateContext(ctx context.Context, params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error)
+
+	// RepairDatalake repairs a datalake.
 	RepairDatalake(params *RepairDatalakeParams, opts ...ClientOption) (*RepairDatalakeOK, error)
 
+	// RepairDatalakeContext repairs a datalake.
+	RepairDatalakeContext(ctx context.Context, params *RepairDatalakeParams, opts ...ClientOption) (*RepairDatalakeOK, error)
+
+	// ReplaceRecipes replaces recipes for the given instance groups.
 	ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error)
 
+	// ReplaceRecipesContext replaces recipes for the given instance groups.
+	ReplaceRecipesContext(ctx context.Context, params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error)
+
+	// ResizeDatalake resizes the given datalake to the given target size.
 	ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOption) (*ResizeDatalakeOK, error)
 
+	// ResizeDatalakeContext resizes the given datalake to the given target size.
+	ResizeDatalakeContext(ctx context.Context, params *ResizeDatalakeParams, opts ...ClientOption) (*ResizeDatalakeOK, error)
+
+	// RestartDatalakeInstances restarts instances of a datalake on cloud provider.
 	RestartDatalakeInstances(params *RestartDatalakeInstancesParams, opts ...ClientOption) (*RestartDatalakeInstancesOK, error)
 
+	// RestartDatalakeInstancesContext restarts instances of a datalake on cloud provider.
+	RestartDatalakeInstancesContext(ctx context.Context, params *RestartDatalakeInstancesParams, opts ...ClientOption) (*RestartDatalakeInstancesOK, error)
+
+	// RestoreDatalake restore the datalake from backup taken.
 	RestoreDatalake(params *RestoreDatalakeParams, opts ...ClientOption) (*RestoreDatalakeOK, error)
 
+	// RestoreDatalakeContext restore the datalake from backup taken.
+	RestoreDatalakeContext(ctx context.Context, params *RestoreDatalakeParams, opts ...ClientOption) (*RestoreDatalakeOK, error)
+
+	// RestoreDatalakeStatus check the status of datalake restore operation.
 	RestoreDatalakeStatus(params *RestoreDatalakeStatusParams, opts ...ClientOption) (*RestoreDatalakeStatusOK, error)
 
+	// RestoreDatalakeStatusContext check the status of datalake restore operation.
+	RestoreDatalakeStatusContext(ctx context.Context, params *RestoreDatalakeStatusParams, opts ...ClientOption) (*RestoreDatalakeStatusOK, error)
+
+	// RetryDatalake retry last failed operation on a datalake.
 	RetryDatalake(params *RetryDatalakeParams, opts ...ClientOption) (*RetryDatalakeOK, error)
 
+	// RetryDatalakeContext retry last failed operation on a datalake.
+	RetryDatalakeContext(ctx context.Context, params *RetryDatalakeParams, opts ...ClientOption) (*RetryDatalakeOK, error)
+
+	// RotateAutoTLSCertificates rotate autotls certificates on the datalake s hosts.
 	RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error)
 
+	// RotateAutoTLSCertificatesContext rotate autotls certificates on the datalake s hosts.
+	RotateAutoTLSCertificatesContext(ctx context.Context, params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error)
+
+	// RotateDbCertificate rotates database ssl certificate for a specific data lake.
 	RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error)
 
+	// RotateDbCertificateContext rotates database ssl certificate for a specific data lake.
+	RotateDbCertificateContext(ctx context.Context, params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error)
+
+	// RotatePrivateCertificates rotates private certificates on the datalake s hosts.
 	RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error)
 
+	// RotatePrivateCertificatesContext rotates private certificates on the datalake s hosts.
+	RotatePrivateCertificatesContext(ctx context.Context, params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error)
+
+	// RotateSaltPassword rotate salt stack user password on data lake instances.
 	RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
 
+	// RotateSaltPasswordContext rotate salt stack user password on data lake instances.
+	RotateSaltPasswordContext(ctx context.Context, params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error)
+
+	// RotateSecrets rotates secrets for a specific datalake.
 	RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error)
 
+	// RotateSecretsContext rotates secrets for a specific datalake.
+	RotateSecretsContext(ctx context.Context, params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error)
+
+	// ScaleHorizontally horizontally scale the data lake nodes to add additional compute nodes to the cluster.
 	ScaleHorizontally(params *ScaleHorizontallyParams, opts ...ClientOption) (*ScaleHorizontallyOK, error)
 
+	// ScaleHorizontallyContext horizontally scale the data lake nodes to add additional compute nodes to the cluster.
+	ScaleHorizontallyContext(ctx context.Context, params *ScaleHorizontallyParams, opts ...ClientOption) (*ScaleHorizontallyOK, error)
+
+	// SetBackupRestoreConfiguration sets the backup and restore configuration for the datalake.
 	SetBackupRestoreConfiguration(params *SetBackupRestoreConfigurationParams, opts ...ClientOption) (*SetBackupRestoreConfigurationOK, error)
 
+	// SetBackupRestoreConfigurationContext sets the backup and restore configuration for the datalake.
+	SetBackupRestoreConfigurationContext(ctx context.Context, params *SetBackupRestoreConfigurationParams, opts ...ClientOption) (*SetBackupRestoreConfigurationOK, error)
+
+	// SetCatalog sets a catalog for a data lake.
 	SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
 
+	// SetCatalogContext sets a catalog for a data lake.
+	SetCatalogContext(ctx context.Context, params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error)
+
+	// SetDefaultJavaVersion configures the default java version for the data lake.
 	SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error)
 
+	// SetDefaultJavaVersionContext configures the default java version for the data lake.
+	SetDefaultJavaVersionContext(ctx context.Context, params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error)
+
+	// StartDatabaseUpgrade upgrades the database of the data lake cluster.
 	StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error)
 
+	// StartDatabaseUpgradeContext upgrades the database of the data lake cluster.
+	StartDatabaseUpgradeContext(ctx context.Context, params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error)
+
+	// StartDatalake start datalake.
 	StartDatalake(params *StartDatalakeParams, opts ...ClientOption) (*StartDatalakeOK, error)
 
+	// StartDatalakeContext start datalake.
+	StartDatalakeContext(ctx context.Context, params *StartDatalakeParams, opts ...ClientOption) (*StartDatalakeOK, error)
+
+	// StartDatalakeVerticalScaling initiates the vertical scaling on data lake.
 	StartDatalakeVerticalScaling(params *StartDatalakeVerticalScalingParams, opts ...ClientOption) (*StartDatalakeVerticalScalingOK, error)
 
+	// StartDatalakeVerticalScalingContext initiates the vertical scaling on data lake.
+	StartDatalakeVerticalScalingContext(ctx context.Context, params *StartDatalakeVerticalScalingParams, opts ...ClientOption) (*StartDatalakeVerticalScalingOK, error)
+
+	// StopDatalake stop datalake.
 	StopDatalake(params *StopDatalakeParams, opts ...ClientOption) (*StopDatalakeOK, error)
 
+	// StopDatalakeContext stop datalake.
+	StopDatalakeContext(ctx context.Context, params *StopDatalakeParams, opts ...ClientOption) (*StopDatalakeOK, error)
+
+	// SyncComponentVersionsFromCm syncs component versions from c m after a failed upgrade.
 	SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error)
 
+	// SyncComponentVersionsFromCmContext syncs component versions from c m after a failed upgrade.
+	SyncComponentVersionsFromCmContext(ctx context.Context, params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error)
+
+	// UpdateOrchestratorState run orchestrator engine state update on the data lake cluster.
 	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
+	// UpdateOrchestratorStateContext run orchestrator engine state update on the data lake cluster.
+	UpdateOrchestratorStateContext(ctx context.Context, params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
+
+	// UpdateToAwsImdsV1 updates data lake a w s cluster to use i m d sv1.
 	UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error)
 
+	// UpdateToAwsImdsV1Context updates data lake a w s cluster to use i m d sv1.
+	UpdateToAwsImdsV1Context(ctx context.Context, params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error)
+
+	// UpdateToAwsImdsV2 updates data lake a w s cluster to use i m d sv2.
 	UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error)
 
+	// UpdateToAwsImdsV2Context updates data lake a w s cluster to use i m d sv2.
+	UpdateToAwsImdsV2Context(ctx context.Context, params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error)
+
+	// UpgradeDatalake o s or data platform upgrade for the s d x cluster.
 	UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOption) (*UpgradeDatalakeOK, error)
 
+	// UpgradeDatalakeContext o s or data platform upgrade for the s d x cluster.
+	UpgradeDatalakeContext(ctx context.Context, params *UpgradeDatalakeParams, opts ...ClientOption) (*UpgradeDatalakeOK, error)
+
+	// ValidateAwsCloudStorage validates a w s cloud storage.
 	ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error)
 
+	// ValidateAwsCloudStorageContext validates a w s cloud storage.
+	ValidateAwsCloudStorageContext(ctx context.Context, params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error)
+
+	// ValidateAzureCloudStorage validates azure cloud storage.
 	ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error)
 
-	SetTransport(transport runtime.ClientTransport)
+	// ValidateAzureCloudStorageContext validates azure cloud storage.
+	ValidateAzureCloudStorageContext(ctx context.Context, params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error)
+
+	SetTransport(transport runtime.ContextualTransport)
 }
 
-/*
-BackupDatalake creates backup of datalake
-
-Takes a backup of all the data in the datalake.
-*/
+// BackupDatalake creates backup of datalake.
+//
+// Takes a backup of all the data in the datalake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.BackupDatalakeContext] instead.
 func (a *Client) BackupDatalake(params *BackupDatalakeParams, opts ...ClientOption) (*BackupDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.BackupDatalakeContext(ctx, params, opts...)
+}
+
+// BackupDatalakeContext creates backup of datalake.
+//
+// Takes a backup of all the data in the datalake..
+//
+// Do not use the deprecated [BackupDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) BackupDatalakeContext(ctx context.Context, params *BackupDatalakeParams, opts ...ClientOption) (*BackupDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewBackupDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "backupDatalake",
 		Method:             "POST",
@@ -191,13 +451,14 @@ func (a *Client) BackupDatalake(params *BackupDatalakeParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &BackupDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -216,16 +477,36 @@ func (a *Client) BackupDatalake(params *BackupDatalakeParams, opts ...ClientOpti
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-BackupDatalakeStatus checks the status of a datalake backup operation performed
-
-Identifies the backup operation based on the inputs provided and gets the status. BackupName and BackupId are mutually exclusive. Only one of them can be provided.
-*/
+// BackupDatalakeStatus checks the status of a datalake backup operation performed.
+//
+// Identifies the backup operation based on the inputs provided and gets the status. BackupName and BackupId are mutually exclusive. Only one of them can be provided..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.BackupDatalakeStatusContext] instead.
 func (a *Client) BackupDatalakeStatus(params *BackupDatalakeStatusParams, opts ...ClientOption) (*BackupDatalakeStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.BackupDatalakeStatusContext(ctx, params, opts...)
+}
+
+// BackupDatalakeStatusContext checks the status of a datalake backup operation performed.
+//
+// Identifies the backup operation based on the inputs provided and gets the status. BackupName and BackupId are mutually exclusive. Only one of them can be provided..
+//
+// Do not use the deprecated [BackupDatalakeStatusParams.Context] with this method: it would be ignored.
+func (a *Client) BackupDatalakeStatusContext(ctx context.Context, params *BackupDatalakeStatusParams, opts ...ClientOption) (*BackupDatalakeStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewBackupDatalakeStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "backupDatalakeStatus",
 		Method:             "POST",
@@ -235,13 +516,14 @@ func (a *Client) BackupDatalakeStatus(params *BackupDatalakeStatusParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &BackupDatalakeStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -260,16 +542,36 @@ func (a *Client) BackupDatalakeStatus(params *BackupDatalakeStatusParams, opts .
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CancelBackup cancels the specified ongoing backup operation
-
-Cancels a currently running backup operation. The operation must be in a STARTED or IN_PROGRESS state. Pending sub-operations will be ignored and marked as cancelled. The operation does not wait for the currently running sub-operation(s) to complete.
-*/
+// CancelBackup cancels the specified ongoing backup operation.
+//
+// Cancels a currently running backup operation. The operation must be in a STARTED or IN_PROGRESS state. Pending sub-operations will be ignored and marked as cancelled. The operation does not wait for the currently running sub-operation(s) to complete..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CancelBackupContext] instead.
 func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CancelBackupContext(ctx, params, opts...)
+}
+
+// CancelBackupContext cancels the specified ongoing backup operation.
+//
+// Cancels a currently running backup operation. The operation must be in a STARTED or IN_PROGRESS state. Pending sub-operations will be ignored and marked as cancelled. The operation does not wait for the currently running sub-operation(s) to complete..
+//
+// Do not use the deprecated [CancelBackupParams.Context] with this method: it would be ignored.
+func (a *Client) CancelBackupContext(ctx context.Context, params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "cancelBackup",
 		Method:             "POST",
@@ -279,13 +581,14 @@ func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CancelBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -304,16 +607,36 @@ func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CancelDatalakeDiagnostics cancels running datalake diagnostics collections
-
-Cancel running Datalake diagnostics collection
-*/
+// CancelDatalakeDiagnostics cancels running datalake diagnostics collections.
+//
+// Cancel running Datalake diagnostics collection.
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CancelDatalakeDiagnosticsContext] instead.
 func (a *Client) CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsParams, opts ...ClientOption) (*CancelDatalakeDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CancelDatalakeDiagnosticsContext(ctx, params, opts...)
+}
+
+// CancelDatalakeDiagnosticsContext cancels running datalake diagnostics collections.
+//
+// Cancel running Datalake diagnostics collection.
+//
+// Do not use the deprecated [CancelDatalakeDiagnosticsParams.Context] with this method: it would be ignored.
+func (a *Client) CancelDatalakeDiagnosticsContext(ctx context.Context, params *CancelDatalakeDiagnosticsParams, opts ...ClientOption) (*CancelDatalakeDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelDatalakeDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "cancelDatalakeDiagnostics",
 		Method:             "POST",
@@ -323,13 +646,14 @@ func (a *Client) CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CancelDatalakeDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -348,16 +672,36 @@ func (a *Client) CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsPara
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CancelRestore cancels the restore that was performed
-
-Cancels a currently running restore operation. The operation must be in a STARTED or IN_PROGRESS state.
-*/
+// CancelRestore cancels the restore that was performed.
+//
+// Cancels a currently running restore operation. The operation must be in a STARTED or IN_PROGRESS state..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CancelRestoreContext] instead.
 func (a *Client) CancelRestore(params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CancelRestoreContext(ctx, params, opts...)
+}
+
+// CancelRestoreContext cancels the restore that was performed.
+//
+// Cancels a currently running restore operation. The operation must be in a STARTED or IN_PROGRESS state..
+//
+// Do not use the deprecated [CancelRestoreParams.Context] with this method: it would be ignored.
+func (a *Client) CancelRestoreContext(ctx context.Context, params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelRestoreParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "cancelRestore",
 		Method:             "POST",
@@ -367,13 +711,14 @@ func (a *Client) CancelRestore(params *CancelRestoreParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CancelRestoreReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -392,16 +737,36 @@ func (a *Client) CancelRestore(params *CancelRestoreParams, opts ...ClientOption
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CollectCmDiagnostics starts data lake cloudera manager based diagnostics collection
-
-Start Datalake Cloudera Manager based diagnostics collection
-*/
+// CollectCmDiagnostics starts data lake cloudera manager based diagnostics collection.
+//
+// Start Datalake Cloudera Manager based diagnostics collection.
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CollectCmDiagnosticsContext] instead.
 func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CollectCmDiagnosticsContext(ctx, params, opts...)
+}
+
+// CollectCmDiagnosticsContext starts data lake cloudera manager based diagnostics collection.
+//
+// Start Datalake Cloudera Manager based diagnostics collection.
+//
+// Do not use the deprecated [CollectCmDiagnosticsParams.Context] with this method: it would be ignored.
+func (a *Client) CollectCmDiagnosticsContext(ctx context.Context, params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectCmDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "collectCmDiagnostics",
 		Method:             "POST",
@@ -411,13 +776,14 @@ func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CollectCmDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -436,16 +802,36 @@ func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts .
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CollectDatalakeDiagnostics starts data lake diagnostics collection
-
-Start Datalake diagnostics collection
-*/
+// CollectDatalakeDiagnostics starts data lake diagnostics collection.
+//
+// Start Datalake diagnostics collection.
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CollectDatalakeDiagnosticsContext] instead.
 func (a *Client) CollectDatalakeDiagnostics(params *CollectDatalakeDiagnosticsParams, opts ...ClientOption) (*CollectDatalakeDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CollectDatalakeDiagnosticsContext(ctx, params, opts...)
+}
+
+// CollectDatalakeDiagnosticsContext starts data lake diagnostics collection.
+//
+// Start Datalake diagnostics collection.
+//
+// Do not use the deprecated [CollectDatalakeDiagnosticsParams.Context] with this method: it would be ignored.
+func (a *Client) CollectDatalakeDiagnosticsContext(ctx context.Context, params *CollectDatalakeDiagnosticsParams, opts ...ClientOption) (*CollectDatalakeDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCollectDatalakeDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "collectDatalakeDiagnostics",
 		Method:             "POST",
@@ -455,13 +841,14 @@ func (a *Client) CollectDatalakeDiagnostics(params *CollectDatalakeDiagnosticsPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CollectDatalakeDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -480,16 +867,36 @@ func (a *Client) CollectDatalakeDiagnostics(params *CollectDatalakeDiagnosticsPa
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CreateAWSDatalake creates an a w s datalake
-
-Creates an AWS datalake.
-*/
+// CreateAWSDatalake creates an a w s datalake.
+//
+// Creates an AWS datalake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateAWSDatalakeContext] instead.
 func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...ClientOption) (*CreateAWSDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAWSDatalakeContext(ctx, params, opts...)
+}
+
+// CreateAWSDatalakeContext creates an a w s datalake.
+//
+// Creates an AWS datalake..
+//
+// Do not use the deprecated [CreateAWSDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) CreateAWSDatalakeContext(ctx context.Context, params *CreateAWSDatalakeParams, opts ...ClientOption) (*CreateAWSDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAWSDatalake",
 		Method:             "POST",
@@ -499,13 +906,14 @@ func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAWSDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -524,16 +932,36 @@ func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CreateAWSGovCloudDatalake creates a data lake on a w s gov cloud
-
-Creates a Data Lake on AWS GovCloud.
-*/
+// CreateAWSGovCloudDatalake creates a data lake on a w s gov cloud.
+//
+// Creates a Data Lake on AWS GovCloud..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateAWSGovCloudDatalakeContext] instead.
 func (a *Client) CreateAWSGovCloudDatalake(params *CreateAWSGovCloudDatalakeParams, opts ...ClientOption) (*CreateAWSGovCloudDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAWSGovCloudDatalakeContext(ctx, params, opts...)
+}
+
+// CreateAWSGovCloudDatalakeContext creates a data lake on a w s gov cloud.
+//
+// Creates a Data Lake on AWS GovCloud..
+//
+// Do not use the deprecated [CreateAWSGovCloudDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) CreateAWSGovCloudDatalakeContext(ctx context.Context, params *CreateAWSGovCloudDatalakeParams, opts ...ClientOption) (*CreateAWSGovCloudDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAWSGovCloudDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAWSGovCloudDatalake",
 		Method:             "POST",
@@ -543,13 +971,14 @@ func (a *Client) CreateAWSGovCloudDatalake(params *CreateAWSGovCloudDatalakePara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAWSGovCloudDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -568,16 +997,36 @@ func (a *Client) CreateAWSGovCloudDatalake(params *CreateAWSGovCloudDatalakePara
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CreateAzureDatalake creates an azure datalake
-
-Creates an Azure datalake.
-*/
+// CreateAzureDatalake creates an azure datalake.
+//
+// Creates an Azure datalake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateAzureDatalakeContext] instead.
 func (a *Client) CreateAzureDatalake(params *CreateAzureDatalakeParams, opts ...ClientOption) (*CreateAzureDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateAzureDatalakeContext(ctx, params, opts...)
+}
+
+// CreateAzureDatalakeContext creates an azure datalake.
+//
+// Creates an Azure datalake..
+//
+// Do not use the deprecated [CreateAzureDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) CreateAzureDatalakeContext(ctx context.Context, params *CreateAzureDatalakeParams, opts ...ClientOption) (*CreateAzureDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateAzureDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createAzureDatalake",
 		Method:             "POST",
@@ -587,13 +1036,14 @@ func (a *Client) CreateAzureDatalake(params *CreateAzureDatalakeParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateAzureDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -612,16 +1062,36 @@ func (a *Client) CreateAzureDatalake(params *CreateAzureDatalakeParams, opts ...
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CreateGCPDatalake creates an g c p data lake
-
-Creates an GCP Data Lake.
-*/
+// CreateGCPDatalake creates an g c p data lake.
+//
+// Creates an GCP Data Lake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateGCPDatalakeContext] instead.
 func (a *Client) CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...ClientOption) (*CreateGCPDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateGCPDatalakeContext(ctx, params, opts...)
+}
+
+// CreateGCPDatalakeContext creates an g c p data lake.
+//
+// Creates an GCP Data Lake..
+//
+// Do not use the deprecated [CreateGCPDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) CreateGCPDatalakeContext(ctx context.Context, params *CreateGCPDatalakeParams, opts ...ClientOption) (*CreateGCPDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateGCPDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createGCPDatalake",
 		Method:             "POST",
@@ -631,13 +1101,14 @@ func (a *Client) CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateGCPDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -656,16 +1127,36 @@ func (a *Client) CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteBackupRestoreConfiguration deletes the backup and restore configuration for the datalake
-
-Deletes the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored.
-*/
+// DeleteBackupRestoreConfiguration deletes the backup and restore configuration for the datalake.
+//
+// Deletes the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteBackupRestoreConfigurationContext] instead.
 func (a *Client) DeleteBackupRestoreConfiguration(params *DeleteBackupRestoreConfigurationParams, opts ...ClientOption) (*DeleteBackupRestoreConfigurationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteBackupRestoreConfigurationContext(ctx, params, opts...)
+}
+
+// DeleteBackupRestoreConfigurationContext deletes the backup and restore configuration for the datalake.
+//
+// Deletes the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored..
+//
+// Do not use the deprecated [DeleteBackupRestoreConfigurationParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteBackupRestoreConfigurationContext(ctx context.Context, params *DeleteBackupRestoreConfigurationParams, opts ...ClientOption) (*DeleteBackupRestoreConfigurationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteBackupRestoreConfigurationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteBackupRestoreConfiguration",
 		Method:             "POST",
@@ -675,13 +1166,14 @@ func (a *Client) DeleteBackupRestoreConfiguration(params *DeleteBackupRestoreCon
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteBackupRestoreConfigurationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -700,16 +1192,36 @@ func (a *Client) DeleteBackupRestoreConfiguration(params *DeleteBackupRestoreCon
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteDatalake deletes a datalake
-
-Deletes a datalake.
-*/
+// DeleteDatalake deletes a datalake.
+//
+// Deletes a datalake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteDatalakeContext] instead.
 func (a *Client) DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOption) (*DeleteDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteDatalakeContext(ctx, params, opts...)
+}
+
+// DeleteDatalakeContext deletes a datalake.
+//
+// Deletes a datalake..
+//
+// Do not use the deprecated [DeleteDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteDatalakeContext(ctx context.Context, params *DeleteDatalakeParams, opts ...ClientOption) (*DeleteDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteDatalake",
 		Method:             "POST",
@@ -719,13 +1231,14 @@ func (a *Client) DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -744,16 +1257,36 @@ func (a *Client) DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOpti
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DescribeDatabaseServer gets external database server details
-
-Gets external database server details for Data Lake by cluster CRN
-*/
+// DescribeDatabaseServer gets external database server details.
+//
+// Gets external database server details for Data Lake by cluster CRN.
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DescribeDatabaseServerContext] instead.
 func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeDatabaseServerContext(ctx, params, opts...)
+}
+
+// DescribeDatabaseServerContext gets external database server details.
+//
+// Gets external database server details for Data Lake by cluster CRN.
+//
+// Do not use the deprecated [DescribeDatabaseServerParams.Context] with this method: it would be ignored.
+func (a *Client) DescribeDatabaseServerContext(ctx context.Context, params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDatabaseServerParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeDatabaseServer",
 		Method:             "POST",
@@ -763,13 +1296,14 @@ func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeDatabaseServerReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -788,16 +1322,36 @@ func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, op
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DescribeDatalake describes a datalake
-
-Describes a datalake.
-*/
+// DescribeDatalake describes a datalake.
+//
+// Describes a datalake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DescribeDatalakeContext] instead.
 func (a *Client) DescribeDatalake(params *DescribeDatalakeParams, opts ...ClientOption) (*DescribeDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeDatalakeContext(ctx, params, opts...)
+}
+
+// DescribeDatalakeContext describes a datalake.
+//
+// Describes a datalake..
+//
+// Do not use the deprecated [DescribeDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) DescribeDatalakeContext(ctx context.Context, params *DescribeDatalakeParams, opts ...ClientOption) (*DescribeDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeDatalake",
 		Method:             "POST",
@@ -807,13 +1361,14 @@ func (a *Client) DescribeDatalake(params *DescribeDatalakeParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -832,16 +1387,36 @@ func (a *Client) DescribeDatalake(params *DescribeDatalakeParams, opts ...Client
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-EnableRangerRaz sets the ranger raz enabled flag to true if raz is manually installed on the datalake
-
-Sets the Ranger Raz enabled flag to true if Raz is manually installed on the datalake.
-*/
+// EnableRangerRaz sets the ranger raz enabled flag to true if raz is manually installed on the datalake.
+//
+// Sets the Ranger Raz enabled flag to true if Raz is manually installed on the datalake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.EnableRangerRazContext] instead.
 func (a *Client) EnableRangerRaz(params *EnableRangerRazParams, opts ...ClientOption) (*EnableRangerRazOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.EnableRangerRazContext(ctx, params, opts...)
+}
+
+// EnableRangerRazContext sets the ranger raz enabled flag to true if raz is manually installed on the datalake.
+//
+// Sets the Ranger Raz enabled flag to true if Raz is manually installed on the datalake..
+//
+// Do not use the deprecated [EnableRangerRazParams.Context] with this method: it would be ignored.
+func (a *Client) EnableRangerRazContext(ctx context.Context, params *EnableRangerRazParams, opts ...ClientOption) (*EnableRangerRazOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewEnableRangerRazParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "enableRangerRaz",
 		Method:             "POST",
@@ -851,13 +1426,14 @@ func (a *Client) EnableRangerRaz(params *EnableRangerRazParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &EnableRangerRazReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -876,16 +1452,36 @@ func (a *Client) EnableRangerRaz(params *EnableRangerRazParams, opts ...ClientOp
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetBackupRestoreConfiguration gets the backup and restore configuration for the datalake
-
-Gets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored.
-*/
+// GetBackupRestoreConfiguration gets the backup and restore configuration for the datalake.
+//
+// Gets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetBackupRestoreConfigurationContext] instead.
 func (a *Client) GetBackupRestoreConfiguration(params *GetBackupRestoreConfigurationParams, opts ...ClientOption) (*GetBackupRestoreConfigurationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetBackupRestoreConfigurationContext(ctx, params, opts...)
+}
+
+// GetBackupRestoreConfigurationContext gets the backup and restore configuration for the datalake.
+//
+// Gets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored..
+//
+// Do not use the deprecated [GetBackupRestoreConfigurationParams.Context] with this method: it would be ignored.
+func (a *Client) GetBackupRestoreConfigurationContext(ctx context.Context, params *GetBackupRestoreConfigurationParams, opts ...ClientOption) (*GetBackupRestoreConfigurationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetBackupRestoreConfigurationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getBackupRestoreConfiguration",
 		Method:             "POST",
@@ -895,13 +1491,14 @@ func (a *Client) GetBackupRestoreConfiguration(params *GetBackupRestoreConfigura
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetBackupRestoreConfigurationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -920,16 +1517,36 @@ func (a *Client) GetBackupRestoreConfiguration(params *GetBackupRestoreConfigura
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetClusterHostStatus gets cluster host status
-
-Gets the status of the hosts in a cluster.
-*/
+// GetClusterHostStatus gets cluster host status.
+//
+// Gets the status of the hosts in a cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetClusterHostStatusContext] instead.
 func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetClusterHostStatusContext(ctx, params, opts...)
+}
+
+// GetClusterHostStatusContext gets cluster host status.
+//
+// Gets the status of the hosts in a cluster..
+//
+// Do not use the deprecated [GetClusterHostStatusParams.Context] with this method: it would be ignored.
+func (a *Client) GetClusterHostStatusContext(ctx context.Context, params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetClusterHostStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getClusterHostStatus",
 		Method:             "POST",
@@ -939,13 +1556,14 @@ func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetClusterHostStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -964,16 +1582,36 @@ func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts .
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetClusterServiceStatus gets cluster service status
-
-Gets the status of the services in a cluster.
-*/
+// GetClusterServiceStatus gets cluster service status.
+//
+// Gets the status of the services in a cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetClusterServiceStatusContext] instead.
 func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetClusterServiceStatusContext(ctx, params, opts...)
+}
+
+// GetClusterServiceStatusContext gets cluster service status.
+//
+// Gets the status of the services in a cluster..
+//
+// Do not use the deprecated [GetClusterServiceStatusParams.Context] with this method: it would be ignored.
+func (a *Client) GetClusterServiceStatusContext(ctx context.Context, params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetClusterServiceStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getClusterServiceStatus",
 		Method:             "POST",
@@ -983,13 +1621,14 @@ func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetClusterServiceStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1008,16 +1647,36 @@ func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetCmRoles gathers cloudera manager roles that can be used for filtering in c m based diagnostics collection
-
-Gather Cloudera Manager roles that can be used for filtering in CM based diagnostics collection.
-*/
+// GetCmRoles gathers cloudera manager roles that can be used for filtering in c m based diagnostics collection.
+//
+// Gather Cloudera Manager roles that can be used for filtering in CM based diagnostics collection..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetCmRolesContext] instead.
 func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetCmRolesContext(ctx, params, opts...)
+}
+
+// GetCmRolesContext gathers cloudera manager roles that can be used for filtering in c m based diagnostics collection.
+//
+// Gather Cloudera Manager roles that can be used for filtering in CM based diagnostics collection..
+//
+// Do not use the deprecated [GetCmRolesParams.Context] with this method: it would be ignored.
+func (a *Client) GetCmRolesContext(ctx context.Context, params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetCmRolesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getCmRoles",
 		Method:             "POST",
@@ -1027,13 +1686,14 @@ func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*Ge
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetCmRolesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1052,16 +1712,36 @@ func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*Ge
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetDatalakeLogDescriptors gathers log descriptors that are used for diagnostics collection
-
-Gather log descriptors that are used for diagnostics collection.
-*/
+// GetDatalakeLogDescriptors gathers log descriptors that are used for diagnostics collection.
+//
+// Gather log descriptors that are used for diagnostics collection..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetDatalakeLogDescriptorsContext] instead.
 func (a *Client) GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsParams, opts ...ClientOption) (*GetDatalakeLogDescriptorsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetDatalakeLogDescriptorsContext(ctx, params, opts...)
+}
+
+// GetDatalakeLogDescriptorsContext gathers log descriptors that are used for diagnostics collection.
+//
+// Gather log descriptors that are used for diagnostics collection..
+//
+// Do not use the deprecated [GetDatalakeLogDescriptorsParams.Context] with this method: it would be ignored.
+func (a *Client) GetDatalakeLogDescriptorsContext(ctx context.Context, params *GetDatalakeLogDescriptorsParams, opts ...ClientOption) (*GetDatalakeLogDescriptorsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetDatalakeLogDescriptorsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getDatalakeLogDescriptors",
 		Method:             "POST",
@@ -1071,13 +1751,14 @@ func (a *Client) GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetDatalakeLogDescriptorsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1096,16 +1777,36 @@ func (a *Client) GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsPara
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetOperation useds for retrieving operation status for the datalake cluster defaulting to the most recent operation provide an operation Id to view details of a specific historical operation
-
-Used for retrieving operation status for the datalake cluster, defaulting to the most recent operation. Provide an operationId to view details of a specific historical operation.
-*/
+// GetOperation useds for retrieving operation status for the datalake cluster defaulting to the most recent operation provide an operation Id to view details of a specific historical operation.
+//
+// Used for retrieving operation status for the datalake cluster, defaulting to the most recent operation. Provide an operationId to view details of a specific historical operation..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetOperationContext] instead.
 func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetOperationContext(ctx, params, opts...)
+}
+
+// GetOperationContext useds for retrieving operation status for the datalake cluster defaulting to the most recent operation provide an operation Id to view details of a specific historical operation.
+//
+// Used for retrieving operation status for the datalake cluster, defaulting to the most recent operation. Provide an operationId to view details of a specific historical operation..
+//
+// Do not use the deprecated [GetOperationParams.Context] with this method: it would be ignored.
+func (a *Client) GetOperationContext(ctx context.Context, params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetOperationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getOperation",
 		Method:             "POST",
@@ -1115,13 +1816,14 @@ func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetOperationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1140,16 +1842,36 @@ func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListDatalakeBackups lists all the backup operations that were performed on the datalake
-
-List all the backup operations that were performed on the datalake.
-*/
+// ListDatalakeBackups lists all the backup operations that were performed on the datalake.
+//
+// List all the backup operations that were performed on the datalake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListDatalakeBackupsContext] instead.
 func (a *Client) ListDatalakeBackups(params *ListDatalakeBackupsParams, opts ...ClientOption) (*ListDatalakeBackupsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDatalakeBackupsContext(ctx, params, opts...)
+}
+
+// ListDatalakeBackupsContext lists all the backup operations that were performed on the datalake.
+//
+// List all the backup operations that were performed on the datalake..
+//
+// Do not use the deprecated [ListDatalakeBackupsParams.Context] with this method: it would be ignored.
+func (a *Client) ListDatalakeBackupsContext(ctx context.Context, params *ListDatalakeBackupsParams, opts ...ClientOption) (*ListDatalakeBackupsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatalakeBackupsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDatalakeBackups",
 		Method:             "POST",
@@ -1159,13 +1881,14 @@ func (a *Client) ListDatalakeBackups(params *ListDatalakeBackupsParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDatalakeBackupsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1184,16 +1907,36 @@ func (a *Client) ListDatalakeBackups(params *ListDatalakeBackupsParams, opts ...
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListDatalakeDiagnostics lists recent datalake diagnostics collections
-
-List recent Datalake diagnostics collection
-*/
+// ListDatalakeDiagnostics lists recent datalake diagnostics collections.
+//
+// List recent Datalake diagnostics collection.
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListDatalakeDiagnosticsContext] instead.
 func (a *Client) ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, opts ...ClientOption) (*ListDatalakeDiagnosticsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDatalakeDiagnosticsContext(ctx, params, opts...)
+}
+
+// ListDatalakeDiagnosticsContext lists recent datalake diagnostics collections.
+//
+// List recent Datalake diagnostics collection.
+//
+// Do not use the deprecated [ListDatalakeDiagnosticsParams.Context] with this method: it would be ignored.
+func (a *Client) ListDatalakeDiagnosticsContext(ctx context.Context, params *ListDatalakeDiagnosticsParams, opts ...ClientOption) (*ListDatalakeDiagnosticsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatalakeDiagnosticsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDatalakeDiagnostics",
 		Method:             "POST",
@@ -1203,13 +1946,14 @@ func (a *Client) ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDatalakeDiagnosticsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1228,16 +1972,36 @@ func (a *Client) ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListDatalakeSecretTypes lists all datalake related secret types
-
-Lists Datalake related secret types for Datalake instances.
-*/
+// ListDatalakeSecretTypes lists all datalake related secret types.
+//
+// Lists Datalake related secret types for Datalake instances..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListDatalakeSecretTypesContext] instead.
 func (a *Client) ListDatalakeSecretTypes(params *ListDatalakeSecretTypesParams, opts ...ClientOption) (*ListDatalakeSecretTypesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDatalakeSecretTypesContext(ctx, params, opts...)
+}
+
+// ListDatalakeSecretTypesContext lists all datalake related secret types.
+//
+// Lists Datalake related secret types for Datalake instances..
+//
+// Do not use the deprecated [ListDatalakeSecretTypesParams.Context] with this method: it would be ignored.
+func (a *Client) ListDatalakeSecretTypesContext(ctx context.Context, params *ListDatalakeSecretTypesParams, opts ...ClientOption) (*ListDatalakeSecretTypesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatalakeSecretTypesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDatalakeSecretTypes",
 		Method:             "POST",
@@ -1247,13 +2011,14 @@ func (a *Client) ListDatalakeSecretTypes(params *ListDatalakeSecretTypesParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDatalakeSecretTypesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1272,16 +2037,36 @@ func (a *Client) ListDatalakeSecretTypes(params *ListDatalakeSecretTypesParams, 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListDatalakes lists datalakes
-
-Lists datalakes.
-*/
+// ListDatalakes lists datalakes.
+//
+// Lists datalakes..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListDatalakesContext] instead.
 func (a *Client) ListDatalakes(params *ListDatalakesParams, opts ...ClientOption) (*ListDatalakesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDatalakesContext(ctx, params, opts...)
+}
+
+// ListDatalakesContext lists datalakes.
+//
+// Lists datalakes..
+//
+// Do not use the deprecated [ListDatalakesParams.Context] with this method: it would be ignored.
+func (a *Client) ListDatalakesContext(ctx context.Context, params *ListDatalakesParams, opts ...ClientOption) (*ListDatalakesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListDatalakesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listDatalakes",
 		Method:             "POST",
@@ -1291,13 +2076,14 @@ func (a *Client) ListDatalakes(params *ListDatalakesParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListDatalakesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1316,16 +2102,36 @@ func (a *Client) ListDatalakes(params *ListDatalakesParams, opts ...ClientOption
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListRuntimes lists the datalake versions
-
-Lists the available datalake runtime versions.
-*/
+// ListRuntimes lists the datalake versions.
+//
+// Lists the available datalake runtime versions..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListRuntimesContext] instead.
 func (a *Client) ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) (*ListRuntimesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListRuntimesContext(ctx, params, opts...)
+}
+
+// ListRuntimesContext lists the datalake versions.
+//
+// Lists the available datalake runtime versions..
+//
+// Do not use the deprecated [ListRuntimesParams.Context] with this method: it would be ignored.
+func (a *Client) ListRuntimesContext(ctx context.Context, params *ListRuntimesParams, opts ...ClientOption) (*ListRuntimesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRuntimesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listRuntimes",
 		Method:             "POST",
@@ -1335,13 +2141,14 @@ func (a *Client) ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListRuntimesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1360,16 +2167,36 @@ func (a *Client) ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-MigrateSkus migrates the data lake to a new s k u
-
-Migrate the Data Lake to a new SKU.
-*/
+// MigrateSkus migrates the data lake to a new s k u.
+//
+// Migrate the Data Lake to a new SKU..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.MigrateSkusContext] instead.
 func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.MigrateSkusContext(ctx, params, opts...)
+}
+
+// MigrateSkusContext migrates the data lake to a new s k u.
+//
+// Migrate the Data Lake to a new SKU..
+//
+// Do not use the deprecated [MigrateSkusParams.Context] with this method: it would be ignored.
+func (a *Client) MigrateSkusContext(ctx context.Context, params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewMigrateSkusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "migrateSkus",
 		Method:             "POST",
@@ -1379,13 +2206,14 @@ func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &MigrateSkusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1404,16 +2232,36 @@ func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-PrepareDatalakeUpgrade prepares the data lake cluster for upgrade
-
-In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well.
-*/
+// PrepareDatalakeUpgrade prepares the data lake cluster for upgrade.
+//
+// In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.PrepareDatalakeUpgradeContext] instead.
 func (a *Client) PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, opts ...ClientOption) (*PrepareDatalakeUpgradeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.PrepareDatalakeUpgradeContext(ctx, params, opts...)
+}
+
+// PrepareDatalakeUpgradeContext prepares the data lake cluster for upgrade.
+//
+// In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well..
+//
+// Do not use the deprecated [PrepareDatalakeUpgradeParams.Context] with this method: it would be ignored.
+func (a *Client) PrepareDatalakeUpgradeContext(ctx context.Context, params *PrepareDatalakeUpgradeParams, opts ...ClientOption) (*PrepareDatalakeUpgradeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewPrepareDatalakeUpgradeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "prepareDatalakeUpgrade",
 		Method:             "POST",
@@ -1423,13 +2271,14 @@ func (a *Client) PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &PrepareDatalakeUpgradeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1448,16 +2297,36 @@ func (a *Client) PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, op
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RecoverDatalake recovers data lake to the original version after a failed upgrade
-
-Recover data lake to the original version after a failed upgrade.
-*/
+// RecoverDatalake recovers data lake to the original version after a failed upgrade.
+//
+// Recover data lake to the original version after a failed upgrade..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RecoverDatalakeContext] instead.
 func (a *Client) RecoverDatalake(params *RecoverDatalakeParams, opts ...ClientOption) (*RecoverDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RecoverDatalakeContext(ctx, params, opts...)
+}
+
+// RecoverDatalakeContext recovers data lake to the original version after a failed upgrade.
+//
+// Recover data lake to the original version after a failed upgrade..
+//
+// Do not use the deprecated [RecoverDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) RecoverDatalakeContext(ctx context.Context, params *RecoverDatalakeParams, opts ...ClientOption) (*RecoverDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRecoverDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "recoverDatalake",
 		Method:             "POST",
@@ -1467,13 +2336,14 @@ func (a *Client) RecoverDatalake(params *RecoverDatalakeParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RecoverDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1492,16 +2362,36 @@ func (a *Client) RecoverDatalake(params *RecoverDatalakeParams, opts ...ClientOp
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RenewCertificate renews certificate on datalake cluster by name or c r n
-
-Deprecated, please use renew-public-certificate command instead. Renew certificate on Datalake cluster by name or CRN.
-*/
+// RenewCertificate renews certificate on datalake cluster by name or c r n.
+//
+// Deprecated, please use renew-public-certificate command instead. Renew certificate on Datalake cluster by name or CRN..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RenewCertificateContext] instead.
 func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RenewCertificateContext(ctx, params, opts...)
+}
+
+// RenewCertificateContext renews certificate on datalake cluster by name or c r n.
+//
+// Deprecated, please use renew-public-certificate command instead. Renew certificate on Datalake cluster by name or CRN..
+//
+// Do not use the deprecated [RenewCertificateParams.Context] with this method: it would be ignored.
+func (a *Client) RenewCertificateContext(ctx context.Context, params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRenewCertificateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "renewCertificate",
 		Method:             "POST",
@@ -1511,13 +2401,14 @@ func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RenewCertificateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1536,16 +2427,36 @@ func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...Client
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RenewPublicCertificate renews public certificate on datalake cluster by name or c r n
-
-Renews public certificate on Datalake cluster by name or CRN.
-*/
+// RenewPublicCertificate renews public certificate on datalake cluster by name or c r n.
+//
+// Renews public certificate on Datalake cluster by name or CRN..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RenewPublicCertificateContext] instead.
 func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RenewPublicCertificateContext(ctx, params, opts...)
+}
+
+// RenewPublicCertificateContext renews public certificate on datalake cluster by name or c r n.
+//
+// Renews public certificate on Datalake cluster by name or CRN..
+//
+// Do not use the deprecated [RenewPublicCertificateParams.Context] with this method: it would be ignored.
+func (a *Client) RenewPublicCertificateContext(ctx context.Context, params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRenewPublicCertificateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "renewPublicCertificate",
 		Method:             "POST",
@@ -1555,13 +2466,14 @@ func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RenewPublicCertificateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1580,16 +2492,36 @@ func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, op
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RepairDatalake repairs a datalake
-
-Repairs a datalake.
-*/
+// RepairDatalake repairs a datalake.
+//
+// Repairs a datalake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RepairDatalakeContext] instead.
 func (a *Client) RepairDatalake(params *RepairDatalakeParams, opts ...ClientOption) (*RepairDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RepairDatalakeContext(ctx, params, opts...)
+}
+
+// RepairDatalakeContext repairs a datalake.
+//
+// Repairs a datalake..
+//
+// Do not use the deprecated [RepairDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) RepairDatalakeContext(ctx context.Context, params *RepairDatalakeParams, opts ...ClientOption) (*RepairDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRepairDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "repairDatalake",
 		Method:             "POST",
@@ -1599,13 +2531,14 @@ func (a *Client) RepairDatalake(params *RepairDatalakeParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RepairDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1624,16 +2557,36 @@ func (a *Client) RepairDatalake(params *RepairDatalakeParams, opts ...ClientOpti
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ReplaceRecipes replaces recipes for the given instance groups
-
-Replaces recipes for the given instance groups.
-*/
+// ReplaceRecipes replaces recipes for the given instance groups.
+//
+// Replaces recipes for the given instance groups..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ReplaceRecipesContext] instead.
 func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ReplaceRecipesContext(ctx, params, opts...)
+}
+
+// ReplaceRecipesContext replaces recipes for the given instance groups.
+//
+// Replaces recipes for the given instance groups..
+//
+// Do not use the deprecated [ReplaceRecipesParams.Context] with this method: it would be ignored.
+func (a *Client) ReplaceRecipesContext(ctx context.Context, params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewReplaceRecipesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "replaceRecipes",
 		Method:             "POST",
@@ -1643,13 +2596,14 @@ func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ReplaceRecipesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1668,16 +2622,36 @@ func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOpti
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ResizeDatalake resizes the given datalake to the given target size
-
-Resizes the datalake to the given size.
-*/
+// ResizeDatalake resizes the given datalake to the given target size.
+//
+// Resizes the datalake to the given size..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ResizeDatalakeContext] instead.
 func (a *Client) ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOption) (*ResizeDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ResizeDatalakeContext(ctx, params, opts...)
+}
+
+// ResizeDatalakeContext resizes the given datalake to the given target size.
+//
+// Resizes the datalake to the given size..
+//
+// Do not use the deprecated [ResizeDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) ResizeDatalakeContext(ctx context.Context, params *ResizeDatalakeParams, opts ...ClientOption) (*ResizeDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewResizeDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "resizeDatalake",
 		Method:             "POST",
@@ -1687,13 +2661,14 @@ func (a *Client) ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ResizeDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1712,16 +2687,36 @@ func (a *Client) ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOpti
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RestartDatalakeInstances restarts instances of a datalake on cloud provider
-
-Restarts instances of a datalake on Cloud provider.
-*/
+// RestartDatalakeInstances restarts instances of a datalake on cloud provider.
+//
+// Restarts instances of a datalake on Cloud provider..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RestartDatalakeInstancesContext] instead.
 func (a *Client) RestartDatalakeInstances(params *RestartDatalakeInstancesParams, opts ...ClientOption) (*RestartDatalakeInstancesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RestartDatalakeInstancesContext(ctx, params, opts...)
+}
+
+// RestartDatalakeInstancesContext restarts instances of a datalake on cloud provider.
+//
+// Restarts instances of a datalake on Cloud provider..
+//
+// Do not use the deprecated [RestartDatalakeInstancesParams.Context] with this method: it would be ignored.
+func (a *Client) RestartDatalakeInstancesContext(ctx context.Context, params *RestartDatalakeInstancesParams, opts ...ClientOption) (*RestartDatalakeInstancesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestartDatalakeInstancesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "restartDatalakeInstances",
 		Method:             "POST",
@@ -1731,13 +2726,14 @@ func (a *Client) RestartDatalakeInstances(params *RestartDatalakeInstancesParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RestartDatalakeInstancesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1756,16 +2752,36 @@ func (a *Client) RestartDatalakeInstances(params *RestartDatalakeInstancesParams
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RestoreDatalake restores the datalake from backup taken
-
-Restore the datalake from a backup that was taken. Backup to be used for restore is identified based on the information provided in the restore request. BackupId and BackupName are mutually exclusive. Only one of them can be provided. If both are provided, BackupId takes precedence.
-*/
+// RestoreDatalake restores the datalake from backup taken.
+//
+// Restore the datalake from a backup that was taken. Backup to be used for restore is identified based on the information provided in the restore request. BackupId and BackupName are mutually exclusive. Only one of them can be provided. If both are provided, BackupId takes precedence..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RestoreDatalakeContext] instead.
 func (a *Client) RestoreDatalake(params *RestoreDatalakeParams, opts ...ClientOption) (*RestoreDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RestoreDatalakeContext(ctx, params, opts...)
+}
+
+// RestoreDatalakeContext restores the datalake from backup taken.
+//
+// Restore the datalake from a backup that was taken. Backup to be used for restore is identified based on the information provided in the restore request. BackupId and BackupName are mutually exclusive. Only one of them can be provided. If both are provided, BackupId takes precedence..
+//
+// Do not use the deprecated [RestoreDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) RestoreDatalakeContext(ctx context.Context, params *RestoreDatalakeParams, opts ...ClientOption) (*RestoreDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "restoreDatalake",
 		Method:             "POST",
@@ -1775,13 +2791,14 @@ func (a *Client) RestoreDatalake(params *RestoreDatalakeParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RestoreDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1800,16 +2817,36 @@ func (a *Client) RestoreDatalake(params *RestoreDatalakeParams, opts ...ClientOp
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RestoreDatalakeStatus checks the status of datalake restore operation
-
-Identifies the restore operation based on the inputs provided and gets the status. RestoreId and BackupName are mutually exclusive. Only one of them can be provided.
-*/
+// RestoreDatalakeStatus checks the status of datalake restore operation.
+//
+// Identifies the restore operation based on the inputs provided and gets the status. RestoreId and BackupName are mutually exclusive. Only one of them can be provided..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RestoreDatalakeStatusContext] instead.
 func (a *Client) RestoreDatalakeStatus(params *RestoreDatalakeStatusParams, opts ...ClientOption) (*RestoreDatalakeStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RestoreDatalakeStatusContext(ctx, params, opts...)
+}
+
+// RestoreDatalakeStatusContext checks the status of datalake restore operation.
+//
+// Identifies the restore operation based on the inputs provided and gets the status. RestoreId and BackupName are mutually exclusive. Only one of them can be provided..
+//
+// Do not use the deprecated [RestoreDatalakeStatusParams.Context] with this method: it would be ignored.
+func (a *Client) RestoreDatalakeStatusContext(ctx context.Context, params *RestoreDatalakeStatusParams, opts ...ClientOption) (*RestoreDatalakeStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreDatalakeStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "restoreDatalakeStatus",
 		Method:             "POST",
@@ -1819,13 +2856,14 @@ func (a *Client) RestoreDatalakeStatus(params *RestoreDatalakeStatusParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RestoreDatalakeStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1844,16 +2882,36 @@ func (a *Client) RestoreDatalakeStatus(params *RestoreDatalakeStatusParams, opts
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RetryDatalake retries last failed operation on a datalake
-
-Retry last failed operation on a datalake.
-*/
+// RetryDatalake retries last failed operation on a datalake.
+//
+// Retry last failed operation on a datalake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RetryDatalakeContext] instead.
 func (a *Client) RetryDatalake(params *RetryDatalakeParams, opts ...ClientOption) (*RetryDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RetryDatalakeContext(ctx, params, opts...)
+}
+
+// RetryDatalakeContext retries last failed operation on a datalake.
+//
+// Retry last failed operation on a datalake..
+//
+// Do not use the deprecated [RetryDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) RetryDatalakeContext(ctx context.Context, params *RetryDatalakeParams, opts ...ClientOption) (*RetryDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRetryDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "retryDatalake",
 		Method:             "POST",
@@ -1863,13 +2921,14 @@ func (a *Client) RetryDatalake(params *RetryDatalakeParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RetryDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1888,16 +2947,36 @@ func (a *Client) RetryDatalake(params *RetryDatalakeParams, opts ...ClientOption
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RotateAutoTLSCertificates rotates autotls certificates on the datalake s hosts
-
-Deprecated, please use rotate-private-certificates command instead. Rotate autotls certificates on the datalake's hosts
-*/
+// RotateAutoTLSCertificates rotates autotls certificates on the datalake s hosts.
+//
+// Deprecated, please use rotate-private-certificates command instead. Rotate autotls certificates on the datalake's hosts.
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RotateAutoTLSCertificatesContext] instead.
 func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotateAutoTLSCertificatesContext(ctx, params, opts...)
+}
+
+// RotateAutoTLSCertificatesContext rotates autotls certificates on the datalake s hosts.
+//
+// Deprecated, please use rotate-private-certificates command instead. Rotate autotls certificates on the datalake's hosts.
+//
+// Do not use the deprecated [RotateAutoTLSCertificatesParams.Context] with this method: it would be ignored.
+func (a *Client) RotateAutoTLSCertificatesContext(ctx context.Context, params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateAutoTLSCertificatesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotateAutoTlsCertificates",
 		Method:             "POST",
@@ -1907,13 +2986,14 @@ func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotateAutoTLSCertificatesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1932,16 +3012,36 @@ func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesPara
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RotateDbCertificate rotates database ssl certificate for a specific data lake
-
-Rotates database ssl certificate for a specific Data Lake.
-*/
+// RotateDbCertificate rotates database ssl certificate for a specific data lake.
+//
+// Rotates database ssl certificate for a specific Data Lake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RotateDbCertificateContext] instead.
 func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotateDbCertificateContext(ctx, params, opts...)
+}
+
+// RotateDbCertificateContext rotates database ssl certificate for a specific data lake.
+//
+// Rotates database ssl certificate for a specific Data Lake..
+//
+// Do not use the deprecated [RotateDbCertificateParams.Context] with this method: it would be ignored.
+func (a *Client) RotateDbCertificateContext(ctx context.Context, params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateDbCertificateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotateDbCertificate",
 		Method:             "POST",
@@ -1951,13 +3051,14 @@ func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotateDbCertificateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1976,16 +3077,36 @@ func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RotatePrivateCertificates rotates private certificates on the datalake s hosts
-
-Rotates private certificates on the datalake's hosts.
-*/
+// RotatePrivateCertificates rotates private certificates on the datalake s hosts.
+//
+// Rotates private certificates on the datalake's hosts..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RotatePrivateCertificatesContext] instead.
 func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotatePrivateCertificatesContext(ctx, params, opts...)
+}
+
+// RotatePrivateCertificatesContext rotates private certificates on the datalake s hosts.
+//
+// Rotates private certificates on the datalake's hosts..
+//
+// Do not use the deprecated [RotatePrivateCertificatesParams.Context] with this method: it would be ignored.
+func (a *Client) RotatePrivateCertificatesContext(ctx context.Context, params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotatePrivateCertificatesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotatePrivateCertificates",
 		Method:             "POST",
@@ -1995,13 +3116,14 @@ func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotatePrivateCertificatesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2020,16 +3142,36 @@ func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesPara
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RotateSaltPassword rotates salt stack user password on data lake instances
-
-Deprecated, please use rotateSecrets with SALT_PASSWORD secretType instead.
-*/
+// RotateSaltPassword rotates salt stack user password on data lake instances.
+//
+// Deprecated, please use rotateSecrets with SALT_PASSWORD secretType instead..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RotateSaltPasswordContext] instead.
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotateSaltPasswordContext(ctx, params, opts...)
+}
+
+// RotateSaltPasswordContext rotates salt stack user password on data lake instances.
+//
+// Deprecated, please use rotateSecrets with SALT_PASSWORD secretType instead..
+//
+// Do not use the deprecated [RotateSaltPasswordParams.Context] with this method: it would be ignored.
+func (a *Client) RotateSaltPasswordContext(ctx context.Context, params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateSaltPasswordParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotateSaltPassword",
 		Method:             "POST",
@@ -2039,13 +3181,14 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotateSaltPasswordReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2064,16 +3207,36 @@ func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...Cl
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RotateSecrets rotates secrets for a specific datalake
-
-Rotates secrets for a specific Datalake based on what secret types are specified.
-*/
+// RotateSecrets rotates secrets for a specific datalake.
+//
+// Rotates secrets for a specific Datalake based on what secret types are specified..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RotateSecretsContext] instead.
 func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RotateSecretsContext(ctx, params, opts...)
+}
+
+// RotateSecretsContext rotates secrets for a specific datalake.
+//
+// Rotates secrets for a specific Datalake based on what secret types are specified..
+//
+// Do not use the deprecated [RotateSecretsParams.Context] with this method: it would be ignored.
+func (a *Client) RotateSecretsContext(ctx context.Context, params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRotateSecretsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rotateSecrets",
 		Method:             "POST",
@@ -2083,13 +3246,14 @@ func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RotateSecretsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2108,16 +3272,36 @@ func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ScaleHorizontally horizontallies scale the data lake nodes to add additional compute nodes to the cluster
-
-Horizontally scale the target host group in the Data Lake cluster. The possible option for the instance group are raz_scale_out, hms_scale_out, kafka_scale_out, solr_scale_out, storage_scale_out
-*/
+// ScaleHorizontally horizontallies scale the data lake nodes to add additional compute nodes to the cluster.
+//
+// Horizontally scale the target host group in the Data Lake cluster. The possible option for the instance group are raz_scale_out, hms_scale_out, kafka_scale_out, solr_scale_out, storage_scale_out.
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ScaleHorizontallyContext] instead.
 func (a *Client) ScaleHorizontally(params *ScaleHorizontallyParams, opts ...ClientOption) (*ScaleHorizontallyOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ScaleHorizontallyContext(ctx, params, opts...)
+}
+
+// ScaleHorizontallyContext horizontallies scale the data lake nodes to add additional compute nodes to the cluster.
+//
+// Horizontally scale the target host group in the Data Lake cluster. The possible option for the instance group are raz_scale_out, hms_scale_out, kafka_scale_out, solr_scale_out, storage_scale_out.
+//
+// Do not use the deprecated [ScaleHorizontallyParams.Context] with this method: it would be ignored.
+func (a *Client) ScaleHorizontallyContext(ctx context.Context, params *ScaleHorizontallyParams, opts ...ClientOption) (*ScaleHorizontallyOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewScaleHorizontallyParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "scaleHorizontally",
 		Method:             "POST",
@@ -2127,13 +3311,14 @@ func (a *Client) ScaleHorizontally(params *ScaleHorizontallyParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ScaleHorizontallyReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2152,16 +3337,36 @@ func (a *Client) ScaleHorizontally(params *ScaleHorizontallyParams, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-SetBackupRestoreConfiguration sets the backup and restore configuration for the datalake
-
-Sets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored.
-*/
+// SetBackupRestoreConfiguration sets the backup and restore configuration for the datalake.
+//
+// Sets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.SetBackupRestoreConfigurationContext] instead.
 func (a *Client) SetBackupRestoreConfiguration(params *SetBackupRestoreConfigurationParams, opts ...ClientOption) (*SetBackupRestoreConfigurationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetBackupRestoreConfigurationContext(ctx, params, opts...)
+}
+
+// SetBackupRestoreConfigurationContext sets the backup and restore configuration for the datalake.
+//
+// Sets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored..
+//
+// Do not use the deprecated [SetBackupRestoreConfigurationParams.Context] with this method: it would be ignored.
+func (a *Client) SetBackupRestoreConfigurationContext(ctx context.Context, params *SetBackupRestoreConfigurationParams, opts ...ClientOption) (*SetBackupRestoreConfigurationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetBackupRestoreConfigurationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setBackupRestoreConfiguration",
 		Method:             "POST",
@@ -2171,13 +3376,14 @@ func (a *Client) SetBackupRestoreConfiguration(params *SetBackupRestoreConfigura
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetBackupRestoreConfigurationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2196,16 +3402,36 @@ func (a *Client) SetBackupRestoreConfiguration(params *SetBackupRestoreConfigura
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-SetCatalog sets a catalog for a data lake
-
-Sets a catalog for a DataLake.
-*/
+// SetCatalog sets a catalog for a data lake.
+//
+// Sets a catalog for a DataLake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.SetCatalogContext] instead.
 func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetCatalogContext(ctx, params, opts...)
+}
+
+// SetCatalogContext sets a catalog for a data lake.
+//
+// Sets a catalog for a DataLake..
+//
+// Do not use the deprecated [SetCatalogParams.Context] with this method: it would be ignored.
+func (a *Client) SetCatalogContext(ctx context.Context, params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetCatalogParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setCatalog",
 		Method:             "POST",
@@ -2215,13 +3441,14 @@ func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*Se
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetCatalogReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2240,16 +3467,36 @@ func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*Se
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-SetDefaultJavaVersion configures the default java version for the data lake
-
-Configures the default Java version for the Data Lake. This command updates the system's default Java version and will restart both the Cluster Manager and the services.
-*/
+// SetDefaultJavaVersion configures the default java version for the data lake.
+//
+// Configures the default Java version for the Data Lake. This command updates the system's default Java version and will restart both the Cluster Manager and the services..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.SetDefaultJavaVersionContext] instead.
 func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetDefaultJavaVersionContext(ctx, params, opts...)
+}
+
+// SetDefaultJavaVersionContext configures the default java version for the data lake.
+//
+// Configures the default Java version for the Data Lake. This command updates the system's default Java version and will restart both the Cluster Manager and the services..
+//
+// Do not use the deprecated [SetDefaultJavaVersionParams.Context] with this method: it would be ignored.
+func (a *Client) SetDefaultJavaVersionContext(ctx context.Context, params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSetDefaultJavaVersionParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "setDefaultJavaVersion",
 		Method:             "POST",
@@ -2259,13 +3506,14 @@ func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SetDefaultJavaVersionReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2284,16 +3532,36 @@ func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-StartDatabaseUpgrade upgrades the database of the data lake cluster
-
-This command initiates the upgrade of the database of the Data Lake cluster.
-*/
+// StartDatabaseUpgrade upgrades the database of the data lake cluster.
+//
+// This command initiates the upgrade of the database of the Data Lake cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.StartDatabaseUpgradeContext] instead.
 func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartDatabaseUpgradeContext(ctx, params, opts...)
+}
+
+// StartDatabaseUpgradeContext upgrades the database of the data lake cluster.
+//
+// This command initiates the upgrade of the database of the Data Lake cluster..
+//
+// Do not use the deprecated [StartDatabaseUpgradeParams.Context] with this method: it would be ignored.
+func (a *Client) StartDatabaseUpgradeContext(ctx context.Context, params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDatabaseUpgradeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startDatabaseUpgrade",
 		Method:             "POST",
@@ -2303,13 +3571,14 @@ func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartDatabaseUpgradeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2328,16 +3597,36 @@ func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts .
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-StartDatalake starts datalake
-
-Deprecated, please use 'cdp environments start-environment' instead.
-*/
+// StartDatalake starts datalake.
+//
+// Deprecated, please use 'cdp environments start-environment' instead..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.StartDatalakeContext] instead.
 func (a *Client) StartDatalake(params *StartDatalakeParams, opts ...ClientOption) (*StartDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartDatalakeContext(ctx, params, opts...)
+}
+
+// StartDatalakeContext starts datalake.
+//
+// Deprecated, please use 'cdp environments start-environment' instead..
+//
+// Do not use the deprecated [StartDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) StartDatalakeContext(ctx context.Context, params *StartDatalakeParams, opts ...ClientOption) (*StartDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startDatalake",
 		Method:             "POST",
@@ -2347,13 +3636,14 @@ func (a *Client) StartDatalake(params *StartDatalakeParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2372,16 +3662,36 @@ func (a *Client) StartDatalake(params *StartDatalakeParams, opts ...ClientOption
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-StartDatalakeVerticalScaling initiates the vertical scaling on data lake
-
-Initiates the vertical scaling on Data Lake. You have the option to specify 'modifyDisks' or 'instanceTemplate' as parameter.
-*/
+// StartDatalakeVerticalScaling initiates the vertical scaling on data lake.
+//
+// Initiates the vertical scaling on Data Lake. You have the option to specify 'modifyDisks' or 'instanceTemplate' as parameter..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.StartDatalakeVerticalScalingContext] instead.
 func (a *Client) StartDatalakeVerticalScaling(params *StartDatalakeVerticalScalingParams, opts ...ClientOption) (*StartDatalakeVerticalScalingOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StartDatalakeVerticalScalingContext(ctx, params, opts...)
+}
+
+// StartDatalakeVerticalScalingContext initiates the vertical scaling on data lake.
+//
+// Initiates the vertical scaling on Data Lake. You have the option to specify 'modifyDisks' or 'instanceTemplate' as parameter..
+//
+// Do not use the deprecated [StartDatalakeVerticalScalingParams.Context] with this method: it would be ignored.
+func (a *Client) StartDatalakeVerticalScalingContext(ctx context.Context, params *StartDatalakeVerticalScalingParams, opts ...ClientOption) (*StartDatalakeVerticalScalingOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStartDatalakeVerticalScalingParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "startDatalakeVerticalScaling",
 		Method:             "POST",
@@ -2391,13 +3701,14 @@ func (a *Client) StartDatalakeVerticalScaling(params *StartDatalakeVerticalScali
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StartDatalakeVerticalScalingReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2416,16 +3727,36 @@ func (a *Client) StartDatalakeVerticalScaling(params *StartDatalakeVerticalScali
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-StopDatalake stops datalake
-
-Deprecated, please use 'cdp environments stop-environment' instead.
-*/
+// StopDatalake stops datalake.
+//
+// Deprecated, please use 'cdp environments stop-environment' instead..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.StopDatalakeContext] instead.
 func (a *Client) StopDatalake(params *StopDatalakeParams, opts ...ClientOption) (*StopDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.StopDatalakeContext(ctx, params, opts...)
+}
+
+// StopDatalakeContext stops datalake.
+//
+// Deprecated, please use 'cdp environments stop-environment' instead..
+//
+// Do not use the deprecated [StopDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) StopDatalakeContext(ctx context.Context, params *StopDatalakeParams, opts ...ClientOption) (*StopDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewStopDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "stopDatalake",
 		Method:             "POST",
@@ -2435,13 +3766,14 @@ func (a *Client) StopDatalake(params *StopDatalakeParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &StopDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2460,16 +3792,36 @@ func (a *Client) StopDatalake(params *StopDatalakeParams, opts ...ClientOption) 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-SyncComponentVersionsFromCm syncs component versions from c m after a failed upgrade
-
-Syncs component versions from CM after a failed upgrade.
-*/
+// SyncComponentVersionsFromCm syncs component versions from c m after a failed upgrade.
+//
+// Syncs component versions from CM after a failed upgrade..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.SyncComponentVersionsFromCmContext] instead.
 func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SyncComponentVersionsFromCmContext(ctx, params, opts...)
+}
+
+// SyncComponentVersionsFromCmContext syncs component versions from c m after a failed upgrade.
+//
+// Syncs component versions from CM after a failed upgrade..
+//
+// Do not use the deprecated [SyncComponentVersionsFromCmParams.Context] with this method: it would be ignored.
+func (a *Client) SyncComponentVersionsFromCmContext(ctx context.Context, params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSyncComponentVersionsFromCmParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "syncComponentVersionsFromCm",
 		Method:             "POST",
@@ -2479,13 +3831,14 @@ func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCm
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SyncComponentVersionsFromCmReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2504,16 +3857,36 @@ func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCm
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpdateOrchestratorState runs orchestrator engine state update on the data lake cluster
-
-Run orchestrator engine state update on the Data Lake cluster.
-*/
+// UpdateOrchestratorState runs orchestrator engine state update on the data lake cluster.
+//
+// Run orchestrator engine state update on the Data Lake cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpdateOrchestratorStateContext] instead.
 func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateOrchestratorStateContext(ctx, params, opts...)
+}
+
+// UpdateOrchestratorStateContext runs orchestrator engine state update on the data lake cluster.
+//
+// Run orchestrator engine state update on the Data Lake cluster..
+//
+// Do not use the deprecated [UpdateOrchestratorStateParams.Context] with this method: it would be ignored.
+func (a *Client) UpdateOrchestratorStateContext(ctx context.Context, params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateOrchestratorStateParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateOrchestratorState",
 		Method:             "POST",
@@ -2523,13 +3896,14 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateOrchestratorStateReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2548,16 +3922,36 @@ func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpdateToAwsImdsV1 updates data lake a w s cluster to use i m d sv1
-
-Updates Data Lake AWS cluster to use IMDSv1.
-*/
+// UpdateToAwsImdsV1 updates data lake a w s cluster to use i m d sv1.
+//
+// Updates Data Lake AWS cluster to use IMDSv1..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpdateToAwsImdsV1Context] instead.
 func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateToAwsImdsV1Context(ctx, params, opts...)
+}
+
+// UpdateToAwsImdsV1Context updates data lake a w s cluster to use i m d sv1.
+//
+// Updates Data Lake AWS cluster to use IMDSv1..
+//
+// Do not use the deprecated [UpdateToAwsImdsV1Params.Context] with this method: it would be ignored.
+func (a *Client) UpdateToAwsImdsV1Context(ctx context.Context, params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateToAwsImdsV1Params()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateToAwsImdsV1",
 		Method:             "POST",
@@ -2567,13 +3961,14 @@ func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateToAwsImdsV1Reader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2592,16 +3987,36 @@ func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpdateToAwsImdsV2 updates data lake a w s cluster to use i m d sv2
-
-Updates Data Lake AWS cluster to use IMDSv2.
-*/
+// UpdateToAwsImdsV2 updates data lake a w s cluster to use i m d sv2.
+//
+// Updates Data Lake AWS cluster to use IMDSv2..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpdateToAwsImdsV2Context] instead.
 func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateToAwsImdsV2Context(ctx, params, opts...)
+}
+
+// UpdateToAwsImdsV2Context updates data lake a w s cluster to use i m d sv2.
+//
+// Updates Data Lake AWS cluster to use IMDSv2..
+//
+// Do not use the deprecated [UpdateToAwsImdsV2Params.Context] with this method: it would be ignored.
+func (a *Client) UpdateToAwsImdsV2Context(ctx context.Context, params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateToAwsImdsV2Params()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateToAwsImdsV2",
 		Method:             "POST",
@@ -2611,13 +4026,14 @@ func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateToAwsImdsV2Reader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2636,16 +4052,36 @@ func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpgradeDatalake os s or data platform upgrade for the s d x cluster
-
-OS or data platform upgrade for the SDX cluster. You have the option to either specify one of 'imageId', 'runtime' or 'lockComponents' or both 'imageId' and 'lockComponents' or none of the parameters.
-*/
+// UpgradeDatalake os s or data platform upgrade for the s d x cluster.
+//
+// OS or data platform upgrade for the SDX cluster. You have the option to either specify one of 'imageId', 'runtime' or 'lockComponents' or both 'imageId' and 'lockComponents' or none of the parameters..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpgradeDatalakeContext] instead.
 func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOption) (*UpgradeDatalakeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeDatalakeContext(ctx, params, opts...)
+}
+
+// UpgradeDatalakeContext os s or data platform upgrade for the s d x cluster.
+//
+// OS or data platform upgrade for the SDX cluster. You have the option to either specify one of 'imageId', 'runtime' or 'lockComponents' or both 'imageId' and 'lockComponents' or none of the parameters..
+//
+// Do not use the deprecated [UpgradeDatalakeParams.Context] with this method: it would be ignored.
+func (a *Client) UpgradeDatalakeContext(ctx context.Context, params *UpgradeDatalakeParams, opts ...ClientOption) (*UpgradeDatalakeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeDatalakeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeDatalake",
 		Method:             "POST",
@@ -2655,13 +4091,14 @@ func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeDatalakeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2680,16 +4117,36 @@ func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOp
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ValidateAwsCloudStorage validates a w s cloud storage
-
-Validates AWS cloud storage for Data Lake.
-*/
+// ValidateAwsCloudStorage validates a w s cloud storage.
+//
+// Validates AWS cloud storage for Data Lake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ValidateAwsCloudStorageContext] instead.
 func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ValidateAwsCloudStorageContext(ctx, params, opts...)
+}
+
+// ValidateAwsCloudStorageContext validates a w s cloud storage.
+//
+// Validates AWS cloud storage for Data Lake..
+//
+// Do not use the deprecated [ValidateAwsCloudStorageParams.Context] with this method: it would be ignored.
+func (a *Client) ValidateAwsCloudStorageContext(ctx context.Context, params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewValidateAwsCloudStorageParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "validateAwsCloudStorage",
 		Method:             "POST",
@@ -2699,13 +4156,14 @@ func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ValidateAwsCloudStorageReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2724,16 +4182,36 @@ func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ValidateAzureCloudStorage validates azure cloud storage
-
-Validates Azure cloud storage for Data Lake.
-*/
+// ValidateAzureCloudStorage validates azure cloud storage.
+//
+// Validates Azure cloud storage for Data Lake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ValidateAzureCloudStorageContext] instead.
 func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ValidateAzureCloudStorageContext(ctx, params, opts...)
+}
+
+// ValidateAzureCloudStorageContext validates azure cloud storage.
+//
+// Validates Azure cloud storage for Data Lake..
+//
+// Do not use the deprecated [ValidateAzureCloudStorageParams.Context] with this method: it would be ignored.
+func (a *Client) ValidateAzureCloudStorageContext(ctx context.Context, params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewValidateAzureCloudStorageParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "validateAzureCloudStorage",
 		Method:             "POST",
@@ -2743,13 +4221,14 @@ func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStoragePara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ValidateAzureCloudStorageReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2769,6 +4248,14 @@ func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStoragePara
 }
 
 // SetTransport changes the transport on the client
-func (a *Client) SetTransport(transport runtime.ClientTransport) {
+func (a *Client) SetTransport(transport runtime.ContextualTransport) {
 	a.transport = transport
+}
+
+// innerParams captures internal fields so they don't conflict with user-supplied parameters.
+type innerParams struct {
+	timeout time.Duration
+
+	// Deprecated: use the operation call with context to pass the context instead of [OperationsParams].
+	ctx context.Context
 }

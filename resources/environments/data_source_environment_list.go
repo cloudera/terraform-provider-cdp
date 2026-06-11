@@ -72,8 +72,8 @@ func (e *environmentListDataSource) Read(ctx context.Context, request datasource
 }
 
 func getEnvironments(ctx context.Context, client *client.Environments) (*EnvironmentListModel, error) {
-	params := operations.NewListEnvironmentsParamsWithContext(ctx).WithInput(map[string]any{})
-	resp, err := client.Operations.ListEnvironments(params)
+	params := operations.NewListEnvironmentsParams().WithInput(map[string]any{})
+	resp, err := client.Operations.ListEnvironmentsContext(ctx, params)
 	if err != nil {
 		tflog.Warn(ctx, fmt.Sprintf("Error during environment collection due to : %s", err.Error()))
 		return nil, err

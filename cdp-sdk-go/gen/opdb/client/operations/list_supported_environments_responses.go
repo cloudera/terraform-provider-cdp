@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // ListSupportedEnvironmentsReader is a Reader for the ListSupportedEnvironments structure.
@@ -45,11 +44,9 @@ func NewListSupportedEnvironmentsOK() *ListSupportedEnvironmentsOK {
 	return &ListSupportedEnvironmentsOK{}
 }
 
-/*
-ListSupportedEnvironmentsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListSupportedEnvironmentsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListSupportedEnvironmentsOK struct {
 	Payload *models.ListSupportedEnvironmentsResponse
 }
@@ -117,11 +114,9 @@ func NewListSupportedEnvironmentsDefault(code int) *ListSupportedEnvironmentsDef
 	}
 }
 
-/*
-ListSupportedEnvironmentsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListSupportedEnvironmentsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListSupportedEnvironmentsDefault struct {
 	_statusCode int
 

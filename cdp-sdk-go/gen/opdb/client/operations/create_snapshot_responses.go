@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // CreateSnapshotReader is a Reader for the CreateSnapshot structure.
@@ -45,11 +44,9 @@ func NewCreateSnapshotOK() *CreateSnapshotOK {
 	return &CreateSnapshotOK{}
 }
 
-/*
-CreateSnapshotOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateSnapshotOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateSnapshotOK struct {
 	Payload *models.CreateSnapshotResponse
 }
@@ -117,11 +114,9 @@ func NewCreateSnapshotDefault(code int) *CreateSnapshotDefault {
 	}
 }
 
-/*
-CreateSnapshotDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateSnapshotDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateSnapshotDefault struct {
 	_statusCode int
 

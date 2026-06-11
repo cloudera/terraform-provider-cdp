@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // GetKubeconfigReader is a Reader for the GetKubeconfig structure.
@@ -45,11 +44,9 @@ func NewGetKubeconfigOK() *GetKubeconfigOK {
 	return &GetKubeconfigOK{}
 }
 
-/*
-GetKubeconfigOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetKubeconfigOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetKubeconfigOK struct {
 	Payload *models.GetKubeconfigResponse
 }
@@ -117,11 +114,9 @@ func NewGetKubeconfigDefault(code int) *GetKubeconfigDefault {
 	}
 }
 
-/*
-GetKubeconfigDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetKubeconfigDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetKubeconfigDefault struct {
 	_statusCode int
 

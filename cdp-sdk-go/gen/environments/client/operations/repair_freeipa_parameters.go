@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewRepairFreeipaParams creates a new RepairFreeipaParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRepairFreeipaParams() *RepairFreeipaParams {
-	return &RepairFreeipaParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRepairFreeipaParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRepairFreeipaParamsWithTimeout creates a new RepairFreeipaParams object
 // with the ability to set a timeout on a request.
 func NewRepairFreeipaParamsWithTimeout(timeout time.Duration) *RepairFreeipaParams {
 	return &RepairFreeipaParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRepairFreeipaParamsWithContext creates a new RepairFreeipaParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RepairFreeipaParams].
 func NewRepairFreeipaParamsWithContext(ctx context.Context) *RepairFreeipaParams {
 	return &RepairFreeipaParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RepairFreeipaParams struct {
 	// Input.
 	Input *models.RepairFreeipaRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the repair freeipa params (not the query body).
@@ -83,54 +86,57 @@ func (o *RepairFreeipaParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the repair freeipa params
+// WithTimeout adds the timeout to the repair freeipa params.
 func (o *RepairFreeipaParams) WithTimeout(timeout time.Duration) *RepairFreeipaParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the repair freeipa params
+// SetTimeout adds the timeout to the repair freeipa params.
 func (o *RepairFreeipaParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the repair freeipa params
+// WithContext adds the context to the repair freeipa params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RepairFreeipaParams].
 func (o *RepairFreeipaParams) WithContext(ctx context.Context) *RepairFreeipaParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the repair freeipa params
+// SetContext adds the context to the repair freeipa params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RepairFreeipaParams].
 func (o *RepairFreeipaParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the repair freeipa params
+// WithHTTPClient adds the HTTPClient to the repair freeipa params.
 func (o *RepairFreeipaParams) WithHTTPClient(client *http.Client) *RepairFreeipaParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the repair freeipa params
+// SetHTTPClient adds the HTTPClient to the repair freeipa params.
 func (o *RepairFreeipaParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the repair freeipa params
+// WithInput adds the input to the repair freeipa params.
 func (o *RepairFreeipaParams) WithInput(input *models.RepairFreeipaRequest) *RepairFreeipaParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the repair freeipa params
+// SetInput adds the input to the repair freeipa params.
 func (o *RepairFreeipaParams) SetInput(input *models.RepairFreeipaRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RepairFreeipaParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

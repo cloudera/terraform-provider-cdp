@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ApplicationResources The resource requirements of a component.
@@ -51,7 +52,7 @@ func (m *ApplicationResources) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ApplicationResources) validateBreakdown(formats strfmt.Registry) error {
-	if swag.IsZero(m.Breakdown) { // not required
+	if typeutils.IsZero(m.Breakdown) { // not required
 		return nil
 	}
 
@@ -74,7 +75,7 @@ func (m *ApplicationResources) validateBreakdown(formats strfmt.Registry) error 
 }
 
 func (m *ApplicationResources) validateLocalStorageSize(formats strfmt.Registry) error {
-	if swag.IsZero(m.LocalStorageSize) { // not required
+	if typeutils.IsZero(m.LocalStorageSize) { // not required
 		return nil
 	}
 
@@ -118,7 +119,7 @@ func (m *ApplicationResources) contextValidateBreakdown(ctx context.Context, for
 
 	if m.Breakdown != nil {
 
-		if swag.IsZero(m.Breakdown) { // not required
+		if typeutils.IsZero(m.Breakdown) { // not required
 			return nil
 		}
 
@@ -143,7 +144,7 @@ func (m *ApplicationResources) contextValidateLocalStorageSize(ctx context.Conte
 
 	if m.LocalStorageSize != nil {
 
-		if swag.IsZero(m.LocalStorageSize) { // not required
+		if typeutils.IsZero(m.LocalStorageSize) { // not required
 			return nil
 		}
 
@@ -169,13 +170,13 @@ func (m *ApplicationResources) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ApplicationResources) UnmarshalBinary(b []byte) error {
 	var res ApplicationResources
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

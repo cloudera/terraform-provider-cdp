@@ -138,7 +138,7 @@ func TestCreateProxyConfiguration(t *testing.T) {
 				match = match && params.Input.Password == "test-password"
 				return match
 			}
-			mockClient.On("CreateProxyConfig", mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("CreateProxyConfigContext", mock.Anything, mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			pcResource := &proxyConfigurationResource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
@@ -249,7 +249,7 @@ func TestReadProxyConfiguration(t *testing.T) {
 			createMatcher := func(params *operations.ListProxyConfigsParams) bool {
 				return params.Input.ProxyConfigName == "test-name"
 			}
-			mockClient.On("ListProxyConfigs", mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("ListProxyConfigsContext", mock.Anything, mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			pcResource := &proxyConfigurationResource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
@@ -348,7 +348,7 @@ func TestDeleteProxyConfiguration(t *testing.T) {
 			createMatcher := func(params *operations.DeleteProxyConfigParams) bool {
 				return *params.Input.ProxyConfigName == "test-name"
 			}
-			mockClient.On("DeleteProxyConfig", mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("DeleteProxyConfigContext", mock.Anything, mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			pcResource := &proxyConfigurationResource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},

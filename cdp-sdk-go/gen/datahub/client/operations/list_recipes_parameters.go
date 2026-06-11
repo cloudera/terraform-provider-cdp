@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewListRecipesParams creates a new ListRecipesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListRecipesParams() *ListRecipesParams {
-	return &ListRecipesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListRecipesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListRecipesParamsWithTimeout creates a new ListRecipesParams object
 // with the ability to set a timeout on a request.
 func NewListRecipesParamsWithTimeout(timeout time.Duration) *ListRecipesParams {
 	return &ListRecipesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListRecipesParamsWithContext creates a new ListRecipesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListRecipesParams].
 func NewListRecipesParamsWithContext(ctx context.Context) *ListRecipesParams {
 	return &ListRecipesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListRecipesParams struct {
 	// Input.
 	Input models.ListRecipesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list recipes params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListRecipesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list recipes params
+// WithTimeout adds the timeout to the list recipes params.
 func (o *ListRecipesParams) WithTimeout(timeout time.Duration) *ListRecipesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list recipes params
+// SetTimeout adds the timeout to the list recipes params.
 func (o *ListRecipesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list recipes params
+// WithContext adds the context to the list recipes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListRecipesParams].
 func (o *ListRecipesParams) WithContext(ctx context.Context) *ListRecipesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list recipes params
+// SetContext adds the context to the list recipes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListRecipesParams].
 func (o *ListRecipesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list recipes params
+// WithHTTPClient adds the HTTPClient to the list recipes params.
 func (o *ListRecipesParams) WithHTTPClient(client *http.Client) *ListRecipesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list recipes params
+// SetHTTPClient adds the HTTPClient to the list recipes params.
 func (o *ListRecipesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list recipes params
+// WithInput adds the input to the list recipes params.
 func (o *ListRecipesParams) WithInput(input models.ListRecipesRequest) *ListRecipesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list recipes params
+// SetInput adds the input to the list recipes params.
 func (o *ListRecipesParams) SetInput(input models.ListRecipesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListRecipesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

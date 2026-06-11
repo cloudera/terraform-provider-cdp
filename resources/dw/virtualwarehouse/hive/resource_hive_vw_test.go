@@ -210,6 +210,9 @@ type MockTransport struct {
 	runtime.ClientTransport
 }
 
+func (m MockTransport) SubmitContext(_ context.Context, _ *runtime.ClientOperation) (interface{}, error) {
+	return nil, nil
+}
 func newDwApi(client *mocks.MockDwClientService) *hiveResource {
 	return &hiveResource{
 		client: &cdp.Client{
@@ -381,8 +384,8 @@ func (suite *HiveTestSuite) TestHiveCreate_Success() {
 			}}}
 
 	client := new(mocks.MockDwClientService)
-	client.On("CreateVw", mock.Anything).Return(suite.expectedCreateResponse, nil)
-	client.On("DescribeVw", mock.Anything).Return(expectedDescribeResponse, nil)
+	client.On("CreateVwContext", mock.Anything, mock.Anything).Return(suite.expectedCreateResponse, nil)
+	client.On("DescribeVwContext", mock.Anything, mock.Anything).Return(expectedDescribeResponse, nil)
 	dwApi := newDwApi(client)
 
 	req := resource.CreateRequest{
@@ -437,8 +440,8 @@ func (suite *HiveTestSuite) TestHiveValidate_Headroom_ScaleWaitTime() {
 func (suite *HiveTestSuite) TestHiveCreate_CreationError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("CreateVw", mock.Anything).Return(&operations.CreateVwOK{}, fmt.Errorf("create failed"))
-	client.On("DescribeVw", mock.Anything).Return(&operations.DescribeVwOK{}, nil)
+	client.On("CreateVwContext", mock.Anything, mock.Anything).Return(&operations.CreateVwOK{}, fmt.Errorf("create failed"))
+	client.On("DescribeVwContext", mock.Anything, mock.Anything).Return(&operations.DescribeVwOK{}, nil)
 	dwApi := newDwApi(client)
 
 	req := resource.CreateRequest{
@@ -466,8 +469,8 @@ func (suite *HiveTestSuite) TestHiveCreate_CreationError() {
 func (suite *HiveTestSuite) TestHiveCreate_DescribeError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("CreateVw", mock.Anything).Return(suite.expectedCreateResponse, nil)
-	client.On("DescribeVw", mock.Anything).Return(&operations.DescribeVwOK{}, fmt.Errorf("describe failed"))
+	client.On("CreateVwContext", mock.Anything, mock.Anything).Return(suite.expectedCreateResponse, nil)
+	client.On("DescribeVwContext", mock.Anything, mock.Anything).Return(&operations.DescribeVwOK{}, fmt.Errorf("describe failed"))
 	dwApi := newDwApi(client)
 
 	req := resource.CreateRequest{
@@ -495,7 +498,7 @@ func (suite *HiveTestSuite) TestHiveCreate_DescribeError() {
 func (suite *HiveTestSuite) TestHiveDeletion_Success() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DeleteVw", mock.Anything).Return(&operations.DeleteVwOK{}, nil)
+	client.On("DeleteVwContext", mock.Anything, mock.Anything).Return(&operations.DeleteVwOK{}, nil)
 	dwApi := newDwApi(client)
 
 	req := resource.DeleteRequest{
@@ -515,7 +518,7 @@ func (suite *HiveTestSuite) TestHiveDeletion_Success() {
 func (suite *HiveTestSuite) TestHiveDeletion_ReturnsError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DeleteVw", mock.Anything).Return(&operations.DeleteVwOK{}, fmt.Errorf("delete failed"))
+	client.On("DeleteVwContext", mock.Anything, mock.Anything).Return(&operations.DeleteVwOK{}, fmt.Errorf("delete failed"))
 	dwApi := newDwApi(client)
 
 	req := resource.DeleteRequest{
@@ -535,7 +538,7 @@ func (suite *HiveTestSuite) TestHiveDeletion_ReturnsError() {
 func (suite *HiveTestSuite) TestStateRefresh_Success() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DescribeVw", mock.Anything).Return(
+	client.On("DescribeVwContext", mock.Anything, mock.Anything).Return(
 		&operations.DescribeVwOK{
 			Payload: &models.DescribeVwResponse{
 				Vw: &models.VwSummary{
@@ -562,7 +565,7 @@ func (suite *HiveTestSuite) TestStateRefresh_Success() {
 func (suite *HiveTestSuite) TestStateRefresh_FailureThresholdReached() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DescribeVw", mock.Anything).Return(
+	client.On("DescribeVwContext", mock.Anything, mock.Anything).Return(
 		&operations.DescribeVwOK{}, fmt.Errorf("unknown error"))
 	dwApi := newDwApi(client)
 

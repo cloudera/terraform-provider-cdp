@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DescribeVwReader is a Reader for the DescribeVw structure.
@@ -45,11 +44,9 @@ func NewDescribeVwOK() *DescribeVwOK {
 	return &DescribeVwOK{}
 }
 
-/*
-DescribeVwOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DescribeVwOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DescribeVwOK struct {
 	Payload *models.DescribeVwResponse
 }
@@ -117,11 +114,9 @@ func NewDescribeVwDefault(code int) *DescribeVwDefault {
 	}
 }
 
-/*
-DescribeVwDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DescribeVwDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DescribeVwDefault struct {
 	_statusCode int
 

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // ListAutoScaleHistoryReader is a Reader for the ListAutoScaleHistory structure.
@@ -45,11 +44,9 @@ func NewListAutoScaleHistoryOK() *ListAutoScaleHistoryOK {
 	return &ListAutoScaleHistoryOK{}
 }
 
-/*
-ListAutoScaleHistoryOK describes a response with status code 200, with default header values.
-
-AutoScale activity for a DataHub cluster.
-*/
+// ListAutoScaleHistoryOK describes a response with status code 200, with default header values.
+//
+// AutoScale activity for a DataHub cluster.
 type ListAutoScaleHistoryOK struct {
 	Payload *models.ListAutoScaleHistoryResponse
 }
@@ -117,11 +114,9 @@ func NewListAutoScaleHistoryDefault(code int) *ListAutoScaleHistoryDefault {
 	}
 }
 
-/*
-ListAutoScaleHistoryDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListAutoScaleHistoryDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListAutoScaleHistoryDefault struct {
 	_statusCode int
 

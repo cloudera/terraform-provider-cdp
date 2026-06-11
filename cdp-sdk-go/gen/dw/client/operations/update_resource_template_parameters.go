@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewUpdateResourceTemplateParams creates a new UpdateResourceTemplateParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateResourceTemplateParams() *UpdateResourceTemplateParams {
-	return &UpdateResourceTemplateParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateResourceTemplateParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateResourceTemplateParamsWithTimeout creates a new UpdateResourceTemplateParams object
 // with the ability to set a timeout on a request.
 func NewUpdateResourceTemplateParamsWithTimeout(timeout time.Duration) *UpdateResourceTemplateParams {
 	return &UpdateResourceTemplateParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateResourceTemplateParamsWithContext creates a new UpdateResourceTemplateParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateResourceTemplateParams].
 func NewUpdateResourceTemplateParamsWithContext(ctx context.Context) *UpdateResourceTemplateParams {
 	return &UpdateResourceTemplateParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateResourceTemplateParams struct {
 	// Input.
 	Input *models.UpdateResourceTemplateRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update resource template params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateResourceTemplateParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update resource template params
+// WithTimeout adds the timeout to the update resource template params.
 func (o *UpdateResourceTemplateParams) WithTimeout(timeout time.Duration) *UpdateResourceTemplateParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update resource template params
+// SetTimeout adds the timeout to the update resource template params.
 func (o *UpdateResourceTemplateParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update resource template params
+// WithContext adds the context to the update resource template params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateResourceTemplateParams].
 func (o *UpdateResourceTemplateParams) WithContext(ctx context.Context) *UpdateResourceTemplateParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update resource template params
+// SetContext adds the context to the update resource template params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateResourceTemplateParams].
 func (o *UpdateResourceTemplateParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update resource template params
+// WithHTTPClient adds the HTTPClient to the update resource template params.
 func (o *UpdateResourceTemplateParams) WithHTTPClient(client *http.Client) *UpdateResourceTemplateParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update resource template params
+// SetHTTPClient adds the HTTPClient to the update resource template params.
 func (o *UpdateResourceTemplateParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update resource template params
+// WithInput adds the input to the update resource template params.
 func (o *UpdateResourceTemplateParams) WithInput(input *models.UpdateResourceTemplateRequest) *UpdateResourceTemplateParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update resource template params
+// SetInput adds the input to the update resource template params.
 func (o *UpdateResourceTemplateParams) SetInput(input *models.UpdateResourceTemplateRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateResourceTemplateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

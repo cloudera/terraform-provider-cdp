@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewGetFreeipaLogDescriptorsParams creates a new GetFreeipaLogDescriptorsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetFreeipaLogDescriptorsParams() *GetFreeipaLogDescriptorsParams {
-	return &GetFreeipaLogDescriptorsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetFreeipaLogDescriptorsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetFreeipaLogDescriptorsParamsWithTimeout creates a new GetFreeipaLogDescriptorsParams object
 // with the ability to set a timeout on a request.
 func NewGetFreeipaLogDescriptorsParamsWithTimeout(timeout time.Duration) *GetFreeipaLogDescriptorsParams {
 	return &GetFreeipaLogDescriptorsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetFreeipaLogDescriptorsParamsWithContext creates a new GetFreeipaLogDescriptorsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetFreeipaLogDescriptorsParams].
 func NewGetFreeipaLogDescriptorsParamsWithContext(ctx context.Context) *GetFreeipaLogDescriptorsParams {
 	return &GetFreeipaLogDescriptorsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetFreeipaLogDescriptorsParams struct {
 	// Input.
 	Input models.GetFreeipaLogDescriptorsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get freeipa log descriptors params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetFreeipaLogDescriptorsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get freeipa log descriptors params
+// WithTimeout adds the timeout to the get freeipa log descriptors params.
 func (o *GetFreeipaLogDescriptorsParams) WithTimeout(timeout time.Duration) *GetFreeipaLogDescriptorsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get freeipa log descriptors params
+// SetTimeout adds the timeout to the get freeipa log descriptors params.
 func (o *GetFreeipaLogDescriptorsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get freeipa log descriptors params
+// WithContext adds the context to the get freeipa log descriptors params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetFreeipaLogDescriptorsParams].
 func (o *GetFreeipaLogDescriptorsParams) WithContext(ctx context.Context) *GetFreeipaLogDescriptorsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get freeipa log descriptors params
+// SetContext adds the context to the get freeipa log descriptors params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetFreeipaLogDescriptorsParams].
 func (o *GetFreeipaLogDescriptorsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get freeipa log descriptors params
+// WithHTTPClient adds the HTTPClient to the get freeipa log descriptors params.
 func (o *GetFreeipaLogDescriptorsParams) WithHTTPClient(client *http.Client) *GetFreeipaLogDescriptorsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get freeipa log descriptors params
+// SetHTTPClient adds the HTTPClient to the get freeipa log descriptors params.
 func (o *GetFreeipaLogDescriptorsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get freeipa log descriptors params
+// WithInput adds the input to the get freeipa log descriptors params.
 func (o *GetFreeipaLogDescriptorsParams) WithInput(input models.GetFreeipaLogDescriptorsRequest) *GetFreeipaLogDescriptorsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get freeipa log descriptors params
+// SetInput adds the input to the get freeipa log descriptors params.
 func (o *GetFreeipaLogDescriptorsParams) SetInput(input models.GetFreeipaLogDescriptorsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetFreeipaLogDescriptorsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

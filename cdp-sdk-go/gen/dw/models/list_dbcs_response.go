@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListDbcsResponse Response object for the listDbcs method.
@@ -36,12 +37,12 @@ func (m *ListDbcsResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ListDbcsResponse) validateDbcs(formats strfmt.Registry) error {
-	if swag.IsZero(m.Dbcs) { // not required
+	if typeutils.IsZero(m.Dbcs) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Dbcs); i++ {
-		if swag.IsZero(m.Dbcs[i]) { // not required
+		if typeutils.IsZero(m.Dbcs[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListDbcsResponse) contextValidateDbcs(ctx context.Context, formats strf
 
 		if m.Dbcs[i] != nil {
 
-			if swag.IsZero(m.Dbcs[i]) { // not required
+			if typeutils.IsZero(m.Dbcs[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListDbcsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListDbcsResponse) UnmarshalBinary(b []byte) error {
 	var res ListDbcsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

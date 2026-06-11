@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // UpgradeWorkspaceReader is a Reader for the UpgradeWorkspace structure.
@@ -45,11 +44,9 @@ func NewUpgradeWorkspaceOK() *UpgradeWorkspaceOK {
 	return &UpgradeWorkspaceOK{}
 }
 
-/*
-UpgradeWorkspaceOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpgradeWorkspaceOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpgradeWorkspaceOK struct {
 	Payload models.UpgradeWorkspaceResponse
 }
@@ -115,11 +112,9 @@ func NewUpgradeWorkspaceDefault(code int) *UpgradeWorkspaceDefault {
 	}
 }
 
-/*
-UpgradeWorkspaceDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpgradeWorkspaceDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpgradeWorkspaceDefault struct {
 	_statusCode int
 

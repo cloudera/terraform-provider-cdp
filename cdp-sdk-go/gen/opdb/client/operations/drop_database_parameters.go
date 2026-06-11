@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewDropDatabaseParams creates a new DropDatabaseParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDropDatabaseParams() *DropDatabaseParams {
-	return &DropDatabaseParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDropDatabaseParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDropDatabaseParamsWithTimeout creates a new DropDatabaseParams object
 // with the ability to set a timeout on a request.
 func NewDropDatabaseParamsWithTimeout(timeout time.Duration) *DropDatabaseParams {
 	return &DropDatabaseParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDropDatabaseParamsWithContext creates a new DropDatabaseParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DropDatabaseParams].
 func NewDropDatabaseParamsWithContext(ctx context.Context) *DropDatabaseParams {
 	return &DropDatabaseParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DropDatabaseParams struct {
 	// Input.
 	Input *models.DropDatabaseRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the drop database params (not the query body).
@@ -83,54 +86,57 @@ func (o *DropDatabaseParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the drop database params
+// WithTimeout adds the timeout to the drop database params.
 func (o *DropDatabaseParams) WithTimeout(timeout time.Duration) *DropDatabaseParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the drop database params
+// SetTimeout adds the timeout to the drop database params.
 func (o *DropDatabaseParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the drop database params
+// WithContext adds the context to the drop database params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DropDatabaseParams].
 func (o *DropDatabaseParams) WithContext(ctx context.Context) *DropDatabaseParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the drop database params
+// SetContext adds the context to the drop database params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DropDatabaseParams].
 func (o *DropDatabaseParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the drop database params
+// WithHTTPClient adds the HTTPClient to the drop database params.
 func (o *DropDatabaseParams) WithHTTPClient(client *http.Client) *DropDatabaseParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the drop database params
+// SetHTTPClient adds the HTTPClient to the drop database params.
 func (o *DropDatabaseParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the drop database params
+// WithInput adds the input to the drop database params.
 func (o *DropDatabaseParams) WithInput(input *models.DropDatabaseRequest) *DropDatabaseParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the drop database params
+// SetInput adds the input to the drop database params.
 func (o *DropDatabaseParams) SetInput(input *models.DropDatabaseRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DropDatabaseParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

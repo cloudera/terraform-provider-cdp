@@ -136,9 +136,9 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 
 	client := r.client.Datalake
 
-	params := operations.NewCreateAzureDatalakeParamsWithContext(ctx)
+	params := operations.NewCreateAzureDatalakeParams()
 	params.WithInput(toAzureDatalakeRequest(ctx, &state))
-	responseOk, err := client.Operations.CreateAzureDatalake(params)
+	responseOk, err := client.Operations.CreateAzureDatalakeContext(ctx, params)
 	if err != nil {
 		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create Azure Datalake")
 		return
@@ -164,9 +164,9 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 			return
 		}
 	}
-	descParams := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	descParams := operations.NewDescribeDatalakeParams()
 	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
-	descResponseOk, err := client.Operations.DescribeDatalake(descParams)
+	descResponseOk, err := client.Operations.DescribeDatalakeContext(ctx, descParams)
 	if err != nil {
 		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create Azure Datalake")
 		return
@@ -196,9 +196,9 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 	if len(dlName) == 0 {
 		dlName = state.ID.ValueString()
 	}
-	params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	params := operations.NewDescribeDatalakeParams()
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &dlName})
-	responseOk, err := client.Operations.DescribeDatalake(params)
+	responseOk, err := client.Operations.DescribeDatalakeContext(ctx, params)
 	if err != nil {
 		if dlErr, ok := errors.AsType[*operations.DescribeDatalakeDefault](err); ok {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
@@ -236,7 +236,7 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	client := r.client.Datalake
-	params := operations.NewDeleteDatalakeParamsWithContext(ctx)
+	params := operations.NewDeleteDatalakeParams()
 	forceDelete := false
 	if state.DeleteOptions != nil {
 		forceDelete = state.DeleteOptions.Forced.ValueBool()
@@ -245,7 +245,7 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 		DatalakeName: state.DatalakeName.ValueStringPointer(),
 		Force:        forceDelete,
 	})
-	_, err := client.Operations.DeleteDatalake(params)
+	_, err := client.Operations.DeleteDatalakeContext(ctx, params)
 	if err != nil {
 		if dlErr, ok := errors.AsType[*operations.DescribeDatalakeDefault](err); ok {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // DisableServiceReader is a Reader for the DisableService structure.
@@ -45,11 +44,9 @@ func NewDisableServiceOK() *DisableServiceOK {
 	return &DisableServiceOK{}
 }
 
-/*
-DisableServiceOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DisableServiceOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DisableServiceOK struct {
 	Payload *models.DisableServiceResponse
 }
@@ -117,11 +114,9 @@ func NewDisableServiceDefault(code int) *DisableServiceDefault {
 	}
 }
 
-/*
-DisableServiceDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DisableServiceDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DisableServiceDefault struct {
 	_statusCode int
 

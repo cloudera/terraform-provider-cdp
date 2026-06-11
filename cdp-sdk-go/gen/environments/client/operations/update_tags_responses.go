@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // UpdateTagsReader is a Reader for the UpdateTags structure.
@@ -45,11 +44,9 @@ func NewUpdateTagsOK() *UpdateTagsOK {
 	return &UpdateTagsOK{}
 }
 
-/*
-UpdateTagsOK describes a response with status code 200, with default header values.
-
-Expected response to valid request.
-*/
+// UpdateTagsOK describes a response with status code 200, with default header values.
+//
+// Expected response to valid request.
 type UpdateTagsOK struct {
 	Payload *models.UpdateTagsResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateTagsDefault(code int) *UpdateTagsDefault {
 	}
 }
 
-/*
-UpdateTagsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateTagsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateTagsDefault struct {
 	_statusCode int
 

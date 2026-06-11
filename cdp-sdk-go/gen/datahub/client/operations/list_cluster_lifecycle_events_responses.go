@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // ListClusterLifecycleEventsReader is a Reader for the ListClusterLifecycleEvents structure.
@@ -45,11 +44,9 @@ func NewListClusterLifecycleEventsOK() *ListClusterLifecycleEventsOK {
 	return &ListClusterLifecycleEventsOK{}
 }
 
-/*
-ListClusterLifecycleEventsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListClusterLifecycleEventsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListClusterLifecycleEventsOK struct {
 	Payload *models.ListClusterLifecycleEventsResponse
 }
@@ -117,11 +114,9 @@ func NewListClusterLifecycleEventsDefault(code int) *ListClusterLifecycleEventsD
 	}
 }
 
-/*
-ListClusterLifecycleEventsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListClusterLifecycleEventsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListClusterLifecycleEventsDefault struct {
 	_statusCode int
 

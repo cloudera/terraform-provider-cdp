@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // RenewPublicCertificateReader is a Reader for the RenewPublicCertificate structure.
@@ -45,11 +44,9 @@ func NewRenewPublicCertificateOK() *RenewPublicCertificateOK {
 	return &RenewPublicCertificateOK{}
 }
 
-/*
-RenewPublicCertificateOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RenewPublicCertificateOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RenewPublicCertificateOK struct {
 	Payload *models.RenewPublicCertificateResponse
 }
@@ -117,11 +114,9 @@ func NewRenewPublicCertificateDefault(code int) *RenewPublicCertificateDefault {
 	}
 }
 
-/*
-RenewPublicCertificateDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RenewPublicCertificateDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RenewPublicCertificateDefault struct {
 	_statusCode int
 

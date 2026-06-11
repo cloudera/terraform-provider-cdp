@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewCreateClusterDiagnosticDataJobParams creates a new CreateClusterDiagnosticDataJobParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateClusterDiagnosticDataJobParams() *CreateClusterDiagnosticDataJobParams {
-	return &CreateClusterDiagnosticDataJobParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateClusterDiagnosticDataJobParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateClusterDiagnosticDataJobParamsWithTimeout creates a new CreateClusterDiagnosticDataJobParams object
 // with the ability to set a timeout on a request.
 func NewCreateClusterDiagnosticDataJobParamsWithTimeout(timeout time.Duration) *CreateClusterDiagnosticDataJobParams {
 	return &CreateClusterDiagnosticDataJobParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateClusterDiagnosticDataJobParamsWithContext creates a new CreateClusterDiagnosticDataJobParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateClusterDiagnosticDataJobParams].
 func NewCreateClusterDiagnosticDataJobParamsWithContext(ctx context.Context) *CreateClusterDiagnosticDataJobParams {
 	return &CreateClusterDiagnosticDataJobParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateClusterDiagnosticDataJobParams struct {
 	// Input.
 	Input *models.CreateClusterDiagnosticDataJobRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create cluster diagnostic data job params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateClusterDiagnosticDataJobParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create cluster diagnostic data job params
+// WithTimeout adds the timeout to the create cluster diagnostic data job params.
 func (o *CreateClusterDiagnosticDataJobParams) WithTimeout(timeout time.Duration) *CreateClusterDiagnosticDataJobParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create cluster diagnostic data job params
+// SetTimeout adds the timeout to the create cluster diagnostic data job params.
 func (o *CreateClusterDiagnosticDataJobParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create cluster diagnostic data job params
+// WithContext adds the context to the create cluster diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateClusterDiagnosticDataJobParams].
 func (o *CreateClusterDiagnosticDataJobParams) WithContext(ctx context.Context) *CreateClusterDiagnosticDataJobParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create cluster diagnostic data job params
+// SetContext adds the context to the create cluster diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateClusterDiagnosticDataJobParams].
 func (o *CreateClusterDiagnosticDataJobParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create cluster diagnostic data job params
+// WithHTTPClient adds the HTTPClient to the create cluster diagnostic data job params.
 func (o *CreateClusterDiagnosticDataJobParams) WithHTTPClient(client *http.Client) *CreateClusterDiagnosticDataJobParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create cluster diagnostic data job params
+// SetHTTPClient adds the HTTPClient to the create cluster diagnostic data job params.
 func (o *CreateClusterDiagnosticDataJobParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create cluster diagnostic data job params
+// WithInput adds the input to the create cluster diagnostic data job params.
 func (o *CreateClusterDiagnosticDataJobParams) WithInput(input *models.CreateClusterDiagnosticDataJobRequest) *CreateClusterDiagnosticDataJobParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create cluster diagnostic data job params
+// SetInput adds the input to the create cluster diagnostic data job params.
 func (o *CreateClusterDiagnosticDataJobParams) SetInput(input *models.CreateClusterDiagnosticDataJobRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateClusterDiagnosticDataJobParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

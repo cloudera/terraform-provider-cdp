@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // EnableRangerRazReader is a Reader for the EnableRangerRaz structure.
@@ -45,11 +44,9 @@ func NewEnableRangerRazOK() *EnableRangerRazOK {
 	return &EnableRangerRazOK{}
 }
 
-/*
-EnableRangerRazOK describes a response with status code 200, with default header values.
-
-Expected response to a valid enable Ranger Raz request.
-*/
+// EnableRangerRazOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid enable Ranger Raz request.
 type EnableRangerRazOK struct {
 	Payload models.EnableRangerRazResponse
 }
@@ -115,11 +112,9 @@ func NewEnableRangerRazDefault(code int) *EnableRangerRazDefault {
 	}
 }
 
-/*
-EnableRangerRazDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// EnableRangerRazDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type EnableRangerRazDefault struct {
 	_statusCode int
 

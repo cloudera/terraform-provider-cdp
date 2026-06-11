@@ -111,7 +111,7 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 	}
 
 	// Create new Data Visualization
-	create, err := r.createDataViz(createRequestFromPlan(ctx, plan))
+	create, err := r.createDataViz(ctx, createRequestFromPlan(ctx, plan))
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating Data Visualization",
@@ -135,7 +135,7 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 	}
 
 	// Describe the fresh data
-	describe, err := r.describeDataViz(describeRequest(ctx, clusterID, vizID))
+	describe, err := r.describeDataViz(ctx, describeRequest(ctx, clusterID, vizID))
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating Data Visualization",
@@ -176,7 +176,7 @@ func (r *datavizResource) Delete(ctx context.Context, req resource.DeleteRequest
 	clusterID := state.ClusterID.ValueStringPointer()
 	vizID := state.ID.ValueStringPointer()
 
-	if _, err := r.deleteDataViz(deleteRequest(ctx, clusterID, vizID)); err != nil {
+	if _, err := r.deleteDataViz(ctx, deleteRequest(ctx, clusterID, vizID)); err != nil {
 		if strings.Contains(err.Error(), "unable to get viz-webapp") {
 			return
 		}
@@ -198,20 +198,20 @@ func (r *datavizResource) Delete(ctx context.Context, req resource.DeleteRequest
 	}
 }
 
-func (r *datavizResource) createDataViz(p *operations.CreateDataVisualizationParams) (*operations.CreateDataVisualizationOK, error) {
-	return r.client.Dw.Operations.CreateDataVisualization(p)
+func (r *datavizResource) createDataViz(ctx context.Context, p *operations.CreateDataVisualizationParams) (*operations.CreateDataVisualizationOK, error) {
+	return r.client.Dw.Operations.CreateDataVisualizationContext(ctx, p)
 }
 
-func (r *datavizResource) describeDataViz(p *operations.DescribeDataVisualizationParams) (*operations.DescribeDataVisualizationOK, error) {
-	return r.client.Dw.Operations.DescribeDataVisualization(p)
+func (r *datavizResource) describeDataViz(ctx context.Context, p *operations.DescribeDataVisualizationParams) (*operations.DescribeDataVisualizationOK, error) {
+	return r.client.Dw.Operations.DescribeDataVisualizationContext(ctx, p)
 }
 
-func (r *datavizResource) deleteDataViz(p *operations.DeleteDataVisualizationParams) (*operations.DeleteDataVisualizationOK, error) {
-	return r.client.Dw.Operations.DeleteDataVisualization(p)
+func (r *datavizResource) deleteDataViz(ctx context.Context, p *operations.DeleteDataVisualizationParams) (*operations.DeleteDataVisualizationOK, error) {
+	return r.client.Dw.Operations.DeleteDataVisualizationContext(ctx, p)
 }
 
 func createRequestFromPlan(ctx context.Context, plan resourceModel) *operations.CreateDataVisualizationParams {
-	return operations.NewCreateDataVisualizationParamsWithContext(ctx).
+	return operations.NewCreateDataVisualizationParams().
 		WithInput(&models.CreateDataVisualizationRequest{
 			ClusterID: plan.ClusterID.ValueStringPointer(),
 			Name:      plan.Name.ValueStringPointer(),
@@ -227,7 +227,7 @@ func createRequestFromPlan(ctx context.Context, plan resourceModel) *operations.
 }
 
 func describeRequest(ctx context.Context, clusterID *string, vizID *string) *operations.DescribeDataVisualizationParams {
-	return operations.NewDescribeDataVisualizationParamsWithContext(ctx).
+	return operations.NewDescribeDataVisualizationParams().
 		WithInput(&models.DescribeDataVisualizationRequest{
 			ClusterID:           clusterID,
 			DataVisualizationID: vizID,
@@ -235,7 +235,7 @@ func describeRequest(ctx context.Context, clusterID *string, vizID *string) *ope
 }
 
 func deleteRequest(ctx context.Context, clusterID *string, vizID *string) *operations.DeleteDataVisualizationParams {
-	return operations.NewDeleteDataVisualizationParamsWithContext(ctx).
+	return operations.NewDeleteDataVisualizationParams().
 		WithInput(&models.DeleteDataVisualizationRequest{
 			ClusterID:           clusterID,
 			DataVisualizationID: vizID,
@@ -262,7 +262,7 @@ func (r *datavizResource) stateRefresh(ctx context.Context, clusterID *string, v
 	return func() (any, string, error) {
 		tflog.Debug(ctx, "Describing Data Visualisation")
 
-		resp, err := r.describeDataViz(describeRequest(ctx, clusterID, vizID))
+		resp, err := r.describeDataViz(ctx, describeRequest(ctx, clusterID, vizID))
 		if err != nil {
 			tflog.Error(ctx, fmt.Sprintf("Error describing Data Visualisation, error, %v", err))
 

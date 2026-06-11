@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DeleteDataVisualizationReader is a Reader for the DeleteDataVisualization structure.
@@ -45,11 +44,9 @@ func NewDeleteDataVisualizationOK() *DeleteDataVisualizationOK {
 	return &DeleteDataVisualizationOK{}
 }
 
-/*
-DeleteDataVisualizationOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteDataVisualizationOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteDataVisualizationOK struct {
 	Payload *models.DeleteDataVisualizationResponse
 }
@@ -117,11 +114,9 @@ func NewDeleteDataVisualizationDefault(code int) *DeleteDataVisualizationDefault
 	}
 }
 
-/*
-DeleteDataVisualizationDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteDataVisualizationDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteDataVisualizationDefault struct {
 	_statusCode int
 
