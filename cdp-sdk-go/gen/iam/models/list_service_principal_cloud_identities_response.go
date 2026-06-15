@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -47,7 +48,7 @@ func (m *ListServicePrincipalCloudIdentitiesResponse) validateServicePrincipalCl
 	}
 
 	for i := 0; i < len(m.ServicePrincipalCloudIdentities); i++ {
-		if swag.IsZero(m.ServicePrincipalCloudIdentities[i]) { // not required
+		if typeutils.IsZero(m.ServicePrincipalCloudIdentities[i]) { // not required
 			continue
 		}
 
@@ -91,7 +92,7 @@ func (m *ListServicePrincipalCloudIdentitiesResponse) contextValidateServicePrin
 
 		if m.ServicePrincipalCloudIdentities[i] != nil {
 
-			if swag.IsZero(m.ServicePrincipalCloudIdentities[i]) { // not required
+			if typeutils.IsZero(m.ServicePrincipalCloudIdentities[i]) { // not required
 				return nil
 			}
 
@@ -119,13 +120,13 @@ func (m *ListServicePrincipalCloudIdentitiesResponse) MarshalBinary() ([]byte, e
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListServicePrincipalCloudIdentitiesResponse) UnmarshalBinary(b []byte) error {
 	var res ListServicePrincipalCloudIdentitiesResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

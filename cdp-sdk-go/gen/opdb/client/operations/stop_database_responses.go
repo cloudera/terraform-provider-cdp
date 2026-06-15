@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // StopDatabaseReader is a Reader for the StopDatabase structure.
@@ -45,11 +44,9 @@ func NewStopDatabaseOK() *StopDatabaseOK {
 	return &StopDatabaseOK{}
 }
 
-/*
-StopDatabaseOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// StopDatabaseOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type StopDatabaseOK struct {
 	Payload *models.StopDatabaseResponse
 }
@@ -117,11 +114,9 @@ func NewStopDatabaseDefault(code int) *StopDatabaseDefault {
 	}
 }
 
-/*
-StopDatabaseDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// StopDatabaseDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type StopDatabaseDefault struct {
 	_statusCode int
 

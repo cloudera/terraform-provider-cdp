@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // ListClusterTemplatesReader is a Reader for the ListClusterTemplates structure.
@@ -45,11 +44,9 @@ func NewListClusterTemplatesOK() *ListClusterTemplatesOK {
 	return &ListClusterTemplatesOK{}
 }
 
-/*
-ListClusterTemplatesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListClusterTemplatesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListClusterTemplatesOK struct {
 	Payload *models.ListClusterTemplatesResponse
 }
@@ -117,11 +114,9 @@ func NewListClusterTemplatesDefault(code int) *ListClusterTemplatesDefault {
 	}
 }
 
-/*
-ListClusterTemplatesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListClusterTemplatesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListClusterTemplatesDefault struct {
 	_statusCode int
 

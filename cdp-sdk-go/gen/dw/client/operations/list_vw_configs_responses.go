@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // ListVwConfigsReader is a Reader for the ListVwConfigs structure.
@@ -45,11 +44,9 @@ func NewListVwConfigsOK() *ListVwConfigsOK {
 	return &ListVwConfigsOK{}
 }
 
-/*
-ListVwConfigsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListVwConfigsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListVwConfigsOK struct {
 	Payload *models.ListVwConfigsResponse
 }
@@ -117,11 +114,9 @@ func NewListVwConfigsDefault(code int) *ListVwConfigsDefault {
 	}
 }
 
-/*
-ListVwConfigsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListVwConfigsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListVwConfigsDefault struct {
 	_statusCode int
 

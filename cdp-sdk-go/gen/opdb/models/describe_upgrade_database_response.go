@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DescribeUpgradeDatabaseResponse Response with upgrade availability of CDP Runtime and Operating System for a database.
@@ -52,12 +53,12 @@ func (m *DescribeUpgradeDatabaseResponse) Validate(formats strfmt.Registry) erro
 }
 
 func (m *DescribeUpgradeDatabaseResponse) validateAvailableComponentVersions(formats strfmt.Registry) error {
-	if swag.IsZero(m.AvailableComponentVersions) { // not required
+	if typeutils.IsZero(m.AvailableComponentVersions) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.AvailableComponentVersions); i++ {
-		if swag.IsZero(m.AvailableComponentVersions[i]) { // not required
+		if typeutils.IsZero(m.AvailableComponentVersions[i]) { // not required
 			continue
 		}
 
@@ -82,7 +83,7 @@ func (m *DescribeUpgradeDatabaseResponse) validateAvailableComponentVersions(for
 }
 
 func (m *DescribeUpgradeDatabaseResponse) validateCurrentComponentVersion(formats strfmt.Registry) error {
-	if swag.IsZero(m.CurrentComponentVersion) { // not required
+	if typeutils.IsZero(m.CurrentComponentVersion) { // not required
 		return nil
 	}
 
@@ -128,7 +129,7 @@ func (m *DescribeUpgradeDatabaseResponse) contextValidateAvailableComponentVersi
 
 		if m.AvailableComponentVersions[i] != nil {
 
-			if swag.IsZero(m.AvailableComponentVersions[i]) { // not required
+			if typeutils.IsZero(m.AvailableComponentVersions[i]) { // not required
 				return nil
 			}
 
@@ -155,7 +156,7 @@ func (m *DescribeUpgradeDatabaseResponse) contextValidateCurrentComponentVersion
 
 	if m.CurrentComponentVersion != nil {
 
-		if swag.IsZero(m.CurrentComponentVersion) { // not required
+		if typeutils.IsZero(m.CurrentComponentVersion) { // not required
 			return nil
 		}
 
@@ -181,13 +182,13 @@ func (m *DescribeUpgradeDatabaseResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeUpgradeDatabaseResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeUpgradeDatabaseResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

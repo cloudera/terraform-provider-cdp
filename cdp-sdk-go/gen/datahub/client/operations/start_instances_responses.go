@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // StartInstancesReader is a Reader for the StartInstances structure.
@@ -45,11 +44,9 @@ func NewStartInstancesOK() *StartInstancesOK {
 	return &StartInstancesOK{}
 }
 
-/*
-StartInstancesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// StartInstancesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type StartInstancesOK struct {
 	Payload *models.StartInstancesResponse
 }
@@ -117,11 +114,9 @@ func NewStartInstancesDefault(code int) *StartInstancesDefault {
 	}
 }
 
-/*
-StartInstancesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// StartInstancesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type StartInstancesDefault struct {
 	_statusCode int
 

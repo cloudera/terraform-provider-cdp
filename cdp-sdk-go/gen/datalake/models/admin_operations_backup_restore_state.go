@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -68,7 +69,7 @@ func (m *AdminOperationsBackupRestoreState) Validate(formats strfmt.Registry) er
 }
 
 func (m *AdminOperationsBackupRestoreState) validateDryRunValidation(formats strfmt.Registry) error {
-	if swag.IsZero(m.DryRunValidation) { // not required
+	if typeutils.IsZero(m.DryRunValidation) { // not required
 		return nil
 	}
 
@@ -220,7 +221,7 @@ func (m *AdminOperationsBackupRestoreState) contextValidateDryRunValidation(ctx 
 
 	if m.DryRunValidation != nil {
 
-		if swag.IsZero(m.DryRunValidation) { // not required
+		if typeutils.IsZero(m.DryRunValidation) { // not required
 			return nil
 		}
 
@@ -330,13 +331,13 @@ func (m *AdminOperationsBackupRestoreState) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AdminOperationsBackupRestoreState) UnmarshalBinary(b []byte) error {
 	var res AdminOperationsBackupRestoreState
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

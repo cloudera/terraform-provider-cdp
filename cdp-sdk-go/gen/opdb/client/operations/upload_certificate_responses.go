@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // UploadCertificateReader is a Reader for the UploadCertificate structure.
@@ -45,11 +44,9 @@ func NewUploadCertificateOK() *UploadCertificateOK {
 	return &UploadCertificateOK{}
 }
 
-/*
-UploadCertificateOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UploadCertificateOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UploadCertificateOK struct {
 	Payload *models.UploadCertificateResponse
 }
@@ -117,11 +114,9 @@ func NewUploadCertificateDefault(code int) *UploadCertificateDefault {
 	}
 }
 
-/*
-UploadCertificateDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UploadCertificateDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UploadCertificateDefault struct {
 	_statusCode int
 

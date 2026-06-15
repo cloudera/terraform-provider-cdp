@@ -72,8 +72,8 @@ func (p *runtimeDataSource) Read(ctx context.Context, req datasource.ReadRequest
 }
 
 func fetchRuntimes(ctx context.Context, client *client.Datalake) (*RuntimeModel, error) {
-	params := operations.NewListRuntimesParamsWithContext(ctx).WithInput(map[string]any{})
-	resp, err := client.Operations.ListRuntimes(params)
+	params := operations.NewListRuntimesParams().WithInput(map[string]any{})
+	resp, err := client.Operations.ListRuntimesContext(ctx, params)
 	if err != nil {
 		tflog.Warn(ctx, fmt.Sprintf("Error during runtime collection due to : %s", err.Error()))
 		return nil, err

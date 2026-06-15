@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -116,7 +117,7 @@ func (m *ClusterLifecycleEvents) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ClusterLifecycleEvents) validateClusterStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.ClusterStatus) { // not required
+	if typeutils.IsZero(m.ClusterStatus) { // not required
 		return nil
 	}
 
@@ -137,7 +138,7 @@ func (m *ClusterLifecycleEvents) validateClusterStatus(formats strfmt.Registry) 
 }
 
 func (m *ClusterLifecycleEvents) validateEventTimestamp(formats strfmt.Registry) error {
-	if swag.IsZero(m.EventTimestamp) { // not required
+	if typeutils.IsZero(m.EventTimestamp) { // not required
 		return nil
 	}
 
@@ -149,7 +150,7 @@ func (m *ClusterLifecycleEvents) validateEventTimestamp(formats strfmt.Registry)
 }
 
 func (m *ClusterLifecycleEvents) validateLdapDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.LdapDetails) { // not required
+	if typeutils.IsZero(m.LdapDetails) { // not required
 		return nil
 	}
 
@@ -172,7 +173,7 @@ func (m *ClusterLifecycleEvents) validateLdapDetails(formats strfmt.Registry) er
 }
 
 func (m *ClusterLifecycleEvents) validateRdsDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.RdsDetails) { // not required
+	if typeutils.IsZero(m.RdsDetails) { // not required
 		return nil
 	}
 
@@ -195,7 +196,7 @@ func (m *ClusterLifecycleEvents) validateRdsDetails(formats strfmt.Registry) err
 }
 
 func (m *ClusterLifecycleEvents) validateStackStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.StackStatus) { // not required
+	if typeutils.IsZero(m.StackStatus) { // not required
 		return nil
 	}
 
@@ -243,7 +244,7 @@ func (m *ClusterLifecycleEvents) ContextValidate(ctx context.Context, formats st
 
 func (m *ClusterLifecycleEvents) contextValidateClusterStatus(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ClusterStatus) { // not required
+	if typeutils.IsZero(m.ClusterStatus) { // not required
 		return nil
 	}
 
@@ -267,7 +268,7 @@ func (m *ClusterLifecycleEvents) contextValidateLdapDetails(ctx context.Context,
 
 	if m.LdapDetails != nil {
 
-		if swag.IsZero(m.LdapDetails) { // not required
+		if typeutils.IsZero(m.LdapDetails) { // not required
 			return nil
 		}
 
@@ -292,7 +293,7 @@ func (m *ClusterLifecycleEvents) contextValidateRdsDetails(ctx context.Context, 
 
 	if m.RdsDetails != nil {
 
-		if swag.IsZero(m.RdsDetails) { // not required
+		if typeutils.IsZero(m.RdsDetails) { // not required
 			return nil
 		}
 
@@ -315,7 +316,7 @@ func (m *ClusterLifecycleEvents) contextValidateRdsDetails(ctx context.Context, 
 
 func (m *ClusterLifecycleEvents) contextValidateStackStatus(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.StackStatus) { // not required
+	if typeutils.IsZero(m.StackStatus) { // not required
 		return nil
 	}
 
@@ -340,13 +341,13 @@ func (m *ClusterLifecycleEvents) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ClusterLifecycleEvents) UnmarshalBinary(b []byte) error {
 	var res ClusterLifecycleEvents
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

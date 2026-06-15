@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewCancelTrustParams creates a new CancelTrustParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCancelTrustParams() *CancelTrustParams {
-	return &CancelTrustParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCancelTrustParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCancelTrustParamsWithTimeout creates a new CancelTrustParams object
 // with the ability to set a timeout on a request.
 func NewCancelTrustParamsWithTimeout(timeout time.Duration) *CancelTrustParams {
 	return &CancelTrustParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCancelTrustParamsWithContext creates a new CancelTrustParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelTrustParams].
 func NewCancelTrustParamsWithContext(ctx context.Context) *CancelTrustParams {
 	return &CancelTrustParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CancelTrustParams struct {
 	// Input.
 	Input *models.CancelTrustRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the cancel trust params (not the query body).
@@ -83,54 +86,57 @@ func (o *CancelTrustParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the cancel trust params
+// WithTimeout adds the timeout to the cancel trust params.
 func (o *CancelTrustParams) WithTimeout(timeout time.Duration) *CancelTrustParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the cancel trust params
+// SetTimeout adds the timeout to the cancel trust params.
 func (o *CancelTrustParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the cancel trust params
+// WithContext adds the context to the cancel trust params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelTrustParams].
 func (o *CancelTrustParams) WithContext(ctx context.Context) *CancelTrustParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the cancel trust params
+// SetContext adds the context to the cancel trust params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelTrustParams].
 func (o *CancelTrustParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the cancel trust params
+// WithHTTPClient adds the HTTPClient to the cancel trust params.
 func (o *CancelTrustParams) WithHTTPClient(client *http.Client) *CancelTrustParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the cancel trust params
+// SetHTTPClient adds the HTTPClient to the cancel trust params.
 func (o *CancelTrustParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the cancel trust params
+// WithInput adds the input to the cancel trust params.
 func (o *CancelTrustParams) WithInput(input *models.CancelTrustRequest) *CancelTrustParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the cancel trust params
+// SetInput adds the input to the cancel trust params.
 func (o *CancelTrustParams) SetInput(input *models.CancelTrustRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CancelTrustParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

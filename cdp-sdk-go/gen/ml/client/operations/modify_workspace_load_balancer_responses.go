@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // ModifyWorkspaceLoadBalancerReader is a Reader for the ModifyWorkspaceLoadBalancer structure.
@@ -45,11 +44,9 @@ func NewModifyWorkspaceLoadBalancerOK() *ModifyWorkspaceLoadBalancerOK {
 	return &ModifyWorkspaceLoadBalancerOK{}
 }
 
-/*
-ModifyWorkspaceLoadBalancerOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ModifyWorkspaceLoadBalancerOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ModifyWorkspaceLoadBalancerOK struct {
 	Payload models.ModifyWorkspaceLoadBalancerResponse
 }
@@ -115,11 +112,9 @@ func NewModifyWorkspaceLoadBalancerDefault(code int) *ModifyWorkspaceLoadBalance
 	}
 }
 
-/*
-ModifyWorkspaceLoadBalancerDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ModifyWorkspaceLoadBalancerDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ModifyWorkspaceLoadBalancerDefault struct {
 	_statusCode int
 

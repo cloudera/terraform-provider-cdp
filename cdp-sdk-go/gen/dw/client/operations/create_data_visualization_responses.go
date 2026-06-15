@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // CreateDataVisualizationReader is a Reader for the CreateDataVisualization structure.
@@ -45,11 +44,9 @@ func NewCreateDataVisualizationOK() *CreateDataVisualizationOK {
 	return &CreateDataVisualizationOK{}
 }
 
-/*
-CreateDataVisualizationOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateDataVisualizationOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateDataVisualizationOK struct {
 	Payload *models.CreateDataVisualizationResponse
 }
@@ -117,11 +114,9 @@ func NewCreateDataVisualizationDefault(code int) *CreateDataVisualizationDefault
 	}
 }
 
-/*
-CreateDataVisualizationDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateDataVisualizationDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateDataVisualizationDefault struct {
 	_statusCode int
 

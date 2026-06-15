@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // StartDatabaseReader is a Reader for the StartDatabase structure.
@@ -45,11 +44,9 @@ func NewStartDatabaseOK() *StartDatabaseOK {
 	return &StartDatabaseOK{}
 }
 
-/*
-StartDatabaseOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// StartDatabaseOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type StartDatabaseOK struct {
 	Payload *models.StartDatabaseResponse
 }
@@ -117,11 +114,9 @@ func NewStartDatabaseDefault(code int) *StartDatabaseDefault {
 	}
 }
 
-/*
-StartDatabaseDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// StartDatabaseDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type StartDatabaseDefault struct {
 	_statusCode int
 

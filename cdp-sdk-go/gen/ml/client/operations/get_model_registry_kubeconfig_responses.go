@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // GetModelRegistryKubeconfigReader is a Reader for the GetModelRegistryKubeconfig structure.
@@ -45,11 +44,9 @@ func NewGetModelRegistryKubeconfigOK() *GetModelRegistryKubeconfigOK {
 	return &GetModelRegistryKubeconfigOK{}
 }
 
-/*
-GetModelRegistryKubeconfigOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetModelRegistryKubeconfigOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetModelRegistryKubeconfigOK struct {
 	Payload *models.GetModelRegistryKubeconfigResponse
 }
@@ -117,11 +114,9 @@ func NewGetModelRegistryKubeconfigDefault(code int) *GetModelRegistryKubeconfigD
 	}
 }
 
-/*
-GetModelRegistryKubeconfigDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetModelRegistryKubeconfigDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetModelRegistryKubeconfigDefault struct {
 	_statusCode int
 

@@ -5,6 +5,8 @@
 package mocks
 
 import (
+	"context"
+
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations"
 	"github.com/go-openapi/runtime"
 	mock "github.com/stretchr/testify/mock"
@@ -118,6 +120,93 @@ func (_c *MockDwClientService_AddUser_Call) RunAndReturn(run func(params *operat
 	return _c
 }
 
+// AddUserContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) AddUserContext(ctx context.Context, params *operations.AddUserParams, opts ...operations.ClientOption) (*operations.AddUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AddUserContext")
+	}
+
+	var r0 *operations.AddUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AddUserParams, ...operations.ClientOption) (*operations.AddUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AddUserParams, ...operations.ClientOption) *operations.AddUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AddUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AddUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_AddUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AddUserContext'
+type MockDwClientService_AddUserContext_Call struct {
+	*mock.Call
+}
+
+// AddUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AddUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) AddUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_AddUserContext_Call {
+	return &MockDwClientService_AddUserContext_Call{Call: _e.mock.On("AddUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_AddUserContext_Call) Run(run func(ctx context.Context, params *operations.AddUserParams, opts ...operations.ClientOption)) *MockDwClientService_AddUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AddUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AddUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_AddUserContext_Call) Return(addUserOK *operations.AddUserOK, err error) *MockDwClientService_AddUserContext_Call {
+	_c.Call.Return(addUserOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_AddUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AddUserParams, opts ...operations.ClientOption) (*operations.AddUserOK, error)) *MockDwClientService_AddUserContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // BackupCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) BackupCluster(params *operations.BackupClusterParams, opts ...operations.ClientOption) (*operations.BackupClusterOK, error) {
 	// operations.ClientOption
@@ -195,6 +284,93 @@ func (_c *MockDwClientService_BackupCluster_Call) Return(backupClusterOK *operat
 }
 
 func (_c *MockDwClientService_BackupCluster_Call) RunAndReturn(run func(params *operations.BackupClusterParams, opts ...operations.ClientOption) (*operations.BackupClusterOK, error)) *MockDwClientService_BackupCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// BackupClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) BackupClusterContext(ctx context.Context, params *operations.BackupClusterParams, opts ...operations.ClientOption) (*operations.BackupClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for BackupClusterContext")
+	}
+
+	var r0 *operations.BackupClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.BackupClusterParams, ...operations.ClientOption) (*operations.BackupClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.BackupClusterParams, ...operations.ClientOption) *operations.BackupClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.BackupClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.BackupClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_BackupClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'BackupClusterContext'
+type MockDwClientService_BackupClusterContext_Call struct {
+	*mock.Call
+}
+
+// BackupClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.BackupClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) BackupClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_BackupClusterContext_Call {
+	return &MockDwClientService_BackupClusterContext_Call{Call: _e.mock.On("BackupClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_BackupClusterContext_Call) Run(run func(ctx context.Context, params *operations.BackupClusterParams, opts ...operations.ClientOption)) *MockDwClientService_BackupClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.BackupClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.BackupClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_BackupClusterContext_Call) Return(backupClusterOK *operations.BackupClusterOK, err error) *MockDwClientService_BackupClusterContext_Call {
+	_c.Call.Return(backupClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_BackupClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.BackupClusterParams, opts ...operations.ClientOption) (*operations.BackupClusterOK, error)) *MockDwClientService_BackupClusterContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -280,6 +456,93 @@ func (_c *MockDwClientService_CreateAwsCluster_Call) RunAndReturn(run func(param
 	return _c
 }
 
+// CreateAwsClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateAwsClusterContext(ctx context.Context, params *operations.CreateAwsClusterParams, opts ...operations.ClientOption) (*operations.CreateAwsClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAwsClusterContext")
+	}
+
+	var r0 *operations.CreateAwsClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAwsClusterParams, ...operations.ClientOption) (*operations.CreateAwsClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAwsClusterParams, ...operations.ClientOption) *operations.CreateAwsClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateAwsClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateAwsClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateAwsClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateAwsClusterContext'
+type MockDwClientService_CreateAwsClusterContext_Call struct {
+	*mock.Call
+}
+
+// CreateAwsClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateAwsClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateAwsClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateAwsClusterContext_Call {
+	return &MockDwClientService_CreateAwsClusterContext_Call{Call: _e.mock.On("CreateAwsClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateAwsClusterContext_Call) Run(run func(ctx context.Context, params *operations.CreateAwsClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreateAwsClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateAwsClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateAwsClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateAwsClusterContext_Call) Return(createAwsClusterOK *operations.CreateAwsClusterOK, err error) *MockDwClientService_CreateAwsClusterContext_Call {
+	_c.Call.Return(createAwsClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateAwsClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateAwsClusterParams, opts ...operations.ClientOption) (*operations.CreateAwsClusterOK, error)) *MockDwClientService_CreateAwsClusterContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateAzureCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateAzureCluster(params *operations.CreateAzureClusterParams, opts ...operations.ClientOption) (*operations.CreateAzureClusterOK, error) {
 	// operations.ClientOption
@@ -357,6 +620,93 @@ func (_c *MockDwClientService_CreateAzureCluster_Call) Return(createAzureCluster
 }
 
 func (_c *MockDwClientService_CreateAzureCluster_Call) RunAndReturn(run func(params *operations.CreateAzureClusterParams, opts ...operations.ClientOption) (*operations.CreateAzureClusterOK, error)) *MockDwClientService_CreateAzureCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateAzureClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateAzureClusterContext(ctx context.Context, params *operations.CreateAzureClusterParams, opts ...operations.ClientOption) (*operations.CreateAzureClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateAzureClusterContext")
+	}
+
+	var r0 *operations.CreateAzureClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAzureClusterParams, ...operations.ClientOption) (*operations.CreateAzureClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateAzureClusterParams, ...operations.ClientOption) *operations.CreateAzureClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateAzureClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateAzureClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateAzureClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateAzureClusterContext'
+type MockDwClientService_CreateAzureClusterContext_Call struct {
+	*mock.Call
+}
+
+// CreateAzureClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateAzureClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateAzureClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateAzureClusterContext_Call {
+	return &MockDwClientService_CreateAzureClusterContext_Call{Call: _e.mock.On("CreateAzureClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateAzureClusterContext_Call) Run(run func(ctx context.Context, params *operations.CreateAzureClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreateAzureClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateAzureClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateAzureClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateAzureClusterContext_Call) Return(createAzureClusterOK *operations.CreateAzureClusterOK, err error) *MockDwClientService_CreateAzureClusterContext_Call {
+	_c.Call.Return(createAzureClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateAzureClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateAzureClusterParams, opts ...operations.ClientOption) (*operations.CreateAzureClusterOK, error)) *MockDwClientService_CreateAzureClusterContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -442,6 +792,93 @@ func (_c *MockDwClientService_CreateBackup_Call) RunAndReturn(run func(params *o
 	return _c
 }
 
+// CreateBackupContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateBackupContext(ctx context.Context, params *operations.CreateBackupParams, opts ...operations.ClientOption) (*operations.CreateBackupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateBackupContext")
+	}
+
+	var r0 *operations.CreateBackupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateBackupParams, ...operations.ClientOption) (*operations.CreateBackupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateBackupParams, ...operations.ClientOption) *operations.CreateBackupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateBackupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateBackupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateBackupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateBackupContext'
+type MockDwClientService_CreateBackupContext_Call struct {
+	*mock.Call
+}
+
+// CreateBackupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateBackupParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateBackupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateBackupContext_Call {
+	return &MockDwClientService_CreateBackupContext_Call{Call: _e.mock.On("CreateBackupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateBackupContext_Call) Run(run func(ctx context.Context, params *operations.CreateBackupParams, opts ...operations.ClientOption)) *MockDwClientService_CreateBackupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateBackupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateBackupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateBackupContext_Call) Return(createBackupOK *operations.CreateBackupOK, err error) *MockDwClientService_CreateBackupContext_Call {
+	_c.Call.Return(createBackupOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateBackupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateBackupParams, opts ...operations.ClientOption) (*operations.CreateBackupOK, error)) *MockDwClientService_CreateBackupContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateCluster(params *operations.CreateClusterParams, opts ...operations.ClientOption) (*operations.CreateClusterOK, error) {
 	// operations.ClientOption
@@ -519,6 +956,93 @@ func (_c *MockDwClientService_CreateCluster_Call) Return(createClusterOK *operat
 }
 
 func (_c *MockDwClientService_CreateCluster_Call) RunAndReturn(run func(params *operations.CreateClusterParams, opts ...operations.ClientOption) (*operations.CreateClusterOK, error)) *MockDwClientService_CreateCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateClusterContext(ctx context.Context, params *operations.CreateClusterParams, opts ...operations.ClientOption) (*operations.CreateClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateClusterContext")
+	}
+
+	var r0 *operations.CreateClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateClusterParams, ...operations.ClientOption) (*operations.CreateClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateClusterParams, ...operations.ClientOption) *operations.CreateClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateClusterContext'
+type MockDwClientService_CreateClusterContext_Call struct {
+	*mock.Call
+}
+
+// CreateClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateClusterContext_Call {
+	return &MockDwClientService_CreateClusterContext_Call{Call: _e.mock.On("CreateClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateClusterContext_Call) Run(run func(ctx context.Context, params *operations.CreateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreateClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateClusterContext_Call) Return(createClusterOK *operations.CreateClusterOK, err error) *MockDwClientService_CreateClusterContext_Call {
+	_c.Call.Return(createClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateClusterParams, opts ...operations.ClientOption) (*operations.CreateClusterOK, error)) *MockDwClientService_CreateClusterContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -604,6 +1128,93 @@ func (_c *MockDwClientService_CreateClusterDiagnosticDataJob_Call) RunAndReturn(
 	return _c
 }
 
+// CreateClusterDiagnosticDataJobContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateClusterDiagnosticDataJobContext(ctx context.Context, params *operations.CreateClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateClusterDiagnosticDataJobOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateClusterDiagnosticDataJobContext")
+	}
+
+	var r0 *operations.CreateClusterDiagnosticDataJobOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateClusterDiagnosticDataJobParams, ...operations.ClientOption) (*operations.CreateClusterDiagnosticDataJobOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateClusterDiagnosticDataJobParams, ...operations.ClientOption) *operations.CreateClusterDiagnosticDataJobOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateClusterDiagnosticDataJobOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateClusterDiagnosticDataJobParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateClusterDiagnosticDataJobContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateClusterDiagnosticDataJobContext'
+type MockDwClientService_CreateClusterDiagnosticDataJobContext_Call struct {
+	*mock.Call
+}
+
+// CreateClusterDiagnosticDataJobContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateClusterDiagnosticDataJobParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateClusterDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call {
+	return &MockDwClientService_CreateClusterDiagnosticDataJobContext_Call{Call: _e.mock.On("CreateClusterDiagnosticDataJobContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.CreateClusterDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateClusterDiagnosticDataJobParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateClusterDiagnosticDataJobParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call) Return(createClusterDiagnosticDataJobOK *operations.CreateClusterDiagnosticDataJobOK, err error) *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call {
+	_c.Call.Return(createClusterDiagnosticDataJobOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateClusterDiagnosticDataJobOK, error)) *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateConnector provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateConnector(params *operations.CreateConnectorParams, opts ...operations.ClientOption) (*operations.CreateConnectorOK, error) {
 	// operations.ClientOption
@@ -681,6 +1292,93 @@ func (_c *MockDwClientService_CreateConnector_Call) Return(createConnectorOK *op
 }
 
 func (_c *MockDwClientService_CreateConnector_Call) RunAndReturn(run func(params *operations.CreateConnectorParams, opts ...operations.ClientOption) (*operations.CreateConnectorOK, error)) *MockDwClientService_CreateConnector_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateConnectorContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateConnectorContext(ctx context.Context, params *operations.CreateConnectorParams, opts ...operations.ClientOption) (*operations.CreateConnectorOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateConnectorContext")
+	}
+
+	var r0 *operations.CreateConnectorOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateConnectorParams, ...operations.ClientOption) (*operations.CreateConnectorOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateConnectorParams, ...operations.ClientOption) *operations.CreateConnectorOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateConnectorOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateConnectorParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateConnectorContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateConnectorContext'
+type MockDwClientService_CreateConnectorContext_Call struct {
+	*mock.Call
+}
+
+// CreateConnectorContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateConnectorParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateConnectorContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateConnectorContext_Call {
+	return &MockDwClientService_CreateConnectorContext_Call{Call: _e.mock.On("CreateConnectorContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateConnectorContext_Call) Run(run func(ctx context.Context, params *operations.CreateConnectorParams, opts ...operations.ClientOption)) *MockDwClientService_CreateConnectorContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateConnectorParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateConnectorParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateConnectorContext_Call) Return(createConnectorOK *operations.CreateConnectorOK, err error) *MockDwClientService_CreateConnectorContext_Call {
+	_c.Call.Return(createConnectorOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateConnectorContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateConnectorParams, opts ...operations.ClientOption) (*operations.CreateConnectorOK, error)) *MockDwClientService_CreateConnectorContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -766,6 +1464,93 @@ func (_c *MockDwClientService_CreateDataVisualization_Call) RunAndReturn(run fun
 	return _c
 }
 
+// CreateDataVisualizationContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateDataVisualizationContext(ctx context.Context, params *operations.CreateDataVisualizationParams, opts ...operations.ClientOption) (*operations.CreateDataVisualizationOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateDataVisualizationContext")
+	}
+
+	var r0 *operations.CreateDataVisualizationOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateDataVisualizationParams, ...operations.ClientOption) (*operations.CreateDataVisualizationOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateDataVisualizationParams, ...operations.ClientOption) *operations.CreateDataVisualizationOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateDataVisualizationOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateDataVisualizationParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateDataVisualizationContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateDataVisualizationContext'
+type MockDwClientService_CreateDataVisualizationContext_Call struct {
+	*mock.Call
+}
+
+// CreateDataVisualizationContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateDataVisualizationParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateDataVisualizationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateDataVisualizationContext_Call {
+	return &MockDwClientService_CreateDataVisualizationContext_Call{Call: _e.mock.On("CreateDataVisualizationContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateDataVisualizationContext_Call) Run(run func(ctx context.Context, params *operations.CreateDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_CreateDataVisualizationContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateDataVisualizationParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateDataVisualizationParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateDataVisualizationContext_Call) Return(createDataVisualizationOK *operations.CreateDataVisualizationOK, err error) *MockDwClientService_CreateDataVisualizationContext_Call {
+	_c.Call.Return(createDataVisualizationOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateDataVisualizationContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateDataVisualizationParams, opts ...operations.ClientOption) (*operations.CreateDataVisualizationOK, error)) *MockDwClientService_CreateDataVisualizationContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateDbc(params *operations.CreateDbcParams, opts ...operations.ClientOption) (*operations.CreateDbcOK, error) {
 	// operations.ClientOption
@@ -843,6 +1628,93 @@ func (_c *MockDwClientService_CreateDbc_Call) Return(createDbcOK *operations.Cre
 }
 
 func (_c *MockDwClientService_CreateDbc_Call) RunAndReturn(run func(params *operations.CreateDbcParams, opts ...operations.ClientOption) (*operations.CreateDbcOK, error)) *MockDwClientService_CreateDbc_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateDbcContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateDbcContext(ctx context.Context, params *operations.CreateDbcParams, opts ...operations.ClientOption) (*operations.CreateDbcOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateDbcContext")
+	}
+
+	var r0 *operations.CreateDbcOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateDbcParams, ...operations.ClientOption) (*operations.CreateDbcOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateDbcParams, ...operations.ClientOption) *operations.CreateDbcOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateDbcOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateDbcParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateDbcContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateDbcContext'
+type MockDwClientService_CreateDbcContext_Call struct {
+	*mock.Call
+}
+
+// CreateDbcContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateDbcParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateDbcContext_Call {
+	return &MockDwClientService_CreateDbcContext_Call{Call: _e.mock.On("CreateDbcContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateDbcContext_Call) Run(run func(ctx context.Context, params *operations.CreateDbcParams, opts ...operations.ClientOption)) *MockDwClientService_CreateDbcContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateDbcParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateDbcParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateDbcContext_Call) Return(createDbcOK *operations.CreateDbcOK, err error) *MockDwClientService_CreateDbcContext_Call {
+	_c.Call.Return(createDbcOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateDbcContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateDbcParams, opts ...operations.ClientOption) (*operations.CreateDbcOK, error)) *MockDwClientService_CreateDbcContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -928,6 +1800,93 @@ func (_c *MockDwClientService_CreateDbcDiagnosticDataJob_Call) RunAndReturn(run 
 	return _c
 }
 
+// CreateDbcDiagnosticDataJobContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateDbcDiagnosticDataJobContext(ctx context.Context, params *operations.CreateDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateDbcDiagnosticDataJobOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateDbcDiagnosticDataJobContext")
+	}
+
+	var r0 *operations.CreateDbcDiagnosticDataJobOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateDbcDiagnosticDataJobParams, ...operations.ClientOption) (*operations.CreateDbcDiagnosticDataJobOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateDbcDiagnosticDataJobParams, ...operations.ClientOption) *operations.CreateDbcDiagnosticDataJobOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateDbcDiagnosticDataJobOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateDbcDiagnosticDataJobParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateDbcDiagnosticDataJobContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateDbcDiagnosticDataJobContext'
+type MockDwClientService_CreateDbcDiagnosticDataJobContext_Call struct {
+	*mock.Call
+}
+
+// CreateDbcDiagnosticDataJobContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateDbcDiagnosticDataJobParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateDbcDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call {
+	return &MockDwClientService_CreateDbcDiagnosticDataJobContext_Call{Call: _e.mock.On("CreateDbcDiagnosticDataJobContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.CreateDbcDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateDbcDiagnosticDataJobParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateDbcDiagnosticDataJobParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call) Return(createDbcDiagnosticDataJobOK *operations.CreateDbcDiagnosticDataJobOK, err error) *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call {
+	_c.Call.Return(createDbcDiagnosticDataJobOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateDbcDiagnosticDataJobOK, error)) *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateHue provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateHue(params *operations.CreateHueParams, opts ...operations.ClientOption) (*operations.CreateHueOK, error) {
 	// operations.ClientOption
@@ -1005,6 +1964,93 @@ func (_c *MockDwClientService_CreateHue_Call) Return(createHueOK *operations.Cre
 }
 
 func (_c *MockDwClientService_CreateHue_Call) RunAndReturn(run func(params *operations.CreateHueParams, opts ...operations.ClientOption) (*operations.CreateHueOK, error)) *MockDwClientService_CreateHue_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateHueContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateHueContext(ctx context.Context, params *operations.CreateHueParams, opts ...operations.ClientOption) (*operations.CreateHueOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateHueContext")
+	}
+
+	var r0 *operations.CreateHueOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateHueParams, ...operations.ClientOption) (*operations.CreateHueOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateHueParams, ...operations.ClientOption) *operations.CreateHueOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateHueOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateHueParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateHueContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateHueContext'
+type MockDwClientService_CreateHueContext_Call struct {
+	*mock.Call
+}
+
+// CreateHueContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateHueContext_Call {
+	return &MockDwClientService_CreateHueContext_Call{Call: _e.mock.On("CreateHueContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateHueContext_Call) Run(run func(ctx context.Context, params *operations.CreateHueParams, opts ...operations.ClientOption)) *MockDwClientService_CreateHueContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateHueParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateHueParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateHueContext_Call) Return(createHueOK *operations.CreateHueOK, err error) *MockDwClientService_CreateHueContext_Call {
+	_c.Call.Return(createHueOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateHueContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateHueParams, opts ...operations.ClientOption) (*operations.CreateHueOK, error)) *MockDwClientService_CreateHueContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1090,6 +2136,93 @@ func (_c *MockDwClientService_CreatePrivateCluster_Call) RunAndReturn(run func(p
 	return _c
 }
 
+// CreatePrivateClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreatePrivateClusterContext(ctx context.Context, params *operations.CreatePrivateClusterParams, opts ...operations.ClientOption) (*operations.CreatePrivateClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreatePrivateClusterContext")
+	}
+
+	var r0 *operations.CreatePrivateClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreatePrivateClusterParams, ...operations.ClientOption) (*operations.CreatePrivateClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreatePrivateClusterParams, ...operations.ClientOption) *operations.CreatePrivateClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreatePrivateClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreatePrivateClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreatePrivateClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreatePrivateClusterContext'
+type MockDwClientService_CreatePrivateClusterContext_Call struct {
+	*mock.Call
+}
+
+// CreatePrivateClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreatePrivateClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreatePrivateClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreatePrivateClusterContext_Call {
+	return &MockDwClientService_CreatePrivateClusterContext_Call{Call: _e.mock.On("CreatePrivateClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreatePrivateClusterContext_Call) Run(run func(ctx context.Context, params *operations.CreatePrivateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreatePrivateClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreatePrivateClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreatePrivateClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreatePrivateClusterContext_Call) Return(createPrivateClusterOK *operations.CreatePrivateClusterOK, err error) *MockDwClientService_CreatePrivateClusterContext_Call {
+	_c.Call.Return(createPrivateClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreatePrivateClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreatePrivateClusterParams, opts ...operations.ClientOption) (*operations.CreatePrivateClusterOK, error)) *MockDwClientService_CreatePrivateClusterContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateResourceTemplate provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateResourceTemplate(params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption) (*operations.CreateResourceTemplateOK, error) {
 	// operations.ClientOption
@@ -1167,6 +2300,93 @@ func (_c *MockDwClientService_CreateResourceTemplate_Call) Return(createResource
 }
 
 func (_c *MockDwClientService_CreateResourceTemplate_Call) RunAndReturn(run func(params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption) (*operations.CreateResourceTemplateOK, error)) *MockDwClientService_CreateResourceTemplate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateResourceTemplateContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateResourceTemplateContext(ctx context.Context, params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption) (*operations.CreateResourceTemplateOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateResourceTemplateContext")
+	}
+
+	var r0 *operations.CreateResourceTemplateOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateResourceTemplateParams, ...operations.ClientOption) (*operations.CreateResourceTemplateOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateResourceTemplateParams, ...operations.ClientOption) *operations.CreateResourceTemplateOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateResourceTemplateOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateResourceTemplateParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateResourceTemplateContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateResourceTemplateContext'
+type MockDwClientService_CreateResourceTemplateContext_Call struct {
+	*mock.Call
+}
+
+// CreateResourceTemplateContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateResourceTemplateParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateResourceTemplateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateResourceTemplateContext_Call {
+	return &MockDwClientService_CreateResourceTemplateContext_Call{Call: _e.mock.On("CreateResourceTemplateContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateResourceTemplateContext_Call) Run(run func(ctx context.Context, params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_CreateResourceTemplateContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateResourceTemplateParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateResourceTemplateParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateResourceTemplateContext_Call) Return(createResourceTemplateOK *operations.CreateResourceTemplateOK, err error) *MockDwClientService_CreateResourceTemplateContext_Call {
+	_c.Call.Return(createResourceTemplateOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateResourceTemplateContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption) (*operations.CreateResourceTemplateOK, error)) *MockDwClientService_CreateResourceTemplateContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1252,6 +2472,93 @@ func (_c *MockDwClientService_CreateVw_Call) RunAndReturn(run func(params *opera
 	return _c
 }
 
+// CreateVwContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateVwContext(ctx context.Context, params *operations.CreateVwParams, opts ...operations.ClientOption) (*operations.CreateVwOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateVwContext")
+	}
+
+	var r0 *operations.CreateVwOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateVwParams, ...operations.ClientOption) (*operations.CreateVwOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateVwParams, ...operations.ClientOption) *operations.CreateVwOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateVwOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateVwParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateVwContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateVwContext'
+type MockDwClientService_CreateVwContext_Call struct {
+	*mock.Call
+}
+
+// CreateVwContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateVwParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateVwContext_Call {
+	return &MockDwClientService_CreateVwContext_Call{Call: _e.mock.On("CreateVwContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateVwContext_Call) Run(run func(ctx context.Context, params *operations.CreateVwParams, opts ...operations.ClientOption)) *MockDwClientService_CreateVwContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateVwParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateVwParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateVwContext_Call) Return(createVwOK *operations.CreateVwOK, err error) *MockDwClientService_CreateVwContext_Call {
+	_c.Call.Return(createVwOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateVwContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateVwParams, opts ...operations.ClientOption) (*operations.CreateVwOK, error)) *MockDwClientService_CreateVwContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CreateVwDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateVwDiagnosticDataJob(params *operations.CreateVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateVwDiagnosticDataJobOK, error) {
 	// operations.ClientOption
@@ -1329,6 +2636,93 @@ func (_c *MockDwClientService_CreateVwDiagnosticDataJob_Call) Return(createVwDia
 }
 
 func (_c *MockDwClientService_CreateVwDiagnosticDataJob_Call) RunAndReturn(run func(params *operations.CreateVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateVwDiagnosticDataJobOK, error)) *MockDwClientService_CreateVwDiagnosticDataJob_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CreateVwDiagnosticDataJobContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) CreateVwDiagnosticDataJobContext(ctx context.Context, params *operations.CreateVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateVwDiagnosticDataJobOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateVwDiagnosticDataJobContext")
+	}
+
+	var r0 *operations.CreateVwDiagnosticDataJobOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateVwDiagnosticDataJobParams, ...operations.ClientOption) (*operations.CreateVwDiagnosticDataJobOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CreateVwDiagnosticDataJobParams, ...operations.ClientOption) *operations.CreateVwDiagnosticDataJobOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CreateVwDiagnosticDataJobOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CreateVwDiagnosticDataJobParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_CreateVwDiagnosticDataJobContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreateVwDiagnosticDataJobContext'
+type MockDwClientService_CreateVwDiagnosticDataJobContext_Call struct {
+	*mock.Call
+}
+
+// CreateVwDiagnosticDataJobContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CreateVwDiagnosticDataJobParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) CreateVwDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateVwDiagnosticDataJobContext_Call {
+	return &MockDwClientService_CreateVwDiagnosticDataJobContext_Call{Call: _e.mock.On("CreateVwDiagnosticDataJobContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_CreateVwDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.CreateVwDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateVwDiagnosticDataJobContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CreateVwDiagnosticDataJobParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CreateVwDiagnosticDataJobParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_CreateVwDiagnosticDataJobContext_Call) Return(createVwDiagnosticDataJobOK *operations.CreateVwDiagnosticDataJobOK, err error) *MockDwClientService_CreateVwDiagnosticDataJobContext_Call {
+	_c.Call.Return(createVwDiagnosticDataJobOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_CreateVwDiagnosticDataJobContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CreateVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateVwDiagnosticDataJobOK, error)) *MockDwClientService_CreateVwDiagnosticDataJobContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1414,6 +2808,93 @@ func (_c *MockDwClientService_DeleteBackup_Call) RunAndReturn(run func(params *o
 	return _c
 }
 
+// DeleteBackupContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteBackupContext(ctx context.Context, params *operations.DeleteBackupParams, opts ...operations.ClientOption) (*operations.DeleteBackupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteBackupContext")
+	}
+
+	var r0 *operations.DeleteBackupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteBackupParams, ...operations.ClientOption) (*operations.DeleteBackupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteBackupParams, ...operations.ClientOption) *operations.DeleteBackupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteBackupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteBackupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteBackupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteBackupContext'
+type MockDwClientService_DeleteBackupContext_Call struct {
+	*mock.Call
+}
+
+// DeleteBackupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteBackupParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteBackupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteBackupContext_Call {
+	return &MockDwClientService_DeleteBackupContext_Call{Call: _e.mock.On("DeleteBackupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteBackupContext_Call) Run(run func(ctx context.Context, params *operations.DeleteBackupParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteBackupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteBackupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteBackupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteBackupContext_Call) Return(deleteBackupOK *operations.DeleteBackupOK, err error) *MockDwClientService_DeleteBackupContext_Call {
+	_c.Call.Return(deleteBackupOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteBackupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteBackupParams, opts ...operations.ClientOption) (*operations.DeleteBackupOK, error)) *MockDwClientService_DeleteBackupContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteCluster(params *operations.DeleteClusterParams, opts ...operations.ClientOption) (*operations.DeleteClusterOK, error) {
 	// operations.ClientOption
@@ -1491,6 +2972,93 @@ func (_c *MockDwClientService_DeleteCluster_Call) Return(deleteClusterOK *operat
 }
 
 func (_c *MockDwClientService_DeleteCluster_Call) RunAndReturn(run func(params *operations.DeleteClusterParams, opts ...operations.ClientOption) (*operations.DeleteClusterOK, error)) *MockDwClientService_DeleteCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteClusterContext(ctx context.Context, params *operations.DeleteClusterParams, opts ...operations.ClientOption) (*operations.DeleteClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteClusterContext")
+	}
+
+	var r0 *operations.DeleteClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteClusterParams, ...operations.ClientOption) (*operations.DeleteClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteClusterParams, ...operations.ClientOption) *operations.DeleteClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteClusterContext'
+type MockDwClientService_DeleteClusterContext_Call struct {
+	*mock.Call
+}
+
+// DeleteClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteClusterContext_Call {
+	return &MockDwClientService_DeleteClusterContext_Call{Call: _e.mock.On("DeleteClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteClusterContext_Call) Run(run func(ctx context.Context, params *operations.DeleteClusterParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteClusterContext_Call) Return(deleteClusterOK *operations.DeleteClusterOK, err error) *MockDwClientService_DeleteClusterContext_Call {
+	_c.Call.Return(deleteClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteClusterParams, opts ...operations.ClientOption) (*operations.DeleteClusterOK, error)) *MockDwClientService_DeleteClusterContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1576,6 +3144,93 @@ func (_c *MockDwClientService_DeleteClusterDiagnosticDataJob_Call) RunAndReturn(
 	return _c
 }
 
+// DeleteClusterDiagnosticDataJobContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteClusterDiagnosticDataJobContext(ctx context.Context, params *operations.DeleteClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteClusterDiagnosticDataJobOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteClusterDiagnosticDataJobContext")
+	}
+
+	var r0 *operations.DeleteClusterDiagnosticDataJobOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteClusterDiagnosticDataJobParams, ...operations.ClientOption) (*operations.DeleteClusterDiagnosticDataJobOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteClusterDiagnosticDataJobParams, ...operations.ClientOption) *operations.DeleteClusterDiagnosticDataJobOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteClusterDiagnosticDataJobOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteClusterDiagnosticDataJobParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteClusterDiagnosticDataJobContext'
+type MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call struct {
+	*mock.Call
+}
+
+// DeleteClusterDiagnosticDataJobContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteClusterDiagnosticDataJobParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteClusterDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call {
+	return &MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call{Call: _e.mock.On("DeleteClusterDiagnosticDataJobContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DeleteClusterDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteClusterDiagnosticDataJobParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteClusterDiagnosticDataJobParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call) Return(deleteClusterDiagnosticDataJobOK *operations.DeleteClusterDiagnosticDataJobOK, err error) *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call {
+	_c.Call.Return(deleteClusterDiagnosticDataJobOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteClusterDiagnosticDataJobOK, error)) *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteConnector provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteConnector(params *operations.DeleteConnectorParams, opts ...operations.ClientOption) (*operations.DeleteConnectorOK, error) {
 	// operations.ClientOption
@@ -1653,6 +3308,93 @@ func (_c *MockDwClientService_DeleteConnector_Call) Return(deleteConnectorOK *op
 }
 
 func (_c *MockDwClientService_DeleteConnector_Call) RunAndReturn(run func(params *operations.DeleteConnectorParams, opts ...operations.ClientOption) (*operations.DeleteConnectorOK, error)) *MockDwClientService_DeleteConnector_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteConnectorContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteConnectorContext(ctx context.Context, params *operations.DeleteConnectorParams, opts ...operations.ClientOption) (*operations.DeleteConnectorOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteConnectorContext")
+	}
+
+	var r0 *operations.DeleteConnectorOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteConnectorParams, ...operations.ClientOption) (*operations.DeleteConnectorOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteConnectorParams, ...operations.ClientOption) *operations.DeleteConnectorOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteConnectorOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteConnectorParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteConnectorContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteConnectorContext'
+type MockDwClientService_DeleteConnectorContext_Call struct {
+	*mock.Call
+}
+
+// DeleteConnectorContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteConnectorParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteConnectorContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteConnectorContext_Call {
+	return &MockDwClientService_DeleteConnectorContext_Call{Call: _e.mock.On("DeleteConnectorContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteConnectorContext_Call) Run(run func(ctx context.Context, params *operations.DeleteConnectorParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteConnectorContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteConnectorParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteConnectorParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteConnectorContext_Call) Return(deleteConnectorOK *operations.DeleteConnectorOK, err error) *MockDwClientService_DeleteConnectorContext_Call {
+	_c.Call.Return(deleteConnectorOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteConnectorContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteConnectorParams, opts ...operations.ClientOption) (*operations.DeleteConnectorOK, error)) *MockDwClientService_DeleteConnectorContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1738,6 +3480,93 @@ func (_c *MockDwClientService_DeleteDataVisualization_Call) RunAndReturn(run fun
 	return _c
 }
 
+// DeleteDataVisualizationContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteDataVisualizationContext(ctx context.Context, params *operations.DeleteDataVisualizationParams, opts ...operations.ClientOption) (*operations.DeleteDataVisualizationOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteDataVisualizationContext")
+	}
+
+	var r0 *operations.DeleteDataVisualizationOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteDataVisualizationParams, ...operations.ClientOption) (*operations.DeleteDataVisualizationOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteDataVisualizationParams, ...operations.ClientOption) *operations.DeleteDataVisualizationOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteDataVisualizationOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteDataVisualizationParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteDataVisualizationContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteDataVisualizationContext'
+type MockDwClientService_DeleteDataVisualizationContext_Call struct {
+	*mock.Call
+}
+
+// DeleteDataVisualizationContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteDataVisualizationParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteDataVisualizationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteDataVisualizationContext_Call {
+	return &MockDwClientService_DeleteDataVisualizationContext_Call{Call: _e.mock.On("DeleteDataVisualizationContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteDataVisualizationContext_Call) Run(run func(ctx context.Context, params *operations.DeleteDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteDataVisualizationContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteDataVisualizationParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteDataVisualizationParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteDataVisualizationContext_Call) Return(deleteDataVisualizationOK *operations.DeleteDataVisualizationOK, err error) *MockDwClientService_DeleteDataVisualizationContext_Call {
+	_c.Call.Return(deleteDataVisualizationOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteDataVisualizationContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteDataVisualizationParams, opts ...operations.ClientOption) (*operations.DeleteDataVisualizationOK, error)) *MockDwClientService_DeleteDataVisualizationContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteDbc(params *operations.DeleteDbcParams, opts ...operations.ClientOption) (*operations.DeleteDbcOK, error) {
 	// operations.ClientOption
@@ -1815,6 +3644,93 @@ func (_c *MockDwClientService_DeleteDbc_Call) Return(deleteDbcOK *operations.Del
 }
 
 func (_c *MockDwClientService_DeleteDbc_Call) RunAndReturn(run func(params *operations.DeleteDbcParams, opts ...operations.ClientOption) (*operations.DeleteDbcOK, error)) *MockDwClientService_DeleteDbc_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteDbcContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteDbcContext(ctx context.Context, params *operations.DeleteDbcParams, opts ...operations.ClientOption) (*operations.DeleteDbcOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteDbcContext")
+	}
+
+	var r0 *operations.DeleteDbcOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteDbcParams, ...operations.ClientOption) (*operations.DeleteDbcOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteDbcParams, ...operations.ClientOption) *operations.DeleteDbcOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteDbcOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteDbcParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteDbcContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteDbcContext'
+type MockDwClientService_DeleteDbcContext_Call struct {
+	*mock.Call
+}
+
+// DeleteDbcContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteDbcParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteDbcContext_Call {
+	return &MockDwClientService_DeleteDbcContext_Call{Call: _e.mock.On("DeleteDbcContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteDbcContext_Call) Run(run func(ctx context.Context, params *operations.DeleteDbcParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteDbcContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteDbcParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteDbcParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteDbcContext_Call) Return(deleteDbcOK *operations.DeleteDbcOK, err error) *MockDwClientService_DeleteDbcContext_Call {
+	_c.Call.Return(deleteDbcOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteDbcContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteDbcParams, opts ...operations.ClientOption) (*operations.DeleteDbcOK, error)) *MockDwClientService_DeleteDbcContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1900,6 +3816,93 @@ func (_c *MockDwClientService_DeleteDbcDiagnosticDataJob_Call) RunAndReturn(run 
 	return _c
 }
 
+// DeleteDbcDiagnosticDataJobContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteDbcDiagnosticDataJobContext(ctx context.Context, params *operations.DeleteDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteDbcDiagnosticDataJobOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteDbcDiagnosticDataJobContext")
+	}
+
+	var r0 *operations.DeleteDbcDiagnosticDataJobOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteDbcDiagnosticDataJobParams, ...operations.ClientOption) (*operations.DeleteDbcDiagnosticDataJobOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteDbcDiagnosticDataJobParams, ...operations.ClientOption) *operations.DeleteDbcDiagnosticDataJobOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteDbcDiagnosticDataJobOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteDbcDiagnosticDataJobParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteDbcDiagnosticDataJobContext'
+type MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call struct {
+	*mock.Call
+}
+
+// DeleteDbcDiagnosticDataJobContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteDbcDiagnosticDataJobParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteDbcDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call {
+	return &MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call{Call: _e.mock.On("DeleteDbcDiagnosticDataJobContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DeleteDbcDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteDbcDiagnosticDataJobParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteDbcDiagnosticDataJobParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call) Return(deleteDbcDiagnosticDataJobOK *operations.DeleteDbcDiagnosticDataJobOK, err error) *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call {
+	_c.Call.Return(deleteDbcDiagnosticDataJobOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteDbcDiagnosticDataJobOK, error)) *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteHue provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteHue(params *operations.DeleteHueParams, opts ...operations.ClientOption) (*operations.DeleteHueOK, error) {
 	// operations.ClientOption
@@ -1977,6 +3980,93 @@ func (_c *MockDwClientService_DeleteHue_Call) Return(deleteHueOK *operations.Del
 }
 
 func (_c *MockDwClientService_DeleteHue_Call) RunAndReturn(run func(params *operations.DeleteHueParams, opts ...operations.ClientOption) (*operations.DeleteHueOK, error)) *MockDwClientService_DeleteHue_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteHueContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteHueContext(ctx context.Context, params *operations.DeleteHueParams, opts ...operations.ClientOption) (*operations.DeleteHueOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteHueContext")
+	}
+
+	var r0 *operations.DeleteHueOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteHueParams, ...operations.ClientOption) (*operations.DeleteHueOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteHueParams, ...operations.ClientOption) *operations.DeleteHueOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteHueOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteHueParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteHueContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteHueContext'
+type MockDwClientService_DeleteHueContext_Call struct {
+	*mock.Call
+}
+
+// DeleteHueContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteHueContext_Call {
+	return &MockDwClientService_DeleteHueContext_Call{Call: _e.mock.On("DeleteHueContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteHueContext_Call) Run(run func(ctx context.Context, params *operations.DeleteHueParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteHueContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteHueParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteHueParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteHueContext_Call) Return(deleteHueOK *operations.DeleteHueOK, err error) *MockDwClientService_DeleteHueContext_Call {
+	_c.Call.Return(deleteHueOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteHueContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteHueParams, opts ...operations.ClientOption) (*operations.DeleteHueOK, error)) *MockDwClientService_DeleteHueContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2062,6 +4152,93 @@ func (_c *MockDwClientService_DeleteResourceTemplate_Call) RunAndReturn(run func
 	return _c
 }
 
+// DeleteResourceTemplateContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteResourceTemplateContext(ctx context.Context, params *operations.DeleteResourceTemplateParams, opts ...operations.ClientOption) (*operations.DeleteResourceTemplateOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteResourceTemplateContext")
+	}
+
+	var r0 *operations.DeleteResourceTemplateOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteResourceTemplateParams, ...operations.ClientOption) (*operations.DeleteResourceTemplateOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteResourceTemplateParams, ...operations.ClientOption) *operations.DeleteResourceTemplateOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteResourceTemplateOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteResourceTemplateParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteResourceTemplateContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteResourceTemplateContext'
+type MockDwClientService_DeleteResourceTemplateContext_Call struct {
+	*mock.Call
+}
+
+// DeleteResourceTemplateContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteResourceTemplateParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteResourceTemplateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteResourceTemplateContext_Call {
+	return &MockDwClientService_DeleteResourceTemplateContext_Call{Call: _e.mock.On("DeleteResourceTemplateContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteResourceTemplateContext_Call) Run(run func(ctx context.Context, params *operations.DeleteResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteResourceTemplateContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteResourceTemplateParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteResourceTemplateParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteResourceTemplateContext_Call) Return(deleteResourceTemplateOK *operations.DeleteResourceTemplateOK, err error) *MockDwClientService_DeleteResourceTemplateContext_Call {
+	_c.Call.Return(deleteResourceTemplateOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteResourceTemplateContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteResourceTemplateParams, opts ...operations.ClientOption) (*operations.DeleteResourceTemplateOK, error)) *MockDwClientService_DeleteResourceTemplateContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteSecret provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteSecret(params *operations.DeleteSecretParams, opts ...operations.ClientOption) (*operations.DeleteSecretOK, error) {
 	// operations.ClientOption
@@ -2139,6 +4316,93 @@ func (_c *MockDwClientService_DeleteSecret_Call) Return(deleteSecretOK *operatio
 }
 
 func (_c *MockDwClientService_DeleteSecret_Call) RunAndReturn(run func(params *operations.DeleteSecretParams, opts ...operations.ClientOption) (*operations.DeleteSecretOK, error)) *MockDwClientService_DeleteSecret_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteSecretContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteSecretContext(ctx context.Context, params *operations.DeleteSecretParams, opts ...operations.ClientOption) (*operations.DeleteSecretOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteSecretContext")
+	}
+
+	var r0 *operations.DeleteSecretOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteSecretParams, ...operations.ClientOption) (*operations.DeleteSecretOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteSecretParams, ...operations.ClientOption) *operations.DeleteSecretOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteSecretOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteSecretParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteSecretContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteSecretContext'
+type MockDwClientService_DeleteSecretContext_Call struct {
+	*mock.Call
+}
+
+// DeleteSecretContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteSecretParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteSecretContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteSecretContext_Call {
+	return &MockDwClientService_DeleteSecretContext_Call{Call: _e.mock.On("DeleteSecretContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteSecretContext_Call) Run(run func(ctx context.Context, params *operations.DeleteSecretParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteSecretContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteSecretParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteSecretParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteSecretContext_Call) Return(deleteSecretOK *operations.DeleteSecretOK, err error) *MockDwClientService_DeleteSecretContext_Call {
+	_c.Call.Return(deleteSecretOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteSecretContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteSecretParams, opts ...operations.ClientOption) (*operations.DeleteSecretOK, error)) *MockDwClientService_DeleteSecretContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2224,6 +4488,93 @@ func (_c *MockDwClientService_DeleteUser_Call) RunAndReturn(run func(params *ope
 	return _c
 }
 
+// DeleteUserContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteUserContext(ctx context.Context, params *operations.DeleteUserParams, opts ...operations.ClientOption) (*operations.DeleteUserOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteUserContext")
+	}
+
+	var r0 *operations.DeleteUserOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteUserParams, ...operations.ClientOption) (*operations.DeleteUserOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteUserParams, ...operations.ClientOption) *operations.DeleteUserOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteUserOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteUserParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteUserContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteUserContext'
+type MockDwClientService_DeleteUserContext_Call struct {
+	*mock.Call
+}
+
+// DeleteUserContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteUserParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteUserContext_Call {
+	return &MockDwClientService_DeleteUserContext_Call{Call: _e.mock.On("DeleteUserContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteUserContext_Call) Run(run func(ctx context.Context, params *operations.DeleteUserParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteUserContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteUserParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteUserParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteUserContext_Call) Return(deleteUserOK *operations.DeleteUserOK, err error) *MockDwClientService_DeleteUserContext_Call {
+	_c.Call.Return(deleteUserOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteUserContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteUserParams, opts ...operations.ClientOption) (*operations.DeleteUserOK, error)) *MockDwClientService_DeleteUserContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DeleteVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteVw(params *operations.DeleteVwParams, opts ...operations.ClientOption) (*operations.DeleteVwOK, error) {
 	// operations.ClientOption
@@ -2301,6 +4652,93 @@ func (_c *MockDwClientService_DeleteVw_Call) Return(deleteVwOK *operations.Delet
 }
 
 func (_c *MockDwClientService_DeleteVw_Call) RunAndReturn(run func(params *operations.DeleteVwParams, opts ...operations.ClientOption) (*operations.DeleteVwOK, error)) *MockDwClientService_DeleteVw_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DeleteVwContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteVwContext(ctx context.Context, params *operations.DeleteVwParams, opts ...operations.ClientOption) (*operations.DeleteVwOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteVwContext")
+	}
+
+	var r0 *operations.DeleteVwOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteVwParams, ...operations.ClientOption) (*operations.DeleteVwOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteVwParams, ...operations.ClientOption) *operations.DeleteVwOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteVwOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteVwParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteVwContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteVwContext'
+type MockDwClientService_DeleteVwContext_Call struct {
+	*mock.Call
+}
+
+// DeleteVwContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteVwParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteVwContext_Call {
+	return &MockDwClientService_DeleteVwContext_Call{Call: _e.mock.On("DeleteVwContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteVwContext_Call) Run(run func(ctx context.Context, params *operations.DeleteVwParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteVwContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteVwParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteVwParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteVwContext_Call) Return(deleteVwOK *operations.DeleteVwOK, err error) *MockDwClientService_DeleteVwContext_Call {
+	_c.Call.Return(deleteVwOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteVwContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteVwParams, opts ...operations.ClientOption) (*operations.DeleteVwOK, error)) *MockDwClientService_DeleteVwContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2386,6 +4824,93 @@ func (_c *MockDwClientService_DeleteVwDiagnosticDataJob_Call) RunAndReturn(run f
 	return _c
 }
 
+// DeleteVwDiagnosticDataJobContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DeleteVwDiagnosticDataJobContext(ctx context.Context, params *operations.DeleteVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteVwDiagnosticDataJobOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteVwDiagnosticDataJobContext")
+	}
+
+	var r0 *operations.DeleteVwDiagnosticDataJobOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteVwDiagnosticDataJobParams, ...operations.ClientOption) (*operations.DeleteVwDiagnosticDataJobOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DeleteVwDiagnosticDataJobParams, ...operations.ClientOption) *operations.DeleteVwDiagnosticDataJobOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DeleteVwDiagnosticDataJobOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DeleteVwDiagnosticDataJobParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DeleteVwDiagnosticDataJobContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteVwDiagnosticDataJobContext'
+type MockDwClientService_DeleteVwDiagnosticDataJobContext_Call struct {
+	*mock.Call
+}
+
+// DeleteVwDiagnosticDataJobContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DeleteVwDiagnosticDataJobParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DeleteVwDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call {
+	return &MockDwClientService_DeleteVwDiagnosticDataJobContext_Call{Call: _e.mock.On("DeleteVwDiagnosticDataJobContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DeleteVwDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DeleteVwDiagnosticDataJobParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DeleteVwDiagnosticDataJobParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call) Return(deleteVwDiagnosticDataJobOK *operations.DeleteVwDiagnosticDataJobOK, err error) *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call {
+	_c.Call.Return(deleteVwDiagnosticDataJobOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DeleteVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteVwDiagnosticDataJobOK, error)) *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DescribeAllowedInstanceTypes provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeAllowedInstanceTypes(params *operations.DescribeAllowedInstanceTypesParams, opts ...operations.ClientOption) (*operations.DescribeAllowedInstanceTypesOK, error) {
 	// operations.ClientOption
@@ -2463,6 +4988,93 @@ func (_c *MockDwClientService_DescribeAllowedInstanceTypes_Call) Return(describe
 }
 
 func (_c *MockDwClientService_DescribeAllowedInstanceTypes_Call) RunAndReturn(run func(params *operations.DescribeAllowedInstanceTypesParams, opts ...operations.ClientOption) (*operations.DescribeAllowedInstanceTypesOK, error)) *MockDwClientService_DescribeAllowedInstanceTypes_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeAllowedInstanceTypesContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeAllowedInstanceTypesContext(ctx context.Context, params *operations.DescribeAllowedInstanceTypesParams, opts ...operations.ClientOption) (*operations.DescribeAllowedInstanceTypesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeAllowedInstanceTypesContext")
+	}
+
+	var r0 *operations.DescribeAllowedInstanceTypesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeAllowedInstanceTypesParams, ...operations.ClientOption) (*operations.DescribeAllowedInstanceTypesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeAllowedInstanceTypesParams, ...operations.ClientOption) *operations.DescribeAllowedInstanceTypesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeAllowedInstanceTypesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeAllowedInstanceTypesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeAllowedInstanceTypesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeAllowedInstanceTypesContext'
+type MockDwClientService_DescribeAllowedInstanceTypesContext_Call struct {
+	*mock.Call
+}
+
+// DescribeAllowedInstanceTypesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeAllowedInstanceTypesParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeAllowedInstanceTypesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeAllowedInstanceTypesContext_Call {
+	return &MockDwClientService_DescribeAllowedInstanceTypesContext_Call{Call: _e.mock.On("DescribeAllowedInstanceTypesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeAllowedInstanceTypesContext_Call) Run(run func(ctx context.Context, params *operations.DescribeAllowedInstanceTypesParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeAllowedInstanceTypesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeAllowedInstanceTypesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeAllowedInstanceTypesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeAllowedInstanceTypesContext_Call) Return(describeAllowedInstanceTypesOK *operations.DescribeAllowedInstanceTypesOK, err error) *MockDwClientService_DescribeAllowedInstanceTypesContext_Call {
+	_c.Call.Return(describeAllowedInstanceTypesOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeAllowedInstanceTypesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeAllowedInstanceTypesParams, opts ...operations.ClientOption) (*operations.DescribeAllowedInstanceTypesOK, error)) *MockDwClientService_DescribeAllowedInstanceTypesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2548,6 +5160,93 @@ func (_c *MockDwClientService_DescribeBackup_Call) RunAndReturn(run func(params 
 	return _c
 }
 
+// DescribeBackupContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeBackupContext(ctx context.Context, params *operations.DescribeBackupParams, opts ...operations.ClientOption) (*operations.DescribeBackupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeBackupContext")
+	}
+
+	var r0 *operations.DescribeBackupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeBackupParams, ...operations.ClientOption) (*operations.DescribeBackupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeBackupParams, ...operations.ClientOption) *operations.DescribeBackupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeBackupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeBackupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeBackupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeBackupContext'
+type MockDwClientService_DescribeBackupContext_Call struct {
+	*mock.Call
+}
+
+// DescribeBackupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeBackupParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeBackupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeBackupContext_Call {
+	return &MockDwClientService_DescribeBackupContext_Call{Call: _e.mock.On("DescribeBackupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeBackupContext_Call) Run(run func(ctx context.Context, params *operations.DescribeBackupParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeBackupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeBackupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeBackupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeBackupContext_Call) Return(describeBackupOK *operations.DescribeBackupOK, err error) *MockDwClientService_DescribeBackupContext_Call {
+	_c.Call.Return(describeBackupOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeBackupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeBackupParams, opts ...operations.ClientOption) (*operations.DescribeBackupOK, error)) *MockDwClientService_DescribeBackupContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DescribeCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeCluster(params *operations.DescribeClusterParams, opts ...operations.ClientOption) (*operations.DescribeClusterOK, error) {
 	// operations.ClientOption
@@ -2625,6 +5324,93 @@ func (_c *MockDwClientService_DescribeCluster_Call) Return(describeClusterOK *op
 }
 
 func (_c *MockDwClientService_DescribeCluster_Call) RunAndReturn(run func(params *operations.DescribeClusterParams, opts ...operations.ClientOption) (*operations.DescribeClusterOK, error)) *MockDwClientService_DescribeCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeClusterContext(ctx context.Context, params *operations.DescribeClusterParams, opts ...operations.ClientOption) (*operations.DescribeClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeClusterContext")
+	}
+
+	var r0 *operations.DescribeClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeClusterParams, ...operations.ClientOption) (*operations.DescribeClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeClusterParams, ...operations.ClientOption) *operations.DescribeClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeClusterContext'
+type MockDwClientService_DescribeClusterContext_Call struct {
+	*mock.Call
+}
+
+// DescribeClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeClusterContext_Call {
+	return &MockDwClientService_DescribeClusterContext_Call{Call: _e.mock.On("DescribeClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeClusterContext_Call) Run(run func(ctx context.Context, params *operations.DescribeClusterParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeClusterContext_Call) Return(describeClusterOK *operations.DescribeClusterOK, err error) *MockDwClientService_DescribeClusterContext_Call {
+	_c.Call.Return(describeClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeClusterParams, opts ...operations.ClientOption) (*operations.DescribeClusterOK, error)) *MockDwClientService_DescribeClusterContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2710,6 +5496,93 @@ func (_c *MockDwClientService_DescribeClusterDiagnosticDataJob_Call) RunAndRetur
 	return _c
 }
 
+// DescribeClusterDiagnosticDataJobContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeClusterDiagnosticDataJobContext(ctx context.Context, params *operations.DescribeClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeClusterDiagnosticDataJobOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeClusterDiagnosticDataJobContext")
+	}
+
+	var r0 *operations.DescribeClusterDiagnosticDataJobOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeClusterDiagnosticDataJobParams, ...operations.ClientOption) (*operations.DescribeClusterDiagnosticDataJobOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeClusterDiagnosticDataJobParams, ...operations.ClientOption) *operations.DescribeClusterDiagnosticDataJobOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeClusterDiagnosticDataJobOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeClusterDiagnosticDataJobParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeClusterDiagnosticDataJobContext'
+type MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call struct {
+	*mock.Call
+}
+
+// DescribeClusterDiagnosticDataJobContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeClusterDiagnosticDataJobParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeClusterDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call {
+	return &MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call{Call: _e.mock.On("DescribeClusterDiagnosticDataJobContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DescribeClusterDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeClusterDiagnosticDataJobParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeClusterDiagnosticDataJobParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call) Return(describeClusterDiagnosticDataJobOK *operations.DescribeClusterDiagnosticDataJobOK, err error) *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call {
+	_c.Call.Return(describeClusterDiagnosticDataJobOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeClusterDiagnosticDataJobOK, error)) *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DescribeConfig provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeConfig(params *operations.DescribeConfigParams, opts ...operations.ClientOption) (*operations.DescribeConfigOK, error) {
 	// operations.ClientOption
@@ -2787,6 +5660,93 @@ func (_c *MockDwClientService_DescribeConfig_Call) Return(describeConfigOK *oper
 }
 
 func (_c *MockDwClientService_DescribeConfig_Call) RunAndReturn(run func(params *operations.DescribeConfigParams, opts ...operations.ClientOption) (*operations.DescribeConfigOK, error)) *MockDwClientService_DescribeConfig_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeConfigContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeConfigContext(ctx context.Context, params *operations.DescribeConfigParams, opts ...operations.ClientOption) (*operations.DescribeConfigOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeConfigContext")
+	}
+
+	var r0 *operations.DescribeConfigOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeConfigParams, ...operations.ClientOption) (*operations.DescribeConfigOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeConfigParams, ...operations.ClientOption) *operations.DescribeConfigOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeConfigOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeConfigParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeConfigContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeConfigContext'
+type MockDwClientService_DescribeConfigContext_Call struct {
+	*mock.Call
+}
+
+// DescribeConfigContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeConfigParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeConfigContext_Call {
+	return &MockDwClientService_DescribeConfigContext_Call{Call: _e.mock.On("DescribeConfigContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeConfigContext_Call) Run(run func(ctx context.Context, params *operations.DescribeConfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeConfigContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeConfigParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeConfigParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeConfigContext_Call) Return(describeConfigOK *operations.DescribeConfigOK, err error) *MockDwClientService_DescribeConfigContext_Call {
+	_c.Call.Return(describeConfigOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeConfigContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeConfigParams, opts ...operations.ClientOption) (*operations.DescribeConfigOK, error)) *MockDwClientService_DescribeConfigContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -2872,6 +5832,93 @@ func (_c *MockDwClientService_DescribeConfigDiff_Call) RunAndReturn(run func(par
 	return _c
 }
 
+// DescribeConfigDiffContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeConfigDiffContext(ctx context.Context, params *operations.DescribeConfigDiffParams, opts ...operations.ClientOption) (*operations.DescribeConfigDiffOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeConfigDiffContext")
+	}
+
+	var r0 *operations.DescribeConfigDiffOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeConfigDiffParams, ...operations.ClientOption) (*operations.DescribeConfigDiffOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeConfigDiffParams, ...operations.ClientOption) *operations.DescribeConfigDiffOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeConfigDiffOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeConfigDiffParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeConfigDiffContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeConfigDiffContext'
+type MockDwClientService_DescribeConfigDiffContext_Call struct {
+	*mock.Call
+}
+
+// DescribeConfigDiffContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeConfigDiffParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeConfigDiffContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeConfigDiffContext_Call {
+	return &MockDwClientService_DescribeConfigDiffContext_Call{Call: _e.mock.On("DescribeConfigDiffContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeConfigDiffContext_Call) Run(run func(ctx context.Context, params *operations.DescribeConfigDiffParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeConfigDiffContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeConfigDiffParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeConfigDiffParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeConfigDiffContext_Call) Return(describeConfigDiffOK *operations.DescribeConfigDiffOK, err error) *MockDwClientService_DescribeConfigDiffContext_Call {
+	_c.Call.Return(describeConfigDiffOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeConfigDiffContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeConfigDiffParams, opts ...operations.ClientOption) (*operations.DescribeConfigDiffOK, error)) *MockDwClientService_DescribeConfigDiffContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DescribeDataVisualization provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeDataVisualization(params *operations.DescribeDataVisualizationParams, opts ...operations.ClientOption) (*operations.DescribeDataVisualizationOK, error) {
 	// operations.ClientOption
@@ -2949,6 +5996,93 @@ func (_c *MockDwClientService_DescribeDataVisualization_Call) Return(describeDat
 }
 
 func (_c *MockDwClientService_DescribeDataVisualization_Call) RunAndReturn(run func(params *operations.DescribeDataVisualizationParams, opts ...operations.ClientOption) (*operations.DescribeDataVisualizationOK, error)) *MockDwClientService_DescribeDataVisualization_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeDataVisualizationContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeDataVisualizationContext(ctx context.Context, params *operations.DescribeDataVisualizationParams, opts ...operations.ClientOption) (*operations.DescribeDataVisualizationOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeDataVisualizationContext")
+	}
+
+	var r0 *operations.DescribeDataVisualizationOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeDataVisualizationParams, ...operations.ClientOption) (*operations.DescribeDataVisualizationOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeDataVisualizationParams, ...operations.ClientOption) *operations.DescribeDataVisualizationOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeDataVisualizationOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeDataVisualizationParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeDataVisualizationContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeDataVisualizationContext'
+type MockDwClientService_DescribeDataVisualizationContext_Call struct {
+	*mock.Call
+}
+
+// DescribeDataVisualizationContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeDataVisualizationParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeDataVisualizationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeDataVisualizationContext_Call {
+	return &MockDwClientService_DescribeDataVisualizationContext_Call{Call: _e.mock.On("DescribeDataVisualizationContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeDataVisualizationContext_Call) Run(run func(ctx context.Context, params *operations.DescribeDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDataVisualizationContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeDataVisualizationParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeDataVisualizationParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeDataVisualizationContext_Call) Return(describeDataVisualizationOK *operations.DescribeDataVisualizationOK, err error) *MockDwClientService_DescribeDataVisualizationContext_Call {
+	_c.Call.Return(describeDataVisualizationOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeDataVisualizationContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeDataVisualizationParams, opts ...operations.ClientOption) (*operations.DescribeDataVisualizationOK, error)) *MockDwClientService_DescribeDataVisualizationContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3115,6 +6249,180 @@ func (_c *MockDwClientService_DescribeDbcConfig_Call) RunAndReturn(run func(para
 	return _c
 }
 
+// DescribeDbcConfigContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeDbcConfigContext(ctx context.Context, params *operations.DescribeDbcConfigParams, opts ...operations.ClientOption) (*operations.DescribeDbcConfigOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeDbcConfigContext")
+	}
+
+	var r0 *operations.DescribeDbcConfigOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeDbcConfigParams, ...operations.ClientOption) (*operations.DescribeDbcConfigOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeDbcConfigParams, ...operations.ClientOption) *operations.DescribeDbcConfigOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeDbcConfigOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeDbcConfigParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeDbcConfigContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeDbcConfigContext'
+type MockDwClientService_DescribeDbcConfigContext_Call struct {
+	*mock.Call
+}
+
+// DescribeDbcConfigContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeDbcConfigParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeDbcConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeDbcConfigContext_Call {
+	return &MockDwClientService_DescribeDbcConfigContext_Call{Call: _e.mock.On("DescribeDbcConfigContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeDbcConfigContext_Call) Run(run func(ctx context.Context, params *operations.DescribeDbcConfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDbcConfigContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeDbcConfigParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeDbcConfigParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeDbcConfigContext_Call) Return(describeDbcConfigOK *operations.DescribeDbcConfigOK, err error) *MockDwClientService_DescribeDbcConfigContext_Call {
+	_c.Call.Return(describeDbcConfigOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeDbcConfigContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeDbcConfigParams, opts ...operations.ClientOption) (*operations.DescribeDbcConfigOK, error)) *MockDwClientService_DescribeDbcConfigContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeDbcContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeDbcContext(ctx context.Context, params *operations.DescribeDbcParams, opts ...operations.ClientOption) (*operations.DescribeDbcOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeDbcContext")
+	}
+
+	var r0 *operations.DescribeDbcOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeDbcParams, ...operations.ClientOption) (*operations.DescribeDbcOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeDbcParams, ...operations.ClientOption) *operations.DescribeDbcOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeDbcOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeDbcParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeDbcContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeDbcContext'
+type MockDwClientService_DescribeDbcContext_Call struct {
+	*mock.Call
+}
+
+// DescribeDbcContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeDbcParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeDbcContext_Call {
+	return &MockDwClientService_DescribeDbcContext_Call{Call: _e.mock.On("DescribeDbcContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeDbcContext_Call) Run(run func(ctx context.Context, params *operations.DescribeDbcParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDbcContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeDbcParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeDbcParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeDbcContext_Call) Return(describeDbcOK *operations.DescribeDbcOK, err error) *MockDwClientService_DescribeDbcContext_Call {
+	_c.Call.Return(describeDbcOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeDbcContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeDbcParams, opts ...operations.ClientOption) (*operations.DescribeDbcOK, error)) *MockDwClientService_DescribeDbcContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DescribeDbcDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeDbcDiagnosticDataJob(params *operations.DescribeDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeDbcDiagnosticDataJobOK, error) {
 	// operations.ClientOption
@@ -3192,6 +6500,93 @@ func (_c *MockDwClientService_DescribeDbcDiagnosticDataJob_Call) Return(describe
 }
 
 func (_c *MockDwClientService_DescribeDbcDiagnosticDataJob_Call) RunAndReturn(run func(params *operations.DescribeDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeDbcDiagnosticDataJobOK, error)) *MockDwClientService_DescribeDbcDiagnosticDataJob_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeDbcDiagnosticDataJobContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeDbcDiagnosticDataJobContext(ctx context.Context, params *operations.DescribeDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeDbcDiagnosticDataJobOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeDbcDiagnosticDataJobContext")
+	}
+
+	var r0 *operations.DescribeDbcDiagnosticDataJobOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeDbcDiagnosticDataJobParams, ...operations.ClientOption) (*operations.DescribeDbcDiagnosticDataJobOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeDbcDiagnosticDataJobParams, ...operations.ClientOption) *operations.DescribeDbcDiagnosticDataJobOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeDbcDiagnosticDataJobOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeDbcDiagnosticDataJobParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeDbcDiagnosticDataJobContext'
+type MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call struct {
+	*mock.Call
+}
+
+// DescribeDbcDiagnosticDataJobContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeDbcDiagnosticDataJobParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeDbcDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call {
+	return &MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call{Call: _e.mock.On("DescribeDbcDiagnosticDataJobContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DescribeDbcDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeDbcDiagnosticDataJobParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeDbcDiagnosticDataJobParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call) Return(describeDbcDiagnosticDataJobOK *operations.DescribeDbcDiagnosticDataJobOK, err error) *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call {
+	_c.Call.Return(describeDbcDiagnosticDataJobOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeDbcDiagnosticDataJobOK, error)) *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3277,6 +6672,93 @@ func (_c *MockDwClientService_DescribeHue_Call) RunAndReturn(run func(params *op
 	return _c
 }
 
+// DescribeHueContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeHueContext(ctx context.Context, params *operations.DescribeHueParams, opts ...operations.ClientOption) (*operations.DescribeHueOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeHueContext")
+	}
+
+	var r0 *operations.DescribeHueOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeHueParams, ...operations.ClientOption) (*operations.DescribeHueOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeHueParams, ...operations.ClientOption) *operations.DescribeHueOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeHueOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeHueParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeHueContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeHueContext'
+type MockDwClientService_DescribeHueContext_Call struct {
+	*mock.Call
+}
+
+// DescribeHueContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeHueContext_Call {
+	return &MockDwClientService_DescribeHueContext_Call{Call: _e.mock.On("DescribeHueContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeHueContext_Call) Run(run func(ctx context.Context, params *operations.DescribeHueParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeHueContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeHueParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeHueParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeHueContext_Call) Return(describeHueOK *operations.DescribeHueOK, err error) *MockDwClientService_DescribeHueContext_Call {
+	_c.Call.Return(describeHueOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeHueContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeHueParams, opts ...operations.ClientOption) (*operations.DescribeHueOK, error)) *MockDwClientService_DescribeHueContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DescribeKubeconfig provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeKubeconfig(params *operations.DescribeKubeconfigParams, opts ...operations.ClientOption) (*operations.DescribeKubeconfigOK, error) {
 	// operations.ClientOption
@@ -3354,6 +6836,93 @@ func (_c *MockDwClientService_DescribeKubeconfig_Call) Return(describeKubeconfig
 }
 
 func (_c *MockDwClientService_DescribeKubeconfig_Call) RunAndReturn(run func(params *operations.DescribeKubeconfigParams, opts ...operations.ClientOption) (*operations.DescribeKubeconfigOK, error)) *MockDwClientService_DescribeKubeconfig_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeKubeconfigContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeKubeconfigContext(ctx context.Context, params *operations.DescribeKubeconfigParams, opts ...operations.ClientOption) (*operations.DescribeKubeconfigOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeKubeconfigContext")
+	}
+
+	var r0 *operations.DescribeKubeconfigOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeKubeconfigParams, ...operations.ClientOption) (*operations.DescribeKubeconfigOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeKubeconfigParams, ...operations.ClientOption) *operations.DescribeKubeconfigOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeKubeconfigOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeKubeconfigParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeKubeconfigContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeKubeconfigContext'
+type MockDwClientService_DescribeKubeconfigContext_Call struct {
+	*mock.Call
+}
+
+// DescribeKubeconfigContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeKubeconfigParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeKubeconfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeKubeconfigContext_Call {
+	return &MockDwClientService_DescribeKubeconfigContext_Call{Call: _e.mock.On("DescribeKubeconfigContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeKubeconfigContext_Call) Run(run func(ctx context.Context, params *operations.DescribeKubeconfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeKubeconfigContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeKubeconfigParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeKubeconfigParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeKubeconfigContext_Call) Return(describeKubeconfigOK *operations.DescribeKubeconfigOK, err error) *MockDwClientService_DescribeKubeconfigContext_Call {
+	_c.Call.Return(describeKubeconfigOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeKubeconfigContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeKubeconfigParams, opts ...operations.ClientOption) (*operations.DescribeKubeconfigOK, error)) *MockDwClientService_DescribeKubeconfigContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3439,6 +7008,93 @@ func (_c *MockDwClientService_DescribeRestore_Call) RunAndReturn(run func(params
 	return _c
 }
 
+// DescribeRestoreContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeRestoreContext(ctx context.Context, params *operations.DescribeRestoreParams, opts ...operations.ClientOption) (*operations.DescribeRestoreOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeRestoreContext")
+	}
+
+	var r0 *operations.DescribeRestoreOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeRestoreParams, ...operations.ClientOption) (*operations.DescribeRestoreOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeRestoreParams, ...operations.ClientOption) *operations.DescribeRestoreOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeRestoreOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeRestoreParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeRestoreContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeRestoreContext'
+type MockDwClientService_DescribeRestoreContext_Call struct {
+	*mock.Call
+}
+
+// DescribeRestoreContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeRestoreParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeRestoreContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeRestoreContext_Call {
+	return &MockDwClientService_DescribeRestoreContext_Call{Call: _e.mock.On("DescribeRestoreContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeRestoreContext_Call) Run(run func(ctx context.Context, params *operations.DescribeRestoreParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeRestoreContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeRestoreParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeRestoreParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeRestoreContext_Call) Return(describeRestoreOK *operations.DescribeRestoreOK, err error) *MockDwClientService_DescribeRestoreContext_Call {
+	_c.Call.Return(describeRestoreOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeRestoreContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeRestoreParams, opts ...operations.ClientOption) (*operations.DescribeRestoreOK, error)) *MockDwClientService_DescribeRestoreContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DescribeServerSetting provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeServerSetting(params *operations.DescribeServerSettingParams, opts ...operations.ClientOption) (*operations.DescribeServerSettingOK, error) {
 	// operations.ClientOption
@@ -3516,6 +7172,93 @@ func (_c *MockDwClientService_DescribeServerSetting_Call) Return(describeServerS
 }
 
 func (_c *MockDwClientService_DescribeServerSetting_Call) RunAndReturn(run func(params *operations.DescribeServerSettingParams, opts ...operations.ClientOption) (*operations.DescribeServerSettingOK, error)) *MockDwClientService_DescribeServerSetting_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeServerSettingContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeServerSettingContext(ctx context.Context, params *operations.DescribeServerSettingParams, opts ...operations.ClientOption) (*operations.DescribeServerSettingOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeServerSettingContext")
+	}
+
+	var r0 *operations.DescribeServerSettingOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeServerSettingParams, ...operations.ClientOption) (*operations.DescribeServerSettingOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeServerSettingParams, ...operations.ClientOption) *operations.DescribeServerSettingOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeServerSettingOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeServerSettingParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeServerSettingContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeServerSettingContext'
+type MockDwClientService_DescribeServerSettingContext_Call struct {
+	*mock.Call
+}
+
+// DescribeServerSettingContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeServerSettingParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeServerSettingContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeServerSettingContext_Call {
+	return &MockDwClientService_DescribeServerSettingContext_Call{Call: _e.mock.On("DescribeServerSettingContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeServerSettingContext_Call) Run(run func(ctx context.Context, params *operations.DescribeServerSettingParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeServerSettingContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeServerSettingParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeServerSettingParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeServerSettingContext_Call) Return(describeServerSettingOK *operations.DescribeServerSettingOK, err error) *MockDwClientService_DescribeServerSettingContext_Call {
+	_c.Call.Return(describeServerSettingOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeServerSettingContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeServerSettingParams, opts ...operations.ClientOption) (*operations.DescribeServerSettingOK, error)) *MockDwClientService_DescribeServerSettingContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3682,6 +7425,180 @@ func (_c *MockDwClientService_DescribeVwConfig_Call) RunAndReturn(run func(param
 	return _c
 }
 
+// DescribeVwConfigContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeVwConfigContext(ctx context.Context, params *operations.DescribeVwConfigParams, opts ...operations.ClientOption) (*operations.DescribeVwConfigOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeVwConfigContext")
+	}
+
+	var r0 *operations.DescribeVwConfigOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeVwConfigParams, ...operations.ClientOption) (*operations.DescribeVwConfigOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeVwConfigParams, ...operations.ClientOption) *operations.DescribeVwConfigOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeVwConfigOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeVwConfigParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeVwConfigContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeVwConfigContext'
+type MockDwClientService_DescribeVwConfigContext_Call struct {
+	*mock.Call
+}
+
+// DescribeVwConfigContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeVwConfigParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeVwConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeVwConfigContext_Call {
+	return &MockDwClientService_DescribeVwConfigContext_Call{Call: _e.mock.On("DescribeVwConfigContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeVwConfigContext_Call) Run(run func(ctx context.Context, params *operations.DescribeVwConfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeVwConfigContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeVwConfigParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeVwConfigParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeVwConfigContext_Call) Return(describeVwConfigOK *operations.DescribeVwConfigOK, err error) *MockDwClientService_DescribeVwConfigContext_Call {
+	_c.Call.Return(describeVwConfigOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeVwConfigContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeVwConfigParams, opts ...operations.ClientOption) (*operations.DescribeVwConfigOK, error)) *MockDwClientService_DescribeVwConfigContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeVwContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeVwContext(ctx context.Context, params *operations.DescribeVwParams, opts ...operations.ClientOption) (*operations.DescribeVwOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeVwContext")
+	}
+
+	var r0 *operations.DescribeVwOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeVwParams, ...operations.ClientOption) (*operations.DescribeVwOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeVwParams, ...operations.ClientOption) *operations.DescribeVwOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeVwOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeVwParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeVwContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeVwContext'
+type MockDwClientService_DescribeVwContext_Call struct {
+	*mock.Call
+}
+
+// DescribeVwContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeVwParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeVwContext_Call {
+	return &MockDwClientService_DescribeVwContext_Call{Call: _e.mock.On("DescribeVwContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeVwContext_Call) Run(run func(ctx context.Context, params *operations.DescribeVwParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeVwContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeVwParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeVwParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeVwContext_Call) Return(describeVwOK *operations.DescribeVwOK, err error) *MockDwClientService_DescribeVwContext_Call {
+	_c.Call.Return(describeVwOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeVwContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeVwParams, opts ...operations.ClientOption) (*operations.DescribeVwOK, error)) *MockDwClientService_DescribeVwContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // DescribeVwDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeVwDiagnosticDataJob(params *operations.DescribeVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeVwDiagnosticDataJobOK, error) {
 	// operations.ClientOption
@@ -3759,6 +7676,93 @@ func (_c *MockDwClientService_DescribeVwDiagnosticDataJob_Call) Return(describeV
 }
 
 func (_c *MockDwClientService_DescribeVwDiagnosticDataJob_Call) RunAndReturn(run func(params *operations.DescribeVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeVwDiagnosticDataJobOK, error)) *MockDwClientService_DescribeVwDiagnosticDataJob_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// DescribeVwDiagnosticDataJobContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) DescribeVwDiagnosticDataJobContext(ctx context.Context, params *operations.DescribeVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeVwDiagnosticDataJobOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DescribeVwDiagnosticDataJobContext")
+	}
+
+	var r0 *operations.DescribeVwDiagnosticDataJobOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeVwDiagnosticDataJobParams, ...operations.ClientOption) (*operations.DescribeVwDiagnosticDataJobOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.DescribeVwDiagnosticDataJobParams, ...operations.ClientOption) *operations.DescribeVwDiagnosticDataJobOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.DescribeVwDiagnosticDataJobOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.DescribeVwDiagnosticDataJobParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_DescribeVwDiagnosticDataJobContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DescribeVwDiagnosticDataJobContext'
+type MockDwClientService_DescribeVwDiagnosticDataJobContext_Call struct {
+	*mock.Call
+}
+
+// DescribeVwDiagnosticDataJobContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.DescribeVwDiagnosticDataJobParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) DescribeVwDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call {
+	return &MockDwClientService_DescribeVwDiagnosticDataJobContext_Call{Call: _e.mock.On("DescribeVwDiagnosticDataJobContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DescribeVwDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.DescribeVwDiagnosticDataJobParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.DescribeVwDiagnosticDataJobParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call) Return(describeVwDiagnosticDataJobOK *operations.DescribeVwDiagnosticDataJobOK, err error) *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call {
+	_c.Call.Return(describeVwDiagnosticDataJobOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.DescribeVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeVwDiagnosticDataJobOK, error)) *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -3844,6 +7848,93 @@ func (_c *MockDwClientService_GetDataVisualizationUpgradeVersion_Call) RunAndRet
 	return _c
 }
 
+// GetDataVisualizationUpgradeVersionContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) GetDataVisualizationUpgradeVersionContext(ctx context.Context, params *operations.GetDataVisualizationUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetDataVisualizationUpgradeVersionOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetDataVisualizationUpgradeVersionContext")
+	}
+
+	var r0 *operations.GetDataVisualizationUpgradeVersionOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetDataVisualizationUpgradeVersionParams, ...operations.ClientOption) (*operations.GetDataVisualizationUpgradeVersionOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetDataVisualizationUpgradeVersionParams, ...operations.ClientOption) *operations.GetDataVisualizationUpgradeVersionOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetDataVisualizationUpgradeVersionOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetDataVisualizationUpgradeVersionParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetDataVisualizationUpgradeVersionContext'
+type MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call struct {
+	*mock.Call
+}
+
+// GetDataVisualizationUpgradeVersionContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetDataVisualizationUpgradeVersionParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) GetDataVisualizationUpgradeVersionContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call {
+	return &MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call{Call: _e.mock.On("GetDataVisualizationUpgradeVersionContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call) Run(run func(ctx context.Context, params *operations.GetDataVisualizationUpgradeVersionParams, opts ...operations.ClientOption)) *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetDataVisualizationUpgradeVersionParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetDataVisualizationUpgradeVersionParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call) Return(getDataVisualizationUpgradeVersionOK *operations.GetDataVisualizationUpgradeVersionOK, err error) *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call {
+	_c.Call.Return(getDataVisualizationUpgradeVersionOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetDataVisualizationUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetDataVisualizationUpgradeVersionOK, error)) *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetHueUpgradeVersion provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetHueUpgradeVersion(params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetHueUpgradeVersionOK, error) {
 	// operations.ClientOption
@@ -3921,6 +8012,93 @@ func (_c *MockDwClientService_GetHueUpgradeVersion_Call) Return(getHueUpgradeVer
 }
 
 func (_c *MockDwClientService_GetHueUpgradeVersion_Call) RunAndReturn(run func(params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetHueUpgradeVersionOK, error)) *MockDwClientService_GetHueUpgradeVersion_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetHueUpgradeVersionContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) GetHueUpgradeVersionContext(ctx context.Context, params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetHueUpgradeVersionOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetHueUpgradeVersionContext")
+	}
+
+	var r0 *operations.GetHueUpgradeVersionOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetHueUpgradeVersionParams, ...operations.ClientOption) (*operations.GetHueUpgradeVersionOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetHueUpgradeVersionParams, ...operations.ClientOption) *operations.GetHueUpgradeVersionOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetHueUpgradeVersionOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetHueUpgradeVersionParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_GetHueUpgradeVersionContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetHueUpgradeVersionContext'
+type MockDwClientService_GetHueUpgradeVersionContext_Call struct {
+	*mock.Call
+}
+
+// GetHueUpgradeVersionContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetHueUpgradeVersionParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) GetHueUpgradeVersionContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetHueUpgradeVersionContext_Call {
+	return &MockDwClientService_GetHueUpgradeVersionContext_Call{Call: _e.mock.On("GetHueUpgradeVersionContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_GetHueUpgradeVersionContext_Call) Run(run func(ctx context.Context, params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption)) *MockDwClientService_GetHueUpgradeVersionContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetHueUpgradeVersionParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetHueUpgradeVersionParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_GetHueUpgradeVersionContext_Call) Return(getHueUpgradeVersionOK *operations.GetHueUpgradeVersionOK, err error) *MockDwClientService_GetHueUpgradeVersionContext_Call {
+	_c.Call.Return(getHueUpgradeVersionOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_GetHueUpgradeVersionContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetHueUpgradeVersionOK, error)) *MockDwClientService_GetHueUpgradeVersionContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4006,6 +8184,93 @@ func (_c *MockDwClientService_GetK8sCertJKS_Call) RunAndReturn(run func(params *
 	return _c
 }
 
+// GetK8sCertJKSContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) GetK8sCertJKSContext(ctx context.Context, params *operations.GetK8sCertJKSParams, opts ...operations.ClientOption) (*operations.GetK8sCertJKSOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetK8sCertJKSContext")
+	}
+
+	var r0 *operations.GetK8sCertJKSOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetK8sCertJKSParams, ...operations.ClientOption) (*operations.GetK8sCertJKSOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetK8sCertJKSParams, ...operations.ClientOption) *operations.GetK8sCertJKSOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetK8sCertJKSOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetK8sCertJKSParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_GetK8sCertJKSContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetK8sCertJKSContext'
+type MockDwClientService_GetK8sCertJKSContext_Call struct {
+	*mock.Call
+}
+
+// GetK8sCertJKSContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetK8sCertJKSParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) GetK8sCertJKSContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetK8sCertJKSContext_Call {
+	return &MockDwClientService_GetK8sCertJKSContext_Call{Call: _e.mock.On("GetK8sCertJKSContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_GetK8sCertJKSContext_Call) Run(run func(ctx context.Context, params *operations.GetK8sCertJKSParams, opts ...operations.ClientOption)) *MockDwClientService_GetK8sCertJKSContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetK8sCertJKSParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetK8sCertJKSParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_GetK8sCertJKSContext_Call) Return(getK8sCertJKSOK *operations.GetK8sCertJKSOK, err error) *MockDwClientService_GetK8sCertJKSContext_Call {
+	_c.Call.Return(getK8sCertJKSOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_GetK8sCertJKSContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetK8sCertJKSParams, opts ...operations.ClientOption) (*operations.GetK8sCertJKSOK, error)) *MockDwClientService_GetK8sCertJKSContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetK8sCertPEM provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetK8sCertPEM(params *operations.GetK8sCertPEMParams, opts ...operations.ClientOption) (*operations.GetK8sCertPEMOK, error) {
 	// operations.ClientOption
@@ -4083,6 +8348,93 @@ func (_c *MockDwClientService_GetK8sCertPEM_Call) Return(getK8sCertPEMOK *operat
 }
 
 func (_c *MockDwClientService_GetK8sCertPEM_Call) RunAndReturn(run func(params *operations.GetK8sCertPEMParams, opts ...operations.ClientOption) (*operations.GetK8sCertPEMOK, error)) *MockDwClientService_GetK8sCertPEM_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetK8sCertPEMContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) GetK8sCertPEMContext(ctx context.Context, params *operations.GetK8sCertPEMParams, opts ...operations.ClientOption) (*operations.GetK8sCertPEMOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetK8sCertPEMContext")
+	}
+
+	var r0 *operations.GetK8sCertPEMOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetK8sCertPEMParams, ...operations.ClientOption) (*operations.GetK8sCertPEMOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetK8sCertPEMParams, ...operations.ClientOption) *operations.GetK8sCertPEMOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetK8sCertPEMOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetK8sCertPEMParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_GetK8sCertPEMContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetK8sCertPEMContext'
+type MockDwClientService_GetK8sCertPEMContext_Call struct {
+	*mock.Call
+}
+
+// GetK8sCertPEMContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetK8sCertPEMParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) GetK8sCertPEMContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetK8sCertPEMContext_Call {
+	return &MockDwClientService_GetK8sCertPEMContext_Call{Call: _e.mock.On("GetK8sCertPEMContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_GetK8sCertPEMContext_Call) Run(run func(ctx context.Context, params *operations.GetK8sCertPEMParams, opts ...operations.ClientOption)) *MockDwClientService_GetK8sCertPEMContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetK8sCertPEMParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetK8sCertPEMParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_GetK8sCertPEMContext_Call) Return(getK8sCertPEMOK *operations.GetK8sCertPEMOK, err error) *MockDwClientService_GetK8sCertPEMContext_Call {
+	_c.Call.Return(getK8sCertPEMOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_GetK8sCertPEMContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetK8sCertPEMParams, opts ...operations.ClientOption) (*operations.GetK8sCertPEMOK, error)) *MockDwClientService_GetK8sCertPEMContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4168,6 +8520,93 @@ func (_c *MockDwClientService_GetLogs_Call) RunAndReturn(run func(params *operat
 	return _c
 }
 
+// GetLogsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) GetLogsContext(ctx context.Context, params *operations.GetLogsParams, opts ...operations.ClientOption) (*operations.GetLogsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetLogsContext")
+	}
+
+	var r0 *operations.GetLogsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetLogsParams, ...operations.ClientOption) (*operations.GetLogsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetLogsParams, ...operations.ClientOption) *operations.GetLogsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetLogsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetLogsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_GetLogsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetLogsContext'
+type MockDwClientService_GetLogsContext_Call struct {
+	*mock.Call
+}
+
+// GetLogsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetLogsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) GetLogsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetLogsContext_Call {
+	return &MockDwClientService_GetLogsContext_Call{Call: _e.mock.On("GetLogsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_GetLogsContext_Call) Run(run func(ctx context.Context, params *operations.GetLogsParams, opts ...operations.ClientOption)) *MockDwClientService_GetLogsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetLogsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetLogsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_GetLogsContext_Call) Return(getLogsOK *operations.GetLogsOK, err error) *MockDwClientService_GetLogsContext_Call {
+	_c.Call.Return(getLogsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_GetLogsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetLogsParams, opts ...operations.ClientOption) (*operations.GetLogsOK, error)) *MockDwClientService_GetLogsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetUpgradeDbcVersions provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetUpgradeDbcVersions(params *operations.GetUpgradeDbcVersionsParams, opts ...operations.ClientOption) (*operations.GetUpgradeDbcVersionsOK, error) {
 	// operations.ClientOption
@@ -4245,6 +8684,93 @@ func (_c *MockDwClientService_GetUpgradeDbcVersions_Call) Return(getUpgradeDbcVe
 }
 
 func (_c *MockDwClientService_GetUpgradeDbcVersions_Call) RunAndReturn(run func(params *operations.GetUpgradeDbcVersionsParams, opts ...operations.ClientOption) (*operations.GetUpgradeDbcVersionsOK, error)) *MockDwClientService_GetUpgradeDbcVersions_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetUpgradeDbcVersionsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) GetUpgradeDbcVersionsContext(ctx context.Context, params *operations.GetUpgradeDbcVersionsParams, opts ...operations.ClientOption) (*operations.GetUpgradeDbcVersionsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetUpgradeDbcVersionsContext")
+	}
+
+	var r0 *operations.GetUpgradeDbcVersionsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetUpgradeDbcVersionsParams, ...operations.ClientOption) (*operations.GetUpgradeDbcVersionsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetUpgradeDbcVersionsParams, ...operations.ClientOption) *operations.GetUpgradeDbcVersionsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetUpgradeDbcVersionsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetUpgradeDbcVersionsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_GetUpgradeDbcVersionsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetUpgradeDbcVersionsContext'
+type MockDwClientService_GetUpgradeDbcVersionsContext_Call struct {
+	*mock.Call
+}
+
+// GetUpgradeDbcVersionsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetUpgradeDbcVersionsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) GetUpgradeDbcVersionsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetUpgradeDbcVersionsContext_Call {
+	return &MockDwClientService_GetUpgradeDbcVersionsContext_Call{Call: _e.mock.On("GetUpgradeDbcVersionsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_GetUpgradeDbcVersionsContext_Call) Run(run func(ctx context.Context, params *operations.GetUpgradeDbcVersionsParams, opts ...operations.ClientOption)) *MockDwClientService_GetUpgradeDbcVersionsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetUpgradeDbcVersionsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetUpgradeDbcVersionsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_GetUpgradeDbcVersionsContext_Call) Return(getUpgradeDbcVersionsOK *operations.GetUpgradeDbcVersionsOK, err error) *MockDwClientService_GetUpgradeDbcVersionsContext_Call {
+	_c.Call.Return(getUpgradeDbcVersionsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_GetUpgradeDbcVersionsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetUpgradeDbcVersionsParams, opts ...operations.ClientOption) (*operations.GetUpgradeDbcVersionsOK, error)) *MockDwClientService_GetUpgradeDbcVersionsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4330,6 +8856,93 @@ func (_c *MockDwClientService_GetUpgradeVwVersions_Call) RunAndReturn(run func(p
 	return _c
 }
 
+// GetUpgradeVwVersionsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) GetUpgradeVwVersionsContext(ctx context.Context, params *operations.GetUpgradeVwVersionsParams, opts ...operations.ClientOption) (*operations.GetUpgradeVwVersionsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetUpgradeVwVersionsContext")
+	}
+
+	var r0 *operations.GetUpgradeVwVersionsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetUpgradeVwVersionsParams, ...operations.ClientOption) (*operations.GetUpgradeVwVersionsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.GetUpgradeVwVersionsParams, ...operations.ClientOption) *operations.GetUpgradeVwVersionsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.GetUpgradeVwVersionsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.GetUpgradeVwVersionsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_GetUpgradeVwVersionsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetUpgradeVwVersionsContext'
+type MockDwClientService_GetUpgradeVwVersionsContext_Call struct {
+	*mock.Call
+}
+
+// GetUpgradeVwVersionsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.GetUpgradeVwVersionsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) GetUpgradeVwVersionsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetUpgradeVwVersionsContext_Call {
+	return &MockDwClientService_GetUpgradeVwVersionsContext_Call{Call: _e.mock.On("GetUpgradeVwVersionsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_GetUpgradeVwVersionsContext_Call) Run(run func(ctx context.Context, params *operations.GetUpgradeVwVersionsParams, opts ...operations.ClientOption)) *MockDwClientService_GetUpgradeVwVersionsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.GetUpgradeVwVersionsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.GetUpgradeVwVersionsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_GetUpgradeVwVersionsContext_Call) Return(getUpgradeVwVersionsOK *operations.GetUpgradeVwVersionsOK, err error) *MockDwClientService_GetUpgradeVwVersionsContext_Call {
+	_c.Call.Return(getUpgradeVwVersionsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_GetUpgradeVwVersionsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.GetUpgradeVwVersionsParams, opts ...operations.ClientOption) (*operations.GetUpgradeVwVersionsOK, error)) *MockDwClientService_GetUpgradeVwVersionsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // HealthCheck provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) HealthCheck(params *operations.HealthCheckParams, opts ...operations.ClientOption) (*operations.HealthCheckOK, error) {
 	// operations.ClientOption
@@ -4407,6 +9020,93 @@ func (_c *MockDwClientService_HealthCheck_Call) Return(healthCheckOK *operations
 }
 
 func (_c *MockDwClientService_HealthCheck_Call) RunAndReturn(run func(params *operations.HealthCheckParams, opts ...operations.ClientOption) (*operations.HealthCheckOK, error)) *MockDwClientService_HealthCheck_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// HealthCheckContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) HealthCheckContext(ctx context.Context, params *operations.HealthCheckParams, opts ...operations.ClientOption) (*operations.HealthCheckOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for HealthCheckContext")
+	}
+
+	var r0 *operations.HealthCheckOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.HealthCheckParams, ...operations.ClientOption) (*operations.HealthCheckOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.HealthCheckParams, ...operations.ClientOption) *operations.HealthCheckOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.HealthCheckOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.HealthCheckParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_HealthCheckContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'HealthCheckContext'
+type MockDwClientService_HealthCheckContext_Call struct {
+	*mock.Call
+}
+
+// HealthCheckContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.HealthCheckParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) HealthCheckContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_HealthCheckContext_Call {
+	return &MockDwClientService_HealthCheckContext_Call{Call: _e.mock.On("HealthCheckContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_HealthCheckContext_Call) Run(run func(ctx context.Context, params *operations.HealthCheckParams, opts ...operations.ClientOption)) *MockDwClientService_HealthCheckContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.HealthCheckParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.HealthCheckParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_HealthCheckContext_Call) Return(healthCheckOK *operations.HealthCheckOK, err error) *MockDwClientService_HealthCheckContext_Call {
+	_c.Call.Return(healthCheckOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_HealthCheckContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.HealthCheckParams, opts ...operations.ClientOption) (*operations.HealthCheckOK, error)) *MockDwClientService_HealthCheckContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4492,6 +9192,93 @@ func (_c *MockDwClientService_ListBackupEntities_Call) RunAndReturn(run func(par
 	return _c
 }
 
+// ListBackupEntitiesContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListBackupEntitiesContext(ctx context.Context, params *operations.ListBackupEntitiesParams, opts ...operations.ClientOption) (*operations.ListBackupEntitiesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListBackupEntitiesContext")
+	}
+
+	var r0 *operations.ListBackupEntitiesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListBackupEntitiesParams, ...operations.ClientOption) (*operations.ListBackupEntitiesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListBackupEntitiesParams, ...operations.ClientOption) *operations.ListBackupEntitiesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListBackupEntitiesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListBackupEntitiesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListBackupEntitiesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListBackupEntitiesContext'
+type MockDwClientService_ListBackupEntitiesContext_Call struct {
+	*mock.Call
+}
+
+// ListBackupEntitiesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListBackupEntitiesParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListBackupEntitiesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListBackupEntitiesContext_Call {
+	return &MockDwClientService_ListBackupEntitiesContext_Call{Call: _e.mock.On("ListBackupEntitiesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListBackupEntitiesContext_Call) Run(run func(ctx context.Context, params *operations.ListBackupEntitiesParams, opts ...operations.ClientOption)) *MockDwClientService_ListBackupEntitiesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListBackupEntitiesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListBackupEntitiesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListBackupEntitiesContext_Call) Return(listBackupEntitiesOK *operations.ListBackupEntitiesOK, err error) *MockDwClientService_ListBackupEntitiesContext_Call {
+	_c.Call.Return(listBackupEntitiesOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListBackupEntitiesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListBackupEntitiesParams, opts ...operations.ClientOption) (*operations.ListBackupEntitiesOK, error)) *MockDwClientService_ListBackupEntitiesContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListBackups provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListBackups(params *operations.ListBackupsParams, opts ...operations.ClientOption) (*operations.ListBackupsOK, error) {
 	// operations.ClientOption
@@ -4569,6 +9356,93 @@ func (_c *MockDwClientService_ListBackups_Call) Return(listBackupsOK *operations
 }
 
 func (_c *MockDwClientService_ListBackups_Call) RunAndReturn(run func(params *operations.ListBackupsParams, opts ...operations.ClientOption) (*operations.ListBackupsOK, error)) *MockDwClientService_ListBackups_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListBackupsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListBackupsContext(ctx context.Context, params *operations.ListBackupsParams, opts ...operations.ClientOption) (*operations.ListBackupsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListBackupsContext")
+	}
+
+	var r0 *operations.ListBackupsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListBackupsParams, ...operations.ClientOption) (*operations.ListBackupsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListBackupsParams, ...operations.ClientOption) *operations.ListBackupsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListBackupsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListBackupsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListBackupsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListBackupsContext'
+type MockDwClientService_ListBackupsContext_Call struct {
+	*mock.Call
+}
+
+// ListBackupsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListBackupsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListBackupsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListBackupsContext_Call {
+	return &MockDwClientService_ListBackupsContext_Call{Call: _e.mock.On("ListBackupsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListBackupsContext_Call) Run(run func(ctx context.Context, params *operations.ListBackupsParams, opts ...operations.ClientOption)) *MockDwClientService_ListBackupsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListBackupsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListBackupsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListBackupsContext_Call) Return(listBackupsOK *operations.ListBackupsOK, err error) *MockDwClientService_ListBackupsContext_Call {
+	_c.Call.Return(listBackupsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListBackupsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListBackupsParams, opts ...operations.ClientOption) (*operations.ListBackupsOK, error)) *MockDwClientService_ListBackupsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4654,6 +9528,93 @@ func (_c *MockDwClientService_ListClusterDiagnosticDataJobs_Call) RunAndReturn(r
 	return _c
 }
 
+// ListClusterDiagnosticDataJobsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListClusterDiagnosticDataJobsContext(ctx context.Context, params *operations.ListClusterDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListClusterDiagnosticDataJobsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListClusterDiagnosticDataJobsContext")
+	}
+
+	var r0 *operations.ListClusterDiagnosticDataJobsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListClusterDiagnosticDataJobsParams, ...operations.ClientOption) (*operations.ListClusterDiagnosticDataJobsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListClusterDiagnosticDataJobsParams, ...operations.ClientOption) *operations.ListClusterDiagnosticDataJobsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListClusterDiagnosticDataJobsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListClusterDiagnosticDataJobsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListClusterDiagnosticDataJobsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListClusterDiagnosticDataJobsContext'
+type MockDwClientService_ListClusterDiagnosticDataJobsContext_Call struct {
+	*mock.Call
+}
+
+// ListClusterDiagnosticDataJobsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListClusterDiagnosticDataJobsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListClusterDiagnosticDataJobsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call {
+	return &MockDwClientService_ListClusterDiagnosticDataJobsContext_Call{Call: _e.mock.On("ListClusterDiagnosticDataJobsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call) Run(run func(ctx context.Context, params *operations.ListClusterDiagnosticDataJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListClusterDiagnosticDataJobsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListClusterDiagnosticDataJobsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call) Return(listClusterDiagnosticDataJobsOK *operations.ListClusterDiagnosticDataJobsOK, err error) *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call {
+	_c.Call.Return(listClusterDiagnosticDataJobsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListClusterDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListClusterDiagnosticDataJobsOK, error)) *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListClusters provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListClusters(params *operations.ListClustersParams, opts ...operations.ClientOption) (*operations.ListClustersOK, error) {
 	// operations.ClientOption
@@ -4731,6 +9692,93 @@ func (_c *MockDwClientService_ListClusters_Call) Return(listClustersOK *operatio
 }
 
 func (_c *MockDwClientService_ListClusters_Call) RunAndReturn(run func(params *operations.ListClustersParams, opts ...operations.ClientOption) (*operations.ListClustersOK, error)) *MockDwClientService_ListClusters_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListClustersContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListClustersContext(ctx context.Context, params *operations.ListClustersParams, opts ...operations.ClientOption) (*operations.ListClustersOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListClustersContext")
+	}
+
+	var r0 *operations.ListClustersOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListClustersParams, ...operations.ClientOption) (*operations.ListClustersOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListClustersParams, ...operations.ClientOption) *operations.ListClustersOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListClustersOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListClustersParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListClustersContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListClustersContext'
+type MockDwClientService_ListClustersContext_Call struct {
+	*mock.Call
+}
+
+// ListClustersContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListClustersParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListClustersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListClustersContext_Call {
+	return &MockDwClientService_ListClustersContext_Call{Call: _e.mock.On("ListClustersContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListClustersContext_Call) Run(run func(ctx context.Context, params *operations.ListClustersParams, opts ...operations.ClientOption)) *MockDwClientService_ListClustersContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListClustersParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListClustersParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListClustersContext_Call) Return(listClustersOK *operations.ListClustersOK, err error) *MockDwClientService_ListClustersContext_Call {
+	_c.Call.Return(listClustersOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListClustersContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListClustersParams, opts ...operations.ClientOption) (*operations.ListClustersOK, error)) *MockDwClientService_ListClustersContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4816,6 +9864,93 @@ func (_c *MockDwClientService_ListConnectors_Call) RunAndReturn(run func(params 
 	return _c
 }
 
+// ListConnectorsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListConnectorsContext(ctx context.Context, params *operations.ListConnectorsParams, opts ...operations.ClientOption) (*operations.ListConnectorsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListConnectorsContext")
+	}
+
+	var r0 *operations.ListConnectorsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListConnectorsParams, ...operations.ClientOption) (*operations.ListConnectorsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListConnectorsParams, ...operations.ClientOption) *operations.ListConnectorsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListConnectorsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListConnectorsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListConnectorsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListConnectorsContext'
+type MockDwClientService_ListConnectorsContext_Call struct {
+	*mock.Call
+}
+
+// ListConnectorsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListConnectorsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListConnectorsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListConnectorsContext_Call {
+	return &MockDwClientService_ListConnectorsContext_Call{Call: _e.mock.On("ListConnectorsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListConnectorsContext_Call) Run(run func(ctx context.Context, params *operations.ListConnectorsParams, opts ...operations.ClientOption)) *MockDwClientService_ListConnectorsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListConnectorsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListConnectorsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListConnectorsContext_Call) Return(listConnectorsOK *operations.ListConnectorsOK, err error) *MockDwClientService_ListConnectorsContext_Call {
+	_c.Call.Return(listConnectorsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListConnectorsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListConnectorsParams, opts ...operations.ClientOption) (*operations.ListConnectorsOK, error)) *MockDwClientService_ListConnectorsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListDataVisualizations provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDataVisualizations(params *operations.ListDataVisualizationsParams, opts ...operations.ClientOption) (*operations.ListDataVisualizationsOK, error) {
 	// operations.ClientOption
@@ -4893,6 +10028,93 @@ func (_c *MockDwClientService_ListDataVisualizations_Call) Return(listDataVisual
 }
 
 func (_c *MockDwClientService_ListDataVisualizations_Call) RunAndReturn(run func(params *operations.ListDataVisualizationsParams, opts ...operations.ClientOption) (*operations.ListDataVisualizationsOK, error)) *MockDwClientService_ListDataVisualizations_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListDataVisualizationsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListDataVisualizationsContext(ctx context.Context, params *operations.ListDataVisualizationsParams, opts ...operations.ClientOption) (*operations.ListDataVisualizationsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListDataVisualizationsContext")
+	}
+
+	var r0 *operations.ListDataVisualizationsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListDataVisualizationsParams, ...operations.ClientOption) (*operations.ListDataVisualizationsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListDataVisualizationsParams, ...operations.ClientOption) *operations.ListDataVisualizationsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListDataVisualizationsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListDataVisualizationsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListDataVisualizationsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListDataVisualizationsContext'
+type MockDwClientService_ListDataVisualizationsContext_Call struct {
+	*mock.Call
+}
+
+// ListDataVisualizationsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListDataVisualizationsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListDataVisualizationsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListDataVisualizationsContext_Call {
+	return &MockDwClientService_ListDataVisualizationsContext_Call{Call: _e.mock.On("ListDataVisualizationsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListDataVisualizationsContext_Call) Run(run func(ctx context.Context, params *operations.ListDataVisualizationsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDataVisualizationsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListDataVisualizationsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListDataVisualizationsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListDataVisualizationsContext_Call) Return(listDataVisualizationsOK *operations.ListDataVisualizationsOK, err error) *MockDwClientService_ListDataVisualizationsContext_Call {
+	_c.Call.Return(listDataVisualizationsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListDataVisualizationsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListDataVisualizationsParams, opts ...operations.ClientOption) (*operations.ListDataVisualizationsOK, error)) *MockDwClientService_ListDataVisualizationsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -4978,6 +10200,93 @@ func (_c *MockDwClientService_ListDbcConfigs_Call) RunAndReturn(run func(params 
 	return _c
 }
 
+// ListDbcConfigsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListDbcConfigsContext(ctx context.Context, params *operations.ListDbcConfigsParams, opts ...operations.ClientOption) (*operations.ListDbcConfigsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListDbcConfigsContext")
+	}
+
+	var r0 *operations.ListDbcConfigsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListDbcConfigsParams, ...operations.ClientOption) (*operations.ListDbcConfigsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListDbcConfigsParams, ...operations.ClientOption) *operations.ListDbcConfigsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListDbcConfigsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListDbcConfigsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListDbcConfigsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListDbcConfigsContext'
+type MockDwClientService_ListDbcConfigsContext_Call struct {
+	*mock.Call
+}
+
+// ListDbcConfigsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListDbcConfigsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListDbcConfigsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListDbcConfigsContext_Call {
+	return &MockDwClientService_ListDbcConfigsContext_Call{Call: _e.mock.On("ListDbcConfigsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListDbcConfigsContext_Call) Run(run func(ctx context.Context, params *operations.ListDbcConfigsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcConfigsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListDbcConfigsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListDbcConfigsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListDbcConfigsContext_Call) Return(listDbcConfigsOK *operations.ListDbcConfigsOK, err error) *MockDwClientService_ListDbcConfigsContext_Call {
+	_c.Call.Return(listDbcConfigsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListDbcConfigsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListDbcConfigsParams, opts ...operations.ClientOption) (*operations.ListDbcConfigsOK, error)) *MockDwClientService_ListDbcConfigsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListDbcDiagnosticDataJobs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDbcDiagnosticDataJobs(params *operations.ListDbcDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListDbcDiagnosticDataJobsOK, error) {
 	// operations.ClientOption
@@ -5055,6 +10364,93 @@ func (_c *MockDwClientService_ListDbcDiagnosticDataJobs_Call) Return(listDbcDiag
 }
 
 func (_c *MockDwClientService_ListDbcDiagnosticDataJobs_Call) RunAndReturn(run func(params *operations.ListDbcDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListDbcDiagnosticDataJobsOK, error)) *MockDwClientService_ListDbcDiagnosticDataJobs_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListDbcDiagnosticDataJobsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListDbcDiagnosticDataJobsContext(ctx context.Context, params *operations.ListDbcDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListDbcDiagnosticDataJobsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListDbcDiagnosticDataJobsContext")
+	}
+
+	var r0 *operations.ListDbcDiagnosticDataJobsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListDbcDiagnosticDataJobsParams, ...operations.ClientOption) (*operations.ListDbcDiagnosticDataJobsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListDbcDiagnosticDataJobsParams, ...operations.ClientOption) *operations.ListDbcDiagnosticDataJobsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListDbcDiagnosticDataJobsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListDbcDiagnosticDataJobsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListDbcDiagnosticDataJobsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListDbcDiagnosticDataJobsContext'
+type MockDwClientService_ListDbcDiagnosticDataJobsContext_Call struct {
+	*mock.Call
+}
+
+// ListDbcDiagnosticDataJobsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListDbcDiagnosticDataJobsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListDbcDiagnosticDataJobsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call {
+	return &MockDwClientService_ListDbcDiagnosticDataJobsContext_Call{Call: _e.mock.On("ListDbcDiagnosticDataJobsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call) Run(run func(ctx context.Context, params *operations.ListDbcDiagnosticDataJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListDbcDiagnosticDataJobsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListDbcDiagnosticDataJobsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call) Return(listDbcDiagnosticDataJobsOK *operations.ListDbcDiagnosticDataJobsOK, err error) *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call {
+	_c.Call.Return(listDbcDiagnosticDataJobsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListDbcDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListDbcDiagnosticDataJobsOK, error)) *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5140,6 +10536,93 @@ func (_c *MockDwClientService_ListDbcEvents_Call) RunAndReturn(run func(params *
 	return _c
 }
 
+// ListDbcEventsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListDbcEventsContext(ctx context.Context, params *operations.ListDbcEventsParams, opts ...operations.ClientOption) (*operations.ListDbcEventsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListDbcEventsContext")
+	}
+
+	var r0 *operations.ListDbcEventsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListDbcEventsParams, ...operations.ClientOption) (*operations.ListDbcEventsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListDbcEventsParams, ...operations.ClientOption) *operations.ListDbcEventsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListDbcEventsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListDbcEventsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListDbcEventsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListDbcEventsContext'
+type MockDwClientService_ListDbcEventsContext_Call struct {
+	*mock.Call
+}
+
+// ListDbcEventsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListDbcEventsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListDbcEventsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListDbcEventsContext_Call {
+	return &MockDwClientService_ListDbcEventsContext_Call{Call: _e.mock.On("ListDbcEventsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListDbcEventsContext_Call) Run(run func(ctx context.Context, params *operations.ListDbcEventsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcEventsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListDbcEventsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListDbcEventsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListDbcEventsContext_Call) Return(listDbcEventsOK *operations.ListDbcEventsOK, err error) *MockDwClientService_ListDbcEventsContext_Call {
+	_c.Call.Return(listDbcEventsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListDbcEventsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListDbcEventsParams, opts ...operations.ClientOption) (*operations.ListDbcEventsOK, error)) *MockDwClientService_ListDbcEventsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListDbcs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDbcs(params *operations.ListDbcsParams, opts ...operations.ClientOption) (*operations.ListDbcsOK, error) {
 	// operations.ClientOption
@@ -5217,6 +10700,93 @@ func (_c *MockDwClientService_ListDbcs_Call) Return(listDbcsOK *operations.ListD
 }
 
 func (_c *MockDwClientService_ListDbcs_Call) RunAndReturn(run func(params *operations.ListDbcsParams, opts ...operations.ClientOption) (*operations.ListDbcsOK, error)) *MockDwClientService_ListDbcs_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListDbcsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListDbcsContext(ctx context.Context, params *operations.ListDbcsParams, opts ...operations.ClientOption) (*operations.ListDbcsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListDbcsContext")
+	}
+
+	var r0 *operations.ListDbcsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListDbcsParams, ...operations.ClientOption) (*operations.ListDbcsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListDbcsParams, ...operations.ClientOption) *operations.ListDbcsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListDbcsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListDbcsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListDbcsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListDbcsContext'
+type MockDwClientService_ListDbcsContext_Call struct {
+	*mock.Call
+}
+
+// ListDbcsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListDbcsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListDbcsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListDbcsContext_Call {
+	return &MockDwClientService_ListDbcsContext_Call{Call: _e.mock.On("ListDbcsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListDbcsContext_Call) Run(run func(ctx context.Context, params *operations.ListDbcsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListDbcsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListDbcsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListDbcsContext_Call) Return(listDbcsOK *operations.ListDbcsOK, err error) *MockDwClientService_ListDbcsContext_Call {
+	_c.Call.Return(listDbcsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListDbcsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListDbcsParams, opts ...operations.ClientOption) (*operations.ListDbcsOK, error)) *MockDwClientService_ListDbcsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5302,6 +10872,93 @@ func (_c *MockDwClientService_ListEvents_Call) RunAndReturn(run func(params *ope
 	return _c
 }
 
+// ListEventsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListEventsContext(ctx context.Context, params *operations.ListEventsParams, opts ...operations.ClientOption) (*operations.ListEventsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListEventsContext")
+	}
+
+	var r0 *operations.ListEventsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListEventsParams, ...operations.ClientOption) (*operations.ListEventsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListEventsParams, ...operations.ClientOption) *operations.ListEventsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListEventsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListEventsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListEventsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListEventsContext'
+type MockDwClientService_ListEventsContext_Call struct {
+	*mock.Call
+}
+
+// ListEventsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListEventsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListEventsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListEventsContext_Call {
+	return &MockDwClientService_ListEventsContext_Call{Call: _e.mock.On("ListEventsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListEventsContext_Call) Run(run func(ctx context.Context, params *operations.ListEventsParams, opts ...operations.ClientOption)) *MockDwClientService_ListEventsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListEventsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListEventsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListEventsContext_Call) Return(listEventsOK *operations.ListEventsOK, err error) *MockDwClientService_ListEventsContext_Call {
+	_c.Call.Return(listEventsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListEventsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListEventsParams, opts ...operations.ClientOption) (*operations.ListEventsOK, error)) *MockDwClientService_ListEventsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListHues provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListHues(params *operations.ListHuesParams, opts ...operations.ClientOption) (*operations.ListHuesOK, error) {
 	// operations.ClientOption
@@ -5379,6 +11036,93 @@ func (_c *MockDwClientService_ListHues_Call) Return(listHuesOK *operations.ListH
 }
 
 func (_c *MockDwClientService_ListHues_Call) RunAndReturn(run func(params *operations.ListHuesParams, opts ...operations.ClientOption) (*operations.ListHuesOK, error)) *MockDwClientService_ListHues_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListHuesContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListHuesContext(ctx context.Context, params *operations.ListHuesParams, opts ...operations.ClientOption) (*operations.ListHuesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListHuesContext")
+	}
+
+	var r0 *operations.ListHuesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListHuesParams, ...operations.ClientOption) (*operations.ListHuesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListHuesParams, ...operations.ClientOption) *operations.ListHuesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListHuesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListHuesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListHuesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListHuesContext'
+type MockDwClientService_ListHuesContext_Call struct {
+	*mock.Call
+}
+
+// ListHuesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListHuesParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListHuesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListHuesContext_Call {
+	return &MockDwClientService_ListHuesContext_Call{Call: _e.mock.On("ListHuesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListHuesContext_Call) Run(run func(ctx context.Context, params *operations.ListHuesParams, opts ...operations.ClientOption)) *MockDwClientService_ListHuesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListHuesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListHuesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListHuesContext_Call) Return(listHuesOK *operations.ListHuesOK, err error) *MockDwClientService_ListHuesContext_Call {
+	_c.Call.Return(listHuesOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListHuesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListHuesParams, opts ...operations.ClientOption) (*operations.ListHuesOK, error)) *MockDwClientService_ListHuesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5464,6 +11208,93 @@ func (_c *MockDwClientService_ListLatestVersions_Call) RunAndReturn(run func(par
 	return _c
 }
 
+// ListLatestVersionsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListLatestVersionsContext(ctx context.Context, params *operations.ListLatestVersionsParams, opts ...operations.ClientOption) (*operations.ListLatestVersionsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListLatestVersionsContext")
+	}
+
+	var r0 *operations.ListLatestVersionsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListLatestVersionsParams, ...operations.ClientOption) (*operations.ListLatestVersionsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListLatestVersionsParams, ...operations.ClientOption) *operations.ListLatestVersionsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListLatestVersionsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListLatestVersionsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListLatestVersionsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListLatestVersionsContext'
+type MockDwClientService_ListLatestVersionsContext_Call struct {
+	*mock.Call
+}
+
+// ListLatestVersionsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListLatestVersionsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListLatestVersionsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListLatestVersionsContext_Call {
+	return &MockDwClientService_ListLatestVersionsContext_Call{Call: _e.mock.On("ListLatestVersionsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListLatestVersionsContext_Call) Run(run func(ctx context.Context, params *operations.ListLatestVersionsParams, opts ...operations.ClientOption)) *MockDwClientService_ListLatestVersionsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListLatestVersionsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListLatestVersionsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListLatestVersionsContext_Call) Return(listLatestVersionsOK *operations.ListLatestVersionsOK, err error) *MockDwClientService_ListLatestVersionsContext_Call {
+	_c.Call.Return(listLatestVersionsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListLatestVersionsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListLatestVersionsParams, opts ...operations.ClientOption) (*operations.ListLatestVersionsOK, error)) *MockDwClientService_ListLatestVersionsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListResourceTemplates provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListResourceTemplates(params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption) (*operations.ListResourceTemplatesOK, error) {
 	// operations.ClientOption
@@ -5541,6 +11372,93 @@ func (_c *MockDwClientService_ListResourceTemplates_Call) Return(listResourceTem
 }
 
 func (_c *MockDwClientService_ListResourceTemplates_Call) RunAndReturn(run func(params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption) (*operations.ListResourceTemplatesOK, error)) *MockDwClientService_ListResourceTemplates_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListResourceTemplatesContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListResourceTemplatesContext(ctx context.Context, params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption) (*operations.ListResourceTemplatesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListResourceTemplatesContext")
+	}
+
+	var r0 *operations.ListResourceTemplatesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListResourceTemplatesParams, ...operations.ClientOption) (*operations.ListResourceTemplatesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListResourceTemplatesParams, ...operations.ClientOption) *operations.ListResourceTemplatesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListResourceTemplatesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListResourceTemplatesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListResourceTemplatesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListResourceTemplatesContext'
+type MockDwClientService_ListResourceTemplatesContext_Call struct {
+	*mock.Call
+}
+
+// ListResourceTemplatesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListResourceTemplatesParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListResourceTemplatesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListResourceTemplatesContext_Call {
+	return &MockDwClientService_ListResourceTemplatesContext_Call{Call: _e.mock.On("ListResourceTemplatesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListResourceTemplatesContext_Call) Run(run func(ctx context.Context, params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption)) *MockDwClientService_ListResourceTemplatesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListResourceTemplatesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListResourceTemplatesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListResourceTemplatesContext_Call) Return(listResourceTemplatesOK *operations.ListResourceTemplatesOK, err error) *MockDwClientService_ListResourceTemplatesContext_Call {
+	_c.Call.Return(listResourceTemplatesOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListResourceTemplatesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption) (*operations.ListResourceTemplatesOK, error)) *MockDwClientService_ListResourceTemplatesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5626,6 +11544,93 @@ func (_c *MockDwClientService_ListRestores_Call) RunAndReturn(run func(params *o
 	return _c
 }
 
+// ListRestoresContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListRestoresContext(ctx context.Context, params *operations.ListRestoresParams, opts ...operations.ClientOption) (*operations.ListRestoresOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListRestoresContext")
+	}
+
+	var r0 *operations.ListRestoresOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListRestoresParams, ...operations.ClientOption) (*operations.ListRestoresOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListRestoresParams, ...operations.ClientOption) *operations.ListRestoresOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListRestoresOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListRestoresParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListRestoresContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListRestoresContext'
+type MockDwClientService_ListRestoresContext_Call struct {
+	*mock.Call
+}
+
+// ListRestoresContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListRestoresParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListRestoresContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListRestoresContext_Call {
+	return &MockDwClientService_ListRestoresContext_Call{Call: _e.mock.On("ListRestoresContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListRestoresContext_Call) Run(run func(ctx context.Context, params *operations.ListRestoresParams, opts ...operations.ClientOption)) *MockDwClientService_ListRestoresContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListRestoresParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListRestoresParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListRestoresContext_Call) Return(listRestoresOK *operations.ListRestoresOK, err error) *MockDwClientService_ListRestoresContext_Call {
+	_c.Call.Return(listRestoresOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListRestoresContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListRestoresParams, opts ...operations.ClientOption) (*operations.ListRestoresOK, error)) *MockDwClientService_ListRestoresContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListSecrets provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListSecrets(params *operations.ListSecretsParams, opts ...operations.ClientOption) (*operations.ListSecretsOK, error) {
 	// operations.ClientOption
@@ -5703,6 +11708,93 @@ func (_c *MockDwClientService_ListSecrets_Call) Return(listSecretsOK *operations
 }
 
 func (_c *MockDwClientService_ListSecrets_Call) RunAndReturn(run func(params *operations.ListSecretsParams, opts ...operations.ClientOption) (*operations.ListSecretsOK, error)) *MockDwClientService_ListSecrets_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListSecretsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListSecretsContext(ctx context.Context, params *operations.ListSecretsParams, opts ...operations.ClientOption) (*operations.ListSecretsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListSecretsContext")
+	}
+
+	var r0 *operations.ListSecretsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListSecretsParams, ...operations.ClientOption) (*operations.ListSecretsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListSecretsParams, ...operations.ClientOption) *operations.ListSecretsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListSecretsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListSecretsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListSecretsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListSecretsContext'
+type MockDwClientService_ListSecretsContext_Call struct {
+	*mock.Call
+}
+
+// ListSecretsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListSecretsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListSecretsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListSecretsContext_Call {
+	return &MockDwClientService_ListSecretsContext_Call{Call: _e.mock.On("ListSecretsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListSecretsContext_Call) Run(run func(ctx context.Context, params *operations.ListSecretsParams, opts ...operations.ClientOption)) *MockDwClientService_ListSecretsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListSecretsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListSecretsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListSecretsContext_Call) Return(listSecretsOK *operations.ListSecretsOK, err error) *MockDwClientService_ListSecretsContext_Call {
+	_c.Call.Return(listSecretsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListSecretsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListSecretsParams, opts ...operations.ClientOption) (*operations.ListSecretsOK, error)) *MockDwClientService_ListSecretsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5788,6 +11880,93 @@ func (_c *MockDwClientService_ListUsers_Call) RunAndReturn(run func(params *oper
 	return _c
 }
 
+// ListUsersContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListUsersContext(ctx context.Context, params *operations.ListUsersParams, opts ...operations.ClientOption) (*operations.ListUsersOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListUsersContext")
+	}
+
+	var r0 *operations.ListUsersOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListUsersParams, ...operations.ClientOption) (*operations.ListUsersOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListUsersParams, ...operations.ClientOption) *operations.ListUsersOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListUsersOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListUsersParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListUsersContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListUsersContext'
+type MockDwClientService_ListUsersContext_Call struct {
+	*mock.Call
+}
+
+// ListUsersContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListUsersParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListUsersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListUsersContext_Call {
+	return &MockDwClientService_ListUsersContext_Call{Call: _e.mock.On("ListUsersContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListUsersContext_Call) Run(run func(ctx context.Context, params *operations.ListUsersParams, opts ...operations.ClientOption)) *MockDwClientService_ListUsersContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListUsersParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListUsersParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListUsersContext_Call) Return(listUsersOK *operations.ListUsersOK, err error) *MockDwClientService_ListUsersContext_Call {
+	_c.Call.Return(listUsersOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListUsersContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListUsersParams, opts ...operations.ClientOption) (*operations.ListUsersOK, error)) *MockDwClientService_ListUsersContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListVwConfigs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListVwConfigs(params *operations.ListVwConfigsParams, opts ...operations.ClientOption) (*operations.ListVwConfigsOK, error) {
 	// operations.ClientOption
@@ -5865,6 +12044,93 @@ func (_c *MockDwClientService_ListVwConfigs_Call) Return(listVwConfigsOK *operat
 }
 
 func (_c *MockDwClientService_ListVwConfigs_Call) RunAndReturn(run func(params *operations.ListVwConfigsParams, opts ...operations.ClientOption) (*operations.ListVwConfigsOK, error)) *MockDwClientService_ListVwConfigs_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListVwConfigsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListVwConfigsContext(ctx context.Context, params *operations.ListVwConfigsParams, opts ...operations.ClientOption) (*operations.ListVwConfigsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListVwConfigsContext")
+	}
+
+	var r0 *operations.ListVwConfigsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListVwConfigsParams, ...operations.ClientOption) (*operations.ListVwConfigsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListVwConfigsParams, ...operations.ClientOption) *operations.ListVwConfigsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListVwConfigsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListVwConfigsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListVwConfigsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListVwConfigsContext'
+type MockDwClientService_ListVwConfigsContext_Call struct {
+	*mock.Call
+}
+
+// ListVwConfigsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListVwConfigsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListVwConfigsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListVwConfigsContext_Call {
+	return &MockDwClientService_ListVwConfigsContext_Call{Call: _e.mock.On("ListVwConfigsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListVwConfigsContext_Call) Run(run func(ctx context.Context, params *operations.ListVwConfigsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwConfigsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListVwConfigsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListVwConfigsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListVwConfigsContext_Call) Return(listVwConfigsOK *operations.ListVwConfigsOK, err error) *MockDwClientService_ListVwConfigsContext_Call {
+	_c.Call.Return(listVwConfigsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListVwConfigsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListVwConfigsParams, opts ...operations.ClientOption) (*operations.ListVwConfigsOK, error)) *MockDwClientService_ListVwConfigsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -5950,6 +12216,93 @@ func (_c *MockDwClientService_ListVwDiagnosticDataJobs_Call) RunAndReturn(run fu
 	return _c
 }
 
+// ListVwDiagnosticDataJobsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListVwDiagnosticDataJobsContext(ctx context.Context, params *operations.ListVwDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListVwDiagnosticDataJobsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListVwDiagnosticDataJobsContext")
+	}
+
+	var r0 *operations.ListVwDiagnosticDataJobsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListVwDiagnosticDataJobsParams, ...operations.ClientOption) (*operations.ListVwDiagnosticDataJobsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListVwDiagnosticDataJobsParams, ...operations.ClientOption) *operations.ListVwDiagnosticDataJobsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListVwDiagnosticDataJobsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListVwDiagnosticDataJobsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListVwDiagnosticDataJobsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListVwDiagnosticDataJobsContext'
+type MockDwClientService_ListVwDiagnosticDataJobsContext_Call struct {
+	*mock.Call
+}
+
+// ListVwDiagnosticDataJobsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListVwDiagnosticDataJobsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListVwDiagnosticDataJobsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListVwDiagnosticDataJobsContext_Call {
+	return &MockDwClientService_ListVwDiagnosticDataJobsContext_Call{Call: _e.mock.On("ListVwDiagnosticDataJobsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListVwDiagnosticDataJobsContext_Call) Run(run func(ctx context.Context, params *operations.ListVwDiagnosticDataJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwDiagnosticDataJobsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListVwDiagnosticDataJobsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListVwDiagnosticDataJobsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListVwDiagnosticDataJobsContext_Call) Return(listVwDiagnosticDataJobsOK *operations.ListVwDiagnosticDataJobsOK, err error) *MockDwClientService_ListVwDiagnosticDataJobsContext_Call {
+	_c.Call.Return(listVwDiagnosticDataJobsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListVwDiagnosticDataJobsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListVwDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListVwDiagnosticDataJobsOK, error)) *MockDwClientService_ListVwDiagnosticDataJobsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ListVwEvents provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListVwEvents(params *operations.ListVwEventsParams, opts ...operations.ClientOption) (*operations.ListVwEventsOK, error) {
 	// operations.ClientOption
@@ -6027,6 +12380,93 @@ func (_c *MockDwClientService_ListVwEvents_Call) Return(listVwEventsOK *operatio
 }
 
 func (_c *MockDwClientService_ListVwEvents_Call) RunAndReturn(run func(params *operations.ListVwEventsParams, opts ...operations.ClientOption) (*operations.ListVwEventsOK, error)) *MockDwClientService_ListVwEvents_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ListVwEventsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListVwEventsContext(ctx context.Context, params *operations.ListVwEventsParams, opts ...operations.ClientOption) (*operations.ListVwEventsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListVwEventsContext")
+	}
+
+	var r0 *operations.ListVwEventsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListVwEventsParams, ...operations.ClientOption) (*operations.ListVwEventsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListVwEventsParams, ...operations.ClientOption) *operations.ListVwEventsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListVwEventsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListVwEventsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListVwEventsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListVwEventsContext'
+type MockDwClientService_ListVwEventsContext_Call struct {
+	*mock.Call
+}
+
+// ListVwEventsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListVwEventsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListVwEventsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListVwEventsContext_Call {
+	return &MockDwClientService_ListVwEventsContext_Call{Call: _e.mock.On("ListVwEventsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListVwEventsContext_Call) Run(run func(ctx context.Context, params *operations.ListVwEventsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwEventsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListVwEventsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListVwEventsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListVwEventsContext_Call) Return(listVwEventsOK *operations.ListVwEventsOK, err error) *MockDwClientService_ListVwEventsContext_Call {
+	_c.Call.Return(listVwEventsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListVwEventsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListVwEventsParams, opts ...operations.ClientOption) (*operations.ListVwEventsOK, error)) *MockDwClientService_ListVwEventsContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6112,6 +12552,93 @@ func (_c *MockDwClientService_ListVws_Call) RunAndReturn(run func(params *operat
 	return _c
 }
 
+// ListVwsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ListVwsContext(ctx context.Context, params *operations.ListVwsParams, opts ...operations.ClientOption) (*operations.ListVwsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ListVwsContext")
+	}
+
+	var r0 *operations.ListVwsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListVwsParams, ...operations.ClientOption) (*operations.ListVwsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ListVwsParams, ...operations.ClientOption) *operations.ListVwsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ListVwsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ListVwsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ListVwsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ListVwsContext'
+type MockDwClientService_ListVwsContext_Call struct {
+	*mock.Call
+}
+
+// ListVwsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ListVwsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ListVwsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListVwsContext_Call {
+	return &MockDwClientService_ListVwsContext_Call{Call: _e.mock.On("ListVwsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ListVwsContext_Call) Run(run func(ctx context.Context, params *operations.ListVwsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ListVwsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ListVwsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ListVwsContext_Call) Return(listVwsOK *operations.ListVwsOK, err error) *MockDwClientService_ListVwsContext_Call {
+	_c.Call.Return(listVwsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ListVwsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ListVwsParams, opts ...operations.ClientOption) (*operations.ListVwsOK, error)) *MockDwClientService_ListVwsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RebuildDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RebuildDbc(params *operations.RebuildDbcParams, opts ...operations.ClientOption) (*operations.RebuildDbcOK, error) {
 	// operations.ClientOption
@@ -6189,6 +12716,93 @@ func (_c *MockDwClientService_RebuildDbc_Call) Return(rebuildDbcOK *operations.R
 }
 
 func (_c *MockDwClientService_RebuildDbc_Call) RunAndReturn(run func(params *operations.RebuildDbcParams, opts ...operations.ClientOption) (*operations.RebuildDbcOK, error)) *MockDwClientService_RebuildDbc_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RebuildDbcContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) RebuildDbcContext(ctx context.Context, params *operations.RebuildDbcParams, opts ...operations.ClientOption) (*operations.RebuildDbcOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RebuildDbcContext")
+	}
+
+	var r0 *operations.RebuildDbcOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RebuildDbcParams, ...operations.ClientOption) (*operations.RebuildDbcOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RebuildDbcParams, ...operations.ClientOption) *operations.RebuildDbcOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RebuildDbcOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RebuildDbcParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_RebuildDbcContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RebuildDbcContext'
+type MockDwClientService_RebuildDbcContext_Call struct {
+	*mock.Call
+}
+
+// RebuildDbcContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RebuildDbcParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) RebuildDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RebuildDbcContext_Call {
+	return &MockDwClientService_RebuildDbcContext_Call{Call: _e.mock.On("RebuildDbcContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_RebuildDbcContext_Call) Run(run func(ctx context.Context, params *operations.RebuildDbcParams, opts ...operations.ClientOption)) *MockDwClientService_RebuildDbcContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RebuildDbcParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RebuildDbcParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_RebuildDbcContext_Call) Return(rebuildDbcOK *operations.RebuildDbcOK, err error) *MockDwClientService_RebuildDbcContext_Call {
+	_c.Call.Return(rebuildDbcOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_RebuildDbcContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RebuildDbcParams, opts ...operations.ClientOption) (*operations.RebuildDbcOK, error)) *MockDwClientService_RebuildDbcContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6274,6 +12888,93 @@ func (_c *MockDwClientService_RebuildHue_Call) RunAndReturn(run func(params *ope
 	return _c
 }
 
+// RebuildHueContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) RebuildHueContext(ctx context.Context, params *operations.RebuildHueParams, opts ...operations.ClientOption) (*operations.RebuildHueOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RebuildHueContext")
+	}
+
+	var r0 *operations.RebuildHueOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RebuildHueParams, ...operations.ClientOption) (*operations.RebuildHueOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RebuildHueParams, ...operations.ClientOption) *operations.RebuildHueOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RebuildHueOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RebuildHueParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_RebuildHueContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RebuildHueContext'
+type MockDwClientService_RebuildHueContext_Call struct {
+	*mock.Call
+}
+
+// RebuildHueContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RebuildHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) RebuildHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RebuildHueContext_Call {
+	return &MockDwClientService_RebuildHueContext_Call{Call: _e.mock.On("RebuildHueContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_RebuildHueContext_Call) Run(run func(ctx context.Context, params *operations.RebuildHueParams, opts ...operations.ClientOption)) *MockDwClientService_RebuildHueContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RebuildHueParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RebuildHueParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_RebuildHueContext_Call) Return(rebuildHueOK *operations.RebuildHueOK, err error) *MockDwClientService_RebuildHueContext_Call {
+	_c.Call.Return(rebuildHueOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_RebuildHueContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RebuildHueParams, opts ...operations.ClientOption) (*operations.RebuildHueOK, error)) *MockDwClientService_RebuildHueContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RebuildVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RebuildVw(params *operations.RebuildVwParams, opts ...operations.ClientOption) (*operations.RebuildVwOK, error) {
 	// operations.ClientOption
@@ -6351,6 +13052,93 @@ func (_c *MockDwClientService_RebuildVw_Call) Return(rebuildVwOK *operations.Reb
 }
 
 func (_c *MockDwClientService_RebuildVw_Call) RunAndReturn(run func(params *operations.RebuildVwParams, opts ...operations.ClientOption) (*operations.RebuildVwOK, error)) *MockDwClientService_RebuildVw_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RebuildVwContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) RebuildVwContext(ctx context.Context, params *operations.RebuildVwParams, opts ...operations.ClientOption) (*operations.RebuildVwOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RebuildVwContext")
+	}
+
+	var r0 *operations.RebuildVwOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RebuildVwParams, ...operations.ClientOption) (*operations.RebuildVwOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RebuildVwParams, ...operations.ClientOption) *operations.RebuildVwOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RebuildVwOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RebuildVwParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_RebuildVwContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RebuildVwContext'
+type MockDwClientService_RebuildVwContext_Call struct {
+	*mock.Call
+}
+
+// RebuildVwContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RebuildVwParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) RebuildVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RebuildVwContext_Call {
+	return &MockDwClientService_RebuildVwContext_Call{Call: _e.mock.On("RebuildVwContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_RebuildVwContext_Call) Run(run func(ctx context.Context, params *operations.RebuildVwParams, opts ...operations.ClientOption)) *MockDwClientService_RebuildVwContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RebuildVwParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RebuildVwParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_RebuildVwContext_Call) Return(rebuildVwOK *operations.RebuildVwOK, err error) *MockDwClientService_RebuildVwContext_Call {
+	_c.Call.Return(rebuildVwOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_RebuildVwContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RebuildVwParams, opts ...operations.ClientOption) (*operations.RebuildVwOK, error)) *MockDwClientService_RebuildVwContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6436,6 +13224,93 @@ func (_c *MockDwClientService_RegisterSecret_Call) RunAndReturn(run func(params 
 	return _c
 }
 
+// RegisterSecretContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) RegisterSecretContext(ctx context.Context, params *operations.RegisterSecretParams, opts ...operations.ClientOption) (*operations.RegisterSecretOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RegisterSecretContext")
+	}
+
+	var r0 *operations.RegisterSecretOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RegisterSecretParams, ...operations.ClientOption) (*operations.RegisterSecretOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RegisterSecretParams, ...operations.ClientOption) *operations.RegisterSecretOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RegisterSecretOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RegisterSecretParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_RegisterSecretContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RegisterSecretContext'
+type MockDwClientService_RegisterSecretContext_Call struct {
+	*mock.Call
+}
+
+// RegisterSecretContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RegisterSecretParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) RegisterSecretContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RegisterSecretContext_Call {
+	return &MockDwClientService_RegisterSecretContext_Call{Call: _e.mock.On("RegisterSecretContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_RegisterSecretContext_Call) Run(run func(ctx context.Context, params *operations.RegisterSecretParams, opts ...operations.ClientOption)) *MockDwClientService_RegisterSecretContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RegisterSecretParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RegisterSecretParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_RegisterSecretContext_Call) Return(registerSecretOK *operations.RegisterSecretOK, err error) *MockDwClientService_RegisterSecretContext_Call {
+	_c.Call.Return(registerSecretOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_RegisterSecretContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RegisterSecretParams, opts ...operations.ClientOption) (*operations.RegisterSecretOK, error)) *MockDwClientService_RegisterSecretContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RenewCertificates provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RenewCertificates(params *operations.RenewCertificatesParams, opts ...operations.ClientOption) (*operations.RenewCertificatesOK, error) {
 	// operations.ClientOption
@@ -6513,6 +13388,93 @@ func (_c *MockDwClientService_RenewCertificates_Call) Return(renewCertificatesOK
 }
 
 func (_c *MockDwClientService_RenewCertificates_Call) RunAndReturn(run func(params *operations.RenewCertificatesParams, opts ...operations.ClientOption) (*operations.RenewCertificatesOK, error)) *MockDwClientService_RenewCertificates_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RenewCertificatesContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) RenewCertificatesContext(ctx context.Context, params *operations.RenewCertificatesParams, opts ...operations.ClientOption) (*operations.RenewCertificatesOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RenewCertificatesContext")
+	}
+
+	var r0 *operations.RenewCertificatesOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RenewCertificatesParams, ...operations.ClientOption) (*operations.RenewCertificatesOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RenewCertificatesParams, ...operations.ClientOption) *operations.RenewCertificatesOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RenewCertificatesOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RenewCertificatesParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_RenewCertificatesContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RenewCertificatesContext'
+type MockDwClientService_RenewCertificatesContext_Call struct {
+	*mock.Call
+}
+
+// RenewCertificatesContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RenewCertificatesParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) RenewCertificatesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RenewCertificatesContext_Call {
+	return &MockDwClientService_RenewCertificatesContext_Call{Call: _e.mock.On("RenewCertificatesContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_RenewCertificatesContext_Call) Run(run func(ctx context.Context, params *operations.RenewCertificatesParams, opts ...operations.ClientOption)) *MockDwClientService_RenewCertificatesContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RenewCertificatesParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RenewCertificatesParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_RenewCertificatesContext_Call) Return(renewCertificatesOK *operations.RenewCertificatesOK, err error) *MockDwClientService_RenewCertificatesContext_Call {
+	_c.Call.Return(renewCertificatesOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_RenewCertificatesContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RenewCertificatesParams, opts ...operations.ClientOption) (*operations.RenewCertificatesOK, error)) *MockDwClientService_RenewCertificatesContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6598,6 +13560,93 @@ func (_c *MockDwClientService_ResetServerSettings_Call) RunAndReturn(run func(pa
 	return _c
 }
 
+// ResetServerSettingsContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ResetServerSettingsContext(ctx context.Context, params *operations.ResetServerSettingsParams, opts ...operations.ClientOption) (*operations.ResetServerSettingsOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ResetServerSettingsContext")
+	}
+
+	var r0 *operations.ResetServerSettingsOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ResetServerSettingsParams, ...operations.ClientOption) (*operations.ResetServerSettingsOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ResetServerSettingsParams, ...operations.ClientOption) *operations.ResetServerSettingsOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ResetServerSettingsOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ResetServerSettingsParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ResetServerSettingsContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ResetServerSettingsContext'
+type MockDwClientService_ResetServerSettingsContext_Call struct {
+	*mock.Call
+}
+
+// ResetServerSettingsContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ResetServerSettingsParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ResetServerSettingsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ResetServerSettingsContext_Call {
+	return &MockDwClientService_ResetServerSettingsContext_Call{Call: _e.mock.On("ResetServerSettingsContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ResetServerSettingsContext_Call) Run(run func(ctx context.Context, params *operations.ResetServerSettingsParams, opts ...operations.ClientOption)) *MockDwClientService_ResetServerSettingsContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ResetServerSettingsParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ResetServerSettingsParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ResetServerSettingsContext_Call) Return(resetServerSettingsOK *operations.ResetServerSettingsOK, err error) *MockDwClientService_ResetServerSettingsContext_Call {
+	_c.Call.Return(resetServerSettingsOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ResetServerSettingsContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ResetServerSettingsParams, opts ...operations.ClientOption) (*operations.ResetServerSettingsOK, error)) *MockDwClientService_ResetServerSettingsContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RestoreBackup provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RestoreBackup(params *operations.RestoreBackupParams, opts ...operations.ClientOption) (*operations.RestoreBackupOK, error) {
 	// operations.ClientOption
@@ -6675,6 +13724,93 @@ func (_c *MockDwClientService_RestoreBackup_Call) Return(restoreBackupOK *operat
 }
 
 func (_c *MockDwClientService_RestoreBackup_Call) RunAndReturn(run func(params *operations.RestoreBackupParams, opts ...operations.ClientOption) (*operations.RestoreBackupOK, error)) *MockDwClientService_RestoreBackup_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// RestoreBackupContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) RestoreBackupContext(ctx context.Context, params *operations.RestoreBackupParams, opts ...operations.ClientOption) (*operations.RestoreBackupOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RestoreBackupContext")
+	}
+
+	var r0 *operations.RestoreBackupOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RestoreBackupParams, ...operations.ClientOption) (*operations.RestoreBackupOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RestoreBackupParams, ...operations.ClientOption) *operations.RestoreBackupOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RestoreBackupOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RestoreBackupParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_RestoreBackupContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RestoreBackupContext'
+type MockDwClientService_RestoreBackupContext_Call struct {
+	*mock.Call
+}
+
+// RestoreBackupContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RestoreBackupParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) RestoreBackupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RestoreBackupContext_Call {
+	return &MockDwClientService_RestoreBackupContext_Call{Call: _e.mock.On("RestoreBackupContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_RestoreBackupContext_Call) Run(run func(ctx context.Context, params *operations.RestoreBackupParams, opts ...operations.ClientOption)) *MockDwClientService_RestoreBackupContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RestoreBackupParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RestoreBackupParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_RestoreBackupContext_Call) Return(restoreBackupOK *operations.RestoreBackupOK, err error) *MockDwClientService_RestoreBackupContext_Call {
+	_c.Call.Return(restoreBackupOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_RestoreBackupContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RestoreBackupParams, opts ...operations.ClientOption) (*operations.RestoreBackupOK, error)) *MockDwClientService_RestoreBackupContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -6760,6 +13896,93 @@ func (_c *MockDwClientService_RestoreCluster_Call) RunAndReturn(run func(params 
 	return _c
 }
 
+// RestoreClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) RestoreClusterContext(ctx context.Context, params *operations.RestoreClusterParams, opts ...operations.ClientOption) (*operations.RestoreClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for RestoreClusterContext")
+	}
+
+	var r0 *operations.RestoreClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RestoreClusterParams, ...operations.ClientOption) (*operations.RestoreClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.RestoreClusterParams, ...operations.ClientOption) *operations.RestoreClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.RestoreClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.RestoreClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_RestoreClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'RestoreClusterContext'
+type MockDwClientService_RestoreClusterContext_Call struct {
+	*mock.Call
+}
+
+// RestoreClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.RestoreClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) RestoreClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RestoreClusterContext_Call {
+	return &MockDwClientService_RestoreClusterContext_Call{Call: _e.mock.On("RestoreClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_RestoreClusterContext_Call) Run(run func(ctx context.Context, params *operations.RestoreClusterParams, opts ...operations.ClientOption)) *MockDwClientService_RestoreClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.RestoreClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.RestoreClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_RestoreClusterContext_Call) Return(restoreClusterOK *operations.RestoreClusterOK, err error) *MockDwClientService_RestoreClusterContext_Call {
+	_c.Call.Return(restoreClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_RestoreClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.RestoreClusterParams, opts ...operations.ClientOption) (*operations.RestoreClusterOK, error)) *MockDwClientService_RestoreClusterContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // ResumeCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ResumeCluster(params *operations.ResumeClusterParams, opts ...operations.ClientOption) (*operations.ResumeClusterOK, error) {
 	// operations.ClientOption
@@ -6841,8 +14064,95 @@ func (_c *MockDwClientService_ResumeCluster_Call) RunAndReturn(run func(params *
 	return _c
 }
 
+// ResumeClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) ResumeClusterContext(ctx context.Context, params *operations.ResumeClusterParams, opts ...operations.ClientOption) (*operations.ResumeClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ResumeClusterContext")
+	}
+
+	var r0 *operations.ResumeClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ResumeClusterParams, ...operations.ClientOption) (*operations.ResumeClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ResumeClusterParams, ...operations.ClientOption) *operations.ResumeClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ResumeClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ResumeClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_ResumeClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ResumeClusterContext'
+type MockDwClientService_ResumeClusterContext_Call struct {
+	*mock.Call
+}
+
+// ResumeClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ResumeClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) ResumeClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ResumeClusterContext_Call {
+	return &MockDwClientService_ResumeClusterContext_Call{Call: _e.mock.On("ResumeClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_ResumeClusterContext_Call) Run(run func(ctx context.Context, params *operations.ResumeClusterParams, opts ...operations.ClientOption)) *MockDwClientService_ResumeClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ResumeClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ResumeClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_ResumeClusterContext_Call) Return(resumeClusterOK *operations.ResumeClusterOK, err error) *MockDwClientService_ResumeClusterContext_Call {
+	_c.Call.Return(resumeClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_ResumeClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ResumeClusterParams, opts ...operations.ClientOption) (*operations.ResumeClusterOK, error)) *MockDwClientService_ResumeClusterContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SetTransport provides a mock function for the type MockDwClientService
-func (_mock *MockDwClientService) SetTransport(transport runtime.ClientTransport) {
+func (_mock *MockDwClientService) SetTransport(transport runtime.ContextualTransport) {
 	_mock.Called(transport)
 	return
 }
@@ -6853,16 +14163,16 @@ type MockDwClientService_SetTransport_Call struct {
 }
 
 // SetTransport is a helper method to define mock.On call
-//   - transport runtime.ClientTransport
+//   - transport runtime.ContextualTransport
 func (_e *MockDwClientService_Expecter) SetTransport(transport interface{}) *MockDwClientService_SetTransport_Call {
 	return &MockDwClientService_SetTransport_Call{Call: _e.mock.On("SetTransport", transport)}
 }
 
-func (_c *MockDwClientService_SetTransport_Call) Run(run func(transport runtime.ClientTransport)) *MockDwClientService_SetTransport_Call {
+func (_c *MockDwClientService_SetTransport_Call) Run(run func(transport runtime.ContextualTransport)) *MockDwClientService_SetTransport_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 runtime.ClientTransport
+		var arg0 runtime.ContextualTransport
 		if args[0] != nil {
-			arg0 = args[0].(runtime.ClientTransport)
+			arg0 = args[0].(runtime.ContextualTransport)
 		}
 		run(
 			arg0,
@@ -6876,7 +14186,7 @@ func (_c *MockDwClientService_SetTransport_Call) Return() *MockDwClientService_S
 	return _c
 }
 
-func (_c *MockDwClientService_SetTransport_Call) RunAndReturn(run func(transport runtime.ClientTransport)) *MockDwClientService_SetTransport_Call {
+func (_c *MockDwClientService_SetTransport_Call) RunAndReturn(run func(transport runtime.ContextualTransport)) *MockDwClientService_SetTransport_Call {
 	_c.Run(run)
 	return _c
 }
@@ -6962,6 +14272,93 @@ func (_c *MockDwClientService_StartDbc_Call) RunAndReturn(run func(params *opera
 	return _c
 }
 
+// StartDbcContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) StartDbcContext(ctx context.Context, params *operations.StartDbcParams, opts ...operations.ClientOption) (*operations.StartDbcOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for StartDbcContext")
+	}
+
+	var r0 *operations.StartDbcOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.StartDbcParams, ...operations.ClientOption) (*operations.StartDbcOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.StartDbcParams, ...operations.ClientOption) *operations.StartDbcOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.StartDbcOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.StartDbcParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_StartDbcContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'StartDbcContext'
+type MockDwClientService_StartDbcContext_Call struct {
+	*mock.Call
+}
+
+// StartDbcContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.StartDbcParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) StartDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_StartDbcContext_Call {
+	return &MockDwClientService_StartDbcContext_Call{Call: _e.mock.On("StartDbcContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_StartDbcContext_Call) Run(run func(ctx context.Context, params *operations.StartDbcParams, opts ...operations.ClientOption)) *MockDwClientService_StartDbcContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.StartDbcParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.StartDbcParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_StartDbcContext_Call) Return(startDbcOK *operations.StartDbcOK, err error) *MockDwClientService_StartDbcContext_Call {
+	_c.Call.Return(startDbcOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_StartDbcContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.StartDbcParams, opts ...operations.ClientOption) (*operations.StartDbcOK, error)) *MockDwClientService_StartDbcContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // StartVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) StartVw(params *operations.StartVwParams, opts ...operations.ClientOption) (*operations.StartVwOK, error) {
 	// operations.ClientOption
@@ -7039,6 +14436,93 @@ func (_c *MockDwClientService_StartVw_Call) Return(startVwOK *operations.StartVw
 }
 
 func (_c *MockDwClientService_StartVw_Call) RunAndReturn(run func(params *operations.StartVwParams, opts ...operations.ClientOption) (*operations.StartVwOK, error)) *MockDwClientService_StartVw_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// StartVwContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) StartVwContext(ctx context.Context, params *operations.StartVwParams, opts ...operations.ClientOption) (*operations.StartVwOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for StartVwContext")
+	}
+
+	var r0 *operations.StartVwOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.StartVwParams, ...operations.ClientOption) (*operations.StartVwOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.StartVwParams, ...operations.ClientOption) *operations.StartVwOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.StartVwOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.StartVwParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_StartVwContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'StartVwContext'
+type MockDwClientService_StartVwContext_Call struct {
+	*mock.Call
+}
+
+// StartVwContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.StartVwParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) StartVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_StartVwContext_Call {
+	return &MockDwClientService_StartVwContext_Call{Call: _e.mock.On("StartVwContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_StartVwContext_Call) Run(run func(ctx context.Context, params *operations.StartVwParams, opts ...operations.ClientOption)) *MockDwClientService_StartVwContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.StartVwParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.StartVwParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_StartVwContext_Call) Return(startVwOK *operations.StartVwOK, err error) *MockDwClientService_StartVwContext_Call {
+	_c.Call.Return(startVwOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_StartVwContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.StartVwParams, opts ...operations.ClientOption) (*operations.StartVwOK, error)) *MockDwClientService_StartVwContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7124,6 +14608,93 @@ func (_c *MockDwClientService_SuspendCluster_Call) RunAndReturn(run func(params 
 	return _c
 }
 
+// SuspendClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) SuspendClusterContext(ctx context.Context, params *operations.SuspendClusterParams, opts ...operations.ClientOption) (*operations.SuspendClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SuspendClusterContext")
+	}
+
+	var r0 *operations.SuspendClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SuspendClusterParams, ...operations.ClientOption) (*operations.SuspendClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SuspendClusterParams, ...operations.ClientOption) *operations.SuspendClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SuspendClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SuspendClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_SuspendClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SuspendClusterContext'
+type MockDwClientService_SuspendClusterContext_Call struct {
+	*mock.Call
+}
+
+// SuspendClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SuspendClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) SuspendClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_SuspendClusterContext_Call {
+	return &MockDwClientService_SuspendClusterContext_Call{Call: _e.mock.On("SuspendClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_SuspendClusterContext_Call) Run(run func(ctx context.Context, params *operations.SuspendClusterParams, opts ...operations.ClientOption)) *MockDwClientService_SuspendClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SuspendClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SuspendClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_SuspendClusterContext_Call) Return(suspendClusterOK *operations.SuspendClusterOK, err error) *MockDwClientService_SuspendClusterContext_Call {
+	_c.Call.Return(suspendClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_SuspendClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SuspendClusterParams, opts ...operations.ClientOption) (*operations.SuspendClusterOK, error)) *MockDwClientService_SuspendClusterContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // SuspendDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) SuspendDbc(params *operations.SuspendDbcParams, opts ...operations.ClientOption) (*operations.SuspendDbcOK, error) {
 	// operations.ClientOption
@@ -7201,6 +14772,93 @@ func (_c *MockDwClientService_SuspendDbc_Call) Return(suspendDbcOK *operations.S
 }
 
 func (_c *MockDwClientService_SuspendDbc_Call) RunAndReturn(run func(params *operations.SuspendDbcParams, opts ...operations.ClientOption) (*operations.SuspendDbcOK, error)) *MockDwClientService_SuspendDbc_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// SuspendDbcContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) SuspendDbcContext(ctx context.Context, params *operations.SuspendDbcParams, opts ...operations.ClientOption) (*operations.SuspendDbcOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SuspendDbcContext")
+	}
+
+	var r0 *operations.SuspendDbcOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SuspendDbcParams, ...operations.ClientOption) (*operations.SuspendDbcOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SuspendDbcParams, ...operations.ClientOption) *operations.SuspendDbcOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SuspendDbcOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SuspendDbcParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_SuspendDbcContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SuspendDbcContext'
+type MockDwClientService_SuspendDbcContext_Call struct {
+	*mock.Call
+}
+
+// SuspendDbcContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SuspendDbcParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) SuspendDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_SuspendDbcContext_Call {
+	return &MockDwClientService_SuspendDbcContext_Call{Call: _e.mock.On("SuspendDbcContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_SuspendDbcContext_Call) Run(run func(ctx context.Context, params *operations.SuspendDbcParams, opts ...operations.ClientOption)) *MockDwClientService_SuspendDbcContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SuspendDbcParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SuspendDbcParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_SuspendDbcContext_Call) Return(suspendDbcOK *operations.SuspendDbcOK, err error) *MockDwClientService_SuspendDbcContext_Call {
+	_c.Call.Return(suspendDbcOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_SuspendDbcContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SuspendDbcParams, opts ...operations.ClientOption) (*operations.SuspendDbcOK, error)) *MockDwClientService_SuspendDbcContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7286,6 +14944,93 @@ func (_c *MockDwClientService_SuspendVw_Call) RunAndReturn(run func(params *oper
 	return _c
 }
 
+// SuspendVwContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) SuspendVwContext(ctx context.Context, params *operations.SuspendVwParams, opts ...operations.ClientOption) (*operations.SuspendVwOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SuspendVwContext")
+	}
+
+	var r0 *operations.SuspendVwOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SuspendVwParams, ...operations.ClientOption) (*operations.SuspendVwOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.SuspendVwParams, ...operations.ClientOption) *operations.SuspendVwOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.SuspendVwOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.SuspendVwParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_SuspendVwContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'SuspendVwContext'
+type MockDwClientService_SuspendVwContext_Call struct {
+	*mock.Call
+}
+
+// SuspendVwContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.SuspendVwParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) SuspendVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_SuspendVwContext_Call {
+	return &MockDwClientService_SuspendVwContext_Call{Call: _e.mock.On("SuspendVwContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_SuspendVwContext_Call) Run(run func(ctx context.Context, params *operations.SuspendVwParams, opts ...operations.ClientOption)) *MockDwClientService_SuspendVwContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.SuspendVwParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.SuspendVwParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_SuspendVwContext_Call) Return(suspendVwOK *operations.SuspendVwOK, err error) *MockDwClientService_SuspendVwContext_Call {
+	_c.Call.Return(suspendVwOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_SuspendVwContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SuspendVwParams, opts ...operations.ClientOption) (*operations.SuspendVwOK, error)) *MockDwClientService_SuspendVwContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateAwsCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateAwsCluster(params *operations.UpdateAwsClusterParams, opts ...operations.ClientOption) (*operations.UpdateAwsClusterOK, error) {
 	// operations.ClientOption
@@ -7363,6 +15108,93 @@ func (_c *MockDwClientService_UpdateAwsCluster_Call) Return(updateAwsClusterOK *
 }
 
 func (_c *MockDwClientService_UpdateAwsCluster_Call) RunAndReturn(run func(params *operations.UpdateAwsClusterParams, opts ...operations.ClientOption) (*operations.UpdateAwsClusterOK, error)) *MockDwClientService_UpdateAwsCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateAwsClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateAwsClusterContext(ctx context.Context, params *operations.UpdateAwsClusterParams, opts ...operations.ClientOption) (*operations.UpdateAwsClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAwsClusterContext")
+	}
+
+	var r0 *operations.UpdateAwsClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAwsClusterParams, ...operations.ClientOption) (*operations.UpdateAwsClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAwsClusterParams, ...operations.ClientOption) *operations.UpdateAwsClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAwsClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateAwsClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateAwsClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAwsClusterContext'
+type MockDwClientService_UpdateAwsClusterContext_Call struct {
+	*mock.Call
+}
+
+// UpdateAwsClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateAwsClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateAwsClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateAwsClusterContext_Call {
+	return &MockDwClientService_UpdateAwsClusterContext_Call{Call: _e.mock.On("UpdateAwsClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateAwsClusterContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAwsClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateAwsClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateAwsClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateAwsClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateAwsClusterContext_Call) Return(updateAwsClusterOK *operations.UpdateAwsClusterOK, err error) *MockDwClientService_UpdateAwsClusterContext_Call {
+	_c.Call.Return(updateAwsClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateAwsClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateAwsClusterParams, opts ...operations.ClientOption) (*operations.UpdateAwsClusterOK, error)) *MockDwClientService_UpdateAwsClusterContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7448,6 +15280,93 @@ func (_c *MockDwClientService_UpdateAzureCluster_Call) RunAndReturn(run func(par
 	return _c
 }
 
+// UpdateAzureClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateAzureClusterContext(ctx context.Context, params *operations.UpdateAzureClusterParams, opts ...operations.ClientOption) (*operations.UpdateAzureClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateAzureClusterContext")
+	}
+
+	var r0 *operations.UpdateAzureClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureClusterParams, ...operations.ClientOption) (*operations.UpdateAzureClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateAzureClusterParams, ...operations.ClientOption) *operations.UpdateAzureClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateAzureClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateAzureClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateAzureClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateAzureClusterContext'
+type MockDwClientService_UpdateAzureClusterContext_Call struct {
+	*mock.Call
+}
+
+// UpdateAzureClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateAzureClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateAzureClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateAzureClusterContext_Call {
+	return &MockDwClientService_UpdateAzureClusterContext_Call{Call: _e.mock.On("UpdateAzureClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateAzureClusterContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAzureClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateAzureClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateAzureClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateAzureClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateAzureClusterContext_Call) Return(updateAzureClusterOK *operations.UpdateAzureClusterOK, err error) *MockDwClientService_UpdateAzureClusterContext_Call {
+	_c.Call.Return(updateAzureClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateAzureClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateAzureClusterParams, opts ...operations.ClientOption) (*operations.UpdateAzureClusterOK, error)) *MockDwClientService_UpdateAzureClusterContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateCluster(params *operations.UpdateClusterParams, opts ...operations.ClientOption) (*operations.UpdateClusterOK, error) {
 	// operations.ClientOption
@@ -7525,6 +15444,93 @@ func (_c *MockDwClientService_UpdateCluster_Call) Return(updateClusterOK *operat
 }
 
 func (_c *MockDwClientService_UpdateCluster_Call) RunAndReturn(run func(params *operations.UpdateClusterParams, opts ...operations.ClientOption) (*operations.UpdateClusterOK, error)) *MockDwClientService_UpdateCluster_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateClusterContext(ctx context.Context, params *operations.UpdateClusterParams, opts ...operations.ClientOption) (*operations.UpdateClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateClusterContext")
+	}
+
+	var r0 *operations.UpdateClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateClusterParams, ...operations.ClientOption) (*operations.UpdateClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateClusterParams, ...operations.ClientOption) *operations.UpdateClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateClusterContext'
+type MockDwClientService_UpdateClusterContext_Call struct {
+	*mock.Call
+}
+
+// UpdateClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateClusterContext_Call {
+	return &MockDwClientService_UpdateClusterContext_Call{Call: _e.mock.On("UpdateClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateClusterContext_Call) Run(run func(ctx context.Context, params *operations.UpdateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateClusterContext_Call) Return(updateClusterOK *operations.UpdateClusterOK, err error) *MockDwClientService_UpdateClusterContext_Call {
+	_c.Call.Return(updateClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateClusterParams, opts ...operations.ClientOption) (*operations.UpdateClusterOK, error)) *MockDwClientService_UpdateClusterContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7610,6 +15616,93 @@ func (_c *MockDwClientService_UpdateConnector_Call) RunAndReturn(run func(params
 	return _c
 }
 
+// UpdateConnectorContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateConnectorContext(ctx context.Context, params *operations.UpdateConnectorParams, opts ...operations.ClientOption) (*operations.UpdateConnectorOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateConnectorContext")
+	}
+
+	var r0 *operations.UpdateConnectorOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateConnectorParams, ...operations.ClientOption) (*operations.UpdateConnectorOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateConnectorParams, ...operations.ClientOption) *operations.UpdateConnectorOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateConnectorOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateConnectorParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateConnectorContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateConnectorContext'
+type MockDwClientService_UpdateConnectorContext_Call struct {
+	*mock.Call
+}
+
+// UpdateConnectorContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateConnectorParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateConnectorContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateConnectorContext_Call {
+	return &MockDwClientService_UpdateConnectorContext_Call{Call: _e.mock.On("UpdateConnectorContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateConnectorContext_Call) Run(run func(ctx context.Context, params *operations.UpdateConnectorParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateConnectorContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateConnectorParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateConnectorParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateConnectorContext_Call) Return(updateConnectorOK *operations.UpdateConnectorOK, err error) *MockDwClientService_UpdateConnectorContext_Call {
+	_c.Call.Return(updateConnectorOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateConnectorContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateConnectorParams, opts ...operations.ClientOption) (*operations.UpdateConnectorOK, error)) *MockDwClientService_UpdateConnectorContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateDataVisualization provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateDataVisualization(params *operations.UpdateDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpdateDataVisualizationOK, error) {
 	// operations.ClientOption
@@ -7687,6 +15780,93 @@ func (_c *MockDwClientService_UpdateDataVisualization_Call) Return(updateDataVis
 }
 
 func (_c *MockDwClientService_UpdateDataVisualization_Call) RunAndReturn(run func(params *operations.UpdateDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpdateDataVisualizationOK, error)) *MockDwClientService_UpdateDataVisualization_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateDataVisualizationContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateDataVisualizationContext(ctx context.Context, params *operations.UpdateDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpdateDataVisualizationOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateDataVisualizationContext")
+	}
+
+	var r0 *operations.UpdateDataVisualizationOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateDataVisualizationParams, ...operations.ClientOption) (*operations.UpdateDataVisualizationOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateDataVisualizationParams, ...operations.ClientOption) *operations.UpdateDataVisualizationOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateDataVisualizationOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateDataVisualizationParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateDataVisualizationContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateDataVisualizationContext'
+type MockDwClientService_UpdateDataVisualizationContext_Call struct {
+	*mock.Call
+}
+
+// UpdateDataVisualizationContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateDataVisualizationParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateDataVisualizationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateDataVisualizationContext_Call {
+	return &MockDwClientService_UpdateDataVisualizationContext_Call{Call: _e.mock.On("UpdateDataVisualizationContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateDataVisualizationContext_Call) Run(run func(ctx context.Context, params *operations.UpdateDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateDataVisualizationContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateDataVisualizationParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateDataVisualizationParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateDataVisualizationContext_Call) Return(updateDataVisualizationOK *operations.UpdateDataVisualizationOK, err error) *MockDwClientService_UpdateDataVisualizationContext_Call {
+	_c.Call.Return(updateDataVisualizationOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateDataVisualizationContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpdateDataVisualizationOK, error)) *MockDwClientService_UpdateDataVisualizationContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -7853,6 +16033,180 @@ func (_c *MockDwClientService_UpdateDbcConfig_Call) RunAndReturn(run func(params
 	return _c
 }
 
+// UpdateDbcConfigContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateDbcConfigContext(ctx context.Context, params *operations.UpdateDbcConfigParams, opts ...operations.ClientOption) (*operations.UpdateDbcConfigOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateDbcConfigContext")
+	}
+
+	var r0 *operations.UpdateDbcConfigOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateDbcConfigParams, ...operations.ClientOption) (*operations.UpdateDbcConfigOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateDbcConfigParams, ...operations.ClientOption) *operations.UpdateDbcConfigOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateDbcConfigOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateDbcConfigParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateDbcConfigContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateDbcConfigContext'
+type MockDwClientService_UpdateDbcConfigContext_Call struct {
+	*mock.Call
+}
+
+// UpdateDbcConfigContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateDbcConfigParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateDbcConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateDbcConfigContext_Call {
+	return &MockDwClientService_UpdateDbcConfigContext_Call{Call: _e.mock.On("UpdateDbcConfigContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateDbcConfigContext_Call) Run(run func(ctx context.Context, params *operations.UpdateDbcConfigParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateDbcConfigContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateDbcConfigParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateDbcConfigParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateDbcConfigContext_Call) Return(updateDbcConfigOK *operations.UpdateDbcConfigOK, err error) *MockDwClientService_UpdateDbcConfigContext_Call {
+	_c.Call.Return(updateDbcConfigOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateDbcConfigContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateDbcConfigParams, opts ...operations.ClientOption) (*operations.UpdateDbcConfigOK, error)) *MockDwClientService_UpdateDbcConfigContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateDbcContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateDbcContext(ctx context.Context, params *operations.UpdateDbcParams, opts ...operations.ClientOption) (*operations.UpdateDbcOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateDbcContext")
+	}
+
+	var r0 *operations.UpdateDbcOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateDbcParams, ...operations.ClientOption) (*operations.UpdateDbcOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateDbcParams, ...operations.ClientOption) *operations.UpdateDbcOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateDbcOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateDbcParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateDbcContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateDbcContext'
+type MockDwClientService_UpdateDbcContext_Call struct {
+	*mock.Call
+}
+
+// UpdateDbcContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateDbcParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateDbcContext_Call {
+	return &MockDwClientService_UpdateDbcContext_Call{Call: _e.mock.On("UpdateDbcContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateDbcContext_Call) Run(run func(ctx context.Context, params *operations.UpdateDbcParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateDbcContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateDbcParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateDbcParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateDbcContext_Call) Return(updateDbcOK *operations.UpdateDbcOK, err error) *MockDwClientService_UpdateDbcContext_Call {
+	_c.Call.Return(updateDbcOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateDbcContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateDbcParams, opts ...operations.ClientOption) (*operations.UpdateDbcOK, error)) *MockDwClientService_UpdateDbcContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateHue provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateHue(params *operations.UpdateHueParams, opts ...operations.ClientOption) (*operations.UpdateHueOK, error) {
 	// operations.ClientOption
@@ -7930,6 +16284,93 @@ func (_c *MockDwClientService_UpdateHue_Call) Return(updateHueOK *operations.Upd
 }
 
 func (_c *MockDwClientService_UpdateHue_Call) RunAndReturn(run func(params *operations.UpdateHueParams, opts ...operations.ClientOption) (*operations.UpdateHueOK, error)) *MockDwClientService_UpdateHue_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateHueContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateHueContext(ctx context.Context, params *operations.UpdateHueParams, opts ...operations.ClientOption) (*operations.UpdateHueOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateHueContext")
+	}
+
+	var r0 *operations.UpdateHueOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateHueParams, ...operations.ClientOption) (*operations.UpdateHueOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateHueParams, ...operations.ClientOption) *operations.UpdateHueOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateHueOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateHueParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateHueContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateHueContext'
+type MockDwClientService_UpdateHueContext_Call struct {
+	*mock.Call
+}
+
+// UpdateHueContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateHueContext_Call {
+	return &MockDwClientService_UpdateHueContext_Call{Call: _e.mock.On("UpdateHueContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateHueContext_Call) Run(run func(ctx context.Context, params *operations.UpdateHueParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateHueContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateHueParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateHueParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateHueContext_Call) Return(updateHueOK *operations.UpdateHueOK, err error) *MockDwClientService_UpdateHueContext_Call {
+	_c.Call.Return(updateHueOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateHueContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateHueParams, opts ...operations.ClientOption) (*operations.UpdateHueOK, error)) *MockDwClientService_UpdateHueContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8015,6 +16456,93 @@ func (_c *MockDwClientService_UpdatePrivateCluster_Call) RunAndReturn(run func(p
 	return _c
 }
 
+// UpdatePrivateClusterContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdatePrivateClusterContext(ctx context.Context, params *operations.UpdatePrivateClusterParams, opts ...operations.ClientOption) (*operations.UpdatePrivateClusterOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdatePrivateClusterContext")
+	}
+
+	var r0 *operations.UpdatePrivateClusterOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdatePrivateClusterParams, ...operations.ClientOption) (*operations.UpdatePrivateClusterOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdatePrivateClusterParams, ...operations.ClientOption) *operations.UpdatePrivateClusterOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdatePrivateClusterOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdatePrivateClusterParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdatePrivateClusterContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdatePrivateClusterContext'
+type MockDwClientService_UpdatePrivateClusterContext_Call struct {
+	*mock.Call
+}
+
+// UpdatePrivateClusterContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdatePrivateClusterParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdatePrivateClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdatePrivateClusterContext_Call {
+	return &MockDwClientService_UpdatePrivateClusterContext_Call{Call: _e.mock.On("UpdatePrivateClusterContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdatePrivateClusterContext_Call) Run(run func(ctx context.Context, params *operations.UpdatePrivateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdatePrivateClusterContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdatePrivateClusterParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdatePrivateClusterParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdatePrivateClusterContext_Call) Return(updatePrivateClusterOK *operations.UpdatePrivateClusterOK, err error) *MockDwClientService_UpdatePrivateClusterContext_Call {
+	_c.Call.Return(updatePrivateClusterOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdatePrivateClusterContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdatePrivateClusterParams, opts ...operations.ClientOption) (*operations.UpdatePrivateClusterOK, error)) *MockDwClientService_UpdatePrivateClusterContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateResourceTemplate provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateResourceTemplate(params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption) (*operations.UpdateResourceTemplateOK, error) {
 	// operations.ClientOption
@@ -8092,6 +16620,93 @@ func (_c *MockDwClientService_UpdateResourceTemplate_Call) Return(updateResource
 }
 
 func (_c *MockDwClientService_UpdateResourceTemplate_Call) RunAndReturn(run func(params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption) (*operations.UpdateResourceTemplateOK, error)) *MockDwClientService_UpdateResourceTemplate_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateResourceTemplateContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateResourceTemplateContext(ctx context.Context, params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption) (*operations.UpdateResourceTemplateOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateResourceTemplateContext")
+	}
+
+	var r0 *operations.UpdateResourceTemplateOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateResourceTemplateParams, ...operations.ClientOption) (*operations.UpdateResourceTemplateOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateResourceTemplateParams, ...operations.ClientOption) *operations.UpdateResourceTemplateOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateResourceTemplateOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateResourceTemplateParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateResourceTemplateContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateResourceTemplateContext'
+type MockDwClientService_UpdateResourceTemplateContext_Call struct {
+	*mock.Call
+}
+
+// UpdateResourceTemplateContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateResourceTemplateParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateResourceTemplateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateResourceTemplateContext_Call {
+	return &MockDwClientService_UpdateResourceTemplateContext_Call{Call: _e.mock.On("UpdateResourceTemplateContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateResourceTemplateContext_Call) Run(run func(ctx context.Context, params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateResourceTemplateContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateResourceTemplateParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateResourceTemplateParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateResourceTemplateContext_Call) Return(updateResourceTemplateOK *operations.UpdateResourceTemplateOK, err error) *MockDwClientService_UpdateResourceTemplateContext_Call {
+	_c.Call.Return(updateResourceTemplateOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateResourceTemplateContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption) (*operations.UpdateResourceTemplateOK, error)) *MockDwClientService_UpdateResourceTemplateContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8177,6 +16792,93 @@ func (_c *MockDwClientService_UpdateSSHKey_Call) RunAndReturn(run func(params *o
 	return _c
 }
 
+// UpdateSSHKeyContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateSSHKeyContext(ctx context.Context, params *operations.UpdateSSHKeyParams, opts ...operations.ClientOption) (*operations.UpdateSSHKeyOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateSSHKeyContext")
+	}
+
+	var r0 *operations.UpdateSSHKeyOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateSSHKeyParams, ...operations.ClientOption) (*operations.UpdateSSHKeyOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateSSHKeyParams, ...operations.ClientOption) *operations.UpdateSSHKeyOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateSSHKeyOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateSSHKeyParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateSSHKeyContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateSSHKeyContext'
+type MockDwClientService_UpdateSSHKeyContext_Call struct {
+	*mock.Call
+}
+
+// UpdateSSHKeyContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateSSHKeyParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateSSHKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateSSHKeyContext_Call {
+	return &MockDwClientService_UpdateSSHKeyContext_Call{Call: _e.mock.On("UpdateSSHKeyContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateSSHKeyContext_Call) Run(run func(ctx context.Context, params *operations.UpdateSSHKeyParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateSSHKeyContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateSSHKeyParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateSSHKeyParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateSSHKeyContext_Call) Return(updateSSHKeyOK *operations.UpdateSSHKeyOK, err error) *MockDwClientService_UpdateSSHKeyContext_Call {
+	_c.Call.Return(updateSSHKeyOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateSSHKeyContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateSSHKeyParams, opts ...operations.ClientOption) (*operations.UpdateSSHKeyOK, error)) *MockDwClientService_UpdateSSHKeyContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpdateServerSetting provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateServerSetting(params *operations.UpdateServerSettingParams, opts ...operations.ClientOption) (*operations.UpdateServerSettingOK, error) {
 	// operations.ClientOption
@@ -8254,6 +16956,93 @@ func (_c *MockDwClientService_UpdateServerSetting_Call) Return(updateServerSetti
 }
 
 func (_c *MockDwClientService_UpdateServerSetting_Call) RunAndReturn(run func(params *operations.UpdateServerSettingParams, opts ...operations.ClientOption) (*operations.UpdateServerSettingOK, error)) *MockDwClientService_UpdateServerSetting_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateServerSettingContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateServerSettingContext(ctx context.Context, params *operations.UpdateServerSettingParams, opts ...operations.ClientOption) (*operations.UpdateServerSettingOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateServerSettingContext")
+	}
+
+	var r0 *operations.UpdateServerSettingOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateServerSettingParams, ...operations.ClientOption) (*operations.UpdateServerSettingOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateServerSettingParams, ...operations.ClientOption) *operations.UpdateServerSettingOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateServerSettingOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateServerSettingParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateServerSettingContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateServerSettingContext'
+type MockDwClientService_UpdateServerSettingContext_Call struct {
+	*mock.Call
+}
+
+// UpdateServerSettingContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateServerSettingParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateServerSettingContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateServerSettingContext_Call {
+	return &MockDwClientService_UpdateServerSettingContext_Call{Call: _e.mock.On("UpdateServerSettingContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateServerSettingContext_Call) Run(run func(ctx context.Context, params *operations.UpdateServerSettingParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateServerSettingContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateServerSettingParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateServerSettingParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateServerSettingContext_Call) Return(updateServerSettingOK *operations.UpdateServerSettingOK, err error) *MockDwClientService_UpdateServerSettingContext_Call {
+	_c.Call.Return(updateServerSettingOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateServerSettingContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateServerSettingParams, opts ...operations.ClientOption) (*operations.UpdateServerSettingOK, error)) *MockDwClientService_UpdateServerSettingContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8420,6 +17209,180 @@ func (_c *MockDwClientService_UpdateVwConfig_Call) RunAndReturn(run func(params 
 	return _c
 }
 
+// UpdateVwConfigContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateVwConfigContext(ctx context.Context, params *operations.UpdateVwConfigParams, opts ...operations.ClientOption) (*operations.UpdateVwConfigOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateVwConfigContext")
+	}
+
+	var r0 *operations.UpdateVwConfigOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateVwConfigParams, ...operations.ClientOption) (*operations.UpdateVwConfigOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateVwConfigParams, ...operations.ClientOption) *operations.UpdateVwConfigOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateVwConfigOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateVwConfigParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateVwConfigContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateVwConfigContext'
+type MockDwClientService_UpdateVwConfigContext_Call struct {
+	*mock.Call
+}
+
+// UpdateVwConfigContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateVwConfigParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateVwConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateVwConfigContext_Call {
+	return &MockDwClientService_UpdateVwConfigContext_Call{Call: _e.mock.On("UpdateVwConfigContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateVwConfigContext_Call) Run(run func(ctx context.Context, params *operations.UpdateVwConfigParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateVwConfigContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateVwConfigParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateVwConfigParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateVwConfigContext_Call) Return(updateVwConfigOK *operations.UpdateVwConfigOK, err error) *MockDwClientService_UpdateVwConfigContext_Call {
+	_c.Call.Return(updateVwConfigOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateVwConfigContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateVwConfigParams, opts ...operations.ClientOption) (*operations.UpdateVwConfigOK, error)) *MockDwClientService_UpdateVwConfigContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdateVwContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpdateVwContext(ctx context.Context, params *operations.UpdateVwParams, opts ...operations.ClientOption) (*operations.UpdateVwOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateVwContext")
+	}
+
+	var r0 *operations.UpdateVwOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateVwParams, ...operations.ClientOption) (*operations.UpdateVwOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdateVwParams, ...operations.ClientOption) *operations.UpdateVwOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdateVwOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdateVwParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpdateVwContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateVwContext'
+type MockDwClientService_UpdateVwContext_Call struct {
+	*mock.Call
+}
+
+// UpdateVwContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdateVwParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpdateVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateVwContext_Call {
+	return &MockDwClientService_UpdateVwContext_Call{Call: _e.mock.On("UpdateVwContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpdateVwContext_Call) Run(run func(ctx context.Context, params *operations.UpdateVwParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateVwContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdateVwParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdateVwParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateVwContext_Call) Return(updateVwOK *operations.UpdateVwOK, err error) *MockDwClientService_UpdateVwContext_Call {
+	_c.Call.Return(updateVwOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpdateVwContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdateVwParams, opts ...operations.ClientOption) (*operations.UpdateVwOK, error)) *MockDwClientService_UpdateVwContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpgradeDataVisualization provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeDataVisualization(params *operations.UpgradeDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpgradeDataVisualizationOK, error) {
 	// operations.ClientOption
@@ -8497,6 +17460,93 @@ func (_c *MockDwClientService_UpgradeDataVisualization_Call) Return(upgradeDataV
 }
 
 func (_c *MockDwClientService_UpgradeDataVisualization_Call) RunAndReturn(run func(params *operations.UpgradeDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpgradeDataVisualizationOK, error)) *MockDwClientService_UpgradeDataVisualization_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpgradeDataVisualizationContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpgradeDataVisualizationContext(ctx context.Context, params *operations.UpgradeDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpgradeDataVisualizationOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradeDataVisualizationContext")
+	}
+
+	var r0 *operations.UpgradeDataVisualizationOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeDataVisualizationParams, ...operations.ClientOption) (*operations.UpgradeDataVisualizationOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeDataVisualizationParams, ...operations.ClientOption) *operations.UpgradeDataVisualizationOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpgradeDataVisualizationOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpgradeDataVisualizationParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpgradeDataVisualizationContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradeDataVisualizationContext'
+type MockDwClientService_UpgradeDataVisualizationContext_Call struct {
+	*mock.Call
+}
+
+// UpgradeDataVisualizationContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpgradeDataVisualizationParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpgradeDataVisualizationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpgradeDataVisualizationContext_Call {
+	return &MockDwClientService_UpgradeDataVisualizationContext_Call{Call: _e.mock.On("UpgradeDataVisualizationContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpgradeDataVisualizationContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeDataVisualizationContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpgradeDataVisualizationParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpgradeDataVisualizationParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpgradeDataVisualizationContext_Call) Return(upgradeDataVisualizationOK *operations.UpgradeDataVisualizationOK, err error) *MockDwClientService_UpgradeDataVisualizationContext_Call {
+	_c.Call.Return(upgradeDataVisualizationOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpgradeDataVisualizationContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpgradeDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpgradeDataVisualizationOK, error)) *MockDwClientService_UpgradeDataVisualizationContext_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -8582,6 +17632,93 @@ func (_c *MockDwClientService_UpgradeDbc_Call) RunAndReturn(run func(params *ope
 	return _c
 }
 
+// UpgradeDbcContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpgradeDbcContext(ctx context.Context, params *operations.UpgradeDbcParams, opts ...operations.ClientOption) (*operations.UpgradeDbcOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradeDbcContext")
+	}
+
+	var r0 *operations.UpgradeDbcOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeDbcParams, ...operations.ClientOption) (*operations.UpgradeDbcOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeDbcParams, ...operations.ClientOption) *operations.UpgradeDbcOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpgradeDbcOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpgradeDbcParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpgradeDbcContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradeDbcContext'
+type MockDwClientService_UpgradeDbcContext_Call struct {
+	*mock.Call
+}
+
+// UpgradeDbcContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpgradeDbcParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpgradeDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpgradeDbcContext_Call {
+	return &MockDwClientService_UpgradeDbcContext_Call{Call: _e.mock.On("UpgradeDbcContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpgradeDbcContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeDbcParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeDbcContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpgradeDbcParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpgradeDbcParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpgradeDbcContext_Call) Return(upgradeDbcOK *operations.UpgradeDbcOK, err error) *MockDwClientService_UpgradeDbcContext_Call {
+	_c.Call.Return(upgradeDbcOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpgradeDbcContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpgradeDbcParams, opts ...operations.ClientOption) (*operations.UpgradeDbcOK, error)) *MockDwClientService_UpgradeDbcContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpgradeHue provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeHue(params *operations.UpgradeHueParams, opts ...operations.ClientOption) (*operations.UpgradeHueOK, error) {
 	// operations.ClientOption
@@ -8663,6 +17800,93 @@ func (_c *MockDwClientService_UpgradeHue_Call) RunAndReturn(run func(params *ope
 	return _c
 }
 
+// UpgradeHueContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpgradeHueContext(ctx context.Context, params *operations.UpgradeHueParams, opts ...operations.ClientOption) (*operations.UpgradeHueOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradeHueContext")
+	}
+
+	var r0 *operations.UpgradeHueOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeHueParams, ...operations.ClientOption) (*operations.UpgradeHueOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeHueParams, ...operations.ClientOption) *operations.UpgradeHueOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpgradeHueOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpgradeHueParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpgradeHueContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradeHueContext'
+type MockDwClientService_UpgradeHueContext_Call struct {
+	*mock.Call
+}
+
+// UpgradeHueContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpgradeHueParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpgradeHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpgradeHueContext_Call {
+	return &MockDwClientService_UpgradeHueContext_Call{Call: _e.mock.On("UpgradeHueContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpgradeHueContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeHueParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeHueContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpgradeHueParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpgradeHueParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpgradeHueContext_Call) Return(upgradeHueOK *operations.UpgradeHueOK, err error) *MockDwClientService_UpgradeHueContext_Call {
+	_c.Call.Return(upgradeHueOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpgradeHueContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpgradeHueParams, opts ...operations.ClientOption) (*operations.UpgradeHueOK, error)) *MockDwClientService_UpgradeHueContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // UpgradeVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeVw(params *operations.UpgradeVwParams, opts ...operations.ClientOption) (*operations.UpgradeVwOK, error) {
 	// operations.ClientOption
@@ -8740,6 +17964,93 @@ func (_c *MockDwClientService_UpgradeVw_Call) Return(upgradeVwOK *operations.Upg
 }
 
 func (_c *MockDwClientService_UpgradeVw_Call) RunAndReturn(run func(params *operations.UpgradeVwParams, opts ...operations.ClientOption) (*operations.UpgradeVwOK, error)) *MockDwClientService_UpgradeVw_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpgradeVwContext provides a mock function for the type MockDwClientService
+func (_mock *MockDwClientService) UpgradeVwContext(ctx context.Context, params *operations.UpgradeVwParams, opts ...operations.ClientOption) (*operations.UpgradeVwOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpgradeVwContext")
+	}
+
+	var r0 *operations.UpgradeVwOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeVwParams, ...operations.ClientOption) (*operations.UpgradeVwOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpgradeVwParams, ...operations.ClientOption) *operations.UpgradeVwOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpgradeVwOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpgradeVwParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDwClientService_UpgradeVwContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpgradeVwContext'
+type MockDwClientService_UpgradeVwContext_Call struct {
+	*mock.Call
+}
+
+// UpgradeVwContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpgradeVwParams
+//   - opts ...operations.ClientOption
+func (_e *MockDwClientService_Expecter) UpgradeVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpgradeVwContext_Call {
+	return &MockDwClientService_UpgradeVwContext_Call{Call: _e.mock.On("UpgradeVwContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDwClientService_UpgradeVwContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeVwParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeVwContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpgradeVwParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpgradeVwParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDwClientService_UpgradeVwContext_Call) Return(upgradeVwOK *operations.UpgradeVwOK, err error) *MockDwClientService_UpgradeVwContext_Call {
+	_c.Call.Return(upgradeVwOK, err)
+	return _c
+}
+
+func (_c *MockDwClientService_UpgradeVwContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpgradeVwParams, opts ...operations.ClientOption) (*operations.UpgradeVwOK, error)) *MockDwClientService_UpgradeVwContext_Call {
 	_c.Call.Return(run)
 	return _c
 }

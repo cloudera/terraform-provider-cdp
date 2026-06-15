@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // GetDatahubLogDescriptorsReader is a Reader for the GetDatahubLogDescriptors structure.
@@ -45,11 +44,9 @@ func NewGetDatahubLogDescriptorsOK() *GetDatahubLogDescriptorsOK {
 	return &GetDatahubLogDescriptorsOK{}
 }
 
-/*
-GetDatahubLogDescriptorsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetDatahubLogDescriptorsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetDatahubLogDescriptorsOK struct {
 	Payload *models.GetDatahubLogDescriptorsResponse
 }
@@ -117,11 +114,9 @@ func NewGetDatahubLogDescriptorsDefault(code int) *GetDatahubLogDescriptorsDefau
 	}
 }
 
-/*
-GetDatahubLogDescriptorsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetDatahubLogDescriptorsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetDatahubLogDescriptorsDefault struct {
 	_statusCode int
 

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // UpgradeCcmReader is a Reader for the UpgradeCcm structure.
@@ -45,11 +44,9 @@ func NewUpgradeCcmOK() *UpgradeCcmOK {
 	return &UpgradeCcmOK{}
 }
 
-/*
-UpgradeCcmOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpgradeCcmOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpgradeCcmOK struct {
 	Payload *models.UpgradeCcmResponse
 }
@@ -117,11 +114,9 @@ func NewUpgradeCcmDefault(code int) *UpgradeCcmDefault {
 	}
 }
 
-/*
-UpgradeCcmDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpgradeCcmDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpgradeCcmDefault struct {
 	_statusCode int
 

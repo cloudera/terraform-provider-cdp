@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // DeleteModelRegistryReader is a Reader for the DeleteModelRegistry structure.
@@ -45,11 +44,9 @@ func NewDeleteModelRegistryOK() *DeleteModelRegistryOK {
 	return &DeleteModelRegistryOK{}
 }
 
-/*
-DeleteModelRegistryOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteModelRegistryOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteModelRegistryOK struct {
 	Payload models.DeleteModelRegistryResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteModelRegistryDefault(code int) *DeleteModelRegistryDefault {
 	}
 }
 
-/*
-DeleteModelRegistryDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteModelRegistryDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteModelRegistryDefault struct {
 	_statusCode int
 

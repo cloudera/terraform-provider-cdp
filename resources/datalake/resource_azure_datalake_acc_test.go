@@ -228,11 +228,11 @@ func testAccCheckAzureDataLakeDestroy(s *terraform.State) error {
 		}
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
-		params := operations.NewDescribeDatalakeParamsWithContext(context.Background())
+		params := operations.NewDescribeDatalakeParams()
 		params.WithInput(&models.DescribeDatalakeRequest{
 			DatalakeName: &rs.Primary.ID,
 		})
-		_, err := cdpClient.Datalake.Operations.DescribeDatalake(params)
+		_, err := cdpClient.Datalake.Operations.DescribeDatalakeContext(context.Background(), params)
 		if err != nil {
 			if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
 				fmt.Println(dlErr.GetPayload().Code)

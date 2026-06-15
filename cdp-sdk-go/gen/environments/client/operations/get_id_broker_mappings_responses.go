@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // GetIDBrokerMappingsReader is a Reader for the GetIDBrokerMappings structure.
@@ -45,11 +44,9 @@ func NewGetIDBrokerMappingsOK() *GetIDBrokerMappingsOK {
 	return &GetIDBrokerMappingsOK{}
 }
 
-/*
-GetIDBrokerMappingsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetIDBrokerMappingsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetIDBrokerMappingsOK struct {
 	Payload *models.GetIDBrokerMappingsResponse
 }
@@ -117,11 +114,9 @@ func NewGetIDBrokerMappingsDefault(code int) *GetIDBrokerMappingsDefault {
 	}
 }
 
-/*
-GetIDBrokerMappingsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetIDBrokerMappingsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetIDBrokerMappingsDefault struct {
 	_statusCode int
 

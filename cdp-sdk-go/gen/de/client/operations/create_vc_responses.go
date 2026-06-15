@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // CreateVcReader is a Reader for the CreateVc structure.
@@ -45,11 +44,9 @@ func NewCreateVcOK() *CreateVcOK {
 	return &CreateVcOK{}
 }
 
-/*
-CreateVcOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateVcOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateVcOK struct {
 	Payload *models.CreateVcResponse
 }
@@ -117,11 +114,9 @@ func NewCreateVcDefault(code int) *CreateVcDefault {
 	}
 }
 
-/*
-CreateVcDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateVcDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateVcDefault struct {
 	_statusCode int
 

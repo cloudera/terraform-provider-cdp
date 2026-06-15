@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewRepairTrustParams creates a new RepairTrustParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRepairTrustParams() *RepairTrustParams {
-	return &RepairTrustParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRepairTrustParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRepairTrustParamsWithTimeout creates a new RepairTrustParams object
 // with the ability to set a timeout on a request.
 func NewRepairTrustParamsWithTimeout(timeout time.Duration) *RepairTrustParams {
 	return &RepairTrustParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRepairTrustParamsWithContext creates a new RepairTrustParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RepairTrustParams].
 func NewRepairTrustParamsWithContext(ctx context.Context) *RepairTrustParams {
 	return &RepairTrustParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RepairTrustParams struct {
 	// Input.
 	Input *models.RepairTrustRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the repair trust params (not the query body).
@@ -83,54 +86,57 @@ func (o *RepairTrustParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the repair trust params
+// WithTimeout adds the timeout to the repair trust params.
 func (o *RepairTrustParams) WithTimeout(timeout time.Duration) *RepairTrustParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the repair trust params
+// SetTimeout adds the timeout to the repair trust params.
 func (o *RepairTrustParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the repair trust params
+// WithContext adds the context to the repair trust params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RepairTrustParams].
 func (o *RepairTrustParams) WithContext(ctx context.Context) *RepairTrustParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the repair trust params
+// SetContext adds the context to the repair trust params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RepairTrustParams].
 func (o *RepairTrustParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the repair trust params
+// WithHTTPClient adds the HTTPClient to the repair trust params.
 func (o *RepairTrustParams) WithHTTPClient(client *http.Client) *RepairTrustParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the repair trust params
+// SetHTTPClient adds the HTTPClient to the repair trust params.
 func (o *RepairTrustParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the repair trust params
+// WithInput adds the input to the repair trust params.
 func (o *RepairTrustParams) WithInput(input *models.RepairTrustRequest) *RepairTrustParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the repair trust params
+// SetInput adds the input to the repair trust params.
 func (o *RepairTrustParams) SetInput(input *models.RepairTrustRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RepairTrustParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

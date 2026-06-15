@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DescribeHueReader is a Reader for the DescribeHue structure.
@@ -45,11 +44,9 @@ func NewDescribeHueOK() *DescribeHueOK {
 	return &DescribeHueOK{}
 }
 
-/*
-DescribeHueOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DescribeHueOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DescribeHueOK struct {
 	Payload *models.DescribeHueResponse
 }
@@ -117,11 +114,9 @@ func NewDescribeHueDefault(code int) *DescribeHueDefault {
 	}
 }
 
-/*
-DescribeHueDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DescribeHueDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DescribeHueDefault struct {
 	_statusCode int
 

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewListCoprocessorsParams creates a new ListCoprocessorsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListCoprocessorsParams() *ListCoprocessorsParams {
-	return &ListCoprocessorsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListCoprocessorsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListCoprocessorsParamsWithTimeout creates a new ListCoprocessorsParams object
 // with the ability to set a timeout on a request.
 func NewListCoprocessorsParamsWithTimeout(timeout time.Duration) *ListCoprocessorsParams {
 	return &ListCoprocessorsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListCoprocessorsParamsWithContext creates a new ListCoprocessorsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListCoprocessorsParams].
 func NewListCoprocessorsParamsWithContext(ctx context.Context) *ListCoprocessorsParams {
 	return &ListCoprocessorsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListCoprocessorsParams struct {
 	// Input.
 	Input *models.ListCoprocessorsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list coprocessors params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListCoprocessorsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list coprocessors params
+// WithTimeout adds the timeout to the list coprocessors params.
 func (o *ListCoprocessorsParams) WithTimeout(timeout time.Duration) *ListCoprocessorsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list coprocessors params
+// SetTimeout adds the timeout to the list coprocessors params.
 func (o *ListCoprocessorsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list coprocessors params
+// WithContext adds the context to the list coprocessors params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListCoprocessorsParams].
 func (o *ListCoprocessorsParams) WithContext(ctx context.Context) *ListCoprocessorsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list coprocessors params
+// SetContext adds the context to the list coprocessors params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListCoprocessorsParams].
 func (o *ListCoprocessorsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list coprocessors params
+// WithHTTPClient adds the HTTPClient to the list coprocessors params.
 func (o *ListCoprocessorsParams) WithHTTPClient(client *http.Client) *ListCoprocessorsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list coprocessors params
+// SetHTTPClient adds the HTTPClient to the list coprocessors params.
 func (o *ListCoprocessorsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list coprocessors params
+// WithInput adds the input to the list coprocessors params.
 func (o *ListCoprocessorsParams) WithInput(input *models.ListCoprocessorsRequest) *ListCoprocessorsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list coprocessors params
+// SetInput adds the input to the list coprocessors params.
 func (o *ListCoprocessorsParams) SetInput(input *models.ListCoprocessorsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListCoprocessorsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

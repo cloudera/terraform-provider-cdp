@@ -62,7 +62,7 @@ func (r *azureCredentialResource) Create(ctx context.Context, req resource.Creat
 
 	client := r.client.Environments
 
-	params := operations.NewCreateAzureCredentialParamsWithContext(ctx)
+	params := operations.NewCreateAzureCredentialParams()
 	params.WithInput(&environmentsmodels.CreateAzureCredentialRequest{
 		CredentialName: data.CredentialName.ValueStringPointer(),
 		Description:    data.Description.ValueString(),
@@ -75,7 +75,7 @@ func (r *azureCredentialResource) Create(ctx context.Context, req resource.Creat
 		},
 	})
 
-	result, err := client.Operations.CreateAzureCredential(params)
+	result, err := client.Operations.CreateAzureCredentialContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Azure Credential")
 		return
@@ -102,9 +102,9 @@ func (r *azureCredentialResource) Read(ctx context.Context, req resource.ReadReq
 
 	// Get refreshed value from CDP
 	credentialName := state.CredentialName.ValueString()
-	params := operations.NewListCredentialsParamsWithContext(ctx)
+	params := operations.NewListCredentialsParams()
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
-	listCredentialsResp, err := r.client.Environments.Operations.ListCredentials(params)
+	listCredentialsResp, err := r.client.Environments.Operations.ListCredentialsContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "read Azure Credential")
 		return
@@ -165,8 +165,8 @@ func (r *azureCredentialResource) Delete(ctx context.Context, req resource.Delet
 		return
 	}
 
-	params := operations.NewDeleteCredentialParamsWithContext(ctx).WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: state.CredentialName.ValueStringPointer()})
-	_, err := r.client.Environments.Operations.DeleteCredential(params)
+	params := operations.NewDeleteCredentialParams().WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: state.CredentialName.ValueStringPointer()})
+	_, err := r.client.Environments.Operations.DeleteCredentialContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Azure Credential")
 		return
@@ -175,7 +175,7 @@ func (r *azureCredentialResource) Delete(ctx context.Context, req resource.Delet
 }
 
 func (r *azureCredentialResource) updateAzureCredential(ctx context.Context, client *environmentsclient.Environments, model azureCredentialResourceModel) error {
-	params := operations.NewUpdateAzureCredentialParamsWithContext(ctx)
+	params := operations.NewUpdateAzureCredentialParams()
 	authType := model.AppBased.AuthenticationType.ValueString()
 	if authType == "" {
 		authType = string(environmentsmodels.AzureAuthenticationTypePropertiesSECRET)
@@ -192,7 +192,7 @@ func (r *azureCredentialResource) updateAzureCredential(ctx context.Context, cli
 	})
 	return retry.RetryContext(ctx, credentialCreateRetryDuration, func() *retry.RetryError {
 		tflog.Debug(ctx, "Updating Azure credential")
-		_, err := client.Operations.UpdateAzureCredential(params)
+		_, err := client.Operations.UpdateAzureCredentialContext(ctx, params)
 		if err != nil {
 			if envErr, ok := errors.AsType[*operations.UpdateAzureCredentialDefault](err); ok {
 				if utils.IsRetryableError(envErr.Code()) {

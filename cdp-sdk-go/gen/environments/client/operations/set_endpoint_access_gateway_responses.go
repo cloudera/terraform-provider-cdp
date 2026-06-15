@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // SetEndpointAccessGatewayReader is a Reader for the SetEndpointAccessGateway structure.
@@ -45,11 +44,9 @@ func NewSetEndpointAccessGatewayOK() *SetEndpointAccessGatewayOK {
 	return &SetEndpointAccessGatewayOK{}
 }
 
-/*
-SetEndpointAccessGatewayOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SetEndpointAccessGatewayOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SetEndpointAccessGatewayOK struct {
 	Payload *models.SetEndpointAccessGatewayResponse
 }
@@ -117,11 +114,9 @@ func NewSetEndpointAccessGatewayDefault(code int) *SetEndpointAccessGatewayDefau
 	}
 }
 
-/*
-SetEndpointAccessGatewayDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SetEndpointAccessGatewayDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SetEndpointAccessGatewayDefault struct {
 	_statusCode int
 

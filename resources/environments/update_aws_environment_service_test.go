@@ -101,7 +101,7 @@ func TestUpdateDiskEncryption_Success(t *testing.T) {
 	client := NewMockEnvironments(mockClient)
 	keyArn := types.StringValue(testEncryptionKeyArn)
 
-	mockClient.On("UpdateAwsDiskEncryptionParameters", mock.MatchedBy(func(params *operations.UpdateAwsDiskEncryptionParametersParams) bool {
+	mockClient.On("UpdateAwsDiskEncryptionParametersContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateAwsDiskEncryptionParametersParams) bool {
 		return params.Input != nil &&
 			*params.Input.EncryptionKeyArn == testEncryptionKeyArn &&
 			*params.Input.Environment == testEnvName
@@ -122,7 +122,7 @@ func TestUpdateDiskEncryption_ReturnsError(t *testing.T) {
 	client := NewMockEnvironments(mockClient)
 	keyArn := types.StringValue(testEncryptionKeyArn)
 
-	mockClient.On("UpdateAwsDiskEncryptionParameters", mock.Anything, mock.Anything).
+	mockClient.On("UpdateAwsDiskEncryptionParametersContext", mock.Anything, mock.Anything, mock.Anything).
 		Return((*operations.UpdateAwsDiskEncryptionParametersOK)(nil), errors.New(testServiceUnavailable))
 
 	err := updateDiskEncryption(ctx, client, new(testEnvName), keyArn)

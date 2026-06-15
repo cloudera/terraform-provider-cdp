@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewDeleteDatalakeParams creates a new DeleteDatalakeParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteDatalakeParams() *DeleteDatalakeParams {
-	return &DeleteDatalakeParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteDatalakeParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteDatalakeParamsWithTimeout creates a new DeleteDatalakeParams object
 // with the ability to set a timeout on a request.
 func NewDeleteDatalakeParamsWithTimeout(timeout time.Duration) *DeleteDatalakeParams {
 	return &DeleteDatalakeParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteDatalakeParamsWithContext creates a new DeleteDatalakeParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteDatalakeParams].
 func NewDeleteDatalakeParamsWithContext(ctx context.Context) *DeleteDatalakeParams {
 	return &DeleteDatalakeParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteDatalakeParams struct {
 	// Input.
 	Input *models.DeleteDatalakeRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete datalake params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteDatalakeParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete datalake params
+// WithTimeout adds the timeout to the delete datalake params.
 func (o *DeleteDatalakeParams) WithTimeout(timeout time.Duration) *DeleteDatalakeParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete datalake params
+// SetTimeout adds the timeout to the delete datalake params.
 func (o *DeleteDatalakeParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete datalake params
+// WithContext adds the context to the delete datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteDatalakeParams].
 func (o *DeleteDatalakeParams) WithContext(ctx context.Context) *DeleteDatalakeParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete datalake params
+// SetContext adds the context to the delete datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteDatalakeParams].
 func (o *DeleteDatalakeParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete datalake params
+// WithHTTPClient adds the HTTPClient to the delete datalake params.
 func (o *DeleteDatalakeParams) WithHTTPClient(client *http.Client) *DeleteDatalakeParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete datalake params
+// SetHTTPClient adds the HTTPClient to the delete datalake params.
 func (o *DeleteDatalakeParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete datalake params
+// WithInput adds the input to the delete datalake params.
 func (o *DeleteDatalakeParams) WithInput(input *models.DeleteDatalakeRequest) *DeleteDatalakeParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete datalake params
+// SetInput adds the input to the delete datalake params.
 func (o *DeleteDatalakeParams) SetInput(input *models.DeleteDatalakeRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

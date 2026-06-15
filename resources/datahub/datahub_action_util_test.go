@@ -27,11 +27,28 @@ import (
 )
 
 type dummyClientTransport struct {
-	submit func(operation *runtime.ClientOperation) (interface{}, error)
+	submit        func(operation *runtime.ClientOperation) (interface{}, error)
+	submitContext func(ctx context.Context, operation *runtime.ClientOperation) (interface{}, error)
 }
 
 func (f *dummyClientTransport) Submit(operation *runtime.ClientOperation) (interface{}, error) {
+	if f == nil || f.submit == nil {
+		return nil, nil
+	}
 	return f.submit(operation)
+}
+
+func (f *dummyClientTransport) SubmitContext(ctx context.Context, operation *runtime.ClientOperation) (interface{}, error) {
+	if f == nil {
+		return nil, nil
+	}
+	if f.submitContext != nil {
+		return f.submitContext(ctx, operation)
+	}
+	if f.submit != nil {
+		return f.submit(operation)
+	}
+	return nil, nil
 }
 
 func TestDescribeDatahubWithDiagnosticHandle_Success(t *testing.T) {

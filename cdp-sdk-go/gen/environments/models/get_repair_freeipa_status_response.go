@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -70,7 +71,7 @@ func (m *GetRepairFreeipaStatusResponse) Validate(formats strfmt.Registry) error
 }
 
 func (m *GetRepairFreeipaStatusResponse) validateEndDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndDate) { // not required
+	if typeutils.IsZero(m.EndDate) { // not required
 		return nil
 	}
 
@@ -82,12 +83,12 @@ func (m *GetRepairFreeipaStatusResponse) validateEndDate(formats strfmt.Registry
 }
 
 func (m *GetRepairFreeipaStatusResponse) validateFailureOperationDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.FailureOperationDetails) { // not required
+	if typeutils.IsZero(m.FailureOperationDetails) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.FailureOperationDetails); i++ {
-		if swag.IsZero(m.FailureOperationDetails[i]) { // not required
+		if typeutils.IsZero(m.FailureOperationDetails[i]) { // not required
 			continue
 		}
 
@@ -112,7 +113,7 @@ func (m *GetRepairFreeipaStatusResponse) validateFailureOperationDetails(formats
 }
 
 func (m *GetRepairFreeipaStatusResponse) validateStartDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.StartDate) { // not required
+	if typeutils.IsZero(m.StartDate) { // not required
 		return nil
 	}
 
@@ -124,7 +125,7 @@ func (m *GetRepairFreeipaStatusResponse) validateStartDate(formats strfmt.Regist
 }
 
 func (m *GetRepairFreeipaStatusResponse) validateStatus(formats strfmt.Registry) error {
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -145,12 +146,12 @@ func (m *GetRepairFreeipaStatusResponse) validateStatus(formats strfmt.Registry)
 }
 
 func (m *GetRepairFreeipaStatusResponse) validateSuccessfulOperationDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.SuccessfulOperationDetails) { // not required
+	if typeutils.IsZero(m.SuccessfulOperationDetails) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.SuccessfulOperationDetails); i++ {
-		if swag.IsZero(m.SuccessfulOperationDetails[i]) { // not required
+		if typeutils.IsZero(m.SuccessfulOperationDetails[i]) { // not required
 			continue
 		}
 
@@ -202,7 +203,7 @@ func (m *GetRepairFreeipaStatusResponse) contextValidateFailureOperationDetails(
 
 		if m.FailureOperationDetails[i] != nil {
 
-			if swag.IsZero(m.FailureOperationDetails[i]) { // not required
+			if typeutils.IsZero(m.FailureOperationDetails[i]) { // not required
 				return nil
 			}
 
@@ -227,7 +228,7 @@ func (m *GetRepairFreeipaStatusResponse) contextValidateFailureOperationDetails(
 
 func (m *GetRepairFreeipaStatusResponse) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Status) { // not required
+	if typeutils.IsZero(m.Status) { // not required
 		return nil
 	}
 
@@ -253,7 +254,7 @@ func (m *GetRepairFreeipaStatusResponse) contextValidateSuccessfulOperationDetai
 
 		if m.SuccessfulOperationDetails[i] != nil {
 
-			if swag.IsZero(m.SuccessfulOperationDetails[i]) { // not required
+			if typeutils.IsZero(m.SuccessfulOperationDetails[i]) { // not required
 				return nil
 			}
 
@@ -281,13 +282,13 @@ func (m *GetRepairFreeipaStatusResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetRepairFreeipaStatusResponse) UnmarshalBinary(b []byte) error {
 	var res GetRepairFreeipaStatusResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

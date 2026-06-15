@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewDeleteBackupParams creates a new DeleteBackupParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteBackupParams() *DeleteBackupParams {
-	return &DeleteBackupParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteBackupParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteBackupParamsWithTimeout creates a new DeleteBackupParams object
 // with the ability to set a timeout on a request.
 func NewDeleteBackupParamsWithTimeout(timeout time.Duration) *DeleteBackupParams {
 	return &DeleteBackupParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteBackupParamsWithContext creates a new DeleteBackupParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteBackupParams].
 func NewDeleteBackupParamsWithContext(ctx context.Context) *DeleteBackupParams {
 	return &DeleteBackupParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteBackupParams struct {
 	// Input.
 	Input *models.DeleteBackupRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete backup params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteBackupParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete backup params
+// WithTimeout adds the timeout to the delete backup params.
 func (o *DeleteBackupParams) WithTimeout(timeout time.Duration) *DeleteBackupParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete backup params
+// SetTimeout adds the timeout to the delete backup params.
 func (o *DeleteBackupParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete backup params
+// WithContext adds the context to the delete backup params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteBackupParams].
 func (o *DeleteBackupParams) WithContext(ctx context.Context) *DeleteBackupParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete backup params
+// SetContext adds the context to the delete backup params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteBackupParams].
 func (o *DeleteBackupParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete backup params
+// WithHTTPClient adds the HTTPClient to the delete backup params.
 func (o *DeleteBackupParams) WithHTTPClient(client *http.Client) *DeleteBackupParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete backup params
+// SetHTTPClient adds the HTTPClient to the delete backup params.
 func (o *DeleteBackupParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete backup params
+// WithInput adds the input to the delete backup params.
 func (o *DeleteBackupParams) WithInput(input *models.DeleteBackupRequest) *DeleteBackupParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete backup params
+// SetInput adds the input to the delete backup params.
 func (o *DeleteBackupParams) SetInput(input *models.DeleteBackupRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteBackupParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

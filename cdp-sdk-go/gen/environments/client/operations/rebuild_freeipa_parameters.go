@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewRebuildFreeipaParams creates a new RebuildFreeipaParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRebuildFreeipaParams() *RebuildFreeipaParams {
-	return &RebuildFreeipaParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRebuildFreeipaParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRebuildFreeipaParamsWithTimeout creates a new RebuildFreeipaParams object
 // with the ability to set a timeout on a request.
 func NewRebuildFreeipaParamsWithTimeout(timeout time.Duration) *RebuildFreeipaParams {
 	return &RebuildFreeipaParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRebuildFreeipaParamsWithContext creates a new RebuildFreeipaParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RebuildFreeipaParams].
 func NewRebuildFreeipaParamsWithContext(ctx context.Context) *RebuildFreeipaParams {
 	return &RebuildFreeipaParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RebuildFreeipaParams struct {
 	// Input.
 	Input *models.RebuildFreeipaRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the rebuild freeipa params (not the query body).
@@ -83,54 +86,57 @@ func (o *RebuildFreeipaParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the rebuild freeipa params
+// WithTimeout adds the timeout to the rebuild freeipa params.
 func (o *RebuildFreeipaParams) WithTimeout(timeout time.Duration) *RebuildFreeipaParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the rebuild freeipa params
+// SetTimeout adds the timeout to the rebuild freeipa params.
 func (o *RebuildFreeipaParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the rebuild freeipa params
+// WithContext adds the context to the rebuild freeipa params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RebuildFreeipaParams].
 func (o *RebuildFreeipaParams) WithContext(ctx context.Context) *RebuildFreeipaParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the rebuild freeipa params
+// SetContext adds the context to the rebuild freeipa params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RebuildFreeipaParams].
 func (o *RebuildFreeipaParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the rebuild freeipa params
+// WithHTTPClient adds the HTTPClient to the rebuild freeipa params.
 func (o *RebuildFreeipaParams) WithHTTPClient(client *http.Client) *RebuildFreeipaParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the rebuild freeipa params
+// SetHTTPClient adds the HTTPClient to the rebuild freeipa params.
 func (o *RebuildFreeipaParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the rebuild freeipa params
+// WithInput adds the input to the rebuild freeipa params.
 func (o *RebuildFreeipaParams) WithInput(input *models.RebuildFreeipaRequest) *RebuildFreeipaParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the rebuild freeipa params
+// SetInput adds the input to the rebuild freeipa params.
 func (o *RebuildFreeipaParams) SetInput(input *models.RebuildFreeipaRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RebuildFreeipaParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

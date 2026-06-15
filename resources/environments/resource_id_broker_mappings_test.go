@@ -33,6 +33,10 @@ type MockOperations struct {
 	operations.ClientService
 }
 
+func (m MockTransport) SubmitContext(ctx context.Context, operation *runtime.ClientOperation) (interface{}, error) {
+	return nil, nil
+}
+
 func (m *MockOperations) SetTransport(transport runtime.ClientTransport) {
 }
 
@@ -166,7 +170,7 @@ func TestCreate(t *testing.T) {
 				match = match && len(params.Input.Mappings) == 1 && *params.Input.Mappings[0].AccessorCrn == "test-acrn" && *params.Input.Mappings[0].Role == "test-role"
 				return match
 			}
-			mockClient.On("SetIDBrokerMappings", mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("SetIDBrokerMappingsContext", mock.Anything, mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			idmResource := &idBrokerMappingsResource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
@@ -280,7 +284,7 @@ func TestRead(t *testing.T) {
 			ctx := context.TODO()
 
 			mockClient := new(mocks.MockEnvironmentClientService)
-			mockClient.On("DescribeEnvironment", mock.MatchedBy(func(params *operations.DescribeEnvironmentParams) bool {
+			mockClient.On("DescribeEnvironmentContext", mock.Anything, mock.MatchedBy(func(params *operations.DescribeEnvironmentParams) bool {
 				return *params.Input.EnvironmentName == "test-env-name"
 			})).Return(testCase.expectedEnvironmentResponse, testCase.expectedEnvironmentErrorResponse)
 
@@ -288,7 +292,7 @@ func TestRead(t *testing.T) {
 				var readMatcher = func(params *operations.GetIDBrokerMappingsParams) bool {
 					return *params.Input.EnvironmentName == "test-env-name"
 				}
-				mockClient.On("GetIDBrokerMappings", mock.MatchedBy(readMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+				mockClient.On("GetIDBrokerMappingsContext", mock.Anything, mock.MatchedBy(readMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 			}
 
 			idmResource := &idBrokerMappingsResource{
@@ -410,7 +414,7 @@ func TestUpdate(t *testing.T) {
 			ctx := context.TODO()
 
 			mockClient := new(mocks.MockEnvironmentClientService)
-			mockClient.On("DescribeEnvironment", mock.MatchedBy(func(params *operations.DescribeEnvironmentParams) bool {
+			mockClient.On("DescribeEnvironmentContext", mock.Anything, mock.MatchedBy(func(params *operations.DescribeEnvironmentParams) bool {
 				return *params.Input.EnvironmentName == "test-env-name"
 			})).Return(testCase.expectedEnvironmentResponse, testCase.expectedEnvironmentErrorResponse)
 
@@ -425,7 +429,7 @@ func TestUpdate(t *testing.T) {
 					match = match && len(params.Input.Mappings) == 1 && *params.Input.Mappings[0].AccessorCrn == "test-acrn" && *params.Input.Mappings[0].Role == "test-role"
 					return match
 				}
-				mockClient.On("SetIDBrokerMappings", mock.MatchedBy(updateMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+				mockClient.On("SetIDBrokerMappingsContext", mock.Anything, mock.MatchedBy(updateMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 			}
 
 			idmResource := &idBrokerMappingsResource{
@@ -548,7 +552,7 @@ func TestDelete(t *testing.T) {
 			ctx := context.TODO()
 
 			mockClient := new(mocks.MockEnvironmentClientService)
-			mockClient.On("DescribeEnvironment", mock.MatchedBy(func(params *operations.DescribeEnvironmentParams) bool {
+			mockClient.On("DescribeEnvironmentContext", mock.Anything, mock.MatchedBy(func(params *operations.DescribeEnvironmentParams) bool {
 				return *params.Input.EnvironmentName == "test-env-name"
 			})).Return(testCase.expectedEnvironmentResponse, testCase.expectedEnvironmentErrorResponse)
 
@@ -563,7 +567,7 @@ func TestDelete(t *testing.T) {
 					match = match && len(params.Input.Mappings) == 0
 					return match
 				}
-				mockClient.On("SetIDBrokerMappings", mock.MatchedBy(updateMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+				mockClient.On("SetIDBrokerMappingsContext", mock.Anything, mock.MatchedBy(updateMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 			}
 
 			idmResource := &idBrokerMappingsResource{

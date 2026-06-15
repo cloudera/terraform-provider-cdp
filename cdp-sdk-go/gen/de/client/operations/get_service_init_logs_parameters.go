@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // NewGetServiceInitLogsParams creates a new GetServiceInitLogsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetServiceInitLogsParams() *GetServiceInitLogsParams {
-	return &GetServiceInitLogsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetServiceInitLogsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetServiceInitLogsParamsWithTimeout creates a new GetServiceInitLogsParams object
 // with the ability to set a timeout on a request.
 func NewGetServiceInitLogsParamsWithTimeout(timeout time.Duration) *GetServiceInitLogsParams {
 	return &GetServiceInitLogsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetServiceInitLogsParamsWithContext creates a new GetServiceInitLogsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetServiceInitLogsParams].
 func NewGetServiceInitLogsParamsWithContext(ctx context.Context) *GetServiceInitLogsParams {
 	return &GetServiceInitLogsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetServiceInitLogsParams struct {
 	// Input.
 	Input *models.GetServiceInitLogsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get service init logs params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetServiceInitLogsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get service init logs params
+// WithTimeout adds the timeout to the get service init logs params.
 func (o *GetServiceInitLogsParams) WithTimeout(timeout time.Duration) *GetServiceInitLogsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get service init logs params
+// SetTimeout adds the timeout to the get service init logs params.
 func (o *GetServiceInitLogsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get service init logs params
+// WithContext adds the context to the get service init logs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetServiceInitLogsParams].
 func (o *GetServiceInitLogsParams) WithContext(ctx context.Context) *GetServiceInitLogsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get service init logs params
+// SetContext adds the context to the get service init logs params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetServiceInitLogsParams].
 func (o *GetServiceInitLogsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get service init logs params
+// WithHTTPClient adds the HTTPClient to the get service init logs params.
 func (o *GetServiceInitLogsParams) WithHTTPClient(client *http.Client) *GetServiceInitLogsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get service init logs params
+// SetHTTPClient adds the HTTPClient to the get service init logs params.
 func (o *GetServiceInitLogsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get service init logs params
+// WithInput adds the input to the get service init logs params.
 func (o *GetServiceInitLogsParams) WithInput(input *models.GetServiceInitLogsRequest) *GetServiceInitLogsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get service init logs params
+// SetInput adds the input to the get service init logs params.
 func (o *GetServiceInitLogsParams) SetInput(input *models.GetServiceInitLogsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetServiceInitLogsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

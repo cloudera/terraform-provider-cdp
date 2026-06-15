@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewCreateGCPClusterParams creates a new CreateGCPClusterParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateGCPClusterParams() *CreateGCPClusterParams {
-	return &CreateGCPClusterParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateGCPClusterParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateGCPClusterParamsWithTimeout creates a new CreateGCPClusterParams object
 // with the ability to set a timeout on a request.
 func NewCreateGCPClusterParamsWithTimeout(timeout time.Duration) *CreateGCPClusterParams {
 	return &CreateGCPClusterParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateGCPClusterParamsWithContext creates a new CreateGCPClusterParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateGCPClusterParams].
 func NewCreateGCPClusterParamsWithContext(ctx context.Context) *CreateGCPClusterParams {
 	return &CreateGCPClusterParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateGCPClusterParams struct {
 	// Input.
 	Input *models.CreateGCPClusterRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create g c p cluster params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateGCPClusterParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create g c p cluster params
+// WithTimeout adds the timeout to the create g c p cluster params.
 func (o *CreateGCPClusterParams) WithTimeout(timeout time.Duration) *CreateGCPClusterParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create g c p cluster params
+// SetTimeout adds the timeout to the create g c p cluster params.
 func (o *CreateGCPClusterParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create g c p cluster params
+// WithContext adds the context to the create g c p cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateGCPClusterParams].
 func (o *CreateGCPClusterParams) WithContext(ctx context.Context) *CreateGCPClusterParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create g c p cluster params
+// SetContext adds the context to the create g c p cluster params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateGCPClusterParams].
 func (o *CreateGCPClusterParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create g c p cluster params
+// WithHTTPClient adds the HTTPClient to the create g c p cluster params.
 func (o *CreateGCPClusterParams) WithHTTPClient(client *http.Client) *CreateGCPClusterParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create g c p cluster params
+// SetHTTPClient adds the HTTPClient to the create g c p cluster params.
 func (o *CreateGCPClusterParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create g c p cluster params
+// WithInput adds the input to the create g c p cluster params.
 func (o *CreateGCPClusterParams) WithInput(input *models.CreateGCPClusterRequest) *CreateGCPClusterParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create g c p cluster params
+// SetInput adds the input to the create g c p cluster params.
 func (o *CreateGCPClusterParams) SetInput(input *models.CreateGCPClusterRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateGCPClusterParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

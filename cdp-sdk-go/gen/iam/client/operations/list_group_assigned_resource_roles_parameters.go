@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListGroupAssignedResourceRolesParams creates a new ListGroupAssignedResourceRolesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListGroupAssignedResourceRolesParams() *ListGroupAssignedResourceRolesParams {
-	return &ListGroupAssignedResourceRolesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListGroupAssignedResourceRolesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListGroupAssignedResourceRolesParamsWithTimeout creates a new ListGroupAssignedResourceRolesParams object
 // with the ability to set a timeout on a request.
 func NewListGroupAssignedResourceRolesParamsWithTimeout(timeout time.Duration) *ListGroupAssignedResourceRolesParams {
 	return &ListGroupAssignedResourceRolesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListGroupAssignedResourceRolesParamsWithContext creates a new ListGroupAssignedResourceRolesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupAssignedResourceRolesParams].
 func NewListGroupAssignedResourceRolesParamsWithContext(ctx context.Context) *ListGroupAssignedResourceRolesParams {
 	return &ListGroupAssignedResourceRolesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListGroupAssignedResourceRolesParams struct {
 	// Input.
 	Input *models.ListGroupAssignedResourceRolesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list group assigned resource roles params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListGroupAssignedResourceRolesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list group assigned resource roles params
+// WithTimeout adds the timeout to the list group assigned resource roles params.
 func (o *ListGroupAssignedResourceRolesParams) WithTimeout(timeout time.Duration) *ListGroupAssignedResourceRolesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list group assigned resource roles params
+// SetTimeout adds the timeout to the list group assigned resource roles params.
 func (o *ListGroupAssignedResourceRolesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list group assigned resource roles params
+// WithContext adds the context to the list group assigned resource roles params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupAssignedResourceRolesParams].
 func (o *ListGroupAssignedResourceRolesParams) WithContext(ctx context.Context) *ListGroupAssignedResourceRolesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list group assigned resource roles params
+// SetContext adds the context to the list group assigned resource roles params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListGroupAssignedResourceRolesParams].
 func (o *ListGroupAssignedResourceRolesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list group assigned resource roles params
+// WithHTTPClient adds the HTTPClient to the list group assigned resource roles params.
 func (o *ListGroupAssignedResourceRolesParams) WithHTTPClient(client *http.Client) *ListGroupAssignedResourceRolesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list group assigned resource roles params
+// SetHTTPClient adds the HTTPClient to the list group assigned resource roles params.
 func (o *ListGroupAssignedResourceRolesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list group assigned resource roles params
+// WithInput adds the input to the list group assigned resource roles params.
 func (o *ListGroupAssignedResourceRolesParams) WithInput(input *models.ListGroupAssignedResourceRolesRequest) *ListGroupAssignedResourceRolesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list group assigned resource roles params
+// SetInput adds the input to the list group assigned resource roles params.
 func (o *ListGroupAssignedResourceRolesParams) SetInput(input *models.ListGroupAssignedResourceRolesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListGroupAssignedResourceRolesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

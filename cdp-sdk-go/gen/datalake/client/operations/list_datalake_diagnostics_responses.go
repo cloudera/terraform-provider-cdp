@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // ListDatalakeDiagnosticsReader is a Reader for the ListDatalakeDiagnostics structure.
@@ -45,11 +44,9 @@ func NewListDatalakeDiagnosticsOK() *ListDatalakeDiagnosticsOK {
 	return &ListDatalakeDiagnosticsOK{}
 }
 
-/*
-ListDatalakeDiagnosticsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListDatalakeDiagnosticsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListDatalakeDiagnosticsOK struct {
 	Payload *models.ListDatalakeDiagnosticsResponse
 }
@@ -117,11 +114,9 @@ func NewListDatalakeDiagnosticsDefault(code int) *ListDatalakeDiagnosticsDefault
 	}
 }
 
-/*
-ListDatalakeDiagnosticsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListDatalakeDiagnosticsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListDatalakeDiagnosticsDefault struct {
 	_statusCode int
 

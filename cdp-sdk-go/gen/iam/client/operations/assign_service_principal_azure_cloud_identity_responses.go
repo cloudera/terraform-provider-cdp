@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // AssignServicePrincipalAzureCloudIdentityReader is a Reader for the AssignServicePrincipalAzureCloudIdentity structure.
@@ -45,11 +44,9 @@ func NewAssignServicePrincipalAzureCloudIdentityOK() *AssignServicePrincipalAzur
 	return &AssignServicePrincipalAzureCloudIdentityOK{}
 }
 
-/*
-AssignServicePrincipalAzureCloudIdentityOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// AssignServicePrincipalAzureCloudIdentityOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type AssignServicePrincipalAzureCloudIdentityOK struct {
 	Payload models.AssignServicePrincipalAzureCloudIdentityResponse
 }
@@ -115,11 +112,9 @@ func NewAssignServicePrincipalAzureCloudIdentityDefault(code int) *AssignService
 	}
 }
 
-/*
-AssignServicePrincipalAzureCloudIdentityDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// AssignServicePrincipalAzureCloudIdentityDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type AssignServicePrincipalAzureCloudIdentityDefault struct {
 	_statusCode int
 

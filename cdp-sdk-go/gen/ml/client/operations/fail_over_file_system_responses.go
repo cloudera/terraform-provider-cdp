@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // FailOverFileSystemReader is a Reader for the FailOverFileSystem structure.
@@ -45,11 +44,9 @@ func NewFailOverFileSystemOK() *FailOverFileSystemOK {
 	return &FailOverFileSystemOK{}
 }
 
-/*
-FailOverFileSystemOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// FailOverFileSystemOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type FailOverFileSystemOK struct {
 	Payload models.FailOverFileSystemResponse
 }
@@ -115,11 +112,9 @@ func NewFailOverFileSystemDefault(code int) *FailOverFileSystemDefault {
 	}
 }
 
-/*
-FailOverFileSystemDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// FailOverFileSystemDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type FailOverFileSystemDefault struct {
 	_statusCode int
 

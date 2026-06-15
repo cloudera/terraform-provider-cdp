@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // DeleteInstancesReader is a Reader for the DeleteInstances structure.
@@ -45,11 +44,9 @@ func NewDeleteInstancesOK() *DeleteInstancesOK {
 	return &DeleteInstancesOK{}
 }
 
-/*
-DeleteInstancesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteInstancesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteInstancesOK struct {
 	Payload *models.DeleteInstancesResponse
 }
@@ -117,11 +114,9 @@ func NewDeleteInstancesDefault(code int) *DeleteInstancesDefault {
 	}
 }
 
-/*
-DeleteInstancesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteInstancesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteInstancesDefault struct {
 	_statusCode int
 

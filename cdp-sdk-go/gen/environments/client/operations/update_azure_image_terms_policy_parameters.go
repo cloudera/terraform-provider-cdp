@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateAzureImageTermsPolicyParams creates a new UpdateAzureImageTermsPolicyParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateAzureImageTermsPolicyParams() *UpdateAzureImageTermsPolicyParams {
-	return &UpdateAzureImageTermsPolicyParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateAzureImageTermsPolicyParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateAzureImageTermsPolicyParamsWithTimeout creates a new UpdateAzureImageTermsPolicyParams object
 // with the ability to set a timeout on a request.
 func NewUpdateAzureImageTermsPolicyParamsWithTimeout(timeout time.Duration) *UpdateAzureImageTermsPolicyParams {
 	return &UpdateAzureImageTermsPolicyParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateAzureImageTermsPolicyParamsWithContext creates a new UpdateAzureImageTermsPolicyParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureImageTermsPolicyParams].
 func NewUpdateAzureImageTermsPolicyParamsWithContext(ctx context.Context) *UpdateAzureImageTermsPolicyParams {
 	return &UpdateAzureImageTermsPolicyParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateAzureImageTermsPolicyParams struct {
 	// Input.
 	Input *models.UpdateAzureImageTermsPolicyRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update azure image terms policy params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateAzureImageTermsPolicyParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update azure image terms policy params
+// WithTimeout adds the timeout to the update azure image terms policy params.
 func (o *UpdateAzureImageTermsPolicyParams) WithTimeout(timeout time.Duration) *UpdateAzureImageTermsPolicyParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update azure image terms policy params
+// SetTimeout adds the timeout to the update azure image terms policy params.
 func (o *UpdateAzureImageTermsPolicyParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update azure image terms policy params
+// WithContext adds the context to the update azure image terms policy params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureImageTermsPolicyParams].
 func (o *UpdateAzureImageTermsPolicyParams) WithContext(ctx context.Context) *UpdateAzureImageTermsPolicyParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update azure image terms policy params
+// SetContext adds the context to the update azure image terms policy params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateAzureImageTermsPolicyParams].
 func (o *UpdateAzureImageTermsPolicyParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update azure image terms policy params
+// WithHTTPClient adds the HTTPClient to the update azure image terms policy params.
 func (o *UpdateAzureImageTermsPolicyParams) WithHTTPClient(client *http.Client) *UpdateAzureImageTermsPolicyParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update azure image terms policy params
+// SetHTTPClient adds the HTTPClient to the update azure image terms policy params.
 func (o *UpdateAzureImageTermsPolicyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update azure image terms policy params
+// WithInput adds the input to the update azure image terms policy params.
 func (o *UpdateAzureImageTermsPolicyParams) WithInput(input *models.UpdateAzureImageTermsPolicyRequest) *UpdateAzureImageTermsPolicyParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update azure image terms policy params
+// SetInput adds the input to the update azure image terms policy params.
 func (o *UpdateAzureImageTermsPolicyParams) SetInput(input *models.UpdateAzureImageTermsPolicyRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateAzureImageTermsPolicyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

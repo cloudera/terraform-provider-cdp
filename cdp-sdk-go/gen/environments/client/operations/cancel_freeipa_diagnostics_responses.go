@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // CancelFreeipaDiagnosticsReader is a Reader for the CancelFreeipaDiagnostics structure.
@@ -45,11 +44,9 @@ func NewCancelFreeipaDiagnosticsOK() *CancelFreeipaDiagnosticsOK {
 	return &CancelFreeipaDiagnosticsOK{}
 }
 
-/*
-CancelFreeipaDiagnosticsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CancelFreeipaDiagnosticsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CancelFreeipaDiagnosticsOK struct {
 	Payload models.CancelFreeipaDiagnosticsResponse
 }
@@ -115,11 +112,9 @@ func NewCancelFreeipaDiagnosticsDefault(code int) *CancelFreeipaDiagnosticsDefau
 	}
 }
 
-/*
-CancelFreeipaDiagnosticsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CancelFreeipaDiagnosticsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CancelFreeipaDiagnosticsDefault struct {
 	_statusCode int
 

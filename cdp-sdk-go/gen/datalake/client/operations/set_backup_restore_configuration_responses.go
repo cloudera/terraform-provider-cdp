@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // SetBackupRestoreConfigurationReader is a Reader for the SetBackupRestoreConfiguration structure.
@@ -45,11 +44,9 @@ func NewSetBackupRestoreConfigurationOK() *SetBackupRestoreConfigurationOK {
 	return &SetBackupRestoreConfigurationOK{}
 }
 
-/*
-SetBackupRestoreConfigurationOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SetBackupRestoreConfigurationOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SetBackupRestoreConfigurationOK struct {
 	Payload *models.SetBackupRestoreConfigurationResponse
 }
@@ -117,11 +114,9 @@ func NewSetBackupRestoreConfigurationDefault(code int) *SetBackupRestoreConfigur
 	}
 }
 
-/*
-SetBackupRestoreConfigurationDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SetBackupRestoreConfigurationDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SetBackupRestoreConfigurationDefault struct {
 	_statusCode int
 

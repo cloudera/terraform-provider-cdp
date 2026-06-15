@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -56,7 +57,7 @@ func (m *IDBrokerSyncStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *IDBrokerSyncStatus) validateEndDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.EndDate) { // not required
+	if typeutils.IsZero(m.EndDate) { // not required
 		return nil
 	}
 
@@ -68,7 +69,7 @@ func (m *IDBrokerSyncStatus) validateEndDate(formats strfmt.Registry) error {
 }
 
 func (m *IDBrokerSyncStatus) validateStartDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.StartDate) { // not required
+	if typeutils.IsZero(m.StartDate) { // not required
 		return nil
 	}
 
@@ -80,10 +81,6 @@ func (m *IDBrokerSyncStatus) validateStartDate(formats strfmt.Registry) error {
 }
 
 func (m *IDBrokerSyncStatus) validateStatus(formats strfmt.Registry) error {
-
-	if err := validate.Required("status", "body", m.Status); err != nil {
-		return err
-	}
 
 	if err := validate.Required("status", "body", m.Status); err != nil {
 		return err
@@ -147,13 +144,13 @@ func (m *IDBrokerSyncStatus) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *IDBrokerSyncStatus) UnmarshalBinary(b []byte) error {
 	var res IDBrokerSyncStatus
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

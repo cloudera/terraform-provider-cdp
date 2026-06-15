@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // GetHueUpgradeVersionReader is a Reader for the GetHueUpgradeVersion structure.
@@ -45,11 +44,9 @@ func NewGetHueUpgradeVersionOK() *GetHueUpgradeVersionOK {
 	return &GetHueUpgradeVersionOK{}
 }
 
-/*
-GetHueUpgradeVersionOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetHueUpgradeVersionOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetHueUpgradeVersionOK struct {
 	Payload *models.GetHueUpgradeVersionResponse
 }
@@ -117,11 +114,9 @@ func NewGetHueUpgradeVersionDefault(code int) *GetHueUpgradeVersionDefault {
 	}
 }
 
-/*
-GetHueUpgradeVersionDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetHueUpgradeVersionDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetHueUpgradeVersionDefault struct {
 	_statusCode int
 

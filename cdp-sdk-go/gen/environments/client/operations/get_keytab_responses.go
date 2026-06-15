@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // GetKeytabReader is a Reader for the GetKeytab structure.
@@ -45,11 +44,9 @@ func NewGetKeytabOK() *GetKeytabOK {
 	return &GetKeytabOK{}
 }
 
-/*
-GetKeytabOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetKeytabOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetKeytabOK struct {
 	Payload *models.GetKeytabResponse
 }
@@ -117,11 +114,9 @@ func NewGetKeytabDefault(code int) *GetKeytabDefault {
 	}
 }
 
-/*
-GetKeytabDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetKeytabDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetKeytabDefault struct {
 	_statusCode int
 

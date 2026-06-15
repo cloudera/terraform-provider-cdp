@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListServicePrincipalCloudIdentitiesParams creates a new ListServicePrincipalCloudIdentitiesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListServicePrincipalCloudIdentitiesParams() *ListServicePrincipalCloudIdentitiesParams {
-	return &ListServicePrincipalCloudIdentitiesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListServicePrincipalCloudIdentitiesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListServicePrincipalCloudIdentitiesParamsWithTimeout creates a new ListServicePrincipalCloudIdentitiesParams object
 // with the ability to set a timeout on a request.
 func NewListServicePrincipalCloudIdentitiesParamsWithTimeout(timeout time.Duration) *ListServicePrincipalCloudIdentitiesParams {
 	return &ListServicePrincipalCloudIdentitiesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListServicePrincipalCloudIdentitiesParamsWithContext creates a new ListServicePrincipalCloudIdentitiesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListServicePrincipalCloudIdentitiesParams].
 func NewListServicePrincipalCloudIdentitiesParamsWithContext(ctx context.Context) *ListServicePrincipalCloudIdentitiesParams {
 	return &ListServicePrincipalCloudIdentitiesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListServicePrincipalCloudIdentitiesParams struct {
 	// Input.
 	Input *models.ListServicePrincipalCloudIdentitiesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list service principal cloud identities params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListServicePrincipalCloudIdentitiesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list service principal cloud identities params
+// WithTimeout adds the timeout to the list service principal cloud identities params.
 func (o *ListServicePrincipalCloudIdentitiesParams) WithTimeout(timeout time.Duration) *ListServicePrincipalCloudIdentitiesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list service principal cloud identities params
+// SetTimeout adds the timeout to the list service principal cloud identities params.
 func (o *ListServicePrincipalCloudIdentitiesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list service principal cloud identities params
+// WithContext adds the context to the list service principal cloud identities params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListServicePrincipalCloudIdentitiesParams].
 func (o *ListServicePrincipalCloudIdentitiesParams) WithContext(ctx context.Context) *ListServicePrincipalCloudIdentitiesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list service principal cloud identities params
+// SetContext adds the context to the list service principal cloud identities params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListServicePrincipalCloudIdentitiesParams].
 func (o *ListServicePrincipalCloudIdentitiesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list service principal cloud identities params
+// WithHTTPClient adds the HTTPClient to the list service principal cloud identities params.
 func (o *ListServicePrincipalCloudIdentitiesParams) WithHTTPClient(client *http.Client) *ListServicePrincipalCloudIdentitiesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list service principal cloud identities params
+// SetHTTPClient adds the HTTPClient to the list service principal cloud identities params.
 func (o *ListServicePrincipalCloudIdentitiesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list service principal cloud identities params
+// WithInput adds the input to the list service principal cloud identities params.
 func (o *ListServicePrincipalCloudIdentitiesParams) WithInput(input *models.ListServicePrincipalCloudIdentitiesRequest) *ListServicePrincipalCloudIdentitiesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list service principal cloud identities params
+// SetInput adds the input to the list service principal cloud identities params.
 func (o *ListServicePrincipalCloudIdentitiesParams) SetInput(input *models.ListServicePrincipalCloudIdentitiesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListServicePrincipalCloudIdentitiesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

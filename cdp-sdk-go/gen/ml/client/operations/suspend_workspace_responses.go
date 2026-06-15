@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // SuspendWorkspaceReader is a Reader for the SuspendWorkspace structure.
@@ -45,11 +44,9 @@ func NewSuspendWorkspaceOK() *SuspendWorkspaceOK {
 	return &SuspendWorkspaceOK{}
 }
 
-/*
-SuspendWorkspaceOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SuspendWorkspaceOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SuspendWorkspaceOK struct {
 	Payload models.SuspendWorkspaceResponse
 }
@@ -115,11 +112,9 @@ func NewSuspendWorkspaceDefault(code int) *SuspendWorkspaceDefault {
 	}
 }
 
-/*
-SuspendWorkspaceDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SuspendWorkspaceDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SuspendWorkspaceDefault struct {
 	_statusCode int
 

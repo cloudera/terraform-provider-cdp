@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // StartClusterReader is a Reader for the StartCluster structure.
@@ -45,11 +44,9 @@ func NewStartClusterOK() *StartClusterOK {
 	return &StartClusterOK{}
 }
 
-/*
-StartClusterOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// StartClusterOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type StartClusterOK struct {
 	Payload *models.StartClusterResponse
 }
@@ -117,11 +114,9 @@ func NewStartClusterDefault(code int) *StartClusterDefault {
 	}
 }
 
-/*
-StartClusterDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// StartClusterDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type StartClusterDefault struct {
 	_statusCode int
 

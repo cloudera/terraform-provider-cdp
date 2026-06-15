@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewCreateScimAccessTokenParams creates a new CreateScimAccessTokenParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateScimAccessTokenParams() *CreateScimAccessTokenParams {
-	return &CreateScimAccessTokenParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateScimAccessTokenParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateScimAccessTokenParamsWithTimeout creates a new CreateScimAccessTokenParams object
 // with the ability to set a timeout on a request.
 func NewCreateScimAccessTokenParamsWithTimeout(timeout time.Duration) *CreateScimAccessTokenParams {
 	return &CreateScimAccessTokenParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateScimAccessTokenParamsWithContext creates a new CreateScimAccessTokenParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateScimAccessTokenParams].
 func NewCreateScimAccessTokenParamsWithContext(ctx context.Context) *CreateScimAccessTokenParams {
 	return &CreateScimAccessTokenParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateScimAccessTokenParams struct {
 	// Input.
 	Input *models.CreateScimAccessTokenRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create scim access token params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateScimAccessTokenParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create scim access token params
+// WithTimeout adds the timeout to the create scim access token params.
 func (o *CreateScimAccessTokenParams) WithTimeout(timeout time.Duration) *CreateScimAccessTokenParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create scim access token params
+// SetTimeout adds the timeout to the create scim access token params.
 func (o *CreateScimAccessTokenParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create scim access token params
+// WithContext adds the context to the create scim access token params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateScimAccessTokenParams].
 func (o *CreateScimAccessTokenParams) WithContext(ctx context.Context) *CreateScimAccessTokenParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create scim access token params
+// SetContext adds the context to the create scim access token params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateScimAccessTokenParams].
 func (o *CreateScimAccessTokenParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create scim access token params
+// WithHTTPClient adds the HTTPClient to the create scim access token params.
 func (o *CreateScimAccessTokenParams) WithHTTPClient(client *http.Client) *CreateScimAccessTokenParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create scim access token params
+// SetHTTPClient adds the HTTPClient to the create scim access token params.
 func (o *CreateScimAccessTokenParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create scim access token params
+// WithInput adds the input to the create scim access token params.
 func (o *CreateScimAccessTokenParams) WithInput(input *models.CreateScimAccessTokenRequest) *CreateScimAccessTokenParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create scim access token params
+// SetInput adds the input to the create scim access token params.
 func (o *CreateScimAccessTokenParams) SetInput(input *models.CreateScimAccessTokenRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateScimAccessTokenParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSynchronizeAllEnvironmentsParams creates a new SynchronizeAllEnvironmentsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSynchronizeAllEnvironmentsParams() *SynchronizeAllEnvironmentsParams {
-	return &SynchronizeAllEnvironmentsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSynchronizeAllEnvironmentsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSynchronizeAllEnvironmentsParamsWithTimeout creates a new SynchronizeAllEnvironmentsParams object
 // with the ability to set a timeout on a request.
 func NewSynchronizeAllEnvironmentsParamsWithTimeout(timeout time.Duration) *SynchronizeAllEnvironmentsParams {
 	return &SynchronizeAllEnvironmentsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSynchronizeAllEnvironmentsParamsWithContext creates a new SynchronizeAllEnvironmentsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SynchronizeAllEnvironmentsParams].
 func NewSynchronizeAllEnvironmentsParamsWithContext(ctx context.Context) *SynchronizeAllEnvironmentsParams {
 	return &SynchronizeAllEnvironmentsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SynchronizeAllEnvironmentsParams struct {
 	// Input.
 	Input models.SynchronizeAllEnvironmentsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the synchronize all environments params (not the query body).
@@ -83,54 +86,57 @@ func (o *SynchronizeAllEnvironmentsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the synchronize all environments params
+// WithTimeout adds the timeout to the synchronize all environments params.
 func (o *SynchronizeAllEnvironmentsParams) WithTimeout(timeout time.Duration) *SynchronizeAllEnvironmentsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the synchronize all environments params
+// SetTimeout adds the timeout to the synchronize all environments params.
 func (o *SynchronizeAllEnvironmentsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the synchronize all environments params
+// WithContext adds the context to the synchronize all environments params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SynchronizeAllEnvironmentsParams].
 func (o *SynchronizeAllEnvironmentsParams) WithContext(ctx context.Context) *SynchronizeAllEnvironmentsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the synchronize all environments params
+// SetContext adds the context to the synchronize all environments params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SynchronizeAllEnvironmentsParams].
 func (o *SynchronizeAllEnvironmentsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the synchronize all environments params
+// WithHTTPClient adds the HTTPClient to the synchronize all environments params.
 func (o *SynchronizeAllEnvironmentsParams) WithHTTPClient(client *http.Client) *SynchronizeAllEnvironmentsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the synchronize all environments params
+// SetHTTPClient adds the HTTPClient to the synchronize all environments params.
 func (o *SynchronizeAllEnvironmentsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the synchronize all environments params
+// WithInput adds the input to the synchronize all environments params.
 func (o *SynchronizeAllEnvironmentsParams) WithInput(input models.SynchronizeAllEnvironmentsRequest) *SynchronizeAllEnvironmentsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the synchronize all environments params
+// SetInput adds the input to the synchronize all environments params.
 func (o *SynchronizeAllEnvironmentsParams) SetInput(input models.SynchronizeAllEnvironmentsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SynchronizeAllEnvironmentsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

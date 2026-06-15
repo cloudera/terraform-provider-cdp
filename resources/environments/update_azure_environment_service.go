@@ -73,10 +73,10 @@ func enableComputeClusterForAzure(ctx context.Context, config *AzureComputeClust
 		ComputeClusterConfiguration: convertConfigToAzureComputeClusterConfigurationRequest(config, envSubnets),
 		EnvironmentName:             &environmentName,
 	}
-	params := operations.NewInitializeAzureComputeClusterParamsWithContext(ctx)
+	params := operations.NewInitializeAzureComputeClusterParams()
 	params.WithInput(&request)
 	tflog.Info(ctx, fmt.Sprintf("Initializing Azure compute cluster for environment '%s'", environmentName))
-	_, err := envClient.Operations.InitializeAzureComputeCluster(params)
+	_, err := envClient.Operations.InitializeAzureComputeClusterContext(ctx, params)
 	return err
 }
 

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // ListClusterDefinitionsReader is a Reader for the ListClusterDefinitions structure.
@@ -45,11 +44,9 @@ func NewListClusterDefinitionsOK() *ListClusterDefinitionsOK {
 	return &ListClusterDefinitionsOK{}
 }
 
-/*
-ListClusterDefinitionsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListClusterDefinitionsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListClusterDefinitionsOK struct {
 	Payload *models.ListClusterDefinitionsResponse
 }
@@ -117,11 +114,9 @@ func NewListClusterDefinitionsDefault(code int) *ListClusterDefinitionsDefault {
 	}
 }
 
-/*
-ListClusterDefinitionsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListClusterDefinitionsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListClusterDefinitionsDefault struct {
 	_statusCode int
 

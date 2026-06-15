@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // UpdateProxyConfigReader is a Reader for the UpdateProxyConfig structure.
@@ -45,11 +44,9 @@ func NewUpdateProxyConfigOK() *UpdateProxyConfigOK {
 	return &UpdateProxyConfigOK{}
 }
 
-/*
-UpdateProxyConfigOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateProxyConfigOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateProxyConfigOK struct {
 	Payload models.UpdateProxyConfigResponse
 }
@@ -115,11 +112,9 @@ func NewUpdateProxyConfigDefault(code int) *UpdateProxyConfigDefault {
 	}
 }
 
-/*
-UpdateProxyConfigDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateProxyConfigDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateProxyConfigDefault struct {
 	_statusCode int
 

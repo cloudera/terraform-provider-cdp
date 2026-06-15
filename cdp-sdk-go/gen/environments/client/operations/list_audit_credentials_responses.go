@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // ListAuditCredentialsReader is a Reader for the ListAuditCredentials structure.
@@ -45,11 +44,9 @@ func NewListAuditCredentialsOK() *ListAuditCredentialsOK {
 	return &ListAuditCredentialsOK{}
 }
 
-/*
-ListAuditCredentialsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListAuditCredentialsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListAuditCredentialsOK struct {
 	Payload *models.ListAuditCredentialsResponse
 }
@@ -117,11 +114,9 @@ func NewListAuditCredentialsDefault(code int) *ListAuditCredentialsDefault {
 	}
 }
 
-/*
-ListAuditCredentialsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListAuditCredentialsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListAuditCredentialsDefault struct {
 	_statusCode int
 

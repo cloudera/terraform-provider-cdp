@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -91,7 +92,7 @@ func (m *Credential) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Credential) validateAwsCredentialProperties(formats strfmt.Registry) error {
-	if swag.IsZero(m.AwsCredentialProperties) { // not required
+	if typeutils.IsZero(m.AwsCredentialProperties) { // not required
 		return nil
 	}
 
@@ -114,7 +115,7 @@ func (m *Credential) validateAwsCredentialProperties(formats strfmt.Registry) er
 }
 
 func (m *Credential) validateAzureCredentialProperties(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureCredentialProperties) { // not required
+	if typeutils.IsZero(m.AzureCredentialProperties) { // not required
 		return nil
 	}
 
@@ -146,7 +147,7 @@ func (m *Credential) validateCloudPlatform(formats strfmt.Registry) error {
 }
 
 func (m *Credential) validateCreated(formats strfmt.Registry) error {
-	if swag.IsZero(m.Created) { // not required
+	if typeutils.IsZero(m.Created) { // not required
 		return nil
 	}
 
@@ -176,7 +177,7 @@ func (m *Credential) validateCrn(formats strfmt.Registry) error {
 }
 
 func (m *Credential) validateGcpCredentialProperties(formats strfmt.Registry) error {
-	if swag.IsZero(m.GcpCredentialProperties) { // not required
+	if typeutils.IsZero(m.GcpCredentialProperties) { // not required
 		return nil
 	}
 
@@ -224,7 +225,7 @@ func (m *Credential) contextValidateAwsCredentialProperties(ctx context.Context,
 
 	if m.AwsCredentialProperties != nil {
 
-		if swag.IsZero(m.AwsCredentialProperties) { // not required
+		if typeutils.IsZero(m.AwsCredentialProperties) { // not required
 			return nil
 		}
 
@@ -249,7 +250,7 @@ func (m *Credential) contextValidateAzureCredentialProperties(ctx context.Contex
 
 	if m.AzureCredentialProperties != nil {
 
-		if swag.IsZero(m.AzureCredentialProperties) { // not required
+		if typeutils.IsZero(m.AzureCredentialProperties) { // not required
 			return nil
 		}
 
@@ -274,7 +275,7 @@ func (m *Credential) contextValidateGcpCredentialProperties(ctx context.Context,
 
 	if m.GcpCredentialProperties != nil {
 
-		if swag.IsZero(m.GcpCredentialProperties) { // not required
+		if typeutils.IsZero(m.GcpCredentialProperties) { // not required
 			return nil
 		}
 
@@ -300,13 +301,13 @@ func (m *Credential) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *Credential) UnmarshalBinary(b []byte) error {
 	var res Credential
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

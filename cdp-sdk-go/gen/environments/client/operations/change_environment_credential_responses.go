@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // ChangeEnvironmentCredentialReader is a Reader for the ChangeEnvironmentCredential structure.
@@ -45,11 +44,9 @@ func NewChangeEnvironmentCredentialOK() *ChangeEnvironmentCredentialOK {
 	return &ChangeEnvironmentCredentialOK{}
 }
 
-/*
-ChangeEnvironmentCredentialOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ChangeEnvironmentCredentialOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ChangeEnvironmentCredentialOK struct {
 	Payload *models.ChangeEnvironmentCredentialResponse
 }
@@ -117,11 +114,9 @@ func NewChangeEnvironmentCredentialDefault(code int) *ChangeEnvironmentCredentia
 	}
 }
 
-/*
-ChangeEnvironmentCredentialDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ChangeEnvironmentCredentialDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ChangeEnvironmentCredentialDefault struct {
 	_statusCode int
 

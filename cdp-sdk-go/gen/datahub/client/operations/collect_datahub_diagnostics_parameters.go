@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewCollectDatahubDiagnosticsParams creates a new CollectDatahubDiagnosticsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCollectDatahubDiagnosticsParams() *CollectDatahubDiagnosticsParams {
-	return &CollectDatahubDiagnosticsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCollectDatahubDiagnosticsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCollectDatahubDiagnosticsParamsWithTimeout creates a new CollectDatahubDiagnosticsParams object
 // with the ability to set a timeout on a request.
 func NewCollectDatahubDiagnosticsParamsWithTimeout(timeout time.Duration) *CollectDatahubDiagnosticsParams {
 	return &CollectDatahubDiagnosticsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCollectDatahubDiagnosticsParamsWithContext creates a new CollectDatahubDiagnosticsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CollectDatahubDiagnosticsParams].
 func NewCollectDatahubDiagnosticsParamsWithContext(ctx context.Context) *CollectDatahubDiagnosticsParams {
 	return &CollectDatahubDiagnosticsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CollectDatahubDiagnosticsParams struct {
 	// Input.
 	Input *models.CollectDatahubDiagnosticsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the collect datahub diagnostics params (not the query body).
@@ -83,54 +86,57 @@ func (o *CollectDatahubDiagnosticsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the collect datahub diagnostics params
+// WithTimeout adds the timeout to the collect datahub diagnostics params.
 func (o *CollectDatahubDiagnosticsParams) WithTimeout(timeout time.Duration) *CollectDatahubDiagnosticsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the collect datahub diagnostics params
+// SetTimeout adds the timeout to the collect datahub diagnostics params.
 func (o *CollectDatahubDiagnosticsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the collect datahub diagnostics params
+// WithContext adds the context to the collect datahub diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CollectDatahubDiagnosticsParams].
 func (o *CollectDatahubDiagnosticsParams) WithContext(ctx context.Context) *CollectDatahubDiagnosticsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the collect datahub diagnostics params
+// SetContext adds the context to the collect datahub diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CollectDatahubDiagnosticsParams].
 func (o *CollectDatahubDiagnosticsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the collect datahub diagnostics params
+// WithHTTPClient adds the HTTPClient to the collect datahub diagnostics params.
 func (o *CollectDatahubDiagnosticsParams) WithHTTPClient(client *http.Client) *CollectDatahubDiagnosticsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the collect datahub diagnostics params
+// SetHTTPClient adds the HTTPClient to the collect datahub diagnostics params.
 func (o *CollectDatahubDiagnosticsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the collect datahub diagnostics params
+// WithInput adds the input to the collect datahub diagnostics params.
 func (o *CollectDatahubDiagnosticsParams) WithInput(input *models.CollectDatahubDiagnosticsRequest) *CollectDatahubDiagnosticsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the collect datahub diagnostics params
+// SetInput adds the input to the collect datahub diagnostics params.
 func (o *CollectDatahubDiagnosticsParams) SetInput(input *models.CollectDatahubDiagnosticsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CollectDatahubDiagnosticsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

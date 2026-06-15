@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewRestartClusterInstancesParams creates a new RestartClusterInstancesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRestartClusterInstancesParams() *RestartClusterInstancesParams {
-	return &RestartClusterInstancesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRestartClusterInstancesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRestartClusterInstancesParamsWithTimeout creates a new RestartClusterInstancesParams object
 // with the ability to set a timeout on a request.
 func NewRestartClusterInstancesParamsWithTimeout(timeout time.Duration) *RestartClusterInstancesParams {
 	return &RestartClusterInstancesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRestartClusterInstancesParamsWithContext creates a new RestartClusterInstancesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestartClusterInstancesParams].
 func NewRestartClusterInstancesParamsWithContext(ctx context.Context) *RestartClusterInstancesParams {
 	return &RestartClusterInstancesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RestartClusterInstancesParams struct {
 	// Input.
 	Input *models.RestartClusterInstancesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the restart cluster instances params (not the query body).
@@ -83,54 +86,57 @@ func (o *RestartClusterInstancesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the restart cluster instances params
+// WithTimeout adds the timeout to the restart cluster instances params.
 func (o *RestartClusterInstancesParams) WithTimeout(timeout time.Duration) *RestartClusterInstancesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the restart cluster instances params
+// SetTimeout adds the timeout to the restart cluster instances params.
 func (o *RestartClusterInstancesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the restart cluster instances params
+// WithContext adds the context to the restart cluster instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestartClusterInstancesParams].
 func (o *RestartClusterInstancesParams) WithContext(ctx context.Context) *RestartClusterInstancesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the restart cluster instances params
+// SetContext adds the context to the restart cluster instances params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestartClusterInstancesParams].
 func (o *RestartClusterInstancesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the restart cluster instances params
+// WithHTTPClient adds the HTTPClient to the restart cluster instances params.
 func (o *RestartClusterInstancesParams) WithHTTPClient(client *http.Client) *RestartClusterInstancesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the restart cluster instances params
+// SetHTTPClient adds the HTTPClient to the restart cluster instances params.
 func (o *RestartClusterInstancesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the restart cluster instances params
+// WithInput adds the input to the restart cluster instances params.
 func (o *RestartClusterInstancesParams) WithInput(input *models.RestartClusterInstancesRequest) *RestartClusterInstancesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the restart cluster instances params
+// SetInput adds the input to the restart cluster instances params.
 func (o *RestartClusterInstancesParams) SetInput(input *models.RestartClusterInstancesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RestartClusterInstancesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewGetHueUpgradeVersionParams creates a new GetHueUpgradeVersionParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetHueUpgradeVersionParams() *GetHueUpgradeVersionParams {
-	return &GetHueUpgradeVersionParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetHueUpgradeVersionParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetHueUpgradeVersionParamsWithTimeout creates a new GetHueUpgradeVersionParams object
 // with the ability to set a timeout on a request.
 func NewGetHueUpgradeVersionParamsWithTimeout(timeout time.Duration) *GetHueUpgradeVersionParams {
 	return &GetHueUpgradeVersionParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetHueUpgradeVersionParamsWithContext creates a new GetHueUpgradeVersionParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetHueUpgradeVersionParams].
 func NewGetHueUpgradeVersionParamsWithContext(ctx context.Context) *GetHueUpgradeVersionParams {
 	return &GetHueUpgradeVersionParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetHueUpgradeVersionParams struct {
 	// Input.
 	Input *models.GetHueUpgradeVersionRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get hue upgrade version params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetHueUpgradeVersionParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get hue upgrade version params
+// WithTimeout adds the timeout to the get hue upgrade version params.
 func (o *GetHueUpgradeVersionParams) WithTimeout(timeout time.Duration) *GetHueUpgradeVersionParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get hue upgrade version params
+// SetTimeout adds the timeout to the get hue upgrade version params.
 func (o *GetHueUpgradeVersionParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get hue upgrade version params
+// WithContext adds the context to the get hue upgrade version params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetHueUpgradeVersionParams].
 func (o *GetHueUpgradeVersionParams) WithContext(ctx context.Context) *GetHueUpgradeVersionParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get hue upgrade version params
+// SetContext adds the context to the get hue upgrade version params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetHueUpgradeVersionParams].
 func (o *GetHueUpgradeVersionParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get hue upgrade version params
+// WithHTTPClient adds the HTTPClient to the get hue upgrade version params.
 func (o *GetHueUpgradeVersionParams) WithHTTPClient(client *http.Client) *GetHueUpgradeVersionParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get hue upgrade version params
+// SetHTTPClient adds the HTTPClient to the get hue upgrade version params.
 func (o *GetHueUpgradeVersionParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get hue upgrade version params
+// WithInput adds the input to the get hue upgrade version params.
 func (o *GetHueUpgradeVersionParams) WithInput(input *models.GetHueUpgradeVersionRequest) *GetHueUpgradeVersionParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get hue upgrade version params
+// SetInput adds the input to the get hue upgrade version params.
 func (o *GetHueUpgradeVersionParams) SetInput(input *models.GetHueUpgradeVersionRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetHueUpgradeVersionParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -54,10 +54,6 @@ func (m *VolumeEncryption) validateEncryptionKey(formats strfmt.Registry) error 
 }
 
 func (m *VolumeEncryption) validateInstanceGroup(formats strfmt.Registry) error {
-
-	if err := validate.Required("instanceGroup", "body", m.InstanceGroup); err != nil {
-		return err
-	}
 
 	if err := validate.Required("instanceGroup", "body", m.InstanceGroup); err != nil {
 		return err
@@ -121,13 +117,13 @@ func (m *VolumeEncryption) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *VolumeEncryption) UnmarshalBinary(b []byte) error {
 	var res VolumeEncryption
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

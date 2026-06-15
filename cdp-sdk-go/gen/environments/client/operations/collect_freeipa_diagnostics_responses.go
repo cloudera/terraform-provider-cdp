@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // CollectFreeipaDiagnosticsReader is a Reader for the CollectFreeipaDiagnostics structure.
@@ -45,11 +44,9 @@ func NewCollectFreeipaDiagnosticsOK() *CollectFreeipaDiagnosticsOK {
 	return &CollectFreeipaDiagnosticsOK{}
 }
 
-/*
-CollectFreeipaDiagnosticsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CollectFreeipaDiagnosticsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CollectFreeipaDiagnosticsOK struct {
 	Payload *models.CollectFreeipaDiagnosticsResponse
 }
@@ -117,11 +114,9 @@ func NewCollectFreeipaDiagnosticsDefault(code int) *CollectFreeipaDiagnosticsDef
 	}
 }
 
-/*
-CollectFreeipaDiagnosticsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CollectFreeipaDiagnosticsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CollectFreeipaDiagnosticsDefault struct {
 	_statusCode int
 

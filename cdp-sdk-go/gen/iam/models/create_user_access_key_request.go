@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // CreateUserAccessKeyRequest Request object for a create user access key request.
@@ -38,7 +39,7 @@ func (m *CreateUserAccessKeyRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateUserAccessKeyRequest) validateType(formats strfmt.Registry) error {
-	if swag.IsZero(m.Type) { // not required
+	if typeutils.IsZero(m.Type) { // not required
 		return nil
 	}
 
@@ -74,7 +75,7 @@ func (m *CreateUserAccessKeyRequest) ContextValidate(ctx context.Context, format
 
 func (m *CreateUserAccessKeyRequest) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Type) { // not required
+	if typeutils.IsZero(m.Type) { // not required
 		return nil
 	}
 
@@ -99,13 +100,13 @@ func (m *CreateUserAccessKeyRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateUserAccessKeyRequest) UnmarshalBinary(b []byte) error {
 	var res CreateUserAccessKeyRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

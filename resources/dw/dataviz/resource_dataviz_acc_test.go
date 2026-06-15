@@ -97,8 +97,8 @@ func testCheckDataVizDestroy(s *terraform.State) error {
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
 		clusterID := rs.Primary.Attributes["cluster_id"]
 		_, err := cdpClient.Dw.Operations.
-			DescribeDataVisualization(
-				operations.NewDescribeDataVisualizationParamsWithContext(context.Background()).
+			DescribeDataVisualizationContext(context.Background(),
+				operations.NewDescribeDataVisualizationParams().
 					WithInput(&models.DescribeDataVisualizationRequest{
 						ClusterID:           &clusterID,
 						DataVisualizationID: &rs.Primary.ID,

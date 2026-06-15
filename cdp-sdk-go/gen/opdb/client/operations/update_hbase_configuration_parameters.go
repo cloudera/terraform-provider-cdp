@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewUpdateHbaseConfigurationParams creates a new UpdateHbaseConfigurationParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateHbaseConfigurationParams() *UpdateHbaseConfigurationParams {
-	return &UpdateHbaseConfigurationParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateHbaseConfigurationParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateHbaseConfigurationParamsWithTimeout creates a new UpdateHbaseConfigurationParams object
 // with the ability to set a timeout on a request.
 func NewUpdateHbaseConfigurationParamsWithTimeout(timeout time.Duration) *UpdateHbaseConfigurationParams {
 	return &UpdateHbaseConfigurationParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateHbaseConfigurationParamsWithContext creates a new UpdateHbaseConfigurationParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateHbaseConfigurationParams].
 func NewUpdateHbaseConfigurationParamsWithContext(ctx context.Context) *UpdateHbaseConfigurationParams {
 	return &UpdateHbaseConfigurationParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateHbaseConfigurationParams struct {
 	// Input.
 	Input *models.UpdateHbaseConfigurationRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update hbase configuration params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateHbaseConfigurationParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update hbase configuration params
+// WithTimeout adds the timeout to the update hbase configuration params.
 func (o *UpdateHbaseConfigurationParams) WithTimeout(timeout time.Duration) *UpdateHbaseConfigurationParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update hbase configuration params
+// SetTimeout adds the timeout to the update hbase configuration params.
 func (o *UpdateHbaseConfigurationParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update hbase configuration params
+// WithContext adds the context to the update hbase configuration params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateHbaseConfigurationParams].
 func (o *UpdateHbaseConfigurationParams) WithContext(ctx context.Context) *UpdateHbaseConfigurationParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update hbase configuration params
+// SetContext adds the context to the update hbase configuration params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateHbaseConfigurationParams].
 func (o *UpdateHbaseConfigurationParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update hbase configuration params
+// WithHTTPClient adds the HTTPClient to the update hbase configuration params.
 func (o *UpdateHbaseConfigurationParams) WithHTTPClient(client *http.Client) *UpdateHbaseConfigurationParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update hbase configuration params
+// SetHTTPClient adds the HTTPClient to the update hbase configuration params.
 func (o *UpdateHbaseConfigurationParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update hbase configuration params
+// WithInput adds the input to the update hbase configuration params.
 func (o *UpdateHbaseConfigurationParams) WithInput(input *models.UpdateHbaseConfigurationRequest) *UpdateHbaseConfigurationParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update hbase configuration params
+// SetInput adds the input to the update hbase configuration params.
 func (o *UpdateHbaseConfigurationParams) SetInput(input *models.UpdateHbaseConfigurationRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateHbaseConfigurationParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // ListVcsReader is a Reader for the ListVcs structure.
@@ -45,11 +44,9 @@ func NewListVcsOK() *ListVcsOK {
 	return &ListVcsOK{}
 }
 
-/*
-ListVcsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListVcsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListVcsOK struct {
 	Payload *models.ListVcsResponse
 }
@@ -117,11 +114,9 @@ func NewListVcsDefault(code int) *ListVcsDefault {
 	}
 }
 
-/*
-ListVcsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListVcsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListVcsDefault struct {
 	_statusCode int
 

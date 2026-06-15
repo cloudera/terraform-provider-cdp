@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // GetUpgradeStatusReader is a Reader for the GetUpgradeStatus structure.
@@ -45,11 +44,9 @@ func NewGetUpgradeStatusOK() *GetUpgradeStatusOK {
 	return &GetUpgradeStatusOK{}
 }
 
-/*
-GetUpgradeStatusOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetUpgradeStatusOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetUpgradeStatusOK struct {
 	Payload *models.GetUpgradeStatusResponse
 }
@@ -117,11 +114,9 @@ func NewGetUpgradeStatusDefault(code int) *GetUpgradeStatusDefault {
 	}
 }
 
-/*
-GetUpgradeStatusDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetUpgradeStatusDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetUpgradeStatusDefault struct {
 	_statusCode int
 

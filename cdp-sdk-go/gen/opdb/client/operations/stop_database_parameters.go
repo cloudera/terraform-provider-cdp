@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewStopDatabaseParams creates a new StopDatabaseParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewStopDatabaseParams() *StopDatabaseParams {
-	return &StopDatabaseParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewStopDatabaseParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewStopDatabaseParamsWithTimeout creates a new StopDatabaseParams object
 // with the ability to set a timeout on a request.
 func NewStopDatabaseParamsWithTimeout(timeout time.Duration) *StopDatabaseParams {
 	return &StopDatabaseParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewStopDatabaseParamsWithContext creates a new StopDatabaseParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopDatabaseParams].
 func NewStopDatabaseParamsWithContext(ctx context.Context) *StopDatabaseParams {
 	return &StopDatabaseParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type StopDatabaseParams struct {
 	// Input.
 	Input *models.StopDatabaseRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the stop database params (not the query body).
@@ -83,54 +86,57 @@ func (o *StopDatabaseParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the stop database params
+// WithTimeout adds the timeout to the stop database params.
 func (o *StopDatabaseParams) WithTimeout(timeout time.Duration) *StopDatabaseParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the stop database params
+// SetTimeout adds the timeout to the stop database params.
 func (o *StopDatabaseParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the stop database params
+// WithContext adds the context to the stop database params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopDatabaseParams].
 func (o *StopDatabaseParams) WithContext(ctx context.Context) *StopDatabaseParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the stop database params
+// SetContext adds the context to the stop database params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StopDatabaseParams].
 func (o *StopDatabaseParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the stop database params
+// WithHTTPClient adds the HTTPClient to the stop database params.
 func (o *StopDatabaseParams) WithHTTPClient(client *http.Client) *StopDatabaseParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the stop database params
+// SetHTTPClient adds the HTTPClient to the stop database params.
 func (o *StopDatabaseParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the stop database params
+// WithInput adds the input to the stop database params.
 func (o *StopDatabaseParams) WithInput(input *models.StopDatabaseRequest) *StopDatabaseParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the stop database params
+// SetInput adds the input to the stop database params.
 func (o *StopDatabaseParams) SetInput(input *models.StopDatabaseRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *StopDatabaseParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

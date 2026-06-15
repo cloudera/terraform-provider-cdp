@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -93,7 +94,7 @@ func (m *CreateAwsClusterRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateAwsClusterRequest) validateCustomRegistryOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomRegistryOptions) { // not required
+	if typeutils.IsZero(m.CustomRegistryOptions) { // not required
 		return nil
 	}
 
@@ -125,7 +126,7 @@ func (m *CreateAwsClusterRequest) validateEnvironmentCrn(formats strfmt.Registry
 }
 
 func (m *CreateAwsClusterRequest) validateNonTransparentProxy(formats strfmt.Registry) error {
-	if swag.IsZero(m.NonTransparentProxy) { // not required
+	if typeutils.IsZero(m.NonTransparentProxy) { // not required
 		return nil
 	}
 
@@ -169,7 +170,7 @@ func (m *CreateAwsClusterRequest) contextValidateCustomRegistryOptions(ctx conte
 
 	if m.CustomRegistryOptions != nil {
 
-		if swag.IsZero(m.CustomRegistryOptions) { // not required
+		if typeutils.IsZero(m.CustomRegistryOptions) { // not required
 			return nil
 		}
 
@@ -194,7 +195,7 @@ func (m *CreateAwsClusterRequest) contextValidateNonTransparentProxy(ctx context
 
 	if m.NonTransparentProxy != nil {
 
-		if swag.IsZero(m.NonTransparentProxy) { // not required
+		if typeutils.IsZero(m.NonTransparentProxy) { // not required
 			return nil
 		}
 
@@ -220,13 +221,13 @@ func (m *CreateAwsClusterRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateAwsClusterRequest) UnmarshalBinary(b []byte) error {
 	var res CreateAwsClusterRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // CreateMlServingAppReader is a Reader for the CreateMlServingApp structure.
@@ -45,11 +44,9 @@ func NewCreateMlServingAppOK() *CreateMlServingAppOK {
 	return &CreateMlServingAppOK{}
 }
 
-/*
-CreateMlServingAppOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateMlServingAppOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateMlServingAppOK struct {
 	Payload *models.CreateMlServingAppResponse
 }
@@ -117,11 +114,9 @@ func NewCreateMlServingAppDefault(code int) *CreateMlServingAppDefault {
 	}
 }
 
-/*
-CreateMlServingAppDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateMlServingAppDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateMlServingAppDefault struct {
 	_statusCode int
 

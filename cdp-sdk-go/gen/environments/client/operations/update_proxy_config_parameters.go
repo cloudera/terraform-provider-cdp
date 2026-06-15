@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewUpdateProxyConfigParams creates a new UpdateProxyConfigParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateProxyConfigParams() *UpdateProxyConfigParams {
-	return &UpdateProxyConfigParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateProxyConfigParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateProxyConfigParamsWithTimeout creates a new UpdateProxyConfigParams object
 // with the ability to set a timeout on a request.
 func NewUpdateProxyConfigParamsWithTimeout(timeout time.Duration) *UpdateProxyConfigParams {
 	return &UpdateProxyConfigParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateProxyConfigParamsWithContext creates a new UpdateProxyConfigParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateProxyConfigParams].
 func NewUpdateProxyConfigParamsWithContext(ctx context.Context) *UpdateProxyConfigParams {
 	return &UpdateProxyConfigParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateProxyConfigParams struct {
 	// Input.
 	Input *models.UpdateProxyConfigRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update proxy config params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateProxyConfigParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update proxy config params
+// WithTimeout adds the timeout to the update proxy config params.
 func (o *UpdateProxyConfigParams) WithTimeout(timeout time.Duration) *UpdateProxyConfigParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update proxy config params
+// SetTimeout adds the timeout to the update proxy config params.
 func (o *UpdateProxyConfigParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update proxy config params
+// WithContext adds the context to the update proxy config params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateProxyConfigParams].
 func (o *UpdateProxyConfigParams) WithContext(ctx context.Context) *UpdateProxyConfigParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update proxy config params
+// SetContext adds the context to the update proxy config params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateProxyConfigParams].
 func (o *UpdateProxyConfigParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update proxy config params
+// WithHTTPClient adds the HTTPClient to the update proxy config params.
 func (o *UpdateProxyConfigParams) WithHTTPClient(client *http.Client) *UpdateProxyConfigParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update proxy config params
+// SetHTTPClient adds the HTTPClient to the update proxy config params.
 func (o *UpdateProxyConfigParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update proxy config params
+// WithInput adds the input to the update proxy config params.
 func (o *UpdateProxyConfigParams) WithInput(input *models.UpdateProxyConfigRequest) *UpdateProxyConfigParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update proxy config params
+// SetInput adds the input to the update proxy config params.
 func (o *UpdateProxyConfigParams) SetInput(input *models.UpdateProxyConfigRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateProxyConfigParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

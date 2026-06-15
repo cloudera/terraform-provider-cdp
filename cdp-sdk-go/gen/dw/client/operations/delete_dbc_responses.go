@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DeleteDbcReader is a Reader for the DeleteDbc structure.
@@ -45,11 +44,9 @@ func NewDeleteDbcOK() *DeleteDbcOK {
 	return &DeleteDbcOK{}
 }
 
-/*
-DeleteDbcOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteDbcOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteDbcOK struct {
 	Payload models.DeleteDbcResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteDbcDefault(code int) *DeleteDbcDefault {
 	}
 }
 
-/*
-DeleteDbcDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteDbcDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteDbcDefault struct {
 	_statusCode int
 

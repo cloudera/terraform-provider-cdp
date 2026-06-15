@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewCreateMachineUserAccessKeyParams creates a new CreateMachineUserAccessKeyParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateMachineUserAccessKeyParams() *CreateMachineUserAccessKeyParams {
-	return &CreateMachineUserAccessKeyParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateMachineUserAccessKeyParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateMachineUserAccessKeyParamsWithTimeout creates a new CreateMachineUserAccessKeyParams object
 // with the ability to set a timeout on a request.
 func NewCreateMachineUserAccessKeyParamsWithTimeout(timeout time.Duration) *CreateMachineUserAccessKeyParams {
 	return &CreateMachineUserAccessKeyParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateMachineUserAccessKeyParamsWithContext creates a new CreateMachineUserAccessKeyParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateMachineUserAccessKeyParams].
 func NewCreateMachineUserAccessKeyParamsWithContext(ctx context.Context) *CreateMachineUserAccessKeyParams {
 	return &CreateMachineUserAccessKeyParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateMachineUserAccessKeyParams struct {
 	// Input.
 	Input *models.CreateMachineUserAccessKeyRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create machine user access key params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateMachineUserAccessKeyParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create machine user access key params
+// WithTimeout adds the timeout to the create machine user access key params.
 func (o *CreateMachineUserAccessKeyParams) WithTimeout(timeout time.Duration) *CreateMachineUserAccessKeyParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create machine user access key params
+// SetTimeout adds the timeout to the create machine user access key params.
 func (o *CreateMachineUserAccessKeyParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create machine user access key params
+// WithContext adds the context to the create machine user access key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateMachineUserAccessKeyParams].
 func (o *CreateMachineUserAccessKeyParams) WithContext(ctx context.Context) *CreateMachineUserAccessKeyParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create machine user access key params
+// SetContext adds the context to the create machine user access key params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateMachineUserAccessKeyParams].
 func (o *CreateMachineUserAccessKeyParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create machine user access key params
+// WithHTTPClient adds the HTTPClient to the create machine user access key params.
 func (o *CreateMachineUserAccessKeyParams) WithHTTPClient(client *http.Client) *CreateMachineUserAccessKeyParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create machine user access key params
+// SetHTTPClient adds the HTTPClient to the create machine user access key params.
 func (o *CreateMachineUserAccessKeyParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create machine user access key params
+// WithInput adds the input to the create machine user access key params.
 func (o *CreateMachineUserAccessKeyParams) WithInput(input *models.CreateMachineUserAccessKeyRequest) *CreateMachineUserAccessKeyParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create machine user access key params
+// SetInput adds the input to the create machine user access key params.
 func (o *CreateMachineUserAccessKeyParams) SetInput(input *models.CreateMachineUserAccessKeyRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateMachineUserAccessKeyParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

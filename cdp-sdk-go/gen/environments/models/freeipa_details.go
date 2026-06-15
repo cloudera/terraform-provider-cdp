@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -78,7 +79,7 @@ func (m *FreeipaDetails) Validate(formats strfmt.Registry) error {
 }
 
 func (m *FreeipaDetails) validateImageDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImageDetails) { // not required
+	if typeutils.IsZero(m.ImageDetails) { // not required
 		return nil
 	}
 
@@ -101,7 +102,7 @@ func (m *FreeipaDetails) validateImageDetails(formats strfmt.Registry) error {
 }
 
 func (m *FreeipaDetails) validateInstances(formats strfmt.Registry) error {
-	if swag.IsZero(m.Instances) { // not required
+	if typeutils.IsZero(m.Instances) { // not required
 		return nil
 	}
 
@@ -110,7 +111,7 @@ func (m *FreeipaDetails) validateInstances(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Instances); i++ {
-		if swag.IsZero(m.Instances[i]) { // not required
+		if typeutils.IsZero(m.Instances[i]) { // not required
 			continue
 		}
 
@@ -135,7 +136,7 @@ func (m *FreeipaDetails) validateInstances(formats strfmt.Registry) error {
 }
 
 func (m *FreeipaDetails) validateLoadBalancer(formats strfmt.Registry) error {
-	if swag.IsZero(m.LoadBalancer) { // not required
+	if typeutils.IsZero(m.LoadBalancer) { // not required
 		return nil
 	}
 
@@ -158,7 +159,7 @@ func (m *FreeipaDetails) validateLoadBalancer(formats strfmt.Registry) error {
 }
 
 func (m *FreeipaDetails) validateServerIP(formats strfmt.Registry) error {
-	if swag.IsZero(m.ServerIP) { // not required
+	if typeutils.IsZero(m.ServerIP) { // not required
 		return nil
 	}
 
@@ -195,7 +196,7 @@ func (m *FreeipaDetails) contextValidateImageDetails(ctx context.Context, format
 
 	if m.ImageDetails != nil {
 
-		if swag.IsZero(m.ImageDetails) { // not required
+		if typeutils.IsZero(m.ImageDetails) { // not required
 			return nil
 		}
 
@@ -222,7 +223,7 @@ func (m *FreeipaDetails) contextValidateInstances(ctx context.Context, formats s
 
 		if m.Instances[i] != nil {
 
-			if swag.IsZero(m.Instances[i]) { // not required
+			if typeutils.IsZero(m.Instances[i]) { // not required
 				return nil
 			}
 
@@ -249,7 +250,7 @@ func (m *FreeipaDetails) contextValidateLoadBalancer(ctx context.Context, format
 
 	if m.LoadBalancer != nil {
 
-		if swag.IsZero(m.LoadBalancer) { // not required
+		if typeutils.IsZero(m.LoadBalancer) { // not required
 			return nil
 		}
 
@@ -275,13 +276,13 @@ func (m *FreeipaDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *FreeipaDetails) UnmarshalBinary(b []byte) error {
 	var res FreeipaDetails
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

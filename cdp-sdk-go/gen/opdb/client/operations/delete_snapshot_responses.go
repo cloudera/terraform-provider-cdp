@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // DeleteSnapshotReader is a Reader for the DeleteSnapshot structure.
@@ -45,11 +44,9 @@ func NewDeleteSnapshotOK() *DeleteSnapshotOK {
 	return &DeleteSnapshotOK{}
 }
 
-/*
-DeleteSnapshotOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteSnapshotOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteSnapshotOK struct {
 	Payload *models.DeleteSnapshotResponse
 }
@@ -117,11 +114,9 @@ func NewDeleteSnapshotDefault(code int) *DeleteSnapshotDefault {
 	}
 }
 
-/*
-DeleteSnapshotDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteSnapshotDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteSnapshotDefault struct {
 	_statusCode int
 

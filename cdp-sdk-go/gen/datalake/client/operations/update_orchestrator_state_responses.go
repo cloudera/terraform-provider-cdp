@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // UpdateOrchestratorStateReader is a Reader for the UpdateOrchestratorState structure.
@@ -45,11 +44,9 @@ func NewUpdateOrchestratorStateOK() *UpdateOrchestratorStateOK {
 	return &UpdateOrchestratorStateOK{}
 }
 
-/*
-UpdateOrchestratorStateOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateOrchestratorStateOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateOrchestratorStateOK struct {
 	Payload *models.UpdateOrchestratorStateResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateOrchestratorStateDefault(code int) *UpdateOrchestratorStateDefault
 	}
 }
 
-/*
-UpdateOrchestratorStateDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateOrchestratorStateDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateOrchestratorStateDefault struct {
 	_statusCode int
 

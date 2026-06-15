@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewCreateAWSDatalakeParams creates a new CreateAWSDatalakeParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateAWSDatalakeParams() *CreateAWSDatalakeParams {
-	return &CreateAWSDatalakeParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateAWSDatalakeParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateAWSDatalakeParamsWithTimeout creates a new CreateAWSDatalakeParams object
 // with the ability to set a timeout on a request.
 func NewCreateAWSDatalakeParamsWithTimeout(timeout time.Duration) *CreateAWSDatalakeParams {
 	return &CreateAWSDatalakeParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateAWSDatalakeParamsWithContext creates a new CreateAWSDatalakeParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSDatalakeParams].
 func NewCreateAWSDatalakeParamsWithContext(ctx context.Context) *CreateAWSDatalakeParams {
 	return &CreateAWSDatalakeParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateAWSDatalakeParams struct {
 	// Input.
 	Input *models.CreateAWSDatalakeRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create a w s datalake params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateAWSDatalakeParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create a w s datalake params
+// WithTimeout adds the timeout to the create a w s datalake params.
 func (o *CreateAWSDatalakeParams) WithTimeout(timeout time.Duration) *CreateAWSDatalakeParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create a w s datalake params
+// SetTimeout adds the timeout to the create a w s datalake params.
 func (o *CreateAWSDatalakeParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create a w s datalake params
+// WithContext adds the context to the create a w s datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSDatalakeParams].
 func (o *CreateAWSDatalakeParams) WithContext(ctx context.Context) *CreateAWSDatalakeParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create a w s datalake params
+// SetContext adds the context to the create a w s datalake params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateAWSDatalakeParams].
 func (o *CreateAWSDatalakeParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create a w s datalake params
+// WithHTTPClient adds the HTTPClient to the create a w s datalake params.
 func (o *CreateAWSDatalakeParams) WithHTTPClient(client *http.Client) *CreateAWSDatalakeParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create a w s datalake params
+// SetHTTPClient adds the HTTPClient to the create a w s datalake params.
 func (o *CreateAWSDatalakeParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create a w s datalake params
+// WithInput adds the input to the create a w s datalake params.
 func (o *CreateAWSDatalakeParams) WithInput(input *models.CreateAWSDatalakeRequest) *CreateAWSDatalakeParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create a w s datalake params
+// SetInput adds the input to the create a w s datalake params.
 func (o *CreateAWSDatalakeParams) SetInput(input *models.CreateAWSDatalakeRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateAWSDatalakeParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

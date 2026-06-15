@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // RepairClusterReader is a Reader for the RepairCluster structure.
@@ -45,11 +44,9 @@ func NewRepairClusterOK() *RepairClusterOK {
 	return &RepairClusterOK{}
 }
 
-/*
-RepairClusterOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RepairClusterOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RepairClusterOK struct {
 	Payload *models.RepairClusterResponse
 }
@@ -117,11 +114,9 @@ func NewRepairClusterDefault(code int) *RepairClusterDefault {
 	}
 }
 
-/*
-RepairClusterDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RepairClusterDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RepairClusterDefault struct {
 	_statusCode int
 

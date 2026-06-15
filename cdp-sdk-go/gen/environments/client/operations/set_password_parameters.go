@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSetPasswordParams creates a new SetPasswordParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetPasswordParams() *SetPasswordParams {
-	return &SetPasswordParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetPasswordParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetPasswordParamsWithTimeout creates a new SetPasswordParams object
 // with the ability to set a timeout on a request.
 func NewSetPasswordParamsWithTimeout(timeout time.Duration) *SetPasswordParams {
 	return &SetPasswordParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetPasswordParamsWithContext creates a new SetPasswordParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetPasswordParams].
 func NewSetPasswordParamsWithContext(ctx context.Context) *SetPasswordParams {
 	return &SetPasswordParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetPasswordParams struct {
 	// Input.
 	Input *models.SetPasswordRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set password params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetPasswordParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set password params
+// WithTimeout adds the timeout to the set password params.
 func (o *SetPasswordParams) WithTimeout(timeout time.Duration) *SetPasswordParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set password params
+// SetTimeout adds the timeout to the set password params.
 func (o *SetPasswordParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set password params
+// WithContext adds the context to the set password params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetPasswordParams].
 func (o *SetPasswordParams) WithContext(ctx context.Context) *SetPasswordParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set password params
+// SetContext adds the context to the set password params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetPasswordParams].
 func (o *SetPasswordParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set password params
+// WithHTTPClient adds the HTTPClient to the set password params.
 func (o *SetPasswordParams) WithHTTPClient(client *http.Client) *SetPasswordParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set password params
+// SetHTTPClient adds the HTTPClient to the set password params.
 func (o *SetPasswordParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set password params
+// WithInput adds the input to the set password params.
 func (o *SetPasswordParams) WithInput(input *models.SetPasswordRequest) *SetPasswordParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set password params
+// SetInput adds the input to the set password params.
 func (o *SetPasswordParams) SetInput(input *models.SetPasswordRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetPasswordParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

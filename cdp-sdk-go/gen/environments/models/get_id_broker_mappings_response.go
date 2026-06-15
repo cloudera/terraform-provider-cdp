@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -76,12 +77,12 @@ func (m *GetIDBrokerMappingsResponse) validateDataAccessRole(formats strfmt.Regi
 }
 
 func (m *GetIDBrokerMappingsResponse) validateMappings(formats strfmt.Registry) error {
-	if swag.IsZero(m.Mappings) { // not required
+	if typeutils.IsZero(m.Mappings) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Mappings); i++ {
-		if swag.IsZero(m.Mappings[i]) { // not required
+		if typeutils.IsZero(m.Mappings[i]) { // not required
 			continue
 		}
 
@@ -143,7 +144,7 @@ func (m *GetIDBrokerMappingsResponse) contextValidateMappings(ctx context.Contex
 
 		if m.Mappings[i] != nil {
 
-			if swag.IsZero(m.Mappings[i]) { // not required
+			if typeutils.IsZero(m.Mappings[i]) { // not required
 				return nil
 			}
 
@@ -171,13 +172,13 @@ func (m *GetIDBrokerMappingsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *GetIDBrokerMappingsResponse) UnmarshalBinary(b []byte) error {
 	var res GetIDBrokerMappingsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

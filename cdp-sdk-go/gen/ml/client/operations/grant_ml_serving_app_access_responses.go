@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // GrantMlServingAppAccessReader is a Reader for the GrantMlServingAppAccess structure.
@@ -45,11 +44,9 @@ func NewGrantMlServingAppAccessOK() *GrantMlServingAppAccessOK {
 	return &GrantMlServingAppAccessOK{}
 }
 
-/*
-GrantMlServingAppAccessOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GrantMlServingAppAccessOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GrantMlServingAppAccessOK struct {
 	Payload *models.GrantMlServingAppAccessResponse
 }
@@ -117,11 +114,9 @@ func NewGrantMlServingAppAccessDefault(code int) *GrantMlServingAppAccessDefault
 	}
 }
 
-/*
-GrantMlServingAppAccessDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GrantMlServingAppAccessDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GrantMlServingAppAccessDefault struct {
 	_statusCode int
 

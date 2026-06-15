@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // UpdateServerSettingReader is a Reader for the UpdateServerSetting structure.
@@ -45,11 +44,9 @@ func NewUpdateServerSettingOK() *UpdateServerSettingOK {
 	return &UpdateServerSettingOK{}
 }
 
-/*
-UpdateServerSettingOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateServerSettingOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateServerSettingOK struct {
 	Payload *models.UpdateServerSettingResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateServerSettingDefault(code int) *UpdateServerSettingDefault {
 	}
 }
 
-/*
-UpdateServerSettingDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateServerSettingDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateServerSettingDefault struct {
 	_statusCode int
 

@@ -30,11 +30,11 @@ const (
 
 func describeDatalakeWithDiagnosticHandle(datalake string, id string, ctx context.Context, client *cdp.Client, diags *diag.Diagnostics, state *tfsdk.State) (*datalakemodels.DatalakeDetails, error) {
 	tflog.Info(ctx, "About to describe datalake '"+datalake+"'.")
-	params := operations.NewDescribeDatalakeParamsWithContext(ctx)
+	params := operations.NewDescribeDatalakeParams()
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{
 		DatalakeName: &datalake,
 	})
-	descDlResp, err := client.Datalake.Operations.DescribeDatalake(params)
+	descDlResp, err := client.Datalake.Operations.DescribeDatalakeContext(ctx, params)
 	if err != nil {
 		tflog.Warn(ctx, "Something happened during environment fetch: "+err.Error())
 		if isDatalakeNotFoundError(err) {

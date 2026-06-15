@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // StopEnvironmentReader is a Reader for the StopEnvironment structure.
@@ -45,11 +44,9 @@ func NewStopEnvironmentOK() *StopEnvironmentOK {
 	return &StopEnvironmentOK{}
 }
 
-/*
-StopEnvironmentOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// StopEnvironmentOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type StopEnvironmentOK struct {
 	Payload *models.StopEnvironmentResponse
 }
@@ -117,11 +114,9 @@ func NewStopEnvironmentDefault(code int) *StopEnvironmentDefault {
 	}
 }
 
-/*
-StopEnvironmentDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// StopEnvironmentDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type StopEnvironmentDefault struct {
 	_statusCode int
 

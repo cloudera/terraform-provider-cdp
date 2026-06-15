@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // SyncComponentVersionsFromCmReader is a Reader for the SyncComponentVersionsFromCm structure.
@@ -45,11 +44,9 @@ func NewSyncComponentVersionsFromCmOK() *SyncComponentVersionsFromCmOK {
 	return &SyncComponentVersionsFromCmOK{}
 }
 
-/*
-SyncComponentVersionsFromCmOK describes a response with status code 200, with default header values.
-
-Expected response to a valid sync datahub CM component versions request.
-*/
+// SyncComponentVersionsFromCmOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid sync datahub CM component versions request.
 type SyncComponentVersionsFromCmOK struct {
 	Payload *models.SyncComponentVersionsFromCmResponse
 }
@@ -117,11 +114,9 @@ func NewSyncComponentVersionsFromCmDefault(code int) *SyncComponentVersionsFromC
 	}
 }
 
-/*
-SyncComponentVersionsFromCmDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SyncComponentVersionsFromCmDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SyncComponentVersionsFromCmDefault struct {
 	_statusCode int
 

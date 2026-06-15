@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // UpdateAzureImageTermsPolicyReader is a Reader for the UpdateAzureImageTermsPolicy structure.
@@ -45,11 +44,9 @@ func NewUpdateAzureImageTermsPolicyOK() *UpdateAzureImageTermsPolicyOK {
 	return &UpdateAzureImageTermsPolicyOK{}
 }
 
-/*
-UpdateAzureImageTermsPolicyOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateAzureImageTermsPolicyOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateAzureImageTermsPolicyOK struct {
 	Payload models.UpdateAzureImageTermsPolicyResponse
 }
@@ -115,11 +112,9 @@ func NewUpdateAzureImageTermsPolicyDefault(code int) *UpdateAzureImageTermsPolic
 	}
 }
 
-/*
-UpdateAzureImageTermsPolicyDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateAzureImageTermsPolicyDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateAzureImageTermsPolicyDefault struct {
 	_statusCode int
 

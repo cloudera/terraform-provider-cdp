@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // CollectDiagnosticsReader is a Reader for the CollectDiagnostics structure.
@@ -45,11 +44,9 @@ func NewCollectDiagnosticsOK() *CollectDiagnosticsOK {
 	return &CollectDiagnosticsOK{}
 }
 
-/*
-CollectDiagnosticsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CollectDiagnosticsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CollectDiagnosticsOK struct {
 	Payload *models.CollectDiagnosticsResponse
 }
@@ -117,11 +114,9 @@ func NewCollectDiagnosticsDefault(code int) *CollectDiagnosticsDefault {
 	}
 }
 
-/*
-CollectDiagnosticsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CollectDiagnosticsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CollectDiagnosticsDefault struct {
 	_statusCode int
 

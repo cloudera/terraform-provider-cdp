@@ -3,17 +3,21 @@
 package operations
 
 import (
+	"context"
+	"time"
+
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operations API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+func New(transport runtime.ContextualTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
 // New creates a new operations API client with basic auth credentials.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -27,6 +31,7 @@ func NewClientWithBasicAuth(host, basePath, scheme, user, password string) Clien
 }
 
 // New creates a new operations API client with a bearer token for authentication.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -38,146 +43,393 @@ func NewClientWithBearerToken(host, basePath, scheme, bearerToken string) Client
 	return &Client{transport: transport, formats: strfmt.Default}
 }
 
-/*
-Client for operations API
-*/
+// Client for operations API.
 type Client struct {
-	transport runtime.ClientTransport
+	transport runtime.ContextualTransport
 	formats   strfmt.Registry
 }
 
 // ClientOption may be used to customize the behavior of Client methods.
 type ClientOption func(*runtime.ClientOperation)
 
-// ClientService is the interface for Client methods
+// ClientService is the interface for Client methods.
 type ClientService interface {
+
+	// AddInstanceGroups add new cloudera a i workbench cluster instance groups.
 	AddInstanceGroups(params *AddInstanceGroupsParams, opts ...ClientOption) (*AddInstanceGroupsOK, error)
 
+	// AddInstanceGroupsContext add new cloudera a i workbench cluster instance groups.
+	AddInstanceGroupsContext(ctx context.Context, params *AddInstanceGroupsParams, opts ...ClientOption) (*AddInstanceGroupsOK, error)
+
+	// AddInstanceGroupsMlServingApp add instance group to an existing cloudera a i inference service instance.
 	AddInstanceGroupsMlServingApp(params *AddInstanceGroupsMlServingAppParams, opts ...ClientOption) (*AddInstanceGroupsMlServingAppOK, error)
 
+	// AddInstanceGroupsMlServingAppContext add instance group to an existing cloudera a i inference service instance.
+	AddInstanceGroupsMlServingAppContext(ctx context.Context, params *AddInstanceGroupsMlServingAppParams, opts ...ClientOption) (*AddInstanceGroupsMlServingAppOK, error)
+
+	// BackupWorkspace backup a cloudera a i workbench.
 	BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error)
 
+	// BackupWorkspaceContext backup a cloudera a i workbench.
+	BackupWorkspaceContext(ctx context.Context, params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error)
+
+	// CreateFileReplica create file system replica.
 	CreateFileReplica(params *CreateFileReplicaParams, opts ...ClientOption) (*CreateFileReplicaOK, error)
 
+	// CreateFileReplicaContext create file system replica.
+	CreateFileReplicaContext(ctx context.Context, params *CreateFileReplicaParams, opts ...ClientOption) (*CreateFileReplicaOK, error)
+
+	// CreateMlServingApp deploys cloudera a i inference service into an existing kubernetes cluster.
 	CreateMlServingApp(params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error)
 
+	// CreateMlServingAppContext deploys cloudera a i inference service into an existing kubernetes cluster.
+	CreateMlServingAppContext(ctx context.Context, params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error)
+
+	// CreateModelRegistry creates a new model registry.
 	CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error)
 
+	// CreateModelRegistryContext creates a new model registry.
+	CreateModelRegistryContext(ctx context.Context, params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error)
+
+	// CreateWorkspace create a cloudera a i workbench.
 	CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error)
 
+	// CreateWorkspaceContext create a cloudera a i workbench.
+	CreateWorkspaceContext(ctx context.Context, params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error)
+
+	// DeleteBackup deletes a backup snapshot.
 	DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
 
+	// DeleteBackupContext deletes a backup snapshot.
+	DeleteBackupContext(ctx context.Context, params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
+
+	// DeleteFileReplica delete existing replication for project files.
 	DeleteFileReplica(params *DeleteFileReplicaParams, opts ...ClientOption) (*DeleteFileReplicaOK, error)
 
+	// DeleteFileReplicaContext delete existing replication for project files.
+	DeleteFileReplicaContext(ctx context.Context, params *DeleteFileReplicaParams, opts ...ClientOption) (*DeleteFileReplicaOK, error)
+
+	// DeleteInstanceGroup deletes an instance group from the cluster.
 	DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error)
 
+	// DeleteInstanceGroupContext deletes an instance group from the cluster.
+	DeleteInstanceGroupContext(ctx context.Context, params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error)
+
+	// DeleteInstanceGroupMlServingApp deletes an instance group from a cloudera a i inference service instance.
 	DeleteInstanceGroupMlServingApp(params *DeleteInstanceGroupMlServingAppParams, opts ...ClientOption) (*DeleteInstanceGroupMlServingAppOK, error)
 
+	// DeleteInstanceGroupMlServingAppContext deletes an instance group from a cloudera a i inference service instance.
+	DeleteInstanceGroupMlServingAppContext(ctx context.Context, params *DeleteInstanceGroupMlServingAppParams, opts ...ClientOption) (*DeleteInstanceGroupMlServingAppOK, error)
+
+	// DeleteMlServingApp deletes cloudera a i inference service instance.
 	DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...ClientOption) (*DeleteMlServingAppOK, error)
 
+	// DeleteMlServingAppContext deletes cloudera a i inference service instance.
+	DeleteMlServingAppContext(ctx context.Context, params *DeleteMlServingAppParams, opts ...ClientOption) (*DeleteMlServingAppOK, error)
+
+	// DeleteModelRegistry deletes a model registry.
 	DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error)
 
+	// DeleteModelRegistryContext deletes a model registry.
+	DeleteModelRegistryContext(ctx context.Context, params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error)
+
+	// DeleteWorkspace delete cloudera a i workbench.
 	DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error)
 
+	// DeleteWorkspaceContext delete cloudera a i workbench.
+	DeleteWorkspaceContext(ctx context.Context, params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error)
+
+	// DescribeMlServingApp describe cloudera a i inference service instance.
 	DescribeMlServingApp(params *DescribeMlServingAppParams, opts ...ClientOption) (*DescribeMlServingAppOK, error)
 
+	// DescribeMlServingAppContext describe cloudera a i inference service instance.
+	DescribeMlServingAppContext(ctx context.Context, params *DescribeMlServingAppParams, opts ...ClientOption) (*DescribeMlServingAppOK, error)
+
+	// DescribeModelRegistry deprecated cloudera a i model registry is now deprecated.
 	DescribeModelRegistry(params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error)
 
+	// DescribeModelRegistryContext deprecated cloudera a i model registry is now deprecated.
+	DescribeModelRegistryContext(ctx context.Context, params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error)
+
+	// DescribeWorkspace describe cloudera a i workbench.
 	DescribeWorkspace(params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error)
 
+	// DescribeWorkspaceContext describe cloudera a i workbench.
+	DescribeWorkspaceContext(ctx context.Context, params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error)
+
+	// DescribeWorkspaceBackup describe backup snaphot of a workbench.
 	DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error)
 
+	// DescribeWorkspaceBackupContext describe backup snaphot of a workbench.
+	DescribeWorkspaceBackupContext(ctx context.Context, params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error)
+
+	// FailOverFileSystem failover to replica file system.
 	FailOverFileSystem(params *FailOverFileSystemParams, opts ...ClientOption) (*FailOverFileSystemOK, error)
 
+	// FailOverFileSystemContext failover to replica file system.
+	FailOverFileSystemContext(ctx context.Context, params *FailOverFileSystemParams, opts ...ClientOption) (*FailOverFileSystemOK, error)
+
+	// GetAuditEvents gets all the events belong to a workbench crn.
 	GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error)
 
+	// GetAuditEventsContext gets all the events belong to a workbench crn.
+	GetAuditEventsContext(ctx context.Context, params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error)
+
+	// GetKubeconfig list workspace access cloudera a i workbench.
 	GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error)
 
+	// GetKubeconfigContext list workspace access cloudera a i workbench.
+	GetKubeconfigContext(ctx context.Context, params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error)
+
+	// GetLatestModelRegistryVersion get latest model registry version cloudera a i registry.
 	GetLatestModelRegistryVersion(params *GetLatestModelRegistryVersionParams, opts ...ClientOption) (*GetLatestModelRegistryVersionOK, error)
 
+	// GetLatestModelRegistryVersionContext get latest model registry version cloudera a i registry.
+	GetLatestModelRegistryVersionContext(ctx context.Context, params *GetLatestModelRegistryVersionParams, opts ...ClientOption) (*GetLatestModelRegistryVersionOK, error)
+
+	// GetLatestWorkspaceVersion get latest workspace version cloudera a i workbench.
 	GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionParams, opts ...ClientOption) (*GetLatestWorkspaceVersionOK, error)
 
+	// GetLatestWorkspaceVersionContext get latest workspace version cloudera a i workbench.
+	GetLatestWorkspaceVersionContext(ctx context.Context, params *GetLatestWorkspaceVersionParams, opts ...ClientOption) (*GetLatestWorkspaceVersionOK, error)
+
+	// GetLogs gets all the logs belong to a request id.
 	GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error)
 
+	// GetLogsContext gets all the logs belong to a request id.
+	GetLogsContext(ctx context.Context, params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error)
+
+	// GetMlServingAppKubeconfig return kubeconfig for a cloudera a i inference service kubernetes cluster.
 	GetMlServingAppKubeconfig(params *GetMlServingAppKubeconfigParams, opts ...ClientOption) (*GetMlServingAppKubeconfigOK, error)
 
+	// GetMlServingAppKubeconfigContext return kubeconfig for a cloudera a i inference service kubernetes cluster.
+	GetMlServingAppKubeconfigContext(ctx context.Context, params *GetMlServingAppKubeconfigParams, opts ...ClientOption) (*GetMlServingAppKubeconfigOK, error)
+
+	// GetModelRegistryKubeconfig get model registry kubeconfig returns kube config for model registry.
 	GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigParams, opts ...ClientOption) (*GetModelRegistryKubeconfigOK, error)
 
+	// GetModelRegistryKubeconfigContext get model registry kubeconfig returns kube config for model registry.
+	GetModelRegistryKubeconfigContext(ctx context.Context, params *GetModelRegistryKubeconfigParams, opts ...ClientOption) (*GetModelRegistryKubeconfigOK, error)
+
+	// GrantMlServingAppAccess grants admin access to a cloudera a i inference service cluster.
 	GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, opts ...ClientOption) (*GrantMlServingAppAccessOK, error)
 
+	// GrantMlServingAppAccessContext grants admin access to a cloudera a i inference service cluster.
+	GrantMlServingAppAccessContext(ctx context.Context, params *GrantMlServingAppAccessParams, opts ...ClientOption) (*GrantMlServingAppAccessOK, error)
+
+	// GrantModelRegistryAccess grant model registry access cloudera a i model registry.
 	GrantModelRegistryAccess(params *GrantModelRegistryAccessParams, opts ...ClientOption) (*GrantModelRegistryAccessOK, error)
 
+	// GrantModelRegistryAccessContext grant model registry access cloudera a i model registry.
+	GrantModelRegistryAccessContext(ctx context.Context, params *GrantModelRegistryAccessParams, opts ...ClientOption) (*GrantModelRegistryAccessOK, error)
+
+	// GrantWorkspaceAccess grant workspace access cloudera a i workbench.
 	GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error)
 
+	// GrantWorkspaceAccessContext grant workspace access cloudera a i workbench.
+	GrantWorkspaceAccessContext(ctx context.Context, params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error)
+
+	// ListInstanceTypeConfiguration list the instance configuration for a given instance type.
 	ListInstanceTypeConfiguration(params *ListInstanceTypeConfigurationParams, opts ...ClientOption) (*ListInstanceTypeConfigurationOK, error)
 
+	// ListInstanceTypeConfigurationContext list the instance configuration for a given instance type.
+	ListInstanceTypeConfigurationContext(ctx context.Context, params *ListInstanceTypeConfigurationParams, opts ...ClientOption) (*ListInstanceTypeConfigurationOK, error)
+
+	// ListMlServingAppAccess list members that have kubernetes access to a cloudera a i inference service cluster.
 	ListMlServingAppAccess(params *ListMlServingAppAccessParams, opts ...ClientOption) (*ListMlServingAppAccessOK, error)
 
+	// ListMlServingAppAccessContext list members that have kubernetes access to a cloudera a i inference service cluster.
+	ListMlServingAppAccessContext(ctx context.Context, params *ListMlServingAppAccessParams, opts ...ClientOption) (*ListMlServingAppAccessOK, error)
+
+	// ListMlServingApps list all cloudera a i inference service instances.
 	ListMlServingApps(params *ListMlServingAppsParams, opts ...ClientOption) (*ListMlServingAppsOK, error)
 
+	// ListMlServingAppsContext list all cloudera a i inference service instances.
+	ListMlServingAppsContext(ctx context.Context, params *ListMlServingAppsParams, opts ...ClientOption) (*ListMlServingAppsOK, error)
+
+	// ListModelRegistries lists all model registries.
 	ListModelRegistries(params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error)
 
+	// ListModelRegistriesContext lists all model registries.
+	ListModelRegistriesContext(ctx context.Context, params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error)
+
+	// ListModelRegistryAccess list workspace access cloudera a i model registry.
 	ListModelRegistryAccess(params *ListModelRegistryAccessParams, opts ...ClientOption) (*ListModelRegistryAccessOK, error)
 
+	// ListModelRegistryAccessContext list workspace access cloudera a i model registry.
+	ListModelRegistryAccessContext(ctx context.Context, params *ListModelRegistryAccessParams, opts ...ClientOption) (*ListModelRegistryAccessOK, error)
+
+	// ListRelevantInstances list the instance types for cloudera a i workbench creation that have the requested resource.
 	ListRelevantInstances(params *ListRelevantInstancesParams, opts ...ClientOption) (*ListRelevantInstancesOK, error)
 
+	// ListRelevantInstancesContext list the instance types for cloudera a i workbench creation that have the requested resource.
+	ListRelevantInstancesContext(ctx context.Context, params *ListRelevantInstancesParams, opts ...ClientOption) (*ListRelevantInstancesOK, error)
+
+	// ListWorkspaceAccess list workspace access cloudera a i workbench.
 	ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error)
 
+	// ListWorkspaceAccessContext list workspace access cloudera a i workbench.
+	ListWorkspaceAccessContext(ctx context.Context, params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error)
+
+	// ListWorkspaceBackups list backup snapshots of a workbench.
 	ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts ...ClientOption) (*ListWorkspaceBackupsOK, error)
 
+	// ListWorkspaceBackupsContext list backup snapshots of a workbench.
+	ListWorkspaceBackupsContext(ctx context.Context, params *ListWorkspaceBackupsParams, opts ...ClientOption) (*ListWorkspaceBackupsOK, error)
+
+	// ListWorkspaces list cloudera a i workbenches.
 	ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOption) (*ListWorkspacesOK, error)
 
+	// ListWorkspacesContext list cloudera a i workbenches.
+	ListWorkspacesContext(ctx context.Context, params *ListWorkspacesParams, opts ...ClientOption) (*ListWorkspacesOK, error)
+
+	// ModifyClusterInstanceGroup modify cloudera a i workbench cluster instance group.
 	ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupParams, opts ...ClientOption) (*ModifyClusterInstanceGroupOK, error)
 
+	// ModifyClusterInstanceGroupContext modify cloudera a i workbench cluster instance group.
+	ModifyClusterInstanceGroupContext(ctx context.Context, params *ModifyClusterInstanceGroupParams, opts ...ClientOption) (*ModifyClusterInstanceGroupOK, error)
+
+	// ModifyClusterSecurity modify cloudera a i workbench cluster security.
 	ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts ...ClientOption) (*ModifyClusterSecurityOK, error)
 
+	// ModifyClusterSecurityContext modify cloudera a i workbench cluster security.
+	ModifyClusterSecurityContext(ctx context.Context, params *ModifyClusterSecurityParams, opts ...ClientOption) (*ModifyClusterSecurityOK, error)
+
+	// ModifyMlServingApp modify instance groups for a cloudera a i inference service cluster.
 	ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...ClientOption) (*ModifyMlServingAppOK, error)
 
+	// ModifyMlServingAppContext modify instance groups for a cloudera a i inference service cluster.
+	ModifyMlServingAppContext(ctx context.Context, params *ModifyMlServingAppParams, opts ...ClientOption) (*ModifyMlServingAppOK, error)
+
+	// ModifyWorkspaceLoadBalancer modify cloudera a i workbench loadbalancer.
 	ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error)
 
+	// ModifyWorkspaceLoadBalancerContext modify cloudera a i workbench loadbalancer.
+	ModifyWorkspaceLoadBalancerContext(ctx context.Context, params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error)
+
+	// RefreshAiInference refresh a i inference trust store.
 	RefreshAiInference(params *RefreshAiInferenceParams, opts ...ClientOption) (*RefreshAiInferenceOK, error)
 
+	// RefreshAiInferenceContext refresh a i inference trust store.
+	RefreshAiInferenceContext(ctx context.Context, params *RefreshAiInferenceParams, opts ...ClientOption) (*RefreshAiInferenceOK, error)
+
+	// RefreshAiRegistry refreshes the a i registry with the latest trust store certificates for the selected instance.
 	RefreshAiRegistry(params *RefreshAiRegistryParams, opts ...ClientOption) (*RefreshAiRegistryOK, error)
 
+	// RefreshAiRegistryContext refreshes the a i registry with the latest trust store certificates for the selected instance.
+	RefreshAiRegistryContext(ctx context.Context, params *RefreshAiRegistryParams, opts ...ClientOption) (*RefreshAiRegistryOK, error)
+
+	// RefreshModelRegistryConfigmap refreshes the model registry configmap of the workbench.
 	RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error)
 
+	// RefreshModelRegistryConfigmapContext refreshes the model registry configmap of the workbench.
+	RefreshModelRegistryConfigmapContext(ctx context.Context, params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error)
+
+	// RequestWorkflowCancellation request a workflow cancellation.
 	RequestWorkflowCancellation(params *RequestWorkflowCancellationParams, opts ...ClientOption) (*RequestWorkflowCancellationOK, error)
 
+	// RequestWorkflowCancellationContext request a workflow cancellation.
+	RequestWorkflowCancellationContext(ctx context.Context, params *RequestWorkflowCancellationParams, opts ...ClientOption) (*RequestWorkflowCancellationOK, error)
+
+	// RestoreWorkspace restore a cloudera a i workbench.
 	RestoreWorkspace(params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error)
 
+	// RestoreWorkspaceContext restore a cloudera a i workbench.
+	RestoreWorkspaceContext(ctx context.Context, params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error)
+
+	// ResumeWorkspace resume cloudera a i workbench.
 	ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error)
 
+	// ResumeWorkspaceContext resume cloudera a i workbench.
+	ResumeWorkspaceContext(ctx context.Context, params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error)
+
+	// RevokeMlServingAppAccess revokes access to a cloudera a i inference service cluster.
 	RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams, opts ...ClientOption) (*RevokeMlServingAppAccessOK, error)
 
+	// RevokeMlServingAppAccessContext revokes access to a cloudera a i inference service cluster.
+	RevokeMlServingAppAccessContext(ctx context.Context, params *RevokeMlServingAppAccessParams, opts ...ClientOption) (*RevokeMlServingAppAccessOK, error)
+
+	// RevokeModelRegistryAccess revoke model registry access cloudera a i model registry.
 	RevokeModelRegistryAccess(params *RevokeModelRegistryAccessParams, opts ...ClientOption) (*RevokeModelRegistryAccessOK, error)
 
+	// RevokeModelRegistryAccessContext revoke model registry access cloudera a i model registry.
+	RevokeModelRegistryAccessContext(ctx context.Context, params *RevokeModelRegistryAccessParams, opts ...ClientOption) (*RevokeModelRegistryAccessOK, error)
+
+	// RevokeWorkspaceAccess revoke workspace access cloudera a i workbench.
 	RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error)
 
+	// RevokeWorkspaceAccessContext revoke workspace access cloudera a i workbench.
+	RevokeWorkspaceAccessContext(ctx context.Context, params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error)
+
+	// RollbackModelRegistryUpgrade rollback a model registry upgrade restore prior model registry.
 	RollbackModelRegistryUpgrade(params *RollbackModelRegistryUpgradeParams, opts ...ClientOption) (*RollbackModelRegistryUpgradeOK, error)
 
+	// RollbackModelRegistryUpgradeContext rollback a model registry upgrade restore prior model registry.
+	RollbackModelRegistryUpgradeContext(ctx context.Context, params *RollbackModelRegistryUpgradeParams, opts ...ClientOption) (*RollbackModelRegistryUpgradeOK, error)
+
+	// SuspendWorkspace suspend cloudera a i workbench.
 	SuspendWorkspace(params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error)
 
+	// SuspendWorkspaceContext suspend cloudera a i workbench.
+	SuspendWorkspaceContext(ctx context.Context, params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error)
+
+	// UpdateMlServingAppS3Creds update s3 credentials for a cloudera a i inference service.
 	UpdateMlServingAppS3Creds(params *UpdateMlServingAppS3CredsParams, opts ...ClientOption) (*UpdateMlServingAppS3CredsOK, error)
 
+	// UpdateMlServingAppS3CredsContext update s3 credentials for a cloudera a i inference service.
+	UpdateMlServingAppS3CredsContext(ctx context.Context, params *UpdateMlServingAppS3CredsParams, opts ...ClientOption) (*UpdateMlServingAppS3CredsOK, error)
+
+	// UpgradeMlServingApp upgrade a cloudera a i inference service instance.
 	UpgradeMlServingApp(params *UpgradeMlServingAppParams, opts ...ClientOption) (*UpgradeMlServingAppOK, error)
 
+	// UpgradeMlServingAppContext upgrade a cloudera a i inference service instance.
+	UpgradeMlServingAppContext(ctx context.Context, params *UpgradeMlServingAppParams, opts ...ClientOption) (*UpgradeMlServingAppOK, error)
+
+	// UpgradeModelRegistry upgrade a model registry.
 	UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts ...ClientOption) (*UpgradeModelRegistryOK, error)
 
+	// UpgradeModelRegistryContext upgrade a model registry.
+	UpgradeModelRegistryContext(ctx context.Context, params *UpgradeModelRegistryParams, opts ...ClientOption) (*UpgradeModelRegistryOK, error)
+
+	// UpgradeWorkspace upgrade cloudera a i workbench.
 	UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error)
 
-	SetTransport(transport runtime.ClientTransport)
+	// UpgradeWorkspaceContext upgrade cloudera a i workbench.
+	UpgradeWorkspaceContext(ctx context.Context, params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error)
+
+	SetTransport(transport runtime.ContextualTransport)
 }
 
-/*
-AddInstanceGroups adds new cloudera a i workbench cluster instance groups
-
-Add new Cloudera AI workbench cluster instance groups.
-*/
+// AddInstanceGroups adds new cloudera a i workbench cluster instance groups.
+//
+// Add new Cloudera AI workbench cluster instance groups..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.AddInstanceGroupsContext] instead.
 func (a *Client) AddInstanceGroups(params *AddInstanceGroupsParams, opts ...ClientOption) (*AddInstanceGroupsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AddInstanceGroupsContext(ctx, params, opts...)
+}
+
+// AddInstanceGroupsContext adds new cloudera a i workbench cluster instance groups.
+//
+// Add new Cloudera AI workbench cluster instance groups..
+//
+// Do not use the deprecated [AddInstanceGroupsParams.Context] with this method: it would be ignored.
+func (a *Client) AddInstanceGroupsContext(ctx context.Context, params *AddInstanceGroupsParams, opts ...ClientOption) (*AddInstanceGroupsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddInstanceGroupsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "addInstanceGroups",
 		Method:             "POST",
@@ -187,13 +439,14 @@ func (a *Client) AddInstanceGroups(params *AddInstanceGroupsParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AddInstanceGroupsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -212,16 +465,36 @@ func (a *Client) AddInstanceGroups(params *AddInstanceGroupsParams, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-AddInstanceGroupsMlServingApp adds instance group to an existing cloudera a i inference service instance
-
-Add instance group to an existing Cloudera AI Inference Service instance.
-*/
+// AddInstanceGroupsMlServingApp adds instance group to an existing cloudera a i inference service instance.
+//
+// Add instance group to an existing Cloudera AI Inference Service instance..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.AddInstanceGroupsMlServingAppContext] instead.
 func (a *Client) AddInstanceGroupsMlServingApp(params *AddInstanceGroupsMlServingAppParams, opts ...ClientOption) (*AddInstanceGroupsMlServingAppOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AddInstanceGroupsMlServingAppContext(ctx, params, opts...)
+}
+
+// AddInstanceGroupsMlServingAppContext adds instance group to an existing cloudera a i inference service instance.
+//
+// Add instance group to an existing Cloudera AI Inference Service instance..
+//
+// Do not use the deprecated [AddInstanceGroupsMlServingAppParams.Context] with this method: it would be ignored.
+func (a *Client) AddInstanceGroupsMlServingAppContext(ctx context.Context, params *AddInstanceGroupsMlServingAppParams, opts ...ClientOption) (*AddInstanceGroupsMlServingAppOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewAddInstanceGroupsMlServingAppParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "addInstanceGroupsMlServingApp",
 		Method:             "POST",
@@ -231,13 +504,14 @@ func (a *Client) AddInstanceGroupsMlServingApp(params *AddInstanceGroupsMlServin
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &AddInstanceGroupsMlServingAppReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -256,16 +530,36 @@ func (a *Client) AddInstanceGroupsMlServingApp(params *AddInstanceGroupsMlServin
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-BackupWorkspace backups a cloudera a i workbench
-
-Backup a Cloudera AI workbench.
-*/
+// BackupWorkspace backups a cloudera a i workbench.
+//
+// Backup a Cloudera AI workbench..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.BackupWorkspaceContext] instead.
 func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.BackupWorkspaceContext(ctx, params, opts...)
+}
+
+// BackupWorkspaceContext backups a cloudera a i workbench.
+//
+// Backup a Cloudera AI workbench..
+//
+// Do not use the deprecated [BackupWorkspaceParams.Context] with this method: it would be ignored.
+func (a *Client) BackupWorkspaceContext(ctx context.Context, params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewBackupWorkspaceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "backupWorkspace",
 		Method:             "POST",
@@ -275,13 +569,14 @@ func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &BackupWorkspaceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -300,16 +595,36 @@ func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOp
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CreateFileReplica creates file system replica
-
-Creates a file system replication.
-*/
+// CreateFileReplica creates file system replica.
+//
+// Creates a file system replication..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateFileReplicaContext] instead.
 func (a *Client) CreateFileReplica(params *CreateFileReplicaParams, opts ...ClientOption) (*CreateFileReplicaOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateFileReplicaContext(ctx, params, opts...)
+}
+
+// CreateFileReplicaContext creates file system replica.
+//
+// Creates a file system replication..
+//
+// Do not use the deprecated [CreateFileReplicaParams.Context] with this method: it would be ignored.
+func (a *Client) CreateFileReplicaContext(ctx context.Context, params *CreateFileReplicaParams, opts ...ClientOption) (*CreateFileReplicaOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateFileReplicaParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createFileReplica",
 		Method:             "POST",
@@ -319,13 +634,14 @@ func (a *Client) CreateFileReplica(params *CreateFileReplicaParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateFileReplicaReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -344,16 +660,36 @@ func (a *Client) CreateFileReplica(params *CreateFileReplicaParams, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CreateMlServingApp deploys cloudera a i inference service into an existing kubernetes cluster
-
-Deploys Cloudera AI Inference Service into an existing Kubernetes cluster.
-*/
+// CreateMlServingApp deploys cloudera a i inference service into an existing kubernetes cluster.
+//
+// Deploys Cloudera AI Inference Service into an existing Kubernetes cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateMlServingAppContext] instead.
 func (a *Client) CreateMlServingApp(params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateMlServingAppContext(ctx, params, opts...)
+}
+
+// CreateMlServingAppContext deploys cloudera a i inference service into an existing kubernetes cluster.
+//
+// Deploys Cloudera AI Inference Service into an existing Kubernetes cluster..
+//
+// Do not use the deprecated [CreateMlServingAppParams.Context] with this method: it would be ignored.
+func (a *Client) CreateMlServingAppContext(ctx context.Context, params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateMlServingAppParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createMlServingApp",
 		Method:             "POST",
@@ -363,13 +699,14 @@ func (a *Client) CreateMlServingApp(params *CreateMlServingAppParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateMlServingAppReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -388,16 +725,36 @@ func (a *Client) CreateMlServingApp(params *CreateMlServingAppParams, opts ...Cl
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CreateModelRegistry creates a new model registry
-
-Create a new model registry by creating a new workbench and install model registry on it.
-*/
+// CreateModelRegistry creates a new model registry.
+//
+// Create a new model registry by creating a new workbench and install model registry on it..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateModelRegistryContext] instead.
 func (a *Client) CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateModelRegistryContext(ctx, params, opts...)
+}
+
+// CreateModelRegistryContext creates a new model registry.
+//
+// Create a new model registry by creating a new workbench and install model registry on it..
+//
+// Do not use the deprecated [CreateModelRegistryParams.Context] with this method: it would be ignored.
+func (a *Client) CreateModelRegistryContext(ctx context.Context, params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateModelRegistryParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createModelRegistry",
 		Method:             "POST",
@@ -407,13 +764,14 @@ func (a *Client) CreateModelRegistry(params *CreateModelRegistryParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateModelRegistryReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -432,16 +790,36 @@ func (a *Client) CreateModelRegistry(params *CreateModelRegistryParams, opts ...
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CreateWorkspace creates a cloudera a i workbench
-
-Provision a Kubernetes cluster and install the Cloudera AI application in it.
-*/
+// CreateWorkspace creates a cloudera a i workbench.
+//
+// Provision a Kubernetes cluster and install the Cloudera AI application in it..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateWorkspaceContext] instead.
 func (a *Client) CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateWorkspaceContext(ctx, params, opts...)
+}
+
+// CreateWorkspaceContext creates a cloudera a i workbench.
+//
+// Provision a Kubernetes cluster and install the Cloudera AI application in it..
+//
+// Do not use the deprecated [CreateWorkspaceParams.Context] with this method: it would be ignored.
+func (a *Client) CreateWorkspaceContext(ctx context.Context, params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateWorkspaceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createWorkspace",
 		Method:             "POST",
@@ -451,13 +829,14 @@ func (a *Client) CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateWorkspaceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -476,16 +855,36 @@ func (a *Client) CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOp
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteBackup deletes a backup snapshot
-
-Deletes a Cloudera AI workbench backup.
-*/
+// DeleteBackup deletes a backup snapshot.
+//
+// Deletes a Cloudera AI workbench backup..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteBackupContext] instead.
 func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteBackupContext(ctx, params, opts...)
+}
+
+// DeleteBackupContext deletes a backup snapshot.
+//
+// Deletes a Cloudera AI workbench backup..
+//
+// Do not use the deprecated [DeleteBackupParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteBackupContext(ctx context.Context, params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteBackup",
 		Method:             "POST",
@@ -495,13 +894,14 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -520,16 +920,36 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteFileReplica deletes existing replication for project files
-
-Delete existing replication configuration for project files.
-*/
+// DeleteFileReplica deletes existing replication for project files.
+//
+// Delete existing replication configuration for project files..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteFileReplicaContext] instead.
 func (a *Client) DeleteFileReplica(params *DeleteFileReplicaParams, opts ...ClientOption) (*DeleteFileReplicaOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteFileReplicaContext(ctx, params, opts...)
+}
+
+// DeleteFileReplicaContext deletes existing replication for project files.
+//
+// Delete existing replication configuration for project files..
+//
+// Do not use the deprecated [DeleteFileReplicaParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteFileReplicaContext(ctx context.Context, params *DeleteFileReplicaParams, opts ...ClientOption) (*DeleteFileReplicaOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteFileReplicaParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteFileReplica",
 		Method:             "POST",
@@ -539,13 +959,14 @@ func (a *Client) DeleteFileReplica(params *DeleteFileReplicaParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteFileReplicaReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -564,16 +985,36 @@ func (a *Client) DeleteFileReplica(params *DeleteFileReplicaParams, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteInstanceGroup deletes an instance group from the cluster
-
-Deletes an instance group from a Cloudera AI workbench.
-*/
+// DeleteInstanceGroup deletes an instance group from the cluster.
+//
+// Deletes an instance group from a Cloudera AI workbench..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteInstanceGroupContext] instead.
 func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteInstanceGroupContext(ctx, params, opts...)
+}
+
+// DeleteInstanceGroupContext deletes an instance group from the cluster.
+//
+// Deletes an instance group from a Cloudera AI workbench..
+//
+// Do not use the deprecated [DeleteInstanceGroupParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteInstanceGroupContext(ctx context.Context, params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteInstanceGroupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteInstanceGroup",
 		Method:             "POST",
@@ -583,13 +1024,14 @@ func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteInstanceGroupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -608,16 +1050,36 @@ func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteInstanceGroupMlServingApp deletes an instance group from a cloudera a i inference service instance
-
-Deletes an instance group from a Cloudera AI Inference Service instance.
-*/
+// DeleteInstanceGroupMlServingApp deletes an instance group from a cloudera a i inference service instance.
+//
+// Deletes an instance group from a Cloudera AI Inference Service instance..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteInstanceGroupMlServingAppContext] instead.
 func (a *Client) DeleteInstanceGroupMlServingApp(params *DeleteInstanceGroupMlServingAppParams, opts ...ClientOption) (*DeleteInstanceGroupMlServingAppOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteInstanceGroupMlServingAppContext(ctx, params, opts...)
+}
+
+// DeleteInstanceGroupMlServingAppContext deletes an instance group from a cloudera a i inference service instance.
+//
+// Deletes an instance group from a Cloudera AI Inference Service instance..
+//
+// Do not use the deprecated [DeleteInstanceGroupMlServingAppParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteInstanceGroupMlServingAppContext(ctx context.Context, params *DeleteInstanceGroupMlServingAppParams, opts ...ClientOption) (*DeleteInstanceGroupMlServingAppOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteInstanceGroupMlServingAppParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteInstanceGroupMlServingApp",
 		Method:             "POST",
@@ -627,13 +1089,14 @@ func (a *Client) DeleteInstanceGroupMlServingApp(params *DeleteInstanceGroupMlSe
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteInstanceGroupMlServingAppReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -652,16 +1115,36 @@ func (a *Client) DeleteInstanceGroupMlServingApp(params *DeleteInstanceGroupMlSe
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteMlServingApp deletes cloudera a i inference service instance
-
-Gracefully deletes the Cloudera AI Inference Service instance without deleting the cluster.
-*/
+// DeleteMlServingApp deletes cloudera a i inference service instance.
+//
+// Gracefully deletes the Cloudera AI Inference Service instance without deleting the cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteMlServingAppContext] instead.
 func (a *Client) DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...ClientOption) (*DeleteMlServingAppOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteMlServingAppContext(ctx, params, opts...)
+}
+
+// DeleteMlServingAppContext deletes cloudera a i inference service instance.
+//
+// Gracefully deletes the Cloudera AI Inference Service instance without deleting the cluster..
+//
+// Do not use the deprecated [DeleteMlServingAppParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteMlServingAppContext(ctx context.Context, params *DeleteMlServingAppParams, opts ...ClientOption) (*DeleteMlServingAppOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteMlServingAppParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteMlServingApp",
 		Method:             "POST",
@@ -671,13 +1154,14 @@ func (a *Client) DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteMlServingAppReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -696,16 +1180,36 @@ func (a *Client) DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...Cl
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteModelRegistry deletes a model registry
-
-Delete a model registry.
-*/
+// DeleteModelRegistry deletes a model registry.
+//
+// Delete a model registry..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteModelRegistryContext] instead.
 func (a *Client) DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteModelRegistryContext(ctx, params, opts...)
+}
+
+// DeleteModelRegistryContext deletes a model registry.
+//
+// Delete a model registry..
+//
+// Do not use the deprecated [DeleteModelRegistryParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteModelRegistryContext(ctx context.Context, params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteModelRegistryParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteModelRegistry",
 		Method:             "POST",
@@ -715,13 +1219,14 @@ func (a *Client) DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteModelRegistryReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -740,16 +1245,36 @@ func (a *Client) DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteWorkspace deletes cloudera a i workbench
-
-Deletes a Cloudera AI workbench.
-*/
+// DeleteWorkspace deletes cloudera a i workbench.
+//
+// Deletes a Cloudera AI workbench..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteWorkspaceContext] instead.
 func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteWorkspaceContext(ctx, params, opts...)
+}
+
+// DeleteWorkspaceContext deletes cloudera a i workbench.
+//
+// Deletes a Cloudera AI workbench..
+//
+// Do not use the deprecated [DeleteWorkspaceParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteWorkspaceContext(ctx context.Context, params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteWorkspaceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteWorkspace",
 		Method:             "POST",
@@ -759,13 +1284,14 @@ func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteWorkspaceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -784,16 +1310,36 @@ func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOp
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DescribeMlServingApp describes cloudera a i inference service instance
-
-Describe Cloudera AI Inference Service instance.
-*/
+// DescribeMlServingApp describes cloudera a i inference service instance.
+//
+// Describe Cloudera AI Inference Service instance..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DescribeMlServingAppContext] instead.
 func (a *Client) DescribeMlServingApp(params *DescribeMlServingAppParams, opts ...ClientOption) (*DescribeMlServingAppOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeMlServingAppContext(ctx, params, opts...)
+}
+
+// DescribeMlServingAppContext describes cloudera a i inference service instance.
+//
+// Describe Cloudera AI Inference Service instance..
+//
+// Do not use the deprecated [DescribeMlServingAppParams.Context] with this method: it would be ignored.
+func (a *Client) DescribeMlServingAppContext(ctx context.Context, params *DescribeMlServingAppParams, opts ...ClientOption) (*DescribeMlServingAppOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeMlServingAppParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeMlServingApp",
 		Method:             "POST",
@@ -803,13 +1349,14 @@ func (a *Client) DescribeMlServingApp(params *DescribeMlServingAppParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeMlServingAppReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -828,16 +1375,36 @@ func (a *Client) DescribeMlServingApp(params *DescribeMlServingAppParams, opts .
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DescribeModelRegistry deprecateds cloudera a i model registry is now deprecated
-
-Please use ListModelRegistries.
-*/
+// DescribeModelRegistry deprecateds cloudera a i model registry is now deprecated.
+//
+// Please use ListModelRegistries..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DescribeModelRegistryContext] instead.
 func (a *Client) DescribeModelRegistry(params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeModelRegistryContext(ctx, params, opts...)
+}
+
+// DescribeModelRegistryContext deprecateds cloudera a i model registry is now deprecated.
+//
+// Please use ListModelRegistries..
+//
+// Do not use the deprecated [DescribeModelRegistryParams.Context] with this method: it would be ignored.
+func (a *Client) DescribeModelRegistryContext(ctx context.Context, params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeModelRegistryParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeModelRegistry",
 		Method:             "POST",
@@ -847,13 +1414,14 @@ func (a *Client) DescribeModelRegistry(params *DescribeModelRegistryParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeModelRegistryReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -872,16 +1440,36 @@ func (a *Client) DescribeModelRegistry(params *DescribeModelRegistryParams, opts
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DescribeWorkspace describes cloudera a i workbench
-
-Describes a Cloudera AI workbench.
-*/
+// DescribeWorkspace describes cloudera a i workbench.
+//
+// Describes a Cloudera AI workbench..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DescribeWorkspaceContext] instead.
 func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeWorkspaceContext(ctx, params, opts...)
+}
+
+// DescribeWorkspaceContext describes cloudera a i workbench.
+//
+// Describes a Cloudera AI workbench..
+//
+// Do not use the deprecated [DescribeWorkspaceParams.Context] with this method: it would be ignored.
+func (a *Client) DescribeWorkspaceContext(ctx context.Context, params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeWorkspaceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeWorkspace",
 		Method:             "POST",
@@ -891,13 +1479,14 @@ func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeWorkspaceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -916,16 +1505,36 @@ func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DescribeWorkspaceBackup describes backup snaphot of a workbench
-
-Describe backup snaphot of a workbench.
-*/
+// DescribeWorkspaceBackup describes backup snaphot of a workbench.
+//
+// Describe backup snaphot of a workbench..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DescribeWorkspaceBackupContext] instead.
 func (a *Client) DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeWorkspaceBackupContext(ctx, params, opts...)
+}
+
+// DescribeWorkspaceBackupContext describes backup snaphot of a workbench.
+//
+// Describe backup snaphot of a workbench..
+//
+// Do not use the deprecated [DescribeWorkspaceBackupParams.Context] with this method: it would be ignored.
+func (a *Client) DescribeWorkspaceBackupContext(ctx context.Context, params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeWorkspaceBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeWorkspaceBackup",
 		Method:             "POST",
@@ -935,13 +1544,14 @@ func (a *Client) DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeWorkspaceBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -960,16 +1570,36 @@ func (a *Client) DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-FailOverFileSystem failovers to replica file system
-
-Failover to replica in case of a source file system disaster.
-*/
+// FailOverFileSystem failovers to replica file system.
+//
+// Failover to replica in case of a source file system disaster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.FailOverFileSystemContext] instead.
 func (a *Client) FailOverFileSystem(params *FailOverFileSystemParams, opts ...ClientOption) (*FailOverFileSystemOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.FailOverFileSystemContext(ctx, params, opts...)
+}
+
+// FailOverFileSystemContext failovers to replica file system.
+//
+// Failover to replica in case of a source file system disaster..
+//
+// Do not use the deprecated [FailOverFileSystemParams.Context] with this method: it would be ignored.
+func (a *Client) FailOverFileSystemContext(ctx context.Context, params *FailOverFileSystemParams, opts ...ClientOption) (*FailOverFileSystemOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewFailOverFileSystemParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "failOverFileSystem",
 		Method:             "POST",
@@ -979,13 +1609,14 @@ func (a *Client) FailOverFileSystem(params *FailOverFileSystemParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &FailOverFileSystemReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1004,16 +1635,36 @@ func (a *Client) FailOverFileSystem(params *FailOverFileSystemParams, opts ...Cl
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetAuditEvents gets all the events belong to a workbench crn
-
-Gets all the events belong to a workbench crn.
-*/
+// GetAuditEvents gets all the events belong to a workbench crn.
+//
+// Gets all the events belong to a workbench crn..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetAuditEventsContext] instead.
 func (a *Client) GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetAuditEventsContext(ctx, params, opts...)
+}
+
+// GetAuditEventsContext gets all the events belong to a workbench crn.
+//
+// Gets all the events belong to a workbench crn..
+//
+// Do not use the deprecated [GetAuditEventsParams.Context] with this method: it would be ignored.
+func (a *Client) GetAuditEventsContext(ctx context.Context, params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetAuditEventsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getAuditEvents",
 		Method:             "POST",
@@ -1023,13 +1674,14 @@ func (a *Client) GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetAuditEventsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1048,16 +1700,36 @@ func (a *Client) GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOpti
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetKubeconfig lists workspace access cloudera a i workbench
-
-Lists users that can perform Kubernetes operations on a Cloudera AI workbench via EKS.
-*/
+// GetKubeconfig lists workspace access cloudera a i workbench.
+//
+// Lists users that can perform Kubernetes operations on a Cloudera AI workbench via EKS..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetKubeconfigContext] instead.
 func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetKubeconfigContext(ctx, params, opts...)
+}
+
+// GetKubeconfigContext lists workspace access cloudera a i workbench.
+//
+// Lists users that can perform Kubernetes operations on a Cloudera AI workbench via EKS..
+//
+// Do not use the deprecated [GetKubeconfigParams.Context] with this method: it would be ignored.
+func (a *Client) GetKubeconfigContext(ctx context.Context, params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetKubeconfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getKubeconfig",
 		Method:             "POST",
@@ -1067,13 +1739,14 @@ func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetKubeconfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1092,16 +1765,36 @@ func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetLatestModelRegistryVersion gets latest model registry version cloudera a i registry
-
-Retrieves the latest version that Cloudera AI deploys to ModelRegistries.
-*/
+// GetLatestModelRegistryVersion gets latest model registry version cloudera a i registry.
+//
+// Retrieves the latest version that Cloudera AI deploys to ModelRegistries..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetLatestModelRegistryVersionContext] instead.
 func (a *Client) GetLatestModelRegistryVersion(params *GetLatestModelRegistryVersionParams, opts ...ClientOption) (*GetLatestModelRegistryVersionOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetLatestModelRegistryVersionContext(ctx, params, opts...)
+}
+
+// GetLatestModelRegistryVersionContext gets latest model registry version cloudera a i registry.
+//
+// Retrieves the latest version that Cloudera AI deploys to ModelRegistries..
+//
+// Do not use the deprecated [GetLatestModelRegistryVersionParams.Context] with this method: it would be ignored.
+func (a *Client) GetLatestModelRegistryVersionContext(ctx context.Context, params *GetLatestModelRegistryVersionParams, opts ...ClientOption) (*GetLatestModelRegistryVersionOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetLatestModelRegistryVersionParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getLatestModelRegistryVersion",
 		Method:             "POST",
@@ -1111,13 +1804,14 @@ func (a *Client) GetLatestModelRegistryVersion(params *GetLatestModelRegistryVer
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetLatestModelRegistryVersionReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1136,16 +1830,36 @@ func (a *Client) GetLatestModelRegistryVersion(params *GetLatestModelRegistryVer
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetLatestWorkspaceVersion gets latest workspace version cloudera a i workbench
-
-Retrieves the latest version that Cloudera AI deploys to workbenches.
-*/
+// GetLatestWorkspaceVersion gets latest workspace version cloudera a i workbench.
+//
+// Retrieves the latest version that Cloudera AI deploys to workbenches..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetLatestWorkspaceVersionContext] instead.
 func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionParams, opts ...ClientOption) (*GetLatestWorkspaceVersionOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetLatestWorkspaceVersionContext(ctx, params, opts...)
+}
+
+// GetLatestWorkspaceVersionContext gets latest workspace version cloudera a i workbench.
+//
+// Retrieves the latest version that Cloudera AI deploys to workbenches..
+//
+// Do not use the deprecated [GetLatestWorkspaceVersionParams.Context] with this method: it would be ignored.
+func (a *Client) GetLatestWorkspaceVersionContext(ctx context.Context, params *GetLatestWorkspaceVersionParams, opts ...ClientOption) (*GetLatestWorkspaceVersionOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetLatestWorkspaceVersionParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getLatestWorkspaceVersion",
 		Method:             "POST",
@@ -1155,13 +1869,14 @@ func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetLatestWorkspaceVersionReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1180,16 +1895,36 @@ func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionPara
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetLogs gets all the logs belong to a request id
-
-Gets all the logs belong to a request id.
-*/
+// GetLogs gets all the logs belong to a request id.
+//
+// Gets all the logs belong to a request id..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetLogsContext] instead.
 func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetLogsContext(ctx, params, opts...)
+}
+
+// GetLogsContext gets all the logs belong to a request id.
+//
+// Gets all the logs belong to a request id..
+//
+// Do not use the deprecated [GetLogsParams.Context] with this method: it would be ignored.
+func (a *Client) GetLogsContext(ctx context.Context, params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetLogsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getLogs",
 		Method:             "POST",
@@ -1199,13 +1934,14 @@ func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsO
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetLogsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1224,16 +1960,36 @@ func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsO
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetMlServingAppKubeconfig returns kubeconfig for a cloudera a i inference service kubernetes cluster
-
-Gets the Kubeconfig of the Cloudera AI Inference Service kubernetes cluster.
-*/
+// GetMlServingAppKubeconfig returns kubeconfig for a cloudera a i inference service kubernetes cluster.
+//
+// Gets the Kubeconfig of the Cloudera AI Inference Service kubernetes cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetMlServingAppKubeconfigContext] instead.
 func (a *Client) GetMlServingAppKubeconfig(params *GetMlServingAppKubeconfigParams, opts ...ClientOption) (*GetMlServingAppKubeconfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetMlServingAppKubeconfigContext(ctx, params, opts...)
+}
+
+// GetMlServingAppKubeconfigContext returns kubeconfig for a cloudera a i inference service kubernetes cluster.
+//
+// Gets the Kubeconfig of the Cloudera AI Inference Service kubernetes cluster..
+//
+// Do not use the deprecated [GetMlServingAppKubeconfigParams.Context] with this method: it would be ignored.
+func (a *Client) GetMlServingAppKubeconfigContext(ctx context.Context, params *GetMlServingAppKubeconfigParams, opts ...ClientOption) (*GetMlServingAppKubeconfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetMlServingAppKubeconfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getMlServingAppKubeconfig",
 		Method:             "POST",
@@ -1243,13 +1999,14 @@ func (a *Client) GetMlServingAppKubeconfig(params *GetMlServingAppKubeconfigPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetMlServingAppKubeconfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1268,16 +2025,36 @@ func (a *Client) GetMlServingAppKubeconfig(params *GetMlServingAppKubeconfigPara
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetModelRegistryKubeconfig gets model registry kubeconfig returns kube config for model registry
-
-Gets the Kubeconfig of the model registry cluster.
-*/
+// GetModelRegistryKubeconfig gets model registry kubeconfig returns kube config for model registry.
+//
+// Gets the Kubeconfig of the model registry cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetModelRegistryKubeconfigContext] instead.
 func (a *Client) GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigParams, opts ...ClientOption) (*GetModelRegistryKubeconfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetModelRegistryKubeconfigContext(ctx, params, opts...)
+}
+
+// GetModelRegistryKubeconfigContext gets model registry kubeconfig returns kube config for model registry.
+//
+// Gets the Kubeconfig of the model registry cluster..
+//
+// Do not use the deprecated [GetModelRegistryKubeconfigParams.Context] with this method: it would be ignored.
+func (a *Client) GetModelRegistryKubeconfigContext(ctx context.Context, params *GetModelRegistryKubeconfigParams, opts ...ClientOption) (*GetModelRegistryKubeconfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetModelRegistryKubeconfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getModelRegistryKubeconfig",
 		Method:             "POST",
@@ -1287,13 +2064,14 @@ func (a *Client) GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetModelRegistryKubeconfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1312,16 +2090,36 @@ func (a *Client) GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigPa
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GrantMlServingAppAccess grants admin access to a cloudera a i inference service cluster
-
-Grants an AWS user permissions to perform Kubernetes operations on a Cloudera AI Inference Service cluster.
-*/
+// GrantMlServingAppAccess grants admin access to a cloudera a i inference service cluster.
+//
+// Grants an AWS user permissions to perform Kubernetes operations on a Cloudera AI Inference Service cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GrantMlServingAppAccessContext] instead.
 func (a *Client) GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, opts ...ClientOption) (*GrantMlServingAppAccessOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GrantMlServingAppAccessContext(ctx, params, opts...)
+}
+
+// GrantMlServingAppAccessContext grants admin access to a cloudera a i inference service cluster.
+//
+// Grants an AWS user permissions to perform Kubernetes operations on a Cloudera AI Inference Service cluster..
+//
+// Do not use the deprecated [GrantMlServingAppAccessParams.Context] with this method: it would be ignored.
+func (a *Client) GrantMlServingAppAccessContext(ctx context.Context, params *GrantMlServingAppAccessParams, opts ...ClientOption) (*GrantMlServingAppAccessOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGrantMlServingAppAccessParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "grantMlServingAppAccess",
 		Method:             "POST",
@@ -1331,13 +2129,14 @@ func (a *Client) GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GrantMlServingAppAccessReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1356,16 +2155,36 @@ func (a *Client) GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GrantModelRegistryAccess grants model registry access cloudera a i model registry
-
-Grants an AWS user to perform Kubernetes operations on a Cloudera AI model registry via EKS.
-*/
+// GrantModelRegistryAccess grants model registry access cloudera a i model registry.
+//
+// Grants an AWS user to perform Kubernetes operations on a Cloudera AI model registry via EKS..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GrantModelRegistryAccessContext] instead.
 func (a *Client) GrantModelRegistryAccess(params *GrantModelRegistryAccessParams, opts ...ClientOption) (*GrantModelRegistryAccessOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GrantModelRegistryAccessContext(ctx, params, opts...)
+}
+
+// GrantModelRegistryAccessContext grants model registry access cloudera a i model registry.
+//
+// Grants an AWS user to perform Kubernetes operations on a Cloudera AI model registry via EKS..
+//
+// Do not use the deprecated [GrantModelRegistryAccessParams.Context] with this method: it would be ignored.
+func (a *Client) GrantModelRegistryAccessContext(ctx context.Context, params *GrantModelRegistryAccessParams, opts ...ClientOption) (*GrantModelRegistryAccessOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGrantModelRegistryAccessParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "grantModelRegistryAccess",
 		Method:             "POST",
@@ -1375,13 +2194,14 @@ func (a *Client) GrantModelRegistryAccess(params *GrantModelRegistryAccessParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GrantModelRegistryAccessReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1400,16 +2220,36 @@ func (a *Client) GrantModelRegistryAccess(params *GrantModelRegistryAccessParams
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GrantWorkspaceAccess grants workspace access cloudera a i workbench
-
-Grants an AWS user to perform Kubernetes operations on a Cloudera AI workbench via EKS.
-*/
+// GrantWorkspaceAccess grants workspace access cloudera a i workbench.
+//
+// Grants an AWS user to perform Kubernetes operations on a Cloudera AI workbench via EKS..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GrantWorkspaceAccessContext] instead.
 func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GrantWorkspaceAccessContext(ctx, params, opts...)
+}
+
+// GrantWorkspaceAccessContext grants workspace access cloudera a i workbench.
+//
+// Grants an AWS user to perform Kubernetes operations on a Cloudera AI workbench via EKS..
+//
+// Do not use the deprecated [GrantWorkspaceAccessParams.Context] with this method: it would be ignored.
+func (a *Client) GrantWorkspaceAccessContext(ctx context.Context, params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGrantWorkspaceAccessParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "grantWorkspaceAccess",
 		Method:             "POST",
@@ -1419,13 +2259,14 @@ func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GrantWorkspaceAccessReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1444,16 +2285,36 @@ func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts .
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListInstanceTypeConfiguration lists the instance configuration for a given instance type
-
-List of instances.
-*/
+// ListInstanceTypeConfiguration lists the instance configuration for a given instance type.
+//
+// List of instances..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListInstanceTypeConfigurationContext] instead.
 func (a *Client) ListInstanceTypeConfiguration(params *ListInstanceTypeConfigurationParams, opts ...ClientOption) (*ListInstanceTypeConfigurationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListInstanceTypeConfigurationContext(ctx, params, opts...)
+}
+
+// ListInstanceTypeConfigurationContext lists the instance configuration for a given instance type.
+//
+// List of instances..
+//
+// Do not use the deprecated [ListInstanceTypeConfigurationParams.Context] with this method: it would be ignored.
+func (a *Client) ListInstanceTypeConfigurationContext(ctx context.Context, params *ListInstanceTypeConfigurationParams, opts ...ClientOption) (*ListInstanceTypeConfigurationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListInstanceTypeConfigurationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listInstanceTypeConfiguration",
 		Method:             "POST",
@@ -1463,13 +2324,14 @@ func (a *Client) ListInstanceTypeConfiguration(params *ListInstanceTypeConfigura
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListInstanceTypeConfigurationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1488,16 +2350,36 @@ func (a *Client) ListInstanceTypeConfiguration(params *ListInstanceTypeConfigura
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListMlServingAppAccess lists members that have kubernetes access to a cloudera a i inference service cluster
-
-Lists users that can perform Kubernetes operations on a Cloudera AI Inference Service cluster.
-*/
+// ListMlServingAppAccess lists members that have kubernetes access to a cloudera a i inference service cluster.
+//
+// Lists users that can perform Kubernetes operations on a Cloudera AI Inference Service cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListMlServingAppAccessContext] instead.
 func (a *Client) ListMlServingAppAccess(params *ListMlServingAppAccessParams, opts ...ClientOption) (*ListMlServingAppAccessOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListMlServingAppAccessContext(ctx, params, opts...)
+}
+
+// ListMlServingAppAccessContext lists members that have kubernetes access to a cloudera a i inference service cluster.
+//
+// Lists users that can perform Kubernetes operations on a Cloudera AI Inference Service cluster..
+//
+// Do not use the deprecated [ListMlServingAppAccessParams.Context] with this method: it would be ignored.
+func (a *Client) ListMlServingAppAccessContext(ctx context.Context, params *ListMlServingAppAccessParams, opts ...ClientOption) (*ListMlServingAppAccessOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListMlServingAppAccessParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listMlServingAppAccess",
 		Method:             "POST",
@@ -1507,13 +2389,14 @@ func (a *Client) ListMlServingAppAccess(params *ListMlServingAppAccessParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListMlServingAppAccessReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1532,16 +2415,36 @@ func (a *Client) ListMlServingAppAccess(params *ListMlServingAppAccessParams, op
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListMlServingApps lists all cloudera a i inference service instances
-
-List all Cloudera AI Inference Service instances.
-*/
+// ListMlServingApps lists all cloudera a i inference service instances.
+//
+// List all Cloudera AI Inference Service instances..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListMlServingAppsContext] instead.
 func (a *Client) ListMlServingApps(params *ListMlServingAppsParams, opts ...ClientOption) (*ListMlServingAppsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListMlServingAppsContext(ctx, params, opts...)
+}
+
+// ListMlServingAppsContext lists all cloudera a i inference service instances.
+//
+// List all Cloudera AI Inference Service instances..
+//
+// Do not use the deprecated [ListMlServingAppsParams.Context] with this method: it would be ignored.
+func (a *Client) ListMlServingAppsContext(ctx context.Context, params *ListMlServingAppsParams, opts ...ClientOption) (*ListMlServingAppsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListMlServingAppsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listMlServingApps",
 		Method:             "POST",
@@ -1551,13 +2454,14 @@ func (a *Client) ListMlServingApps(params *ListMlServingAppsParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListMlServingAppsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1576,16 +2480,36 @@ func (a *Client) ListMlServingApps(params *ListMlServingAppsParams, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListModelRegistries lists all model registries
-
-List all model registries.
-*/
+// ListModelRegistries lists all model registries.
+//
+// List all model registries..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListModelRegistriesContext] instead.
 func (a *Client) ListModelRegistries(params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListModelRegistriesContext(ctx, params, opts...)
+}
+
+// ListModelRegistriesContext lists all model registries.
+//
+// List all model registries..
+//
+// Do not use the deprecated [ListModelRegistriesParams.Context] with this method: it would be ignored.
+func (a *Client) ListModelRegistriesContext(ctx context.Context, params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListModelRegistriesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listModelRegistries",
 		Method:             "POST",
@@ -1595,13 +2519,14 @@ func (a *Client) ListModelRegistries(params *ListModelRegistriesParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListModelRegistriesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1620,16 +2545,36 @@ func (a *Client) ListModelRegistries(params *ListModelRegistriesParams, opts ...
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListModelRegistryAccess lists workspace access cloudera a i model registry
-
-Lists users that can perform Kubernetes operations on a Cloudera AI model registry via EKS.
-*/
+// ListModelRegistryAccess lists workspace access cloudera a i model registry.
+//
+// Lists users that can perform Kubernetes operations on a Cloudera AI model registry via EKS..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListModelRegistryAccessContext] instead.
 func (a *Client) ListModelRegistryAccess(params *ListModelRegistryAccessParams, opts ...ClientOption) (*ListModelRegistryAccessOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListModelRegistryAccessContext(ctx, params, opts...)
+}
+
+// ListModelRegistryAccessContext lists workspace access cloudera a i model registry.
+//
+// Lists users that can perform Kubernetes operations on a Cloudera AI model registry via EKS..
+//
+// Do not use the deprecated [ListModelRegistryAccessParams.Context] with this method: it would be ignored.
+func (a *Client) ListModelRegistryAccessContext(ctx context.Context, params *ListModelRegistryAccessParams, opts ...ClientOption) (*ListModelRegistryAccessOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListModelRegistryAccessParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listModelRegistryAccess",
 		Method:             "POST",
@@ -1639,13 +2584,14 @@ func (a *Client) ListModelRegistryAccess(params *ListModelRegistryAccessParams, 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListModelRegistryAccessReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1664,16 +2610,36 @@ func (a *Client) ListModelRegistryAccess(params *ListModelRegistryAccessParams, 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListRelevantInstances lists the instance types for cloudera a i workbench creation that have the requested resource
-
-List of relevant instance type for Cloudera AI workbench creation.
-*/
+// ListRelevantInstances lists the instance types for cloudera a i workbench creation that have the requested resource.
+//
+// List of relevant instance type for Cloudera AI workbench creation..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListRelevantInstancesContext] instead.
 func (a *Client) ListRelevantInstances(params *ListRelevantInstancesParams, opts ...ClientOption) (*ListRelevantInstancesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListRelevantInstancesContext(ctx, params, opts...)
+}
+
+// ListRelevantInstancesContext lists the instance types for cloudera a i workbench creation that have the requested resource.
+//
+// List of relevant instance type for Cloudera AI workbench creation..
+//
+// Do not use the deprecated [ListRelevantInstancesParams.Context] with this method: it would be ignored.
+func (a *Client) ListRelevantInstancesContext(ctx context.Context, params *ListRelevantInstancesParams, opts ...ClientOption) (*ListRelevantInstancesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListRelevantInstancesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listRelevantInstances",
 		Method:             "POST",
@@ -1683,13 +2649,14 @@ func (a *Client) ListRelevantInstances(params *ListRelevantInstancesParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListRelevantInstancesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1708,16 +2675,36 @@ func (a *Client) ListRelevantInstances(params *ListRelevantInstancesParams, opts
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListWorkspaceAccess lists workspace access cloudera a i workbench
-
-Lists users that can perform Kubernetes operations on a Cloudera AI workbench via EKS.
-*/
+// ListWorkspaceAccess lists workspace access cloudera a i workbench.
+//
+// Lists users that can perform Kubernetes operations on a Cloudera AI workbench via EKS..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListWorkspaceAccessContext] instead.
 func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListWorkspaceAccessContext(ctx, params, opts...)
+}
+
+// ListWorkspaceAccessContext lists workspace access cloudera a i workbench.
+//
+// Lists users that can perform Kubernetes operations on a Cloudera AI workbench via EKS..
+//
+// Do not use the deprecated [ListWorkspaceAccessParams.Context] with this method: it would be ignored.
+func (a *Client) ListWorkspaceAccessContext(ctx context.Context, params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListWorkspaceAccessParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listWorkspaceAccess",
 		Method:             "POST",
@@ -1727,13 +2714,14 @@ func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListWorkspaceAccessReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1752,16 +2740,36 @@ func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListWorkspaceBackups lists backup snapshots of a workbench
-
-List backup snapshots of a workbench.
-*/
+// ListWorkspaceBackups lists backup snapshots of a workbench.
+//
+// List backup snapshots of a workbench..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListWorkspaceBackupsContext] instead.
 func (a *Client) ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts ...ClientOption) (*ListWorkspaceBackupsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListWorkspaceBackupsContext(ctx, params, opts...)
+}
+
+// ListWorkspaceBackupsContext lists backup snapshots of a workbench.
+//
+// List backup snapshots of a workbench..
+//
+// Do not use the deprecated [ListWorkspaceBackupsParams.Context] with this method: it would be ignored.
+func (a *Client) ListWorkspaceBackupsContext(ctx context.Context, params *ListWorkspaceBackupsParams, opts ...ClientOption) (*ListWorkspaceBackupsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListWorkspaceBackupsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listWorkspaceBackups",
 		Method:             "POST",
@@ -1771,13 +2779,14 @@ func (a *Client) ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListWorkspaceBackupsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1796,16 +2805,36 @@ func (a *Client) ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts .
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListWorkspaces lists cloudera a i workbenches
-
-List Cloudera AI workbenches.
-*/
+// ListWorkspaces lists cloudera a i workbenches.
+//
+// List Cloudera AI workbenches..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListWorkspacesContext] instead.
 func (a *Client) ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOption) (*ListWorkspacesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListWorkspacesContext(ctx, params, opts...)
+}
+
+// ListWorkspacesContext lists cloudera a i workbenches.
+//
+// List Cloudera AI workbenches..
+//
+// Do not use the deprecated [ListWorkspacesParams.Context] with this method: it would be ignored.
+func (a *Client) ListWorkspacesContext(ctx context.Context, params *ListWorkspacesParams, opts ...ClientOption) (*ListWorkspacesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListWorkspacesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listWorkspaces",
 		Method:             "POST",
@@ -1815,13 +2844,14 @@ func (a *Client) ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListWorkspacesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1840,16 +2870,36 @@ func (a *Client) ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOpti
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ModifyClusterInstanceGroup modifies cloudera a i workbench cluster instance group
-
-Modify a Cloudera AI workbench cluster instance group.
-*/
+// ModifyClusterInstanceGroup modifies cloudera a i workbench cluster instance group.
+//
+// Modify a Cloudera AI workbench cluster instance group..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ModifyClusterInstanceGroupContext] instead.
 func (a *Client) ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupParams, opts ...ClientOption) (*ModifyClusterInstanceGroupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ModifyClusterInstanceGroupContext(ctx, params, opts...)
+}
+
+// ModifyClusterInstanceGroupContext modifies cloudera a i workbench cluster instance group.
+//
+// Modify a Cloudera AI workbench cluster instance group..
+//
+// Do not use the deprecated [ModifyClusterInstanceGroupParams.Context] with this method: it would be ignored.
+func (a *Client) ModifyClusterInstanceGroupContext(ctx context.Context, params *ModifyClusterInstanceGroupParams, opts ...ClientOption) (*ModifyClusterInstanceGroupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewModifyClusterInstanceGroupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "modifyClusterInstanceGroup",
 		Method:             "POST",
@@ -1859,13 +2909,14 @@ func (a *Client) ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupPa
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ModifyClusterInstanceGroupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1884,16 +2935,36 @@ func (a *Client) ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupPa
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ModifyClusterSecurity modifies cloudera a i workbench cluster security
-
-Modify a Cloudera AI workbench cluster security.
-*/
+// ModifyClusterSecurity modifies cloudera a i workbench cluster security.
+//
+// Modify a Cloudera AI workbench cluster security..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ModifyClusterSecurityContext] instead.
 func (a *Client) ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts ...ClientOption) (*ModifyClusterSecurityOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ModifyClusterSecurityContext(ctx, params, opts...)
+}
+
+// ModifyClusterSecurityContext modifies cloudera a i workbench cluster security.
+//
+// Modify a Cloudera AI workbench cluster security..
+//
+// Do not use the deprecated [ModifyClusterSecurityParams.Context] with this method: it would be ignored.
+func (a *Client) ModifyClusterSecurityContext(ctx context.Context, params *ModifyClusterSecurityParams, opts ...ClientOption) (*ModifyClusterSecurityOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewModifyClusterSecurityParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "modifyClusterSecurity",
 		Method:             "POST",
@@ -1903,13 +2974,14 @@ func (a *Client) ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ModifyClusterSecurityReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1928,16 +3000,36 @@ func (a *Client) ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ModifyMlServingApp modifies instance groups for a cloudera a i inference service cluster
-
-Modify instance groups for a Cloudera AI Inference Service cluster.
-*/
+// ModifyMlServingApp modifies instance groups for a cloudera a i inference service cluster.
+//
+// Modify instance groups for a Cloudera AI Inference Service cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ModifyMlServingAppContext] instead.
 func (a *Client) ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...ClientOption) (*ModifyMlServingAppOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ModifyMlServingAppContext(ctx, params, opts...)
+}
+
+// ModifyMlServingAppContext modifies instance groups for a cloudera a i inference service cluster.
+//
+// Modify instance groups for a Cloudera AI Inference Service cluster..
+//
+// Do not use the deprecated [ModifyMlServingAppParams.Context] with this method: it would be ignored.
+func (a *Client) ModifyMlServingAppContext(ctx context.Context, params *ModifyMlServingAppParams, opts ...ClientOption) (*ModifyMlServingAppOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewModifyMlServingAppParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "modifyMlServingApp",
 		Method:             "POST",
@@ -1947,13 +3039,14 @@ func (a *Client) ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ModifyMlServingAppReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1972,16 +3065,36 @@ func (a *Client) ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...Cl
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ModifyWorkspaceLoadBalancer modifies cloudera a i workbench loadbalancer
-
-Modify a Cloudera AI workbench loadbalancer.
-*/
+// ModifyWorkspaceLoadBalancer modifies cloudera a i workbench loadbalancer.
+//
+// Modify a Cloudera AI workbench loadbalancer..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ModifyWorkspaceLoadBalancerContext] instead.
 func (a *Client) ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ModifyWorkspaceLoadBalancerContext(ctx, params, opts...)
+}
+
+// ModifyWorkspaceLoadBalancerContext modifies cloudera a i workbench loadbalancer.
+//
+// Modify a Cloudera AI workbench loadbalancer..
+//
+// Do not use the deprecated [ModifyWorkspaceLoadBalancerParams.Context] with this method: it would be ignored.
+func (a *Client) ModifyWorkspaceLoadBalancerContext(ctx context.Context, params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewModifyWorkspaceLoadBalancerParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "modifyWorkspaceLoadBalancer",
 		Method:             "POST",
@@ -1991,13 +3104,14 @@ func (a *Client) ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancer
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ModifyWorkspaceLoadBalancerReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2016,16 +3130,36 @@ func (a *Client) ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancer
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RefreshAiInference refreshes a i inference trust store
-
-Refreshes the trust store certificates for the AI Inference Service.
-*/
+// RefreshAiInference refreshes a i inference trust store.
+//
+// Refreshes the trust store certificates for the AI Inference Service..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RefreshAiInferenceContext] instead.
 func (a *Client) RefreshAiInference(params *RefreshAiInferenceParams, opts ...ClientOption) (*RefreshAiInferenceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RefreshAiInferenceContext(ctx, params, opts...)
+}
+
+// RefreshAiInferenceContext refreshes a i inference trust store.
+//
+// Refreshes the trust store certificates for the AI Inference Service..
+//
+// Do not use the deprecated [RefreshAiInferenceParams.Context] with this method: it would be ignored.
+func (a *Client) RefreshAiInferenceContext(ctx context.Context, params *RefreshAiInferenceParams, opts ...ClientOption) (*RefreshAiInferenceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRefreshAiInferenceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "refreshAiInference",
 		Method:             "POST",
@@ -2035,13 +3169,14 @@ func (a *Client) RefreshAiInference(params *RefreshAiInferenceParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RefreshAiInferenceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2060,16 +3195,36 @@ func (a *Client) RefreshAiInference(params *RefreshAiInferenceParams, opts ...Cl
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RefreshAiRegistry refreshes the a i registry with the latest trust store certificates for the selected instance
-
-This operation refreshes the SSL/TLS trust settings used by the AI Registry service.
-*/
+// RefreshAiRegistry refreshes the a i registry with the latest trust store certificates for the selected instance.
+//
+// This operation refreshes the SSL/TLS trust settings used by the AI Registry service..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RefreshAiRegistryContext] instead.
 func (a *Client) RefreshAiRegistry(params *RefreshAiRegistryParams, opts ...ClientOption) (*RefreshAiRegistryOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RefreshAiRegistryContext(ctx, params, opts...)
+}
+
+// RefreshAiRegistryContext refreshes the a i registry with the latest trust store certificates for the selected instance.
+//
+// This operation refreshes the SSL/TLS trust settings used by the AI Registry service..
+//
+// Do not use the deprecated [RefreshAiRegistryParams.Context] with this method: it would be ignored.
+func (a *Client) RefreshAiRegistryContext(ctx context.Context, params *RefreshAiRegistryParams, opts ...ClientOption) (*RefreshAiRegistryOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRefreshAiRegistryParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "refreshAiRegistry",
 		Method:             "POST",
@@ -2079,13 +3234,14 @@ func (a *Client) RefreshAiRegistry(params *RefreshAiRegistryParams, opts ...Clie
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RefreshAiRegistryReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2104,16 +3260,36 @@ func (a *Client) RefreshAiRegistry(params *RefreshAiRegistryParams, opts ...Clie
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RefreshModelRegistryConfigmap refreshes the model registry configmap of the workbench
-
-Refreshes the model registry configmap of the workbench from the control plane.
-*/
+// RefreshModelRegistryConfigmap refreshes the model registry configmap of the workbench.
+//
+// Refreshes the model registry configmap of the workbench from the control plane..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RefreshModelRegistryConfigmapContext] instead.
 func (a *Client) RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RefreshModelRegistryConfigmapContext(ctx, params, opts...)
+}
+
+// RefreshModelRegistryConfigmapContext refreshes the model registry configmap of the workbench.
+//
+// Refreshes the model registry configmap of the workbench from the control plane..
+//
+// Do not use the deprecated [RefreshModelRegistryConfigmapParams.Context] with this method: it would be ignored.
+func (a *Client) RefreshModelRegistryConfigmapContext(ctx context.Context, params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRefreshModelRegistryConfigmapParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "refreshModelRegistryConfigmap",
 		Method:             "POST",
@@ -2123,13 +3299,14 @@ func (a *Client) RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfi
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RefreshModelRegistryConfigmapReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2148,16 +3325,36 @@ func (a *Client) RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfi
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RequestWorkflowCancellation requests a workflow cancellation
-
-Request a long running workflow cancellation by resource ID and workflow type.
-*/
+// RequestWorkflowCancellation requests a workflow cancellation.
+//
+// Request a long running workflow cancellation by resource ID and workflow type..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RequestWorkflowCancellationContext] instead.
 func (a *Client) RequestWorkflowCancellation(params *RequestWorkflowCancellationParams, opts ...ClientOption) (*RequestWorkflowCancellationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RequestWorkflowCancellationContext(ctx, params, opts...)
+}
+
+// RequestWorkflowCancellationContext requests a workflow cancellation.
+//
+// Request a long running workflow cancellation by resource ID and workflow type..
+//
+// Do not use the deprecated [RequestWorkflowCancellationParams.Context] with this method: it would be ignored.
+func (a *Client) RequestWorkflowCancellationContext(ctx context.Context, params *RequestWorkflowCancellationParams, opts ...ClientOption) (*RequestWorkflowCancellationOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRequestWorkflowCancellationParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "requestWorkflowCancellation",
 		Method:             "POST",
@@ -2167,13 +3364,14 @@ func (a *Client) RequestWorkflowCancellation(params *RequestWorkflowCancellation
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RequestWorkflowCancellationReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2192,16 +3390,36 @@ func (a *Client) RequestWorkflowCancellation(params *RequestWorkflowCancellation
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RestoreWorkspace restores a cloudera a i workbench
-
-Create a new workbench based on an existing workbench backup snapshot.
-*/
+// RestoreWorkspace restores a cloudera a i workbench.
+//
+// Create a new workbench based on an existing workbench backup snapshot..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RestoreWorkspaceContext] instead.
 func (a *Client) RestoreWorkspace(params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RestoreWorkspaceContext(ctx, params, opts...)
+}
+
+// RestoreWorkspaceContext restores a cloudera a i workbench.
+//
+// Create a new workbench based on an existing workbench backup snapshot..
+//
+// Do not use the deprecated [RestoreWorkspaceParams.Context] with this method: it would be ignored.
+func (a *Client) RestoreWorkspaceContext(ctx context.Context, params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreWorkspaceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "restoreWorkspace",
 		Method:             "POST",
@@ -2211,13 +3429,14 @@ func (a *Client) RestoreWorkspace(params *RestoreWorkspaceParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RestoreWorkspaceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2236,16 +3455,36 @@ func (a *Client) RestoreWorkspace(params *RestoreWorkspaceParams, opts ...Client
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ResumeWorkspace resumes cloudera a i workbench
-
-Resume a Cloudera Machine Learnings workbench.
-*/
+// ResumeWorkspace resumes cloudera a i workbench.
+//
+// Resume a Cloudera Machine Learnings workbench..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ResumeWorkspaceContext] instead.
 func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ResumeWorkspaceContext(ctx, params, opts...)
+}
+
+// ResumeWorkspaceContext resumes cloudera a i workbench.
+//
+// Resume a Cloudera Machine Learnings workbench..
+//
+// Do not use the deprecated [ResumeWorkspaceParams.Context] with this method: it would be ignored.
+func (a *Client) ResumeWorkspaceContext(ctx context.Context, params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewResumeWorkspaceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "resumeWorkspace",
 		Method:             "POST",
@@ -2255,13 +3494,14 @@ func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ResumeWorkspaceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2280,16 +3520,36 @@ func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOp
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RevokeMlServingAppAccess revokes access to a cloudera a i inference service cluster
-
-Revokes an AWS user permissions on a Cloudera AI Inference Service cluster.
-*/
+// RevokeMlServingAppAccess revokes access to a cloudera a i inference service cluster.
+//
+// Revokes an AWS user permissions on a Cloudera AI Inference Service cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RevokeMlServingAppAccessContext] instead.
 func (a *Client) RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams, opts ...ClientOption) (*RevokeMlServingAppAccessOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RevokeMlServingAppAccessContext(ctx, params, opts...)
+}
+
+// RevokeMlServingAppAccessContext revokes access to a cloudera a i inference service cluster.
+//
+// Revokes an AWS user permissions on a Cloudera AI Inference Service cluster..
+//
+// Do not use the deprecated [RevokeMlServingAppAccessParams.Context] with this method: it would be ignored.
+func (a *Client) RevokeMlServingAppAccessContext(ctx context.Context, params *RevokeMlServingAppAccessParams, opts ...ClientOption) (*RevokeMlServingAppAccessOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRevokeMlServingAppAccessParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "revokeMlServingAppAccess",
 		Method:             "POST",
@@ -2299,13 +3559,14 @@ func (a *Client) RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RevokeMlServingAppAccessReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2324,16 +3585,36 @@ func (a *Client) RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RevokeModelRegistryAccess revokes model registry access cloudera a i model registry
-
-Revokes an AWS user to perform Kubernetes operations on a Cloudera AI model registry via EKS.
-*/
+// RevokeModelRegistryAccess revokes model registry access cloudera a i model registry.
+//
+// Revokes an AWS user to perform Kubernetes operations on a Cloudera AI model registry via EKS..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RevokeModelRegistryAccessContext] instead.
 func (a *Client) RevokeModelRegistryAccess(params *RevokeModelRegistryAccessParams, opts ...ClientOption) (*RevokeModelRegistryAccessOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RevokeModelRegistryAccessContext(ctx, params, opts...)
+}
+
+// RevokeModelRegistryAccessContext revokes model registry access cloudera a i model registry.
+//
+// Revokes an AWS user to perform Kubernetes operations on a Cloudera AI model registry via EKS..
+//
+// Do not use the deprecated [RevokeModelRegistryAccessParams.Context] with this method: it would be ignored.
+func (a *Client) RevokeModelRegistryAccessContext(ctx context.Context, params *RevokeModelRegistryAccessParams, opts ...ClientOption) (*RevokeModelRegistryAccessOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRevokeModelRegistryAccessParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "revokeModelRegistryAccess",
 		Method:             "POST",
@@ -2343,13 +3624,14 @@ func (a *Client) RevokeModelRegistryAccess(params *RevokeModelRegistryAccessPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RevokeModelRegistryAccessReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2368,16 +3650,36 @@ func (a *Client) RevokeModelRegistryAccess(params *RevokeModelRegistryAccessPara
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RevokeWorkspaceAccess revokes workspace access cloudera a i workbench
-
-Revokes an AWS user to perform Kubernetes operations on a Cloudera AI workbench via EKS.
-*/
+// RevokeWorkspaceAccess revokes workspace access cloudera a i workbench.
+//
+// Revokes an AWS user to perform Kubernetes operations on a Cloudera AI workbench via EKS..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RevokeWorkspaceAccessContext] instead.
 func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RevokeWorkspaceAccessContext(ctx, params, opts...)
+}
+
+// RevokeWorkspaceAccessContext revokes workspace access cloudera a i workbench.
+//
+// Revokes an AWS user to perform Kubernetes operations on a Cloudera AI workbench via EKS..
+//
+// Do not use the deprecated [RevokeWorkspaceAccessParams.Context] with this method: it would be ignored.
+func (a *Client) RevokeWorkspaceAccessContext(ctx context.Context, params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRevokeWorkspaceAccessParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "revokeWorkspaceAccess",
 		Method:             "POST",
@@ -2387,13 +3689,14 @@ func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RevokeWorkspaceAccessReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2412,16 +3715,36 @@ func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RollbackModelRegistryUpgrade rollbacks a model registry upgrade restore prior model registry
-
-Rollback a model registry upgrade. Restore prior model registry.
-*/
+// RollbackModelRegistryUpgrade rollbacks a model registry upgrade restore prior model registry.
+//
+// Rollback a model registry upgrade. Restore prior model registry..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RollbackModelRegistryUpgradeContext] instead.
 func (a *Client) RollbackModelRegistryUpgrade(params *RollbackModelRegistryUpgradeParams, opts ...ClientOption) (*RollbackModelRegistryUpgradeOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RollbackModelRegistryUpgradeContext(ctx, params, opts...)
+}
+
+// RollbackModelRegistryUpgradeContext rollbacks a model registry upgrade restore prior model registry.
+//
+// Rollback a model registry upgrade. Restore prior model registry..
+//
+// Do not use the deprecated [RollbackModelRegistryUpgradeParams.Context] with this method: it would be ignored.
+func (a *Client) RollbackModelRegistryUpgradeContext(ctx context.Context, params *RollbackModelRegistryUpgradeParams, opts ...ClientOption) (*RollbackModelRegistryUpgradeOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRollbackModelRegistryUpgradeParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "rollbackModelRegistryUpgrade",
 		Method:             "POST",
@@ -2431,13 +3754,14 @@ func (a *Client) RollbackModelRegistryUpgrade(params *RollbackModelRegistryUpgra
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RollbackModelRegistryUpgradeReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2456,16 +3780,36 @@ func (a *Client) RollbackModelRegistryUpgrade(params *RollbackModelRegistryUpgra
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-SuspendWorkspace suspends cloudera a i workbench
-
-Suspend a Cloudera AI workbench.
-*/
+// SuspendWorkspace suspends cloudera a i workbench.
+//
+// Suspend a Cloudera AI workbench..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.SuspendWorkspaceContext] instead.
 func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SuspendWorkspaceContext(ctx, params, opts...)
+}
+
+// SuspendWorkspaceContext suspends cloudera a i workbench.
+//
+// Suspend a Cloudera AI workbench..
+//
+// Do not use the deprecated [SuspendWorkspaceParams.Context] with this method: it would be ignored.
+func (a *Client) SuspendWorkspaceContext(ctx context.Context, params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendWorkspaceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "suspendWorkspace",
 		Method:             "POST",
@@ -2475,13 +3819,14 @@ func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SuspendWorkspaceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2500,16 +3845,36 @@ func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...Client
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpdateMlServingAppS3Creds updates s3 credentials for a cloudera a i inference service
-
-Update S3 credentials for a Cloudera AI Inference Service.
-*/
+// UpdateMlServingAppS3Creds updates s3 credentials for a cloudera a i inference service.
+//
+// Update S3 credentials for a Cloudera AI Inference Service..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpdateMlServingAppS3CredsContext] instead.
 func (a *Client) UpdateMlServingAppS3Creds(params *UpdateMlServingAppS3CredsParams, opts ...ClientOption) (*UpdateMlServingAppS3CredsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateMlServingAppS3CredsContext(ctx, params, opts...)
+}
+
+// UpdateMlServingAppS3CredsContext updates s3 credentials for a cloudera a i inference service.
+//
+// Update S3 credentials for a Cloudera AI Inference Service..
+//
+// Do not use the deprecated [UpdateMlServingAppS3CredsParams.Context] with this method: it would be ignored.
+func (a *Client) UpdateMlServingAppS3CredsContext(ctx context.Context, params *UpdateMlServingAppS3CredsParams, opts ...ClientOption) (*UpdateMlServingAppS3CredsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateMlServingAppS3CredsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateMlServingAppS3Creds",
 		Method:             "POST",
@@ -2519,13 +3884,14 @@ func (a *Client) UpdateMlServingAppS3Creds(params *UpdateMlServingAppS3CredsPara
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateMlServingAppS3CredsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2544,16 +3910,36 @@ func (a *Client) UpdateMlServingAppS3Creds(params *UpdateMlServingAppS3CredsPara
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpgradeMlServingApp upgrades a cloudera a i inference service instance
-
-Upgrade a Cloudera AI Inference Service instance to the latest available version.
-*/
+// UpgradeMlServingApp upgrades a cloudera a i inference service instance.
+//
+// Upgrade a Cloudera AI Inference Service instance to the latest available version..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpgradeMlServingAppContext] instead.
 func (a *Client) UpgradeMlServingApp(params *UpgradeMlServingAppParams, opts ...ClientOption) (*UpgradeMlServingAppOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeMlServingAppContext(ctx, params, opts...)
+}
+
+// UpgradeMlServingAppContext upgrades a cloudera a i inference service instance.
+//
+// Upgrade a Cloudera AI Inference Service instance to the latest available version..
+//
+// Do not use the deprecated [UpgradeMlServingAppParams.Context] with this method: it would be ignored.
+func (a *Client) UpgradeMlServingAppContext(ctx context.Context, params *UpgradeMlServingAppParams, opts ...ClientOption) (*UpgradeMlServingAppOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeMlServingAppParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeMlServingApp",
 		Method:             "POST",
@@ -2563,13 +3949,14 @@ func (a *Client) UpgradeMlServingApp(params *UpgradeMlServingAppParams, opts ...
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeMlServingAppReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2588,16 +3975,36 @@ func (a *Client) UpgradeMlServingApp(params *UpgradeMlServingAppParams, opts ...
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpgradeModelRegistry upgrades a model registry
-
-Upgrade a model registry.
-*/
+// UpgradeModelRegistry upgrades a model registry.
+//
+// Upgrade a model registry..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpgradeModelRegistryContext] instead.
 func (a *Client) UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts ...ClientOption) (*UpgradeModelRegistryOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeModelRegistryContext(ctx, params, opts...)
+}
+
+// UpgradeModelRegistryContext upgrades a model registry.
+//
+// Upgrade a model registry..
+//
+// Do not use the deprecated [UpgradeModelRegistryParams.Context] with this method: it would be ignored.
+func (a *Client) UpgradeModelRegistryContext(ctx context.Context, params *UpgradeModelRegistryParams, opts ...ClientOption) (*UpgradeModelRegistryOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeModelRegistryParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeModelRegistry",
 		Method:             "POST",
@@ -2607,13 +4014,14 @@ func (a *Client) UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeModelRegistryReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2632,16 +4040,36 @@ func (a *Client) UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts .
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpgradeWorkspace upgrades cloudera a i workbench
-
-Upgrades a Cloudera AI workbench to the latest available version.
-*/
+// UpgradeWorkspace upgrades cloudera a i workbench.
+//
+// Upgrades a Cloudera AI workbench to the latest available version..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpgradeWorkspaceContext] instead.
 func (a *Client) UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeWorkspaceContext(ctx, params, opts...)
+}
+
+// UpgradeWorkspaceContext upgrades cloudera a i workbench.
+//
+// Upgrades a Cloudera AI workbench to the latest available version..
+//
+// Do not use the deprecated [UpgradeWorkspaceParams.Context] with this method: it would be ignored.
+func (a *Client) UpgradeWorkspaceContext(ctx context.Context, params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeWorkspaceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeWorkspace",
 		Method:             "POST",
@@ -2651,13 +4079,14 @@ func (a *Client) UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeWorkspaceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -2677,6 +4106,14 @@ func (a *Client) UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...Client
 }
 
 // SetTransport changes the transport on the client
-func (a *Client) SetTransport(transport runtime.ClientTransport) {
+func (a *Client) SetTransport(transport runtime.ContextualTransport) {
 	a.transport = transport
+}
+
+// innerParams captures internal fields so they don't conflict with user-supplied parameters.
+type innerParams struct {
+	timeout time.Duration
+
+	// Deprecated: use the operation call with context to pass the context instead of [OperationsParams].
+	ctx context.Context
 }

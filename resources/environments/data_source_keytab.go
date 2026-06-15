@@ -81,10 +81,10 @@ func fetchKeytabs(ctx context.Context, env2Client *client.Environments, state Ke
 		paramReq.ActorCrn = state.ActorCrn.ValueString()
 	}
 
-	params := operations.NewGetKeytabParamsWithContext(ctx)
+	params := operations.NewGetKeytabParams()
 	params.WithInput(&paramReq)
 
-	keytab, err := env2Client.Operations.GetKeytab(params)
+	keytab, err := env2Client.Operations.GetKeytabContext(ctx, params)
 	if err != nil {
 		if err.Error() == "not found" {
 			tflog.Warn(ctx, "Error during keytab collection!", map[string]interface{}{})

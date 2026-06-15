@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // RefreshAiInferenceReader is a Reader for the RefreshAiInference structure.
@@ -45,11 +44,9 @@ func NewRefreshAiInferenceOK() *RefreshAiInferenceOK {
 	return &RefreshAiInferenceOK{}
 }
 
-/*
-RefreshAiInferenceOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RefreshAiInferenceOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RefreshAiInferenceOK struct {
 	Payload models.RefreshAiInferenceResponse
 }
@@ -115,11 +112,9 @@ func NewRefreshAiInferenceDefault(code int) *RefreshAiInferenceDefault {
 	}
 }
 
-/*
-RefreshAiInferenceDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RefreshAiInferenceDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RefreshAiInferenceDefault struct {
 	_statusCode int
 

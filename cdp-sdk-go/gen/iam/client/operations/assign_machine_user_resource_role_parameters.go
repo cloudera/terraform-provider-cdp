@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewAssignMachineUserResourceRoleParams creates a new AssignMachineUserResourceRoleParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAssignMachineUserResourceRoleParams() *AssignMachineUserResourceRoleParams {
-	return &AssignMachineUserResourceRoleParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewAssignMachineUserResourceRoleParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewAssignMachineUserResourceRoleParamsWithTimeout creates a new AssignMachineUserResourceRoleParams object
 // with the ability to set a timeout on a request.
 func NewAssignMachineUserResourceRoleParamsWithTimeout(timeout time.Duration) *AssignMachineUserResourceRoleParams {
 	return &AssignMachineUserResourceRoleParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewAssignMachineUserResourceRoleParamsWithContext creates a new AssignMachineUserResourceRoleParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AssignMachineUserResourceRoleParams].
 func NewAssignMachineUserResourceRoleParamsWithContext(ctx context.Context) *AssignMachineUserResourceRoleParams {
 	return &AssignMachineUserResourceRoleParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type AssignMachineUserResourceRoleParams struct {
 	// Input.
 	Input *models.AssignMachineUserResourceRoleRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the assign machine user resource role params (not the query body).
@@ -83,54 +86,57 @@ func (o *AssignMachineUserResourceRoleParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the assign machine user resource role params
+// WithTimeout adds the timeout to the assign machine user resource role params.
 func (o *AssignMachineUserResourceRoleParams) WithTimeout(timeout time.Duration) *AssignMachineUserResourceRoleParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the assign machine user resource role params
+// SetTimeout adds the timeout to the assign machine user resource role params.
 func (o *AssignMachineUserResourceRoleParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the assign machine user resource role params
+// WithContext adds the context to the assign machine user resource role params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AssignMachineUserResourceRoleParams].
 func (o *AssignMachineUserResourceRoleParams) WithContext(ctx context.Context) *AssignMachineUserResourceRoleParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the assign machine user resource role params
+// SetContext adds the context to the assign machine user resource role params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AssignMachineUserResourceRoleParams].
 func (o *AssignMachineUserResourceRoleParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the assign machine user resource role params
+// WithHTTPClient adds the HTTPClient to the assign machine user resource role params.
 func (o *AssignMachineUserResourceRoleParams) WithHTTPClient(client *http.Client) *AssignMachineUserResourceRoleParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the assign machine user resource role params
+// SetHTTPClient adds the HTTPClient to the assign machine user resource role params.
 func (o *AssignMachineUserResourceRoleParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the assign machine user resource role params
+// WithInput adds the input to the assign machine user resource role params.
 func (o *AssignMachineUserResourceRoleParams) WithInput(input *models.AssignMachineUserResourceRoleRequest) *AssignMachineUserResourceRoleParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the assign machine user resource role params
+// SetInput adds the input to the assign machine user resource role params.
 func (o *AssignMachineUserResourceRoleParams) SetInput(input *models.AssignMachineUserResourceRoleRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *AssignMachineUserResourceRoleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

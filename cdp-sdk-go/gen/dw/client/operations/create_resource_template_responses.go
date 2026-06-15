@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // CreateResourceTemplateReader is a Reader for the CreateResourceTemplate structure.
@@ -45,11 +44,9 @@ func NewCreateResourceTemplateOK() *CreateResourceTemplateOK {
 	return &CreateResourceTemplateOK{}
 }
 
-/*
-CreateResourceTemplateOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateResourceTemplateOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateResourceTemplateOK struct {
 	Payload *models.CreateResourceTemplateResponse
 }
@@ -117,11 +114,9 @@ func NewCreateResourceTemplateDefault(code int) *CreateResourceTemplateDefault {
 	}
 }
 
-/*
-CreateResourceTemplateDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateResourceTemplateDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateResourceTemplateDefault struct {
 	_statusCode int
 

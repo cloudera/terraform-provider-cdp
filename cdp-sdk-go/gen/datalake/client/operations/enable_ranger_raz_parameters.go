@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewEnableRangerRazParams creates a new EnableRangerRazParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewEnableRangerRazParams() *EnableRangerRazParams {
-	return &EnableRangerRazParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewEnableRangerRazParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewEnableRangerRazParamsWithTimeout creates a new EnableRangerRazParams object
 // with the ability to set a timeout on a request.
 func NewEnableRangerRazParamsWithTimeout(timeout time.Duration) *EnableRangerRazParams {
 	return &EnableRangerRazParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewEnableRangerRazParamsWithContext creates a new EnableRangerRazParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableRangerRazParams].
 func NewEnableRangerRazParamsWithContext(ctx context.Context) *EnableRangerRazParams {
 	return &EnableRangerRazParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type EnableRangerRazParams struct {
 	// Input.
 	Input *models.EnableRangerRazRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the enable ranger raz params (not the query body).
@@ -83,54 +86,57 @@ func (o *EnableRangerRazParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the enable ranger raz params
+// WithTimeout adds the timeout to the enable ranger raz params.
 func (o *EnableRangerRazParams) WithTimeout(timeout time.Duration) *EnableRangerRazParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the enable ranger raz params
+// SetTimeout adds the timeout to the enable ranger raz params.
 func (o *EnableRangerRazParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the enable ranger raz params
+// WithContext adds the context to the enable ranger raz params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableRangerRazParams].
 func (o *EnableRangerRazParams) WithContext(ctx context.Context) *EnableRangerRazParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the enable ranger raz params
+// SetContext adds the context to the enable ranger raz params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableRangerRazParams].
 func (o *EnableRangerRazParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the enable ranger raz params
+// WithHTTPClient adds the HTTPClient to the enable ranger raz params.
 func (o *EnableRangerRazParams) WithHTTPClient(client *http.Client) *EnableRangerRazParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the enable ranger raz params
+// SetHTTPClient adds the HTTPClient to the enable ranger raz params.
 func (o *EnableRangerRazParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the enable ranger raz params
+// WithInput adds the input to the enable ranger raz params.
 func (o *EnableRangerRazParams) WithInput(input *models.EnableRangerRazRequest) *EnableRangerRazParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the enable ranger raz params
+// SetInput adds the input to the enable ranger raz params.
 func (o *EnableRangerRazParams) SetInput(input *models.EnableRangerRazRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *EnableRangerRazParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

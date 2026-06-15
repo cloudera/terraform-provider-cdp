@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewStartDatabaseParams creates a new StartDatabaseParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewStartDatabaseParams() *StartDatabaseParams {
-	return &StartDatabaseParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewStartDatabaseParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewStartDatabaseParamsWithTimeout creates a new StartDatabaseParams object
 // with the ability to set a timeout on a request.
 func NewStartDatabaseParamsWithTimeout(timeout time.Duration) *StartDatabaseParams {
 	return &StartDatabaseParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewStartDatabaseParamsWithContext creates a new StartDatabaseParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartDatabaseParams].
 func NewStartDatabaseParamsWithContext(ctx context.Context) *StartDatabaseParams {
 	return &StartDatabaseParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type StartDatabaseParams struct {
 	// Input.
 	Input *models.StartDatabaseRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the start database params (not the query body).
@@ -83,54 +86,57 @@ func (o *StartDatabaseParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the start database params
+// WithTimeout adds the timeout to the start database params.
 func (o *StartDatabaseParams) WithTimeout(timeout time.Duration) *StartDatabaseParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the start database params
+// SetTimeout adds the timeout to the start database params.
 func (o *StartDatabaseParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the start database params
+// WithContext adds the context to the start database params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartDatabaseParams].
 func (o *StartDatabaseParams) WithContext(ctx context.Context) *StartDatabaseParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the start database params
+// SetContext adds the context to the start database params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [StartDatabaseParams].
 func (o *StartDatabaseParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the start database params
+// WithHTTPClient adds the HTTPClient to the start database params.
 func (o *StartDatabaseParams) WithHTTPClient(client *http.Client) *StartDatabaseParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the start database params
+// SetHTTPClient adds the HTTPClient to the start database params.
 func (o *StartDatabaseParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the start database params
+// WithInput adds the input to the start database params.
 func (o *StartDatabaseParams) WithInput(input *models.StartDatabaseRequest) *StartDatabaseParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the start database params
+// SetInput adds the input to the start database params.
 func (o *StartDatabaseParams) SetInput(input *models.StartDatabaseRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *StartDatabaseParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

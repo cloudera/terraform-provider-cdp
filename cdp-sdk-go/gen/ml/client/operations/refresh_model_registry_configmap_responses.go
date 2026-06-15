@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // RefreshModelRegistryConfigmapReader is a Reader for the RefreshModelRegistryConfigmap structure.
@@ -45,11 +44,9 @@ func NewRefreshModelRegistryConfigmapOK() *RefreshModelRegistryConfigmapOK {
 	return &RefreshModelRegistryConfigmapOK{}
 }
 
-/*
-RefreshModelRegistryConfigmapOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RefreshModelRegistryConfigmapOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RefreshModelRegistryConfigmapOK struct {
 	Payload models.RefreshModelRegistryConfigmapResponse
 }
@@ -115,11 +112,9 @@ func NewRefreshModelRegistryConfigmapDefault(code int) *RefreshModelRegistryConf
 	}
 }
 
-/*
-RefreshModelRegistryConfigmapDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RefreshModelRegistryConfigmapDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RefreshModelRegistryConfigmapDefault struct {
 	_statusCode int
 

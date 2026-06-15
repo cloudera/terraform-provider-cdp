@@ -82,12 +82,12 @@ func testAccCheckIamMachineUserResourceRoleAssignmentExists(muName string, resou
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
 
-		params := operations.NewListMachineUserAssignedResourceRolesParamsWithContext(context.TODO())
+		params := operations.NewListMachineUserAssignedResourceRolesParams()
 		params.WithInput(&models.ListMachineUserAssignedResourceRolesRequest{
 			MachineUserName: &muName,
 		})
 
-		responseOk, err := cdpClient.Iam.Operations.ListMachineUserAssignedResourceRoles(params)
+		responseOk, err := cdpClient.Iam.Operations.ListMachineUserAssignedResourceRolesContext(context.TODO(), params)
 		if err != nil {
 			if d, ok := err.(*operations.ListMachineUserAssignedRolesDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
 				return fmt.Errorf("machine user %s not found", muName)

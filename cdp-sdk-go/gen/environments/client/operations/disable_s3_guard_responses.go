@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // DisableS3GuardReader is a Reader for the DisableS3Guard structure.
@@ -45,11 +44,9 @@ func NewDisableS3GuardOK() *DisableS3GuardOK {
 	return &DisableS3GuardOK{}
 }
 
-/*
-DisableS3GuardOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DisableS3GuardOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DisableS3GuardOK struct {
 	Payload *models.DisableS3GuardResponse
 }
@@ -117,11 +114,9 @@ func NewDisableS3GuardDefault(code int) *DisableS3GuardDefault {
 	}
 }
 
-/*
-DisableS3GuardDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DisableS3GuardDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DisableS3GuardDefault struct {
 	_statusCode int
 

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // UpdateEdgeNodesReader is a Reader for the UpdateEdgeNodes structure.
@@ -45,11 +44,9 @@ func NewUpdateEdgeNodesOK() *UpdateEdgeNodesOK {
 	return &UpdateEdgeNodesOK{}
 }
 
-/*
-UpdateEdgeNodesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateEdgeNodesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateEdgeNodesOK struct {
 	Payload *models.UpdateEdgeNodesResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateEdgeNodesDefault(code int) *UpdateEdgeNodesDefault {
 	}
 }
 
-/*
-UpdateEdgeNodesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateEdgeNodesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateEdgeNodesDefault struct {
 	_statusCode int
 

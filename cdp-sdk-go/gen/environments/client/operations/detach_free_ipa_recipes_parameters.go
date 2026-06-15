@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewDetachFreeIpaRecipesParams creates a new DetachFreeIpaRecipesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDetachFreeIpaRecipesParams() *DetachFreeIpaRecipesParams {
-	return &DetachFreeIpaRecipesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDetachFreeIpaRecipesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDetachFreeIpaRecipesParamsWithTimeout creates a new DetachFreeIpaRecipesParams object
 // with the ability to set a timeout on a request.
 func NewDetachFreeIpaRecipesParamsWithTimeout(timeout time.Duration) *DetachFreeIpaRecipesParams {
 	return &DetachFreeIpaRecipesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDetachFreeIpaRecipesParamsWithContext creates a new DetachFreeIpaRecipesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DetachFreeIpaRecipesParams].
 func NewDetachFreeIpaRecipesParamsWithContext(ctx context.Context) *DetachFreeIpaRecipesParams {
 	return &DetachFreeIpaRecipesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DetachFreeIpaRecipesParams struct {
 	// Input.
 	Input *models.DetachFreeIpaRecipesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the detach free ipa recipes params (not the query body).
@@ -83,54 +86,57 @@ func (o *DetachFreeIpaRecipesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the detach free ipa recipes params
+// WithTimeout adds the timeout to the detach free ipa recipes params.
 func (o *DetachFreeIpaRecipesParams) WithTimeout(timeout time.Duration) *DetachFreeIpaRecipesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the detach free ipa recipes params
+// SetTimeout adds the timeout to the detach free ipa recipes params.
 func (o *DetachFreeIpaRecipesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the detach free ipa recipes params
+// WithContext adds the context to the detach free ipa recipes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DetachFreeIpaRecipesParams].
 func (o *DetachFreeIpaRecipesParams) WithContext(ctx context.Context) *DetachFreeIpaRecipesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the detach free ipa recipes params
+// SetContext adds the context to the detach free ipa recipes params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DetachFreeIpaRecipesParams].
 func (o *DetachFreeIpaRecipesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the detach free ipa recipes params
+// WithHTTPClient adds the HTTPClient to the detach free ipa recipes params.
 func (o *DetachFreeIpaRecipesParams) WithHTTPClient(client *http.Client) *DetachFreeIpaRecipesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the detach free ipa recipes params
+// SetHTTPClient adds the HTTPClient to the detach free ipa recipes params.
 func (o *DetachFreeIpaRecipesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the detach free ipa recipes params
+// WithInput adds the input to the detach free ipa recipes params.
 func (o *DetachFreeIpaRecipesParams) WithInput(input *models.DetachFreeIpaRecipesRequest) *DetachFreeIpaRecipesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the detach free ipa recipes params
+// SetInput adds the input to the detach free ipa recipes params.
 func (o *DetachFreeIpaRecipesParams) SetInput(input *models.DetachFreeIpaRecipesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DetachFreeIpaRecipesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

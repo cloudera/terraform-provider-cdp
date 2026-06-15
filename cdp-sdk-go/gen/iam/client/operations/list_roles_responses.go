@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // ListRolesReader is a Reader for the ListRoles structure.
@@ -45,11 +44,9 @@ func NewListRolesOK() *ListRolesOK {
 	return &ListRolesOK{}
 }
 
-/*
-ListRolesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListRolesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListRolesOK struct {
 	Payload *models.ListRolesResponse
 }
@@ -117,11 +114,9 @@ func NewListRolesDefault(code int) *ListRolesDefault {
 	}
 }
 
-/*
-ListRolesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListRolesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListRolesDefault struct {
 	_statusCode int
 

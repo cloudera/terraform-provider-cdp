@@ -7,7 +7,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -61,7 +62,7 @@ func (m *WorkloadPasswordDetails) validateIsPasswordSet(formats strfmt.Registry)
 }
 
 func (m *WorkloadPasswordDetails) validatePasswordExpirationDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.PasswordExpirationDate) { // not required
+	if typeutils.IsZero(m.PasswordExpirationDate) { // not required
 		return nil
 	}
 
@@ -73,7 +74,7 @@ func (m *WorkloadPasswordDetails) validatePasswordExpirationDate(formats strfmt.
 }
 
 func (m *WorkloadPasswordDetails) validatePasswordMinLifetimeDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.PasswordMinLifetimeDate) { // not required
+	if typeutils.IsZero(m.PasswordMinLifetimeDate) { // not required
 		return nil
 	}
 
@@ -94,13 +95,13 @@ func (m *WorkloadPasswordDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *WorkloadPasswordDetails) UnmarshalBinary(b []byte) error {
 	var res WorkloadPasswordDetails
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

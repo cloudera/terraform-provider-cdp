@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // UpdateToAwsImdsV2Reader is a Reader for the UpdateToAwsImdsV2 structure.
@@ -45,11 +44,9 @@ func NewUpdateToAwsImdsV2OK() *UpdateToAwsImdsV2OK {
 	return &UpdateToAwsImdsV2OK{}
 }
 
-/*
-UpdateToAwsImdsV2OK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateToAwsImdsV2OK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateToAwsImdsV2OK struct {
 	Payload *models.UpdateToAwsImdsV2Response
 }
@@ -117,11 +114,9 @@ func NewUpdateToAwsImdsV2Default(code int) *UpdateToAwsImdsV2Default {
 	}
 }
 
-/*
-UpdateToAwsImdsV2Default describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateToAwsImdsV2Default describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateToAwsImdsV2Default struct {
 	_statusCode int
 

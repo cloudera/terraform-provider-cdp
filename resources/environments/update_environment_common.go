@@ -67,7 +67,7 @@ func updateSshKey(ctx context.Context, client *environmentsclient.Environments, 
 	if publicKey.IsNull() || publicKey.IsUnknown() || len(publicKey.ValueString()) == 0 {
 		return nil
 	}
-	params := operations.NewUpdateSSHKeyParamsWithContext(ctx)
+	params := operations.NewUpdateSSHKeyParams()
 	if !publicKey.IsNull() && len(publicKey.ValueString()) != 0 {
 		params.WithInput(&environmentsmodels.UpdateSSHKeyRequest{
 			Environment:         env,
@@ -76,6 +76,6 @@ func updateSshKey(ctx context.Context, client *environmentsclient.Environments, 
 		})
 	}
 	tflog.Info(ctx, "Updating SSH key in the environment")
-	_, err := client.Operations.UpdateSSHKey(params)
+	_, err := client.Operations.UpdateSSHKeyContext(ctx, params)
 	return err
 }

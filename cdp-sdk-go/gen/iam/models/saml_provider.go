@@ -7,7 +7,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -118,7 +119,7 @@ func (m *SamlProvider) Validate(formats strfmt.Registry) error {
 }
 
 func (m *SamlProvider) validateAuthnRequestConfigurationLastUpdated(formats strfmt.Registry) error {
-	if swag.IsZero(m.AuthnRequestConfigurationLastUpdated) { // not required
+	if typeutils.IsZero(m.AuthnRequestConfigurationLastUpdated) { // not required
 		return nil
 	}
 
@@ -170,7 +171,7 @@ func (m *SamlProvider) validateSamlProviderName(formats strfmt.Registry) error {
 }
 
 func (m *SamlProvider) validateSamlResponseEncryptionDecryptionConfigurationLastUpdated(formats strfmt.Registry) error {
-	if swag.IsZero(m.SamlResponseEncryptionDecryptionConfigurationLastUpdated) { // not required
+	if typeutils.IsZero(m.SamlResponseEncryptionDecryptionConfigurationLastUpdated) { // not required
 		return nil
 	}
 
@@ -200,13 +201,13 @@ func (m *SamlProvider) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *SamlProvider) UnmarshalBinary(b []byte) error {
 	var res SamlProvider
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

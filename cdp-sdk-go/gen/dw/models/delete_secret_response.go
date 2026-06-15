@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DeleteSecretResponse Response object for deleting secret.
@@ -35,7 +36,7 @@ func (m *DeleteSecretResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DeleteSecretResponse) validateResult(formats strfmt.Registry) error {
-	if swag.IsZero(m.Result) { // not required
+	if typeutils.IsZero(m.Result) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *DeleteSecretResponse) contextValidateResult(ctx context.Context, format
 
 	if m.Result != nil {
 
-		if swag.IsZero(m.Result) { // not required
+		if typeutils.IsZero(m.Result) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *DeleteSecretResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DeleteSecretResponse) UnmarshalBinary(b []byte) error {
 	var res DeleteSecretResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -138,13 +139,13 @@ func (m *DeleteSecretResponseResult) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DeleteSecretResponseResult) UnmarshalBinary(b []byte) error {
 	var res DeleteSecretResponseResult
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

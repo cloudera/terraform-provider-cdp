@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // SetWorkloadPasswordPolicyRequest Request object for a set workload password policy request.
@@ -42,7 +43,7 @@ func (m *SetWorkloadPasswordPolicyRequest) Validate(formats strfmt.Registry) err
 }
 
 func (m *SetWorkloadPasswordPolicyRequest) validateGlobalPasswordPolicy(formats strfmt.Registry) error {
-	if swag.IsZero(m.GlobalPasswordPolicy) { // not required
+	if typeutils.IsZero(m.GlobalPasswordPolicy) { // not required
 		return nil
 	}
 
@@ -65,7 +66,7 @@ func (m *SetWorkloadPasswordPolicyRequest) validateGlobalPasswordPolicy(formats 
 }
 
 func (m *SetWorkloadPasswordPolicyRequest) validateMachineUsersPasswordPolicy(formats strfmt.Registry) error {
-	if swag.IsZero(m.MachineUsersPasswordPolicy) { // not required
+	if typeutils.IsZero(m.MachineUsersPasswordPolicy) { // not required
 		return nil
 	}
 
@@ -109,7 +110,7 @@ func (m *SetWorkloadPasswordPolicyRequest) contextValidateGlobalPasswordPolicy(c
 
 	if m.GlobalPasswordPolicy != nil {
 
-		if swag.IsZero(m.GlobalPasswordPolicy) { // not required
+		if typeutils.IsZero(m.GlobalPasswordPolicy) { // not required
 			return nil
 		}
 
@@ -134,7 +135,7 @@ func (m *SetWorkloadPasswordPolicyRequest) contextValidateMachineUsersPasswordPo
 
 	if m.MachineUsersPasswordPolicy != nil {
 
-		if swag.IsZero(m.MachineUsersPasswordPolicy) { // not required
+		if typeutils.IsZero(m.MachineUsersPasswordPolicy) { // not required
 			return nil
 		}
 
@@ -160,13 +161,13 @@ func (m *SetWorkloadPasswordPolicyRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *SetWorkloadPasswordPolicyRequest) UnmarshalBinary(b []byte) error {
 	var res SetWorkloadPasswordPolicyRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

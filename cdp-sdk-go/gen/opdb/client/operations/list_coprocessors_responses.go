@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // ListCoprocessorsReader is a Reader for the ListCoprocessors structure.
@@ -45,11 +44,9 @@ func NewListCoprocessorsOK() *ListCoprocessorsOK {
 	return &ListCoprocessorsOK{}
 }
 
-/*
-ListCoprocessorsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListCoprocessorsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListCoprocessorsOK struct {
 	Payload *models.ListCoprocessorsResponse
 }
@@ -117,11 +114,9 @@ func NewListCoprocessorsDefault(code int) *ListCoprocessorsDefault {
 	}
 }
 
-/*
-ListCoprocessorsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListCoprocessorsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListCoprocessorsDefault struct {
 	_statusCode int
 

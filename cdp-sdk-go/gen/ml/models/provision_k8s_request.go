@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -75,7 +76,7 @@ func (m *ProvisionK8sRequest) validateInstanceGroups(formats strfmt.Registry) er
 	}
 
 	for i := 0; i < len(m.InstanceGroups); i++ {
-		if swag.IsZero(m.InstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -100,7 +101,7 @@ func (m *ProvisionK8sRequest) validateInstanceGroups(formats strfmt.Registry) er
 }
 
 func (m *ProvisionK8sRequest) validateNetwork(formats strfmt.Registry) error {
-	if swag.IsZero(m.Network) { // not required
+	if typeutils.IsZero(m.Network) { // not required
 		return nil
 	}
 
@@ -123,12 +124,12 @@ func (m *ProvisionK8sRequest) validateNetwork(formats strfmt.Registry) error {
 }
 
 func (m *ProvisionK8sRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -180,7 +181,7 @@ func (m *ProvisionK8sRequest) contextValidateInstanceGroups(ctx context.Context,
 
 		if m.InstanceGroups[i] != nil {
 
-			if swag.IsZero(m.InstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -207,7 +208,7 @@ func (m *ProvisionK8sRequest) contextValidateNetwork(ctx context.Context, format
 
 	if m.Network != nil {
 
-		if swag.IsZero(m.Network) { // not required
+		if typeutils.IsZero(m.Network) { // not required
 			return nil
 		}
 
@@ -234,7 +235,7 @@ func (m *ProvisionK8sRequest) contextValidateTags(ctx context.Context, formats s
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -262,13 +263,13 @@ func (m *ProvisionK8sRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ProvisionK8sRequest) UnmarshalBinary(b []byte) error {
 	var res ProvisionK8sRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

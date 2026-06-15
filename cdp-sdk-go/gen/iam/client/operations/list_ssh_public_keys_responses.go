@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // ListSSHPublicKeysReader is a Reader for the ListSSHPublicKeys structure.
@@ -45,11 +44,9 @@ func NewListSSHPublicKeysOK() *ListSSHPublicKeysOK {
 	return &ListSSHPublicKeysOK{}
 }
 
-/*
-ListSSHPublicKeysOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListSSHPublicKeysOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListSSHPublicKeysOK struct {
 	Payload *models.ListSSHPublicKeysResponse
 }
@@ -117,11 +114,9 @@ func NewListSSHPublicKeysDefault(code int) *ListSSHPublicKeysDefault {
 	}
 }
 
-/*
-ListSSHPublicKeysDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListSSHPublicKeysDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListSSHPublicKeysDefault struct {
 	_statusCode int
 

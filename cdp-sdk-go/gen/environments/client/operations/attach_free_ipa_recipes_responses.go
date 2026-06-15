@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // AttachFreeIpaRecipesReader is a Reader for the AttachFreeIpaRecipes structure.
@@ -45,11 +44,9 @@ func NewAttachFreeIpaRecipesOK() *AttachFreeIpaRecipesOK {
 	return &AttachFreeIpaRecipesOK{}
 }
 
-/*
-AttachFreeIpaRecipesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// AttachFreeIpaRecipesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type AttachFreeIpaRecipesOK struct {
 	Payload models.AttachFreeIpaRecipesResponse
 }
@@ -115,11 +112,9 @@ func NewAttachFreeIpaRecipesDefault(code int) *AttachFreeIpaRecipesDefault {
 	}
 }
 
-/*
-AttachFreeIpaRecipesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// AttachFreeIpaRecipesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type AttachFreeIpaRecipesDefault struct {
 	_statusCode int
 

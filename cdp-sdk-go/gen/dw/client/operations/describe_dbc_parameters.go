@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDescribeDbcParams creates a new DescribeDbcParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeDbcParams() *DescribeDbcParams {
-	return &DescribeDbcParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeDbcParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeDbcParamsWithTimeout creates a new DescribeDbcParams object
 // with the ability to set a timeout on a request.
 func NewDescribeDbcParamsWithTimeout(timeout time.Duration) *DescribeDbcParams {
 	return &DescribeDbcParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeDbcParamsWithContext creates a new DescribeDbcParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeDbcParams].
 func NewDescribeDbcParamsWithContext(ctx context.Context) *DescribeDbcParams {
 	return &DescribeDbcParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeDbcParams struct {
 	// Input.
 	Input *models.DescribeDbcRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe dbc params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeDbcParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe dbc params
+// WithTimeout adds the timeout to the describe dbc params.
 func (o *DescribeDbcParams) WithTimeout(timeout time.Duration) *DescribeDbcParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe dbc params
+// SetTimeout adds the timeout to the describe dbc params.
 func (o *DescribeDbcParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe dbc params
+// WithContext adds the context to the describe dbc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeDbcParams].
 func (o *DescribeDbcParams) WithContext(ctx context.Context) *DescribeDbcParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe dbc params
+// SetContext adds the context to the describe dbc params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeDbcParams].
 func (o *DescribeDbcParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe dbc params
+// WithHTTPClient adds the HTTPClient to the describe dbc params.
 func (o *DescribeDbcParams) WithHTTPClient(client *http.Client) *DescribeDbcParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe dbc params
+// SetHTTPClient adds the HTTPClient to the describe dbc params.
 func (o *DescribeDbcParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe dbc params
+// WithInput adds the input to the describe dbc params.
 func (o *DescribeDbcParams) WithInput(input *models.DescribeDbcRequest) *DescribeDbcParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe dbc params
+// SetInput adds the input to the describe dbc params.
 func (o *DescribeDbcParams) SetInput(input *models.DescribeDbcRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeDbcParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // CreateGCPDatalakeReader is a Reader for the CreateGCPDatalake structure.
@@ -45,11 +44,9 @@ func NewCreateGCPDatalakeOK() *CreateGCPDatalakeOK {
 	return &CreateGCPDatalakeOK{}
 }
 
-/*
-CreateGCPDatalakeOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateGCPDatalakeOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateGCPDatalakeOK struct {
 	Payload *models.CreateGCPDatalakeResponse
 }
@@ -117,11 +114,9 @@ func NewCreateGCPDatalakeDefault(code int) *CreateGCPDatalakeDefault {
 	}
 }
 
-/*
-CreateGCPDatalakeDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateGCPDatalakeDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateGCPDatalakeDefault struct {
 	_statusCode int
 

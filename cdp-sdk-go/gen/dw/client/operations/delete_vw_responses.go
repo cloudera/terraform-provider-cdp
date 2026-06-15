@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DeleteVwReader is a Reader for the DeleteVw structure.
@@ -45,11 +44,9 @@ func NewDeleteVwOK() *DeleteVwOK {
 	return &DeleteVwOK{}
 }
 
-/*
-DeleteVwOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteVwOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteVwOK struct {
 	Payload *models.DeleteVwResponse
 }
@@ -117,11 +114,9 @@ func NewDeleteVwDefault(code int) *DeleteVwDefault {
 	}
 }
 
-/*
-DeleteVwDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteVwDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteVwDefault struct {
 	_statusCode int
 

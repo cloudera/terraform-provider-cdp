@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // UpdateLdapProviderReader is a Reader for the UpdateLdapProvider structure.
@@ -45,11 +44,9 @@ func NewUpdateLdapProviderOK() *UpdateLdapProviderOK {
 	return &UpdateLdapProviderOK{}
 }
 
-/*
-UpdateLdapProviderOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateLdapProviderOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateLdapProviderOK struct {
 	Payload *models.UpdateLdapProviderResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateLdapProviderDefault(code int) *UpdateLdapProviderDefault {
 	}
 }
 
-/*
-UpdateLdapProviderDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateLdapProviderDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateLdapProviderDefault struct {
 	_statusCode int
 

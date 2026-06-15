@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // CreateDbcReader is a Reader for the CreateDbc structure.
@@ -45,11 +44,9 @@ func NewCreateDbcOK() *CreateDbcOK {
 	return &CreateDbcOK{}
 }
 
-/*
-CreateDbcOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateDbcOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateDbcOK struct {
 	Payload *models.CreateDbcResponse
 }
@@ -117,11 +114,9 @@ func NewCreateDbcDefault(code int) *CreateDbcDefault {
 	}
 }
 
-/*
-CreateDbcDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateDbcDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateDbcDefault struct {
 	_statusCode int
 

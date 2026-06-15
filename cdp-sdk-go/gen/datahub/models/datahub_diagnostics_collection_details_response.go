@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
 )
 
 // DatahubDiagnosticsCollectionDetailsResponse Response object for diagnostic collection details.
@@ -51,13 +51,13 @@ func (m *DatahubDiagnosticsCollectionDetailsResponse) MarshalBinary() ([]byte, e
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DatahubDiagnosticsCollectionDetailsResponse) UnmarshalBinary(b []byte) error {
 	var res DatahubDiagnosticsCollectionDetailsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

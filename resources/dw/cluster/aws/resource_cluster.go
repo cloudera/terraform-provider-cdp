@@ -68,11 +68,10 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 	}
 
 	// Generate API request body from plan
-	clusterParams := operations.NewCreateAwsClusterParamsWithContext(ctx).
-		WithInput(plan.convertToCreateAwsClusterRequest())
+	clusterParams := operations.NewCreateAwsClusterParams().WithInput(plan.convertToCreateAwsClusterRequest())
 
 	// Create new AWS cluster
-	response, err := r.client.Dw.Operations.CreateAwsCluster(clusterParams)
+	response, err := r.client.Dw.Operations.CreateAwsClusterContext(ctx, clusterParams)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating Data Warehouse AWS cluster",
@@ -84,9 +83,9 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 	clusterID := &payload.ClusterID
 	plan.ClusterID = types.StringValue(*clusterID)
 
-	desc := operations.NewDescribeClusterParamsWithContext(ctx).
+	desc := operations.NewDescribeClusterParams().
 		WithInput(&models.DescribeClusterRequest{ClusterID: clusterID})
-	describe, err := r.client.Dw.Operations.DescribeCluster(desc)
+	describe, err := r.client.Dw.Operations.DescribeClusterContext(ctx, desc)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error creating Data Warehouse AWS cluster",
@@ -155,12 +154,12 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 	}
 
 	clusterID := state.ClusterID.ValueStringPointer()
-	op := operations.NewDeleteClusterParamsWithContext(ctx).
+	op := operations.NewDeleteClusterParams().
 		WithInput(&models.DeleteClusterRequest{
 			ClusterID: clusterID,
 		})
 
-	if _, err := r.client.Dw.Operations.DeleteCluster(op); err != nil {
+	if _, err := r.client.Dw.Operations.DeleteClusterContext(ctx, op); err != nil {
 		resp.Diagnostics.AddError(
 			"Error deleting Data Warehouse AWS cluster",
 			"Could not delete cluster, unexpected error: "+err.Error(),
@@ -191,9 +190,9 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 func (r *dwClusterResource) stateRefresh(ctx context.Context, clusterID *string, callFailedCount *int, callFailureThreshold int) func() (any, string, error) {
 	return func() (any, string, error) {
 		tflog.Debug(ctx, "About to describe cluster")
-		params := operations.NewDescribeClusterParamsWithContext(ctx).
+		params := operations.NewDescribeClusterParams().
 			WithInput(&models.DescribeClusterRequest{ClusterID: clusterID})
-		resp, err := r.client.Dw.Operations.DescribeCluster(params)
+		resp, err := r.client.Dw.Operations.DescribeClusterContext(ctx, params)
 		if err != nil {
 			if strings.Contains(err.Error(), "NOT_FOUND") {
 				return &models.DescribeClusterResponse{}, "Deleted", nil

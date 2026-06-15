@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewListClusterDefinitionsParams creates a new ListClusterDefinitionsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListClusterDefinitionsParams() *ListClusterDefinitionsParams {
-	return &ListClusterDefinitionsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListClusterDefinitionsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListClusterDefinitionsParamsWithTimeout creates a new ListClusterDefinitionsParams object
 // with the ability to set a timeout on a request.
 func NewListClusterDefinitionsParamsWithTimeout(timeout time.Duration) *ListClusterDefinitionsParams {
 	return &ListClusterDefinitionsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListClusterDefinitionsParamsWithContext creates a new ListClusterDefinitionsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListClusterDefinitionsParams].
 func NewListClusterDefinitionsParamsWithContext(ctx context.Context) *ListClusterDefinitionsParams {
 	return &ListClusterDefinitionsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListClusterDefinitionsParams struct {
 	// Input.
 	Input models.ListClusterDefinitionsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list cluster definitions params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListClusterDefinitionsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list cluster definitions params
+// WithTimeout adds the timeout to the list cluster definitions params.
 func (o *ListClusterDefinitionsParams) WithTimeout(timeout time.Duration) *ListClusterDefinitionsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list cluster definitions params
+// SetTimeout adds the timeout to the list cluster definitions params.
 func (o *ListClusterDefinitionsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list cluster definitions params
+// WithContext adds the context to the list cluster definitions params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListClusterDefinitionsParams].
 func (o *ListClusterDefinitionsParams) WithContext(ctx context.Context) *ListClusterDefinitionsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list cluster definitions params
+// SetContext adds the context to the list cluster definitions params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListClusterDefinitionsParams].
 func (o *ListClusterDefinitionsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list cluster definitions params
+// WithHTTPClient adds the HTTPClient to the list cluster definitions params.
 func (o *ListClusterDefinitionsParams) WithHTTPClient(client *http.Client) *ListClusterDefinitionsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list cluster definitions params
+// SetHTTPClient adds the HTTPClient to the list cluster definitions params.
 func (o *ListClusterDefinitionsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list cluster definitions params
+// WithInput adds the input to the list cluster definitions params.
 func (o *ListClusterDefinitionsParams) WithInput(input models.ListClusterDefinitionsRequest) *ListClusterDefinitionsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list cluster definitions params
+// SetInput adds the input to the list cluster definitions params.
 func (o *ListClusterDefinitionsParams) SetInput(input models.ListClusterDefinitionsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListClusterDefinitionsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

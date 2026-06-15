@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -148,7 +149,7 @@ func (m *DatalakeDetails) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DatalakeDetails) validateAwsConfiguration(formats strfmt.Registry) error {
-	if swag.IsZero(m.AwsConfiguration) { // not required
+	if typeutils.IsZero(m.AwsConfiguration) { // not required
 		return nil
 	}
 
@@ -171,7 +172,7 @@ func (m *DatalakeDetails) validateAwsConfiguration(formats strfmt.Registry) erro
 }
 
 func (m *DatalakeDetails) validateAzureConfiguration(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureConfiguration) { // not required
+	if typeutils.IsZero(m.AzureConfiguration) { // not required
 		return nil
 	}
 
@@ -194,7 +195,7 @@ func (m *DatalakeDetails) validateAzureConfiguration(formats strfmt.Registry) er
 }
 
 func (m *DatalakeDetails) validateClouderaManager(formats strfmt.Registry) error {
-	if swag.IsZero(m.ClouderaManager) { // not required
+	if typeutils.IsZero(m.ClouderaManager) { // not required
 		return nil
 	}
 
@@ -217,7 +218,7 @@ func (m *DatalakeDetails) validateClouderaManager(formats strfmt.Registry) error
 }
 
 func (m *DatalakeDetails) validateCreationDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreationDate) { // not required
+	if typeutils.IsZero(m.CreationDate) { // not required
 		return nil
 	}
 
@@ -247,7 +248,7 @@ func (m *DatalakeDetails) validateDatalakeName(formats strfmt.Registry) error {
 }
 
 func (m *DatalakeDetails) validateEndpoints(formats strfmt.Registry) error {
-	if swag.IsZero(m.Endpoints) { // not required
+	if typeutils.IsZero(m.Endpoints) { // not required
 		return nil
 	}
 
@@ -270,7 +271,7 @@ func (m *DatalakeDetails) validateEndpoints(formats strfmt.Registry) error {
 }
 
 func (m *DatalakeDetails) validateGcpConfiguration(formats strfmt.Registry) error {
-	if swag.IsZero(m.GcpConfiguration) { // not required
+	if typeutils.IsZero(m.GcpConfiguration) { // not required
 		return nil
 	}
 
@@ -293,7 +294,7 @@ func (m *DatalakeDetails) validateGcpConfiguration(formats strfmt.Registry) erro
 }
 
 func (m *DatalakeDetails) validateImageDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImageDetails) { // not required
+	if typeutils.IsZero(m.ImageDetails) { // not required
 		return nil
 	}
 
@@ -316,12 +317,12 @@ func (m *DatalakeDetails) validateImageDetails(formats strfmt.Registry) error {
 }
 
 func (m *DatalakeDetails) validateInstanceGroups(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceGroups) { // not required
+	if typeutils.IsZero(m.InstanceGroups) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.InstanceGroups); i++ {
-		if swag.IsZero(m.InstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -346,12 +347,12 @@ func (m *DatalakeDetails) validateInstanceGroups(formats strfmt.Registry) error 
 }
 
 func (m *DatalakeDetails) validateProductVersions(formats strfmt.Registry) error {
-	if swag.IsZero(m.ProductVersions) { // not required
+	if typeutils.IsZero(m.ProductVersions) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ProductVersions); i++ {
-		if swag.IsZero(m.ProductVersions[i]) { // not required
+		if typeutils.IsZero(m.ProductVersions[i]) { // not required
 			continue
 		}
 
@@ -376,7 +377,7 @@ func (m *DatalakeDetails) validateProductVersions(formats strfmt.Registry) error
 }
 
 func (m *DatalakeDetails) validateShape(formats strfmt.Registry) error {
-	if swag.IsZero(m.Shape) { // not required
+	if typeutils.IsZero(m.Shape) { // not required
 		return nil
 	}
 
@@ -397,12 +398,12 @@ func (m *DatalakeDetails) validateShape(formats strfmt.Registry) error {
 }
 
 func (m *DatalakeDetails) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -480,7 +481,7 @@ func (m *DatalakeDetails) contextValidateAwsConfiguration(ctx context.Context, f
 
 	if m.AwsConfiguration != nil {
 
-		if swag.IsZero(m.AwsConfiguration) { // not required
+		if typeutils.IsZero(m.AwsConfiguration) { // not required
 			return nil
 		}
 
@@ -505,7 +506,7 @@ func (m *DatalakeDetails) contextValidateAzureConfiguration(ctx context.Context,
 
 	if m.AzureConfiguration != nil {
 
-		if swag.IsZero(m.AzureConfiguration) { // not required
+		if typeutils.IsZero(m.AzureConfiguration) { // not required
 			return nil
 		}
 
@@ -530,7 +531,7 @@ func (m *DatalakeDetails) contextValidateClouderaManager(ctx context.Context, fo
 
 	if m.ClouderaManager != nil {
 
-		if swag.IsZero(m.ClouderaManager) { // not required
+		if typeutils.IsZero(m.ClouderaManager) { // not required
 			return nil
 		}
 
@@ -555,7 +556,7 @@ func (m *DatalakeDetails) contextValidateEndpoints(ctx context.Context, formats 
 
 	if m.Endpoints != nil {
 
-		if swag.IsZero(m.Endpoints) { // not required
+		if typeutils.IsZero(m.Endpoints) { // not required
 			return nil
 		}
 
@@ -580,7 +581,7 @@ func (m *DatalakeDetails) contextValidateGcpConfiguration(ctx context.Context, f
 
 	if m.GcpConfiguration != nil {
 
-		if swag.IsZero(m.GcpConfiguration) { // not required
+		if typeutils.IsZero(m.GcpConfiguration) { // not required
 			return nil
 		}
 
@@ -605,7 +606,7 @@ func (m *DatalakeDetails) contextValidateImageDetails(ctx context.Context, forma
 
 	if m.ImageDetails != nil {
 
-		if swag.IsZero(m.ImageDetails) { // not required
+		if typeutils.IsZero(m.ImageDetails) { // not required
 			return nil
 		}
 
@@ -632,7 +633,7 @@ func (m *DatalakeDetails) contextValidateInstanceGroups(ctx context.Context, for
 
 		if m.InstanceGroups[i] != nil {
 
-			if swag.IsZero(m.InstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -661,7 +662,7 @@ func (m *DatalakeDetails) contextValidateProductVersions(ctx context.Context, fo
 
 		if m.ProductVersions[i] != nil {
 
-			if swag.IsZero(m.ProductVersions[i]) { // not required
+			if typeutils.IsZero(m.ProductVersions[i]) { // not required
 				return nil
 			}
 
@@ -686,7 +687,7 @@ func (m *DatalakeDetails) contextValidateProductVersions(ctx context.Context, fo
 
 func (m *DatalakeDetails) contextValidateShape(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Shape) { // not required
+	if typeutils.IsZero(m.Shape) { // not required
 		return nil
 	}
 
@@ -712,7 +713,7 @@ func (m *DatalakeDetails) contextValidateTags(ctx context.Context, formats strfm
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -740,13 +741,13 @@ func (m *DatalakeDetails) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DatalakeDetails) UnmarshalBinary(b []byte) error {
 	var res DatalakeDetails
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

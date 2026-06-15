@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DescribeClusterDiagnosticDataJobReader is a Reader for the DescribeClusterDiagnosticDataJob structure.
@@ -45,11 +44,9 @@ func NewDescribeClusterDiagnosticDataJobOK() *DescribeClusterDiagnosticDataJobOK
 	return &DescribeClusterDiagnosticDataJobOK{}
 }
 
-/*
-DescribeClusterDiagnosticDataJobOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DescribeClusterDiagnosticDataJobOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DescribeClusterDiagnosticDataJobOK struct {
 	Payload *models.DescribeClusterDiagnosticDataJobResponse
 }
@@ -117,11 +114,9 @@ func NewDescribeClusterDiagnosticDataJobDefault(code int) *DescribeClusterDiagno
 	}
 }
 
-/*
-DescribeClusterDiagnosticDataJobDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DescribeClusterDiagnosticDataJobDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DescribeClusterDiagnosticDataJobDefault struct {
 	_statusCode int
 

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewEnableClouderaSSOLoginParams creates a new EnableClouderaSSOLoginParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewEnableClouderaSSOLoginParams() *EnableClouderaSSOLoginParams {
-	return &EnableClouderaSSOLoginParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewEnableClouderaSSOLoginParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewEnableClouderaSSOLoginParamsWithTimeout creates a new EnableClouderaSSOLoginParams object
 // with the ability to set a timeout on a request.
 func NewEnableClouderaSSOLoginParamsWithTimeout(timeout time.Duration) *EnableClouderaSSOLoginParams {
 	return &EnableClouderaSSOLoginParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewEnableClouderaSSOLoginParamsWithContext creates a new EnableClouderaSSOLoginParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableClouderaSSOLoginParams].
 func NewEnableClouderaSSOLoginParamsWithContext(ctx context.Context) *EnableClouderaSSOLoginParams {
 	return &EnableClouderaSSOLoginParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type EnableClouderaSSOLoginParams struct {
 	// Input.
 	Input models.EnableClouderaSSOLoginRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the enable cloudera s s o login params (not the query body).
@@ -83,54 +86,57 @@ func (o *EnableClouderaSSOLoginParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the enable cloudera s s o login params
+// WithTimeout adds the timeout to the enable cloudera s s o login params.
 func (o *EnableClouderaSSOLoginParams) WithTimeout(timeout time.Duration) *EnableClouderaSSOLoginParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the enable cloudera s s o login params
+// SetTimeout adds the timeout to the enable cloudera s s o login params.
 func (o *EnableClouderaSSOLoginParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the enable cloudera s s o login params
+// WithContext adds the context to the enable cloudera s s o login params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableClouderaSSOLoginParams].
 func (o *EnableClouderaSSOLoginParams) WithContext(ctx context.Context) *EnableClouderaSSOLoginParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the enable cloudera s s o login params
+// SetContext adds the context to the enable cloudera s s o login params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [EnableClouderaSSOLoginParams].
 func (o *EnableClouderaSSOLoginParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the enable cloudera s s o login params
+// WithHTTPClient adds the HTTPClient to the enable cloudera s s o login params.
 func (o *EnableClouderaSSOLoginParams) WithHTTPClient(client *http.Client) *EnableClouderaSSOLoginParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the enable cloudera s s o login params
+// SetHTTPClient adds the HTTPClient to the enable cloudera s s o login params.
 func (o *EnableClouderaSSOLoginParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the enable cloudera s s o login params
+// WithInput adds the input to the enable cloudera s s o login params.
 func (o *EnableClouderaSSOLoginParams) WithInput(input models.EnableClouderaSSOLoginRequest) *EnableClouderaSSOLoginParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the enable cloudera s s o login params
+// SetInput adds the input to the enable cloudera s s o login params.
 func (o *EnableClouderaSSOLoginParams) SetInput(input models.EnableClouderaSSOLoginRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *EnableClouderaSSOLoginParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

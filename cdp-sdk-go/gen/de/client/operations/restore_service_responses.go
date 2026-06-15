@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // RestoreServiceReader is a Reader for the RestoreService structure.
@@ -45,11 +44,9 @@ func NewRestoreServiceOK() *RestoreServiceOK {
 	return &RestoreServiceOK{}
 }
 
-/*
-RestoreServiceOK describes a response with status code 200, with default header values.
-
-Response object for Restore Service command.
-*/
+// RestoreServiceOK describes a response with status code 200, with default header values.
+//
+// Response object for Restore Service command.
 type RestoreServiceOK struct {
 	Payload *models.RestoreServiceResponse
 }
@@ -117,11 +114,9 @@ func NewRestoreServiceDefault(code int) *RestoreServiceDefault {
 	}
 }
 
-/*
-RestoreServiceDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RestoreServiceDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RestoreServiceDefault struct {
 	_statusCode int
 

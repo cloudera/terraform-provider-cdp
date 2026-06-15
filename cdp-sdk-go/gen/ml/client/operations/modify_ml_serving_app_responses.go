@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // ModifyMlServingAppReader is a Reader for the ModifyMlServingApp structure.
@@ -45,11 +44,9 @@ func NewModifyMlServingAppOK() *ModifyMlServingAppOK {
 	return &ModifyMlServingAppOK{}
 }
 
-/*
-ModifyMlServingAppOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ModifyMlServingAppOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ModifyMlServingAppOK struct {
 	Payload models.ModifyMlServingAppResponse
 }
@@ -115,11 +112,9 @@ func NewModifyMlServingAppDefault(code int) *ModifyMlServingAppDefault {
 	}
 }
 
-/*
-ModifyMlServingAppDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ModifyMlServingAppDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ModifyMlServingAppDefault struct {
 	_statusCode int
 

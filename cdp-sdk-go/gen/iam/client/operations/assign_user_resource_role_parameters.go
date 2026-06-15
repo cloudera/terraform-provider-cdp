@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewAssignUserResourceRoleParams creates a new AssignUserResourceRoleParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewAssignUserResourceRoleParams() *AssignUserResourceRoleParams {
-	return &AssignUserResourceRoleParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewAssignUserResourceRoleParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewAssignUserResourceRoleParamsWithTimeout creates a new AssignUserResourceRoleParams object
 // with the ability to set a timeout on a request.
 func NewAssignUserResourceRoleParamsWithTimeout(timeout time.Duration) *AssignUserResourceRoleParams {
 	return &AssignUserResourceRoleParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewAssignUserResourceRoleParamsWithContext creates a new AssignUserResourceRoleParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AssignUserResourceRoleParams].
 func NewAssignUserResourceRoleParamsWithContext(ctx context.Context) *AssignUserResourceRoleParams {
 	return &AssignUserResourceRoleParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type AssignUserResourceRoleParams struct {
 	// Input.
 	Input *models.AssignUserResourceRoleRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the assign user resource role params (not the query body).
@@ -83,54 +86,57 @@ func (o *AssignUserResourceRoleParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the assign user resource role params
+// WithTimeout adds the timeout to the assign user resource role params.
 func (o *AssignUserResourceRoleParams) WithTimeout(timeout time.Duration) *AssignUserResourceRoleParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the assign user resource role params
+// SetTimeout adds the timeout to the assign user resource role params.
 func (o *AssignUserResourceRoleParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the assign user resource role params
+// WithContext adds the context to the assign user resource role params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AssignUserResourceRoleParams].
 func (o *AssignUserResourceRoleParams) WithContext(ctx context.Context) *AssignUserResourceRoleParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the assign user resource role params
+// SetContext adds the context to the assign user resource role params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [AssignUserResourceRoleParams].
 func (o *AssignUserResourceRoleParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the assign user resource role params
+// WithHTTPClient adds the HTTPClient to the assign user resource role params.
 func (o *AssignUserResourceRoleParams) WithHTTPClient(client *http.Client) *AssignUserResourceRoleParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the assign user resource role params
+// SetHTTPClient adds the HTTPClient to the assign user resource role params.
 func (o *AssignUserResourceRoleParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the assign user resource role params
+// WithInput adds the input to the assign user resource role params.
 func (o *AssignUserResourceRoleParams) WithInput(input *models.AssignUserResourceRoleRequest) *AssignUserResourceRoleParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the assign user resource role params
+// SetInput adds the input to the assign user resource role params.
 func (o *AssignUserResourceRoleParams) SetInput(input *models.AssignUserResourceRoleRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *AssignUserResourceRoleParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

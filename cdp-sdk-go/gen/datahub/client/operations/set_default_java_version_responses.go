@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // SetDefaultJavaVersionReader is a Reader for the SetDefaultJavaVersion structure.
@@ -45,11 +44,9 @@ func NewSetDefaultJavaVersionOK() *SetDefaultJavaVersionOK {
 	return &SetDefaultJavaVersionOK{}
 }
 
-/*
-SetDefaultJavaVersionOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SetDefaultJavaVersionOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SetDefaultJavaVersionOK struct {
 	Payload *models.SetDefaultJavaVersionResponse
 }
@@ -117,11 +114,9 @@ func NewSetDefaultJavaVersionDefault(code int) *SetDefaultJavaVersionDefault {
 	}
 }
 
-/*
-SetDefaultJavaVersionDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SetDefaultJavaVersionDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SetDefaultJavaVersionDefault struct {
 	_statusCode int
 

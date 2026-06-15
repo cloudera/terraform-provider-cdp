@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewDeleteCredentialParams creates a new DeleteCredentialParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDeleteCredentialParams() *DeleteCredentialParams {
-	return &DeleteCredentialParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDeleteCredentialParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDeleteCredentialParamsWithTimeout creates a new DeleteCredentialParams object
 // with the ability to set a timeout on a request.
 func NewDeleteCredentialParamsWithTimeout(timeout time.Duration) *DeleteCredentialParams {
 	return &DeleteCredentialParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDeleteCredentialParamsWithContext creates a new DeleteCredentialParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteCredentialParams].
 func NewDeleteCredentialParamsWithContext(ctx context.Context) *DeleteCredentialParams {
 	return &DeleteCredentialParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DeleteCredentialParams struct {
 	// Input.
 	Input *models.DeleteCredentialRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the delete credential params (not the query body).
@@ -83,54 +86,57 @@ func (o *DeleteCredentialParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the delete credential params
+// WithTimeout adds the timeout to the delete credential params.
 func (o *DeleteCredentialParams) WithTimeout(timeout time.Duration) *DeleteCredentialParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the delete credential params
+// SetTimeout adds the timeout to the delete credential params.
 func (o *DeleteCredentialParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the delete credential params
+// WithContext adds the context to the delete credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteCredentialParams].
 func (o *DeleteCredentialParams) WithContext(ctx context.Context) *DeleteCredentialParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the delete credential params
+// SetContext adds the context to the delete credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DeleteCredentialParams].
 func (o *DeleteCredentialParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the delete credential params
+// WithHTTPClient adds the HTTPClient to the delete credential params.
 func (o *DeleteCredentialParams) WithHTTPClient(client *http.Client) *DeleteCredentialParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the delete credential params
+// SetHTTPClient adds the HTTPClient to the delete credential params.
 func (o *DeleteCredentialParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the delete credential params
+// WithInput adds the input to the delete credential params.
 func (o *DeleteCredentialParams) WithInput(input *models.DeleteCredentialRequest) *DeleteCredentialParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the delete credential params
+// SetInput adds the input to the delete credential params.
 func (o *DeleteCredentialParams) SetInput(input *models.DeleteCredentialRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DeleteCredentialParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

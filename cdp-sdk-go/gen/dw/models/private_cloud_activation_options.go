@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // PrivateCloudActivationOptions Options for activating a Private Cloud environment.
@@ -41,7 +42,7 @@ func (m *PrivateCloudActivationOptions) Validate(formats strfmt.Registry) error 
 }
 
 func (m *PrivateCloudActivationOptions) validateDbClientCredentials(formats strfmt.Registry) error {
-	if swag.IsZero(m.DbClientCredentials) { // not required
+	if typeutils.IsZero(m.DbClientCredentials) { // not required
 		return nil
 	}
 
@@ -81,7 +82,7 @@ func (m *PrivateCloudActivationOptions) contextValidateDbClientCredentials(ctx c
 
 	if m.DbClientCredentials != nil {
 
-		if swag.IsZero(m.DbClientCredentials) { // not required
+		if typeutils.IsZero(m.DbClientCredentials) { // not required
 			return nil
 		}
 
@@ -107,13 +108,13 @@ func (m *PrivateCloudActivationOptions) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *PrivateCloudActivationOptions) UnmarshalBinary(b []byte) error {
 	var res PrivateCloudActivationOptions
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

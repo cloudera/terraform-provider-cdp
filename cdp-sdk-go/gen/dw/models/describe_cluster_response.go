@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DescribeClusterResponse Response object for the describeCluster method.
@@ -35,7 +36,7 @@ func (m *DescribeClusterResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DescribeClusterResponse) validateCluster(formats strfmt.Registry) error {
-	if swag.IsZero(m.Cluster) { // not required
+	if typeutils.IsZero(m.Cluster) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *DescribeClusterResponse) contextValidateCluster(ctx context.Context, fo
 
 	if m.Cluster != nil {
 
-		if swag.IsZero(m.Cluster) { // not required
+		if typeutils.IsZero(m.Cluster) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *DescribeClusterResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeClusterResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeClusterResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

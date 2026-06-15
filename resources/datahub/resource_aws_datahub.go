@@ -63,11 +63,11 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	params := operations.NewCreateAWSClusterParamsWithContext(ctx)
+	params := operations.NewCreateAWSClusterParams()
 	params.WithInput(fromModelToAwsRequest(data, ctx))
 
 	tflog.Info(ctx, fmt.Sprintf("Sending create request for AWS Datahub with name: %s", data.Name.ValueString()))
-	res, err := r.client.Datahub.Operations.CreateAWSCluster(params)
+	res, err := r.client.Datahub.Operations.CreateAWSClusterContext(ctx, params)
 	tflog.Info(ctx, fmt.Sprintf("Create request for AWS Datahub with name: %s has been sent with the result of: %+v", data.Name.ValueString(), res))
 	if err != nil {
 		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "create AWS Datahub")
@@ -113,12 +113,12 @@ func (r *awsDatahubResource) Read(ctx context.Context, req resource.ReadRequest,
 	if len(clusterName) == 0 {
 		clusterName = state.ID.ValueString()
 	}
-	params := operations.NewDescribeClusterParamsWithContext(ctx)
+	params := operations.NewDescribeClusterParams()
 	params.WithInput(&datahubmodels.DescribeClusterRequest{
 		ClusterName: &clusterName,
 	})
 
-	result, err := r.client.Datahub.Operations.DescribeCluster(params)
+	result, err := r.client.Datahub.Operations.DescribeClusterContext(ctx, params)
 	if err != nil {
 		if isNotFoundError(err) {
 			resp.Diagnostics.AddWarning("Resource not found on provider", "AWS Data hub cluster not found, removing from state.")
@@ -155,7 +155,7 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	params := operations.NewDeleteClusterParamsWithContext(ctx).WithInput(&datahubmodels.DeleteClusterRequest{
+	params := operations.NewDeleteClusterParams().WithInput(&datahubmodels.DeleteClusterRequest{
 		ClusterName: state.ID.ValueStringPointer(),
 		Force:       state.forceDeleteRequested(),
 	})
@@ -164,7 +164,7 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 	} else {
 		tflog.Debug(ctx, fmt.Sprintf("Sending delete request for cluster: %s", *params.Input.ClusterName))
 	}
-	_, err := r.client.Datahub.Operations.DeleteCluster(params)
+	_, err := r.client.Datahub.Operations.DeleteClusterContext(ctx, params)
 	if err != nil {
 		if !isNotFoundError(err) {
 			utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "delete AWS Datahub")

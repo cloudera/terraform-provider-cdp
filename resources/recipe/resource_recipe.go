@@ -62,7 +62,7 @@ func (r *recipeResource) Create(ctx context.Context, req resource.CreateRequest,
 
 	client := r.client.Datahub
 
-	params := operations.NewCreateRecipeParamsWithContext(ctx)
+	params := operations.NewCreateRecipeParams()
 	content, processErr := processInput(plan.Content.ValueString())
 	if processErr != nil {
 		utils.AddRecipeDiagnosticsError(processErr, &resp.Diagnostics, "create recipe")
@@ -75,7 +75,7 @@ func (r *recipeResource) Create(ctx context.Context, req resource.CreateRequest,
 		Type:          plan.Type.ValueStringPointer(),
 	})
 
-	respOk, err := client.Operations.CreateRecipe(params)
+	respOk, err := client.Operations.CreateRecipeContext(ctx, params)
 	if err != nil {
 		utils.AddRecipeDiagnosticsError(err, &resp.Diagnostics, "create recipe")
 		return
@@ -146,9 +146,9 @@ func (r *recipeResource) Delete(ctx context.Context, req resource.DeleteRequest,
 	}
 
 	credentialName := state.ID.ValueString()
-	params := operations.NewDeleteRecipesParamsWithContext(ctx)
+	params := operations.NewDeleteRecipesParams()
 	params.WithInput(&datahubmodels.DeleteRecipesRequest{RecipeNames: []string{credentialName}})
-	_, err := r.client.Datahub.Operations.DeleteRecipes(params)
+	_, err := r.client.Datahub.Operations.DeleteRecipesContext(ctx, params)
 	if err != nil {
 		utils.AddRecipeDiagnosticsError(err, &resp.Diagnostics, "delete recipe")
 		return
@@ -160,9 +160,9 @@ func (r *recipeResource) ImportState(ctx context.Context, req resource.ImportSta
 }
 
 func FindRecipeByName(ctx context.Context, cdpClient *cdp.Client, recipeName string) (*datahubmodels.Recipe, error) {
-	params := operations.NewDescribeRecipeParamsWithContext(ctx)
+	params := operations.NewDescribeRecipeParams()
 	params.WithInput(&datahubmodels.DescribeRecipeRequest{RecipeName: &recipeName})
-	resp, err := cdpClient.Datahub.Operations.DescribeRecipe(params)
+	resp, err := cdpClient.Datahub.Operations.DescribeRecipeContext(ctx, params)
 	if err != nil {
 		return nil, err
 	}

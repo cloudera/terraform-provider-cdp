@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // CheckKubernetesConnectivityReader is a Reader for the CheckKubernetesConnectivity structure.
@@ -45,11 +44,9 @@ func NewCheckKubernetesConnectivityOK() *CheckKubernetesConnectivityOK {
 	return &CheckKubernetesConnectivityOK{}
 }
 
-/*
-CheckKubernetesConnectivityOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CheckKubernetesConnectivityOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CheckKubernetesConnectivityOK struct {
 	Payload *models.CheckKubernetesConnectivityResponse
 }
@@ -117,11 +114,9 @@ func NewCheckKubernetesConnectivityDefault(code int) *CheckKubernetesConnectivit
 	}
 }
 
-/*
-CheckKubernetesConnectivityDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CheckKubernetesConnectivityDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CheckKubernetesConnectivityDefault struct {
 	_statusCode int
 

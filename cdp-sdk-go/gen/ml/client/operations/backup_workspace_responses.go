@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // BackupWorkspaceReader is a Reader for the BackupWorkspace structure.
@@ -45,11 +44,9 @@ func NewBackupWorkspaceOK() *BackupWorkspaceOK {
 	return &BackupWorkspaceOK{}
 }
 
-/*
-BackupWorkspaceOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// BackupWorkspaceOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type BackupWorkspaceOK struct {
 	Payload *models.BackupWorkspaceResponse
 }
@@ -117,11 +114,9 @@ func NewBackupWorkspaceDefault(code int) *BackupWorkspaceDefault {
 	}
 }
 
-/*
-BackupWorkspaceDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// BackupWorkspaceDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type BackupWorkspaceDefault struct {
 	_statusCode int
 

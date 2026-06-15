@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // CreateAWSClusterReader is a Reader for the CreateAWSCluster structure.
@@ -45,11 +44,9 @@ func NewCreateAWSClusterOK() *CreateAWSClusterOK {
 	return &CreateAWSClusterOK{}
 }
 
-/*
-CreateAWSClusterOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateAWSClusterOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateAWSClusterOK struct {
 	Payload *models.CreateAWSClusterResponse
 }
@@ -117,11 +114,9 @@ func NewCreateAWSClusterDefault(code int) *CreateAWSClusterDefault {
 	}
 }
 
-/*
-CreateAWSClusterDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateAWSClusterDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateAWSClusterDefault struct {
 	_statusCode int
 

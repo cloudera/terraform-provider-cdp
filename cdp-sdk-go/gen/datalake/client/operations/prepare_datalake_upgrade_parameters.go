@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewPrepareDatalakeUpgradeParams creates a new PrepareDatalakeUpgradeParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPrepareDatalakeUpgradeParams() *PrepareDatalakeUpgradeParams {
-	return &PrepareDatalakeUpgradeParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewPrepareDatalakeUpgradeParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewPrepareDatalakeUpgradeParamsWithTimeout creates a new PrepareDatalakeUpgradeParams object
 // with the ability to set a timeout on a request.
 func NewPrepareDatalakeUpgradeParamsWithTimeout(timeout time.Duration) *PrepareDatalakeUpgradeParams {
 	return &PrepareDatalakeUpgradeParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewPrepareDatalakeUpgradeParamsWithContext creates a new PrepareDatalakeUpgradeParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [PrepareDatalakeUpgradeParams].
 func NewPrepareDatalakeUpgradeParamsWithContext(ctx context.Context) *PrepareDatalakeUpgradeParams {
 	return &PrepareDatalakeUpgradeParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type PrepareDatalakeUpgradeParams struct {
 	// Input.
 	Input *models.PrepareDatalakeUpgradeRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the prepare datalake upgrade params (not the query body).
@@ -83,54 +86,57 @@ func (o *PrepareDatalakeUpgradeParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the prepare datalake upgrade params
+// WithTimeout adds the timeout to the prepare datalake upgrade params.
 func (o *PrepareDatalakeUpgradeParams) WithTimeout(timeout time.Duration) *PrepareDatalakeUpgradeParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the prepare datalake upgrade params
+// SetTimeout adds the timeout to the prepare datalake upgrade params.
 func (o *PrepareDatalakeUpgradeParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the prepare datalake upgrade params
+// WithContext adds the context to the prepare datalake upgrade params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [PrepareDatalakeUpgradeParams].
 func (o *PrepareDatalakeUpgradeParams) WithContext(ctx context.Context) *PrepareDatalakeUpgradeParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the prepare datalake upgrade params
+// SetContext adds the context to the prepare datalake upgrade params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [PrepareDatalakeUpgradeParams].
 func (o *PrepareDatalakeUpgradeParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the prepare datalake upgrade params
+// WithHTTPClient adds the HTTPClient to the prepare datalake upgrade params.
 func (o *PrepareDatalakeUpgradeParams) WithHTTPClient(client *http.Client) *PrepareDatalakeUpgradeParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the prepare datalake upgrade params
+// SetHTTPClient adds the HTTPClient to the prepare datalake upgrade params.
 func (o *PrepareDatalakeUpgradeParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the prepare datalake upgrade params
+// WithInput adds the input to the prepare datalake upgrade params.
 func (o *PrepareDatalakeUpgradeParams) WithInput(input *models.PrepareDatalakeUpgradeRequest) *PrepareDatalakeUpgradeParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the prepare datalake upgrade params
+// SetInput adds the input to the prepare datalake upgrade params.
 func (o *PrepareDatalakeUpgradeParams) SetInput(input *models.PrepareDatalakeUpgradeRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *PrepareDatalakeUpgradeParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

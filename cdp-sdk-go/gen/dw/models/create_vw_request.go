@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -149,7 +150,7 @@ func (m *CreateVwRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateVwRequest) validateAutoscaling(formats strfmt.Registry) error {
-	if swag.IsZero(m.Autoscaling) { // not required
+	if typeutils.IsZero(m.Autoscaling) { // not required
 		return nil
 	}
 
@@ -181,7 +182,7 @@ func (m *CreateVwRequest) validateClusterID(formats strfmt.Registry) error {
 }
 
 func (m *CreateVwRequest) validateConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.Config) { // not required
+	if typeutils.IsZero(m.Config) { // not required
 		return nil
 	}
 
@@ -213,7 +214,7 @@ func (m *CreateVwRequest) validateDbcID(formats strfmt.Registry) error {
 }
 
 func (m *CreateVwRequest) validateImpalaHaSettings(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImpalaHaSettings) { // not required
+	if typeutils.IsZero(m.ImpalaHaSettings) { // not required
 		return nil
 	}
 
@@ -236,7 +237,7 @@ func (m *CreateVwRequest) validateImpalaHaSettings(formats strfmt.Registry) erro
 }
 
 func (m *CreateVwRequest) validateImpalaOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImpalaOptions) { // not required
+	if typeutils.IsZero(m.ImpalaOptions) { // not required
 		return nil
 	}
 
@@ -268,7 +269,7 @@ func (m *CreateVwRequest) validateName(formats strfmt.Registry) error {
 }
 
 func (m *CreateVwRequest) validateQueryIsolationOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.QueryIsolationOptions) { // not required
+	if typeutils.IsZero(m.QueryIsolationOptions) { // not required
 		return nil
 	}
 
@@ -326,7 +327,7 @@ func (m *CreateVwRequest) validateTShirtSizeEnum(path, location string, value st
 }
 
 func (m *CreateVwRequest) validateTShirtSize(formats strfmt.Registry) error {
-	if swag.IsZero(m.TShirtSize) { // not required
+	if typeutils.IsZero(m.TShirtSize) { // not required
 		return nil
 	}
 
@@ -339,12 +340,12 @@ func (m *CreateVwRequest) validateTShirtSize(formats strfmt.Registry) error {
 }
 
 func (m *CreateVwRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
+	if typeutils.IsZero(m.Tags) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
+		if typeutils.IsZero(m.Tags[i]) { // not required
 			continue
 		}
 
@@ -369,10 +370,6 @@ func (m *CreateVwRequest) validateTags(formats strfmt.Registry) error {
 }
 
 func (m *CreateVwRequest) validateVwType(formats strfmt.Registry) error {
-
-	if err := validate.Required("vwType", "body", m.VwType); err != nil {
-		return err
-	}
 
 	if err := validate.Required("vwType", "body", m.VwType); err != nil {
 		return err
@@ -438,7 +435,7 @@ func (m *CreateVwRequest) contextValidateAutoscaling(ctx context.Context, format
 
 	if m.Autoscaling != nil {
 
-		if swag.IsZero(m.Autoscaling) { // not required
+		if typeutils.IsZero(m.Autoscaling) { // not required
 			return nil
 		}
 
@@ -463,7 +460,7 @@ func (m *CreateVwRequest) contextValidateConfig(ctx context.Context, formats str
 
 	if m.Config != nil {
 
-		if swag.IsZero(m.Config) { // not required
+		if typeutils.IsZero(m.Config) { // not required
 			return nil
 		}
 
@@ -488,7 +485,7 @@ func (m *CreateVwRequest) contextValidateImpalaHaSettings(ctx context.Context, f
 
 	if m.ImpalaHaSettings != nil {
 
-		if swag.IsZero(m.ImpalaHaSettings) { // not required
+		if typeutils.IsZero(m.ImpalaHaSettings) { // not required
 			return nil
 		}
 
@@ -513,7 +510,7 @@ func (m *CreateVwRequest) contextValidateImpalaOptions(ctx context.Context, form
 
 	if m.ImpalaOptions != nil {
 
-		if swag.IsZero(m.ImpalaOptions) { // not required
+		if typeutils.IsZero(m.ImpalaOptions) { // not required
 			return nil
 		}
 
@@ -538,7 +535,7 @@ func (m *CreateVwRequest) contextValidateQueryIsolationOptions(ctx context.Conte
 
 	if m.QueryIsolationOptions != nil {
 
-		if swag.IsZero(m.QueryIsolationOptions) { // not required
+		if typeutils.IsZero(m.QueryIsolationOptions) { // not required
 			return nil
 		}
 
@@ -565,7 +562,7 @@ func (m *CreateVwRequest) contextValidateTags(ctx context.Context, formats strfm
 
 		if m.Tags[i] != nil {
 
-			if swag.IsZero(m.Tags[i]) { // not required
+			if typeutils.IsZero(m.Tags[i]) { // not required
 				return nil
 			}
 
@@ -614,13 +611,13 @@ func (m *CreateVwRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateVwRequest) UnmarshalBinary(b []byte) error {
 	var res CreateVwRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -54,7 +54,7 @@ func TestUpdateSshKeyIfChanged_KeyChanged_UpdatesStateAndCallsAPI(t *testing.T) 
 	stateKey := types.StringValue(testOldKey)
 	resp := &resource.UpdateResponse{}
 
-	mockClient.On("UpdateSSHKey", mock.Anything, mock.Anything).
+	mockClient.On("UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything).
 		Return(&operations.UpdateSSHKeyOK{}, nil)
 
 	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, new(testEnvName), resp)
@@ -65,7 +65,7 @@ func TestUpdateSshKeyIfChanged_KeyChanged_UpdatesStateAndCallsAPI(t *testing.T) 
 	if stateKey.ValueString() != testNewKey {
 		t.Errorf("expected state key to be updated to plan key, got: %s", stateKey.ValueString())
 	}
-	mockClient.AssertCalled(t, "UpdateSSHKey", mock.Anything, mock.Anything)
+	mockClient.AssertCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateSshKeyIfChanged_KeyUnchanged_SkipsAPICall(t *testing.T) {
@@ -81,7 +81,7 @@ func TestUpdateSshKeyIfChanged_KeyUnchanged_SkipsAPICall(t *testing.T) {
 	if result.Diagnostics.HasError() {
 		t.Errorf("expected no errors, got: %v", result.Diagnostics.Errors())
 	}
-	mockClient.AssertNotCalled(t, "UpdateSSHKey", mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateSshKeyIfChanged_PlanKeyNull_SkipsAPICall(t *testing.T) {
@@ -100,7 +100,7 @@ func TestUpdateSshKeyIfChanged_PlanKeyNull_SkipsAPICall(t *testing.T) {
 	if stateKey.ValueString() != testOldKey {
 		t.Errorf("expected state key to remain unchanged, got: %s", stateKey.ValueString())
 	}
-	mockClient.AssertNotCalled(t, "UpdateSSHKey", mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateSshKeyIfChanged_PlanKeyUnknown_SkipsUpdate(t *testing.T) {
@@ -119,7 +119,7 @@ func TestUpdateSshKeyIfChanged_PlanKeyUnknown_SkipsUpdate(t *testing.T) {
 	if stateKey.ValueString() != testOldKey {
 		t.Errorf("expected state key to remain unchanged, got: %s", stateKey.ValueString())
 	}
-	mockClient.AssertNotCalled(t, "UpdateSSHKey", mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateSshKeyIfChanged_PlanKeyEmpty_AddsValidationError(t *testing.T) {
@@ -138,7 +138,7 @@ func TestUpdateSshKeyIfChanged_PlanKeyEmpty_AddsValidationError(t *testing.T) {
 	if stateKey.ValueString() != testOldKey {
 		t.Errorf("expected state key to remain unchanged, got: %s", stateKey.ValueString())
 	}
-	mockClient.AssertNotCalled(t, "UpdateSSHKey", mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateSshKeyIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
@@ -149,7 +149,7 @@ func TestUpdateSshKeyIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
 	stateKey := types.StringValue(testOldKey)
 	resp := &resource.UpdateResponse{}
 
-	mockClient.On("UpdateSSHKey", mock.Anything, mock.Anything).
+	mockClient.On("UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything).
 		Return((*operations.UpdateSSHKeyOK)(nil), errors.New("API connection failed"))
 
 	result := updateSshKeyIfChanged(ctx, client, planKey, &stateKey, new(testEnvName), resp)
@@ -168,7 +168,7 @@ func TestUpdateSshKey_Success(t *testing.T) {
 	client := NewMockEnvironments(mockClient)
 	publicKey := types.StringValue(testKey)
 
-	mockClient.On("UpdateSSHKey", mock.MatchedBy(func(params *operations.UpdateSSHKeyParams) bool {
+	mockClient.On("UpdateSSHKeyContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSSHKeyParams) bool {
 		return params.Input != nil &&
 			params.Input.NewPublicKey == testKey &&
 			*params.Input.Environment == testEnvName
@@ -189,7 +189,7 @@ func TestUpdateSshKey_ReturnsError(t *testing.T) {
 	client := NewMockEnvironments(mockClient)
 	publicKey := types.StringValue(testKey)
 
-	mockClient.On("UpdateSSHKey", mock.Anything, mock.Anything).
+	mockClient.On("UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything).
 		Return((*operations.UpdateSSHKeyOK)(nil), errors.New(testServiceUnavailable))
 
 	err := updateSshKey(ctx, client, publicKey, new(testEnvName))
@@ -213,7 +213,7 @@ func TestUpdateSshKey_NullPublicKey_DoesNotSetInput(t *testing.T) {
 	if err != nil {
 		t.Errorf("expected no error, got: %v", err)
 	}
-	mockClient.AssertNotCalled(t, "UpdateSSHKey", mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateSshKey_EmptyPublicKey_DoesNotSetInput(t *testing.T) {
@@ -227,7 +227,7 @@ func TestUpdateSshKey_EmptyPublicKey_DoesNotSetInput(t *testing.T) {
 	if err != nil {
 		t.Errorf("expected no error, got: %v", err)
 	}
-	mockClient.AssertNotCalled(t, "UpdateSSHKey", mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateSshKey_UnknownPublicKey_DoesNotCallAPI(t *testing.T) {
@@ -241,7 +241,7 @@ func TestUpdateSshKey_UnknownPublicKey_DoesNotCallAPI(t *testing.T) {
 	if err != nil {
 		t.Errorf("expected no error, got: %v", err)
 	}
-	mockClient.AssertNotCalled(t, "UpdateSSHKey", mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 // Test helpers for performEnvironmentUpdate tests

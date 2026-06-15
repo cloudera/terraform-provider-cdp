@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ListDatalakeDiagnosticsResponse Response object for listing recent Datalake diagnostics collections.
@@ -36,12 +37,12 @@ func (m *ListDatalakeDiagnosticsResponse) Validate(formats strfmt.Registry) erro
 }
 
 func (m *ListDatalakeDiagnosticsResponse) validateCollections(formats strfmt.Registry) error {
-	if swag.IsZero(m.Collections) { // not required
+	if typeutils.IsZero(m.Collections) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Collections); i++ {
-		if swag.IsZero(m.Collections[i]) { // not required
+		if typeutils.IsZero(m.Collections[i]) { // not required
 			continue
 		}
 
@@ -85,7 +86,7 @@ func (m *ListDatalakeDiagnosticsResponse) contextValidateCollections(ctx context
 
 		if m.Collections[i] != nil {
 
-			if swag.IsZero(m.Collections[i]) { // not required
+			if typeutils.IsZero(m.Collections[i]) { // not required
 				return nil
 			}
 
@@ -113,13 +114,13 @@ func (m *ListDatalakeDiagnosticsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListDatalakeDiagnosticsResponse) UnmarshalBinary(b []byte) error {
 	var res ListDatalakeDiagnosticsResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

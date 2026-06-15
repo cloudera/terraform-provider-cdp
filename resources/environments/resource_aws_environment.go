@@ -65,10 +65,10 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 
 	client := r.client.Environments
 
-	params := operations.NewCreateAWSEnvironmentParamsWithContext(ctx)
+	params := operations.NewCreateAWSEnvironmentParams()
 	params.WithInput(ToAwsEnvironmentRequest(ctx, &data))
 
-	responseOk, err := client.Operations.CreateAWSEnvironment(params)
+	responseOk, err := client.Operations.CreateAWSEnvironmentContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Environment")
 		return

@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // OverlayNetwork Contains the information about overlay network.
@@ -45,7 +46,7 @@ func (m *OverlayNetwork) Validate(formats strfmt.Registry) error {
 }
 
 func (m *OverlayNetwork) validateGcp(formats strfmt.Registry) error {
-	if swag.IsZero(m.Gcp) { // not required
+	if typeutils.IsZero(m.Gcp) { // not required
 		return nil
 	}
 
@@ -68,7 +69,7 @@ func (m *OverlayNetwork) validateGcp(formats strfmt.Registry) error {
 }
 
 func (m *OverlayNetwork) validateTopology(formats strfmt.Registry) error {
-	if swag.IsZero(m.Topology) { // not required
+	if typeutils.IsZero(m.Topology) { // not required
 		return nil
 	}
 
@@ -112,7 +113,7 @@ func (m *OverlayNetwork) contextValidateGcp(ctx context.Context, formats strfmt.
 
 	if m.Gcp != nil {
 
-		if swag.IsZero(m.Gcp) { // not required
+		if typeutils.IsZero(m.Gcp) { // not required
 			return nil
 		}
 
@@ -137,7 +138,7 @@ func (m *OverlayNetwork) contextValidateTopology(ctx context.Context, formats st
 
 	if m.Topology != nil {
 
-		if swag.IsZero(m.Topology) { // not required
+		if typeutils.IsZero(m.Topology) { // not required
 			return nil
 		}
 
@@ -163,13 +164,13 @@ func (m *OverlayNetwork) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *OverlayNetwork) UnmarshalBinary(b []byte) error {
 	var res OverlayNetwork
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

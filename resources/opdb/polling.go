@@ -113,13 +113,13 @@ func waitForToBeDeleted(dataBaseName string, environmentName string, client *cli
 
 func describeWithRecover(dataBaseName string, environmentName string, client *client.Opdb, ctx context.Context) (*operations.DescribeDatabaseOK, error) {
 	tflog.Debug(ctx, fmt.Sprintf("Describing Database with name: %s", dataBaseName))
-	resp, err := client.Operations.DescribeDatabase(operations.NewDescribeDatabaseParamsWithContext(ctx).WithInput(&opdbmodels.DescribeDatabaseRequest{DatabaseName: &dataBaseName, EnvironmentName: &environmentName}))
+	resp, err := client.Operations.DescribeDatabaseContext(ctx, operations.NewDescribeDatabaseParams().WithInput(&opdbmodels.DescribeDatabaseRequest{DatabaseName: &dataBaseName, EnvironmentName: &environmentName}))
 	for i := 0; i < internalServerErrorRetryQuantity; i++ {
 		if err != nil {
 			if isInternalServerError(err) {
 				tflog.Debug(ctx, fmt.Sprintf("Database describe came back with internal server error. "+
 					"About to (#%d.) re-attempt to describe Database '%s'.", i+1, dataBaseName))
-				resp, err = client.Operations.DescribeDatabase(operations.NewDescribeDatabaseParamsWithContext(ctx).WithInput(&opdbmodels.DescribeDatabaseRequest{DatabaseName: &dataBaseName, EnvironmentName: &environmentName}))
+				resp, err = client.Operations.DescribeDatabaseContext(ctx, operations.NewDescribeDatabaseParams().WithInput(&opdbmodels.DescribeDatabaseRequest{DatabaseName: &dataBaseName, EnvironmentName: &environmentName}))
 				continue
 			} else {
 				return resp, err

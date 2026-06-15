@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // ReplaceRecipesReader is a Reader for the ReplaceRecipes structure.
@@ -45,11 +44,9 @@ func NewReplaceRecipesOK() *ReplaceRecipesOK {
 	return &ReplaceRecipesOK{}
 }
 
-/*
-ReplaceRecipesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ReplaceRecipesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ReplaceRecipesOK struct {
 	Payload *models.ReplaceRecipesResponse
 }
@@ -117,11 +114,9 @@ func NewReplaceRecipesDefault(code int) *ReplaceRecipesDefault {
 	}
 }
 
-/*
-ReplaceRecipesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ReplaceRecipesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ReplaceRecipesDefault struct {
 	_statusCode int
 

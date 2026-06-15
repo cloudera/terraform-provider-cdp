@@ -126,6 +126,10 @@ type MockTransport struct {
 	runtime.ClientTransport
 }
 
+func (m MockTransport) SubmitContext(_ context.Context, _ *runtime.ClientOperation) (interface{}, error) {
+	return nil, nil
+}
+
 func newDwApi(client *mocks.MockDwClientService) *datavizResource {
 	return &datavizResource{
 		client: &cdp.Client{
@@ -242,12 +246,12 @@ func (suite *DataVizTestSuite) TestDatavizCreate_Success() {
 	ctx := context.TODO()
 
 	client := new(mocks.MockDwClientService)
-	client.On("CreateDataVisualization", mock.Anything).
+	client.On("CreateDataVisualizationContext", mock.Anything, mock.Anything).
 		Return(&operations.CreateDataVisualizationOK{
 			Payload: &models.CreateDataVisualizationResponse{
 				DataVisualizationID: "test-id",
 			}}, nil)
-	client.On("DescribeDataVisualization", mock.Anything).
+	client.On("DescribeDataVisualizationContext", mock.Anything, mock.Anything).
 		Return(&operations.DescribeDataVisualizationOK{
 			Payload: &models.DescribeDataVisualizationResponse{
 				DataVisualization: &models.DataVisualizationSummary{
@@ -287,9 +291,9 @@ func (suite *DataVizTestSuite) TestDatavizCreate_Success() {
 func (suite *DataVizTestSuite) TestDatavizCreate_CreationError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("CreateDataVisualization", mock.Anything).
+	client.On("CreateDataVisualizationContext", mock.Anything, mock.Anything).
 		Return(nil, fmt.Errorf("create failed"))
-	client.On("DescribeDataVisualization", mock.Anything).
+	client.On("DescribeDataVisualizationContext", mock.Anything, mock.Anything).
 		Return(&operations.DescribeDataVisualizationOK{}, nil)
 
 	dwApi := newDwApi(client)
@@ -319,12 +323,12 @@ func (suite *DataVizTestSuite) TestDatavizCreate_CreationError() {
 func (suite *DataVizTestSuite) TestDatavizCreate_DescribeError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("CreateDataVisualization", mock.Anything).
+	client.On("CreateDataVisualizationContext", mock.Anything, mock.Anything).
 		Return(&operations.CreateDataVisualizationOK{
 			Payload: &models.CreateDataVisualizationResponse{
 				DataVisualizationID: "test-id",
 			}}, nil)
-	client.On("DescribeDataVisualization", mock.Anything).
+	client.On("DescribeDataVisualizationContext", mock.Anything, mock.Anything).
 		Return(nil, fmt.Errorf("describe failed"))
 	dwApi := newDwApi(client)
 
@@ -351,7 +355,7 @@ func (suite *DataVizTestSuite) TestDatavizCreate_DescribeError() {
 
 func (suite *DataVizTestSuite) TestDatavizDeletion_Success() {
 	client := new(mocks.MockDwClientService)
-	client.On("DeleteDataVisualization", mock.Anything).
+	client.On("DeleteDataVisualizationContext", mock.Anything, mock.Anything).
 		Return(&operations.DeleteDataVisualizationOK{}, nil)
 	dwApi := newDwApi(client)
 
@@ -369,7 +373,7 @@ func (suite *DataVizTestSuite) TestDatavizDeletion_Success() {
 
 func (suite *DataVizTestSuite) TestDatavizDeletion_ReturnsError() {
 	client := new(mocks.MockDwClientService)
-	client.On("DeleteDataVisualization", mock.Anything).
+	client.On("DeleteDataVisualizationContext", mock.Anything, mock.Anything).
 		Return(nil, fmt.Errorf("delete failed"))
 	dwApi := newDwApi(client)
 
@@ -387,7 +391,7 @@ func (suite *DataVizTestSuite) TestDatavizDeletion_ReturnsError() {
 
 func (suite *DataVizTestSuite) TestStateRefresh_Success() {
 	client := new(mocks.MockDwClientService)
-	client.On("DescribeDataVisualization", mock.Anything).Return(
+	client.On("DescribeDataVisualizationContext", mock.Anything, mock.Anything).Return(
 		&operations.DescribeDataVisualizationOK{
 			Payload: &models.DescribeDataVisualizationResponse{
 				DataVisualization: &models.DataVisualizationSummary{
@@ -417,7 +421,7 @@ func (suite *DataVizTestSuite) TestStateRefresh_Success() {
 
 func (suite *DataVizTestSuite) TestStateRefresh_FailureThresholdReached() {
 	client := new(mocks.MockDwClientService)
-	client.On("DescribeDataVisualization", mock.Anything).Return(
+	client.On("DescribeDataVisualizationContext", mock.Anything, mock.Anything).Return(
 		nil, fmt.Errorf("unknown error"))
 	dwApi := newDwApi(client)
 

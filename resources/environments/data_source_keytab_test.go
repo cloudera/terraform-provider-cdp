@@ -106,7 +106,7 @@ func TestFetchKeytabs(t *testing.T) {
 				match = match && params.Input.ActorCrn == "test-actor"
 				return match
 			}
-			mockClient.On("GetKeytab", mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
+			mockClient.On("GetKeytabContext", mock.Anything, mock.MatchedBy(createMatcher)).Return(testCase.expectedResponse, testCase.expectedErrorResponse)
 
 			pcResource := &keytabDataSource{
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewDescribeDbcConfigParams creates a new DescribeDbcConfigParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDescribeDbcConfigParams() *DescribeDbcConfigParams {
-	return &DescribeDbcConfigParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewDescribeDbcConfigParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewDescribeDbcConfigParamsWithTimeout creates a new DescribeDbcConfigParams object
 // with the ability to set a timeout on a request.
 func NewDescribeDbcConfigParamsWithTimeout(timeout time.Duration) *DescribeDbcConfigParams {
 	return &DescribeDbcConfigParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewDescribeDbcConfigParamsWithContext creates a new DescribeDbcConfigParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeDbcConfigParams].
 func NewDescribeDbcConfigParamsWithContext(ctx context.Context) *DescribeDbcConfigParams {
 	return &DescribeDbcConfigParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type DescribeDbcConfigParams struct {
 	// Input.
 	Input *models.DescribeDbcConfigRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the describe dbc config params (not the query body).
@@ -83,54 +86,57 @@ func (o *DescribeDbcConfigParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the describe dbc config params
+// WithTimeout adds the timeout to the describe dbc config params.
 func (o *DescribeDbcConfigParams) WithTimeout(timeout time.Duration) *DescribeDbcConfigParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the describe dbc config params
+// SetTimeout adds the timeout to the describe dbc config params.
 func (o *DescribeDbcConfigParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the describe dbc config params
+// WithContext adds the context to the describe dbc config params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeDbcConfigParams].
 func (o *DescribeDbcConfigParams) WithContext(ctx context.Context) *DescribeDbcConfigParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the describe dbc config params
+// SetContext adds the context to the describe dbc config params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [DescribeDbcConfigParams].
 func (o *DescribeDbcConfigParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the describe dbc config params
+// WithHTTPClient adds the HTTPClient to the describe dbc config params.
 func (o *DescribeDbcConfigParams) WithHTTPClient(client *http.Client) *DescribeDbcConfigParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the describe dbc config params
+// SetHTTPClient adds the HTTPClient to the describe dbc config params.
 func (o *DescribeDbcConfigParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the describe dbc config params
+// WithInput adds the input to the describe dbc config params.
 func (o *DescribeDbcConfigParams) WithInput(input *models.DescribeDbcConfigRequest) *DescribeDbcConfigParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the describe dbc config params
+// SetInput adds the input to the describe dbc config params.
 func (o *DescribeDbcConfigParams) SetInput(input *models.DescribeDbcConfigRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *DescribeDbcConfigParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

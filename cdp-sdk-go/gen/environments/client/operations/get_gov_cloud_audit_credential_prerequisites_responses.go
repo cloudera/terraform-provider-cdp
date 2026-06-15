@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // GetGovCloudAuditCredentialPrerequisitesReader is a Reader for the GetGovCloudAuditCredentialPrerequisites structure.
@@ -45,11 +44,9 @@ func NewGetGovCloudAuditCredentialPrerequisitesOK() *GetGovCloudAuditCredentialP
 	return &GetGovCloudAuditCredentialPrerequisitesOK{}
 }
 
-/*
-GetGovCloudAuditCredentialPrerequisitesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetGovCloudAuditCredentialPrerequisitesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetGovCloudAuditCredentialPrerequisitesOK struct {
 	Payload *models.GetGovCloudAuditCredentialPrerequisitesResponse
 }
@@ -117,11 +114,9 @@ func NewGetGovCloudAuditCredentialPrerequisitesDefault(code int) *GetGovCloudAud
 	}
 }
 
-/*
-GetGovCloudAuditCredentialPrerequisitesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetGovCloudAuditCredentialPrerequisitesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetGovCloudAuditCredentialPrerequisitesDefault struct {
 	_statusCode int
 

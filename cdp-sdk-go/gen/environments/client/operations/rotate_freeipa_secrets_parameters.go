@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewRotateFreeipaSecretsParams creates a new RotateFreeipaSecretsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRotateFreeipaSecretsParams() *RotateFreeipaSecretsParams {
-	return &RotateFreeipaSecretsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRotateFreeipaSecretsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRotateFreeipaSecretsParamsWithTimeout creates a new RotateFreeipaSecretsParams object
 // with the ability to set a timeout on a request.
 func NewRotateFreeipaSecretsParamsWithTimeout(timeout time.Duration) *RotateFreeipaSecretsParams {
 	return &RotateFreeipaSecretsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRotateFreeipaSecretsParamsWithContext creates a new RotateFreeipaSecretsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RotateFreeipaSecretsParams].
 func NewRotateFreeipaSecretsParamsWithContext(ctx context.Context) *RotateFreeipaSecretsParams {
 	return &RotateFreeipaSecretsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RotateFreeipaSecretsParams struct {
 	// Input.
 	Input *models.RotateFreeipaSecretsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the rotate freeipa secrets params (not the query body).
@@ -83,54 +86,57 @@ func (o *RotateFreeipaSecretsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the rotate freeipa secrets params
+// WithTimeout adds the timeout to the rotate freeipa secrets params.
 func (o *RotateFreeipaSecretsParams) WithTimeout(timeout time.Duration) *RotateFreeipaSecretsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the rotate freeipa secrets params
+// SetTimeout adds the timeout to the rotate freeipa secrets params.
 func (o *RotateFreeipaSecretsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the rotate freeipa secrets params
+// WithContext adds the context to the rotate freeipa secrets params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RotateFreeipaSecretsParams].
 func (o *RotateFreeipaSecretsParams) WithContext(ctx context.Context) *RotateFreeipaSecretsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the rotate freeipa secrets params
+// SetContext adds the context to the rotate freeipa secrets params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RotateFreeipaSecretsParams].
 func (o *RotateFreeipaSecretsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the rotate freeipa secrets params
+// WithHTTPClient adds the HTTPClient to the rotate freeipa secrets params.
 func (o *RotateFreeipaSecretsParams) WithHTTPClient(client *http.Client) *RotateFreeipaSecretsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the rotate freeipa secrets params
+// SetHTTPClient adds the HTTPClient to the rotate freeipa secrets params.
 func (o *RotateFreeipaSecretsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the rotate freeipa secrets params
+// WithInput adds the input to the rotate freeipa secrets params.
 func (o *RotateFreeipaSecretsParams) WithInput(input *models.RotateFreeipaSecretsRequest) *RotateFreeipaSecretsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the rotate freeipa secrets params
+// SetInput adds the input to the rotate freeipa secrets params.
 func (o *RotateFreeipaSecretsParams) SetInput(input *models.RotateFreeipaSecretsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RotateFreeipaSecretsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

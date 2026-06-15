@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewListResourceTemplatesParams creates a new ListResourceTemplatesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListResourceTemplatesParams() *ListResourceTemplatesParams {
-	return &ListResourceTemplatesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListResourceTemplatesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListResourceTemplatesParamsWithTimeout creates a new ListResourceTemplatesParams object
 // with the ability to set a timeout on a request.
 func NewListResourceTemplatesParamsWithTimeout(timeout time.Duration) *ListResourceTemplatesParams {
 	return &ListResourceTemplatesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListResourceTemplatesParamsWithContext creates a new ListResourceTemplatesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListResourceTemplatesParams].
 func NewListResourceTemplatesParamsWithContext(ctx context.Context) *ListResourceTemplatesParams {
 	return &ListResourceTemplatesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListResourceTemplatesParams struct {
 	// Input.
 	Input models.ListResourceTemplatesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list resource templates params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListResourceTemplatesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list resource templates params
+// WithTimeout adds the timeout to the list resource templates params.
 func (o *ListResourceTemplatesParams) WithTimeout(timeout time.Duration) *ListResourceTemplatesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list resource templates params
+// SetTimeout adds the timeout to the list resource templates params.
 func (o *ListResourceTemplatesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list resource templates params
+// WithContext adds the context to the list resource templates params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListResourceTemplatesParams].
 func (o *ListResourceTemplatesParams) WithContext(ctx context.Context) *ListResourceTemplatesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list resource templates params
+// SetContext adds the context to the list resource templates params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListResourceTemplatesParams].
 func (o *ListResourceTemplatesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list resource templates params
+// WithHTTPClient adds the HTTPClient to the list resource templates params.
 func (o *ListResourceTemplatesParams) WithHTTPClient(client *http.Client) *ListResourceTemplatesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list resource templates params
+// SetHTTPClient adds the HTTPClient to the list resource templates params.
 func (o *ListResourceTemplatesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list resource templates params
+// WithInput adds the input to the list resource templates params.
 func (o *ListResourceTemplatesParams) WithInput(input models.ListResourceTemplatesRequest) *ListResourceTemplatesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list resource templates params
+// SetInput adds the input to the list resource templates params.
 func (o *ListResourceTemplatesParams) SetInput(input models.ListResourceTemplatesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListResourceTemplatesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

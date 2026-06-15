@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // CreateAWSGovCloudEnvironmentReader is a Reader for the CreateAWSGovCloudEnvironment structure.
@@ -45,11 +44,9 @@ func NewCreateAWSGovCloudEnvironmentOK() *CreateAWSGovCloudEnvironmentOK {
 	return &CreateAWSGovCloudEnvironmentOK{}
 }
 
-/*
-CreateAWSGovCloudEnvironmentOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateAWSGovCloudEnvironmentOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateAWSGovCloudEnvironmentOK struct {
 	Payload *models.CreateAWSGovCloudEnvironmentResponse
 }
@@ -117,11 +114,9 @@ func NewCreateAWSGovCloudEnvironmentDefault(code int) *CreateAWSGovCloudEnvironm
 	}
 }
 
-/*
-CreateAWSGovCloudEnvironmentDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateAWSGovCloudEnvironmentDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateAWSGovCloudEnvironmentDefault struct {
 	_statusCode int
 

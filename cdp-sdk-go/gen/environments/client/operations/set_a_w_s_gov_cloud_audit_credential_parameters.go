@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewSetAWSGovCloudAuditCredentialParams creates a new SetAWSGovCloudAuditCredentialParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewSetAWSGovCloudAuditCredentialParams() *SetAWSGovCloudAuditCredentialParams {
-	return &SetAWSGovCloudAuditCredentialParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewSetAWSGovCloudAuditCredentialParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewSetAWSGovCloudAuditCredentialParamsWithTimeout creates a new SetAWSGovCloudAuditCredentialParams object
 // with the ability to set a timeout on a request.
 func NewSetAWSGovCloudAuditCredentialParamsWithTimeout(timeout time.Duration) *SetAWSGovCloudAuditCredentialParams {
 	return &SetAWSGovCloudAuditCredentialParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewSetAWSGovCloudAuditCredentialParamsWithContext creates a new SetAWSGovCloudAuditCredentialParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAWSGovCloudAuditCredentialParams].
 func NewSetAWSGovCloudAuditCredentialParamsWithContext(ctx context.Context) *SetAWSGovCloudAuditCredentialParams {
 	return &SetAWSGovCloudAuditCredentialParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type SetAWSGovCloudAuditCredentialParams struct {
 	// Input.
 	Input *models.SetAWSGovCloudAuditCredentialRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the set a w s gov cloud audit credential params (not the query body).
@@ -83,54 +86,57 @@ func (o *SetAWSGovCloudAuditCredentialParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the set a w s gov cloud audit credential params
+// WithTimeout adds the timeout to the set a w s gov cloud audit credential params.
 func (o *SetAWSGovCloudAuditCredentialParams) WithTimeout(timeout time.Duration) *SetAWSGovCloudAuditCredentialParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the set a w s gov cloud audit credential params
+// SetTimeout adds the timeout to the set a w s gov cloud audit credential params.
 func (o *SetAWSGovCloudAuditCredentialParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the set a w s gov cloud audit credential params
+// WithContext adds the context to the set a w s gov cloud audit credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAWSGovCloudAuditCredentialParams].
 func (o *SetAWSGovCloudAuditCredentialParams) WithContext(ctx context.Context) *SetAWSGovCloudAuditCredentialParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the set a w s gov cloud audit credential params
+// SetContext adds the context to the set a w s gov cloud audit credential params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [SetAWSGovCloudAuditCredentialParams].
 func (o *SetAWSGovCloudAuditCredentialParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the set a w s gov cloud audit credential params
+// WithHTTPClient adds the HTTPClient to the set a w s gov cloud audit credential params.
 func (o *SetAWSGovCloudAuditCredentialParams) WithHTTPClient(client *http.Client) *SetAWSGovCloudAuditCredentialParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the set a w s gov cloud audit credential params
+// SetHTTPClient adds the HTTPClient to the set a w s gov cloud audit credential params.
 func (o *SetAWSGovCloudAuditCredentialParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the set a w s gov cloud audit credential params
+// WithInput adds the input to the set a w s gov cloud audit credential params.
 func (o *SetAWSGovCloudAuditCredentialParams) WithInput(input *models.SetAWSGovCloudAuditCredentialRequest) *SetAWSGovCloudAuditCredentialParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the set a w s gov cloud audit credential params
+// SetInput adds the input to the set a w s gov cloud audit credential params.
 func (o *SetAWSGovCloudAuditCredentialParams) SetInput(input *models.SetAWSGovCloudAuditCredentialRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *SetAWSGovCloudAuditCredentialParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

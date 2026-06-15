@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewRestoreSnapshotParams creates a new RestoreSnapshotParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRestoreSnapshotParams() *RestoreSnapshotParams {
-	return &RestoreSnapshotParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRestoreSnapshotParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRestoreSnapshotParamsWithTimeout creates a new RestoreSnapshotParams object
 // with the ability to set a timeout on a request.
 func NewRestoreSnapshotParamsWithTimeout(timeout time.Duration) *RestoreSnapshotParams {
 	return &RestoreSnapshotParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRestoreSnapshotParamsWithContext creates a new RestoreSnapshotParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreSnapshotParams].
 func NewRestoreSnapshotParamsWithContext(ctx context.Context) *RestoreSnapshotParams {
 	return &RestoreSnapshotParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RestoreSnapshotParams struct {
 	// Input.
 	Input *models.RestoreSnapshotRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the restore snapshot params (not the query body).
@@ -83,54 +86,57 @@ func (o *RestoreSnapshotParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the restore snapshot params
+// WithTimeout adds the timeout to the restore snapshot params.
 func (o *RestoreSnapshotParams) WithTimeout(timeout time.Duration) *RestoreSnapshotParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the restore snapshot params
+// SetTimeout adds the timeout to the restore snapshot params.
 func (o *RestoreSnapshotParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the restore snapshot params
+// WithContext adds the context to the restore snapshot params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreSnapshotParams].
 func (o *RestoreSnapshotParams) WithContext(ctx context.Context) *RestoreSnapshotParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the restore snapshot params
+// SetContext adds the context to the restore snapshot params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RestoreSnapshotParams].
 func (o *RestoreSnapshotParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the restore snapshot params
+// WithHTTPClient adds the HTTPClient to the restore snapshot params.
 func (o *RestoreSnapshotParams) WithHTTPClient(client *http.Client) *RestoreSnapshotParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the restore snapshot params
+// SetHTTPClient adds the HTTPClient to the restore snapshot params.
 func (o *RestoreSnapshotParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the restore snapshot params
+// WithInput adds the input to the restore snapshot params.
 func (o *RestoreSnapshotParams) WithInput(input *models.RestoreSnapshotRequest) *RestoreSnapshotParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the restore snapshot params
+// SetInput adds the input to the restore snapshot params.
 func (o *RestoreSnapshotParams) SetInput(input *models.RestoreSnapshotRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RestoreSnapshotParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

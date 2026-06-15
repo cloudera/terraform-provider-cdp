@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // ModifyClusterInstanceGroupReader is a Reader for the ModifyClusterInstanceGroup structure.
@@ -45,11 +44,9 @@ func NewModifyClusterInstanceGroupOK() *ModifyClusterInstanceGroupOK {
 	return &ModifyClusterInstanceGroupOK{}
 }
 
-/*
-ModifyClusterInstanceGroupOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ModifyClusterInstanceGroupOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ModifyClusterInstanceGroupOK struct {
 	Payload models.ModifyClusterInstanceGroupResponse
 }
@@ -115,11 +112,9 @@ func NewModifyClusterInstanceGroupDefault(code int) *ModifyClusterInstanceGroupD
 	}
 }
 
-/*
-ModifyClusterInstanceGroupDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ModifyClusterInstanceGroupDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ModifyClusterInstanceGroupDefault struct {
 	_statusCode int
 

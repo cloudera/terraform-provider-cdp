@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewGetUpgradeDbcVersionsParams creates a new GetUpgradeDbcVersionsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetUpgradeDbcVersionsParams() *GetUpgradeDbcVersionsParams {
-	return &GetUpgradeDbcVersionsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetUpgradeDbcVersionsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetUpgradeDbcVersionsParamsWithTimeout creates a new GetUpgradeDbcVersionsParams object
 // with the ability to set a timeout on a request.
 func NewGetUpgradeDbcVersionsParamsWithTimeout(timeout time.Duration) *GetUpgradeDbcVersionsParams {
 	return &GetUpgradeDbcVersionsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetUpgradeDbcVersionsParamsWithContext creates a new GetUpgradeDbcVersionsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetUpgradeDbcVersionsParams].
 func NewGetUpgradeDbcVersionsParamsWithContext(ctx context.Context) *GetUpgradeDbcVersionsParams {
 	return &GetUpgradeDbcVersionsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetUpgradeDbcVersionsParams struct {
 	// Input.
 	Input *models.GetUpgradeDbcVersionsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get upgrade dbc versions params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetUpgradeDbcVersionsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get upgrade dbc versions params
+// WithTimeout adds the timeout to the get upgrade dbc versions params.
 func (o *GetUpgradeDbcVersionsParams) WithTimeout(timeout time.Duration) *GetUpgradeDbcVersionsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get upgrade dbc versions params
+// SetTimeout adds the timeout to the get upgrade dbc versions params.
 func (o *GetUpgradeDbcVersionsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get upgrade dbc versions params
+// WithContext adds the context to the get upgrade dbc versions params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetUpgradeDbcVersionsParams].
 func (o *GetUpgradeDbcVersionsParams) WithContext(ctx context.Context) *GetUpgradeDbcVersionsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get upgrade dbc versions params
+// SetContext adds the context to the get upgrade dbc versions params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetUpgradeDbcVersionsParams].
 func (o *GetUpgradeDbcVersionsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get upgrade dbc versions params
+// WithHTTPClient adds the HTTPClient to the get upgrade dbc versions params.
 func (o *GetUpgradeDbcVersionsParams) WithHTTPClient(client *http.Client) *GetUpgradeDbcVersionsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get upgrade dbc versions params
+// SetHTTPClient adds the HTTPClient to the get upgrade dbc versions params.
 func (o *GetUpgradeDbcVersionsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get upgrade dbc versions params
+// WithInput adds the input to the get upgrade dbc versions params.
 func (o *GetUpgradeDbcVersionsParams) WithInput(input *models.GetUpgradeDbcVersionsRequest) *GetUpgradeDbcVersionsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get upgrade dbc versions params
+// SetInput adds the input to the get upgrade dbc versions params.
 func (o *GetUpgradeDbcVersionsParams) SetInput(input *models.GetUpgradeDbcVersionsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetUpgradeDbcVersionsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

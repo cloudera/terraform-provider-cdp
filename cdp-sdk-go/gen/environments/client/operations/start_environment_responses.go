@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // StartEnvironmentReader is a Reader for the StartEnvironment structure.
@@ -45,11 +44,9 @@ func NewStartEnvironmentOK() *StartEnvironmentOK {
 	return &StartEnvironmentOK{}
 }
 
-/*
-StartEnvironmentOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// StartEnvironmentOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type StartEnvironmentOK struct {
 	Payload *models.StartEnvironmentResponse
 }
@@ -117,11 +114,9 @@ func NewStartEnvironmentDefault(code int) *StartEnvironmentDefault {
 	}
 }
 
-/*
-StartEnvironmentDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// StartEnvironmentDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type StartEnvironmentDefault struct {
 	_statusCode int
 

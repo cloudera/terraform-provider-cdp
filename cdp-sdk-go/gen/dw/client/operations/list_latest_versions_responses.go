@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // ListLatestVersionsReader is a Reader for the ListLatestVersions structure.
@@ -45,11 +44,9 @@ func NewListLatestVersionsOK() *ListLatestVersionsOK {
 	return &ListLatestVersionsOK{}
 }
 
-/*
-ListLatestVersionsOK describes a response with status code 200, with default header values.
-
-successful operation
-*/
+// ListLatestVersionsOK describes a response with status code 200, with default header values.
+//
+// successful operation
 type ListLatestVersionsOK struct {
 	Payload *models.ListLatestVersionsResponse
 }
@@ -117,11 +114,9 @@ func NewListLatestVersionsDefault(code int) *ListLatestVersionsDefault {
 	}
 }
 
-/*
-ListLatestVersionsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListLatestVersionsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListLatestVersionsDefault struct {
 	_statusCode int
 

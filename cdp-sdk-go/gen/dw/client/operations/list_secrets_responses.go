@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // ListSecretsReader is a Reader for the ListSecrets structure.
@@ -45,11 +44,9 @@ func NewListSecretsOK() *ListSecretsOK {
 	return &ListSecretsOK{}
 }
 
-/*
-ListSecretsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListSecretsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListSecretsOK struct {
 	Payload *models.ListSecretsResponse
 }
@@ -117,11 +114,9 @@ func NewListSecretsDefault(code int) *ListSecretsDefault {
 	}
 }
 
-/*
-ListSecretsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListSecretsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListSecretsDefault struct {
 	_statusCode int
 

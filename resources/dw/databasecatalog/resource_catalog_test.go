@@ -97,6 +97,10 @@ type MockTransport struct {
 	runtime.ClientTransport
 }
 
+func (m MockTransport) SubmitContext(_ context.Context, _ *runtime.ClientOperation) (interface{}, error) {
+	return nil, nil
+}
+
 func NewDwApi(client *mocks.MockDwClientService) *dwDatabaseCatalogResource {
 	return &dwDatabaseCatalogResource{
 		client: &cdp.Client{
@@ -194,7 +198,7 @@ func (suite *DwDatabaseCatalogTestSuite) TestDwDatabaseCatalogSchema() {
 func (suite *DwDatabaseCatalogTestSuite) TestDwDatabaseCatalogCreate_Success() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("ListDbcs", mock.Anything).Return(suite.expectedListResponse, nil)
+	client.On("ListDbcsContext", mock.Anything, mock.Anything).Return(suite.expectedListResponse, nil)
 	dwApi := NewDwApi(client)
 
 	req := resource.CreateRequest{
@@ -229,7 +233,7 @@ func (suite *DwDatabaseCatalogTestSuite) TestDwDatabaseCatalogCreate_CreationErr
 			Dbcs: []*models.DbcSummary{},
 		},
 	}
-	client.On("ListDbcs", mock.Anything).Return(expectedListResponse, nil)
+	client.On("ListDbcsContext", mock.Anything, mock.Anything).Return(expectedListResponse, nil)
 	dwApi := NewDwApi(client)
 
 	req := resource.CreateRequest{
@@ -275,7 +279,7 @@ func (suite *DwDatabaseCatalogTestSuite) TestDwDatabaseCatalogCreate_TooManyDbcs
 			},
 		},
 	}
-	client.On("ListDbcs", mock.Anything).Return(expectedListResponse, nil)
+	client.On("ListDbcsContext", mock.Anything, mock.Anything).Return(expectedListResponse, nil)
 	dwApi := NewDwApi(client)
 
 	req := resource.CreateRequest{
@@ -328,7 +332,7 @@ func (suite *DwDatabaseCatalogTestSuite) TestDwDatabaseCatalogDeletion_Success()
 func (suite *DwDatabaseCatalogTestSuite) TestStateRefresh_Success() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("ListDbcs", mock.Anything).Return(
+	client.On("ListDbcsContext", mock.Anything, mock.Anything).Return(
 		&operations.ListDbcsOK{
 			Payload: &models.ListDbcsResponse{
 				Dbcs: []*models.DbcSummary{
@@ -357,7 +361,7 @@ func (suite *DwDatabaseCatalogTestSuite) TestStateRefresh_Success() {
 func (suite *DwDatabaseCatalogTestSuite) TestStateRefresh_FailureThresholdReached() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("ListDbcs", mock.Anything).Return(
+	client.On("ListDbcsContext", mock.Anything, mock.Anything).Return(
 		&operations.ListDbcsOK{}, fmt.Errorf("unknown error"))
 	dwApi := NewDwApi(client)
 

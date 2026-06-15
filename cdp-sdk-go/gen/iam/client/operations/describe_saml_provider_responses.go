@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // DescribeSamlProviderReader is a Reader for the DescribeSamlProvider structure.
@@ -45,11 +44,9 @@ func NewDescribeSamlProviderOK() *DescribeSamlProviderOK {
 	return &DescribeSamlProviderOK{}
 }
 
-/*
-DescribeSamlProviderOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DescribeSamlProviderOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DescribeSamlProviderOK struct {
 	Payload *models.DescribeSamlProviderResponse
 }
@@ -117,11 +114,9 @@ func NewDescribeSamlProviderDefault(code int) *DescribeSamlProviderDefault {
 	}
 }
 
-/*
-DescribeSamlProviderDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DescribeSamlProviderDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DescribeSamlProviderDefault struct {
 	_statusCode int
 

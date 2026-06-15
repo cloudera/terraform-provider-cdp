@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // AddUserToGroupReader is a Reader for the AddUserToGroup structure.
@@ -45,11 +44,9 @@ func NewAddUserToGroupOK() *AddUserToGroupOK {
 	return &AddUserToGroupOK{}
 }
 
-/*
-AddUserToGroupOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// AddUserToGroupOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type AddUserToGroupOK struct {
 	Payload models.AddUserToGroupResponse
 }
@@ -115,11 +112,9 @@ func NewAddUserToGroupDefault(code int) *AddUserToGroupDefault {
 	}
 }
 
-/*
-AddUserToGroupDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// AddUserToGroupDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type AddUserToGroupDefault struct {
 	_statusCode int
 

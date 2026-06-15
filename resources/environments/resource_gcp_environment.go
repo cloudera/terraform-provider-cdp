@@ -63,10 +63,10 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 
 	client := r.client.Environments
 
-	params := operations.NewCreateGCPEnvironmentParamsWithContext(ctx)
+	params := operations.NewCreateGCPEnvironmentParams()
 	params.WithInput(toGcpEnvironmentRequest(ctx, &data))
 
-	responseOk, err := client.Operations.CreateGCPEnvironment(params)
+	responseOk, err := client.Operations.CreateGCPEnvironmentContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create GCP Environment")
 		return

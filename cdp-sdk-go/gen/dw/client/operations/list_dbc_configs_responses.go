@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // ListDbcConfigsReader is a Reader for the ListDbcConfigs structure.
@@ -45,11 +44,9 @@ func NewListDbcConfigsOK() *ListDbcConfigsOK {
 	return &ListDbcConfigsOK{}
 }
 
-/*
-ListDbcConfigsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListDbcConfigsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListDbcConfigsOK struct {
 	Payload *models.ListDbcConfigsResponse
 }
@@ -117,11 +114,9 @@ func NewListDbcConfigsDefault(code int) *ListDbcConfigsDefault {
 	}
 }
 
-/*
-ListDbcConfigsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListDbcConfigsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListDbcConfigsDefault struct {
 	_statusCode int
 

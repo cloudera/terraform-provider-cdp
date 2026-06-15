@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // DeleteUserReader is a Reader for the DeleteUser structure.
@@ -45,11 +44,9 @@ func NewDeleteUserOK() *DeleteUserOK {
 	return &DeleteUserOK{}
 }
 
-/*
-DeleteUserOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteUserOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteUserOK struct {
 	Payload models.DeleteUserResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteUserDefault(code int) *DeleteUserDefault {
 	}
 }
 
-/*
-DeleteUserDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteUserDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteUserDefault struct {
 	_statusCode int
 

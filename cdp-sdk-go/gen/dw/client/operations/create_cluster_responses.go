@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // CreateClusterReader is a Reader for the CreateCluster structure.
@@ -45,11 +44,9 @@ func NewCreateClusterOK() *CreateClusterOK {
 	return &CreateClusterOK{}
 }
 
-/*
-CreateClusterOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateClusterOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateClusterOK struct {
 	Payload *models.CreateClusterResponse
 }
@@ -117,11 +114,9 @@ func NewCreateClusterDefault(code int) *CreateClusterDefault {
 	}
 }
 
-/*
-CreateClusterDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateClusterDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateClusterDefault struct {
 	_statusCode int
 

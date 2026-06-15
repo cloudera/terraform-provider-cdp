@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // NewListDatalakeDiagnosticsParams creates a new ListDatalakeDiagnosticsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListDatalakeDiagnosticsParams() *ListDatalakeDiagnosticsParams {
-	return &ListDatalakeDiagnosticsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListDatalakeDiagnosticsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListDatalakeDiagnosticsParamsWithTimeout creates a new ListDatalakeDiagnosticsParams object
 // with the ability to set a timeout on a request.
 func NewListDatalakeDiagnosticsParamsWithTimeout(timeout time.Duration) *ListDatalakeDiagnosticsParams {
 	return &ListDatalakeDiagnosticsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListDatalakeDiagnosticsParamsWithContext creates a new ListDatalakeDiagnosticsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakeDiagnosticsParams].
 func NewListDatalakeDiagnosticsParamsWithContext(ctx context.Context) *ListDatalakeDiagnosticsParams {
 	return &ListDatalakeDiagnosticsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListDatalakeDiagnosticsParams struct {
 	// Input.
 	Input *models.ListDatalakeDiagnosticsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list datalake diagnostics params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListDatalakeDiagnosticsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list datalake diagnostics params
+// WithTimeout adds the timeout to the list datalake diagnostics params.
 func (o *ListDatalakeDiagnosticsParams) WithTimeout(timeout time.Duration) *ListDatalakeDiagnosticsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list datalake diagnostics params
+// SetTimeout adds the timeout to the list datalake diagnostics params.
 func (o *ListDatalakeDiagnosticsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list datalake diagnostics params
+// WithContext adds the context to the list datalake diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakeDiagnosticsParams].
 func (o *ListDatalakeDiagnosticsParams) WithContext(ctx context.Context) *ListDatalakeDiagnosticsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list datalake diagnostics params
+// SetContext adds the context to the list datalake diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListDatalakeDiagnosticsParams].
 func (o *ListDatalakeDiagnosticsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list datalake diagnostics params
+// WithHTTPClient adds the HTTPClient to the list datalake diagnostics params.
 func (o *ListDatalakeDiagnosticsParams) WithHTTPClient(client *http.Client) *ListDatalakeDiagnosticsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list datalake diagnostics params
+// SetHTTPClient adds the HTTPClient to the list datalake diagnostics params.
 func (o *ListDatalakeDiagnosticsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list datalake diagnostics params
+// WithInput adds the input to the list datalake diagnostics params.
 func (o *ListDatalakeDiagnosticsParams) WithInput(input *models.ListDatalakeDiagnosticsRequest) *ListDatalakeDiagnosticsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list datalake diagnostics params
+// SetInput adds the input to the list datalake diagnostics params.
 func (o *ListDatalakeDiagnosticsParams) SetInput(input *models.ListDatalakeDiagnosticsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListDatalakeDiagnosticsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

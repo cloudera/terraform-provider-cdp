@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // Connector Information to use to connect to a database via some mechanism.
@@ -58,7 +59,7 @@ func (m *Connector) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Connector) validateConfiguration(formats strfmt.Registry) error {
-	if swag.IsZero(m.Configuration) { // not required
+	if typeutils.IsZero(m.Configuration) { // not required
 		return nil
 	}
 
@@ -81,7 +82,7 @@ func (m *Connector) validateConfiguration(formats strfmt.Registry) error {
 }
 
 func (m *Connector) validateDependencies(formats strfmt.Registry) error {
-	if swag.IsZero(m.Dependencies) { // not required
+	if typeutils.IsZero(m.Dependencies) { // not required
 		return nil
 	}
 
@@ -104,7 +105,7 @@ func (m *Connector) validateDependencies(formats strfmt.Registry) error {
 }
 
 func (m *Connector) validateKind(formats strfmt.Registry) error {
-	if swag.IsZero(m.Kind) { // not required
+	if typeutils.IsZero(m.Kind) { // not required
 		return nil
 	}
 
@@ -150,7 +151,7 @@ func (m *Connector) contextValidateConfiguration(ctx context.Context, formats st
 
 	if m.Configuration != nil {
 
-		if swag.IsZero(m.Configuration) { // not required
+		if typeutils.IsZero(m.Configuration) { // not required
 			return nil
 		}
 
@@ -175,7 +176,7 @@ func (m *Connector) contextValidateDependencies(ctx context.Context, formats str
 
 	if m.Dependencies != nil {
 
-		if swag.IsZero(m.Dependencies) { // not required
+		if typeutils.IsZero(m.Dependencies) { // not required
 			return nil
 		}
 
@@ -198,7 +199,7 @@ func (m *Connector) contextValidateDependencies(ctx context.Context, formats str
 
 func (m *Connector) contextValidateKind(ctx context.Context, formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Kind) { // not required
+	if typeutils.IsZero(m.Kind) { // not required
 		return nil
 	}
 
@@ -223,13 +224,13 @@ func (m *Connector) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *Connector) UnmarshalBinary(b []byte) error {
 	var res Connector
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

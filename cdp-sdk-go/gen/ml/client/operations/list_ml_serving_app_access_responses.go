@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // ListMlServingAppAccessReader is a Reader for the ListMlServingAppAccess structure.
@@ -45,11 +44,9 @@ func NewListMlServingAppAccessOK() *ListMlServingAppAccessOK {
 	return &ListMlServingAppAccessOK{}
 }
 
-/*
-ListMlServingAppAccessOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListMlServingAppAccessOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListMlServingAppAccessOK struct {
 	Payload *models.ListMlServingAppAccessResponse
 }
@@ -117,11 +114,9 @@ func NewListMlServingAppAccessDefault(code int) *ListMlServingAppAccessDefault {
 	}
 }
 
-/*
-ListMlServingAppAccessDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListMlServingAppAccessDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListMlServingAppAccessDefault struct {
 	_statusCode int
 

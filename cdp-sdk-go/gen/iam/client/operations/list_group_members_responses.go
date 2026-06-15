@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // ListGroupMembersReader is a Reader for the ListGroupMembers structure.
@@ -45,11 +44,9 @@ func NewListGroupMembersOK() *ListGroupMembersOK {
 	return &ListGroupMembersOK{}
 }
 
-/*
-ListGroupMembersOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListGroupMembersOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListGroupMembersOK struct {
 	Payload *models.ListGroupMembersResponse
 }
@@ -117,11 +114,9 @@ func NewListGroupMembersDefault(code int) *ListGroupMembersDefault {
 	}
 }
 
-/*
-ListGroupMembersDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListGroupMembersDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListGroupMembersDefault struct {
 	_statusCode int
 

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // DeleteBackupReader is a Reader for the DeleteBackup structure.
@@ -45,11 +44,9 @@ func NewDeleteBackupOK() *DeleteBackupOK {
 	return &DeleteBackupOK{}
 }
 
-/*
-DeleteBackupOK describes a response with status code 200, with default header values.
-
-Response object for Delete Backup command.
-*/
+// DeleteBackupOK describes a response with status code 200, with default header values.
+//
+// Response object for Delete Backup command.
 type DeleteBackupOK struct {
 	Payload models.DeleteBackupResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteBackupDefault(code int) *DeleteBackupDefault {
 	}
 }
 
-/*
-DeleteBackupDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteBackupDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteBackupDefault struct {
 	_statusCode int
 

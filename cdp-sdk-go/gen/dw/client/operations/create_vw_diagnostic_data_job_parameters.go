@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewCreateVwDiagnosticDataJobParams creates a new CreateVwDiagnosticDataJobParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateVwDiagnosticDataJobParams() *CreateVwDiagnosticDataJobParams {
-	return &CreateVwDiagnosticDataJobParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateVwDiagnosticDataJobParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateVwDiagnosticDataJobParamsWithTimeout creates a new CreateVwDiagnosticDataJobParams object
 // with the ability to set a timeout on a request.
 func NewCreateVwDiagnosticDataJobParamsWithTimeout(timeout time.Duration) *CreateVwDiagnosticDataJobParams {
 	return &CreateVwDiagnosticDataJobParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateVwDiagnosticDataJobParamsWithContext creates a new CreateVwDiagnosticDataJobParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateVwDiagnosticDataJobParams].
 func NewCreateVwDiagnosticDataJobParamsWithContext(ctx context.Context) *CreateVwDiagnosticDataJobParams {
 	return &CreateVwDiagnosticDataJobParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateVwDiagnosticDataJobParams struct {
 	// Input.
 	Input *models.CreateVwDiagnosticDataJobRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create vw diagnostic data job params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateVwDiagnosticDataJobParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create vw diagnostic data job params
+// WithTimeout adds the timeout to the create vw diagnostic data job params.
 func (o *CreateVwDiagnosticDataJobParams) WithTimeout(timeout time.Duration) *CreateVwDiagnosticDataJobParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create vw diagnostic data job params
+// SetTimeout adds the timeout to the create vw diagnostic data job params.
 func (o *CreateVwDiagnosticDataJobParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create vw diagnostic data job params
+// WithContext adds the context to the create vw diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateVwDiagnosticDataJobParams].
 func (o *CreateVwDiagnosticDataJobParams) WithContext(ctx context.Context) *CreateVwDiagnosticDataJobParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create vw diagnostic data job params
+// SetContext adds the context to the create vw diagnostic data job params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateVwDiagnosticDataJobParams].
 func (o *CreateVwDiagnosticDataJobParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create vw diagnostic data job params
+// WithHTTPClient adds the HTTPClient to the create vw diagnostic data job params.
 func (o *CreateVwDiagnosticDataJobParams) WithHTTPClient(client *http.Client) *CreateVwDiagnosticDataJobParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create vw diagnostic data job params
+// SetHTTPClient adds the HTTPClient to the create vw diagnostic data job params.
 func (o *CreateVwDiagnosticDataJobParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create vw diagnostic data job params
+// WithInput adds the input to the create vw diagnostic data job params.
 func (o *CreateVwDiagnosticDataJobParams) WithInput(input *models.CreateVwDiagnosticDataJobRequest) *CreateVwDiagnosticDataJobParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create vw diagnostic data job params
+// SetInput adds the input to the create vw diagnostic data job params.
 func (o *CreateVwDiagnosticDataJobParams) SetInput(input *models.CreateVwDiagnosticDataJobRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateVwDiagnosticDataJobParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

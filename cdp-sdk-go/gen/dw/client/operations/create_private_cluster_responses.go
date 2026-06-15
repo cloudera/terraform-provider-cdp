@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // CreatePrivateClusterReader is a Reader for the CreatePrivateCluster structure.
@@ -45,11 +44,9 @@ func NewCreatePrivateClusterOK() *CreatePrivateClusterOK {
 	return &CreatePrivateClusterOK{}
 }
 
-/*
-CreatePrivateClusterOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreatePrivateClusterOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreatePrivateClusterOK struct {
 	Payload *models.CreatePrivateClusterResponse
 }
@@ -117,11 +114,9 @@ func NewCreatePrivateClusterDefault(code int) *CreatePrivateClusterDefault {
 	}
 }
 
-/*
-CreatePrivateClusterDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreatePrivateClusterDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreatePrivateClusterDefault struct {
 	_statusCode int
 

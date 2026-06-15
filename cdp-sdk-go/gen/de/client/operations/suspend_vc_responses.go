@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // SuspendVcReader is a Reader for the SuspendVc structure.
@@ -45,11 +44,9 @@ func NewSuspendVcOK() *SuspendVcOK {
 	return &SuspendVcOK{}
 }
 
-/*
-SuspendVcOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SuspendVcOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SuspendVcOK struct {
 	Payload *models.SuspendVcResponse
 }
@@ -117,11 +114,9 @@ func NewSuspendVcDefault(code int) *SuspendVcDefault {
 	}
 }
 
-/*
-SuspendVcDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SuspendVcDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SuspendVcDefault struct {
 	_statusCode int
 

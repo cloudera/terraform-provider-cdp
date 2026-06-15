@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // UpdateConnectorReader is a Reader for the UpdateConnector structure.
@@ -45,11 +44,9 @@ func NewUpdateConnectorOK() *UpdateConnectorOK {
 	return &UpdateConnectorOK{}
 }
 
-/*
-UpdateConnectorOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateConnectorOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateConnectorOK struct {
 	Payload models.UpdateConnectorResponse
 }
@@ -115,11 +112,9 @@ func NewUpdateConnectorDefault(code int) *UpdateConnectorDefault {
 	}
 }
 
-/*
-UpdateConnectorDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateConnectorDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateConnectorDefault struct {
 	_statusCode int
 

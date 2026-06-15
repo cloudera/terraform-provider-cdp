@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewGetDefaultIdentityProviderParams creates a new GetDefaultIdentityProviderParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetDefaultIdentityProviderParams() *GetDefaultIdentityProviderParams {
-	return &GetDefaultIdentityProviderParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetDefaultIdentityProviderParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetDefaultIdentityProviderParamsWithTimeout creates a new GetDefaultIdentityProviderParams object
 // with the ability to set a timeout on a request.
 func NewGetDefaultIdentityProviderParamsWithTimeout(timeout time.Duration) *GetDefaultIdentityProviderParams {
 	return &GetDefaultIdentityProviderParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetDefaultIdentityProviderParamsWithContext creates a new GetDefaultIdentityProviderParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetDefaultIdentityProviderParams].
 func NewGetDefaultIdentityProviderParamsWithContext(ctx context.Context) *GetDefaultIdentityProviderParams {
 	return &GetDefaultIdentityProviderParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetDefaultIdentityProviderParams struct {
 	// Input.
 	Input models.GetDefaultIdentityProviderRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get default identity provider params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetDefaultIdentityProviderParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get default identity provider params
+// WithTimeout adds the timeout to the get default identity provider params.
 func (o *GetDefaultIdentityProviderParams) WithTimeout(timeout time.Duration) *GetDefaultIdentityProviderParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get default identity provider params
+// SetTimeout adds the timeout to the get default identity provider params.
 func (o *GetDefaultIdentityProviderParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get default identity provider params
+// WithContext adds the context to the get default identity provider params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetDefaultIdentityProviderParams].
 func (o *GetDefaultIdentityProviderParams) WithContext(ctx context.Context) *GetDefaultIdentityProviderParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get default identity provider params
+// SetContext adds the context to the get default identity provider params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetDefaultIdentityProviderParams].
 func (o *GetDefaultIdentityProviderParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get default identity provider params
+// WithHTTPClient adds the HTTPClient to the get default identity provider params.
 func (o *GetDefaultIdentityProviderParams) WithHTTPClient(client *http.Client) *GetDefaultIdentityProviderParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get default identity provider params
+// SetHTTPClient adds the HTTPClient to the get default identity provider params.
 func (o *GetDefaultIdentityProviderParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get default identity provider params
+// WithInput adds the input to the get default identity provider params.
 func (o *GetDefaultIdentityProviderParams) WithInput(input models.GetDefaultIdentityProviderRequest) *GetDefaultIdentityProviderParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get default identity provider params
+// SetInput adds the input to the get default identity provider params.
 func (o *GetDefaultIdentityProviderParams) SetInput(input models.GetDefaultIdentityProviderRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetDefaultIdentityProviderParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

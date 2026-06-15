@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -75,12 +76,12 @@ func (m *MachineUser) Validate(formats strfmt.Registry) error {
 }
 
 func (m *MachineUser) validateAzureCloudIdentities(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureCloudIdentities) { // not required
+	if typeutils.IsZero(m.AzureCloudIdentities) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.AzureCloudIdentities); i++ {
-		if swag.IsZero(m.AzureCloudIdentities[i]) { // not required
+		if typeutils.IsZero(m.AzureCloudIdentities[i]) { // not required
 			continue
 		}
 
@@ -136,7 +137,7 @@ func (m *MachineUser) validateMachineUserName(formats strfmt.Registry) error {
 }
 
 func (m *MachineUser) validateWorkloadPasswordDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.WorkloadPasswordDetails) { // not required
+	if typeutils.IsZero(m.WorkloadPasswordDetails) { // not required
 		return nil
 	}
 
@@ -182,7 +183,7 @@ func (m *MachineUser) contextValidateAzureCloudIdentities(ctx context.Context, f
 
 		if m.AzureCloudIdentities[i] != nil {
 
-			if swag.IsZero(m.AzureCloudIdentities[i]) { // not required
+			if typeutils.IsZero(m.AzureCloudIdentities[i]) { // not required
 				return nil
 			}
 
@@ -209,7 +210,7 @@ func (m *MachineUser) contextValidateWorkloadPasswordDetails(ctx context.Context
 
 	if m.WorkloadPasswordDetails != nil {
 
-		if swag.IsZero(m.WorkloadPasswordDetails) { // not required
+		if typeutils.IsZero(m.WorkloadPasswordDetails) { // not required
 			return nil
 		}
 
@@ -235,13 +236,13 @@ func (m *MachineUser) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *MachineUser) UnmarshalBinary(b []byte) error {
 	var res MachineUser
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

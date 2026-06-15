@@ -75,9 +75,9 @@ func (r *idBrokerMappingsResource) Create(ctx context.Context, req resource.Crea
 
 	client := r.client.Environments
 
-	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
+	params := operations.NewSetIDBrokerMappingsParams()
 	params.WithInput(toSetIDBrokerMappingsRequest(ctx, &state, &resp.Diagnostics))
-	responseOk, err := client.Operations.SetIDBrokerMappings(params)
+	responseOk, err := client.Operations.SetIDBrokerMappingsContext(ctx, params)
 	if err != nil {
 		if isSetIDBEnvNotFoundError(err) {
 			resp.Diagnostics.AddError(
@@ -117,11 +117,11 @@ func (r *idBrokerMappingsResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	params := operations.NewGetIDBrokerMappingsParamsWithContext(ctx)
+	params := operations.NewGetIDBrokerMappingsParams()
 	params.WithInput(&environmentsmodels.GetIDBrokerMappingsRequest{
 		EnvironmentName: state.EnvironmentName.ValueStringPointer(),
 	})
-	responseOk, err := client.Operations.GetIDBrokerMappings(params)
+	responseOk, err := client.Operations.GetIDBrokerMappingsContext(ctx, params)
 	if err != nil {
 		if envErr, ok := err.(*operations.GetIDBrokerMappingsDefault); ok {
 			if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
@@ -163,9 +163,9 @@ func (r *idBrokerMappingsResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
+	params := operations.NewSetIDBrokerMappingsParams()
 	params.WithInput(toSetIDBrokerMappingsRequest(ctx, &state, &resp.Diagnostics))
-	responseOk, err := client.Operations.SetIDBrokerMappings(params)
+	responseOk, err := client.Operations.SetIDBrokerMappingsContext(ctx, params)
 	if err != nil {
 		if isSetIDBEnvNotFoundError(err) {
 			resp.Diagnostics.AddError(
@@ -206,7 +206,7 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	params := operations.NewSetIDBrokerMappingsParamsWithContext(ctx)
+	params := operations.NewSetIDBrokerMappingsParams()
 	input := &environmentsmodels.SetIDBrokerMappingsRequest{}
 	input.EnvironmentName = state.EnvironmentName.ValueStringPointer()
 	input.DataAccessRole = state.DataAccessRole.ValueStringPointer()
@@ -214,7 +214,7 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 	input.Mappings = make([]*environmentsmodels.IDBrokerMappingRequest, 0)
 	input.SetEmptyMappings = &emptyMappings
 	params.WithInput(input)
-	_, err := client.Operations.SetIDBrokerMappings(params)
+	_, err := client.Operations.SetIDBrokerMappingsContext(ctx, params)
 	if err != nil {
 		if isSetIDBEnvNotFoundError(err) {
 			resp.Diagnostics.AddError(
@@ -229,11 +229,11 @@ func (r *idBrokerMappingsResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func queryEnvironment(ctx context.Context, client *client.Environments, envName string, state *idBrokerMappingsResourceModel) error {
-	envParams := operations.NewDescribeEnvironmentParamsWithContext(ctx)
+	envParams := operations.NewDescribeEnvironmentParams()
 	envParams.WithInput(&environmentsmodels.DescribeEnvironmentRequest{
 		EnvironmentName: &envName,
 	})
-	_, err := client.Operations.DescribeEnvironment(envParams)
+	_, err := client.Operations.DescribeEnvironmentContext(ctx, envParams)
 	return err
 }
 

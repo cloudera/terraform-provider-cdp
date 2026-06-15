@@ -190,6 +190,10 @@ type MockTransport struct {
 	runtime.ClientTransport
 }
 
+func (m MockTransport) SubmitContext(ctx context.Context, operation *runtime.ClientOperation) (interface{}, error) {
+	return nil, nil
+}
+
 func NewDwApi(client *mocks.MockDwClientService) *dwClusterResource {
 	return &dwClusterResource{
 		client: &cdp.Client{
@@ -384,8 +388,8 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_Success() {
 			}}}
 
 	client := new(mocks.MockDwClientService)
-	client.On("CreateAwsCluster", mock.Anything).Return(suite.expectedCreateResponse, nil)
-	client.On("DescribeCluster", mock.Anything).Return(expectedDescribeResponse, nil)
+	client.On("CreateAwsClusterContext", mock.Anything, mock.Anything).Return(suite.expectedCreateResponse, nil)
+	client.On("DescribeClusterContext", mock.Anything, mock.Anything).Return(expectedDescribeResponse, nil)
 	dwApi := NewDwApi(client)
 
 	req := resource.CreateRequest{
@@ -415,8 +419,8 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_Success() {
 func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_CreationError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("CreateAwsCluster", mock.Anything).Return(&operations.CreateAwsClusterOK{}, fmt.Errorf("create failed"))
-	client.On("DescribeCluster", mock.Anything).Return(&operations.DescribeClusterOK{}, nil)
+	client.On("CreateAwsClusterContext", mock.Anything, mock.Anything).Return(&operations.CreateAwsClusterOK{}, fmt.Errorf("create failed"))
+	client.On("DescribeClusterContext", mock.Anything, mock.Anything).Return(&operations.DescribeClusterOK{}, nil)
 	dwApi := NewDwApi(client)
 
 	req := resource.CreateRequest{
@@ -444,8 +448,8 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_CreationError() {
 func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_DescribeError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("CreateAwsCluster", mock.Anything).Return(suite.expectedCreateResponse, nil)
-	client.On("DescribeCluster", mock.Anything).Return(&operations.DescribeClusterOK{}, fmt.Errorf("describe failed"))
+	client.On("CreateAwsClusterContext", mock.Anything, mock.Anything).Return(suite.expectedCreateResponse, nil)
+	client.On("DescribeClusterContext", mock.Anything, mock.Anything).Return(&operations.DescribeClusterOK{}, fmt.Errorf("describe failed"))
 	dwApi := NewDwApi(client)
 
 	req := resource.CreateRequest{
@@ -473,7 +477,7 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_DescribeError() {
 func (suite *DwClusterTestSuite) TestDwAwsClusterDeletion_Success() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DeleteCluster", mock.Anything).Return(&operations.DeleteClusterOK{}, nil)
+	client.On("DeleteClusterContext", mock.Anything, mock.Anything).Return(&operations.DeleteClusterOK{}, nil)
 	dwApi := NewDwApi(client)
 
 	req := resource.DeleteRequest{
@@ -493,7 +497,7 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterDeletion_Success() {
 func (suite *DwClusterTestSuite) TestDwAwsClusterDeletion_ReturnsError() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DeleteCluster", mock.Anything).Return(&operations.DeleteClusterOK{}, fmt.Errorf("delete failed"))
+	client.On("DeleteClusterContext", mock.Anything, mock.Anything).Return(&operations.DeleteClusterOK{}, fmt.Errorf("delete failed"))
 	dwApi := NewDwApi(client)
 
 	req := resource.DeleteRequest{
@@ -515,7 +519,7 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterDeletion_ReturnsError() {
 func (suite *DwClusterTestSuite) TestStateRefresh_Success() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DescribeCluster", mock.Anything).Return(
+	client.On("DescribeClusterContext", mock.Anything, mock.Anything).Return(
 		&operations.DescribeClusterOK{
 			Payload: &models.DescribeClusterResponse{
 				Cluster: &models.ClusterSummaryResponse{
@@ -540,7 +544,7 @@ func (suite *DwClusterTestSuite) TestStateRefresh_Success() {
 func (suite *DwClusterTestSuite) TestStateRefresh_FailureThresholdReached() {
 	ctx := context.TODO()
 	client := new(mocks.MockDwClientService)
-	client.On("DescribeCluster", mock.Anything).Return(
+	client.On("DescribeClusterContext", mock.Anything, mock.Anything).Return(
 		&operations.DescribeClusterOK{}, fmt.Errorf("unknown error"))
 	dwApi := NewDwApi(client)
 

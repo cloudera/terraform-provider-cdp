@@ -70,12 +70,12 @@ func testAccCheckIamMachineUserExists(resourceName string, mu *models.MachineUse
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
 
-		params := operations.NewListMachineUsersParamsWithContext(context.TODO())
+		params := operations.NewListMachineUsersParams()
 		params.WithInput(&models.ListMachineUsersRequest{
 			MachineUserNames: []string{rs.Primary.ID},
 		})
 
-		responseOk, err := cdpClient.Iam.Operations.ListMachineUsers(params)
+		responseOk, err := cdpClient.Iam.Operations.ListMachineUsersContext(context.TODO(), params)
 		if err != nil {
 			return nil
 		}
@@ -109,12 +109,12 @@ func testAccCheckIamMachineUserDestroy(s *terraform.State) error {
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
 
-		params := operations.NewListMachineUsersParamsWithContext(context.TODO())
+		params := operations.NewListMachineUsersParams()
 		params.WithInput(&models.ListMachineUsersRequest{
 			MachineUserNames: []string{rs.Primary.ID},
 		})
 
-		responseOk, err := cdpClient.Iam.Operations.ListMachineUsers(params)
+		responseOk, err := cdpClient.Iam.Operations.ListMachineUsersContext(context.TODO(), params)
 		if err != nil {
 			return nil
 		}

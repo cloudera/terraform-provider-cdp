@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // RemoveCoprocessorReader is a Reader for the RemoveCoprocessor structure.
@@ -45,11 +44,9 @@ func NewRemoveCoprocessorOK() *RemoveCoprocessorOK {
 	return &RemoveCoprocessorOK{}
 }
 
-/*
-RemoveCoprocessorOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RemoveCoprocessorOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RemoveCoprocessorOK struct {
 	Payload *models.RemoveCoprocessorResponse
 }
@@ -117,11 +114,9 @@ func NewRemoveCoprocessorDefault(code int) *RemoveCoprocessorDefault {
 	}
 }
 
-/*
-RemoveCoprocessorDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RemoveCoprocessorDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RemoveCoprocessorDefault struct {
 	_statusCode int
 

@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -70,7 +71,7 @@ func (m *UpdateClusterRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *UpdateClusterRequest) validateAwsUpdate(formats strfmt.Registry) error {
-	if swag.IsZero(m.AwsUpdate) { // not required
+	if typeutils.IsZero(m.AwsUpdate) { // not required
 		return nil
 	}
 
@@ -93,7 +94,7 @@ func (m *UpdateClusterRequest) validateAwsUpdate(formats strfmt.Registry) error 
 }
 
 func (m *UpdateClusterRequest) validateAzureUpdate(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureUpdate) { // not required
+	if typeutils.IsZero(m.AzureUpdate) { // not required
 		return nil
 	}
 
@@ -125,7 +126,7 @@ func (m *UpdateClusterRequest) validateClusterID(formats strfmt.Registry) error 
 }
 
 func (m *UpdateClusterRequest) validateObservabilityConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.ObservabilityConfig) { // not required
+	if typeutils.IsZero(m.ObservabilityConfig) { // not required
 		return nil
 	}
 
@@ -173,7 +174,7 @@ func (m *UpdateClusterRequest) contextValidateAwsUpdate(ctx context.Context, for
 
 	if m.AwsUpdate != nil {
 
-		if swag.IsZero(m.AwsUpdate) { // not required
+		if typeutils.IsZero(m.AwsUpdate) { // not required
 			return nil
 		}
 
@@ -198,7 +199,7 @@ func (m *UpdateClusterRequest) contextValidateAzureUpdate(ctx context.Context, f
 
 	if m.AzureUpdate != nil {
 
-		if swag.IsZero(m.AzureUpdate) { // not required
+		if typeutils.IsZero(m.AzureUpdate) { // not required
 			return nil
 		}
 
@@ -223,7 +224,7 @@ func (m *UpdateClusterRequest) contextValidateObservabilityConfig(ctx context.Co
 
 	if m.ObservabilityConfig != nil {
 
-		if swag.IsZero(m.ObservabilityConfig) { // not required
+		if typeutils.IsZero(m.ObservabilityConfig) { // not required
 			return nil
 		}
 
@@ -249,13 +250,13 @@ func (m *UpdateClusterRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateClusterRequest) UnmarshalBinary(b []byte) error {
 	var res UpdateClusterRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -286,7 +287,7 @@ func (m *UpdateClusterRequestAwsUpdate) Validate(formats strfmt.Registry) error 
 }
 
 func (m *UpdateClusterRequestAwsUpdate) validateExternalBuckets(formats strfmt.Registry) error {
-	if swag.IsZero(m.ExternalBuckets) { // not required
+	if typeutils.IsZero(m.ExternalBuckets) { // not required
 		return nil
 	}
 
@@ -349,13 +350,13 @@ func (m *UpdateClusterRequestAwsUpdate) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateClusterRequestAwsUpdate) UnmarshalBinary(b []byte) error {
 	var res UpdateClusterRequestAwsUpdate
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res
@@ -386,13 +387,13 @@ func (m *UpdateClusterRequestAzureUpdate) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateClusterRequestAzureUpdate) UnmarshalBinary(b []byte) error {
 	var res UpdateClusterRequestAzureUpdate
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

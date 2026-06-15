@@ -172,12 +172,12 @@ func SetCatalogIfChanged(ctx context.Context, planFreeIpa types.Object, stateFre
 	catalog := planDetails.Catalog.ValueString()
 	tflog.Info(ctx, fmt.Sprintf("Catalog change detected for environment '%s', calling SetCatalog.", environmentName))
 
-	params := operations.NewSetCatalogParamsWithContext(ctx)
+	params := operations.NewSetCatalogParams()
 	params.WithInput(&environmentsmodels.SetCatalogRequest{
 		Catalog:     &catalog,
 		Environment: &environmentName,
 	})
-	_, err := client.Operations.SetCatalog(params)
+	_, err := client.Operations.SetCatalogContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, diags, "set catalog")
 		return

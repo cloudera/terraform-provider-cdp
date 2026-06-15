@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // ListServicePrincipalCloudIdentitiesReader is a Reader for the ListServicePrincipalCloudIdentities structure.
@@ -45,11 +44,9 @@ func NewListServicePrincipalCloudIdentitiesOK() *ListServicePrincipalCloudIdenti
 	return &ListServicePrincipalCloudIdentitiesOK{}
 }
 
-/*
-ListServicePrincipalCloudIdentitiesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListServicePrincipalCloudIdentitiesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListServicePrincipalCloudIdentitiesOK struct {
 	Payload *models.ListServicePrincipalCloudIdentitiesResponse
 }
@@ -117,11 +114,9 @@ func NewListServicePrincipalCloudIdentitiesDefault(code int) *ListServicePrincip
 	}
 }
 
-/*
-ListServicePrincipalCloudIdentitiesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListServicePrincipalCloudIdentitiesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListServicePrincipalCloudIdentitiesDefault struct {
 	_statusCode int
 

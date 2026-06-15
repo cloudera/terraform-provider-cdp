@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // RegisterSecretResponse Response object for registering secret.
@@ -35,7 +36,7 @@ func (m *RegisterSecretResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *RegisterSecretResponse) validateResult(formats strfmt.Registry) error {
-	if swag.IsZero(m.Result) { // not required
+	if typeutils.IsZero(m.Result) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *RegisterSecretResponse) contextValidateResult(ctx context.Context, form
 
 	if m.Result != nil {
 
-		if swag.IsZero(m.Result) { // not required
+		if typeutils.IsZero(m.Result) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *RegisterSecretResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *RegisterSecretResponse) UnmarshalBinary(b []byte) error {
 	var res RegisterSecretResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

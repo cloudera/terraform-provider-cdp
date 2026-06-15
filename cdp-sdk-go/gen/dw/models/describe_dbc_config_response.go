@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DescribeDbcConfigResponse Response object for the describeDbcConfig method.
@@ -35,7 +36,7 @@ func (m *DescribeDbcConfigResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *DescribeDbcConfigResponse) validateConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.Config) { // not required
+	if typeutils.IsZero(m.Config) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *DescribeDbcConfigResponse) contextValidateConfig(ctx context.Context, f
 
 	if m.Config != nil {
 
-		if swag.IsZero(m.Config) { // not required
+		if typeutils.IsZero(m.Config) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *DescribeDbcConfigResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeDbcConfigResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeDbcConfigResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

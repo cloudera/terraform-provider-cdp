@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // DescribeDbcDiagnosticDataJobResponse Response object for the describeDbcDiagnosticDataJobRequest method.
@@ -35,7 +36,7 @@ func (m *DescribeDbcDiagnosticDataJobResponse) Validate(formats strfmt.Registry)
 }
 
 func (m *DescribeDbcDiagnosticDataJobResponse) validateJob(formats strfmt.Registry) error {
-	if swag.IsZero(m.Job) { // not required
+	if typeutils.IsZero(m.Job) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *DescribeDbcDiagnosticDataJobResponse) contextValidateJob(ctx context.Co
 
 	if m.Job != nil {
 
-		if swag.IsZero(m.Job) { // not required
+		if typeutils.IsZero(m.Job) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *DescribeDbcDiagnosticDataJobResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *DescribeDbcDiagnosticDataJobResponse) UnmarshalBinary(b []byte) error {
 	var res DescribeDbcDiagnosticDataJobResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

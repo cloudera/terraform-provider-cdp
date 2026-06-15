@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // RemoveMachineUserFromGroupReader is a Reader for the RemoveMachineUserFromGroup structure.
@@ -45,11 +44,9 @@ func NewRemoveMachineUserFromGroupOK() *RemoveMachineUserFromGroupOK {
 	return &RemoveMachineUserFromGroupOK{}
 }
 
-/*
-RemoveMachineUserFromGroupOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RemoveMachineUserFromGroupOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RemoveMachineUserFromGroupOK struct {
 	Payload models.RemoveMachineUserFromGroupResponse
 }
@@ -115,11 +112,9 @@ func NewRemoveMachineUserFromGroupDefault(code int) *RemoveMachineUserFromGroupD
 	}
 }
 
-/*
-RemoveMachineUserFromGroupDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RemoveMachineUserFromGroupDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RemoveMachineUserFromGroupDefault struct {
 	_statusCode int
 

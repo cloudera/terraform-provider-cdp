@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // UnsetWorkloadPasswordMinLifetimeReader is a Reader for the UnsetWorkloadPasswordMinLifetime structure.
@@ -45,11 +44,9 @@ func NewUnsetWorkloadPasswordMinLifetimeOK() *UnsetWorkloadPasswordMinLifetimeOK
 	return &UnsetWorkloadPasswordMinLifetimeOK{}
 }
 
-/*
-UnsetWorkloadPasswordMinLifetimeOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UnsetWorkloadPasswordMinLifetimeOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UnsetWorkloadPasswordMinLifetimeOK struct {
 	Payload models.UnsetWorkloadPasswordMinLifetimeResponse
 }
@@ -115,11 +112,9 @@ func NewUnsetWorkloadPasswordMinLifetimeDefault(code int) *UnsetWorkloadPassword
 	}
 }
 
-/*
-UnsetWorkloadPasswordMinLifetimeDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UnsetWorkloadPasswordMinLifetimeDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UnsetWorkloadPasswordMinLifetimeDefault struct {
 	_statusCode int
 

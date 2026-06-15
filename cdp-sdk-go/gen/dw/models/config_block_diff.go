@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // ConfigBlockDiff Differences between two ConfigBlocks.
@@ -38,7 +39,7 @@ func (m *ConfigBlockDiff) Validate(formats strfmt.Registry) error {
 }
 
 func (m *ConfigBlockDiff) validateContentDiff(formats strfmt.Registry) error {
-	if swag.IsZero(m.ContentDiff) { // not required
+	if typeutils.IsZero(m.ContentDiff) { // not required
 		return nil
 	}
 
@@ -78,7 +79,7 @@ func (m *ConfigBlockDiff) contextValidateContentDiff(ctx context.Context, format
 
 	if m.ContentDiff != nil {
 
-		if swag.IsZero(m.ContentDiff) { // not required
+		if typeutils.IsZero(m.ContentDiff) { // not required
 			return nil
 		}
 
@@ -104,13 +105,13 @@ func (m *ConfigBlockDiff) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ConfigBlockDiff) UnmarshalBinary(b []byte) error {
 	var res ConfigBlockDiff
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

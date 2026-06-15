@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -59,7 +60,7 @@ func (m *RepairDatalakeRequest) validateDatalakeName(formats strfmt.Registry) er
 }
 
 func (m *RepairDatalakeRequest) validateInstances(formats strfmt.Registry) error {
-	if swag.IsZero(m.Instances) { // not required
+	if typeutils.IsZero(m.Instances) { // not required
 		return nil
 	}
 
@@ -99,7 +100,7 @@ func (m *RepairDatalakeRequest) contextValidateInstances(ctx context.Context, fo
 
 	if m.Instances != nil {
 
-		if swag.IsZero(m.Instances) { // not required
+		if typeutils.IsZero(m.Instances) { // not required
 			return nil
 		}
 
@@ -125,13 +126,13 @@ func (m *RepairDatalakeRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *RepairDatalakeRequest) UnmarshalBinary(b []byte) error {
 	var res RepairDatalakeRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -3,17 +3,21 @@
 package operations
 
 import (
+	"context"
+	"time"
+
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operations API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
+func New(transport runtime.ContextualTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
 // New creates a new operations API client with basic auth credentials.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -27,6 +31,7 @@ func NewClientWithBasicAuth(host, basePath, scheme, user, password string) Clien
 }
 
 // New creates a new operations API client with a bearer token for authentication.
+//
 // It takes the following parameters:
 // - host: http host (github.com).
 // - basePath: any base path for the API client ("/v1", "/v3").
@@ -38,82 +43,201 @@ func NewClientWithBearerToken(host, basePath, scheme, bearerToken string) Client
 	return &Client{transport: transport, formats: strfmt.Default}
 }
 
-/*
-Client for operations API
-*/
+// Client for operations API.
 type Client struct {
-	transport runtime.ClientTransport
+	transport runtime.ContextualTransport
 	formats   strfmt.Registry
 }
 
 // ClientOption may be used to customize the behavior of Client methods.
 type ClientOption func(*runtime.ClientOperation)
 
-// ClientService is the interface for Client methods
+// ClientService is the interface for Client methods.
 type ClientService interface {
+
+	// CancelBackup cancel cloudera data engineering c d e service backup.
 	CancelBackup(params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error)
 
+	// CancelBackupContext cancel cloudera data engineering c d e service backup.
+	CancelBackupContext(ctx context.Context, params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error)
+
+	// CreateBackup backup cloudera data engineering c d e service.
 	CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error)
 
+	// CreateBackupContext backup cloudera data engineering c d e service.
+	CreateBackupContext(ctx context.Context, params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error)
+
+	// CreateVc create virtual cluster.
 	CreateVc(params *CreateVcParams, opts ...ClientOption) (*CreateVcOK, error)
 
+	// CreateVcContext create virtual cluster.
+	CreateVcContext(ctx context.Context, params *CreateVcParams, opts ...ClientOption) (*CreateVcOK, error)
+
+	// DeleteBackup delete cloudera data engineering c d e service backup.
 	DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
 
+	// DeleteBackupContext delete cloudera data engineering c d e service backup.
+	DeleteBackupContext(ctx context.Context, params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error)
+
+	// DeleteVc delete virtual cluster.
 	DeleteVc(params *DeleteVcParams, opts ...ClientOption) (*DeleteVcOK, error)
 
+	// DeleteVcContext delete virtual cluster.
+	DeleteVcContext(ctx context.Context, params *DeleteVcParams, opts ...ClientOption) (*DeleteVcOK, error)
+
+	// DescribeBackup describe cloudera data engineering c d e service backup.
 	DescribeBackup(params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error)
 
+	// DescribeBackupContext describe cloudera data engineering c d e service backup.
+	DescribeBackupContext(ctx context.Context, params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error)
+
+	// DescribeService describe cloudera data engineering c d e service.
 	DescribeService(params *DescribeServiceParams, opts ...ClientOption) (*DescribeServiceOK, error)
 
+	// DescribeServiceContext describe cloudera data engineering c d e service.
+	DescribeServiceContext(ctx context.Context, params *DescribeServiceParams, opts ...ClientOption) (*DescribeServiceOK, error)
+
+	// DescribeVc describe virtual cluster.
 	DescribeVc(params *DescribeVcParams, opts ...ClientOption) (*DescribeVcOK, error)
 
+	// DescribeVcContext describe virtual cluster.
+	DescribeVcContext(ctx context.Context, params *DescribeVcParams, opts ...ClientOption) (*DescribeVcOK, error)
+
+	// DisableService disable cloudera data engineering c d e service.
 	DisableService(params *DisableServiceParams, opts ...ClientOption) (*DisableServiceOK, error)
 
+	// DisableServiceContext disable cloudera data engineering c d e service.
+	DisableServiceContext(ctx context.Context, params *DisableServiceParams, opts ...ClientOption) (*DisableServiceOK, error)
+
+	// EnableService enable cloudera data engineering c d e service.
 	EnableService(params *EnableServiceParams, opts ...ClientOption) (*EnableServiceOK, error)
 
+	// EnableServiceContext enable cloudera data engineering c d e service.
+	EnableServiceContext(ctx context.Context, params *EnableServiceParams, opts ...ClientOption) (*EnableServiceOK, error)
+
+	// GetBackupLogs retrieve cloudera data engineering c d e service backup logs.
 	GetBackupLogs(params *GetBackupLogsParams, opts ...ClientOption) (*GetBackupLogsOK, error)
 
+	// GetBackupLogsContext retrieve cloudera data engineering c d e service backup logs.
+	GetBackupLogsContext(ctx context.Context, params *GetBackupLogsParams, opts ...ClientOption) (*GetBackupLogsOK, error)
+
+	// GetKubeconfig get kubeconfig for the c d e service.
 	GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error)
 
+	// GetKubeconfigContext get kubeconfig for the c d e service.
+	GetKubeconfigContext(ctx context.Context, params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error)
+
+	// GetServiceInitLogs retrieve cloudera data engineering c d e service initialization logs.
 	GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...ClientOption) (*GetServiceInitLogsOK, error)
 
+	// GetServiceInitLogsContext retrieve cloudera data engineering c d e service initialization logs.
+	GetServiceInitLogsContext(ctx context.Context, params *GetServiceInitLogsParams, opts ...ClientOption) (*GetServiceInitLogsOK, error)
+
+	// GetSuspendResumeStatus get c d e service suspend resume status.
 	GetSuspendResumeStatus(params *GetSuspendResumeStatusParams, opts ...ClientOption) (*GetSuspendResumeStatusOK, error)
 
+	// GetSuspendResumeStatusContext get c d e service suspend resume status.
+	GetSuspendResumeStatusContext(ctx context.Context, params *GetSuspendResumeStatusParams, opts ...ClientOption) (*GetSuspendResumeStatusOK, error)
+
+	// GetUpgradeStatus get c d e service upgrade status.
 	GetUpgradeStatus(params *GetUpgradeStatusParams, opts ...ClientOption) (*GetUpgradeStatusOK, error)
 
+	// GetUpgradeStatusContext get c d e service upgrade status.
+	GetUpgradeStatusContext(ctx context.Context, params *GetUpgradeStatusParams, opts ...ClientOption) (*GetUpgradeStatusOK, error)
+
+	// ListBackups list cloudera data engineering c d e service backups.
 	ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error)
 
+	// ListBackupsContext list cloudera data engineering c d e service backups.
+	ListBackupsContext(ctx context.Context, params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error)
+
+	// ListServices list cloudera data engineering c d e services.
 	ListServices(params *ListServicesParams, opts ...ClientOption) (*ListServicesOK, error)
 
+	// ListServicesContext list cloudera data engineering c d e services.
+	ListServicesContext(ctx context.Context, params *ListServicesParams, opts ...ClientOption) (*ListServicesOK, error)
+
+	// ListVcs list virtual clusters.
 	ListVcs(params *ListVcsParams, opts ...ClientOption) (*ListVcsOK, error)
 
+	// ListVcsContext list virtual clusters.
+	ListVcsContext(ctx context.Context, params *ListVcsParams, opts ...ClientOption) (*ListVcsOK, error)
+
+	// RestoreService restore cloudera data engineering c d e service.
 	RestoreService(params *RestoreServiceParams, opts ...ClientOption) (*RestoreServiceOK, error)
 
+	// RestoreServiceContext restore cloudera data engineering c d e service.
+	RestoreServiceContext(ctx context.Context, params *RestoreServiceParams, opts ...ClientOption) (*RestoreServiceOK, error)
+
+	// ResumeVc initiates resume on the requested v c.
 	ResumeVc(params *ResumeVcParams, opts ...ClientOption) (*ResumeVcOK, error)
 
+	// ResumeVcContext initiates resume on the requested v c.
+	ResumeVcContext(ctx context.Context, params *ResumeVcParams, opts ...ClientOption) (*ResumeVcOK, error)
+
+	// SuspendResumeService trigger a particular step of the suspend resume process.
 	SuspendResumeService(params *SuspendResumeServiceParams, opts ...ClientOption) (*SuspendResumeServiceOK, error)
 
+	// SuspendResumeServiceContext trigger a particular step of the suspend resume process.
+	SuspendResumeServiceContext(ctx context.Context, params *SuspendResumeServiceParams, opts ...ClientOption) (*SuspendResumeServiceOK, error)
+
+	// SuspendVc initiates suspend on the requested v c.
 	SuspendVc(params *SuspendVcParams, opts ...ClientOption) (*SuspendVcOK, error)
 
+	// SuspendVcContext initiates suspend on the requested v c.
+	SuspendVcContext(ctx context.Context, params *SuspendVcParams, opts ...ClientOption) (*SuspendVcOK, error)
+
+	// UpdateService update cloudera data engineering c d e service.
 	UpdateService(params *UpdateServiceParams, opts ...ClientOption) (*UpdateServiceOK, error)
 
+	// UpdateServiceContext update cloudera data engineering c d e service.
+	UpdateServiceContext(ctx context.Context, params *UpdateServiceParams, opts ...ClientOption) (*UpdateServiceOK, error)
+
+	// UpdateVc update cloudera data engineering c d e virtual cluster.
 	UpdateVc(params *UpdateVcParams, opts ...ClientOption) (*UpdateVcOK, error)
 
+	// UpdateVcContext update cloudera data engineering c d e virtual cluster.
+	UpdateVcContext(ctx context.Context, params *UpdateVcParams, opts ...ClientOption) (*UpdateVcOK, error)
+
+	// UpgradeService trigger a particular step prepare backup upgrade resume of the upgrade framework.
 	UpgradeService(params *UpgradeServiceParams, opts ...ClientOption) (*UpgradeServiceOK, error)
 
-	SetTransport(transport runtime.ClientTransport)
+	// UpgradeServiceContext trigger a particular step prepare backup upgrade resume of the upgrade framework.
+	UpgradeServiceContext(ctx context.Context, params *UpgradeServiceParams, opts ...ClientOption) (*UpgradeServiceOK, error)
+
+	SetTransport(transport runtime.ContextualTransport)
 }
 
-/*
-CancelBackup cancels cloudera data engineering c d e service backup
-
-Cancel a currently running backup operation using the associated backup ID. The operation must be in a 'pending' state.
-*/
+// CancelBackup cancels cloudera data engineering c d e service backup.
+//
+// Cancel a currently running backup operation using the associated backup ID. The operation must be in a 'pending' state..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CancelBackupContext] instead.
 func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CancelBackupContext(ctx, params, opts...)
+}
+
+// CancelBackupContext cancels cloudera data engineering c d e service backup.
+//
+// Cancel a currently running backup operation using the associated backup ID. The operation must be in a 'pending' state..
+//
+// Do not use the deprecated [CancelBackupParams.Context] with this method: it would be ignored.
+func (a *Client) CancelBackupContext(ctx context.Context, params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCancelBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "cancelBackup",
 		Method:             "POST",
@@ -123,13 +247,14 @@ func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CancelBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -148,16 +273,36 @@ func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CreateBackup backups cloudera data engineering c d e service
-
-Initiates service backup and returns a backup ID, which can be used for log retrieval, restoration, deletion, and backup cancellation. Service backup includes the definition of the Service and its Virtual Clusters along with Virtual Clusters contents (jobs, resources, and credentials).
-*/
+// CreateBackup backups cloudera data engineering c d e service.
+//
+// Initiates service backup and returns a backup ID, which can be used for log retrieval, restoration, deletion, and backup cancellation. Service backup includes the definition of the Service and its Virtual Clusters along with Virtual Clusters contents (jobs, resources, and credentials)..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateBackupContext] instead.
 func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateBackupContext(ctx, params, opts...)
+}
+
+// CreateBackupContext backups cloudera data engineering c d e service.
+//
+// Initiates service backup and returns a backup ID, which can be used for log retrieval, restoration, deletion, and backup cancellation. Service backup includes the definition of the Service and its Virtual Clusters along with Virtual Clusters contents (jobs, resources, and credentials)..
+//
+// Do not use the deprecated [CreateBackupParams.Context] with this method: it would be ignored.
+func (a *Client) CreateBackupContext(ctx context.Context, params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createBackup",
 		Method:             "POST",
@@ -167,13 +312,14 @@ func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -192,16 +338,36 @@ func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-CreateVc creates virtual cluster
-
-Creates a virtual cluster and returns creation response.
-*/
+// CreateVc creates virtual cluster.
+//
+// Creates a virtual cluster and returns creation response..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateVcContext] instead.
 func (a *Client) CreateVc(params *CreateVcParams, opts ...ClientOption) (*CreateVcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateVcContext(ctx, params, opts...)
+}
+
+// CreateVcContext creates virtual cluster.
+//
+// Creates a virtual cluster and returns creation response..
+//
+// Do not use the deprecated [CreateVcParams.Context] with this method: it would be ignored.
+func (a *Client) CreateVcContext(ctx context.Context, params *CreateVcParams, opts ...ClientOption) (*CreateVcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewCreateVcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "createVc",
 		Method:             "POST",
@@ -211,13 +377,14 @@ func (a *Client) CreateVc(params *CreateVcParams, opts ...ClientOption) (*Create
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &CreateVcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -236,16 +403,36 @@ func (a *Client) CreateVc(params *CreateVcParams, opts ...ClientOption) (*Create
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteBackup deletes cloudera data engineering c d e service backup
-
-Delete a backup using the associated backup ID.
-*/
+// DeleteBackup deletes cloudera data engineering c d e service backup.
+//
+// Delete a backup using the associated backup ID..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteBackupContext] instead.
 func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteBackupContext(ctx, params, opts...)
+}
+
+// DeleteBackupContext deletes cloudera data engineering c d e service backup.
+//
+// Delete a backup using the associated backup ID..
+//
+// Do not use the deprecated [DeleteBackupParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteBackupContext(ctx context.Context, params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteBackup",
 		Method:             "POST",
@@ -255,13 +442,14 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -280,16 +468,36 @@ func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DeleteVc deletes virtual cluster
-
-Deletes a virtual cluster and returns deletion response.
-*/
+// DeleteVc deletes virtual cluster.
+//
+// Deletes a virtual cluster and returns deletion response..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DeleteVcContext] instead.
 func (a *Client) DeleteVc(params *DeleteVcParams, opts ...ClientOption) (*DeleteVcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DeleteVcContext(ctx, params, opts...)
+}
+
+// DeleteVcContext deletes virtual cluster.
+//
+// Deletes a virtual cluster and returns deletion response..
+//
+// Do not use the deprecated [DeleteVcParams.Context] with this method: it would be ignored.
+func (a *Client) DeleteVcContext(ctx context.Context, params *DeleteVcParams, opts ...ClientOption) (*DeleteVcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDeleteVcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "deleteVc",
 		Method:             "POST",
@@ -299,13 +507,14 @@ func (a *Client) DeleteVc(params *DeleteVcParams, opts ...ClientOption) (*Delete
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DeleteVcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -324,16 +533,36 @@ func (a *Client) DeleteVc(params *DeleteVcParams, opts ...ClientOption) (*Delete
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DescribeBackup describes cloudera data engineering c d e service backup
-
-Describe a backup using the associated backup ID.
-*/
+// DescribeBackup describes cloudera data engineering c d e service backup.
+//
+// Describe a backup using the associated backup ID..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DescribeBackupContext] instead.
 func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeBackupContext(ctx, params, opts...)
+}
+
+// DescribeBackupContext describes cloudera data engineering c d e service backup.
+//
+// Describe a backup using the associated backup ID..
+//
+// Do not use the deprecated [DescribeBackupParams.Context] with this method: it would be ignored.
+func (a *Client) DescribeBackupContext(ctx context.Context, params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeBackupParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeBackup",
 		Method:             "POST",
@@ -343,13 +572,14 @@ func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeBackupReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -368,16 +598,36 @@ func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOpti
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DescribeService describes cloudera data engineering c d e service
-
-Returns details of CDE service.
-*/
+// DescribeService describes cloudera data engineering c d e service.
+//
+// Returns details of CDE service..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DescribeServiceContext] instead.
 func (a *Client) DescribeService(params *DescribeServiceParams, opts ...ClientOption) (*DescribeServiceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeServiceContext(ctx, params, opts...)
+}
+
+// DescribeServiceContext describes cloudera data engineering c d e service.
+//
+// Returns details of CDE service..
+//
+// Do not use the deprecated [DescribeServiceParams.Context] with this method: it would be ignored.
+func (a *Client) DescribeServiceContext(ctx context.Context, params *DescribeServiceParams, opts ...ClientOption) (*DescribeServiceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeServiceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeService",
 		Method:             "POST",
@@ -387,13 +637,14 @@ func (a *Client) DescribeService(params *DescribeServiceParams, opts ...ClientOp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeServiceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -412,16 +663,36 @@ func (a *Client) DescribeService(params *DescribeServiceParams, opts ...ClientOp
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DescribeVc describes virtual cluster
-
-Returns a description for the specified virtual cluster.
-*/
+// DescribeVc describes virtual cluster.
+//
+// Returns a description for the specified virtual cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DescribeVcContext] instead.
 func (a *Client) DescribeVc(params *DescribeVcParams, opts ...ClientOption) (*DescribeVcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DescribeVcContext(ctx, params, opts...)
+}
+
+// DescribeVcContext describes virtual cluster.
+//
+// Returns a description for the specified virtual cluster..
+//
+// Do not use the deprecated [DescribeVcParams.Context] with this method: it would be ignored.
+func (a *Client) DescribeVcContext(ctx context.Context, params *DescribeVcParams, opts ...ClientOption) (*DescribeVcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDescribeVcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "describeVc",
 		Method:             "POST",
@@ -431,13 +702,14 @@ func (a *Client) DescribeVc(params *DescribeVcParams, opts ...ClientOption) (*De
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DescribeVcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -456,16 +728,36 @@ func (a *Client) DescribeVc(params *DescribeVcParams, opts ...ClientOption) (*De
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-DisableService disables cloudera data engineering c d e service
-
-Returns delete response.
-*/
+// DisableService disables cloudera data engineering c d e service.
+//
+// Returns delete response..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.DisableServiceContext] instead.
 func (a *Client) DisableService(params *DisableServiceParams, opts ...ClientOption) (*DisableServiceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.DisableServiceContext(ctx, params, opts...)
+}
+
+// DisableServiceContext disables cloudera data engineering c d e service.
+//
+// Returns delete response..
+//
+// Do not use the deprecated [DisableServiceParams.Context] with this method: it would be ignored.
+func (a *Client) DisableServiceContext(ctx context.Context, params *DisableServiceParams, opts ...ClientOption) (*DisableServiceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewDisableServiceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "disableService",
 		Method:             "POST",
@@ -475,13 +767,14 @@ func (a *Client) DisableService(params *DisableServiceParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &DisableServiceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -500,16 +793,36 @@ func (a *Client) DisableService(params *DisableServiceParams, opts ...ClientOpti
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-EnableService enables cloudera data engineering c d e service
-
-Returns enabling response.
-*/
+// EnableService enables cloudera data engineering c d e service.
+//
+// Returns enabling response..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.EnableServiceContext] instead.
 func (a *Client) EnableService(params *EnableServiceParams, opts ...ClientOption) (*EnableServiceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.EnableServiceContext(ctx, params, opts...)
+}
+
+// EnableServiceContext enables cloudera data engineering c d e service.
+//
+// Returns enabling response..
+//
+// Do not use the deprecated [EnableServiceParams.Context] with this method: it would be ignored.
+func (a *Client) EnableServiceContext(ctx context.Context, params *EnableServiceParams, opts ...ClientOption) (*EnableServiceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewEnableServiceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "enableService",
 		Method:             "POST",
@@ -519,13 +832,14 @@ func (a *Client) EnableService(params *EnableServiceParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &EnableServiceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -544,16 +858,36 @@ func (a *Client) EnableService(params *EnableServiceParams, opts ...ClientOption
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetBackupLogs retrieves cloudera data engineering c d e service backup logs
-
-Retrieve backup logs using the associated backup ID.
-*/
+// GetBackupLogs retrieves cloudera data engineering c d e service backup logs.
+//
+// Retrieve backup logs using the associated backup ID..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetBackupLogsContext] instead.
 func (a *Client) GetBackupLogs(params *GetBackupLogsParams, opts ...ClientOption) (*GetBackupLogsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetBackupLogsContext(ctx, params, opts...)
+}
+
+// GetBackupLogsContext retrieves cloudera data engineering c d e service backup logs.
+//
+// Retrieve backup logs using the associated backup ID..
+//
+// Do not use the deprecated [GetBackupLogsParams.Context] with this method: it would be ignored.
+func (a *Client) GetBackupLogsContext(ctx context.Context, params *GetBackupLogsParams, opts ...ClientOption) (*GetBackupLogsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetBackupLogsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getBackupLogs",
 		Method:             "POST",
@@ -563,13 +897,14 @@ func (a *Client) GetBackupLogs(params *GetBackupLogsParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetBackupLogsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -588,16 +923,36 @@ func (a *Client) GetBackupLogs(params *GetBackupLogsParams, opts ...ClientOption
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetKubeconfig gets kubeconfig for the c d e service
-
-Returns kubeconfig.
-*/
+// GetKubeconfig gets kubeconfig for the c d e service.
+//
+// Returns kubeconfig..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetKubeconfigContext] instead.
 func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetKubeconfigContext(ctx, params, opts...)
+}
+
+// GetKubeconfigContext gets kubeconfig for the c d e service.
+//
+// Returns kubeconfig..
+//
+// Do not use the deprecated [GetKubeconfigParams.Context] with this method: it would be ignored.
+func (a *Client) GetKubeconfigContext(ctx context.Context, params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetKubeconfigParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getKubeconfig",
 		Method:             "POST",
@@ -607,13 +962,14 @@ func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetKubeconfigReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -632,16 +988,36 @@ func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetServiceInitLogs retrieves cloudera data engineering c d e service initialization logs
-
-Retrieve service initialization logs, if any.
-*/
+// GetServiceInitLogs retrieves cloudera data engineering c d e service initialization logs.
+//
+// Retrieve service initialization logs, if any..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetServiceInitLogsContext] instead.
 func (a *Client) GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...ClientOption) (*GetServiceInitLogsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetServiceInitLogsContext(ctx, params, opts...)
+}
+
+// GetServiceInitLogsContext retrieves cloudera data engineering c d e service initialization logs.
+//
+// Retrieve service initialization logs, if any..
+//
+// Do not use the deprecated [GetServiceInitLogsParams.Context] with this method: it would be ignored.
+func (a *Client) GetServiceInitLogsContext(ctx context.Context, params *GetServiceInitLogsParams, opts ...ClientOption) (*GetServiceInitLogsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetServiceInitLogsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getServiceInitLogs",
 		Method:             "POST",
@@ -651,13 +1027,14 @@ func (a *Client) GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...Cl
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetServiceInitLogsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -676,16 +1053,36 @@ func (a *Client) GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...Cl
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetSuspendResumeStatus gets c d e service suspend resume status
-
-The current status of the CDE Service suspend/resume process. After a particular step triggered by suspend-resume-service is completed, nextStep would point to the next step to take. If all the steps are completed, allStepsCompleted would be true.
-*/
+// GetSuspendResumeStatus gets c d e service suspend resume status.
+//
+// The current status of the CDE Service suspend/resume process. After a particular step triggered by suspend-resume-service is completed, nextStep would point to the next step to take. If all the steps are completed, allStepsCompleted would be true..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetSuspendResumeStatusContext] instead.
 func (a *Client) GetSuspendResumeStatus(params *GetSuspendResumeStatusParams, opts ...ClientOption) (*GetSuspendResumeStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetSuspendResumeStatusContext(ctx, params, opts...)
+}
+
+// GetSuspendResumeStatusContext gets c d e service suspend resume status.
+//
+// The current status of the CDE Service suspend/resume process. After a particular step triggered by suspend-resume-service is completed, nextStep would point to the next step to take. If all the steps are completed, allStepsCompleted would be true..
+//
+// Do not use the deprecated [GetSuspendResumeStatusParams.Context] with this method: it would be ignored.
+func (a *Client) GetSuspendResumeStatusContext(ctx context.Context, params *GetSuspendResumeStatusParams, opts ...ClientOption) (*GetSuspendResumeStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetSuspendResumeStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getSuspendResumeStatus",
 		Method:             "POST",
@@ -695,13 +1092,14 @@ func (a *Client) GetSuspendResumeStatus(params *GetSuspendResumeStatusParams, op
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetSuspendResumeStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -720,16 +1118,36 @@ func (a *Client) GetSuspendResumeStatus(params *GetSuspendResumeStatusParams, op
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-GetUpgradeStatus gets c d e service upgrade status
-
-The current status of the CDE Service upgrade. If all the steps are completed allStepsCompleted would be true. After a particular step triggered by upgrade-service is completed nextStep would point to the next step to take.
-*/
+// GetUpgradeStatus gets c d e service upgrade status.
+//
+// The current status of the CDE Service upgrade. If all the steps are completed allStepsCompleted would be true. After a particular step triggered by upgrade-service is completed nextStep would point to the next step to take..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetUpgradeStatusContext] instead.
 func (a *Client) GetUpgradeStatus(params *GetUpgradeStatusParams, opts ...ClientOption) (*GetUpgradeStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetUpgradeStatusContext(ctx, params, opts...)
+}
+
+// GetUpgradeStatusContext gets c d e service upgrade status.
+//
+// The current status of the CDE Service upgrade. If all the steps are completed allStepsCompleted would be true. After a particular step triggered by upgrade-service is completed nextStep would point to the next step to take..
+//
+// Do not use the deprecated [GetUpgradeStatusParams.Context] with this method: it would be ignored.
+func (a *Client) GetUpgradeStatusContext(ctx context.Context, params *GetUpgradeStatusParams, opts ...ClientOption) (*GetUpgradeStatusOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewGetUpgradeStatusParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "getUpgradeStatus",
 		Method:             "POST",
@@ -739,13 +1157,14 @@ func (a *Client) GetUpgradeStatus(params *GetUpgradeStatusParams, opts ...Client
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetUpgradeStatusReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -764,16 +1183,36 @@ func (a *Client) GetUpgradeStatus(params *GetUpgradeStatusParams, opts ...Client
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListBackups lists cloudera data engineering c d e service backups
-
-List all service backups.
-*/
+// ListBackups lists cloudera data engineering c d e service backups.
+//
+// List all service backups..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListBackupsContext] instead.
 func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListBackupsContext(ctx, params, opts...)
+}
+
+// ListBackupsContext lists cloudera data engineering c d e service backups.
+//
+// List all service backups..
+//
+// Do not use the deprecated [ListBackupsParams.Context] with this method: it would be ignored.
+func (a *Client) ListBackupsContext(ctx context.Context, params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListBackupsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listBackups",
 		Method:             "POST",
@@ -783,13 +1222,14 @@ func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListBackupsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -808,16 +1248,36 @@ func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListServices lists cloudera data engineering c d e services
-
-Returns list of cde services.
-*/
+// ListServices lists cloudera data engineering c d e services.
+//
+// Returns list of cde services..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListServicesContext] instead.
 func (a *Client) ListServices(params *ListServicesParams, opts ...ClientOption) (*ListServicesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListServicesContext(ctx, params, opts...)
+}
+
+// ListServicesContext lists cloudera data engineering c d e services.
+//
+// Returns list of cde services..
+//
+// Do not use the deprecated [ListServicesParams.Context] with this method: it would be ignored.
+func (a *Client) ListServicesContext(ctx context.Context, params *ListServicesParams, opts ...ClientOption) (*ListServicesOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListServicesParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listServices",
 		Method:             "POST",
@@ -827,13 +1287,14 @@ func (a *Client) ListServices(params *ListServicesParams, opts ...ClientOption) 
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListServicesReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -852,16 +1313,36 @@ func (a *Client) ListServices(params *ListServicesParams, opts ...ClientOption) 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ListVcs lists virtual clusters
-
-Returns a list of virtual clusters for a given CDE service.
-*/
+// ListVcs lists virtual clusters.
+//
+// Returns a list of virtual clusters for a given CDE service..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListVcsContext] instead.
 func (a *Client) ListVcs(params *ListVcsParams, opts ...ClientOption) (*ListVcsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListVcsContext(ctx, params, opts...)
+}
+
+// ListVcsContext lists virtual clusters.
+//
+// Returns a list of virtual clusters for a given CDE service..
+//
+// Do not use the deprecated [ListVcsParams.Context] with this method: it would be ignored.
+func (a *Client) ListVcsContext(ctx context.Context, params *ListVcsParams, opts ...ClientOption) (*ListVcsOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewListVcsParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "listVcs",
 		Method:             "POST",
@@ -871,13 +1352,14 @@ func (a *Client) ListVcs(params *ListVcsParams, opts ...ClientOption) (*ListVcsO
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ListVcsReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -896,16 +1378,36 @@ func (a *Client) ListVcs(params *ListVcsParams, opts ...ClientOption) (*ListVcsO
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-RestoreService restores cloudera data engineering c d e service
-
-Initiates the service restoration process and returns the ID of the service being restored.
-*/
+// RestoreService restores cloudera data engineering c d e service.
+//
+// Initiates the service restoration process and returns the ID of the service being restored..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RestoreServiceContext] instead.
 func (a *Client) RestoreService(params *RestoreServiceParams, opts ...ClientOption) (*RestoreServiceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RestoreServiceContext(ctx, params, opts...)
+}
+
+// RestoreServiceContext restores cloudera data engineering c d e service.
+//
+// Initiates the service restoration process and returns the ID of the service being restored..
+//
+// Do not use the deprecated [RestoreServiceParams.Context] with this method: it would be ignored.
+func (a *Client) RestoreServiceContext(ctx context.Context, params *RestoreServiceParams, opts ...ClientOption) (*RestoreServiceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewRestoreServiceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "restoreService",
 		Method:             "POST",
@@ -915,13 +1417,14 @@ func (a *Client) RestoreService(params *RestoreServiceParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &RestoreServiceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -940,16 +1443,36 @@ func (a *Client) RestoreService(params *RestoreServiceParams, opts ...ClientOpti
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-ResumeVc initiates resume on the requested v c
-
-Initiates resume on the requested VC.
-*/
+// ResumeVc initiates resume on the requested v c.
+//
+// Initiates resume on the requested VC..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ResumeVcContext] instead.
 func (a *Client) ResumeVc(params *ResumeVcParams, opts ...ClientOption) (*ResumeVcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ResumeVcContext(ctx, params, opts...)
+}
+
+// ResumeVcContext initiates resume on the requested v c.
+//
+// Initiates resume on the requested VC..
+//
+// Do not use the deprecated [ResumeVcParams.Context] with this method: it would be ignored.
+func (a *Client) ResumeVcContext(ctx context.Context, params *ResumeVcParams, opts ...ClientOption) (*ResumeVcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewResumeVcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "resumeVc",
 		Method:             "POST",
@@ -959,13 +1482,14 @@ func (a *Client) ResumeVc(params *ResumeVcParams, opts ...ClientOption) (*Resume
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &ResumeVcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -984,16 +1508,36 @@ func (a *Client) ResumeVc(params *ResumeVcParams, opts ...ClientOption) (*Resume
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-SuspendResumeService triggers a particular step of the suspend resume process
-
-Trigger a particular step of the multi-step suspend/resume service process.
-*/
+// SuspendResumeService triggers a particular step of the suspend resume process.
+//
+// Trigger a particular step of the multi-step suspend/resume service process..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.SuspendResumeServiceContext] instead.
 func (a *Client) SuspendResumeService(params *SuspendResumeServiceParams, opts ...ClientOption) (*SuspendResumeServiceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SuspendResumeServiceContext(ctx, params, opts...)
+}
+
+// SuspendResumeServiceContext triggers a particular step of the suspend resume process.
+//
+// Trigger a particular step of the multi-step suspend/resume service process..
+//
+// Do not use the deprecated [SuspendResumeServiceParams.Context] with this method: it would be ignored.
+func (a *Client) SuspendResumeServiceContext(ctx context.Context, params *SuspendResumeServiceParams, opts ...ClientOption) (*SuspendResumeServiceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendResumeServiceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "suspendResumeService",
 		Method:             "POST",
@@ -1003,13 +1547,14 @@ func (a *Client) SuspendResumeService(params *SuspendResumeServiceParams, opts .
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SuspendResumeServiceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1028,16 +1573,36 @@ func (a *Client) SuspendResumeService(params *SuspendResumeServiceParams, opts .
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-SuspendVc initiates suspend on the requested v c
-
-Initiates suspend on the requested VC.
-*/
+// SuspendVc initiates suspend on the requested v c.
+//
+// Initiates suspend on the requested VC..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.SuspendVcContext] instead.
 func (a *Client) SuspendVc(params *SuspendVcParams, opts ...ClientOption) (*SuspendVcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SuspendVcContext(ctx, params, opts...)
+}
+
+// SuspendVcContext initiates suspend on the requested v c.
+//
+// Initiates suspend on the requested VC..
+//
+// Do not use the deprecated [SuspendVcParams.Context] with this method: it would be ignored.
+func (a *Client) SuspendVcContext(ctx context.Context, params *SuspendVcParams, opts ...ClientOption) (*SuspendVcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewSuspendVcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "suspendVc",
 		Method:             "POST",
@@ -1047,13 +1612,14 @@ func (a *Client) SuspendVc(params *SuspendVcParams, opts ...ClientOption) (*Susp
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &SuspendVcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1072,16 +1638,36 @@ func (a *Client) SuspendVc(params *SuspendVcParams, opts ...ClientOption) (*Susp
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpdateService updates cloudera data engineering c d e service
-
-Returns update response consisting of operation ID that can be used to log update events.
-*/
+// UpdateService updates cloudera data engineering c d e service.
+//
+// Returns update response consisting of operation ID that can be used to log update events..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpdateServiceContext] instead.
 func (a *Client) UpdateService(params *UpdateServiceParams, opts ...ClientOption) (*UpdateServiceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateServiceContext(ctx, params, opts...)
+}
+
+// UpdateServiceContext updates cloudera data engineering c d e service.
+//
+// Returns update response consisting of operation ID that can be used to log update events..
+//
+// Do not use the deprecated [UpdateServiceParams.Context] with this method: it would be ignored.
+func (a *Client) UpdateServiceContext(ctx context.Context, params *UpdateServiceParams, opts ...ClientOption) (*UpdateServiceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateServiceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateService",
 		Method:             "POST",
@@ -1091,13 +1677,14 @@ func (a *Client) UpdateService(params *UpdateServiceParams, opts ...ClientOption
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateServiceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1116,16 +1703,36 @@ func (a *Client) UpdateService(params *UpdateServiceParams, opts ...ClientOption
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpdateVc updates cloudera data engineering c d e virtual cluster
-
-Updates Cloudera Data Engineering (CDE) Virtual Cluster and returns details of updated CDE service.
-*/
+// UpdateVc updates cloudera data engineering c d e virtual cluster.
+//
+// Updates Cloudera Data Engineering (CDE) Virtual Cluster and returns details of updated CDE service..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpdateVcContext] instead.
 func (a *Client) UpdateVc(params *UpdateVcParams, opts ...ClientOption) (*UpdateVcOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdateVcContext(ctx, params, opts...)
+}
+
+// UpdateVcContext updates cloudera data engineering c d e virtual cluster.
+//
+// Updates Cloudera Data Engineering (CDE) Virtual Cluster and returns details of updated CDE service..
+//
+// Do not use the deprecated [UpdateVcParams.Context] with this method: it would be ignored.
+func (a *Client) UpdateVcContext(ctx context.Context, params *UpdateVcParams, opts ...ClientOption) (*UpdateVcOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpdateVcParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "updateVc",
 		Method:             "POST",
@@ -1135,13 +1742,14 @@ func (a *Client) UpdateVc(params *UpdateVcParams, opts ...ClientOption) (*Update
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpdateVcReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1160,16 +1768,36 @@ func (a *Client) UpdateVc(params *UpdateVcParams, opts ...ClientOption) (*Update
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-/*
-UpgradeService triggers a particular step prepare backup upgrade resume of the upgrade framework
-
-Trigger a particular step (prepare, backup, upgrade, resume) of the multi-step upgrade process. Use get-upgrade-status to know what is the next step to take.
-*/
+// UpgradeService triggers a particular step prepare backup upgrade resume of the upgrade framework.
+//
+// Trigger a particular step (prepare, backup, upgrade, resume) of the multi-step upgrade process. Use get-upgrade-status to know what is the next step to take..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpgradeServiceContext] instead.
 func (a *Client) UpgradeService(params *UpgradeServiceParams, opts ...ClientOption) (*UpgradeServiceOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpgradeServiceContext(ctx, params, opts...)
+}
+
+// UpgradeServiceContext triggers a particular step prepare backup upgrade resume of the upgrade framework.
+//
+// Trigger a particular step (prepare, backup, upgrade, resume) of the multi-step upgrade process. Use get-upgrade-status to know what is the next step to take..
+//
+// Do not use the deprecated [UpgradeServiceParams.Context] with this method: it would be ignored.
+func (a *Client) UpgradeServiceContext(ctx context.Context, params *UpgradeServiceParams, opts ...ClientOption) (*UpgradeServiceOK, error) {
 	// NOTE: parameters are not validated before sending
 	if params == nil {
 		params = NewUpgradeServiceParams()
 	}
+
 	op := &runtime.ClientOperation{
 		ID:                 "upgradeService",
 		Method:             "POST",
@@ -1179,13 +1807,14 @@ func (a *Client) UpgradeService(params *UpgradeServiceParams, opts ...ClientOpti
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &UpgradeServiceReader{formats: a.formats},
-		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
+
 	for _, opt := range opts {
 		opt(op)
 	}
-	result, err := a.transport.Submit(op)
+
+	result, err := a.transport.SubmitContext(ctx, op)
 	if err != nil {
 		return nil, err
 	}
@@ -1205,6 +1834,14 @@ func (a *Client) UpgradeService(params *UpgradeServiceParams, opts ...ClientOpti
 }
 
 // SetTransport changes the transport on the client
-func (a *Client) SetTransport(transport runtime.ClientTransport) {
+func (a *Client) SetTransport(transport runtime.ContextualTransport) {
 	a.transport = transport
+}
+
+// innerParams captures internal fields so they don't conflict with user-supplied parameters.
+type innerParams struct {
+	timeout time.Duration
+
+	// Deprecated: use the operation call with context to pass the context instead of [OperationsParams].
+	ctx context.Context
 }

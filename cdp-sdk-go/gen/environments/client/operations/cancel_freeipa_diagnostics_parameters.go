@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewCancelFreeipaDiagnosticsParams creates a new CancelFreeipaDiagnosticsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCancelFreeipaDiagnosticsParams() *CancelFreeipaDiagnosticsParams {
-	return &CancelFreeipaDiagnosticsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCancelFreeipaDiagnosticsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCancelFreeipaDiagnosticsParamsWithTimeout creates a new CancelFreeipaDiagnosticsParams object
 // with the ability to set a timeout on a request.
 func NewCancelFreeipaDiagnosticsParamsWithTimeout(timeout time.Duration) *CancelFreeipaDiagnosticsParams {
 	return &CancelFreeipaDiagnosticsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCancelFreeipaDiagnosticsParamsWithContext creates a new CancelFreeipaDiagnosticsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelFreeipaDiagnosticsParams].
 func NewCancelFreeipaDiagnosticsParamsWithContext(ctx context.Context) *CancelFreeipaDiagnosticsParams {
 	return &CancelFreeipaDiagnosticsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CancelFreeipaDiagnosticsParams struct {
 	// Input.
 	Input *models.CancelFreeipaDiagnosticsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the cancel freeipa diagnostics params (not the query body).
@@ -83,54 +86,57 @@ func (o *CancelFreeipaDiagnosticsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the cancel freeipa diagnostics params
+// WithTimeout adds the timeout to the cancel freeipa diagnostics params.
 func (o *CancelFreeipaDiagnosticsParams) WithTimeout(timeout time.Duration) *CancelFreeipaDiagnosticsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the cancel freeipa diagnostics params
+// SetTimeout adds the timeout to the cancel freeipa diagnostics params.
 func (o *CancelFreeipaDiagnosticsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the cancel freeipa diagnostics params
+// WithContext adds the context to the cancel freeipa diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelFreeipaDiagnosticsParams].
 func (o *CancelFreeipaDiagnosticsParams) WithContext(ctx context.Context) *CancelFreeipaDiagnosticsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the cancel freeipa diagnostics params
+// SetContext adds the context to the cancel freeipa diagnostics params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CancelFreeipaDiagnosticsParams].
 func (o *CancelFreeipaDiagnosticsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the cancel freeipa diagnostics params
+// WithHTTPClient adds the HTTPClient to the cancel freeipa diagnostics params.
 func (o *CancelFreeipaDiagnosticsParams) WithHTTPClient(client *http.Client) *CancelFreeipaDiagnosticsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the cancel freeipa diagnostics params
+// SetHTTPClient adds the HTTPClient to the cancel freeipa diagnostics params.
 func (o *CancelFreeipaDiagnosticsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the cancel freeipa diagnostics params
+// WithInput adds the input to the cancel freeipa diagnostics params.
 func (o *CancelFreeipaDiagnosticsParams) WithInput(input *models.CancelFreeipaDiagnosticsRequest) *CancelFreeipaDiagnosticsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the cancel freeipa diagnostics params
+// SetInput adds the input to the cancel freeipa diagnostics params.
 func (o *CancelFreeipaDiagnosticsParams) SetInput(input *models.CancelFreeipaDiagnosticsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CancelFreeipaDiagnosticsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

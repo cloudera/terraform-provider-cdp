@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // GetClusterHostStatusReader is a Reader for the GetClusterHostStatus structure.
@@ -45,11 +44,9 @@ func NewGetClusterHostStatusOK() *GetClusterHostStatusOK {
 	return &GetClusterHostStatusOK{}
 }
 
-/*
-GetClusterHostStatusOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetClusterHostStatusOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetClusterHostStatusOK struct {
 	Payload *models.GetClusterHostStatusResponse
 }
@@ -117,11 +114,9 @@ func NewGetClusterHostStatusDefault(code int) *GetClusterHostStatusDefault {
 	}
 }
 
-/*
-GetClusterHostStatusDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetClusterHostStatusDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetClusterHostStatusDefault struct {
 	_statusCode int
 

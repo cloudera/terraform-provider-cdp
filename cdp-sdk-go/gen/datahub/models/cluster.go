@@ -9,7 +9,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -125,7 +126,7 @@ func (m *Cluster) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateClouderaManager(formats strfmt.Registry) error {
-	if swag.IsZero(m.ClouderaManager) { // not required
+	if typeutils.IsZero(m.ClouderaManager) { // not required
 		return nil
 	}
 
@@ -157,7 +158,7 @@ func (m *Cluster) validateClusterName(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateCreationDate(formats strfmt.Registry) error {
-	if swag.IsZero(m.CreationDate) { // not required
+	if typeutils.IsZero(m.CreationDate) { // not required
 		return nil
 	}
 
@@ -178,7 +179,7 @@ func (m *Cluster) validateCrn(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateEndpoints(formats strfmt.Registry) error {
-	if swag.IsZero(m.Endpoints) { // not required
+	if typeutils.IsZero(m.Endpoints) { // not required
 		return nil
 	}
 
@@ -201,7 +202,7 @@ func (m *Cluster) validateEndpoints(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateImageDetails(formats strfmt.Registry) error {
-	if swag.IsZero(m.ImageDetails) { // not required
+	if typeutils.IsZero(m.ImageDetails) { // not required
 		return nil
 	}
 
@@ -224,12 +225,12 @@ func (m *Cluster) validateImageDetails(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateInstanceGroups(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceGroups) { // not required
+	if typeutils.IsZero(m.InstanceGroups) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.InstanceGroups); i++ {
-		if swag.IsZero(m.InstanceGroups[i]) { // not required
+		if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 			continue
 		}
 
@@ -254,7 +255,7 @@ func (m *Cluster) validateInstanceGroups(formats strfmt.Registry) error {
 }
 
 func (m *Cluster) validateSecurity(formats strfmt.Registry) error {
-	if swag.IsZero(m.Security) { // not required
+	if typeutils.IsZero(m.Security) { // not required
 		return nil
 	}
 
@@ -310,7 +311,7 @@ func (m *Cluster) contextValidateClouderaManager(ctx context.Context, formats st
 
 	if m.ClouderaManager != nil {
 
-		if swag.IsZero(m.ClouderaManager) { // not required
+		if typeutils.IsZero(m.ClouderaManager) { // not required
 			return nil
 		}
 
@@ -335,7 +336,7 @@ func (m *Cluster) contextValidateEndpoints(ctx context.Context, formats strfmt.R
 
 	if m.Endpoints != nil {
 
-		if swag.IsZero(m.Endpoints) { // not required
+		if typeutils.IsZero(m.Endpoints) { // not required
 			return nil
 		}
 
@@ -360,7 +361,7 @@ func (m *Cluster) contextValidateImageDetails(ctx context.Context, formats strfm
 
 	if m.ImageDetails != nil {
 
-		if swag.IsZero(m.ImageDetails) { // not required
+		if typeutils.IsZero(m.ImageDetails) { // not required
 			return nil
 		}
 
@@ -387,7 +388,7 @@ func (m *Cluster) contextValidateInstanceGroups(ctx context.Context, formats str
 
 		if m.InstanceGroups[i] != nil {
 
-			if swag.IsZero(m.InstanceGroups[i]) { // not required
+			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
 				return nil
 			}
 
@@ -414,7 +415,7 @@ func (m *Cluster) contextValidateSecurity(ctx context.Context, formats strfmt.Re
 
 	if m.Security != nil {
 
-		if swag.IsZero(m.Security) { // not required
+		if typeutils.IsZero(m.Security) { // not required
 			return nil
 		}
 
@@ -440,13 +441,13 @@ func (m *Cluster) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *Cluster) UnmarshalBinary(b []byte) error {
 	var res Cluster
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

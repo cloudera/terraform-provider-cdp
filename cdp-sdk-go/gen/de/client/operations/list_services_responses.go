@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/de/models"
 )
 
 // ListServicesReader is a Reader for the ListServices structure.
@@ -45,11 +44,9 @@ func NewListServicesOK() *ListServicesOK {
 	return &ListServicesOK{}
 }
 
-/*
-ListServicesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListServicesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListServicesOK struct {
 	Payload *models.ListServicesResponse
 }
@@ -117,11 +114,9 @@ func NewListServicesDefault(code int) *ListServicesDefault {
 	}
 }
 
-/*
-ListServicesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListServicesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListServicesDefault struct {
 	_statusCode int
 

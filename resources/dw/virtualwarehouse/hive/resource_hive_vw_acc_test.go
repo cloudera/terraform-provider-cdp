@@ -111,14 +111,14 @@ func testCheckHiveDestroy(s *terraform.State) error {
 		}
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
-		params := operations.NewDescribeVwParamsWithContext(context.Background())
+		params := operations.NewDescribeVwParams()
 		clusterID := rs.Primary.Attributes["cluster_id"]
 		params.WithInput(&models.DescribeVwRequest{
 			VwID:      &rs.Primary.ID,
 			ClusterID: &clusterID,
 		})
 
-		_, err := cdpClient.Dw.Operations.DescribeVw(params)
+		_, err := cdpClient.Dw.Operations.DescribeVwContext(context.Background(), params)
 		if err != nil {
 			if strings.Contains(err.Error(), "Virtual Warehouse not found") {
 				continue

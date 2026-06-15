@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // RebuildDbcReader is a Reader for the RebuildDbc structure.
@@ -45,11 +44,9 @@ func NewRebuildDbcOK() *RebuildDbcOK {
 	return &RebuildDbcOK{}
 }
 
-/*
-RebuildDbcOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RebuildDbcOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RebuildDbcOK struct {
 	Payload models.RebuildDbcResponse
 }
@@ -115,11 +112,9 @@ func NewRebuildDbcDefault(code int) *RebuildDbcDefault {
 	}
 }
 
-/*
-RebuildDbcDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RebuildDbcDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RebuildDbcDefault struct {
 	_statusCode int
 

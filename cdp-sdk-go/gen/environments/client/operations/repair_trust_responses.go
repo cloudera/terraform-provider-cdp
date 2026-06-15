@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // RepairTrustReader is a Reader for the RepairTrust structure.
@@ -45,11 +44,9 @@ func NewRepairTrustOK() *RepairTrustOK {
 	return &RepairTrustOK{}
 }
 
-/*
-RepairTrustOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RepairTrustOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RepairTrustOK struct {
 	Payload *models.RepairTrustResponse
 }
@@ -117,11 +114,9 @@ func NewRepairTrustDefault(code int) *RepairTrustDefault {
 	}
 }
 
-/*
-RepairTrustDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RepairTrustDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RepairTrustDefault struct {
 	_statusCode int
 

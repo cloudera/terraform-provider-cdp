@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // CreateAzureEnvironmentReader is a Reader for the CreateAzureEnvironment structure.
@@ -45,11 +44,9 @@ func NewCreateAzureEnvironmentOK() *CreateAzureEnvironmentOK {
 	return &CreateAzureEnvironmentOK{}
 }
 
-/*
-CreateAzureEnvironmentOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// CreateAzureEnvironmentOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type CreateAzureEnvironmentOK struct {
 	Payload *models.CreateAzureEnvironmentResponse
 }
@@ -117,11 +114,9 @@ func NewCreateAzureEnvironmentDefault(code int) *CreateAzureEnvironmentDefault {
 	}
 }
 
-/*
-CreateAzureEnvironmentDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateAzureEnvironmentDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateAzureEnvironmentDefault struct {
 	_statusCode int
 

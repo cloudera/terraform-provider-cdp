@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // DeleteInstanceGroupMlServingAppReader is a Reader for the DeleteInstanceGroupMlServingApp structure.
@@ -45,11 +44,9 @@ func NewDeleteInstanceGroupMlServingAppOK() *DeleteInstanceGroupMlServingAppOK {
 	return &DeleteInstanceGroupMlServingAppOK{}
 }
 
-/*
-DeleteInstanceGroupMlServingAppOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteInstanceGroupMlServingAppOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteInstanceGroupMlServingAppOK struct {
 	Payload models.DeleteInstanceGroupMlServingAppResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteInstanceGroupMlServingAppDefault(code int) *DeleteInstanceGroupMlS
 	}
 }
 
-/*
-DeleteInstanceGroupMlServingAppDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteInstanceGroupMlServingAppDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteInstanceGroupMlServingAppDefault struct {
 	_statusCode int
 

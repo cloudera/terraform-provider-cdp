@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewGetAutomatedSyncEnvironmentStatusParams creates a new GetAutomatedSyncEnvironmentStatusParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewGetAutomatedSyncEnvironmentStatusParams() *GetAutomatedSyncEnvironmentStatusParams {
-	return &GetAutomatedSyncEnvironmentStatusParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewGetAutomatedSyncEnvironmentStatusParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewGetAutomatedSyncEnvironmentStatusParamsWithTimeout creates a new GetAutomatedSyncEnvironmentStatusParams object
 // with the ability to set a timeout on a request.
 func NewGetAutomatedSyncEnvironmentStatusParamsWithTimeout(timeout time.Duration) *GetAutomatedSyncEnvironmentStatusParams {
 	return &GetAutomatedSyncEnvironmentStatusParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewGetAutomatedSyncEnvironmentStatusParamsWithContext creates a new GetAutomatedSyncEnvironmentStatusParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetAutomatedSyncEnvironmentStatusParams].
 func NewGetAutomatedSyncEnvironmentStatusParamsWithContext(ctx context.Context) *GetAutomatedSyncEnvironmentStatusParams {
 	return &GetAutomatedSyncEnvironmentStatusParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type GetAutomatedSyncEnvironmentStatusParams struct {
 	// Input.
 	Input *models.GetAutomatedSyncEnvironmentStatusRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the get automated sync environment status params (not the query body).
@@ -83,54 +86,57 @@ func (o *GetAutomatedSyncEnvironmentStatusParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the get automated sync environment status params
+// WithTimeout adds the timeout to the get automated sync environment status params.
 func (o *GetAutomatedSyncEnvironmentStatusParams) WithTimeout(timeout time.Duration) *GetAutomatedSyncEnvironmentStatusParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the get automated sync environment status params
+// SetTimeout adds the timeout to the get automated sync environment status params.
 func (o *GetAutomatedSyncEnvironmentStatusParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the get automated sync environment status params
+// WithContext adds the context to the get automated sync environment status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetAutomatedSyncEnvironmentStatusParams].
 func (o *GetAutomatedSyncEnvironmentStatusParams) WithContext(ctx context.Context) *GetAutomatedSyncEnvironmentStatusParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the get automated sync environment status params
+// SetContext adds the context to the get automated sync environment status params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [GetAutomatedSyncEnvironmentStatusParams].
 func (o *GetAutomatedSyncEnvironmentStatusParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the get automated sync environment status params
+// WithHTTPClient adds the HTTPClient to the get automated sync environment status params.
 func (o *GetAutomatedSyncEnvironmentStatusParams) WithHTTPClient(client *http.Client) *GetAutomatedSyncEnvironmentStatusParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the get automated sync environment status params
+// SetHTTPClient adds the HTTPClient to the get automated sync environment status params.
 func (o *GetAutomatedSyncEnvironmentStatusParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the get automated sync environment status params
+// WithInput adds the input to the get automated sync environment status params.
 func (o *GetAutomatedSyncEnvironmentStatusParams) WithInput(input *models.GetAutomatedSyncEnvironmentStatusRequest) *GetAutomatedSyncEnvironmentStatusParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the get automated sync environment status params
+// SetInput adds the input to the get automated sync environment status params.
 func (o *GetAutomatedSyncEnvironmentStatusParams) SetInput(input *models.GetAutomatedSyncEnvironmentStatusRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *GetAutomatedSyncEnvironmentStatusParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

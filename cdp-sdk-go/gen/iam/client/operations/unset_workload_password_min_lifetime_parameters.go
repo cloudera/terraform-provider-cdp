@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewUnsetWorkloadPasswordMinLifetimeParams creates a new UnsetWorkloadPasswordMinLifetimeParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUnsetWorkloadPasswordMinLifetimeParams() *UnsetWorkloadPasswordMinLifetimeParams {
-	return &UnsetWorkloadPasswordMinLifetimeParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUnsetWorkloadPasswordMinLifetimeParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUnsetWorkloadPasswordMinLifetimeParamsWithTimeout creates a new UnsetWorkloadPasswordMinLifetimeParams object
 // with the ability to set a timeout on a request.
 func NewUnsetWorkloadPasswordMinLifetimeParamsWithTimeout(timeout time.Duration) *UnsetWorkloadPasswordMinLifetimeParams {
 	return &UnsetWorkloadPasswordMinLifetimeParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUnsetWorkloadPasswordMinLifetimeParamsWithContext creates a new UnsetWorkloadPasswordMinLifetimeParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnsetWorkloadPasswordMinLifetimeParams].
 func NewUnsetWorkloadPasswordMinLifetimeParamsWithContext(ctx context.Context) *UnsetWorkloadPasswordMinLifetimeParams {
 	return &UnsetWorkloadPasswordMinLifetimeParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UnsetWorkloadPasswordMinLifetimeParams struct {
 	// Input.
 	Input *models.UnsetWorkloadPasswordMinLifetimeRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the unset workload password min lifetime params (not the query body).
@@ -83,54 +86,57 @@ func (o *UnsetWorkloadPasswordMinLifetimeParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the unset workload password min lifetime params
+// WithTimeout adds the timeout to the unset workload password min lifetime params.
 func (o *UnsetWorkloadPasswordMinLifetimeParams) WithTimeout(timeout time.Duration) *UnsetWorkloadPasswordMinLifetimeParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the unset workload password min lifetime params
+// SetTimeout adds the timeout to the unset workload password min lifetime params.
 func (o *UnsetWorkloadPasswordMinLifetimeParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the unset workload password min lifetime params
+// WithContext adds the context to the unset workload password min lifetime params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnsetWorkloadPasswordMinLifetimeParams].
 func (o *UnsetWorkloadPasswordMinLifetimeParams) WithContext(ctx context.Context) *UnsetWorkloadPasswordMinLifetimeParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the unset workload password min lifetime params
+// SetContext adds the context to the unset workload password min lifetime params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UnsetWorkloadPasswordMinLifetimeParams].
 func (o *UnsetWorkloadPasswordMinLifetimeParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the unset workload password min lifetime params
+// WithHTTPClient adds the HTTPClient to the unset workload password min lifetime params.
 func (o *UnsetWorkloadPasswordMinLifetimeParams) WithHTTPClient(client *http.Client) *UnsetWorkloadPasswordMinLifetimeParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the unset workload password min lifetime params
+// SetHTTPClient adds the HTTPClient to the unset workload password min lifetime params.
 func (o *UnsetWorkloadPasswordMinLifetimeParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the unset workload password min lifetime params
+// WithInput adds the input to the unset workload password min lifetime params.
 func (o *UnsetWorkloadPasswordMinLifetimeParams) WithInput(input *models.UnsetWorkloadPasswordMinLifetimeRequest) *UnsetWorkloadPasswordMinLifetimeParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the unset workload password min lifetime params
+// SetInput adds the input to the unset workload password min lifetime params.
 func (o *UnsetWorkloadPasswordMinLifetimeParams) SetInput(input *models.UnsetWorkloadPasswordMinLifetimeRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UnsetWorkloadPasswordMinLifetimeParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

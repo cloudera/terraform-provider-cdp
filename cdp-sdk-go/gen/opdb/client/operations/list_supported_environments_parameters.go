@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // NewListSupportedEnvironmentsParams creates a new ListSupportedEnvironmentsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListSupportedEnvironmentsParams() *ListSupportedEnvironmentsParams {
-	return &ListSupportedEnvironmentsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListSupportedEnvironmentsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListSupportedEnvironmentsParamsWithTimeout creates a new ListSupportedEnvironmentsParams object
 // with the ability to set a timeout on a request.
 func NewListSupportedEnvironmentsParamsWithTimeout(timeout time.Duration) *ListSupportedEnvironmentsParams {
 	return &ListSupportedEnvironmentsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListSupportedEnvironmentsParamsWithContext creates a new ListSupportedEnvironmentsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListSupportedEnvironmentsParams].
 func NewListSupportedEnvironmentsParamsWithContext(ctx context.Context) *ListSupportedEnvironmentsParams {
 	return &ListSupportedEnvironmentsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListSupportedEnvironmentsParams struct {
 	// Input.
 	Input models.ListSupportedEnvironmentsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list supported environments params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListSupportedEnvironmentsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list supported environments params
+// WithTimeout adds the timeout to the list supported environments params.
 func (o *ListSupportedEnvironmentsParams) WithTimeout(timeout time.Duration) *ListSupportedEnvironmentsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list supported environments params
+// SetTimeout adds the timeout to the list supported environments params.
 func (o *ListSupportedEnvironmentsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list supported environments params
+// WithContext adds the context to the list supported environments params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListSupportedEnvironmentsParams].
 func (o *ListSupportedEnvironmentsParams) WithContext(ctx context.Context) *ListSupportedEnvironmentsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list supported environments params
+// SetContext adds the context to the list supported environments params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListSupportedEnvironmentsParams].
 func (o *ListSupportedEnvironmentsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list supported environments params
+// WithHTTPClient adds the HTTPClient to the list supported environments params.
 func (o *ListSupportedEnvironmentsParams) WithHTTPClient(client *http.Client) *ListSupportedEnvironmentsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list supported environments params
+// SetHTTPClient adds the HTTPClient to the list supported environments params.
 func (o *ListSupportedEnvironmentsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list supported environments params
+// WithInput adds the input to the list supported environments params.
 func (o *ListSupportedEnvironmentsParams) WithInput(input models.ListSupportedEnvironmentsRequest) *ListSupportedEnvironmentsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list supported environments params
+// SetInput adds the input to the list supported environments params.
 func (o *ListSupportedEnvironmentsParams) SetInput(input models.ListSupportedEnvironmentsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListSupportedEnvironmentsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

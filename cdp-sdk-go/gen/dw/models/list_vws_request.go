@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -53,7 +54,7 @@ func (m *ListVwsRequest) validateClusterID(formats strfmt.Registry) error {
 }
 
 func (m *ListVwsRequest) validateFilter(formats strfmt.Registry) error {
-	if swag.IsZero(m.Filter) { // not required
+	if typeutils.IsZero(m.Filter) { // not required
 		return nil
 	}
 
@@ -93,7 +94,7 @@ func (m *ListVwsRequest) contextValidateFilter(ctx context.Context, formats strf
 
 	if m.Filter != nil {
 
-		if swag.IsZero(m.Filter) { // not required
+		if typeutils.IsZero(m.Filter) { // not required
 			return nil
 		}
 
@@ -119,13 +120,13 @@ func (m *ListVwsRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *ListVwsRequest) UnmarshalBinary(b []byte) error {
 	var res ListVwsRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // DeleteSSHPublicKeyReader is a Reader for the DeleteSSHPublicKey structure.
@@ -45,11 +44,9 @@ func NewDeleteSSHPublicKeyOK() *DeleteSSHPublicKeyOK {
 	return &DeleteSSHPublicKeyOK{}
 }
 
-/*
-DeleteSSHPublicKeyOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// DeleteSSHPublicKeyOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type DeleteSSHPublicKeyOK struct {
 	Payload models.DeleteSSHPublicKeyResponse
 }
@@ -115,11 +112,9 @@ func NewDeleteSSHPublicKeyDefault(code int) *DeleteSSHPublicKeyDefault {
 	}
 }
 
-/*
-DeleteSSHPublicKeyDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// DeleteSSHPublicKeyDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type DeleteSSHPublicKeyDefault struct {
 	_statusCode int
 

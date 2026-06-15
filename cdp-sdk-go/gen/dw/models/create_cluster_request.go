@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -92,7 +93,7 @@ func (m *CreateClusterRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateClusterRequest) validateAwsOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.AwsOptions) { // not required
+	if typeutils.IsZero(m.AwsOptions) { // not required
 		return nil
 	}
 
@@ -115,7 +116,7 @@ func (m *CreateClusterRequest) validateAwsOptions(formats strfmt.Registry) error
 }
 
 func (m *CreateClusterRequest) validateAzureOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.AzureOptions) { // not required
+	if typeutils.IsZero(m.AzureOptions) { // not required
 		return nil
 	}
 
@@ -138,7 +139,7 @@ func (m *CreateClusterRequest) validateAzureOptions(formats strfmt.Registry) err
 }
 
 func (m *CreateClusterRequest) validateCustomRegistryOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.CustomRegistryOptions) { // not required
+	if typeutils.IsZero(m.CustomRegistryOptions) { // not required
 		return nil
 	}
 
@@ -170,7 +171,7 @@ func (m *CreateClusterRequest) validateEnvironmentCrn(formats strfmt.Registry) e
 }
 
 func (m *CreateClusterRequest) validatePrivateCloudOptions(formats strfmt.Registry) error {
-	if swag.IsZero(m.PrivateCloudOptions) { // not required
+	if typeutils.IsZero(m.PrivateCloudOptions) { // not required
 		return nil
 	}
 
@@ -222,7 +223,7 @@ func (m *CreateClusterRequest) contextValidateAwsOptions(ctx context.Context, fo
 
 	if m.AwsOptions != nil {
 
-		if swag.IsZero(m.AwsOptions) { // not required
+		if typeutils.IsZero(m.AwsOptions) { // not required
 			return nil
 		}
 
@@ -247,7 +248,7 @@ func (m *CreateClusterRequest) contextValidateAzureOptions(ctx context.Context, 
 
 	if m.AzureOptions != nil {
 
-		if swag.IsZero(m.AzureOptions) { // not required
+		if typeutils.IsZero(m.AzureOptions) { // not required
 			return nil
 		}
 
@@ -272,7 +273,7 @@ func (m *CreateClusterRequest) contextValidateCustomRegistryOptions(ctx context.
 
 	if m.CustomRegistryOptions != nil {
 
-		if swag.IsZero(m.CustomRegistryOptions) { // not required
+		if typeutils.IsZero(m.CustomRegistryOptions) { // not required
 			return nil
 		}
 
@@ -297,7 +298,7 @@ func (m *CreateClusterRequest) contextValidatePrivateCloudOptions(ctx context.Co
 
 	if m.PrivateCloudOptions != nil {
 
-		if swag.IsZero(m.PrivateCloudOptions) { // not required
+		if typeutils.IsZero(m.PrivateCloudOptions) { // not required
 			return nil
 		}
 
@@ -323,13 +324,13 @@ func (m *CreateClusterRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateClusterRequest) UnmarshalBinary(b []byte) error {
 	var res CreateClusterRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

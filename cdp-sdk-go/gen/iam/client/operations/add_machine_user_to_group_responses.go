@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // AddMachineUserToGroupReader is a Reader for the AddMachineUserToGroup structure.
@@ -45,11 +44,9 @@ func NewAddMachineUserToGroupOK() *AddMachineUserToGroupOK {
 	return &AddMachineUserToGroupOK{}
 }
 
-/*
-AddMachineUserToGroupOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// AddMachineUserToGroupOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type AddMachineUserToGroupOK struct {
 	Payload models.AddMachineUserToGroupResponse
 }
@@ -115,11 +112,9 @@ func NewAddMachineUserToGroupDefault(code int) *AddMachineUserToGroupDefault {
 	}
 }
 
-/*
-AddMachineUserToGroupDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// AddMachineUserToGroupDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type AddMachineUserToGroupDefault struct {
 	_statusCode int
 

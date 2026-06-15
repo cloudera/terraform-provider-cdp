@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // UpdateSamlProviderReader is a Reader for the UpdateSamlProvider structure.
@@ -45,11 +44,9 @@ func NewUpdateSamlProviderOK() *UpdateSamlProviderOK {
 	return &UpdateSamlProviderOK{}
 }
 
-/*
-UpdateSamlProviderOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// UpdateSamlProviderOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type UpdateSamlProviderOK struct {
 	Payload *models.UpdateSamlProviderResponse
 }
@@ -117,11 +114,9 @@ func NewUpdateSamlProviderDefault(code int) *UpdateSamlProviderDefault {
 	}
 }
 
-/*
-UpdateSamlProviderDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// UpdateSamlProviderDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type UpdateSamlProviderDefault struct {
 	_statusCode int
 

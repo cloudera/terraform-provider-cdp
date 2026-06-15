@@ -66,12 +66,12 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 
 	iamClient := r.client.Iam
 
-	params := operations.NewCreateMachineUserParamsWithContext(ctx)
+	params := operations.NewCreateMachineUserParams()
 	params.WithInput(&models.CreateMachineUserRequest{
 		MachineUserName: data.Name.ValueStringPointer(),
 	})
 
-	responseOk, err := iamClient.Operations.CreateMachineUser(params)
+	responseOk, err := iamClient.Operations.CreateMachineUserContext(ctx, params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "create Machine User")
 		return
@@ -95,13 +95,13 @@ func (r *machineUserResource) Create(ctx context.Context, req resource.CreateReq
 }
 
 func setWorkloadPassword(ctx context.Context, client *client.Iam, crn string, pw *string, diags *diag.Diagnostics) error {
-	pwparams := operations.NewSetWorkloadPasswordParamsWithContext(ctx)
+	pwparams := operations.NewSetWorkloadPasswordParams()
 	pwparams.WithInput(&models.SetWorkloadPasswordRequest{
 		ActorCrn: crn,
 		Password: pw,
 	})
 
-	_, err := client.Operations.SetWorkloadPassword(pwparams)
+	_, err := client.Operations.SetWorkloadPasswordContext(ctx, pwparams)
 	return err
 }
 
@@ -117,12 +117,12 @@ func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest
 
 	iamClient := r.client.Iam
 
-	params := operations.NewListMachineUsersParamsWithContext(ctx)
+	params := operations.NewListMachineUsersParams()
 	params.WithInput(&models.ListMachineUsersRequest{
 		MachineUserNames: []string{data.Name.ValueString()},
 	})
 
-	responseOk, err := iamClient.Operations.ListMachineUsers(params)
+	responseOk, err := iamClient.Operations.ListMachineUsersContext(ctx, params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "read Machine User")
 		if d, ok := err.(*operations.ListMachineUsersDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
@@ -187,12 +187,12 @@ func (r *machineUserResource) Delete(ctx context.Context, req resource.DeleteReq
 	// Delete API call logic
 	iamClient := r.client.Iam
 
-	params := operations.NewDeleteMachineUserParamsWithContext(ctx)
+	params := operations.NewDeleteMachineUserParams()
 	params.WithInput(&models.DeleteMachineUserRequest{
 		MachineUserName: data.Name.ValueStringPointer(),
 	})
 
-	_, err := iamClient.Operations.DeleteMachineUser(params)
+	_, err := iamClient.Operations.DeleteMachineUserContext(ctx, params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "delete Machine User")
 		return

@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -70,7 +71,7 @@ func (m *AutoScalePolicyRequest) validateHostGroups(formats strfmt.Registry) err
 }
 
 func (m *AutoScalePolicyRequest) validateLoadBasedPolicy(formats strfmt.Registry) error {
-	if swag.IsZero(m.LoadBasedPolicy) { // not required
+	if typeutils.IsZero(m.LoadBasedPolicy) { // not required
 		return nil
 	}
 
@@ -93,7 +94,7 @@ func (m *AutoScalePolicyRequest) validateLoadBasedPolicy(formats strfmt.Registry
 }
 
 func (m *AutoScalePolicyRequest) validateScheduleBasedPolicy(formats strfmt.Registry) error {
-	if swag.IsZero(m.ScheduleBasedPolicy) { // not required
+	if typeutils.IsZero(m.ScheduleBasedPolicy) { // not required
 		return nil
 	}
 
@@ -137,7 +138,7 @@ func (m *AutoScalePolicyRequest) contextValidateLoadBasedPolicy(ctx context.Cont
 
 	if m.LoadBasedPolicy != nil {
 
-		if swag.IsZero(m.LoadBasedPolicy) { // not required
+		if typeutils.IsZero(m.LoadBasedPolicy) { // not required
 			return nil
 		}
 
@@ -162,7 +163,7 @@ func (m *AutoScalePolicyRequest) contextValidateScheduleBasedPolicy(ctx context.
 
 	if m.ScheduleBasedPolicy != nil {
 
-		if swag.IsZero(m.ScheduleBasedPolicy) { // not required
+		if typeutils.IsZero(m.ScheduleBasedPolicy) { // not required
 			return nil
 		}
 
@@ -188,13 +189,13 @@ func (m *AutoScalePolicyRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *AutoScalePolicyRequest) UnmarshalBinary(b []byte) error {
 	var res AutoScalePolicyRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

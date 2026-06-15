@@ -181,11 +181,11 @@ func testAccCheckAwsEnvironmentDestroy(s *terraform.State) error {
 		}
 
 		cdpClient := cdpacctest.GetCdpClientForAccTest()
-		params := operations.NewDescribeEnvironmentParamsWithContext(context.Background())
+		params := operations.NewDescribeEnvironmentParams()
 		params.WithInput(&models.DescribeEnvironmentRequest{
 			EnvironmentName: &rs.Primary.ID,
 		})
-		_, err := cdpClient.Environments.Operations.DescribeEnvironment(params)
+		_, err := cdpClient.Environments.Operations.DescribeEnvironmentContext(context.Background(), params)
 		if err != nil {
 			if envErr, ok := err.(*operations.DescribeEnvironmentDefault); ok {
 				if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {

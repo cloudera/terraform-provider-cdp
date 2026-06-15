@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // RevokeWorkspaceAccessReader is a Reader for the RevokeWorkspaceAccess structure.
@@ -45,11 +44,9 @@ func NewRevokeWorkspaceAccessOK() *RevokeWorkspaceAccessOK {
 	return &RevokeWorkspaceAccessOK{}
 }
 
-/*
-RevokeWorkspaceAccessOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// RevokeWorkspaceAccessOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type RevokeWorkspaceAccessOK struct {
 	Payload models.RevokeWorkspaceAccessResponse
 }
@@ -115,11 +112,9 @@ func NewRevokeWorkspaceAccessDefault(code int) *RevokeWorkspaceAccessDefault {
 	}
 }
 
-/*
-RevokeWorkspaceAccessDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RevokeWorkspaceAccessDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RevokeWorkspaceAccessDefault struct {
 	_statusCode int
 

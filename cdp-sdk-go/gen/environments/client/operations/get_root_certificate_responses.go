@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // GetRootCertificateReader is a Reader for the GetRootCertificate structure.
@@ -45,11 +44,9 @@ func NewGetRootCertificateOK() *GetRootCertificateOK {
 	return &GetRootCertificateOK{}
 }
 
-/*
-GetRootCertificateOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// GetRootCertificateOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type GetRootCertificateOK struct {
 	Payload *models.GetRootCertificateResponse
 }
@@ -117,11 +114,9 @@ func NewGetRootCertificateDefault(code int) *GetRootCertificateDefault {
 	}
 }
 
-/*
-GetRootCertificateDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// GetRootCertificateDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type GetRootCertificateDefault struct {
 	_statusCode int
 

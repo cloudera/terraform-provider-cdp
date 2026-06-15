@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // SuspendClusterReader is a Reader for the SuspendCluster structure.
@@ -45,11 +44,9 @@ func NewSuspendClusterOK() *SuspendClusterOK {
 	return &SuspendClusterOK{}
 }
 
-/*
-SuspendClusterOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SuspendClusterOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SuspendClusterOK struct {
 	Payload *models.SuspendClusterResponse
 }
@@ -117,11 +114,9 @@ func NewSuspendClusterDefault(code int) *SuspendClusterDefault {
 	}
 }
 
-/*
-SuspendClusterDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SuspendClusterDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SuspendClusterDefault struct {
 	_statusCode int
 

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewListCredentialsParams creates a new ListCredentialsParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListCredentialsParams() *ListCredentialsParams {
-	return &ListCredentialsParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListCredentialsParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListCredentialsParamsWithTimeout creates a new ListCredentialsParams object
 // with the ability to set a timeout on a request.
 func NewListCredentialsParamsWithTimeout(timeout time.Duration) *ListCredentialsParams {
 	return &ListCredentialsParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListCredentialsParamsWithContext creates a new ListCredentialsParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListCredentialsParams].
 func NewListCredentialsParamsWithContext(ctx context.Context) *ListCredentialsParams {
 	return &ListCredentialsParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListCredentialsParams struct {
 	// Input.
 	Input *models.ListCredentialsRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list credentials params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListCredentialsParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list credentials params
+// WithTimeout adds the timeout to the list credentials params.
 func (o *ListCredentialsParams) WithTimeout(timeout time.Duration) *ListCredentialsParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list credentials params
+// SetTimeout adds the timeout to the list credentials params.
 func (o *ListCredentialsParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list credentials params
+// WithContext adds the context to the list credentials params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListCredentialsParams].
 func (o *ListCredentialsParams) WithContext(ctx context.Context) *ListCredentialsParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list credentials params
+// SetContext adds the context to the list credentials params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListCredentialsParams].
 func (o *ListCredentialsParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list credentials params
+// WithHTTPClient adds the HTTPClient to the list credentials params.
 func (o *ListCredentialsParams) WithHTTPClient(client *http.Client) *ListCredentialsParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list credentials params
+// SetHTTPClient adds the HTTPClient to the list credentials params.
 func (o *ListCredentialsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list credentials params
+// WithInput adds the input to the list credentials params.
 func (o *ListCredentialsParams) WithInput(input *models.ListCredentialsRequest) *ListCredentialsParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list credentials params
+// SetInput adds the input to the list credentials params.
 func (o *ListCredentialsParams) SetInput(input *models.ListCredentialsRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListCredentialsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

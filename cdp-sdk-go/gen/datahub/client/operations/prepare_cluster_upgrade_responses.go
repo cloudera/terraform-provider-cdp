@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // PrepareClusterUpgradeReader is a Reader for the PrepareClusterUpgrade structure.
@@ -45,11 +44,9 @@ func NewPrepareClusterUpgradeOK() *PrepareClusterUpgradeOK {
 	return &PrepareClusterUpgradeOK{}
 }
 
-/*
-PrepareClusterUpgradeOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// PrepareClusterUpgradeOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type PrepareClusterUpgradeOK struct {
 	Payload *models.PrepareClusterUpgradeResponse
 }
@@ -117,11 +114,9 @@ func NewPrepareClusterUpgradeDefault(code int) *PrepareClusterUpgradeDefault {
 	}
 }
 
-/*
-PrepareClusterUpgradeDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// PrepareClusterUpgradeDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type PrepareClusterUpgradeDefault struct {
 	_statusCode int
 

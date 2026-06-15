@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // StopInstancesReader is a Reader for the StopInstances structure.
@@ -45,11 +44,9 @@ func NewStopInstancesOK() *StopInstancesOK {
 	return &StopInstancesOK{}
 }
 
-/*
-StopInstancesOK describes a response with status code 200, with default header values.
-
-Expected response to a valid stop instances request.
-*/
+// StopInstancesOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid stop instances request.
 type StopInstancesOK struct {
 	Payload *models.StopInstancesResponse
 }
@@ -117,11 +114,9 @@ func NewStopInstancesDefault(code int) *StopInstancesDefault {
 	}
 }
 
-/*
-StopInstancesDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// StopInstancesDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type StopInstancesDefault struct {
 	_statusCode int
 

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewUpdateConnectorParams creates a new UpdateConnectorParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewUpdateConnectorParams() *UpdateConnectorParams {
-	return &UpdateConnectorParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewUpdateConnectorParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewUpdateConnectorParamsWithTimeout creates a new UpdateConnectorParams object
 // with the ability to set a timeout on a request.
 func NewUpdateConnectorParamsWithTimeout(timeout time.Duration) *UpdateConnectorParams {
 	return &UpdateConnectorParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewUpdateConnectorParamsWithContext creates a new UpdateConnectorParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateConnectorParams].
 func NewUpdateConnectorParamsWithContext(ctx context.Context) *UpdateConnectorParams {
 	return &UpdateConnectorParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type UpdateConnectorParams struct {
 	// Input.
 	Input *models.UpdateConnectorRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the update connector params (not the query body).
@@ -83,54 +86,57 @@ func (o *UpdateConnectorParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the update connector params
+// WithTimeout adds the timeout to the update connector params.
 func (o *UpdateConnectorParams) WithTimeout(timeout time.Duration) *UpdateConnectorParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the update connector params
+// SetTimeout adds the timeout to the update connector params.
 func (o *UpdateConnectorParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the update connector params
+// WithContext adds the context to the update connector params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateConnectorParams].
 func (o *UpdateConnectorParams) WithContext(ctx context.Context) *UpdateConnectorParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the update connector params
+// SetContext adds the context to the update connector params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [UpdateConnectorParams].
 func (o *UpdateConnectorParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the update connector params
+// WithHTTPClient adds the HTTPClient to the update connector params.
 func (o *UpdateConnectorParams) WithHTTPClient(client *http.Client) *UpdateConnectorParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the update connector params
+// SetHTTPClient adds the HTTPClient to the update connector params.
 func (o *UpdateConnectorParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the update connector params
+// WithInput adds the input to the update connector params.
 func (o *UpdateConnectorParams) WithInput(input *models.UpdateConnectorRequest) *UpdateConnectorParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the update connector params
+// SetInput adds the input to the update connector params.
 func (o *UpdateConnectorParams) SetInput(input *models.UpdateConnectorRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *UpdateConnectorParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

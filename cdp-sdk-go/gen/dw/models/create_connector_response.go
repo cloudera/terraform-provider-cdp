@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 )
 
 // CreateConnectorResponse Response for the createConnector call.
@@ -35,7 +36,7 @@ func (m *CreateConnectorResponse) Validate(formats strfmt.Registry) error {
 }
 
 func (m *CreateConnectorResponse) validateResult(formats strfmt.Registry) error {
-	if swag.IsZero(m.Result) { // not required
+	if typeutils.IsZero(m.Result) { // not required
 		return nil
 	}
 
@@ -75,7 +76,7 @@ func (m *CreateConnectorResponse) contextValidateResult(ctx context.Context, for
 
 	if m.Result != nil {
 
-		if swag.IsZero(m.Result) { // not required
+		if typeutils.IsZero(m.Result) { // not required
 			return nil
 		}
 
@@ -101,13 +102,13 @@ func (m *CreateConnectorResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *CreateConnectorResponse) UnmarshalBinary(b []byte) error {
 	var res CreateConnectorResponse
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 )
 
 // NewListMachineUsersParams creates a new ListMachineUsersParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListMachineUsersParams() *ListMachineUsersParams {
-	return &ListMachineUsersParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListMachineUsersParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListMachineUsersParamsWithTimeout creates a new ListMachineUsersParams object
 // with the ability to set a timeout on a request.
 func NewListMachineUsersParamsWithTimeout(timeout time.Duration) *ListMachineUsersParams {
 	return &ListMachineUsersParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListMachineUsersParamsWithContext creates a new ListMachineUsersParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListMachineUsersParams].
 func NewListMachineUsersParamsWithContext(ctx context.Context) *ListMachineUsersParams {
 	return &ListMachineUsersParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListMachineUsersParams struct {
 	// Input.
 	Input *models.ListMachineUsersRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list machine users params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListMachineUsersParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list machine users params
+// WithTimeout adds the timeout to the list machine users params.
 func (o *ListMachineUsersParams) WithTimeout(timeout time.Duration) *ListMachineUsersParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list machine users params
+// SetTimeout adds the timeout to the list machine users params.
 func (o *ListMachineUsersParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list machine users params
+// WithContext adds the context to the list machine users params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListMachineUsersParams].
 func (o *ListMachineUsersParams) WithContext(ctx context.Context) *ListMachineUsersParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list machine users params
+// SetContext adds the context to the list machine users params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListMachineUsersParams].
 func (o *ListMachineUsersParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list machine users params
+// WithHTTPClient adds the HTTPClient to the list machine users params.
 func (o *ListMachineUsersParams) WithHTTPClient(client *http.Client) *ListMachineUsersParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list machine users params
+// SetHTTPClient adds the HTTPClient to the list machine users params.
 func (o *ListMachineUsersParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list machine users params
+// WithInput adds the input to the list machine users params.
 func (o *ListMachineUsersParams) WithInput(input *models.ListMachineUsersRequest) *ListMachineUsersParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list machine users params
+// SetInput adds the input to the list machine users params.
 func (o *ListMachineUsersParams) SetInput(input *models.ListMachineUsersRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListMachineUsersParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

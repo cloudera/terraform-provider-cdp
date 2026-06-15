@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // CreateConnectorReader is a Reader for the CreateConnector structure.
@@ -45,11 +44,9 @@ func NewCreateConnectorOK() *CreateConnectorOK {
 	return &CreateConnectorOK{}
 }
 
-/*
-CreateConnectorOK describes a response with status code 200, with default header values.
-
-Connector created successfully.
-*/
+// CreateConnectorOK describes a response with status code 200, with default header values.
+//
+// Connector created successfully.
 type CreateConnectorOK struct {
 	Payload *models.CreateConnectorResponse
 }
@@ -117,11 +114,9 @@ func NewCreateConnectorDefault(code int) *CreateConnectorDefault {
 	}
 }
 
-/*
-CreateConnectorDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// CreateConnectorDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type CreateConnectorDefault struct {
 	_statusCode int
 

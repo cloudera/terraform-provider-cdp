@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // NewListFreeipaSecretTypesParams creates a new ListFreeipaSecretTypesParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListFreeipaSecretTypesParams() *ListFreeipaSecretTypesParams {
-	return &ListFreeipaSecretTypesParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListFreeipaSecretTypesParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListFreeipaSecretTypesParamsWithTimeout creates a new ListFreeipaSecretTypesParams object
 // with the ability to set a timeout on a request.
 func NewListFreeipaSecretTypesParamsWithTimeout(timeout time.Duration) *ListFreeipaSecretTypesParams {
 	return &ListFreeipaSecretTypesParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListFreeipaSecretTypesParamsWithContext creates a new ListFreeipaSecretTypesParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListFreeipaSecretTypesParams].
 func NewListFreeipaSecretTypesParamsWithContext(ctx context.Context) *ListFreeipaSecretTypesParams {
 	return &ListFreeipaSecretTypesParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListFreeipaSecretTypesParams struct {
 	// Input.
 	Input *models.ListFreeipaSecretTypesRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list freeipa secret types params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListFreeipaSecretTypesParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list freeipa secret types params
+// WithTimeout adds the timeout to the list freeipa secret types params.
 func (o *ListFreeipaSecretTypesParams) WithTimeout(timeout time.Duration) *ListFreeipaSecretTypesParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list freeipa secret types params
+// SetTimeout adds the timeout to the list freeipa secret types params.
 func (o *ListFreeipaSecretTypesParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list freeipa secret types params
+// WithContext adds the context to the list freeipa secret types params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListFreeipaSecretTypesParams].
 func (o *ListFreeipaSecretTypesParams) WithContext(ctx context.Context) *ListFreeipaSecretTypesParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list freeipa secret types params
+// SetContext adds the context to the list freeipa secret types params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListFreeipaSecretTypesParams].
 func (o *ListFreeipaSecretTypesParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list freeipa secret types params
+// WithHTTPClient adds the HTTPClient to the list freeipa secret types params.
 func (o *ListFreeipaSecretTypesParams) WithHTTPClient(client *http.Client) *ListFreeipaSecretTypesParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list freeipa secret types params
+// SetHTTPClient adds the HTTPClient to the list freeipa secret types params.
 func (o *ListFreeipaSecretTypesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list freeipa secret types params
+// WithInput adds the input to the list freeipa secret types params.
 func (o *ListFreeipaSecretTypesParams) WithInput(input *models.ListFreeipaSecretTypesRequest) *ListFreeipaSecretTypesParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list freeipa secret types params
+// SetInput adds the input to the list freeipa secret types params.
 func (o *ListFreeipaSecretTypesParams) SetInput(input *models.ListFreeipaSecretTypesRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListFreeipaSecretTypesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

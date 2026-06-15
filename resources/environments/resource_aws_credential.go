@@ -65,7 +65,7 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 
 	client := r.client.Environments
 
-	params := operations.NewCreateAWSCredentialParamsWithContext(ctx)
+	params := operations.NewCreateAWSCredentialParams()
 	params.WithInput(&environmentsmodels.CreateAWSCredentialRequest{
 		CredentialName: plan.CredentialName.ValueStringPointer(),
 		Description:    plan.Description.ValueString(),
@@ -73,7 +73,7 @@ func (r *awsCredentialResource) Create(ctx context.Context, req resource.CreateR
 	})
 
 	err := retry.RetryContext(ctx, credentialCreateRetryDuration, func() *retry.RetryError {
-		responseOk, err := client.Operations.CreateAWSCredential(params)
+		responseOk, err := client.Operations.CreateAWSCredentialContext(ctx, params)
 		if err != nil {
 			if envErr, ok := err.(*operations.CreateAWSCredentialDefault); ok {
 				if utils.IsRetryableError(envErr.Code()) {
@@ -160,9 +160,9 @@ func (r *awsCredentialResource) Read(ctx context.Context, req resource.ReadReque
 
 // FindCredentialByName reads and returns the credential from CDP if any.
 func FindCredentialByName(ctx context.Context, cdpClient *cdp.Client, credentialName string) (*environmentsmodels.Credential, error) {
-	params := operations.NewListCredentialsParamsWithContext(ctx)
+	params := operations.NewListCredentialsParams()
 	params.WithInput(&environmentsmodels.ListCredentialsRequest{CredentialName: credentialName})
-	listCredentialsResp, err := cdpClient.Environments.Operations.ListCredentials(params)
+	listCredentialsResp, err := cdpClient.Environments.Operations.ListCredentialsContext(ctx, params)
 	if err != nil {
 		return nil, err
 	}
@@ -202,9 +202,9 @@ func (r *awsCredentialResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	credentialName := state.ID.ValueString()
-	params := operations.NewDeleteCredentialParamsWithContext(ctx)
+	params := operations.NewDeleteCredentialParams()
 	params.WithInput(&environmentsmodels.DeleteCredentialRequest{CredentialName: &credentialName})
-	_, err := r.client.Environments.Operations.DeleteCredential(params)
+	_, err := r.client.Environments.Operations.DeleteCredentialContext(ctx, params)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete AWS Credential")
 		return
@@ -216,7 +216,7 @@ func (r *awsCredentialResource) ImportState(ctx context.Context, req resource.Im
 }
 
 func (r *awsCredentialResource) updateAwsCredential(ctx context.Context, client *environmentsclient.Environments, plan awsCredentialResourceModel) error {
-	params := operations.NewUpdateAwsCredentialParamsWithContext(ctx)
+	params := operations.NewUpdateAwsCredentialParams()
 	params.WithInput(&environmentsmodels.UpdateAwsCredentialRequest{
 		RoleArn:                plan.RoleArn.ValueStringPointer(),
 		Description:            plan.Description.ValueString(),
@@ -226,7 +226,7 @@ func (r *awsCredentialResource) updateAwsCredential(ctx context.Context, client 
 	})
 	return retry.RetryContext(ctx, credentialCreateRetryDuration, func() *retry.RetryError {
 		tflog.Debug(ctx, "Updating AWS credential")
-		_, err := client.Operations.UpdateAwsCredential(params)
+		_, err := client.Operations.UpdateAwsCredentialContext(ctx, params)
 		if err != nil {
 			if envErr, ok := errors.AsType[*operations.UpdateAwsCredentialDefault](err); ok {
 				if utils.IsRetryableError(envErr.Code()) {

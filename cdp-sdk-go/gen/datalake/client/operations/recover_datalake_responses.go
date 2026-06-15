@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
 )
 
 // RecoverDatalakeReader is a Reader for the RecoverDatalake structure.
@@ -45,11 +44,9 @@ func NewRecoverDatalakeOK() *RecoverDatalakeOK {
 	return &RecoverDatalakeOK{}
 }
 
-/*
-RecoverDatalakeOK describes a response with status code 200, with default header values.
-
-Expected response to a valid recover data lake request.
-*/
+// RecoverDatalakeOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid recover data lake request.
 type RecoverDatalakeOK struct {
 	Payload *models.RecoverDatalakeResponse
 }
@@ -117,11 +114,9 @@ func NewRecoverDatalakeDefault(code int) *RecoverDatalakeDefault {
 	}
 }
 
-/*
-RecoverDatalakeDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// RecoverDatalakeDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type RecoverDatalakeDefault struct {
 	_statusCode int
 

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // StartClusterVerticalScalingReader is a Reader for the StartClusterVerticalScaling structure.
@@ -45,11 +44,9 @@ func NewStartClusterVerticalScalingOK() *StartClusterVerticalScalingOK {
 	return &StartClusterVerticalScalingOK{}
 }
 
-/*
-StartClusterVerticalScalingOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// StartClusterVerticalScalingOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type StartClusterVerticalScalingOK struct {
 	Payload *models.StartClusterVerticalScalingResponse
 }
@@ -117,11 +114,9 @@ func NewStartClusterVerticalScalingDefault(code int) *StartClusterVerticalScalin
 	}
 }
 
-/*
-StartClusterVerticalScalingDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// StartClusterVerticalScalingDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type StartClusterVerticalScalingDefault struct {
 	_statusCode int
 

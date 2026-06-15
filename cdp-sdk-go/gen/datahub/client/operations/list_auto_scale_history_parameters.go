@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 )
 
 // NewListAutoScaleHistoryParams creates a new ListAutoScaleHistoryParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewListAutoScaleHistoryParams() *ListAutoScaleHistoryParams {
-	return &ListAutoScaleHistoryParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewListAutoScaleHistoryParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewListAutoScaleHistoryParamsWithTimeout creates a new ListAutoScaleHistoryParams object
 // with the ability to set a timeout on a request.
 func NewListAutoScaleHistoryParamsWithTimeout(timeout time.Duration) *ListAutoScaleHistoryParams {
 	return &ListAutoScaleHistoryParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewListAutoScaleHistoryParamsWithContext creates a new ListAutoScaleHistoryParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListAutoScaleHistoryParams].
 func NewListAutoScaleHistoryParamsWithContext(ctx context.Context) *ListAutoScaleHistoryParams {
 	return &ListAutoScaleHistoryParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type ListAutoScaleHistoryParams struct {
 	// Input.
 	Input *models.ListAutoScaleHistoryRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the list auto scale history params (not the query body).
@@ -83,54 +86,57 @@ func (o *ListAutoScaleHistoryParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the list auto scale history params
+// WithTimeout adds the timeout to the list auto scale history params.
 func (o *ListAutoScaleHistoryParams) WithTimeout(timeout time.Duration) *ListAutoScaleHistoryParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the list auto scale history params
+// SetTimeout adds the timeout to the list auto scale history params.
 func (o *ListAutoScaleHistoryParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the list auto scale history params
+// WithContext adds the context to the list auto scale history params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListAutoScaleHistoryParams].
 func (o *ListAutoScaleHistoryParams) WithContext(ctx context.Context) *ListAutoScaleHistoryParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the list auto scale history params
+// SetContext adds the context to the list auto scale history params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [ListAutoScaleHistoryParams].
 func (o *ListAutoScaleHistoryParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the list auto scale history params
+// WithHTTPClient adds the HTTPClient to the list auto scale history params.
 func (o *ListAutoScaleHistoryParams) WithHTTPClient(client *http.Client) *ListAutoScaleHistoryParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the list auto scale history params
+// SetHTTPClient adds the HTTPClient to the list auto scale history params.
 func (o *ListAutoScaleHistoryParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the list auto scale history params
+// WithInput adds the input to the list auto scale history params.
 func (o *ListAutoScaleHistoryParams) WithInput(input *models.ListAutoScaleHistoryRequest) *ListAutoScaleHistoryParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the list auto scale history params
+// SetInput adds the input to the list auto scale history params.
 func (o *ListAutoScaleHistoryParams) SetInput(input *models.ListAutoScaleHistoryRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *ListAutoScaleHistoryParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

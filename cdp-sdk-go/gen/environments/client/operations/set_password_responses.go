@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 )
 
 // SetPasswordReader is a Reader for the SetPassword structure.
@@ -45,11 +44,9 @@ func NewSetPasswordOK() *SetPasswordOK {
 	return &SetPasswordOK{}
 }
 
-/*
-SetPasswordOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// SetPasswordOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type SetPasswordOK struct {
 	Payload *models.SetPasswordResponse
 }
@@ -117,11 +114,9 @@ func NewSetPasswordDefault(code int) *SetPasswordDefault {
 	}
 }
 
-/*
-SetPasswordDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// SetPasswordDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type SetPasswordDefault struct {
 	_statusCode int
 

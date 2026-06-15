@@ -10,7 +10,8 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -151,12 +152,12 @@ func (m *UpdateVwConfigRequest) validateComponent(formats strfmt.Registry) error
 }
 
 func (m *UpdateVwConfigRequest) validateSet(formats strfmt.Registry) error {
-	if swag.IsZero(m.Set) { // not required
+	if typeutils.IsZero(m.Set) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.Set); i++ {
-		if swag.IsZero(m.Set[i]) { // not required
+		if typeutils.IsZero(m.Set[i]) { // not required
 			continue
 		}
 
@@ -209,7 +210,7 @@ func (m *UpdateVwConfigRequest) contextValidateSet(ctx context.Context, formats 
 
 		if m.Set[i] != nil {
 
-			if swag.IsZero(m.Set[i]) { // not required
+			if typeutils.IsZero(m.Set[i]) { // not required
 				return nil
 			}
 
@@ -237,13 +238,13 @@ func (m *UpdateVwConfigRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
-	return swag.WriteJSON(m)
+	return jsonutils.WriteJSON(m)
 }
 
 // UnmarshalBinary interface implementation
 func (m *UpdateVwConfigRequest) UnmarshalBinary(b []byte) error {
 	var res UpdateVwConfigRequest
-	if err := swag.ReadJSON(b, &res); err != nil {
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}
 	*m = res

@@ -8,10 +8,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
 // ListScalingEventsReader is a Reader for the ListScalingEvents structure.
@@ -45,11 +44,9 @@ func NewListScalingEventsOK() *ListScalingEventsOK {
 	return &ListScalingEventsOK{}
 }
 
-/*
-ListScalingEventsOK describes a response with status code 200, with default header values.
-
-Expected response to a valid request.
-*/
+// ListScalingEventsOK describes a response with status code 200, with default header values.
+//
+// Expected response to a valid request.
 type ListScalingEventsOK struct {
 	Payload *models.ListScalingEventsResponse
 }
@@ -117,11 +114,9 @@ func NewListScalingEventsDefault(code int) *ListScalingEventsDefault {
 	}
 }
 
-/*
-ListScalingEventsDefault describes a response with status code -1, with default header values.
-
-The default response on an error.
-*/
+// ListScalingEventsDefault describes a response with status code -1, with default header values.
+//
+// The default response on an error.
 type ListScalingEventsDefault struct {
 	_statusCode int
 

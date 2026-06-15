@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/ml/models"
 )
 
 // NewCreateModelRegistryParams creates a new CreateModelRegistryParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewCreateModelRegistryParams() *CreateModelRegistryParams {
-	return &CreateModelRegistryParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewCreateModelRegistryParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewCreateModelRegistryParamsWithTimeout creates a new CreateModelRegistryParams object
 // with the ability to set a timeout on a request.
 func NewCreateModelRegistryParamsWithTimeout(timeout time.Duration) *CreateModelRegistryParams {
 	return &CreateModelRegistryParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewCreateModelRegistryParamsWithContext creates a new CreateModelRegistryParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateModelRegistryParams].
 func NewCreateModelRegistryParamsWithContext(ctx context.Context) *CreateModelRegistryParams {
 	return &CreateModelRegistryParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type CreateModelRegistryParams struct {
 	// Input.
 	Input *models.CreateModelRegistryRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the create model registry params (not the query body).
@@ -83,54 +86,57 @@ func (o *CreateModelRegistryParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the create model registry params
+// WithTimeout adds the timeout to the create model registry params.
 func (o *CreateModelRegistryParams) WithTimeout(timeout time.Duration) *CreateModelRegistryParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the create model registry params
+// SetTimeout adds the timeout to the create model registry params.
 func (o *CreateModelRegistryParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the create model registry params
+// WithContext adds the context to the create model registry params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateModelRegistryParams].
 func (o *CreateModelRegistryParams) WithContext(ctx context.Context) *CreateModelRegistryParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the create model registry params
+// SetContext adds the context to the create model registry params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [CreateModelRegistryParams].
 func (o *CreateModelRegistryParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the create model registry params
+// WithHTTPClient adds the HTTPClient to the create model registry params.
 func (o *CreateModelRegistryParams) WithHTTPClient(client *http.Client) *CreateModelRegistryParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the create model registry params
+// SetHTTPClient adds the HTTPClient to the create model registry params.
 func (o *CreateModelRegistryParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the create model registry params
+// WithInput adds the input to the create model registry params.
 func (o *CreateModelRegistryParams) WithInput(input *models.CreateModelRegistryRequest) *CreateModelRegistryParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the create model registry params
+// SetInput adds the input to the create model registry params.
 func (o *CreateModelRegistryParams) SetInput(input *models.CreateModelRegistryRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *CreateModelRegistryParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error

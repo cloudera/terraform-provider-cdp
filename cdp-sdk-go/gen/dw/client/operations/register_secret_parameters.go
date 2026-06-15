@@ -7,12 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 )
 
 // NewRegisterSecretParams creates a new RegisterSecretParams object,
@@ -22,24 +21,28 @@ import (
 //
 // To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewRegisterSecretParams() *RegisterSecretParams {
-	return &RegisterSecretParams{
-		timeout: cr.DefaultTimeout,
-	}
+	return NewRegisterSecretParamsWithTimeout(cr.DefaultTimeout)
 }
 
 // NewRegisterSecretParamsWithTimeout creates a new RegisterSecretParams object
 // with the ability to set a timeout on a request.
 func NewRegisterSecretParamsWithTimeout(timeout time.Duration) *RegisterSecretParams {
 	return &RegisterSecretParams{
-		timeout: timeout,
+		inner: innerParams{
+			timeout: timeout,
+		},
 	}
 }
 
 // NewRegisterSecretParamsWithContext creates a new RegisterSecretParams object
 // with the ability to set a context for a request.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RegisterSecretParams].
 func NewRegisterSecretParamsWithContext(ctx context.Context) *RegisterSecretParams {
 	return &RegisterSecretParams{
-		Context: ctx,
+		inner: innerParams{
+			ctx: ctx,
+		},
 	}
 }
 
@@ -63,9 +66,9 @@ type RegisterSecretParams struct {
 	// Input.
 	Input *models.RegisterSecretRequest
 
-	timeout    time.Duration
-	Context    context.Context
 	HTTPClient *http.Client
+
+	inner innerParams
 }
 
 // WithDefaults hydrates default values in the register secret params (not the query body).
@@ -83,54 +86,57 @@ func (o *RegisterSecretParams) SetDefaults() {
 	// no default values defined for this parameter
 }
 
-// WithTimeout adds the timeout to the register secret params
+// WithTimeout adds the timeout to the register secret params.
 func (o *RegisterSecretParams) WithTimeout(timeout time.Duration) *RegisterSecretParams {
 	o.SetTimeout(timeout)
 	return o
 }
 
-// SetTimeout adds the timeout to the register secret params
+// SetTimeout adds the timeout to the register secret params.
 func (o *RegisterSecretParams) SetTimeout(timeout time.Duration) {
-	o.timeout = timeout
+	o.inner.timeout = timeout
 }
 
-// WithContext adds the context to the register secret params
+// WithContext adds the context to the register secret params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RegisterSecretParams].
 func (o *RegisterSecretParams) WithContext(ctx context.Context) *RegisterSecretParams {
 	o.SetContext(ctx)
 	return o
 }
 
-// SetContext adds the context to the register secret params
+// SetContext adds the context to the register secret params.
+//
+// Deprecated: use the operation call with context to pass the context instead of [RegisterSecretParams].
 func (o *RegisterSecretParams) SetContext(ctx context.Context) {
-	o.Context = ctx
+	o.inner.ctx = ctx
 }
 
-// WithHTTPClient adds the HTTPClient to the register secret params
+// WithHTTPClient adds the HTTPClient to the register secret params.
 func (o *RegisterSecretParams) WithHTTPClient(client *http.Client) *RegisterSecretParams {
 	o.SetHTTPClient(client)
 	return o
 }
 
-// SetHTTPClient adds the HTTPClient to the register secret params
+// SetHTTPClient adds the HTTPClient to the register secret params.
 func (o *RegisterSecretParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithInput adds the input to the register secret params
+// WithInput adds the input to the register secret params.
 func (o *RegisterSecretParams) WithInput(input *models.RegisterSecretRequest) *RegisterSecretParams {
 	o.SetInput(input)
 	return o
 }
 
-// SetInput adds the input to the register secret params
+// SetInput adds the input to the register secret params.
 func (o *RegisterSecretParams) SetInput(input *models.RegisterSecretRequest) {
 	o.Input = input
 }
 
-// WriteToRequest writes these params to a swagger request
+// WriteToRequest writes these params to a [runtime.ClientRequest].
 func (o *RegisterSecretParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
-
-	if err := r.SetTimeout(o.timeout); err != nil {
+	if err := r.SetTimeout(o.inner.timeout); err != nil {
 		return err
 	}
 	var res []error
