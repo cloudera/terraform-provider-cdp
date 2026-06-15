@@ -20,7 +20,7 @@ import (
 // swagger:model CreateGCPEnvironmentRequest
 type CreateGCPEnvironmentRequest struct {
 
-	// The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.
+	// The zones of the environment in the given region.
 	AvailabilityZones []string `json:"availabilityZones"`
 
 	// Name of the credential to use for the environment.

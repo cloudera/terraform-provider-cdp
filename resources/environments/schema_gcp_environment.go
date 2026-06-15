@@ -24,8 +24,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-
-	"github.com/cloudera/terraform-provider-cdp/resources/environments/validators"
 )
 
 var GcpEnvironmentSchema = schema.Schema{
@@ -274,13 +272,10 @@ var GcpEnvironmentSchema = schema.Schema{
 			},
 		},
 		"availability_zones": schema.SetAttribute{
-			MarkdownDescription: "The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.",
-			Description:         "The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.",
+			MarkdownDescription: "The zones of the environment in the given region.",
+			Description:         "The zones of the environment in the given region.",
 			Optional:            true,
 			ElementType:         types.StringType,
-			Validators: []validator.Set{
-				validators.GCPAvailabilityZonesSingleZoneValidator(),
-			},
 		},
 		"id": schema.StringAttribute{
 			MarkdownDescription: "The id of the environment associated by Terraform",

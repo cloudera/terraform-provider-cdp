@@ -3989,7 +3989,7 @@ definitions:
         type: string
         description: Key Resource ID of the customer managed encryption key to encrypt GCP resources.
       availabilityZones:
-        description: The zones of the environment in the given region. Multi-zone selection is not supported in GCP yet. It accepts only one zone until support is added.
+        description: The zones of the environment in the given region.
         type: array
         items:
           type: string
