@@ -79,3 +79,30 @@ func updateSshKey(ctx context.Context, client *environmentsclient.Environments, 
 	_, err := client.Operations.UpdateSSHKeyContext(ctx, params)
 	return err
 }
+
+func updateProxyConfigurationIfChanged(ctx context.Context, client *environmentsclient.Environments, state *types.String, plan *types.String, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan == nil || plan.IsUnknown() {
+		return resp
+	}
+	if state == nil {
+		return resp
+	}
+	if reflect.DeepEqual(*plan, *state) {
+		return resp
+	}
+
+	removeProxy := plan.IsNull() || plan.ValueString() == ""
+	params := operations.NewUpdateProxyConfigParams().WithInput(&environmentsmodels.UpdateProxyConfigRequest{
+		Environment:     env,
+		ProxyConfigName: plan.ValueString(),
+		RemoveProxy:     removeProxy,
+	})
+	tflog.Info(ctx, "Updating proxy configuration in the environment")
+	if _, err := client.Operations.UpdateProxyConfigContext(ctx, params); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update proxy configuration")
+		return resp
+	}
+
+	*state = *plan
+	return resp
+}

@@ -41,6 +41,7 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 		return resp
 	}
 
+	resp = updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
 	return resp
 }
 
