@@ -11,12 +11,19 @@
 package environments
 
 import (
+	"context"
+	"errors"
 	"reflect"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/mocks"
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
@@ -84,4 +91,108 @@ func TestConvertConfigWithFallbackSubnetsReturnsCorrectRequestForAzure(t *testin
 	if got := convertConfigToAzureComputeClusterConfigurationRequest(config, fallbackSubnetIds); !reflect.DeepEqual(got, want) {
 		t.Errorf("convertConfigToAzureComputeClusterConfigurationRequest() = %v, want %v", got, want)
 	}
+}
+
+func TestUpdateAzureAvailabilityZonesIfChanged_ZonesChanged_CallsAPIAndUpdatesState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	plan := utils.ToSetValueFromStringList([]string{"1", "2", "3"})
+	state := utils.ToSetValueFromStringList([]string{"1", "2"})
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateAzureAvailabilityZonesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateAzureAvailabilityZonesParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			len(params.Input.AvailabilityZones) == 3
+	}), mock.Anything).Return(&operations.UpdateAzureAvailabilityZonesOK{}, nil)
+
+	result := updateAzureAvailabilityZonesIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, plan, state)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureAvailabilityZonesIfChanged_ZonesUnchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	zones := utils.ToSetValueFromStringList([]string{"1", "2"})
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureAvailabilityZonesIfChanged(ctx, client, zones, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureAvailabilityZonesIfChanged_PlanNull_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	plan := types.SetNull(types.StringType)
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureAvailabilityZonesIfChanged(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureAvailabilityZonesIfChanged_PlanUnknown_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	plan := types.SetUnknown(types.StringType)
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureAvailabilityZonesIfChanged(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureAvailabilityZonesIfChanged_PlanEmpty_AddsValidationError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	plan := utils.ToSetValueFromStringList([]string{})
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureAvailabilityZonesIfChanged(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureAvailabilityZonesIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	plan := utils.ToSetValueFromStringList([]string{"1", "2", "3"})
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateAzureAvailabilityZonesOK)(nil), errors.New("API connection failed"))
+
+	result := updateAzureAvailabilityZonesIfChanged(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+}
+
+func TestUpdateAzureAvailabilityZonesIfChanged_APISuccess_UpdatesStateToPlan(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	plan := utils.ToSetValueFromStringList([]string{"1", "3"})
+	state := utils.ToSetValueFromStringList([]string{"1", "2"})
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything).
+		Return(&operations.UpdateAzureAvailabilityZonesOK{}, nil)
+
+	updateAzureAvailabilityZonesIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
+
+	assert.Equal(t, plan, state)
 }

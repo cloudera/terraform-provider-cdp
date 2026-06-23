@@ -41,6 +41,11 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 		return resp
 	}
 
+	resp = updateAzureAvailabilityZonesIfChanged(ctx, client, plan.AvailabilityZones, &state.AvailabilityZones, plan.EnvironmentName.ValueStringPointer(), resp)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+
 	resp = updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
 	return resp
 }
@@ -97,4 +102,30 @@ func convertConfigToAzureComputeClusterConfigurationRequest(config *AzureCompute
 		WorkerNodeSubnets:         utils.FromSetValueToStringList(subnetIds),
 		OutboundType:              config.OutboundType.ValueString(),
 	}
+}
+
+func updateAzureAvailabilityZonesIfChanged(ctx context.Context, client *environmentsclient.Environments, plan types.Set, state *types.Set, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan.IsNull() || plan.IsUnknown() {
+		return resp
+	}
+	if len(plan.Elements()) == 0 {
+		resp.Diagnostics.AddError("Invalid availability zone setup", "availability_zones must be a non-empty, known value.")
+		return resp
+	}
+	if !plan.Equal(*state) {
+		tflog.Info(ctx, fmt.Sprintf("Updating Azure availability zones for environment '%s'", *env))
+		request := environmentsmodels.UpdateAzureAvailabilityZonesRequest{
+			AvailabilityZones: utils.FromSetValueToStringList(plan),
+			Environment:       env,
+		}
+		params := operations.NewUpdateAzureAvailabilityZonesParams()
+		params.WithInput(&request)
+		_, err := client.Operations.UpdateAzureAvailabilityZonesContext(ctx, params)
+		if err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update azure availability zone")
+		} else {
+			*state = plan
+		}
+	}
+	return resp
 }
