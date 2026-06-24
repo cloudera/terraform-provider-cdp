@@ -15,7 +15,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/stretchr/testify/assert"
@@ -70,38 +70,36 @@ func TestSetCatalogIfChanged_CatalogChanged_CallsSetCatalog(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
-	planFreeIpa := newFreeIpaObject("https://new-catalog.example.com")
-	stateFreeIpa := newFreeIpaObject("https://old-catalog.example.com")
+	planFreeIpa := newFreeIpaObject(testNewCatalogURL)
+	stateFreeIpa := newFreeIpaObject(testOldCatalogURL)
 
 	matcher := func(params *operations.SetCatalogParams) bool {
-		return *params.Input.Catalog == "https://new-catalog.example.com" &&
+		return *params.Input.Catalog == testNewCatalogURL &&
 			*params.Input.Environment == "test-env"
 	}
 	mockClient.On("SetCatalogContext", mock.Anything, mock.MatchedBy(matcher)).Return(&operations.SetCatalogOK{}, nil)
 
-	var diags diag.Diagnostics
-	SetCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), &diags)
+	resp := &resource.UpdateResponse{}
+	updateCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), resp)
 
-	assert.False(t, diags.HasError())
+	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertExpectations(t)
 
 	var updatedDetails FreeIpaDetails
 	asDiags := stateFreeIpa.As(ctx, &updatedDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
 	assert.False(t, asDiags.HasError())
-	assert.Equal(t, "https://new-catalog.example.com", updatedDetails.Catalog.ValueString())
+	assert.Equal(t, testNewCatalogURL, updatedDetails.Catalog.ValueString())
 }
 
 func TestSetCatalogIfChanged_CatalogUnchanged_DoesNotCallSetCatalog(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
-	planFreeIpa := newFreeIpaObject("https://same-catalog.example.com")
-	stateFreeIpa := newFreeIpaObject("https://same-catalog.example.com")
+	planFreeIpa := newFreeIpaObject(testSameCatalogURL)
+	resp := &resource.UpdateResponse{}
+	updateCatalogIfChanged(ctx, planFreeIpa, new(newFreeIpaObject(testSameCatalogURL)), "test-env", newMockEnvClient(mockClient), resp)
 
-	var diags diag.Diagnostics
-	SetCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), &diags)
-
-	assert.False(t, diags.HasError())
+	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertNotCalled(t, "SetCatalog", mock.Anything)
 }
 
@@ -110,12 +108,10 @@ func TestSetCatalogIfChanged_PlanCatalogNull_DoesNotCallSetCatalog(t *testing.T)
 	mockClient := new(mocks.MockEnvironmentClientService)
 
 	planFreeIpa := newFreeIpaObjectWithNullCatalog()
-	stateFreeIpa := newFreeIpaObject("https://old-catalog.example.com")
+	resp := &resource.UpdateResponse{}
+	updateCatalogIfChanged(ctx, planFreeIpa, new(newFreeIpaObject(testOldCatalogURL)), "test-env", newMockEnvClient(mockClient), resp)
 
-	var diags diag.Diagnostics
-	SetCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), &diags)
-
-	assert.False(t, diags.HasError())
+	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertNotCalled(t, "SetCatalog", mock.Anything)
 }
 
@@ -123,44 +119,44 @@ func TestSetCatalogIfChanged_ApiError_AddsDiagnostics(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
-	planFreeIpa := newFreeIpaObject("https://new-catalog.example.com")
-	stateFreeIpa := newFreeIpaObject("https://old-catalog.example.com")
+	planFreeIpa := newFreeIpaObject(testNewCatalogURL)
+	stateFreeIpa := newFreeIpaObject(testOldCatalogURL)
 
 	mockClient.On("SetCatalogContext", mock.Anything, mock.Anything).Return((*operations.SetCatalogOK)(nil), errors.New("API connection failed"))
 
-	var diags diag.Diagnostics
-	SetCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), &diags)
+	resp := &resource.UpdateResponse{}
+	updateCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), resp)
 
-	assert.True(t, diags.HasError())
+	assert.True(t, resp.Diagnostics.HasError())
 	mockClient.AssertExpectations(t)
 
 	var stateDetails FreeIpaDetails
 	asDiags := stateFreeIpa.As(ctx, &stateDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
 	assert.False(t, asDiags.HasError())
-	assert.Equal(t, "https://old-catalog.example.com", stateDetails.Catalog.ValueString())
+	assert.Equal(t, testOldCatalogURL, stateDetails.Catalog.ValueString())
 }
 
 func TestSetCatalogIfChanged_CatalogChangedFromNull_CallsSetCatalog(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
-	planFreeIpa := newFreeIpaObject("https://new-catalog.example.com")
+	planFreeIpa := newFreeIpaObject(testNewCatalogURL)
 	stateFreeIpa := newFreeIpaObjectWithNullCatalog()
 
 	matcher := func(params *operations.SetCatalogParams) bool {
-		return *params.Input.Catalog == "https://new-catalog.example.com" &&
+		return *params.Input.Catalog == testNewCatalogURL &&
 			*params.Input.Environment == "my-env"
 	}
 	mockClient.On("SetCatalogContext", mock.Anything, mock.MatchedBy(matcher)).Return(&operations.SetCatalogOK{}, nil)
 
-	var diags diag.Diagnostics
-	SetCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "my-env", newMockEnvClient(mockClient), &diags)
+	resp := &resource.UpdateResponse{}
+	updateCatalogIfChanged(ctx, planFreeIpa, &stateFreeIpa, "my-env", newMockEnvClient(mockClient), resp)
 
-	assert.False(t, diags.HasError())
+	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertExpectations(t)
 
 	var updatedDetails FreeIpaDetails
 	asDiags := stateFreeIpa.As(ctx, &updatedDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
 	assert.False(t, asDiags.HasError())
-	assert.Equal(t, "https://new-catalog.example.com", updatedDetails.Catalog.ValueString())
+	assert.Equal(t, testNewCatalogURL, updatedDetails.Catalog.ValueString())
 }

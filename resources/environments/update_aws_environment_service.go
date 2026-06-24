@@ -27,54 +27,19 @@ import (
 )
 
 func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
-	resp = enableComputeClustersForAwsIfNecessary(ctx, plan, state, client, resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	resp = updateCredentialIfChanged(ctx, client, plan.CredentialName, &state.CredentialName, plan.EnvironmentName.ValueStringPointer(), resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	if plan.Authentication != nil && !reflect.DeepEqual(plan.Authentication, state.Authentication) {
-		if err := updateSshKeyForAws(ctx, client, plan.Authentication, plan.EnvironmentName.ValueStringPointer()); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update SSH key")
-			return resp
-		}
-		state.Authentication = plan.Authentication
-	}
-	if !reflect.DeepEqual(plan.EncryptionKeyArn, state.EncryptionKeyArn) {
-		if err := updateDiskEncryption(ctx, client, plan.EnvironmentName.ValueStringPointer(), plan.EncryptionKeyArn); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update disk encryption param(s)")
-			return resp
-		}
-		state.EncryptionKeyArn = plan.EncryptionKeyArn
-	}
-
-	SetCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, &resp.Diagnostics)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	resp = updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	SetEndpointAccessGatewayIfChanged(ctx, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, state.EndpointAccessGatewayScheme, state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), client, plan.PollingOptions, &resp.Diagnostics)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	if !plan.EndpointAccessGatewayScheme.IsNull() && !plan.EndpointAccessGatewayScheme.IsUnknown() && !plan.EndpointAccessGatewaySubnetIds.IsUnknown() {
-		state.EndpointAccessGatewayScheme = plan.EndpointAccessGatewayScheme
-		state.EndpointAccessGatewaySubnetIds = plan.EndpointAccessGatewaySubnetIds
-	}
-	resp = updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	// ... more update operations
-	return resp
+	return executeUpdateOperations(ctx, plan, state, client, resp,
+		updateAwsComputeClusterIfChanged,
+		updateAwsCredentialIfChanged,
+		updateAwsAuthenticationIfChanged,
+		updateAwsEncryptionKeyIfChanged,
+		updateAwsCatalogIfChanged,
+		updateAwsProxyConfigurationIfChanged,
+		updateAwsEndpointAccessGatewayIfChanged,
+		updateAwsCustomDockerRegistryIfChanged,
+	)
 }
 
-func enableComputeClustersForAwsIfNecessary(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+func updateAwsComputeClusterIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if state.ComputeCluster == nil && plan.ComputeCluster != nil && plan.ComputeCluster.Enabled.ValueBool() {
 		tflog.Info(ctx, fmt.Sprintf("Request for compute cluster enablement for environment '%s' is detected.", plan.EnvironmentName.ValueString()))
 		if err := enableComputeClusterForAws(ctx, plan.ComputeCluster.Configuration, plan.EnvironmentName.ValueString(), state.SubnetIds, client); err != nil {
@@ -90,6 +55,53 @@ func enableComputeClustersForAwsIfNecessary(ctx context.Context, plan *awsEnviro
 		}
 	}
 	return resp
+}
+
+func updateAwsCredentialIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateCredential(ctx, client, plan.CredentialName, &state.CredentialName, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateAwsAuthenticationIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan.Authentication == nil {
+		return resp
+	}
+	if reflect.DeepEqual(plan.Authentication, state.Authentication) {
+		return resp
+	}
+	if err := updateSshKeyForAws(ctx, client, plan.Authentication, plan.EnvironmentName.ValueStringPointer()); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update SSH key")
+		return resp
+	}
+	state.Authentication = plan.Authentication
+	return resp
+}
+
+func updateAwsEncryptionKeyIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if reflect.DeepEqual(plan.EncryptionKeyArn, state.EncryptionKeyArn) {
+		return resp
+	}
+	if err := updateDiskEncryption(ctx, client, plan.EnvironmentName.ValueStringPointer(), plan.EncryptionKeyArn); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update disk encryption param(s)")
+		return resp
+	}
+	state.EncryptionKeyArn = plan.EncryptionKeyArn
+	return resp
+}
+
+func updateAwsCatalogIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, resp)
+}
+
+func updateAwsProxyConfigurationIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateAwsEndpointAccessGatewayIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), plan.PollingOptions, resp)
+}
+
+func updateAwsCustomDockerRegistryIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
 }
 
 func enableComputeClusterForAws(ctx context.Context, config *AwsComputeClusterConfiguration, environmentName string, envSubnets types.Set, envClient *environmentsclient.Environments) error {

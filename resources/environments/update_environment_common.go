@@ -16,7 +16,6 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -28,7 +27,8 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func performEnvironmentUpdate[T any](ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse, client *environmentsclient.Environments, update func(context.Context, *T, *T, *environmentsclient.Environments, *resource.UpdateResponse) *resource.UpdateResponse) {
+func performEnvironmentUpdate[T any](ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse, client *environmentsclient.Environments,
+	providerSpecificUpdateFunction func(context.Context, *T, *T, *environmentsclient.Environments, *resource.UpdateResponse) *resource.UpdateResponse) {
 	var plan T
 	var state T
 	planDiags := req.Plan.Get(ctx, &plan)
@@ -40,13 +40,24 @@ func performEnvironmentUpdate[T any](ctx context.Context, req resource.UpdateReq
 		return
 	}
 
-	update(ctx, &plan, &state, client, resp)
+	providerSpecificUpdateFunction(ctx, &plan, &state, client, resp)
 
 	stateDiags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(stateDiags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
+}
+
+func executeUpdateOperations[T any](ctx context.Context, plan *T, state *T, client *environmentsclient.Environments, resp *resource.UpdateResponse,
+	ops ...func(context.Context, *T, *T, *environmentsclient.Environments, *resource.UpdateResponse) *resource.UpdateResponse) *resource.UpdateResponse {
+	for _, op := range ops {
+		op(ctx, plan, state, client, resp)
+		if resp.Diagnostics.HasError() {
+			return resp
+		}
+	}
+	return resp
 }
 
 func updateSshKeyIfChanged(ctx context.Context, client *environmentsclient.Environments, planKey types.String, stateKey *types.String, envName *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
@@ -128,7 +139,7 @@ func updateProxyConfigurationIfChanged(ctx context.Context, client *environments
 	return resp
 }
 
-func updateCredentialIfChanged(ctx context.Context, client *environmentsclient.Environments, plan types.String, state *types.String, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
+func updateCredential(ctx context.Context, client *environmentsclient.Environments, plan types.String, state *types.String, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if reflect.DeepEqual(plan, *state) {
 		return resp
 	}
@@ -145,42 +156,45 @@ func updateCredentialIfChanged(ctx context.Context, client *environmentsclient.E
 	return resp
 }
 
-func SetEndpointAccessGatewayIfChanged(ctx context.Context, planScheme types.String, planSubnetIds types.Set, stateScheme types.String, stateSubnetIds types.Set, environmentName string, client *environmentsclient.Environments, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+func updateEndpointAccessGatewayIfChanged(ctx context.Context, client *environmentsclient.Environments, planScheme types.String, planSubnetIds types.Set, stateScheme *types.String, stateSubnetIds *types.Set, environmentName string, pollingOptions *utils.PollingOptions, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if planScheme.IsNull() || planScheme.IsUnknown() {
-		return
+		return resp
 	}
 	if planSubnetIds.IsUnknown() {
-		return
+		return resp
 	}
 
-	schemeChanged := !planScheme.Equal(stateScheme)
-	subnetIdsChanged := !planSubnetIds.Equal(stateSubnetIds)
+	schemeChanged := !planScheme.Equal(*stateScheme)
+	subnetIdsChanged := !planSubnetIds.Equal(*stateSubnetIds)
 
 	if !schemeChanged && !subnetIdsChanged {
-		return
+		return resp
 	}
 
-	scheme := planScheme.ValueString()
 	tflog.Info(ctx, fmt.Sprintf("Endpoint access gateway change detected for environment '%s', calling SetEndpointAccessGateway.", environmentName))
 
 	params := operations.NewSetEndpointAccessGatewayParams()
 	params.WithInput(&environmentsmodels.SetEndpointAccessGatewayRequest{
-		EndpointAccessGatewayScheme:    &scheme,
+		EndpointAccessGatewayScheme:    new(planScheme.ValueString()),
 		EndpointAccessGatewaySubnetIds: utils.FromSetValueToStringList(planSubnetIds),
 		Environment:                    &environmentName,
 	})
-	resp, err := client.Operations.SetEndpointAccessGatewayContext(ctx, params)
+	apiResp, err := client.Operations.SetEndpointAccessGatewayContext(ctx, params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, diags, "set endpoint access gateway")
-		return
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "set endpoint access gateway")
+		return resp
 	}
 
-	if resp.Payload != nil && resp.Payload.OperationID != "" {
-		if err := waitForOperationToComplete(ctx, environmentName, resp.Payload.OperationID, client, pollingOptions); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, diags, "wait for set endpoint access gateway operation to complete")
-			return
+	if apiResp.Payload != nil && apiResp.Payload.OperationID != "" {
+		if err := waitForOperationToComplete(ctx, environmentName, apiResp.Payload.OperationID, client, pollingOptions); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "wait for set endpoint access gateway operation to complete")
+			return resp
 		}
 	}
+
+	*stateScheme = planScheme
+	*stateSubnetIds = planSubnetIds
+	return resp
 }
 
 func waitForOperationToComplete(ctx context.Context, environmentName string, operationID string, client *environmentsclient.Environments, pollingOptions *utils.PollingOptions) error {
