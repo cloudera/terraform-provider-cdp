@@ -15,7 +15,6 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	rsschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
@@ -53,6 +52,19 @@ const (
 
 	testOldDockerRegistryCrn = "crn:cdp:docker:us-west-1:old-registry"
 	testNewDockerRegistryCrn = "crn:cdp:docker:us-west-1:new-registry"
+
+	testOldCredentialName  = "old-credential"
+	testNewCredentialName  = "new-credential"
+	testSameCredentialName = "same-credential"
+
+	testGatewaySchemePublic  = "PUBLIC"
+	testGatewaySchemePrivate = "PRIVATE"
+
+	testOldCatalogURL  = "https://old-catalog.example.com"
+	testNewCatalogURL  = "https://new-catalog.example.com"
+	testSameCatalogURL = "https://same-catalog.example.com"
+
+	testClusterInitFailed = "cluster init failed"
 )
 
 func TestUpdateSshKeyIfChanged_KeyChanged_UpdatesStateAndCallsAPI(t *testing.T) {
@@ -602,8 +614,7 @@ func TestUpdateProxyConfigurationIfChanged_Success_UpdatesState(t *testing.T) {
 		Return(&operations.UpdateProxyConfigOK{}, nil)
 
 	state := types.StringValue(testOldProxyConfigName)
-	plan := types.StringValue(testNewProxyConfigName)
-	result := updateProxyConfigurationIfChanged(ctx, client, &state, &plan, new(testEnvName), resp)
+	result := updateProxyConfigurationIfChanged(ctx, client, &state, new(types.StringValue(testNewProxyConfigName)), new(testEnvName), resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	assert.Equal(t, testNewProxyConfigName, state.ValueString())
@@ -633,8 +644,7 @@ func TestUpdateProxyConfigurationIfChanged_APIError_DoesNotUpdateState(t *testin
 		Return((*operations.UpdateProxyConfigOK)(nil), errors.New("API error"))
 
 	state := types.StringValue(testOldProxyConfigName)
-	plan := types.StringValue(testNewProxyConfigName)
-	result := updateProxyConfigurationIfChanged(ctx, client, &state, &plan, new(testEnvName), resp)
+	result := updateProxyConfigurationIfChanged(ctx, client, &state, new(types.StringValue(testNewProxyConfigName)), new(testEnvName), resp)
 
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, testOldProxyConfigName, state.ValueString())
@@ -802,15 +812,15 @@ func TestUpdateCredentialIfChanged_CredentialChanged_UpdatesStateAndCallsAPI(t *
 	resp := &resource.UpdateResponse{}
 
 	mockClient.On("ChangeEnvironmentCredentialContext", mock.Anything, mock.MatchedBy(func(params *operations.ChangeEnvironmentCredentialParams) bool {
-		return *params.Input.CredentialName == "new-cred" && *params.Input.EnvironmentName == testEnvName
+		return *params.Input.CredentialName == testNewCredentialName && *params.Input.EnvironmentName == testEnvName
 	}), mock.Anything).Return(&operations.ChangeEnvironmentCredentialOK{}, nil)
 
-	plan := types.StringValue("new-cred")
-	state := types.StringValue("old-cred")
-	result := updateCredentialIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
+	plan := types.StringValue(testNewCredentialName)
+	state := types.StringValue(testOldCredentialName)
+	result := updateCredential(ctx, client, plan, &state, new(testEnvName), resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	assert.Equal(t, "new-cred", state.ValueString())
+	assert.Equal(t, testNewCredentialName, state.ValueString())
 	mockClient.AssertExpectations(t)
 }
 
@@ -820,12 +830,12 @@ func TestUpdateCredentialIfChanged_CredentialUnchanged_SkipsAPICall(t *testing.T
 	client := NewMockEnvironments(mockClient)
 	resp := &resource.UpdateResponse{}
 
-	plan := types.StringValue("same-cred")
-	state := types.StringValue("same-cred")
-	result := updateCredentialIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
+	plan := types.StringValue(testSameCredentialName)
+	state := types.StringValue(testSameCredentialName)
+	result := updateCredential(ctx, client, plan, &state, new(testEnvName), resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	assert.Equal(t, "same-cred", state.ValueString())
+	assert.Equal(t, testSameCredentialName, state.ValueString())
 	mockClient.AssertNotCalled(t, "ChangeEnvironmentCredentialContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
@@ -838,25 +848,22 @@ func TestUpdateCredentialIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
 	mockClient.On("ChangeEnvironmentCredentialContext", mock.Anything, mock.Anything, mock.Anything).
 		Return((*operations.ChangeEnvironmentCredentialOK)(nil), errors.New("API connection failed"))
 
-	plan := types.StringValue("new-cred")
-	state := types.StringValue("old-cred")
-	result := updateCredentialIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
+	plan := types.StringValue(testNewCredentialName)
+	state := types.StringValue(testOldCredentialName)
+	result := updateCredential(ctx, client, plan, &state, new(testEnvName), resp)
 
 	assert.True(t, result.Diagnostics.HasError())
-	assert.Equal(t, "old-cred", state.ValueString())
+	assert.Equal(t, testOldCredentialName, state.ValueString())
 }
 
-func TestSetEndpointAccessGatewayIfChanged_SchemeChanged_CallsApiAndPolls(t *testing.T) {
+func TestUpdateEndpointAccessGatewayIfChanged_SchemeChanged_CallsApiAndPolls(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
-	planScheme := types.StringValue("PUBLIC")
+	planScheme := types.StringValue(testGatewaySchemePublic)
 	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"})
-	stateScheme := types.StringValue("PRIVATE")
-	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"})
-
 	matcher := func(params *operations.SetEndpointAccessGatewayParams) bool {
-		return *params.Input.EndpointAccessGatewayScheme == "PUBLIC" &&
+		return *params.Input.EndpointAccessGatewayScheme == testGatewaySchemePublic &&
 			*params.Input.Environment == "test-env" &&
 			len(params.Input.EndpointAccessGatewaySubnetIds) == 2
 	}
@@ -876,22 +883,19 @@ func TestSetEndpointAccessGatewayIfChanged_SchemeChanged_CallsApiAndPolls(t *tes
 		},
 	}, nil)
 
-	var diags diag.Diagnostics
-	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+	resp := &resource.UpdateResponse{}
+	updateEndpointAccessGatewayIfChanged(ctx, NewMockEnvironments(mockClient), planScheme, planSubnetIds, new(types.StringValue(testGatewaySchemePrivate)), new(utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"})), "test-env", nil, resp)
 
-	assert.False(t, diags.HasError())
+	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertExpectations(t)
 }
 
-func TestSetEndpointAccessGatewayIfChanged_SubnetIdsChanged_CallsApiAndPolls(t *testing.T) {
+func TestUpdateEndpointAccessGatewayIfChanged_SubnetIdsChanged_CallsApiAndPolls(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
-	planScheme := types.StringValue("PUBLIC")
+	planScheme := types.StringValue(testGatewaySchemePublic)
 	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2", "subnet-3"})
-	stateScheme := types.StringValue("PUBLIC")
-	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"})
-
 	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything).Return(&operations.SetEndpointAccessGatewayOK{
 		Payload: &environmentsmodels.SetEndpointAccessGatewayResponse{
 			OperationID: "op-456",
@@ -905,72 +909,60 @@ func TestSetEndpointAccessGatewayIfChanged_SubnetIdsChanged_CallsApiAndPolls(t *
 		},
 	}, nil)
 
-	var diags diag.Diagnostics
-	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+	resp := &resource.UpdateResponse{}
+	updateEndpointAccessGatewayIfChanged(ctx, NewMockEnvironments(mockClient), planScheme, planSubnetIds, new(types.StringValue(testGatewaySchemePublic)), new(utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"})), "test-env", nil, resp)
 
-	assert.False(t, diags.HasError())
+	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertExpectations(t)
 }
 
-func TestSetEndpointAccessGatewayIfChanged_NothingChanged_DoesNotCallApi(t *testing.T) {
+func TestUpdateEndpointAccessGatewayIfChanged_NothingChanged_DoesNotCallApi(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
-	planScheme := types.StringValue("PUBLIC")
+	planScheme := types.StringValue(testGatewaySchemePublic)
 	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
-	stateScheme := types.StringValue("PUBLIC")
-	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+	resp := &resource.UpdateResponse{}
+	updateEndpointAccessGatewayIfChanged(ctx, NewMockEnvironments(mockClient), planScheme, planSubnetIds, new(types.StringValue(testGatewaySchemePublic)), new(utils.ToSetValueFromStringList([]string{"subnet-1"})), "test-env", nil, resp)
 
-	var diags diag.Diagnostics
-	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
-
-	assert.False(t, diags.HasError())
+	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertNotCalled(t, "SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
-func TestSetEndpointAccessGatewayIfChanged_PlanSchemeNull_DoesNotCallApi(t *testing.T) {
+func TestUpdateEndpointAccessGatewayIfChanged_PlanSchemeNull_DoesNotCallApi(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
 	planScheme := types.StringNull()
 	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
-	stateScheme := types.StringValue("PUBLIC")
-	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
+	resp := &resource.UpdateResponse{}
+	updateEndpointAccessGatewayIfChanged(ctx, NewMockEnvironments(mockClient), planScheme, planSubnetIds, new(types.StringValue(testGatewaySchemePublic)), new(utils.ToSetValueFromStringList([]string{"subnet-1"})), "test-env", nil, resp)
 
-	var diags diag.Diagnostics
-	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
-
-	assert.False(t, diags.HasError())
+	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertNotCalled(t, "SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
-func TestSetEndpointAccessGatewayIfChanged_ApiError_AddsDiagnostics(t *testing.T) {
+func TestUpdateEndpointAccessGatewayIfChanged_ApiError_AddsDiagnostics(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
-	planScheme := types.StringValue("PUBLIC")
+	planScheme := types.StringValue(testGatewaySchemePublic)
 	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
-	stateScheme := types.StringValue("PRIVATE")
-	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
-
 	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything).Return((*operations.SetEndpointAccessGatewayOK)(nil), errors.New("API connection failed"))
 
-	var diags diag.Diagnostics
-	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+	resp := &resource.UpdateResponse{}
+	updateEndpointAccessGatewayIfChanged(ctx, NewMockEnvironments(mockClient), planScheme, planSubnetIds, new(types.StringValue(testGatewaySchemePrivate)), new(utils.ToSetValueFromStringList([]string{"subnet-1"})), "test-env", nil, resp)
 
-	assert.True(t, diags.HasError())
+	assert.True(t, resp.Diagnostics.HasError())
 	mockClient.AssertExpectations(t)
 }
 
-func TestSetEndpointAccessGatewayIfChanged_OperationFailed_AddsDiagnostics(t *testing.T) {
+func TestUpdateEndpointAccessGatewayIfChanged_OperationFailed_AddsDiagnostics(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
-	planScheme := types.StringValue("PUBLIC")
+	planScheme := types.StringValue(testGatewaySchemePublic)
 	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
-	stateScheme := types.StringValue("PRIVATE")
-	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
-
 	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything).Return(&operations.SetEndpointAccessGatewayOK{
 		Payload: &environmentsmodels.SetEndpointAccessGatewayResponse{
 			OperationID: "op-fail",
@@ -984,30 +976,113 @@ func TestSetEndpointAccessGatewayIfChanged_OperationFailed_AddsDiagnostics(t *te
 		},
 	}, nil)
 
-	var diags diag.Diagnostics
-	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+	resp := &resource.UpdateResponse{}
+	updateEndpointAccessGatewayIfChanged(ctx, NewMockEnvironments(mockClient), planScheme, planSubnetIds, new(types.StringValue(testGatewaySchemePrivate)), new(utils.ToSetValueFromStringList([]string{"subnet-1"})), "test-env", nil, resp)
 
-	assert.True(t, diags.HasError())
+	assert.True(t, resp.Diagnostics.HasError())
 	mockClient.AssertExpectations(t)
 }
 
-func TestSetEndpointAccessGatewayIfChanged_NoOperationId_SkipsPolling(t *testing.T) {
+func TestUpdateEndpointAccessGatewayIfChanged_NoOperationId_SkipsPolling(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
 
-	planScheme := types.StringValue("PUBLIC")
+	planScheme := types.StringValue(testGatewaySchemePublic)
 	planSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
-	stateScheme := types.StringValue("PRIVATE")
-	stateSubnetIds := utils.ToSetValueFromStringList([]string{"subnet-1"})
-
 	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything).Return(&operations.SetEndpointAccessGatewayOK{
 		Payload: &environmentsmodels.SetEndpointAccessGatewayResponse{},
 	}, nil)
 
-	var diags diag.Diagnostics
-	SetEndpointAccessGatewayIfChanged(ctx, planScheme, planSubnetIds, stateScheme, stateSubnetIds, "test-env", NewMockEnvironments(mockClient), nil, &diags)
+	resp := &resource.UpdateResponse{}
+	updateEndpointAccessGatewayIfChanged(ctx, NewMockEnvironments(mockClient), planScheme, planSubnetIds, new(types.StringValue(testGatewaySchemePrivate)), new(utils.ToSetValueFromStringList([]string{"subnet-1"})), "test-env", nil, resp)
 
-	assert.False(t, diags.HasError())
+	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertNotCalled(t, "GetOperationContext", mock.Anything, mock.Anything, mock.Anything)
 	mockClient.AssertExpectations(t)
+}
+
+// Tests for executeUpdateOperations
+
+func TestExecuteUpdateOperations_AllOpsSucceed_CallsAllInOrder(t *testing.T) {
+	ctx := context.TODO()
+	plan := &testUpdateModel{Name: types.StringValue("plan"), Value: types.StringValue("v1")}
+	state := &testUpdateModel{Name: types.StringValue("state"), Value: types.StringValue("v0")}
+	resp := &resource.UpdateResponse{}
+
+	var callOrder []int
+	op1 := func(_ context.Context, _ *testUpdateModel, _ *testUpdateModel, _ *environmentsclient.Environments, r *resource.UpdateResponse) *resource.UpdateResponse {
+		callOrder = append(callOrder, 1)
+		return r
+	}
+	op2 := func(_ context.Context, _ *testUpdateModel, _ *testUpdateModel, _ *environmentsclient.Environments, r *resource.UpdateResponse) *resource.UpdateResponse {
+		callOrder = append(callOrder, 2)
+		return r
+	}
+	op3 := func(_ context.Context, _ *testUpdateModel, _ *testUpdateModel, _ *environmentsclient.Environments, r *resource.UpdateResponse) *resource.UpdateResponse {
+		callOrder = append(callOrder, 3)
+		return r
+	}
+
+	result := executeUpdateOperations(ctx, plan, state, nil, resp, op1, op2, op3)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, []int{1, 2, 3}, callOrder)
+}
+
+func TestExecuteUpdateOperations_SecondOpFails_StopsAndReturnsError(t *testing.T) {
+	ctx := context.TODO()
+	plan := &testUpdateModel{Name: types.StringValue("plan"), Value: types.StringValue("v1")}
+	state := &testUpdateModel{Name: types.StringValue("state"), Value: types.StringValue("v0")}
+	resp := &resource.UpdateResponse{}
+
+	var callOrder []int
+	op1 := func(_ context.Context, _ *testUpdateModel, _ *testUpdateModel, _ *environmentsclient.Environments, r *resource.UpdateResponse) *resource.UpdateResponse {
+		callOrder = append(callOrder, 1)
+		return r
+	}
+	op2 := func(_ context.Context, _ *testUpdateModel, _ *testUpdateModel, _ *environmentsclient.Environments, r *resource.UpdateResponse) *resource.UpdateResponse {
+		callOrder = append(callOrder, 2)
+		r.Diagnostics.AddError("test error", "op2 failed")
+		return r
+	}
+	op3 := func(_ context.Context, _ *testUpdateModel, _ *testUpdateModel, _ *environmentsclient.Environments, r *resource.UpdateResponse) *resource.UpdateResponse {
+		callOrder = append(callOrder, 3)
+		return r
+	}
+
+	result := executeUpdateOperations(ctx, plan, state, nil, resp, op1, op2, op3)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, []int{1, 2}, callOrder)
+}
+
+func TestExecuteUpdateOperations_EmptyOps_ReturnsWithoutError(t *testing.T) {
+	ctx := context.TODO()
+	plan := &testUpdateModel{Name: types.StringValue("plan"), Value: types.StringValue("v1")}
+	state := &testUpdateModel{Name: types.StringValue("state"), Value: types.StringValue("v0")}
+	resp := &resource.UpdateResponse{}
+
+	result := executeUpdateOperations[testUpdateModel](ctx, plan, state, nil, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+}
+
+func TestExecuteUpdateOperations_SingleOp_Success(t *testing.T) {
+	ctx := context.TODO()
+	plan := &testUpdateModel{Name: types.StringValue("plan"), Value: types.StringValue("v1")}
+	state := &testUpdateModel{Name: types.StringValue("state"), Value: types.StringValue("v0")}
+	resp := &resource.UpdateResponse{}
+
+	called := false
+	op := func(_ context.Context, p *testUpdateModel, s *testUpdateModel, _ *environmentsclient.Environments, r *resource.UpdateResponse) *resource.UpdateResponse {
+		called = true
+		assert.Equal(t, "plan", p.Name.ValueString())
+		assert.Equal(t, "state", s.Name.ValueString())
+		return r
+	}
+
+	result := executeUpdateOperations(ctx, plan, state, nil, resp, op)
+
+	assert.True(t, called)
+	assert.False(t, result.Diagnostics.HasError())
 }

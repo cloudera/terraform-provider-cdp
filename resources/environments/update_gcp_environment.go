@@ -19,32 +19,36 @@ import (
 )
 
 func updateGcpEnvironment(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
-	resp = updateCredentialIfChanged(ctx, client, plan.CredentialName, &state.CredentialName, plan.EnvironmentName.ValueStringPointer(), resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	resp = updateSshKeyIfChanged(ctx, client, plan.PublicKey, &state.PublicKey, plan.EnvironmentName.ValueStringPointer(), resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	resp = updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
+	return executeUpdateOperations(ctx, plan, state, client, resp,
+		updateGcpCredentialIfChanged,
+		updateGcpSshKeyIfChanged,
+		updateGcpProxyConfigurationIfChanged,
+		updateGcpCatalogIfChanged,
+		updateGcpEndpointAccessGatewayIfChanged,
+		updateGcpCustomDockerRegistryIfChanged,
+	)
+}
 
-	SetCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, &resp.Diagnostics)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	SetEndpointAccessGatewayIfChanged(ctx, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, state.EndpointAccessGatewayScheme, state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), client, plan.PollingOptions, &resp.Diagnostics)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	if !plan.EndpointAccessGatewayScheme.IsNull() && !plan.EndpointAccessGatewayScheme.IsUnknown() && !plan.EndpointAccessGatewaySubnetIds.IsUnknown() {
-		state.EndpointAccessGatewayScheme = plan.EndpointAccessGatewayScheme
-		state.EndpointAccessGatewaySubnetIds = plan.EndpointAccessGatewaySubnetIds
-	}
+func updateGcpCredentialIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateCredential(ctx, client, plan.CredentialName, &state.CredentialName, plan.EnvironmentName.ValueStringPointer(), resp)
+}
 
-	resp = updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
-	return resp
+func updateGcpSshKeyIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateSshKeyIfChanged(ctx, client, plan.PublicKey, &state.PublicKey, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateGcpProxyConfigurationIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateGcpCatalogIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, resp)
+}
+
+func updateGcpEndpointAccessGatewayIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), plan.PollingOptions, resp)
+}
+
+func updateGcpCustomDockerRegistryIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
 }

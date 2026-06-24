@@ -27,59 +27,92 @@ import (
 )
 
 func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
-	resp = enableComputeClustersForAzureIfNecessary(ctx, plan, state, client, resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	resp = updateCredentialIfChanged(ctx, client, plan.CredentialName, &state.CredentialName, plan.EnvironmentName.ValueStringPointer(), resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	resp = updateSshKeyIfChanged(ctx, client, plan.PublicKey, &state.PublicKey, plan.EnvironmentName.ValueStringPointer(), resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
+	return executeUpdateOperations(ctx, plan, state, client, resp,
+		updateAzureComputeClusterIfChanged,
+		updateAzureCredentialIfChanged,
+		updateAzureSshKeyIfChanged,
+		updateAzureCatalogIfChanged,
+		updateAzureEndpointAccessGatewayIfChanged,
+		updateAzureAvailabilityZonesIfChanged,
+		updateAzureProxyConfigurationIfChanged,
+		updateAzureCustomDockerRegistryIfChanged,
+		updateAzureEncryptionIfChanged,
+	)
+}
 
-	SetCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, &resp.Diagnostics)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	SetEndpointAccessGatewayIfChanged(ctx, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, state.EndpointAccessGatewayScheme, state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), client, plan.PollingOptions, &resp.Diagnostics)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
-	if !plan.EndpointAccessGatewayScheme.IsNull() && !plan.EndpointAccessGatewayScheme.IsUnknown() && !plan.EndpointAccessGatewaySubnetIds.IsUnknown() {
-		state.EndpointAccessGatewayScheme = plan.EndpointAccessGatewayScheme
-		state.EndpointAccessGatewaySubnetIds = plan.EndpointAccessGatewaySubnetIds
-	}
+func updateAzureCredentialIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateCredential(ctx, client, plan.CredentialName, &state.CredentialName, plan.EnvironmentName.ValueStringPointer(), resp)
+}
 
-	resp = updateAzureAvailabilityZonesIfChanged(ctx, client, plan.AvailabilityZones, &state.AvailabilityZones, plan.EnvironmentName.ValueStringPointer(), resp)
-	if resp.Diagnostics.HasError() {
-		return resp
-	}
+func updateAzureSshKeyIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateSshKeyIfChanged(ctx, client, plan.PublicKey, &state.PublicKey, plan.EnvironmentName.ValueStringPointer(), resp)
+}
 
-	resp = updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
-	if resp.Diagnostics.HasError() {
+func updateAzureCatalogIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, resp)
+}
+
+func updateAzureEndpointAccessGatewayIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), plan.PollingOptions, resp)
+}
+
+func updateAzureAvailabilityZonesIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateAvailabilityZones(ctx, client, plan.AvailabilityZones, &state.AvailabilityZones, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateAvailabilityZones(ctx context.Context, client *environmentsclient.Environments, plan types.Set, state *types.Set, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan.IsNull() || plan.IsUnknown() {
 		return resp
 	}
-	resp = updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
-	if azureEncryptionFieldsChanged(plan, state) {
-		if plan.EncryptionKeyURL.IsNull() || plan.EncryptionKeyURL.IsUnknown() {
-			resp.Diagnostics.AddError("update Azure encryption resources", "encryption_key_url must be set to a known value when updating encryption parameters")
-			return resp
+	if len(plan.Elements()) == 0 {
+		resp.Diagnostics.AddError("Invalid availability zone setup", "availability_zones must be a non-empty, known value.")
+		return resp
+	}
+	if !plan.Equal(*state) {
+		tflog.Info(ctx, fmt.Sprintf("Updating Azure availability zones for environment '%s'", *env))
+		request := environmentsmodels.UpdateAzureAvailabilityZonesRequest{
+			AvailabilityZones: utils.FromSetValueToStringList(plan),
+			Environment:       env,
 		}
-		if err := updateAzureEncryptionResources(ctx, client, plan.EnvironmentName.ValueStringPointer(), plan); err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update Azure encryption resources")
-			return resp
+		params := operations.NewUpdateAzureAvailabilityZonesParams()
+		params.WithInput(&request)
+		_, err := client.Operations.UpdateAzureAvailabilityZonesContext(ctx, params)
+		if err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update azure availability zone")
+		} else {
+			*state = plan
 		}
-		state.EncryptionKeyURL = plan.EncryptionKeyURL
-		state.EncryptionKeyResourceGroupName = plan.EncryptionKeyResourceGroupName
-		state.EncryptionUserManagedIdentity = plan.EncryptionUserManagedIdentity
 	}
 	return resp
 }
 
-func enableComputeClustersForAzureIfNecessary(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+func updateAzureProxyConfigurationIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateAzureCustomDockerRegistryIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateAzureEncryptionIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if !azureEncryptionFieldsChanged(plan, state) {
+		return resp
+	}
+	if plan.EncryptionKeyURL.IsNull() || plan.EncryptionKeyURL.IsUnknown() {
+		resp.Diagnostics.AddError("update Azure encryption resources", "encryption_key_url must be set to a known value when updating encryption parameters")
+		return resp
+	}
+	if err := updateAzureEncryptionResources(ctx, client, plan.EnvironmentName.ValueStringPointer(), plan); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update Azure encryption resources")
+		return resp
+	}
+	state.EncryptionKeyURL = plan.EncryptionKeyURL
+	state.EncryptionKeyResourceGroupName = plan.EncryptionKeyResourceGroupName
+	state.EncryptionUserManagedIdentity = plan.EncryptionUserManagedIdentity
+	return resp
+}
+
+func updateAzureComputeClusterIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if state.ComputeCluster == nil && plan.ComputeCluster != nil && plan.ComputeCluster.Enabled.ValueBool() {
 		tflog.Info(ctx, fmt.Sprintf("Request for compute cluster enablement for environment '%s' is detected.", plan.EnvironmentName.ValueString()))
 		var existingNetwork existingAzureNetwork
@@ -148,30 +181,4 @@ func convertConfigToAzureComputeClusterConfigurationRequest(config *AzureCompute
 		WorkerNodeSubnets:         utils.FromSetValueToStringList(subnetIds),
 		OutboundType:              config.OutboundType.ValueString(),
 	}
-}
-
-func updateAzureAvailabilityZonesIfChanged(ctx context.Context, client *environmentsclient.Environments, plan types.Set, state *types.Set, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
-	if plan.IsNull() || plan.IsUnknown() {
-		return resp
-	}
-	if len(plan.Elements()) == 0 {
-		resp.Diagnostics.AddError("Invalid availability zone setup", "availability_zones must be a non-empty, known value.")
-		return resp
-	}
-	if !plan.Equal(*state) {
-		tflog.Info(ctx, fmt.Sprintf("Updating Azure availability zones for environment '%s'", *env))
-		request := environmentsmodels.UpdateAzureAvailabilityZonesRequest{
-			AvailabilityZones: utils.FromSetValueToStringList(plan),
-			Environment:       env,
-		}
-		params := operations.NewUpdateAzureAvailabilityZonesParams()
-		params.WithInput(&request)
-		_, err := client.Operations.UpdateAzureAvailabilityZonesContext(ctx, params)
-		if err != nil {
-			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update azure availability zone")
-		} else {
-			*state = plan
-		}
-	}
-	return resp
 }

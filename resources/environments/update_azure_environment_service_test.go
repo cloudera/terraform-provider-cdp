@@ -29,8 +29,12 @@ import (
 
 const (
 	testEncryptionKeyURL               = "https://my-vault.vault.azure.net/keys/my-key/abc123"
+	testNewEncryptionKeyURL            = "https://new-vault.vault.azure.net/keys/new-key/xyz789"
 	testEncryptionKeyResourceGroupName = "my-encryption-rg"
+	testNewEncryptionKeyRG             = "new-rg"
 	testEncryptionUserManagedIdentity  = "/subscriptions/sub-id/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/my-identity"
+	testAzureSubnet                    = "subnet-a"
+	testAzureIpRange                   = "10.0.0.0/24"
 )
 
 func TestConvertNilConfigReturnsNilRequestForAzure(t *testing.T) {
@@ -113,7 +117,7 @@ func TestUpdateAzureAvailabilityZonesIfChanged_ZonesChanged_CallsAPIAndUpdatesSt
 			len(params.Input.AvailabilityZones) == 3
 	}), mock.Anything).Return(&operations.UpdateAzureAvailabilityZonesOK{}, nil)
 
-	result := updateAzureAvailabilityZonesIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
+	result := updateAvailabilityZones(ctx, client, plan, &state, new(testEnvName), resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	assert.Equal(t, plan, state)
@@ -127,7 +131,7 @@ func TestUpdateAzureAvailabilityZonesIfChanged_ZonesUnchanged_SkipsAPICall(t *te
 	zones := utils.ToSetValueFromStringList([]string{"1", "2"})
 	resp := &resource.UpdateResponse{}
 
-	result := updateAzureAvailabilityZonesIfChanged(ctx, client, zones, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
+	result := updateAvailabilityZones(ctx, client, zones, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	mockClient.AssertNotCalled(t, "UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
@@ -140,7 +144,7 @@ func TestUpdateAzureAvailabilityZonesIfChanged_PlanNull_SkipsAPICall(t *testing.
 	plan := types.SetNull(types.StringType)
 	resp := &resource.UpdateResponse{}
 
-	result := updateAzureAvailabilityZonesIfChanged(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
+	result := updateAvailabilityZones(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	mockClient.AssertNotCalled(t, "UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
@@ -153,7 +157,7 @@ func TestUpdateAzureAvailabilityZonesIfChanged_PlanUnknown_SkipsAPICall(t *testi
 	plan := types.SetUnknown(types.StringType)
 	resp := &resource.UpdateResponse{}
 
-	result := updateAzureAvailabilityZonesIfChanged(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
+	result := updateAvailabilityZones(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	mockClient.AssertNotCalled(t, "UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
@@ -166,7 +170,7 @@ func TestUpdateAzureAvailabilityZonesIfChanged_PlanEmpty_AddsValidationError(t *
 	plan := utils.ToSetValueFromStringList([]string{})
 	resp := &resource.UpdateResponse{}
 
-	result := updateAzureAvailabilityZonesIfChanged(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
+	result := updateAvailabilityZones(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
 
 	assert.True(t, result.Diagnostics.HasError())
 	mockClient.AssertNotCalled(t, "UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
@@ -182,7 +186,7 @@ func TestUpdateAzureAvailabilityZonesIfChanged_APIError_AddsDiagnosticError(t *t
 	mockClient.On("UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything).
 		Return((*operations.UpdateAzureAvailabilityZonesOK)(nil), errors.New("API connection failed"))
 
-	result := updateAzureAvailabilityZonesIfChanged(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
+	result := updateAvailabilityZones(ctx, client, plan, new(utils.ToSetValueFromStringList([]string{"1", "2"})), new(testEnvName), resp)
 
 	assert.True(t, result.Diagnostics.HasError())
 }
@@ -198,7 +202,7 @@ func TestUpdateAzureAvailabilityZonesIfChanged_APISuccess_UpdatesStateToPlan(t *
 	mockClient.On("UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything).
 		Return(&operations.UpdateAzureAvailabilityZonesOK{}, nil)
 
-	updateAzureAvailabilityZonesIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
+	updateAvailabilityZones(ctx, client, plan, &state, new(testEnvName), resp)
 
 	assert.Equal(t, plan, state)
 }
@@ -223,8 +227,7 @@ func TestUpdateAzureEncryptionResources_Success(t *testing.T) {
 	})).
 		Return(&operations.UpdateAzureEncryptionResourcesOK{}, nil)
 
-	envName := testEnvName
-	err := updateAzureEncryptionResources(ctx, client, &envName, plan)
+	err := updateAzureEncryptionResources(ctx, client, new(testEnvName), plan)
 
 	if err != nil {
 		t.Errorf("expected no error, got: %v", err)
@@ -246,8 +249,7 @@ func TestUpdateAzureEncryptionResources_ReturnsError(t *testing.T) {
 	mockClient.On("UpdateAzureEncryptionResourcesContext", mock.Anything, mock.Anything).
 		Return((*operations.UpdateAzureEncryptionResourcesOK)(nil), errors.New(testServiceUnavailable))
 
-	envName := testEnvName
-	err := updateAzureEncryptionResources(ctx, client, &envName, plan)
+	err := updateAzureEncryptionResources(ctx, client, new(testEnvName), plan)
 
 	if err == nil {
 		t.Fatalf("expected an error, got nil")
@@ -255,4 +257,226 @@ func TestUpdateAzureEncryptionResources_ReturnsError(t *testing.T) {
 	if err.Error() != testServiceUnavailable {
 		t.Errorf("expected error message '%s', got: %s", testServiceUnavailable, err.Error())
 	}
+}
+
+// Tests for azureEncryptionFieldsChanged
+
+func TestAzureEncryptionFieldsChanged_AllSame_ReturnsFalse(t *testing.T) {
+	plan := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+	state := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+
+	assert.False(t, azureEncryptionFieldsChanged(plan, state))
+}
+
+func TestAzureEncryptionFieldsChanged_KeyURLDiffers_ReturnsTrue(t *testing.T) {
+	plan := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue("https://new-vault.vault.azure.net/keys/new-key/def456"),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+	state := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+
+	assert.True(t, azureEncryptionFieldsChanged(plan, state))
+}
+
+func TestAzureEncryptionFieldsChanged_ResourceGroupDiffers_ReturnsTrue(t *testing.T) {
+	plan := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue("different-rg"),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+	state := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+
+	assert.True(t, azureEncryptionFieldsChanged(plan, state))
+}
+
+func TestAzureEncryptionFieldsChanged_ManagedIdentityDiffers_ReturnsTrue(t *testing.T) {
+	plan := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue("/subscriptions/sub-id/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/different-identity"),
+	}
+	state := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+
+	assert.True(t, azureEncryptionFieldsChanged(plan, state))
+}
+
+// Tests for updateAzureEncryptionIfChanged
+
+func TestUpdateAzureEncryptionIfChanged_NoChange_Skips(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+		EnvironmentName:                types.StringValue(testEnvName),
+	}
+	state := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureEncryptionIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateAzureEncryptionResourcesContext", mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureEncryptionIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testNewEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testNewEncryptionKeyRG),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+		EnvironmentName:                types.StringValue(testEnvName),
+	}
+	state := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateAzureEncryptionResourcesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateAzureEncryptionResourcesParams) bool {
+		return params.Input != nil &&
+			*params.Input.EncryptionKeyURL == testNewEncryptionKeyURL &&
+			params.Input.EncryptionKeyResourceGroupName == testNewEncryptionKeyRG
+	})).Return(&operations.UpdateAzureEncryptionResourcesOK{}, nil)
+
+	result := updateAzureEncryptionIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testNewEncryptionKeyURL), state.EncryptionKeyURL)
+	assert.Equal(t, types.StringValue(testNewEncryptionKeyRG), state.EncryptionKeyResourceGroupName)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureEncryptionIfChanged_NullKeyURL_AddsDiagnostic(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringNull(),
+		EncryptionKeyResourceGroupName: types.StringValue(testNewEncryptionKeyRG),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+		EnvironmentName:                types.StringValue(testEnvName),
+	}
+	state := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureEncryptionIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateAzureEncryptionResourcesContext", mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureEncryptionIfChanged_APIError_AddsDiagnostic(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testNewEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+		EnvironmentName:                types.StringValue(testEnvName),
+	}
+	state := &azureEnvironmentResourceModel{
+		EncryptionKeyURL:               types.StringValue(testEncryptionKeyURL),
+		EncryptionKeyResourceGroupName: types.StringValue(testEncryptionKeyResourceGroupName),
+		EncryptionUserManagedIdentity:  types.StringValue(testEncryptionUserManagedIdentity),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateAzureEncryptionResourcesContext", mock.Anything, mock.Anything).
+		Return((*operations.UpdateAzureEncryptionResourcesOK)(nil), errors.New("forbidden"))
+
+	result := updateAzureEncryptionIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testEncryptionKeyURL), state.EncryptionKeyURL)
+}
+
+// Tests for enableComputeClusterForAzure
+
+func TestEnableComputeClusterForAzure_Success(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	config := &AzureComputeClusterConfiguration{
+		KubeApiAuthorizedIpRanges: utils.ToSetValueFromStringList([]string{testAzureIpRange}),
+		PrivateCluster:            types.BoolValue(true),
+		WorkerNodeSubnets:         utils.ToSetValueFromStringList([]string{testAzureSubnet}),
+		OutboundType:              types.StringValue("udr"),
+	}
+	envSubnets := utils.ToSetValueFromStringList([]string{"subnet-fallback"})
+
+	mockClient.On("InitializeAzureComputeClusterContext", mock.Anything, mock.MatchedBy(func(params *operations.InitializeAzureComputeClusterParams) bool {
+		return params.Input != nil &&
+			*params.Input.EnvironmentName == testEnvName &&
+			params.Input.ComputeClusterConfiguration != nil &&
+			params.Input.ComputeClusterConfiguration.PrivateCluster == true &&
+			params.Input.ComputeClusterConfiguration.OutboundType == "udr"
+	}), mock.Anything).Return(&operations.InitializeAzureComputeClusterOK{}, nil)
+
+	err := enableComputeClusterForAzure(ctx, config, testEnvName, envSubnets, client)
+
+	assert.NoError(t, err)
+	mockClient.AssertExpectations(t)
+}
+
+func TestEnableComputeClusterForAzure_APIError_ReturnsError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	config := &AzureComputeClusterConfiguration{
+		KubeApiAuthorizedIpRanges: utils.ToSetValueFromStringList([]string{}),
+		PrivateCluster:            types.BoolValue(false),
+		WorkerNodeSubnets:         utils.ToSetValueFromStringList([]string{testAzureSubnet}),
+		OutboundType:              types.StringValue(""),
+	}
+	envSubnets := utils.ToSetValueFromStringList([]string{testAzureSubnet})
+
+	mockClient.On("InitializeAzureComputeClusterContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.InitializeAzureComputeClusterOK)(nil), errors.New(testClusterInitFailed))
+
+	err := enableComputeClusterForAzure(ctx, config, testEnvName, envSubnets, client)
+
+	assert.Error(t, err)
+	assert.Equal(t, testClusterInitFailed, err.Error())
 }

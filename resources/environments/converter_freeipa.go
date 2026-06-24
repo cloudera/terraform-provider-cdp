@@ -15,6 +15,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -152,38 +153,38 @@ func FreeIpaModelToRequest(model *types.Object, ctx context.Context) (*FreeIpaTr
 		}
 }
 
-func SetCatalogIfChanged(ctx context.Context, planFreeIpa types.Object, stateFreeIpa *types.Object, environmentName string, client *environmentsclient.Environments, diags *diag.Diagnostics) {
+func updateCatalogIfChanged(ctx context.Context, planFreeIpa types.Object, stateFreeIpa *types.Object, environmentName string, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	var planDetails FreeIpaDetails
-	diags.Append(planFreeIpa.As(ctx, &planDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
-	if diags.HasError() {
-		return
+	resp.Diagnostics.Append(planFreeIpa.As(ctx, &planDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
+	if resp.Diagnostics.HasError() {
+		return resp
 	}
 
 	var stateDetails FreeIpaDetails
-	diags.Append(stateFreeIpa.As(ctx, &stateDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
-	if diags.HasError() {
-		return
+	resp.Diagnostics.Append(stateFreeIpa.As(ctx, &stateDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
+	if resp.Diagnostics.HasError() {
+		return resp
 	}
 
 	if planDetails.Catalog.IsNull() || planDetails.Catalog.IsUnknown() || planDetails.Catalog.Equal(stateDetails.Catalog) {
-		return
+		return resp
 	}
 
-	catalog := planDetails.Catalog.ValueString()
 	tflog.Info(ctx, fmt.Sprintf("Catalog change detected for environment '%s', calling SetCatalog.", environmentName))
 
 	params := operations.NewSetCatalogParams()
 	params.WithInput(&environmentsmodels.SetCatalogRequest{
-		Catalog:     &catalog,
+		Catalog:     new(planDetails.Catalog.ValueString()),
 		Environment: &environmentName,
 	})
 	_, err := client.Operations.SetCatalogContext(ctx, params)
 	if err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, diags, "set catalog")
-		return
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "set catalog")
+		return resp
 	}
 
-	updateFreeIpaCatalogInState(ctx, stateFreeIpa, planDetails.Catalog, diags)
+	updateFreeIpaCatalogInState(ctx, stateFreeIpa, planDetails.Catalog, &resp.Diagnostics)
+	return resp
 }
 
 func updateFreeIpaCatalogInState(ctx context.Context, freeIpaObj *types.Object, newCatalog types.String, diags *diag.Diagnostics) {
