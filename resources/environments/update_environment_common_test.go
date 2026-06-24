@@ -50,6 +50,9 @@ const (
 
 	testOldProxyConfigName = "proxy1"
 	testNewProxyConfigName = "proxy2"
+
+	testOldDockerRegistryCrn = "crn:cdp:docker:us-west-1:old-registry"
+	testNewDockerRegistryCrn = "crn:cdp:docker:us-west-1:new-registry"
 )
 
 func TestUpdateSshKeyIfChanged_KeyChanged_UpdatesStateAndCallsAPI(t *testing.T) {
@@ -635,6 +638,161 @@ func TestUpdateProxyConfigurationIfChanged_APIError_DoesNotUpdateState(t *testin
 
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, testOldProxyConfigName, state.ValueString())
+}
+
+func TestUpdateCustomDockerRegistryIfChanged_NoChange_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	state := &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)}
+	plan := &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)}
+
+	result := updateCustomDockerRegistryIfChanged(ctx, client, state, plan, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateCustomDockerRegistryIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	state := &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)}
+	plan := &CustomDockerRegistry{Crn: types.StringValue(testNewDockerRegistryCrn)}
+
+	mockClient.On("UpdateCustomDockerRegistryContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateCustomDockerRegistryParams) bool {
+		return params.Input != nil &&
+			*params.Input.CustomDockerRegistry == testNewDockerRegistryCrn &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateCustomDockerRegistryOK{}, nil)
+
+	result := updateCustomDockerRegistryIfChanged(ctx, client, state, plan, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, testNewDockerRegistryCrn, state.Crn.ValueString())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateCustomDockerRegistryIfChanged_PlanNil_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	state := &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)}
+
+	result := updateCustomDockerRegistryIfChanged(ctx, client, state, nil, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, testOldDockerRegistryCrn, state.Crn.ValueString())
+	mockClient.AssertNotCalled(t, "UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateCustomDockerRegistryIfChanged_StateNil_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	plan := &CustomDockerRegistry{Crn: types.StringValue(testNewDockerRegistryCrn)}
+
+	result := updateCustomDockerRegistryIfChanged(ctx, client, nil, plan, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateCustomDockerRegistryIfChanged_PlanCrnNull_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	state := &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)}
+	plan := &CustomDockerRegistry{Crn: types.StringNull()}
+
+	result := updateCustomDockerRegistryIfChanged(ctx, client, state, plan, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, testOldDockerRegistryCrn, state.Crn.ValueString())
+	mockClient.AssertNotCalled(t, "UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateCustomDockerRegistryIfChanged_PlanCrnUnknown_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	state := &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)}
+	plan := &CustomDockerRegistry{Crn: types.StringUnknown()}
+
+	result := updateCustomDockerRegistryIfChanged(ctx, client, state, plan, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, testOldDockerRegistryCrn, state.Crn.ValueString())
+	mockClient.AssertNotCalled(t, "UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateCustomDockerRegistryIfChanged_PlanCrnEmpty_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	state := &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)}
+	plan := &CustomDockerRegistry{Crn: types.StringValue("")}
+
+	mockClient.On("UpdateCustomDockerRegistryContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateCustomDockerRegistryParams) bool {
+		return params.Input != nil &&
+			*params.Input.CustomDockerRegistry == "" &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateCustomDockerRegistryOK{}, nil)
+
+	result := updateCustomDockerRegistryIfChanged(ctx, client, state, plan, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, "", state.Crn.ValueString())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateCustomDockerRegistryIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	state := &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)}
+	plan := &CustomDockerRegistry{Crn: types.StringValue(testNewDockerRegistryCrn)}
+
+	mockClient.On("UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateCustomDockerRegistryOK)(nil), errors.New("API error"))
+
+	result := updateCustomDockerRegistryIfChanged(ctx, client, state, plan, new(testEnvName), resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+}
+
+func TestUpdateCustomDockerRegistryIfChanged_APIError_DoesNotUpdateState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	state := &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)}
+	plan := &CustomDockerRegistry{Crn: types.StringValue(testNewDockerRegistryCrn)}
+
+	mockClient.On("UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateCustomDockerRegistryOK)(nil), errors.New("API error"))
+
+	result := updateCustomDockerRegistryIfChanged(ctx, client, state, plan, new(testEnvName), resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, testOldDockerRegistryCrn, state.Crn.ValueString())
 }
 
 func TestUpdateCredentialIfChanged_CredentialChanged_UpdatesStateAndCallsAPI(t *testing.T) {

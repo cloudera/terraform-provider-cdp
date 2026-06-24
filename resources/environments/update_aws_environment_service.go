@@ -66,7 +66,11 @@ func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel
 		state.EndpointAccessGatewayScheme = plan.EndpointAccessGatewayScheme
 		state.EndpointAccessGatewaySubnetIds = plan.EndpointAccessGatewaySubnetIds
 	}
-
+	resp = updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+	// ... more update operations
 	return resp
 }
 

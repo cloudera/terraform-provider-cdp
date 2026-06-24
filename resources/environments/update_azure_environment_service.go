@@ -59,6 +59,10 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 	}
 
 	resp = updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+	resp = updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
 	if azureEncryptionFieldsChanged(plan, state) {
 		if plan.EncryptionKeyURL.IsNull() || plan.EncryptionKeyURL.IsUnknown() {
 			resp.Diagnostics.AddError("update Azure encryption resources", "encryption_key_url must be set to a known value when updating encryption parameters")

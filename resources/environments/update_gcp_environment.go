@@ -24,6 +24,9 @@ func updateGcpEnvironment(ctx context.Context, plan *gcpEnvironmentResourceModel
 		return resp
 	}
 	resp = updateSshKeyIfChanged(ctx, client, plan.PublicKey, &state.PublicKey, plan.EnvironmentName.ValueStringPointer(), resp)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
 	resp = updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
 	if resp.Diagnostics.HasError() {
 		return resp
@@ -42,5 +45,6 @@ func updateGcpEnvironment(ctx context.Context, plan *gcpEnvironmentResourceModel
 		state.EndpointAccessGatewaySubnetIds = plan.EndpointAccessGatewaySubnetIds
 	}
 
+	resp = updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
 	return resp
 }

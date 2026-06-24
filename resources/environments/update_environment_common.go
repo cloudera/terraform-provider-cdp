@@ -84,6 +84,23 @@ func updateSshKey(ctx context.Context, client *environmentsclient.Environments, 
 	return err
 }
 
+func updateCustomDockerRegistryIfChanged(ctx context.Context, client *environmentsclient.Environments, state *CustomDockerRegistry, plan *CustomDockerRegistry, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan == nil || state == nil || (plan.Crn.IsNull() || plan.Crn.IsUnknown()) || reflect.DeepEqual(*plan, *state) {
+		return resp
+	}
+	params := operations.NewUpdateCustomDockerRegistryParams().WithInput(&environmentsmodels.UpdateCustomDockerRegistryRequest{
+		CustomDockerRegistry: plan.Crn.ValueStringPointer(),
+		Environment:          env,
+	})
+	tflog.Info(ctx, "Updating custom docker registry in the environment")
+	if _, err := client.Operations.UpdateCustomDockerRegistryContext(ctx, params); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update custom docker registry")
+	} else {
+		*state = *plan
+	}
+	return resp
+}
+
 func updateProxyConfigurationIfChanged(ctx context.Context, client *environmentsclient.Environments, state *types.String, plan *types.String, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if plan == nil || plan.IsUnknown() {
 		return resp
