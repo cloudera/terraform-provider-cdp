@@ -111,6 +111,23 @@ func updateProxyConfigurationIfChanged(ctx context.Context, client *environments
 	return resp
 }
 
+func updateCredentialIfChanged(ctx context.Context, client *environmentsclient.Environments, plan types.String, state *types.String, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if reflect.DeepEqual(plan, *state) {
+		return resp
+	}
+	params := operations.NewChangeEnvironmentCredentialParams().WithInput(&environmentsmodels.ChangeEnvironmentCredentialRequest{
+		CredentialName:  plan.ValueStringPointer(),
+		EnvironmentName: env,
+	})
+	tflog.Info(ctx, "Updating credential for the environment")
+	if _, err := client.Operations.ChangeEnvironmentCredentialContext(ctx, params); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update credential")
+		return resp
+	}
+	*state = plan
+	return resp
+}
+
 func SetEndpointAccessGatewayIfChanged(ctx context.Context, planScheme types.String, planSubnetIds types.Set, stateScheme types.String, stateSubnetIds types.Set, environmentName string, client *environmentsclient.Environments, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
 	if planScheme.IsNull() || planScheme.IsUnknown() {
 		return

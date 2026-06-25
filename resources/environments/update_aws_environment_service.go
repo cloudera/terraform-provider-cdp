@@ -31,7 +31,10 @@ func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel
 	if resp.Diagnostics.HasError() {
 		return resp
 	}
-	// further update operations shall come here
+	resp = updateCredentialIfChanged(ctx, client, plan.CredentialName, &state.CredentialName, plan.EnvironmentName.ValueStringPointer(), resp)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
 	if plan.Authentication != nil && !reflect.DeepEqual(plan.Authentication, state.Authentication) {
 		if err := updateSshKeyForAws(ctx, client, plan.Authentication, plan.EnvironmentName.ValueStringPointer()); err != nil {
 			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update SSH key")
@@ -134,14 +137,16 @@ func updateSshKeyForAws(ctx context.Context, client *environmentsclient.Environm
 	params := operations.NewUpdateSSHKeyParams()
 	if !authPlan.PublicKey.IsNull() && !authPlan.PublicKey.IsUnknown() && authPlan.PublicKey.ValueString() != "" {
 		params.WithInput(&environmentsmodels.UpdateSSHKeyRequest{
+			Environment:  env,
+			NewPublicKey: authPlan.PublicKey.ValueString(),
+		})
+	} else if !authPlan.PublicKeyID.IsNull() && !authPlan.PublicKeyID.IsUnknown() && authPlan.PublicKeyID.ValueString() != "" {
+		params.WithInput(&environmentsmodels.UpdateSSHKeyRequest{
 			Environment:         env,
-			NewPublicKey:        authPlan.PublicKey.ValueString(),
-			ExistingPublicKeyID: "",
+			ExistingPublicKeyID: authPlan.PublicKeyID.ValueString(),
 		})
 	} else {
-		if authPlan.PublicKeyID.IsNull() || authPlan.PublicKeyID.IsUnknown() || authPlan.PublicKeyID.ValueString() == "" {
-			return fmt.Errorf("either authentication.public_key or authentication.public_key_id must be set")
-		}
+		return fmt.Errorf("either authentication.public_key or authentication.public_key_id must be set")
 	}
 	tflog.Info(ctx, "Updating SSH key in the environment")
 	_, err := client.Operations.UpdateSSHKeyContext(ctx, params)

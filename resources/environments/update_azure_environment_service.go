@@ -31,6 +31,10 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 	if resp.Diagnostics.HasError() {
 		return resp
 	}
+	resp = updateCredentialIfChanged(ctx, client, plan.CredentialName, &state.CredentialName, plan.EnvironmentName.ValueStringPointer(), resp)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
 	resp = updateSshKeyIfChanged(ctx, client, plan.PublicKey, &state.PublicKey, plan.EnvironmentName.ValueStringPointer(), resp)
 	if resp.Diagnostics.HasError() {
 		return resp
