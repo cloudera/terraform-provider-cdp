@@ -636,6 +636,58 @@ func TestUpdateProxyConfigurationIfChanged_APIError_DoesNotUpdateState(t *testin
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, testOldProxyConfigName, state.ValueString())
 }
+
+func TestUpdateCredentialIfChanged_CredentialChanged_UpdatesStateAndCallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("ChangeEnvironmentCredentialContext", mock.Anything, mock.MatchedBy(func(params *operations.ChangeEnvironmentCredentialParams) bool {
+		return *params.Input.CredentialName == "new-cred" && *params.Input.EnvironmentName == testEnvName
+	}), mock.Anything).Return(&operations.ChangeEnvironmentCredentialOK{}, nil)
+
+	plan := types.StringValue("new-cred")
+	state := types.StringValue("old-cred")
+	result := updateCredentialIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, "new-cred", state.ValueString())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateCredentialIfChanged_CredentialUnchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	plan := types.StringValue("same-cred")
+	state := types.StringValue("same-cred")
+	result := updateCredentialIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, "same-cred", state.ValueString())
+	mockClient.AssertNotCalled(t, "ChangeEnvironmentCredentialContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateCredentialIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("ChangeEnvironmentCredentialContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.ChangeEnvironmentCredentialOK)(nil), errors.New("API connection failed"))
+
+	plan := types.StringValue("new-cred")
+	state := types.StringValue("old-cred")
+	result := updateCredentialIfChanged(ctx, client, plan, &state, new(testEnvName), resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, "old-cred", state.ValueString())
+}
+
 func TestSetEndpointAccessGatewayIfChanged_SchemeChanged_CallsApiAndPolls(t *testing.T) {
 	ctx := context.TODO()
 	mockClient := new(mocks.MockEnvironmentClientService)
