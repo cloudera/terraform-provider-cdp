@@ -46,7 +46,7 @@ checksum:
 
 release:
   # If set to true, will not auto-publish the release.
-  draft: true
+  draft: false
   # Whether to remove existing draft releases with the same name before creating
   # a new one.
   replace_existing_draft: true
