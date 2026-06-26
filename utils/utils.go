@@ -115,6 +115,17 @@ func FromStringListToListValue(s []string) types.List {
 	return list
 }
 
+func FromMapValueToStringMap(tm types.Map) map[string]string {
+	if tm.IsNull() || tm.IsUnknown() {
+		return map[string]string{}
+	}
+	res := make(map[string]string, len(tm.Elements()))
+	for k, v := range tm.Elements() {
+		res[k] = v.(types.String).ValueString()
+	}
+	return res
+}
+
 func FromListValueToStringList(tl types.List) []string {
 	if tl.IsNull() {
 		return []string{}

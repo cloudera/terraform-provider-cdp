@@ -5,6 +5,13 @@ include-auto-generated: true
 dir: ./mocks
 pkgname: mocks
 packages:
+  github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/df/client/operations:
+    config:
+      filename: df_clientservice.go
+    interfaces:
+      ClientService:
+        config:
+          structname: MockDf{{.InterfaceName}}
   github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations:
     config:
       filename: dw_clientservice.go
