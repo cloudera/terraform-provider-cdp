@@ -65,6 +65,13 @@ const (
 	testSameCatalogURL = "https://same-catalog.example.com"
 
 	testClusterInitFailed = "cluster init failed"
+
+	testOldDefaultSG  = "sg-old-default"
+	testNewDefaultSG  = "sg-new-default"
+	testOldKnoxSG     = "sg-old-knox"
+	testNewKnoxSG     = "sg-new-knox"
+	testSameDefaultSG = "sg-same-default"
+	testSameKnoxSG    = "sg-same-knox"
 )
 
 func TestUpdateSshKeyIfChanged_KeyChanged_UpdatesStateAndCallsAPI(t *testing.T) {
@@ -1085,4 +1092,101 @@ func TestExecuteUpdateOperations_SingleOp_Success(t *testing.T) {
 
 	assert.True(t, called)
 	assert.False(t, result.Diagnostics.HasError())
+}
+
+// Tests for updateSecurityAccessIfChanged
+
+func TestUpdateSecurityAccessIfChanged_Changed_UpdatesStateAndCallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	planDefaultSG := types.StringValue(testNewDefaultSG)
+	planKnoxSG := types.StringValue(testNewKnoxSG)
+	stateDefaultSG := types.StringValue(testOldDefaultSG)
+	stateKnoxSG := types.StringValue(testOldKnoxSG)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSecurityAccessContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSecurityAccessParams) bool {
+		return params.Input != nil &&
+			*params.Input.DefaultSecurityGroupID == testNewDefaultSG &&
+			*params.Input.GatewayNodeSecurityGroupID == testNewKnoxSG &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateSecurityAccessOK{}, nil)
+
+	result := updateSecurityAccessIfChanged(ctx, client, planDefaultSG, planKnoxSG, &stateDefaultSG, &stateKnoxSG, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, testNewDefaultSG, stateDefaultSG.ValueString())
+	assert.Equal(t, testNewKnoxSG, stateKnoxSG.ValueString())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateSecurityAccessIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	planDefaultSG := types.StringValue(testSameDefaultSG)
+	planKnoxSG := types.StringValue(testSameKnoxSG)
+	resp := &resource.UpdateResponse{}
+
+	result := updateSecurityAccessIfChanged(ctx, client, planDefaultSG, planKnoxSG, new(types.StringValue(testSameDefaultSG)), new(types.StringValue(testSameKnoxSG)), new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateSecurityAccessIfChanged_PlanNull_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	planDefaultSG := types.StringNull()
+	planKnoxSG := types.StringNull()
+	stateDefaultSG := types.StringValue(testOldDefaultSG)
+	stateKnoxSG := types.StringValue(testOldKnoxSG)
+	resp := &resource.UpdateResponse{}
+
+	result := updateSecurityAccessIfChanged(ctx, client, planDefaultSG, planKnoxSG, &stateDefaultSG, &stateKnoxSG, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, testOldDefaultSG, stateDefaultSG.ValueString())
+	assert.Equal(t, testOldKnoxSG, stateKnoxSG.ValueString())
+	mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateSecurityAccessIfChanged_PlanUnknown_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	planDefaultSG := types.StringUnknown()
+	planKnoxSG := types.StringUnknown()
+	stateDefaultSG := types.StringValue(testOldDefaultSG)
+	stateKnoxSG := types.StringValue(testOldKnoxSG)
+	resp := &resource.UpdateResponse{}
+
+	result := updateSecurityAccessIfChanged(ctx, client, planDefaultSG, planKnoxSG, &stateDefaultSG, &stateKnoxSG, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, testOldDefaultSG, stateDefaultSG.ValueString())
+	assert.Equal(t, testOldKnoxSG, stateKnoxSG.ValueString())
+	mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateSecurityAccessIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	planDefaultSG := types.StringValue(testNewDefaultSG)
+	planKnoxSG := types.StringValue(testNewKnoxSG)
+	stateDefaultSG := types.StringValue(testOldDefaultSG)
+	stateKnoxSG := types.StringValue(testOldKnoxSG)
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateSecurityAccessOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateSecurityAccessIfChanged(ctx, client, planDefaultSG, planKnoxSG, &stateDefaultSG, &stateKnoxSG, new(testEnvName), resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, testOldDefaultSG, stateDefaultSG.ValueString())
+	assert.Equal(t, testOldKnoxSG, stateKnoxSG.ValueString())
 }
