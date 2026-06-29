@@ -12,6 +12,7 @@ package environments
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -323,4 +324,120 @@ func TestUpdateGcpCatalogIfChanged_Unchanged_Skips(t *testing.T) {
 
 	assert.False(t, result.Diagnostics.HasError())
 	mockClient.AssertNotCalled(t, "SetCatalogContext", mock.Anything, mock.Anything)
+}
+
+// Tests for updateGcpSecurityAccessIfChanged
+
+func TestUpdateGcpSecurityAccessIfChanged_Changed_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &gcpEnvironmentResourceModel{
+		SecurityAccess: &GcpSecurityAccess{
+			DefaultSecurityGroupId: types.StringValue(testNewDefaultSG),
+			SecurityGroupIdForKnox: types.StringValue(testNewKnoxSG),
+		},
+		EnvironmentName: types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		SecurityAccess: &GcpSecurityAccess{
+			DefaultSecurityGroupId: types.StringValue(testOldDefaultSG),
+			SecurityGroupIdForKnox: types.StringValue(testOldKnoxSG),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSecurityAccessContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSecurityAccessParams) bool {
+		return params.Input != nil &&
+			*params.Input.DefaultSecurityGroupID == testNewDefaultSG &&
+			*params.Input.GatewayNodeSecurityGroupID == testNewKnoxSG &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateSecurityAccessOK{}, nil)
+
+	result := updateGcpSecurityAccessIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testNewDefaultSG), state.SecurityAccess.DefaultSecurityGroupId)
+	assert.Equal(t, types.StringValue(testNewKnoxSG), state.SecurityAccess.SecurityGroupIdForKnox)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateGcpSecurityAccessIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &gcpEnvironmentResourceModel{
+		SecurityAccess: &GcpSecurityAccess{
+			DefaultSecurityGroupId: types.StringValue(testSameDefaultSG),
+			SecurityGroupIdForKnox: types.StringValue(testSameKnoxSG),
+		},
+		EnvironmentName: types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		SecurityAccess: &GcpSecurityAccess{
+			DefaultSecurityGroupId: types.StringValue(testSameDefaultSG),
+			SecurityGroupIdForKnox: types.StringValue(testSameKnoxSG),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateGcpSecurityAccessIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateGcpSecurityAccessIfChanged_NilPlanSecurityAccess_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &gcpEnvironmentResourceModel{
+		SecurityAccess:  nil,
+		EnvironmentName: types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		SecurityAccess: &GcpSecurityAccess{
+			DefaultSecurityGroupId: types.StringValue(testOldDefaultSG),
+			SecurityGroupIdForKnox: types.StringValue(testOldKnoxSG),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateGcpSecurityAccessIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateGcpSecurityAccessIfChanged_APIError_AddsDiagnostic(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &gcpEnvironmentResourceModel{
+		SecurityAccess: &GcpSecurityAccess{
+			DefaultSecurityGroupId: types.StringValue(testNewDefaultSG),
+			SecurityGroupIdForKnox: types.StringValue(testNewKnoxSG),
+		},
+		EnvironmentName: types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		SecurityAccess: &GcpSecurityAccess{
+			DefaultSecurityGroupId: types.StringValue(testOldDefaultSG),
+			SecurityGroupIdForKnox: types.StringValue(testOldKnoxSG),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateSecurityAccessOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateGcpSecurityAccessIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testOldDefaultSG), state.SecurityAccess.DefaultSecurityGroupId)
+	assert.Equal(t, types.StringValue(testOldKnoxSG), state.SecurityAccess.SecurityGroupIdForKnox)
 }

@@ -20,12 +20,13 @@ import (
 
 func updateGcpEnvironment(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return executeUpdateOperations(ctx, plan, state, client, resp,
-		updateGcpCredentialIfChanged,
-		updateGcpSshKeyIfChanged,
-		updateGcpProxyConfigurationIfChanged,
-		updateGcpCatalogIfChanged,
 		updateGcpEndpointAccessGatewayIfChanged,
 		updateGcpCustomDockerRegistryIfChanged,
+		updateGcpProxyConfigurationIfChanged,
+		updateGcpSecurityAccessIfChanged,
+		updateGcpCredentialIfChanged,
+		updateGcpCatalogIfChanged,
+		updateGcpSshKeyIfChanged,
 	)
 }
 
@@ -47,6 +48,18 @@ func updateGcpCatalogIfChanged(ctx context.Context, plan *gcpEnvironmentResource
 
 func updateGcpEndpointAccessGatewayIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return updateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), plan.PollingOptions, resp)
+}
+
+func updateGcpSecurityAccessIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan.SecurityAccess == nil {
+		return resp
+	}
+	return updateSecurityAccessIfChanged(ctx, client,
+		plan.SecurityAccess.DefaultSecurityGroupId,
+		plan.SecurityAccess.SecurityGroupIdForKnox,
+		&state.SecurityAccess.DefaultSecurityGroupId,
+		&state.SecurityAccess.SecurityGroupIdForKnox,
+		plan.EnvironmentName.ValueStringPointer(), resp)
 }
 
 func updateGcpCustomDockerRegistryIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {

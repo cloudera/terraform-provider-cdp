@@ -28,15 +28,16 @@ import (
 
 func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return executeUpdateOperations(ctx, plan, state, client, resp,
-		updateAzureComputeClusterIfChanged,
-		updateAzureCredentialIfChanged,
-		updateAzureSshKeyIfChanged,
-		updateAzureCatalogIfChanged,
 		updateAzureEndpointAccessGatewayIfChanged,
-		updateAzureAvailabilityZonesIfChanged,
-		updateAzureProxyConfigurationIfChanged,
 		updateAzureCustomDockerRegistryIfChanged,
+		updateAzureProxyConfigurationIfChanged,
+		updateAzureAvailabilityZonesIfChanged,
+		updateAzureComputeClusterIfChanged,
+		updateAzureSecurityAccessIfChanged,
+		updateAzureCredentialIfChanged,
 		updateAzureEncryptionIfChanged,
+		updateAzureCatalogIfChanged,
+		updateAzureSshKeyIfChanged,
 	)
 }
 
@@ -88,6 +89,15 @@ func updateAvailabilityZones(ctx context.Context, client *environmentsclient.Env
 
 func updateAzureProxyConfigurationIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return updateProxyConfigurationIfChanged(ctx, client, &state.ProxyConfigName, &plan.ProxyConfigName, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateAzureSecurityAccessIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateSecurityAccessIfChanged(ctx, client,
+		plan.SecurityAccess.DefaultSecurityGroupID,
+		plan.SecurityAccess.SecurityGroupIDForKnox,
+		&state.SecurityAccess.DefaultSecurityGroupID,
+		&state.SecurityAccess.SecurityGroupIDForKnox,
+		plan.EnvironmentName.ValueStringPointer(), resp)
 }
 
 func updateAzureCustomDockerRegistryIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {

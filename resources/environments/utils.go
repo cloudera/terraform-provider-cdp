@@ -28,9 +28,8 @@ func ConvertTags(ctx context.Context, tagsIn types.Map) []*environmentsmodels.Ta
 		for k, v := range tagsIn.Elements() {
 			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
 			if !diag.HasError() {
-				key := string(k)
 				tags = append(tags, &environmentsmodels.TagRequest{
-					Key:   &key,
+					Key:   new(k),
 					Value: val.ValueStringPointer(),
 				})
 			}
@@ -46,9 +45,8 @@ func ConvertGcpTags(ctx context.Context, tagsIn types.Map) []*environmentsmodels
 		for k, v := range tagsIn.Elements() {
 			val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
 			if !diag.HasError() {
-				key := string(k)
 				tags = append(tags, &environmentsmodels.GcpTagRequest{
-					Key:   &key,
+					Key:   new(k),
 					Value: val.ValueStringPointer(),
 				})
 			}

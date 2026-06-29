@@ -28,14 +28,15 @@ import (
 
 func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return executeUpdateOperations(ctx, plan, state, client, resp,
-		updateAwsComputeClusterIfChanged,
-		updateAwsCredentialIfChanged,
-		updateAwsAuthenticationIfChanged,
-		updateAwsEncryptionKeyIfChanged,
-		updateAwsCatalogIfChanged,
-		updateAwsProxyConfigurationIfChanged,
 		updateAwsEndpointAccessGatewayIfChanged,
 		updateAwsCustomDockerRegistryIfChanged,
+		updateAwsProxyConfigurationIfChanged,
+		updateAwsAuthenticationIfChanged,
+		updateAwsSecurityAccessIfChanged,
+		updateAwsComputeClusterIfChanged,
+		updateAwsEncryptionKeyIfChanged,
+		updateAwsCredentialIfChanged,
+		updateAwsCatalogIfChanged,
 	)
 }
 
@@ -98,6 +99,15 @@ func updateAwsProxyConfigurationIfChanged(ctx context.Context, plan *awsEnvironm
 
 func updateAwsEndpointAccessGatewayIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return updateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), plan.PollingOptions, resp)
+}
+
+func updateAwsSecurityAccessIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateSecurityAccessIfChanged(ctx, client,
+		plan.SecurityAccess.DefaultSecurityGroupID,
+		plan.SecurityAccess.SecurityGroupIDForKnox,
+		&state.SecurityAccess.DefaultSecurityGroupID,
+		&state.SecurityAccess.SecurityGroupIDForKnox,
+		plan.EnvironmentName.ValueStringPointer(), resp)
 }
 
 func updateAwsCustomDockerRegistryIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {

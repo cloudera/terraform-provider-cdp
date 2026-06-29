@@ -156,6 +156,29 @@ func updateCredential(ctx context.Context, client *environmentsclient.Environmen
 	return resp
 }
 
+func updateSecurityAccessIfChanged(ctx context.Context, client *environmentsclient.Environments, planDefaultSG types.String, planKnoxSG types.String, stateDefaultSG *types.String, stateKnoxSG *types.String, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if (planDefaultSG.IsNull() || planDefaultSG.IsUnknown()) && (planKnoxSG.IsNull() || planKnoxSG.IsUnknown()) {
+		return resp
+	}
+	if reflect.DeepEqual(planDefaultSG, *stateDefaultSG) && reflect.DeepEqual(planKnoxSG, *stateKnoxSG) {
+		return resp
+	}
+
+	params := operations.NewUpdateSecurityAccessParams().WithInput(&environmentsmodels.UpdateSecurityAccessRequest{
+		Environment:                env,
+		DefaultSecurityGroupID:     planDefaultSG.ValueStringPointer(),
+		GatewayNodeSecurityGroupID: planKnoxSG.ValueStringPointer(),
+	})
+	tflog.Info(ctx, "Updating security access in the environment")
+	if _, err := client.Operations.UpdateSecurityAccessContext(ctx, params); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update security access")
+		return resp
+	}
+	*stateDefaultSG = planDefaultSG
+	*stateKnoxSG = planKnoxSG
+	return resp
+}
+
 func updateEndpointAccessGatewayIfChanged(ctx context.Context, client *environmentsclient.Environments, planScheme types.String, planSubnetIds types.Set, stateScheme *types.String, stateSubnetIds *types.Set, environmentName string, pollingOptions *utils.PollingOptions, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if planScheme.IsNull() || planScheme.IsUnknown() {
 		return resp

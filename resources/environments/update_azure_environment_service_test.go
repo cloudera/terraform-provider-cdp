@@ -480,3 +480,124 @@ func TestEnableComputeClusterForAzure_APIError_ReturnsError(t *testing.T) {
 	assert.Error(t, err)
 	assert.Equal(t, testClusterInitFailed, err.Error())
 }
+
+// Tests for updateAzureSecurityAccessIfChanged
+
+func TestUpdateAzureSecurityAccessIfChanged_Changed_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		SecurityAccess: &SecurityAccess{
+			DefaultSecurityGroupID: types.StringValue(testNewDefaultSG),
+			SecurityGroupIDForKnox: types.StringValue(testNewKnoxSG),
+		},
+		EnvironmentName: types.StringValue(testEnvName),
+	}
+	state := &azureEnvironmentResourceModel{
+		SecurityAccess: &SecurityAccess{
+			DefaultSecurityGroupID: types.StringValue(testOldDefaultSG),
+			SecurityGroupIDForKnox: types.StringValue(testOldKnoxSG),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSecurityAccessContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSecurityAccessParams) bool {
+		return params.Input != nil &&
+			*params.Input.DefaultSecurityGroupID == testNewDefaultSG &&
+			*params.Input.GatewayNodeSecurityGroupID == testNewKnoxSG &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateSecurityAccessOK{}, nil)
+
+	result := updateAzureSecurityAccessIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testNewDefaultSG), state.SecurityAccess.DefaultSecurityGroupID)
+	assert.Equal(t, types.StringValue(testNewKnoxSG), state.SecurityAccess.SecurityGroupIDForKnox)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureSecurityAccessIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		SecurityAccess: &SecurityAccess{
+			DefaultSecurityGroupID: types.StringValue(testSameDefaultSG),
+			SecurityGroupIDForKnox: types.StringValue(testSameKnoxSG),
+		},
+		EnvironmentName: types.StringValue(testEnvName),
+	}
+	state := &azureEnvironmentResourceModel{
+		SecurityAccess: &SecurityAccess{
+			DefaultSecurityGroupID: types.StringValue(testSameDefaultSG),
+			SecurityGroupIDForKnox: types.StringValue(testSameKnoxSG),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureSecurityAccessIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureSecurityAccessIfChanged_OnlySetFieldsDiffer_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		SecurityAccess: &SecurityAccess{
+			DefaultSecurityGroupID:  types.StringValue(testSameDefaultSG),
+			SecurityGroupIDForKnox:  types.StringValue(testSameKnoxSG),
+			DefaultSecurityGroupIDs: utils.ToSetValueFromStringList([]string{"sg-b", "sg-a"}),
+		},
+		EnvironmentName: types.StringValue(testEnvName),
+	}
+	state := &azureEnvironmentResourceModel{
+		SecurityAccess: &SecurityAccess{
+			DefaultSecurityGroupID:  types.StringValue(testSameDefaultSG),
+			SecurityGroupIDForKnox:  types.StringValue(testSameKnoxSG),
+			DefaultSecurityGroupIDs: utils.ToSetValueFromStringList([]string{"sg-a", "sg-b"}),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureSecurityAccessIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureSecurityAccessIfChanged_APIError_AddsDiagnostic(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		SecurityAccess: &SecurityAccess{
+			DefaultSecurityGroupID: types.StringValue(testNewDefaultSG),
+			SecurityGroupIDForKnox: types.StringValue(testNewKnoxSG),
+		},
+		EnvironmentName: types.StringValue(testEnvName),
+	}
+	state := &azureEnvironmentResourceModel{
+		SecurityAccess: &SecurityAccess{
+			DefaultSecurityGroupID: types.StringValue(testOldDefaultSG),
+			SecurityGroupIDForKnox: types.StringValue(testOldKnoxSG),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateSecurityAccessOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateAzureSecurityAccessIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testOldDefaultSG), state.SecurityAccess.DefaultSecurityGroupID)
+	assert.Equal(t, types.StringValue(testOldKnoxSG), state.SecurityAccess.SecurityGroupIDForKnox)
+}
