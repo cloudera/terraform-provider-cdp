@@ -48,8 +48,7 @@ type impalaTestParameters struct {
 	NumOfActiveCoordinators          int
 	EnableCatalogHighAvailability    bool
 	EnableStatestoreHighAvailability bool
-	EnableUnifiedAnalytics           bool
-	MaxQueries                       int
+	MaxQueries int
 	MaxNodesPerQuery                 int
 	InstanceType                     string
 	AvailabilityZone                 string
@@ -202,10 +201,6 @@ func testAccImpalaBasicConfig(params impalaTestParameters) string {
 		config.WriteString("\n  }")
 	}
 
-	if params.EnableUnifiedAnalytics {
-		config.WriteString("\n  enable_unified_analytics = true")
-	}
-
 	if params.MaxQueries > 0 || params.MaxNodesPerQuery > 0 {
 		config.WriteString("\n  query_isolation_options = {")
 		if params.MaxQueries > 0 {
@@ -340,8 +335,6 @@ resource "cdp_dw_vw_impala" "test_impala" {
     enable_catalog_high_availability    = false
     enable_statestore_high_availability = false
   }
-
-  enable_unified_analytics = true
 
   query_isolation_options = {
     max_queries           = 2

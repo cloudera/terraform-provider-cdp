@@ -19,6 +19,12 @@ import (
 // swagger:model UpdateVwRequest
 type UpdateVwRequest struct {
 
+	// Setting the quota for the 3rd party services injected into the Virtual Warehouse namespace.
+	AdditionalQuota *QuotaRequest `json:"additionalQuota,omitempty"`
+
+	// Map of connector ID to connector information for the VW.
+	AssociatedConnectors map[string]ConnectorData `json:"associatedConnectors,omitempty"`
+
 	// Autoscaling settings for the Virtual Warehouse.
 	Autoscaling *AutoscalingOptionsUpdateRequest `json:"autoscaling,omitempty"`
 
@@ -54,7 +60,7 @@ type UpdateVwRequest struct {
 	QueryIsolationOptions *QueryIsolationOptionsRequest `json:"queryIsolationOptions,omitempty"`
 
 	// Name of T-shirt size to use, which will determine the number of nodes.
-	// Enum: ["xsmall","small","medium","large"]
+	// Enum: ["xsmall","small","medium","large","waa"]
 	TShirtSize string `json:"tShirtSize,omitempty"`
 
 	// ID of the Virtual Warehouse.
@@ -65,6 +71,14 @@ type UpdateVwRequest struct {
 // Validate validates this update vw request
 func (m *UpdateVwRequest) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateAdditionalQuota(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateAssociatedConnectors(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateAutoscaling(formats); err != nil {
 		res = append(res, err)
@@ -97,6 +111,59 @@ func (m *UpdateVwRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *UpdateVwRequest) validateAdditionalQuota(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.AdditionalQuota) { // not required
+		return nil
+	}
+
+	if m.AdditionalQuota != nil {
+		if err := m.AdditionalQuota.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("additionalQuota")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("additionalQuota")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *UpdateVwRequest) validateAssociatedConnectors(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.AssociatedConnectors) { // not required
+		return nil
+	}
+
+	for k := range m.AssociatedConnectors {
+
+		if err := validate.Required("associatedConnectors"+"."+k, "body", m.AssociatedConnectors[k]); err != nil {
+			return err
+		}
+		if val, ok := m.AssociatedConnectors[k]; ok {
+			if err := val.Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("associatedConnectors" + "." + k)
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("associatedConnectors" + "." + k)
+				}
+
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 
@@ -205,7 +272,7 @@ var updateVwRequestTypeTShirtSizePropEnum []any
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["xsmall","small","medium","large"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["xsmall","small","medium","large","waa"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -226,6 +293,9 @@ const (
 
 	// UpdateVwRequestTShirtSizeLarge captures enum value "large"
 	UpdateVwRequestTShirtSizeLarge string = "large"
+
+	// UpdateVwRequestTShirtSizeWaa captures enum value "waa"
+	UpdateVwRequestTShirtSizeWaa string = "waa"
 )
 
 // prop value enum
@@ -262,6 +332,14 @@ func (m *UpdateVwRequest) validateVwID(formats strfmt.Registry) error {
 func (m *UpdateVwRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateAdditionalQuota(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAssociatedConnectors(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateAutoscaling(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -281,6 +359,46 @@ func (m *UpdateVwRequest) ContextValidate(ctx context.Context, formats strfmt.Re
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *UpdateVwRequest) contextValidateAdditionalQuota(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AdditionalQuota != nil {
+
+		if typeutils.IsZero(m.AdditionalQuota) { // not required
+			return nil
+		}
+
+		if err := m.AdditionalQuota.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("additionalQuota")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("additionalQuota")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *UpdateVwRequest) contextValidateAssociatedConnectors(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range m.AssociatedConnectors {
+
+		if val, ok := m.AssociatedConnectors[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

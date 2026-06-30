@@ -29,6 +29,9 @@ type RestoreServiceRequest struct {
 
 	// Specify the restored service name. If not specified, the service name from the backup will be reused.
 	ServiceName string `json:"serviceName,omitempty"`
+
+	// Optional service property override. Specified properties will be merged with backup properties.
+	ServicePropertyOverride map[string]string `json:"servicePropertyOverride,omitempty"`
 }
 
 // Validate validates this restore service request

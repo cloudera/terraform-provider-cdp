@@ -33,24 +33,22 @@ type TagRequest struct {
 }
 
 type resourceModel struct {
-	ID                     types.String `tfsdk:"id"`
-	ClusterID              types.String `tfsdk:"cluster_id"`
-	DatabaseCatalogID      types.String `tfsdk:"database_catalog_id"`
-	Name                   types.String `tfsdk:"name"`
-	LastUpdated            types.String `tfsdk:"last_updated"`
-	Status                 types.String `tfsdk:"status"`
-	ImageVersion           types.String `tfsdk:"image_version"`
-	InstanceType           types.String `tfsdk:"instance_type"`
-	TShirtSize             types.String `tfsdk:"tshirt_size"`
-	NodeCount              types.Int32  `tfsdk:"node_count"`
-	AvailabilityZone       types.String `tfsdk:"availability_zone"`
-	EnableUnifiedAnalytics types.Bool   `tfsdk:"enable_unified_analytics"`
-	ImpalaOptions          types.Object `tfsdk:"aws_options"`
-	ImpalaHASettings       types.Object `tfsdk:"ha_settings"`
+	ID                types.String `tfsdk:"id"`
+	ClusterID         types.String `tfsdk:"cluster_id"`
+	DatabaseCatalogID types.String `tfsdk:"database_catalog_id"`
+	Name              types.String `tfsdk:"name"`
+	LastUpdated       types.String `tfsdk:"last_updated"`
+	Status            types.String `tfsdk:"status"`
+	ImageVersion      types.String `tfsdk:"image_version"`
+	InstanceType      types.String `tfsdk:"instance_type"`
+	TShirtSize        types.String `tfsdk:"tshirt_size"`
+	NodeCount         types.Int32  `tfsdk:"node_count"`
+	AvailabilityZone  types.String `tfsdk:"availability_zone"`
+	ImpalaOptions     types.Object `tfsdk:"aws_options"`
+	ImpalaHASettings  types.Object `tfsdk:"ha_settings"`
 	// TODO Prateek Add this validation either use node_count or autoscaling options, not both
-	Autoscaling types.Object `tfsdk:"autoscaling"`
-	EnableSSO   types.Bool   `tfsdk:"enable_sso"`
-	// TODO Prateek Make this work in a way that this setting is only accepted if enable_unified_analytics is true
+	Autoscaling           types.Object `tfsdk:"autoscaling"`
+	EnableSSO             types.Bool   `tfsdk:"enable_sso"`
 	QueryIsolationOptions types.Object `tfsdk:"query_isolation_options"`
 	Tags                  types.List   `tfsdk:"tags"`
 	PlatformJwtAuth       types.Bool   `tfsdk:"platform_jwt_auth"`
@@ -85,7 +83,6 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 	setStringIfNotEmpty(&p.InstanceType, resp.Vw.InstanceType)
 	setStringIfNotEmpty(&p.AvailabilityZone, resp.Vw.AvailabilityZone)
 
-	p.EnableUnifiedAnalytics = types.BoolValue(resp.Vw.EnableUnifiedAnalytics)
 	p.ImpalaQueryLog = types.BoolValue(resp.Vw.ImpalaQueryLog)
 
 	if resp.Vw.ImpalaOptions != nil {

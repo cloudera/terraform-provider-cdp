@@ -126,9 +126,6 @@ type CreateAzureEnvironmentRequest struct {
 	// Required: true
 	UsePublicIP *bool `json:"usePublicIp"`
 
-	// User managed identity for encryption. (deprecated)
-	UserManagedIdentity string `json:"userManagedIdentity,omitempty"`
-
 	// When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
 	WorkloadAnalytics bool `json:"workloadAnalytics,omitempty"`
 }

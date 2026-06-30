@@ -38,6 +38,10 @@ type SetAuthenticationPolicyRequest struct {
 	// The inactivity duration, in seconds, of the UI session token, which would invalidate the session token due to inactivity. Set the value to '0' to use the system's default inactivity duration (which is 1 hour normally and 15 minutes for Cloudera for Government). If set to a value longer than the value for `sessionTokenExpirationSec` then there will be no inactivity timeout. The value will be set to '0' if not provided.
 	// Minimum: 0
 	SessionTokenInactivityDurationSec *int32 `json:"sessionTokenInactivityDurationSec,omitempty"`
+
+	// The expiration, in seconds, of the workload authentication token. Set the value to '0' to use system default expiration (which is 1 hour for CDP). The value will be set to '0' if not provided.
+	// Minimum: 0
+	WorkloadAuthTokenExpirationSec *int32 `json:"workloadAuthTokenExpirationSec,omitempty"`
 }
 
 // Validate validates this set authentication policy request
@@ -57,6 +61,10 @@ func (m *SetAuthenticationPolicyRequest) Validate(formats strfmt.Registry) error
 	}
 
 	if err := m.validateSessionTokenInactivityDurationSec(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateWorkloadAuthTokenExpirationSec(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -108,6 +116,18 @@ func (m *SetAuthenticationPolicyRequest) validateSessionTokenInactivityDurationS
 	}
 
 	if err := validate.MinimumInt("sessionTokenInactivityDurationSec", "body", int64(*m.SessionTokenInactivityDurationSec), 0, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *SetAuthenticationPolicyRequest) validateWorkloadAuthTokenExpirationSec(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.WorkloadAuthTokenExpirationSec) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("workloadAuthTokenExpirationSec", "body", int64(*m.WorkloadAuthTokenExpirationSec), 0, false); err != nil {
 		return err
 	}
 

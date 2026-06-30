@@ -32,6 +32,9 @@ type VcDescription struct {
 	// Required: true
 	ClusterID *string `json:"clusterId"`
 
+	// Indicates whether the job-level override is enabled for how drivers and executors run in the Virtual Cluster.
+	ComputeOverrideEnabled string `json:"computeOverrideEnabled,omitempty"`
+
 	// Time of creation of the virtual Cluster.
 	CreationTime string `json:"creationTime,omitempty"`
 

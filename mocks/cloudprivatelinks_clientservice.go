@@ -1422,3 +1422,171 @@ func (_c *MockCloudPrivateLinksClientService_SetTransport_Call) RunAndReturn(run
 	_c.Run(run)
 	return _c
 }
+
+// UpdatePrivateLinkEndpoint provides a mock function for the type MockCloudPrivateLinksClientService
+func (_mock *MockCloudPrivateLinksClientService) UpdatePrivateLinkEndpoint(params *operations.UpdatePrivateLinkEndpointParams, opts ...operations.ClientOption) (*operations.UpdatePrivateLinkEndpointOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdatePrivateLinkEndpoint")
+	}
+
+	var r0 *operations.UpdatePrivateLinkEndpointOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.UpdatePrivateLinkEndpointParams, ...operations.ClientOption) (*operations.UpdatePrivateLinkEndpointOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.UpdatePrivateLinkEndpointParams, ...operations.ClientOption) *operations.UpdatePrivateLinkEndpointOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdatePrivateLinkEndpointOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.UpdatePrivateLinkEndpointParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdatePrivateLinkEndpoint'
+type MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call struct {
+	*mock.Call
+}
+
+// UpdatePrivateLinkEndpoint is a helper method to define mock.On call
+//   - params *operations.UpdatePrivateLinkEndpointParams
+//   - opts ...operations.ClientOption
+func (_e *MockCloudPrivateLinksClientService_Expecter) UpdatePrivateLinkEndpoint(params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call {
+	return &MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call{Call: _e.mock.On("UpdatePrivateLinkEndpoint",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call) Run(run func(params *operations.UpdatePrivateLinkEndpointParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.UpdatePrivateLinkEndpointParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.UpdatePrivateLinkEndpointParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call) Return(updatePrivateLinkEndpointOK *operations.UpdatePrivateLinkEndpointOK, err error) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call {
+	_c.Call.Return(updatePrivateLinkEndpointOK, err)
+	return _c
+}
+
+func (_c *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call) RunAndReturn(run func(params *operations.UpdatePrivateLinkEndpointParams, opts ...operations.ClientOption) (*operations.UpdatePrivateLinkEndpointOK, error)) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// UpdatePrivateLinkEndpointContext provides a mock function for the type MockCloudPrivateLinksClientService
+func (_mock *MockCloudPrivateLinksClientService) UpdatePrivateLinkEndpointContext(ctx context.Context, params *operations.UpdatePrivateLinkEndpointParams, opts ...operations.ClientOption) (*operations.UpdatePrivateLinkEndpointOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdatePrivateLinkEndpointContext")
+	}
+
+	var r0 *operations.UpdatePrivateLinkEndpointOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdatePrivateLinkEndpointParams, ...operations.ClientOption) (*operations.UpdatePrivateLinkEndpointOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.UpdatePrivateLinkEndpointParams, ...operations.ClientOption) *operations.UpdatePrivateLinkEndpointOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.UpdatePrivateLinkEndpointOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.UpdatePrivateLinkEndpointParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdatePrivateLinkEndpointContext'
+type MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call struct {
+	*mock.Call
+}
+
+// UpdatePrivateLinkEndpointContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.UpdatePrivateLinkEndpointParams
+//   - opts ...operations.ClientOption
+func (_e *MockCloudPrivateLinksClientService_Expecter) UpdatePrivateLinkEndpointContext(ctx interface{}, params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call {
+	return &MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call{Call: _e.mock.On("UpdatePrivateLinkEndpointContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call) Run(run func(ctx context.Context, params *operations.UpdatePrivateLinkEndpointParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.UpdatePrivateLinkEndpointParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.UpdatePrivateLinkEndpointParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call) Return(updatePrivateLinkEndpointOK *operations.UpdatePrivateLinkEndpointOK, err error) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call {
+	_c.Call.Return(updatePrivateLinkEndpointOK, err)
+	return _c
+}
+
+func (_c *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.UpdatePrivateLinkEndpointParams, opts ...operations.ClientOption) (*operations.UpdatePrivateLinkEndpointOK, error)) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call {
+	_c.Call.Return(run)
+	return _c
+}

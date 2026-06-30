@@ -14,7 +14,7 @@ import (
 // swagger:model ImpalaHASettingsUpdateRequest
 type ImpalaHASettingsUpdateRequest struct {
 
-	// Set whether the Impala Global Admission Controller is enabled. Once disabled, it cannot be re-enabled.
+	// Set whether the Impala Global Admission Controller is enabled. This feature can only be used with high-availability mode ACTIVE_ACTIVE.
 	ImpalaEnableGlobalAdmissionController bool `json:"impalaEnableGlobalAdmissionController,omitempty"`
 
 	// The number of active coordinators.

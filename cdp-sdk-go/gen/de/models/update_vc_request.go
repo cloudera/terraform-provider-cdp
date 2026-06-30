@@ -26,6 +26,9 @@ type UpdateVcRequest struct {
 	// Discard the Spark configs inside a VC.
 	DiscardSparkConfigs *bool `json:"discardSparkConfigs,omitempty"`
 
+	// Whether to enable job-level override for how drivers and executors run in the Virtual Cluster.
+	EnableComputeOverride bool `json:"enableComputeOverride,omitempty"`
+
 	// Groups with full access.
 	FullAccessGroups []string `json:"fullAccessGroups"`
 

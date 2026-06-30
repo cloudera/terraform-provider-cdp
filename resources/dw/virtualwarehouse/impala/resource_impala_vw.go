@@ -216,7 +216,6 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel, ctx contex
 
 	setIfPositive(&req.NodeCount, plan.NodeCount.ValueInt32())
 
-	req.EnableUnifiedAnalytics = plan.EnableUnifiedAnalytics.ValueBool()
 	req.ImpalaQueryLog = plan.ImpalaQueryLog.ValueBool()
 	setIfTrue(&req.PlatformJwtAuth, plan.PlatformJwtAuth.ValueBool())
 

@@ -98,6 +98,9 @@ type WorkspaceSummary struct {
 	// The upgrade state contains the workbench upgrade information.
 	UpgradeState *UpgradeState `json:"upgradeState,omitempty"`
 
+	// The type of upgrade used for the workbench: "Inplace" or "RestoreBased". Only visible when set.
+	UpgradeType string `json:"upgradeType,omitempty"`
+
 	// The version of Cloudera AI that was installed on the workbench.
 	// Required: true
 	Version *string `json:"version"`

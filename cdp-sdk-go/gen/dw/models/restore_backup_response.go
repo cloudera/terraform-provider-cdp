@@ -4,10 +4,13 @@ package models
 
 import (
 	"context"
+	stderrors "errors"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -22,6 +25,9 @@ type RestoreBackupResponse struct {
 	// The CRN of the restore.
 	// Required: true
 	RestoreCrn *string `json:"restoreCrn"`
+
+	// restore plan
+	RestorePlan *RestoreBackupResponseRestorePlan `json:"restorePlan,omitempty"`
 }
 
 // Validate validates this restore backup response
@@ -29,6 +35,10 @@ func (m *RestoreBackupResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateRestoreCrn(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateRestorePlan(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -47,8 +57,65 @@ func (m *RestoreBackupResponse) validateRestoreCrn(formats strfmt.Registry) erro
 	return nil
 }
 
-// ContextValidate validates this restore backup response based on context it is used
+func (m *RestoreBackupResponse) validateRestorePlan(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.RestorePlan) { // not required
+		return nil
+	}
+
+	if m.RestorePlan != nil {
+		if err := m.RestorePlan.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("restorePlan")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("restorePlan")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this restore backup response based on the context it is used
 func (m *RestoreBackupResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateRestorePlan(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *RestoreBackupResponse) contextValidateRestorePlan(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.RestorePlan != nil {
+
+		if typeutils.IsZero(m.RestorePlan) { // not required
+			return nil
+		}
+
+		if err := m.RestorePlan.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("restorePlan")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("restorePlan")
+			}
+
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -63,6 +130,543 @@ func (m *RestoreBackupResponse) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *RestoreBackupResponse) UnmarshalBinary(b []byte) error {
 	var res RestoreBackupResponse
+	if err := jsonutils.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// RestoreBackupResponseRestorePlan The plan for the restoration without cluster metadata in case of rebuild.
+//
+// swagger:model RestoreBackupResponseRestorePlan
+type RestoreBackupResponseRestorePlan struct {
+
+	// The plan for the restoration of the Hue Query Editors.
+	CdwHue []*RestoreClusterEntityPlan `json:"cdwHue"`
+
+	// The plan for the restoration of the DB Catalogs.
+	Dbc []*RestoreClusterEntityPlan `json:"dbc"`
+
+	// The plan for the restoration of the DWX Secrets.
+	DwxSecrets []string `json:"dwxSecrets"`
+
+	// The plan for the restoration of the Hive Virtual Warehouses.
+	Hive []*RestoreClusterEntityPlan `json:"hive"`
+
+	// The plan for the restoration of the Hue.
+	Hue []*RestoreClusterEntityPlan `json:"hue"`
+
+	// The plan for the restoration of the Impala Virtual Warehouses.
+	Impala []*RestoreClusterEntityPlan `json:"impala"`
+
+	// The plan for the restoration of the Trino Virtual Warehouses.
+	Trino []*RestoreClusterEntityPlan `json:"trino"`
+
+	// The plan for the restoration of the Data Visualization Apps.
+	Viz []*RestoreClusterEntityPlan `json:"viz"`
+}
+
+// Validate validates this restore backup response restore plan
+func (m *RestoreBackupResponseRestorePlan) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateCdwHue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateDbc(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateHive(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateHue(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateImpala(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTrino(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateViz(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) validateCdwHue(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.CdwHue) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.CdwHue); i++ {
+		if typeutils.IsZero(m.CdwHue[i]) { // not required
+			continue
+		}
+
+		if m.CdwHue[i] != nil {
+			if err := m.CdwHue[i].Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "cdwHue" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "cdwHue" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) validateDbc(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.Dbc) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Dbc); i++ {
+		if typeutils.IsZero(m.Dbc[i]) { // not required
+			continue
+		}
+
+		if m.Dbc[i] != nil {
+			if err := m.Dbc[i].Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "dbc" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "dbc" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) validateHive(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.Hive) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Hive); i++ {
+		if typeutils.IsZero(m.Hive[i]) { // not required
+			continue
+		}
+
+		if m.Hive[i] != nil {
+			if err := m.Hive[i].Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "hive" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "hive" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) validateHue(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.Hue) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Hue); i++ {
+		if typeutils.IsZero(m.Hue[i]) { // not required
+			continue
+		}
+
+		if m.Hue[i] != nil {
+			if err := m.Hue[i].Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "hue" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "hue" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) validateImpala(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.Impala) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Impala); i++ {
+		if typeutils.IsZero(m.Impala[i]) { // not required
+			continue
+		}
+
+		if m.Impala[i] != nil {
+			if err := m.Impala[i].Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "impala" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "impala" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) validateTrino(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.Trino) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Trino); i++ {
+		if typeutils.IsZero(m.Trino[i]) { // not required
+			continue
+		}
+
+		if m.Trino[i] != nil {
+			if err := m.Trino[i].Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "trino" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "trino" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) validateViz(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.Viz) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Viz); i++ {
+		if typeutils.IsZero(m.Viz[i]) { // not required
+			continue
+		}
+
+		if m.Viz[i] != nil {
+			if err := m.Viz[i].Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "viz" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "viz" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this restore backup response restore plan based on the context it is used
+func (m *RestoreBackupResponseRestorePlan) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCdwHue(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateDbc(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateHive(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateHue(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateImpala(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTrino(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateViz(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) contextValidateCdwHue(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.CdwHue); i++ {
+
+		if m.CdwHue[i] != nil {
+
+			if typeutils.IsZero(m.CdwHue[i]) { // not required
+				return nil
+			}
+
+			if err := m.CdwHue[i].ContextValidate(ctx, formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "cdwHue" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "cdwHue" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) contextValidateDbc(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Dbc); i++ {
+
+		if m.Dbc[i] != nil {
+
+			if typeutils.IsZero(m.Dbc[i]) { // not required
+				return nil
+			}
+
+			if err := m.Dbc[i].ContextValidate(ctx, formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "dbc" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "dbc" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) contextValidateHive(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Hive); i++ {
+
+		if m.Hive[i] != nil {
+
+			if typeutils.IsZero(m.Hive[i]) { // not required
+				return nil
+			}
+
+			if err := m.Hive[i].ContextValidate(ctx, formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "hive" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "hive" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) contextValidateHue(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Hue); i++ {
+
+		if m.Hue[i] != nil {
+
+			if typeutils.IsZero(m.Hue[i]) { // not required
+				return nil
+			}
+
+			if err := m.Hue[i].ContextValidate(ctx, formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "hue" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "hue" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) contextValidateImpala(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Impala); i++ {
+
+		if m.Impala[i] != nil {
+
+			if typeutils.IsZero(m.Impala[i]) { // not required
+				return nil
+			}
+
+			if err := m.Impala[i].ContextValidate(ctx, formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "impala" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "impala" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) contextValidateTrino(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Trino); i++ {
+
+		if m.Trino[i] != nil {
+
+			if typeutils.IsZero(m.Trino[i]) { // not required
+				return nil
+			}
+
+			if err := m.Trino[i].ContextValidate(ctx, formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "trino" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "trino" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreBackupResponseRestorePlan) contextValidateViz(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Viz); i++ {
+
+		if m.Viz[i] != nil {
+
+			if typeutils.IsZero(m.Viz[i]) { // not required
+				return nil
+			}
+
+			if err := m.Viz[i].ContextValidate(ctx, formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("restorePlan" + "." + "viz" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("restorePlan" + "." + "viz" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *RestoreBackupResponseRestorePlan) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return jsonutils.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *RestoreBackupResponseRestorePlan) UnmarshalBinary(b []byte) error {
+	var res RestoreBackupResponseRestorePlan
 	if err := jsonutils.ReadJSON(b, &res); err != nil {
 		return err
 	}

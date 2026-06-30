@@ -487,6 +487,12 @@ type ClientService interface {
 	// UpdateOrchestratorStateContext run orchestrator engine state update on the data hub cluster.
 	UpdateOrchestratorStateContext(ctx context.Context, params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
+	// UpdatePublicDNSEntries update public DNS entries of a data hub cluster by name or c r n.
+	UpdatePublicDNSEntries(params *UpdatePublicDNSEntriesParams, opts ...ClientOption) (*UpdatePublicDNSEntriesOK, error)
+
+	// UpdatePublicDNSEntriesContext update public DNS entries of a data hub cluster by name or c r n.
+	UpdatePublicDNSEntriesContext(ctx context.Context, params *UpdatePublicDNSEntriesParams, opts ...ClientOption) (*UpdatePublicDNSEntriesOK, error)
+
 	// UpdateToAwsImdsV1 updates data hub a w s cluster to use i m d sv1.
 	UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error)
 
@@ -5184,6 +5190,71 @@ func (a *Client) UpdateOrchestratorStateContext(ctx context.Context, params *Upd
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpdateOrchestratorStateDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// UpdatePublicDNSEntries updates public DNS entries of a data hub cluster by name or c r n.
+//
+// Update public DNS entries of a Data Hub cluster by name or CRN..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpdatePublicDNSEntriesContext] instead.
+func (a *Client) UpdatePublicDNSEntries(params *UpdatePublicDNSEntriesParams, opts ...ClientOption) (*UpdatePublicDNSEntriesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdatePublicDNSEntriesContext(ctx, params, opts...)
+}
+
+// UpdatePublicDNSEntriesContext updates public DNS entries of a data hub cluster by name or c r n.
+//
+// Update public DNS entries of a Data Hub cluster by name or CRN..
+//
+// Do not use the deprecated [UpdatePublicDNSEntriesParams.Context] with this method: it would be ignored.
+func (a *Client) UpdatePublicDNSEntriesContext(ctx context.Context, params *UpdatePublicDNSEntriesParams, opts ...ClientOption) (*UpdatePublicDNSEntriesOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewUpdatePublicDNSEntriesParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "updatePublicDnsEntries",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datahub/updatePublicDnsEntries",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdatePublicDNSEntriesReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*UpdatePublicDNSEntriesOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*UpdatePublicDNSEntriesDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }

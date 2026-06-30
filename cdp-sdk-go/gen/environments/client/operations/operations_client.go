@@ -55,6 +55,12 @@ type ClientOption func(*runtime.ClientOperation)
 // ClientService is the interface for Client methods.
 type ClientService interface {
 
+	// AddTrust add cross realm trust between an on premise active directory and an environment.
+	AddTrust(params *AddTrustParams, opts ...ClientOption) (*AddTrustOK, error)
+
+	// AddTrustContext add cross realm trust between an on premise active directory and an environment.
+	AddTrustContext(ctx context.Context, params *AddTrustParams, opts ...ClientOption) (*AddTrustOK, error)
+
 	// AttachFreeIpaRecipes attach recipes to free IP a.
 	AttachFreeIpaRecipes(params *AttachFreeIpaRecipesParams, opts ...ClientOption) (*AttachFreeIpaRecipesOK, error)
 
@@ -716,6 +722,71 @@ type ClientService interface {
 	ValidateAzureCloudStorageContext(ctx context.Context, params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error)
 
 	SetTransport(transport runtime.ContextualTransport)
+}
+
+// AddTrust adds cross realm trust between an on premise active directory and an environment.
+//
+// Adds cross-realm trust between an on-premise Active Directory and an environment. This is used to add trust relationship to an environment towards an on-premise Active Directory realm. After this operation completes, configure the other side of the trust relationship by completing the steps returned by getTrustSetupCommands. Then call finishSetupTrust to validate and activate the trust for production use..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.AddTrustContext] instead.
+func (a *Client) AddTrust(params *AddTrustParams, opts ...ClientOption) (*AddTrustOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.AddTrustContext(ctx, params, opts...)
+}
+
+// AddTrustContext adds cross realm trust between an on premise active directory and an environment.
+//
+// Adds cross-realm trust between an on-premise Active Directory and an environment. This is used to add trust relationship to an environment towards an on-premise Active Directory realm. After this operation completes, configure the other side of the trust relationship by completing the steps returned by getTrustSetupCommands. Then call finishSetupTrust to validate and activate the trust for production use..
+//
+// Do not use the deprecated [AddTrustParams.Context] with this method: it would be ignored.
+func (a *Client) AddTrustContext(ctx context.Context, params *AddTrustParams, opts ...ClientOption) (*AddTrustOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewAddTrustParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "addTrust",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/addTrust",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &AddTrustReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*AddTrustOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*AddTrustDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
 // AttachFreeIpaRecipes attaches recipes to free IP a.

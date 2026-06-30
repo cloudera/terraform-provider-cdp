@@ -78,11 +78,6 @@ var impalaSchema = schema.Schema{
 			Optional:            true,
 			MarkdownDescription: "The availability zone for the Impala Virtual Warehouse.",
 		},
-		"enable_unified_analytics": schema.BoolAttribute{
-			Optional:            true,
-			Computed:            true,
-			MarkdownDescription: "Flag to enable unified analytics.",
-		},
 		"aws_options": schema.SingleNestedAttribute{
 			Optional:            true,
 			Computed:            true,

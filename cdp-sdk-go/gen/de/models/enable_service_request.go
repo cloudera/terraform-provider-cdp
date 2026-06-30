@@ -50,6 +50,12 @@ type EnableServiceRequest struct {
 	// Resource ID of custom private DNS zone for Azure storage account.
 	AzureFilesharePrivateDNSZoneID string `json:"azureFilesharePrivateDNSZoneId,omitempty"`
 
+	// Azure managed identity resource ID for service.
+	AzureServiceManagedIdentity string `json:"azureServiceManagedIdentity,omitempty"`
+
+	// Azure managed identity resource IDs for virtual cluster.
+	AzureVirtualClusterManagedIdentities string `json:"azureVirtualClusterManagedIdentities,omitempty"`
+
 	// Chart overrides for enabling a service.
 	ChartValueOverrides []*ChartValueOverridesRequest `json:"chartValueOverrides"`
 
@@ -61,6 +67,9 @@ type EnableServiceRequest struct {
 
 	// If set to "true", the previous version of the CDE service will be deployed.
 	DeployPreviousVersion *bool `json:"deployPreviousVersion,omitempty"`
+
+	// When set to true, disables ARM64 (Graviton) instances for the CDE service database. When set to false (default), Graviton instances may be used for the database. If Graviton instances are not available, the system falls back to x86.
+	DisableArm64 bool `json:"disableArm64,omitempty"`
 
 	// Create a fully private CDE instance on either Amazon or Azure. This includes services such as Kubernetes, MySQL, etc. For Azure, this will also enable virtual network (VNet) access via private endpoints and private link.
 	EnablePrivateNetwork bool `json:"enablePrivateNetwork,omitempty"`

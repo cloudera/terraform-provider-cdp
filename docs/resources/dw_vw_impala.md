@@ -97,7 +97,6 @@ resource "cdp_dw_vw_impala" "test-terraform" {
 - `availability_zone` (String) The availability zone for the Impala Virtual Warehouse.
 - `aws_options` (Attributes) Impala-specific configuration options. (see [below for nested schema](#nestedatt--aws_options))
 - `enable_sso` (Boolean) Enable sso for Impala VWH
-- `enable_unified_analytics` (Boolean) Flag to enable unified analytics.
 - `ha_settings` (Attributes) High availability settings for Impala. (see [below for nested schema](#nestedatt--ha_settings))
 - `image_version` (String) Image version of the impala.
 - `instance_type` (String) The instance type for the Impala Virtual Warehouse.

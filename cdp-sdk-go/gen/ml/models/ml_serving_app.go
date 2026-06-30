@@ -67,6 +67,9 @@ type MlServingApp struct {
 
 	// Indicates if this Cloudera AI Inference Service instance uses a public load balancer.
 	UsePublicLoadBalancer bool `json:"usePublicLoadBalancer,omitempty"`
+
+	// Version compatibility information between control plane and this instance.
+	VersionCompatibility *VersionCompatibilityInfo `json:"versionCompatibility,omitempty"`
 }
 
 // Validate validates this ml serving app
@@ -82,6 +85,10 @@ func (m *MlServingApp) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCreationDate(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateVersionCompatibility(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -135,11 +142,38 @@ func (m *MlServingApp) validateCreationDate(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *MlServingApp) validateVersionCompatibility(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.VersionCompatibility) { // not required
+		return nil
+	}
+
+	if m.VersionCompatibility != nil {
+		if err := m.VersionCompatibility.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("versionCompatibility")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("versionCompatibility")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this ml serving app based on the context it is used
 func (m *MlServingApp) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateCluster(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVersionCompatibility(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -165,6 +199,31 @@ func (m *MlServingApp) contextValidateCluster(ctx context.Context, formats strfm
 			ce := new(errors.CompositeError)
 			if stderrors.As(err, &ce) {
 				return ce.ValidateName("cluster")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *MlServingApp) contextValidateVersionCompatibility(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.VersionCompatibility != nil {
+
+		if typeutils.IsZero(m.VersionCompatibility) { // not required
+			return nil
+		}
+
+		if err := m.VersionCompatibility.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("versionCompatibility")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("versionCompatibility")
 			}
 
 			return err

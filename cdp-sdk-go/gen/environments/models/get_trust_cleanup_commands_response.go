@@ -9,6 +9,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -34,8 +35,7 @@ type GetTrustCleanupCommandsResponse struct {
 	KdcType *string `json:"kdcType"`
 
 	// Commands to be run on the MIT KDC server.
-	// Required: true
-	MitCommands *MitCommands `json:"mitCommands"`
+	MitCommands *MitCommands `json:"mitCommands,omitempty"`
 }
 
 // Validate validates this get trust cleanup commands response
@@ -135,9 +135,8 @@ func (m *GetTrustCleanupCommandsResponse) validateKdcType(formats strfmt.Registr
 }
 
 func (m *GetTrustCleanupCommandsResponse) validateMitCommands(formats strfmt.Registry) error {
-
-	if err := validate.Required("mitCommands", "body", m.MitCommands); err != nil {
-		return err
+	if typeutils.IsZero(m.MitCommands) { // not required
+		return nil
 	}
 
 	if m.MitCommands != nil {
@@ -225,6 +224,10 @@ func (m *GetTrustCleanupCommandsResponse) contextValidateBaseClusterCommands(ctx
 func (m *GetTrustCleanupCommandsResponse) contextValidateMitCommands(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.MitCommands != nil {
+
+		if typeutils.IsZero(m.MitCommands) { // not required
+			return nil
+		}
 
 		if err := m.MitCommands.ContextValidate(ctx, formats); err != nil {
 			ve := new(errors.Validation)

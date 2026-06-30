@@ -39,6 +39,174 @@ func (_m *MockEnvironmentClientService) EXPECT() *MockEnvironmentClientService_E
 	return &MockEnvironmentClientService_Expecter{mock: &_m.Mock}
 }
 
+// AddTrust provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) AddTrust(params *operations.AddTrustParams, opts ...operations.ClientOption) (*operations.AddTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AddTrust")
+	}
+
+	var r0 *operations.AddTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.AddTrustParams, ...operations.ClientOption) (*operations.AddTrustOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.AddTrustParams, ...operations.ClientOption) *operations.AddTrustOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AddTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.AddTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_AddTrust_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AddTrust'
+type MockEnvironmentClientService_AddTrust_Call struct {
+	*mock.Call
+}
+
+// AddTrust is a helper method to define mock.On call
+//   - params *operations.AddTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) AddTrust(params interface{}, opts ...interface{}) *MockEnvironmentClientService_AddTrust_Call {
+	return &MockEnvironmentClientService_AddTrust_Call{Call: _e.mock.On("AddTrust",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_AddTrust_Call) Run(run func(params *operations.AddTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_AddTrust_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.AddTrustParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.AddTrustParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_AddTrust_Call) Return(addTrustOK *operations.AddTrustOK, err error) *MockEnvironmentClientService_AddTrust_Call {
+	_c.Call.Return(addTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_AddTrust_Call) RunAndReturn(run func(params *operations.AddTrustParams, opts ...operations.ClientOption) (*operations.AddTrustOK, error)) *MockEnvironmentClientService_AddTrust_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// AddTrustContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) AddTrustContext(ctx context.Context, params *operations.AddTrustParams, opts ...operations.ClientOption) (*operations.AddTrustOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for AddTrustContext")
+	}
+
+	var r0 *operations.AddTrustOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AddTrustParams, ...operations.ClientOption) (*operations.AddTrustOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.AddTrustParams, ...operations.ClientOption) *operations.AddTrustOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.AddTrustOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.AddTrustParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_AddTrustContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AddTrustContext'
+type MockEnvironmentClientService_AddTrustContext_Call struct {
+	*mock.Call
+}
+
+// AddTrustContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.AddTrustParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) AddTrustContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_AddTrustContext_Call {
+	return &MockEnvironmentClientService_AddTrustContext_Call{Call: _e.mock.On("AddTrustContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_AddTrustContext_Call) Run(run func(ctx context.Context, params *operations.AddTrustParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_AddTrustContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.AddTrustParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.AddTrustParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_AddTrustContext_Call) Return(addTrustOK *operations.AddTrustOK, err error) *MockEnvironmentClientService_AddTrustContext_Call {
+	_c.Call.Return(addTrustOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_AddTrustContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.AddTrustParams, opts ...operations.ClientOption) (*operations.AddTrustOK, error)) *MockEnvironmentClientService_AddTrustContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // AttachFreeIpaRecipes provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) AttachFreeIpaRecipes(params *operations.AttachFreeIpaRecipesParams, opts ...operations.ClientOption) (*operations.AttachFreeIpaRecipesOK, error) {
 	// operations.ClientOption

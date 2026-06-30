@@ -20,6 +20,9 @@ import (
 // swagger:model CreateVwRequest
 type CreateVwRequest struct {
 
+	// Setting the quota for the 3rd party services injected into the Virtual Warehouse namespace.
+	AdditionalQuota *QuotaRequest `json:"additionalQuota,omitempty"`
+
 	// Autoscaling settings for the Virtual Warehouse.
 	Autoscaling *AutoscalingOptionsCreateRequest `json:"autoscaling,omitempty"`
 
@@ -40,9 +43,6 @@ type CreateVwRequest struct {
 	// Provides EBS gp3 volume as temporary storage space for Hive LLAP cache, and improves query performance. Configurable only at Virtual Warehouse creation. Using EBS volumes incurs additional costs.
 	EbsLLAPSpillGB int32 `json:"ebsLLAPSpillGB,omitempty"`
 
-	// DEPRECATED: Enable Unified Analytics. In the case of Hive Virtual Warehouses, this cannot be provided, because this value is inferred. In the case of Impala, this can be set. Passing --query-isolation-options will be considered only if this flag is set to true. If Unified Analytics is enabled then the "enableShutdownOfCoordinator" in --impala-ha-settings is explicitly disabled (ignored) and should not be provided, furthermore the "highAvailabilityMode" in --impala-ha-settings cannot be set to ACTIVE_ACTIVE. FENG support will be removed in subsequent releases.
-	EnableUnifiedAnalytics bool `json:"enableUnifiedAnalytics,omitempty"`
-
 	// DEPRECATED - Sets the authentication mode to use by Hive Server: * `LDAP` * `KERBEROS` Default: `LDAP` if not specified
 	HiveAuthenticationMode *string `json:"hiveAuthenticationMode,omitempty"`
 
@@ -60,6 +60,9 @@ type CreateVwRequest struct {
 
 	// Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
 	ImpalaQueryLog bool `json:"impalaQueryLog,omitempty"`
+
+	// Iceberg REST Catalog connectors.
+	ImpalaRestCatalogConnectors []*CreateVwImpalaRestCatalogConnectorRequest `json:"impalaRestCatalogConnectors"`
 
 	// Instance type for this Virtual Warehouse. To learn what instance types are allowed to be used for a Hive or an Impala Virtual Warehouse, please use the 'describe-allowed-instance-types' command. The command output will list the usable instance types in its 'hive' and 'impala' fields accordingly.
 	InstanceType string `json:"instanceType,omitempty"`
@@ -84,7 +87,7 @@ type CreateVwRequest struct {
 	ResourcePool string `json:"resourcePool,omitempty"`
 
 	// Name of T-shirt size to use, which will determine the number of nodes.
-	// Enum: ["xsmall","small","medium","large"]
+	// Enum: ["xsmall","small","medium","large","waa"]
 	TShirtSize string `json:"tShirtSize,omitempty"`
 
 	// Tags associated with the resources.
@@ -98,6 +101,10 @@ type CreateVwRequest struct {
 // Validate validates this create vw request
 func (m *CreateVwRequest) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateAdditionalQuota(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateAutoscaling(formats); err != nil {
 		res = append(res, err)
@@ -120,6 +127,10 @@ func (m *CreateVwRequest) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateImpalaOptions(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateImpalaRestCatalogConnectors(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -146,6 +157,29 @@ func (m *CreateVwRequest) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreateVwRequest) validateAdditionalQuota(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.AdditionalQuota) { // not required
+		return nil
+	}
+
+	if m.AdditionalQuota != nil {
+		if err := m.AdditionalQuota.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("additionalQuota")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("additionalQuota")
+			}
+
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -259,6 +293,36 @@ func (m *CreateVwRequest) validateImpalaOptions(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *CreateVwRequest) validateImpalaRestCatalogConnectors(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.ImpalaRestCatalogConnectors) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.ImpalaRestCatalogConnectors); i++ {
+		if typeutils.IsZero(m.ImpalaRestCatalogConnectors[i]) { // not required
+			continue
+		}
+
+		if m.ImpalaRestCatalogConnectors[i] != nil {
+			if err := m.ImpalaRestCatalogConnectors[i].Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("impalaRestCatalogConnectors" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("impalaRestCatalogConnectors" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *CreateVwRequest) validateName(formats strfmt.Registry) error {
 
 	if err := validate.Required("name", "body", m.Name); err != nil {
@@ -295,7 +359,7 @@ var createVwRequestTypeTShirtSizePropEnum []any
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["xsmall","small","medium","large"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["xsmall","small","medium","large","waa"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -316,6 +380,9 @@ const (
 
 	// CreateVwRequestTShirtSizeLarge captures enum value "large"
 	CreateVwRequestTShirtSizeLarge string = "large"
+
+	// CreateVwRequestTShirtSizeWaa captures enum value "waa"
+	CreateVwRequestTShirtSizeWaa string = "waa"
 )
 
 // prop value enum
@@ -397,6 +464,10 @@ func (m *CreateVwRequest) validateVwType(formats strfmt.Registry) error {
 func (m *CreateVwRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateAdditionalQuota(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateAutoscaling(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -410,6 +481,10 @@ func (m *CreateVwRequest) ContextValidate(ctx context.Context, formats strfmt.Re
 	}
 
 	if err := m.contextValidateImpalaOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateImpalaRestCatalogConnectors(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -428,6 +503,31 @@ func (m *CreateVwRequest) ContextValidate(ctx context.Context, formats strfmt.Re
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *CreateVwRequest) contextValidateAdditionalQuota(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AdditionalQuota != nil {
+
+		if typeutils.IsZero(m.AdditionalQuota) { // not required
+			return nil
+		}
+
+		if err := m.AdditionalQuota.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("additionalQuota")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("additionalQuota")
+			}
+
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -526,6 +626,35 @@ func (m *CreateVwRequest) contextValidateImpalaOptions(ctx context.Context, form
 
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *CreateVwRequest) contextValidateImpalaRestCatalogConnectors(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ImpalaRestCatalogConnectors); i++ {
+
+		if m.ImpalaRestCatalogConnectors[i] != nil {
+
+			if typeutils.IsZero(m.ImpalaRestCatalogConnectors[i]) { // not required
+				return nil
+			}
+
+			if err := m.ImpalaRestCatalogConnectors[i].ContextValidate(ctx, formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("impalaRestCatalogConnectors" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("impalaRestCatalogConnectors" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
 	}
 
 	return nil

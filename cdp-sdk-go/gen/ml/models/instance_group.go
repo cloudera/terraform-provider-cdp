@@ -24,6 +24,9 @@ type InstanceGroup struct {
 	// The auto scaling configuration.
 	Autoscaling *Autoscaling `json:"autoscaling,omitempty"`
 
+	// The capacity reservation config for EKS.
+	Aws *AwsCrConfig `json:"aws,omitempty"`
+
 	// The networking rules for the ingress.
 	IngressRules []string `json:"ingressRules"`
 
@@ -42,6 +45,9 @@ type InstanceGroup struct {
 
 	// The root volume of the instance.
 	RootVolume *RootVolume `json:"rootVolume,omitempty"`
+
+	// The boolean flag to provision single zone or multi zone cluster.
+	SingleZone bool `json:"singleZone,omitempty"`
 }
 
 // Validate validates this instance group
@@ -53,6 +59,10 @@ func (m *InstanceGroup) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateAutoscaling(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateAws(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -116,6 +126,29 @@ func (m *InstanceGroup) validateAutoscaling(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *InstanceGroup) validateAws(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.Aws) { // not required
+		return nil
+	}
+
+	if m.Aws != nil {
+		if err := m.Aws.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("aws")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("aws")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *InstanceGroup) validateInstanceType(formats strfmt.Registry) error {
 
 	if err := validate.Required("instanceType", "body", m.InstanceType); err != nil {
@@ -157,6 +190,10 @@ func (m *InstanceGroup) ContextValidate(ctx context.Context, formats strfmt.Regi
 	}
 
 	if err := m.contextValidateAutoscaling(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAws(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -211,6 +248,31 @@ func (m *InstanceGroup) contextValidateAutoscaling(ctx context.Context, formats 
 			ce := new(errors.CompositeError)
 			if stderrors.As(err, &ce) {
 				return ce.ValidateName("autoscaling")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *InstanceGroup) contextValidateAws(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Aws != nil {
+
+		if typeutils.IsZero(m.Aws) { // not required
+			return nil
+		}
+
+		if err := m.Aws.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("aws")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("aws")
 			}
 
 			return err

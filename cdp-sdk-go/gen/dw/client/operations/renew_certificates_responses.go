@@ -118,7 +118,7 @@ func NewRenewCertificatesMethodNotAllowed() *RenewCertificatesMethodNotAllowed {
 
 // RenewCertificatesMethodNotAllowed describes a response with status code 405, with default header values.
 //
-// Operation not allowed on non-Azure clusters.
+// Operation not allowed on non-public cloud clusters.
 type RenewCertificatesMethodNotAllowed struct {
 	Payload *models.Error
 }

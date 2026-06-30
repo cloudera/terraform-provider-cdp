@@ -32,6 +32,9 @@ type CreateMlServingAppRequest struct {
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`
 
+	// Custom Knox topology name for API key generation. If not provided, defaults to "cdp-proxy-api".
+	KnoxTopologyName string `json:"knoxTopologyName,omitempty"`
+
 	// The whitelist of IPs for load balancer.
 	LoadBalancerIPWhitelists []string `json:"loadBalancerIPWhitelists"`
 
@@ -40,6 +43,9 @@ type CreateMlServingAppRequest struct {
 
 	// The request for Kubernetes cluster provisioning. Required in public cloud.
 	ProvisionK8sRequest *MlServingProvisionK8sRequest `json:"provisionK8sRequest,omitempty"`
+
+	// Custom Ranger service principal for fine-grained authorization. If not provided, defaults to the machine user workload username.
+	RangerServicePrincipal string `json:"rangerServicePrincipal,omitempty"`
 
 	// Skip pre-flight validations if requested.
 	SkipValidation bool `json:"skipValidation,omitempty"`

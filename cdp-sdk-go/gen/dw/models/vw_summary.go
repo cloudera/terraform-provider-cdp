@@ -19,6 +19,12 @@ import (
 // swagger:model VwSummary
 type VwSummary struct {
 
+	// Setting the quota for the 3rd party services injected into the Virtual Warehouse namespace.
+	AdditionalQuota *Quota `json:"additionalQuota,omitempty"`
+
+	// Map of connector ID to connector information for the Virtual Warehouse.
+	AssociatedConnectors map[string]ConnectorData `json:"associatedConnectors,omitempty"`
+
 	// The current settings stored for autoscaling.
 	AutoscalingOptions *AutoscalingOptionsResponse `json:"autoscalingOptions,omitempty"`
 
@@ -50,9 +56,6 @@ type VwSummary struct {
 	// Provides EBS gp3 volume as temporary storage space for Hive LLAP cache, and improves query performance. Configurable only at Virtual Warehouse creation. Using EBS volumes incurs additional costs.
 	EbsLLAPSpillGB int32 `json:"ebsLLAPSpillGB,omitempty"`
 
-	// DEPRECATED: Denotes whether the Unified Analytics is enabled. FENG support will be removed in subsequent releases.
-	EnableUnifiedAnalytics bool `json:"enableUnifiedAnalytics,omitempty"`
-
 	// endpoints
 	Endpoints *VwSummaryEndpoints `json:"endpoints,omitempty"`
 
@@ -65,6 +68,9 @@ type VwSummary struct {
 	// The ID of the Virtual Warehouse.
 	ID string `json:"id,omitempty"`
 
+	// Version of the Virtual Warehouse.
+	ImageVersion string `json:"imageVersion,omitempty"`
+
 	// Current Impala High Availability settings.
 	ImpalaHaSettingsOptions *ImpalaHASettingsOptionsResponse `json:"impalaHaSettingsOptions,omitempty"`
 
@@ -73,6 +79,9 @@ type VwSummary struct {
 
 	// Denotes whether the Virtual Warehouse has the Impala Query Log enabled or not.
 	ImpalaQueryLog bool `json:"impalaQueryLog,omitempty"`
+
+	// List of Impala Iceberg REST Catalog connectors.
+	ImpalaRestCatalogConnectors []*VwSummaryImpalaRestCatalogConnectorResponse `json:"impalaRestCatalogConnectors"`
 
 	// The underlying instance type for this Virtual Warehouse.
 	InstanceType string `json:"instanceType,omitempty"`
@@ -131,6 +140,14 @@ type VwSummary struct {
 func (m *VwSummary) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAdditionalQuota(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateAssociatedConnectors(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateAutoscalingOptions(formats); err != nil {
 		res = append(res, err)
 	}
@@ -152,6 +169,10 @@ func (m *VwSummary) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateImpalaOptions(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateImpalaRestCatalogConnectors(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -190,6 +211,59 @@ func (m *VwSummary) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *VwSummary) validateAdditionalQuota(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.AdditionalQuota) { // not required
+		return nil
+	}
+
+	if m.AdditionalQuota != nil {
+		if err := m.AdditionalQuota.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("additionalQuota")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("additionalQuota")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *VwSummary) validateAssociatedConnectors(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.AssociatedConnectors) { // not required
+		return nil
+	}
+
+	for k := range m.AssociatedConnectors {
+
+		if err := validate.Required("associatedConnectors"+"."+k, "body", m.AssociatedConnectors[k]); err != nil {
+			return err
+		}
+		if val, ok := m.AssociatedConnectors[k]; ok {
+			if err := val.Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("associatedConnectors" + "." + k)
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("associatedConnectors" + "." + k)
+				}
+
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 
@@ -315,6 +389,36 @@ func (m *VwSummary) validateImpalaOptions(formats strfmt.Registry) error {
 
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *VwSummary) validateImpalaRestCatalogConnectors(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.ImpalaRestCatalogConnectors) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.ImpalaRestCatalogConnectors); i++ {
+		if typeutils.IsZero(m.ImpalaRestCatalogConnectors[i]) { // not required
+			continue
+		}
+
+		if m.ImpalaRestCatalogConnectors[i] != nil {
+			if err := m.ImpalaRestCatalogConnectors[i].Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("impalaRestCatalogConnectors" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("impalaRestCatalogConnectors" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
 	}
 
 	return nil
@@ -509,6 +613,14 @@ func (m *VwSummary) validateVwType(formats strfmt.Registry) error {
 func (m *VwSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateAdditionalQuota(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAssociatedConnectors(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateAutoscalingOptions(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -526,6 +638,10 @@ func (m *VwSummary) ContextValidate(ctx context.Context, formats strfmt.Registry
 	}
 
 	if err := m.contextValidateImpalaOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateImpalaRestCatalogConnectors(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -560,6 +676,46 @@ func (m *VwSummary) ContextValidate(ctx context.Context, formats strfmt.Registry
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *VwSummary) contextValidateAdditionalQuota(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AdditionalQuota != nil {
+
+		if typeutils.IsZero(m.AdditionalQuota) { // not required
+			return nil
+		}
+
+		if err := m.AdditionalQuota.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("additionalQuota")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("additionalQuota")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *VwSummary) contextValidateAssociatedConnectors(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range m.AssociatedConnectors {
+
+		if val, ok := m.AssociatedConnectors[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 
@@ -683,6 +839,35 @@ func (m *VwSummary) contextValidateImpalaOptions(ctx context.Context, formats st
 
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *VwSummary) contextValidateImpalaRestCatalogConnectors(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ImpalaRestCatalogConnectors); i++ {
+
+		if m.ImpalaRestCatalogConnectors[i] != nil {
+
+			if typeutils.IsZero(m.ImpalaRestCatalogConnectors[i]) { // not required
+				return nil
+			}
+
+			if err := m.ImpalaRestCatalogConnectors[i].ContextValidate(ctx, formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("impalaRestCatalogConnectors" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("impalaRestCatalogConnectors" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
 	}
 
 	return nil
@@ -880,12 +1065,6 @@ type VwSummaryEndpoints struct {
 	// URL of Data Analytics Studio for Hive Virtual Warehouses.
 	Das string `json:"das,omitempty"`
 
-	// DEPRECATED: Command to use impala-shell for Unified Analytics. FENG support will be removed in subsequent releases.
-	FengImpalaShell string `json:"fengImpalaShell,omitempty"`
-
-	// DEPRECATED: Command to use impala-shell for Unified Analytics with Kerberos authentication in Private Cloud. FENG support will be removed in subsequent releases.
-	FengKerberosImpalaShell string `json:"fengKerberosImpalaShell,omitempty"`
-
 	// JDBC URL for Hive Virtual Warehouses.
 	HiveJdbc string `json:"hiveJdbc,omitempty"`
 
@@ -897,12 +1076,6 @@ type VwSummaryEndpoints struct {
 
 	// URL of Hue for both Hive and Impala Virtual Warehouses.
 	Hue string `json:"hue,omitempty"`
-
-	// DEPRECATED: FENG JDBC URL for Impala Virtual Warehouses. FENG support will be removed in subsequent releases.
-	ImpalaFENGJdbc string `json:"impalaFENGJdbc,omitempty"`
-
-	// DEPRECATED: Unified Analytics JDBC URL with Kerberos authentication for Impala Virtual Warehouses in Private Cloud. FENG support will be removed in subsequent releases.
-	ImpalaFengKerberosJdbc string `json:"impalaFengKerberosJdbc,omitempty"`
 
 	// JDBC URL for Impala Virtual Warehouses.
 	ImpalaJdbc string `json:"impalaJdbc,omitempty"`
