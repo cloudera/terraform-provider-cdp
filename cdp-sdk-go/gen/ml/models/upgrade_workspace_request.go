@@ -20,6 +20,9 @@ type UpgradeWorkspaceRequest struct {
 	// The version of workbench to upgrade to.
 	MlVersion string `json:"mlVersion,omitempty"`
 
+	// Whether to skip pre-flight validations before performing the restore-based upgrade.
+	SkipValidation bool `json:"skipValidation,omitempty"`
+
 	// The CRN of the workbench. If CRN is specified only the CRN is used for identifying the workbench, environment and name arguments are ignored.
 	WorkspaceCrn string `json:"workspaceCrn,omitempty"`
 

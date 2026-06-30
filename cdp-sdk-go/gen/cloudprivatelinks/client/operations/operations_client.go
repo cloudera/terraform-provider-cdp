@@ -103,6 +103,12 @@ type ClientService interface {
 	// RevokePrivateLinkServiceAccessContext revoke private link services access for the cloud account ID.
 	RevokePrivateLinkServiceAccessContext(ctx context.Context, params *RevokePrivateLinkServiceAccessParams, opts ...ClientOption) (*RevokePrivateLinkServiceAccessOK, error)
 
+	// UpdatePrivateLinkEndpoint update existing private link endpoint.
+	UpdatePrivateLinkEndpoint(params *UpdatePrivateLinkEndpointParams, opts ...ClientOption) (*UpdatePrivateLinkEndpointOK, error)
+
+	// UpdatePrivateLinkEndpointContext update existing private link endpoint.
+	UpdatePrivateLinkEndpointContext(ctx context.Context, params *UpdatePrivateLinkEndpointParams, opts ...ClientOption) (*UpdatePrivateLinkEndpointOK, error)
+
 	SetTransport(transport runtime.ContextualTransport)
 }
 
@@ -622,6 +628,71 @@ func (a *Client) RevokePrivateLinkServiceAccessContext(ctx context.Context, para
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RevokePrivateLinkServiceAccessDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// UpdatePrivateLinkEndpoint updates existing private link endpoint.
+//
+// Updates existing Private Link endpoints in AWS or AZURE. Returns a tracking ID..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpdatePrivateLinkEndpointContext] instead.
+func (a *Client) UpdatePrivateLinkEndpoint(params *UpdatePrivateLinkEndpointParams, opts ...ClientOption) (*UpdatePrivateLinkEndpointOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdatePrivateLinkEndpointContext(ctx, params, opts...)
+}
+
+// UpdatePrivateLinkEndpointContext updates existing private link endpoint.
+//
+// Updates existing Private Link endpoints in AWS or AZURE. Returns a tracking ID..
+//
+// Do not use the deprecated [UpdatePrivateLinkEndpointParams.Context] with this method: it would be ignored.
+func (a *Client) UpdatePrivateLinkEndpointContext(ctx context.Context, params *UpdatePrivateLinkEndpointParams, opts ...ClientOption) (*UpdatePrivateLinkEndpointOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewUpdatePrivateLinkEndpointParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "updatePrivateLinkEndpoint",
+		Method:             "POST",
+		PathPattern:        "/api/v1/cloudprivatelinks/updatePrivateLinkEndpoint",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdatePrivateLinkEndpointReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*UpdatePrivateLinkEndpointOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*UpdatePrivateLinkEndpointDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }

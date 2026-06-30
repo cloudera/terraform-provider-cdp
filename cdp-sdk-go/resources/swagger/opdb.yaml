@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.153 (BETA)
+  version: 0.9.160 (BETA)
   title: Operational Database service
   license:
     name: Apache 2.0
@@ -467,7 +467,7 @@ paths:
   /api/v1/opdb/prepareUpgradeDatabase:
     post:
       summary: Prepare database upgrade.
-      description: Running upgrade related validations and prepares the required parcels for the upgrade.
+      description: Runs upgrade related validations and prepares the required parcels for the upgrade.
       operationId: prepareUpgradeDatabase
       parameters:
         - name: input

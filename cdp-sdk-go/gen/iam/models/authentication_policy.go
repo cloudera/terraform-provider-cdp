@@ -20,6 +20,9 @@ type AuthenticationPolicy struct {
 	// The inactivity duration, in seconds, of the access key, which would invalidate the access key due to no activity. The value of '0' indicates default inactivity duration (which is 1 hour normally and 15 minutes for Cloudera for Government). There's no access key invalidation from no activity if the value is greater or equal to expiration.
 	AccessKeyInactivityDurationSec int32 `json:"accessKeyInactivityDurationSec,omitempty"`
 
+	// The list of allowed domains from which a workload-initiated SSO is allowed. Setting it will allow workload-initiated SSO from these domains as well as Cloudera's default workload domains.
+	AllowedWorkloadSubdomains []string `json:"allowedWorkloadSubdomains"`
+
 	// The list of IP addresses and/or CIDRs used for allowing client access to the UI and API services. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be present in the allowed list.
 	ClientIPAddressesAllowed []string `json:"clientIpAddressesAllowed"`
 

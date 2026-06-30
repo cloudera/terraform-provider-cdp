@@ -488,7 +488,7 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *azureEnvironmentResou
 	req.EndpointAccessGatewayScheme = model.EndpointAccessGatewayScheme.ValueString()
 	req.EndpointAccessGatewaySubnetIds = utils.FromSetValueToStringList(model.EndpointAccessGatewaySubnetIds)
 	req.EncryptionAtHost = model.EncryptionAtHost.ValueBool()
-	req.UserManagedIdentity = model.EncryptionUserManagedIdentity.ValueString()
+	req.EncryptionUserManagedIdentity = model.EncryptionUserManagedIdentity.ValueString()
 	req.EnvironmentType = model.EnvironmentType.ValueString()
 
 	var existingNetworkParams existingAzureNetwork

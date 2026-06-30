@@ -7,7 +7,7 @@ x-cdp-releases: PUBLIC
 x-audit: true
 x-extensions: pvcapipath
 info:
-  version: 0.9.153 (BETA)
+  version: 0.9.160 (BETA)
   title: Cloudera IAM Service
   license:
     name: Apache 2.0
@@ -2073,6 +2073,12 @@ definitions:
           type: string
         description: The list of IP addresses and/or CIDRs used for blocking client access to the UI and API services. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be absent from the blocked list.
         x-no-compatibility-guarantee: true
+      allowedWorkloadSubdomains:
+        type: array
+        items:
+          type: string
+        description: The list of allowed domains from which a workload-initiated SSO is allowed. Setting it will allow workload-initiated SSO from these domains as well as Cloudera's default workload domains.
+        x-no-compatibility-guarantee: true
   Account:
     type: object
     description: Information about a Cloudera CDP account.
@@ -3967,6 +3973,12 @@ definitions:
         format: int32
         minimum: 0
         description: The expiration, in seconds, of the UI session token. Set the value to '0' to use system default expiration (which is 12 hours for CDP). The value will be set to '0' if not provided.
+        x-no-compatibility-guarantee: true
+      workloadAuthTokenExpirationSec:
+        type: integer
+        format: int32
+        minimum: 0
+        description: The expiration, in seconds, of the workload authentication token. Set the value to '0' to use system default expiration (which is 1 hour for CDP). The value will be set to '0' if not provided.
         x-no-compatibility-guarantee: true
       clientIpAddressesAllowed:
         type: array

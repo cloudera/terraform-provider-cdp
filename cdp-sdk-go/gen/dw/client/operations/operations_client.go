@@ -139,6 +139,12 @@ type ClientService interface {
 	// CreateResourceTemplateContext create a resource allocation template.
 	CreateResourceTemplateContext(ctx context.Context, params *CreateResourceTemplateParams, opts ...ClientOption) (*CreateResourceTemplateOK, error)
 
+	// CreateSecret creates a secret in the user s kubernetes cluster.
+	CreateSecret(params *CreateSecretParams, opts ...ClientOption) (*CreateSecretOK, error)
+
+	// CreateSecretContext creates a secret in the user s kubernetes cluster.
+	CreateSecretContext(ctx context.Context, params *CreateSecretParams, opts ...ClientOption) (*CreateSecretOK, error)
+
 	// CreateVw create a virtual warehouse.
 	CreateVw(params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error)
 
@@ -529,10 +535,10 @@ type ClientService interface {
 	// RegisterSecretContext registers a reference to a secret stored in the vault of the cloud provider.
 	RegisterSecretContext(ctx context.Context, params *RegisterSecretParams, opts ...ClientOption) (*RegisterSecretOK, error)
 
-	// RenewCertificates renew certificates for a cloudera data warehouse azure cluster.
+	// RenewCertificates renew certificates for a cloudera data warehouse public cloud cluster.
 	RenewCertificates(params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error)
 
-	// RenewCertificatesContext renew certificates for a cloudera data warehouse azure cluster.
+	// RenewCertificatesContext renew certificates for a cloudera data warehouse public cloud cluster.
 	RenewCertificatesContext(ctx context.Context, params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error)
 
 	// ResetServerSettings restores the d w x server settings to the default values.
@@ -1606,6 +1612,71 @@ func (a *Client) CreateResourceTemplateContext(ctx context.Context, params *Crea
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateResourceTemplateDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// CreateSecret creates a secret in the user s kubernetes cluster.
+//
+// Creates a secret in the user's kubernetes cluster and stores its metadata in the database. The secret is used to connect to an external data source..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateSecretContext] instead.
+func (a *Client) CreateSecret(params *CreateSecretParams, opts ...ClientOption) (*CreateSecretOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateSecretContext(ctx, params, opts...)
+}
+
+// CreateSecretContext creates a secret in the user s kubernetes cluster.
+//
+// Creates a secret in the user's kubernetes cluster and stores its metadata in the database. The secret is used to connect to an external data source..
+//
+// Do not use the deprecated [CreateSecretParams.Context] with this method: it would be ignored.
+func (a *Client) CreateSecretContext(ctx context.Context, params *CreateSecretParams, opts ...ClientOption) (*CreateSecretOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewCreateSecretParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "createSecret",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createSecret",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateSecretReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*CreateSecretOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*CreateSecretDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
@@ -5835,9 +5906,9 @@ func (a *Client) RegisterSecretContext(ctx context.Context, params *RegisterSecr
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-// RenewCertificates renews certificates for a cloudera data warehouse azure cluster.
+// RenewCertificates renews certificates for a cloudera data warehouse public cloud cluster.
 //
-// Renew certificate for a Cloudera Data Warehouse Azure cluster..
+// Renew certificate for a Cloudera Data Warehouse public cloud cluster..
 //
 // This method does not support injected context.
 // However, timeout and opentracing contexts are honored whenever enabled.
@@ -5854,9 +5925,9 @@ func (a *Client) RenewCertificates(params *RenewCertificatesParams, opts ...Clie
 	return a.RenewCertificatesContext(ctx, params, opts...)
 }
 
-// RenewCertificatesContext renews certificates for a cloudera data warehouse azure cluster.
+// RenewCertificatesContext renews certificates for a cloudera data warehouse public cloud cluster.
 //
-// Renew certificate for a Cloudera Data Warehouse Azure cluster..
+// Renew certificate for a Cloudera Data Warehouse public cloud cluster..
 //
 // Do not use the deprecated [RenewCertificatesParams.Context] with this method: it would be ignored.
 func (a *Client) RenewCertificatesContext(ctx context.Context, params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error) {

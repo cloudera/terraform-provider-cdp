@@ -25,9 +25,6 @@ type AutoscalingOptionsCreateRequest struct {
 	// Turn off auto suspend for Virtual Warehouse.
 	DisableAutoSuspend bool `json:"disableAutoSuspend,omitempty"`
 
-	// DEPRECATED: in favor of the top level enableUnifiedAnalytics flag. Enable Unified Analytics. In case of Hive Virtual Warehouses this cannot be provided, because this value is inferred. In case of Impala this can be set. Passing --query-isolation-options will be considered if this flag is set to true. If Unified Analytics enabled then the "impalaEnableShutdownOfCoordinator" explicitly disabled and should not be provided, furthermore the "impalaHighAvailabilityMode" cannot be set to ACTIVE_ACTIVE. FENG support will be removed in subsequent releases.
-	EnableUnifiedAnalytics bool `json:"enableUnifiedAnalytics,omitempty"`
-
 	// Set Desired free capacity. Either "hiveScaleWaitTimeSeconds" or "hiveDesiredFreeCapacity" can be provided.
 	HiveDesiredFreeCapacity int32 `json:"hiveDesiredFreeCapacity,omitempty"`
 
@@ -37,7 +34,7 @@ type AutoscalingOptionsCreateRequest struct {
 	// DEPRECATED in favor of the top level impalaHASettings object. Enables a backup instance for Impala catalog to ensure high availability.
 	ImpalaEnableCatalogHighAvailability bool `json:"impalaEnableCatalogHighAvailability,omitempty"`
 
-	// DEPRECATED: in favor of the top level impalaHASettings object. Enables a shutdown of the coordinator. If Unified Analytics enabled then this setting explicitly disabled and should not be provided. FENG support will be removed in subsequent .
+	// DEPRECATED: in favor of the top level impalaHASettings object. Enables a shutdown of the coordinator.
 	ImpalaEnableShutdownOfCoordinator bool `json:"impalaEnableShutdownOfCoordinator,omitempty"`
 
 	// Configures executor group sets for workload aware autoscaling.
@@ -64,6 +61,24 @@ type AutoscalingOptionsCreateRequest struct {
 
 	// Sets the minimum number of Executor Groups.
 	MinClusters *int32 `json:"minClusters,omitempty"`
+
+	// Disables Auto-scaling for Trino VW.
+	TrinoDisableAutoScaling *bool `json:"trinoDisableAutoScaling,omitempty"`
+
+	// Maximum number of worker nodes in a Trino VW.
+	TrinoMaxWorkerCount *int32 `json:"trinoMaxWorkerCount,omitempty"`
+
+	// Minimum number of worker nodes in a Trino VW.
+	TrinoMinWorkerCount *int32 `json:"trinoMinWorkerCount,omitempty"`
+
+	// Scale down threshold in seconds. If not provided, the defaults will apply.
+	TrinoScaleDownDelaySeconds *int32 `json:"trinoScaleDownDelaySeconds,omitempty"`
+
+	// Scale up threshold in seconds. If not provided defaults will apply.
+	TrinoScaleUpDelaySeconds *int32 `json:"trinoScaleUpDelaySeconds,omitempty"`
+
+	// Grace period in seconds before shutting down Trino workers.
+	TrinoShutdownGracePeriod *int32 `json:"trinoShutdownGracePeriod,omitempty"`
 }
 
 // Validate validates this autoscaling options create request

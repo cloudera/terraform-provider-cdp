@@ -94,11 +94,6 @@ var testImpalaSchema = schema.Schema{
 			Optional:            true,
 			MarkdownDescription: "The availability zone for the Impala Virtual Warehouse.",
 		},
-		"enable_unified_analytics": schema.BoolAttribute{
-			Optional:            true,
-			Computed:            true,
-			MarkdownDescription: "Flag to enable unified analytics.",
-		},
 		"aws_options": schema.SingleNestedAttribute{
 			Optional:            true,
 			Computed:            true,
@@ -326,12 +321,11 @@ func createRawImpalaResource() tftypes.Value {
 						"max_nodes_per_query": tftypes.Number,
 					},
 				},
-				"instance_type":            tftypes.String,
-				"availability_zone":        tftypes.String,
-				"platform_jwt_auth":        tftypes.Bool,
-				"enable_unified_analytics": tftypes.Bool,
-				"node_count":               tftypes.Number,
-				"query_log":                tftypes.Bool,
+				"instance_type":     tftypes.String,
+				"availability_zone": tftypes.String,
+				"platform_jwt_auth": tftypes.Bool,
+				"node_count":        tftypes.Number,
+				"query_log":         tftypes.Bool,
 				"tags": tftypes.List{
 					ElementType: tftypes.Object{
 						AttributeTypes: map[string]tftypes.Type{
@@ -424,13 +418,12 @@ func createRawImpalaResource() tftypes.Value {
 					"max_nodes_per_query": tftypes.NewValue(tftypes.Number, 2),
 				},
 			),
-			"enable_sso":               tftypes.NewValue(tftypes.Bool, true),
-			"instance_type":            tftypes.NewValue(tftypes.String, "r5d.4xlarge"),
-			"availability_zone":        tftypes.NewValue(tftypes.String, "us-west-2a"),
-			"platform_jwt_auth":        tftypes.NewValue(tftypes.Bool, true),
-			"query_log":                tftypes.NewValue(tftypes.Bool, true),
-			"enable_unified_analytics": tftypes.NewValue(tftypes.Bool, false),
-			"node_count":               tftypes.NewValue(tftypes.Number, 2),
+			"enable_sso":        tftypes.NewValue(tftypes.Bool, true),
+			"instance_type":     tftypes.NewValue(tftypes.String, "r5d.4xlarge"),
+			"availability_zone": tftypes.NewValue(tftypes.String, "us-west-2a"),
+			"platform_jwt_auth": tftypes.NewValue(tftypes.Bool, true),
+			"query_log":         tftypes.NewValue(tftypes.Bool, true),
+			"node_count":        tftypes.NewValue(tftypes.Number, 2),
 			"tags": tftypes.NewValue(
 				tftypes.List{
 					ElementType: tftypes.Object{

@@ -16,7 +16,7 @@ import (
 // swagger:model RenewCertificatesRequest
 type RenewCertificatesRequest struct {
 
-	// The ID of the Azure cluster to renew certificates for.
+	// The ID of the public cloud cluster to renew certificates for.
 	// Required: true
 	ClusterID *string `json:"clusterId"`
 }

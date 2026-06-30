@@ -1611,7 +1611,7 @@ func (a *Client) ListSupportedInstanceTypesContext(ctx context.Context, params *
 
 // PrepareUpgradeDatabase prepares database upgrade.
 //
-// Running upgrade related validations and prepares the required parcels for the upgrade..
+// Runs upgrade related validations and prepares the required parcels for the upgrade..
 //
 // This method does not support injected context.
 // However, timeout and opentracing contexts are honored whenever enabled.
@@ -1630,7 +1630,7 @@ func (a *Client) PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, op
 
 // PrepareUpgradeDatabaseContext prepares database upgrade.
 //
-// Running upgrade related validations and prepares the required parcels for the upgrade..
+// Runs upgrade related validations and prepares the required parcels for the upgrade..
 //
 // Do not use the deprecated [PrepareUpgradeDatabaseParams.Context] with this method: it would be ignored.
 func (a *Client) PrepareUpgradeDatabaseContext(ctx context.Context, params *PrepareUpgradeDatabaseParams, opts ...ClientOption) (*PrepareUpgradeDatabaseOK, error) {

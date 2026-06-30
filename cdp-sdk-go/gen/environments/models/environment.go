@@ -90,6 +90,9 @@ type Environment struct {
 	// Required: true
 	Network *Network `json:"network"`
 
+	// Notification configuration for all the environment notification.
+	Notification *EnvironmentNotification `json:"notification,omitempty"`
+
 	// The proxy config.
 	ProxyConfig *ProxyConfig `json:"proxyConfig,omitempty"`
 
@@ -199,6 +202,10 @@ func (m *Environment) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateNetwork(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateNotification(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -604,6 +611,29 @@ func (m *Environment) validateNetwork(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Environment) validateNotification(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.Notification) { // not required
+		return nil
+	}
+
+	if m.Notification != nil {
+		if err := m.Notification.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("notification")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("notification")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *Environment) validateProxyConfig(formats strfmt.Registry) error {
 	if typeutils.IsZero(m.ProxyConfig) { // not required
 		return nil
@@ -784,6 +814,10 @@ func (m *Environment) ContextValidate(ctx context.Context, formats strfmt.Regist
 	}
 
 	if err := m.contextValidateNetwork(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNotification(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -1096,6 +1130,31 @@ func (m *Environment) contextValidateNetwork(ctx context.Context, formats strfmt
 			ce := new(errors.CompositeError)
 			if stderrors.As(err, &ce) {
 				return ce.ValidateName("network")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Environment) contextValidateNotification(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Notification != nil {
+
+		if typeutils.IsZero(m.Notification) { // not required
+			return nil
+		}
+
+		if err := m.Notification.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("notification")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("notification")
 			}
 
 			return err

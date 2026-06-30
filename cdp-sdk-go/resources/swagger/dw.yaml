@@ -4,7 +4,7 @@ x-products: CDP
 x-form-factors: public,private
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.153 (BETA)
+  version: 0.9.160 (BETA)
   title: Cloudera Data Warehouse [EXPERIMENTAL]
   license:
     name: Apache 2.0
@@ -306,8 +306,8 @@ paths:
       x-mutating: true
   /api/v1/dw/renewCertificates:
     post:
-      summary: Renew certificates for a Cloudera Data Warehouse Azure cluster.
-      description: Renew certificate for a Cloudera Data Warehouse Azure cluster.
+      summary: Renew certificates for a Cloudera Data Warehouse public cloud cluster.
+      description: Renew certificate for a Cloudera Data Warehouse public cloud cluster.
       operationId: renewCertificates
       parameters:
         - name: input
@@ -321,7 +321,7 @@ paths:
           schema:
             $ref: '#/definitions/RenewCertificatesResponse'
         405:
-          description: Operation not allowed on non-Azure clusters.
+          description: Operation not allowed on non-public cloud clusters.
           schema:
             $ref: '#/definitions/Error'
         default:
@@ -946,6 +946,28 @@ paths:
           description: Expected response to a valid request.
           schema:
             $ref: '#/definitions/RegisterSecretResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/dw/createSecret:
+    post:
+      x-form-factors: private
+      x-mutating: true
+      summary: Creates a secret in the user's kubernetes cluster.
+      description: Creates a secret in the user's kubernetes cluster and stores its metadata in the database. The secret is used to connect to an external data source.
+      operationId: createSecret
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateSecretRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CreateSecretResponse'
         default:
           description: The default response on an error.
           schema:
@@ -2660,7 +2682,7 @@ definitions:
     properties:
       clusterId:
         type: string
-        description: The ID of the Azure cluster to renew certificates for.
+        description: The ID of the public cloud cluster to renew certificates for.
   RenewCertificatesResponse:
     type: object
     description: Response object for the renewCertificates method.
@@ -2929,6 +2951,9 @@ definitions:
       dbClientCredentials:
         $ref: '#/definitions/KeyPairCredentials'
         description: A certificate and private key pair belonging together for mutual SSL handshake when Database Catalog (aka DBC) connects to the metastore database.
+      customKerberosPrincipalHostname:
+        type: string
+        description: Optional hostname parameter. If not empty, this hostname will be used in the Kerberos service principal required by Cloudera Data Warehouse on Premises runtime components (Database Catalog, Virtual Warehouses).
   BackupClusterRequest:
     type: object
     description: Request object for the backupCluster method.
@@ -3007,6 +3032,11 @@ definitions:
       impalaRestorePlans:
         type: array
         description: Information about the restore-plan of the Impala Virtual Warehouses.
+        items:
+          $ref: '#/definitions/RestoreClusterEntityPlan'
+      trinoRestorePlans:
+        type: array
+        description: Information about the restore-plan of the Trino Virtual Warehouses.
         items:
           $ref: '#/definitions/RestoreClusterEntityPlan'
       vizRestorePlans:
@@ -3169,6 +3199,9 @@ definitions:
       dbClientCredentials:
         $ref: '#/definitions/KeyPairCredentials'
         description: A certificate and private key pair belonging together for mutual SSL handshake when Database Catalog (aka DBC) connects to the metastore database.
+      customKerberosPrincipalHostname:
+        type: string
+        description: Optional hostname parameter. If not empty, this hostname will be used in the Kerberos service principal required by Cloudera Data Warehouse on Premises runtime components (Database Catalog, Virtual Warehouses).
   CreateClusterResponse:
     type: object
     description: Response object for the createCluster method.
@@ -3794,6 +3827,29 @@ definitions:
   RegisterSecretResponse:
     type: object
     description: Response object for registering secret.
+    properties:
+      result:
+        description: Result of the operation.
+        $ref: '#/definitions/Secret'
+  CreateSecretRequest:
+    x-form-factors: private
+    type: object
+    description: Request object for creating secret.
+    properties:
+      clusterId:
+        type: string
+        description: The ID of the cluster.
+      secretName:
+        type: string
+        description: Name of the secret.
+      secretValue:
+        x-sensitive: true
+        type: string
+        description: Value of the secret.
+  CreateSecretResponse:
+    x-form-factors: private
+    type: object
+    description: Response object for creating secret.
     properties:
       result:
         description: Result of the operation.
@@ -4626,10 +4682,6 @@ definitions:
         type: integer
         format: int32
         description: Auto suspend threshold for Virtual Warehouse.
-      enableUnifiedAnalytics:
-        x-deprecated: true
-        type: boolean
-        description: 'DEPRECATED: in favor of the top level enableUnifiedAnalytics flag. Enable Unified Analytics. In case of Hive Virtual Warehouses this cannot be provided, because this value is inferred. In case of Impala this can be set. Passing --query-isolation-options will be considered if this flag is set to true. If Unified Analytics enabled then the "impalaEnableShutdownOfCoordinator" explicitly disabled and should not be provided, furthermore the "impalaHighAvailabilityMode" cannot be set to ACTIVE_ACTIVE. FENG support will be removed in subsequent releases.'
       hiveScaleWaitTimeSeconds:
         type: integer
         format: int32
@@ -4657,7 +4709,7 @@ definitions:
       impalaEnableShutdownOfCoordinator:
         x-deprecated: true
         type: boolean
-        description: 'DEPRECATED: in favor of the top level impalaHASettings object. Enables a shutdown of the coordinator. If Unified Analytics enabled then this setting explicitly disabled and should not be provided. FENG support will be removed in subsequent .'
+        description: 'DEPRECATED: in favor of the top level impalaHASettings object. Enables a shutdown of the coordinator.'
       impalaShutdownOfCoordinatorDelaySeconds:
         x-deprecated: true
         type: integer
@@ -4675,6 +4727,35 @@ definitions:
       impalaExecutorGroupSets:
         $ref: '#/definitions/ImpalaExecutorGroupSetsCreateRequest'
         description: Configures executor group sets for workload aware autoscaling.
+      trinoDisableAutoScaling:
+        type: boolean
+        description: Disables Auto-scaling for Trino VW.
+        default: true
+      trinoMaxWorkerCount:
+        type: integer
+        format: int32
+        description: Maximum number of worker nodes in a Trino VW.
+        default: 10
+      trinoMinWorkerCount:
+        type: integer
+        format: int32
+        description: Minimum number of worker nodes in a Trino VW.
+        default: 1
+      trinoShutdownGracePeriod:
+        type: integer
+        format: int32
+        description: Grace period in seconds before shutting down Trino workers.
+        default: 300
+      trinoScaleDownDelaySeconds:
+        type: integer
+        format: int32
+        description: Scale down threshold in seconds. If not provided, the defaults will apply.
+        default: 30
+      trinoScaleUpDelaySeconds:
+        type: integer
+        format: int32
+        description: Scale up threshold in seconds. If not provided defaults will apply.
+        default: 15
   ImpalaOptionsCreateRequest:
     type: object
     description: Impala specific options. It cannot be provided for Virtual Warehouse types other than Impala.
@@ -4723,6 +4804,9 @@ definitions:
       enableStatestoreHighAvailability:
         type: boolean
         description: Enables a backup instance for Impala Statestore to ensure high availability.
+      impalaEnableGlobalAdmissionController:
+        type: boolean
+        description: Set whether the Impala Global Admission Controller is enabled. This feature can only be used with high-availability mode ACTIVE_ACTIVE.
   AutoscalingOptionsUpdateRequest:
     type: object
     description: Auto-scaling configuration for a Virtual Warehouse. Provide those values only that you want to update.
@@ -4787,7 +4871,7 @@ definitions:
         description: The number of active coordinators.
       impalaEnableGlobalAdmissionController:
         type: boolean
-        description: Set whether the Impala Global Admission Controller is enabled. Once disabled, it cannot be re-enabled.
+        description: Set whether the Impala Global Admission Controller is enabled. This feature can only be used with high-availability mode ACTIVE_ACTIVE.
   AutoscalingOptionsResponse:
     type: object
     description: Auto-scaling configuration for a Virtual Warehouse.
@@ -4807,10 +4891,6 @@ definitions:
         type: integer
         format: int32
         description: Auto suspend threshold for Virtual Warehouse.
-      enableUnifiedAnalytics:
-        x-deprecated: true
-        type: boolean
-        description: 'DEPRECATED: in favor of the top level enableUnifiedAnalytics flag. Whether the Unified Analytics is enabled. FENG support will be removed in subsequent releases.'
       hiveScaleWaitTimeSeconds:
         type: integer
         format: int32
@@ -4916,6 +4996,32 @@ definitions:
         type: integer
         format: int32
         description: Maximum Nodes Per Isolated Query
+  Quota:
+    x-form-factors: private
+    type: object
+    description: Quota for the Virtual Warehouse.
+    properties:
+      cpu:
+        type: number
+        format: float
+        description: CPU quota in cores.
+      memory:
+        type: integer
+        format: int32
+        description: Memory quota in MB.
+  QuotaRequest:
+    x-form-factors: private
+    type: object
+    description: Quota in requests for the Virtual Warehouse.
+    properties:
+      cpu:
+        type: number
+        format: float
+        description: CPU quota in cores.
+      memory:
+        type: integer
+        format: int32
+        description: Memory quota in MB.
   ReplicaStatus:
     x-form-factors: public,private
     type: object
@@ -4979,6 +5085,7 @@ definitions:
           - small
           - medium
           - large
+          - waa
       nodeCount:
         type: integer
         format: int32
@@ -4987,10 +5094,6 @@ definitions:
       availabilityZone:
         type: string
         description: This feature works only for AWS cluster type. An availability zone to host compute instances. If not specified, defaults to a randomly selected availability zone inferred from available subnets. In order to query possible options, see "availabilityZones" field of describe-cluster or list-clusters command response.
-      enableUnifiedAnalytics:
-        x-deprecated: true
-        type: boolean
-        description: 'DEPRECATED: Enable Unified Analytics. In the case of Hive Virtual Warehouses, this cannot be provided, because this value is inferred. In the case of Impala, this can be set. Passing --query-isolation-options will be considered only if this flag is set to true. If Unified Analytics is enabled then the "enableShutdownOfCoordinator" in --impala-ha-settings is explicitly disabled (ignored) and should not be provided, furthermore the "highAvailabilityMode" in --impala-ha-settings cannot be set to ACTIVE_ACTIVE. FENG support will be removed in subsequent releases.'
       impalaOptions:
         description: Impala specific options. It cannot be provided for Virtual Warehouse types other than Impala.
         $ref: '#/definitions/ImpalaOptionsCreateRequest'
@@ -5015,6 +5118,11 @@ definitions:
         type: string
         description: The Resource Pool of the Virtual Warehouse.
         x-form-factors: private
+      additionalQuota:
+        x-nullable: true
+        x-form-factors: private
+        $ref: '#/definitions/QuotaRequest'
+        description: Setting the quota for the 3rd party services injected into the Virtual Warehouse namespace.
       hiveAuthenticationMode:
         type: string
         x-nullable: true
@@ -5043,6 +5151,37 @@ definitions:
         x-nullable: true
         x-form-factors: private
         description: 'Set Hive Server High Availability mode in Private Cloud: * `DISABLED` (default) - Disables Hive Server high availability. * `ACTIVE_PASSIVE` - Runs two Hive Server instances, one active and one passive. Hive session failover is not supported in this setup.'
+      impalaRestCatalogConnectors:
+        description: Iceberg REST Catalog connectors.
+        type: array
+        items:
+          $ref: '#/definitions/CreateVwImpalaRestCatalogConnectorRequest'
+  CreateVwImpalaRestCatalogConnectorRequest:
+    type: object
+    description: Impala REST Catalog Connector settings.
+    properties:
+      name:
+        type: string
+        description: Name of the Impala REST Catalog Connector.
+      description:
+        type: string
+        description: Description of the Impala REST Catalog Connector.
+      config:
+        type: array
+        description: Key-value type configurations for the Impala REST Catalog Connector.
+        items:
+          $ref: '#/definitions/CreateVwImpalaRestCatalogConnectorConfigRequest'
+  CreateVwImpalaRestCatalogConnectorConfigRequest:
+    type: object
+    description: Impala REST Catalog Connector Configuration Entry.
+    properties:
+      key:
+        type: string
+        description: Configuration key.
+      value:
+        type: string
+        description: Configuration value.
+        x-no-paramfile: true
   CdwHue:
     type: object
     description: Details of a Hue Query Editor.
@@ -5189,7 +5328,7 @@ definitions:
         description: ID of the Virtual Warehouse.
       component:
         type: string
-        description: Configuration component to update. Hive components are [DasWebapp, Hiveserver2, QueryCoordinator, QueryExecutor, StandaloneQueryExecutor, TokenAuth, Hue]. Impala components are [Hue, ImpalaAutoscaler, ImpalaCatalogd, ImpalaCoordinator, ImpalaExecutor, ImpalaProxy, ImpalaStatestored, ImpalaTokenAuth].
+        description: Configuration component to update. Hive components are [DasWebapp, Hiveserver2, QueryCoordinator, QueryExecutor, StandaloneQueryExecutor, TokenAuth, Hue]. Impala components are [Hue, ImpalaAutoscaler, ImpalaCatalogd, ImpalaCoordinator, ImpalaExecutor, ImpalaProxy, ImpalaStatestored, ImpalaTokenAuth, ImpalaAdmissiond].
         enum:
           - DasWebapp
           - Hiveserver2
@@ -5205,6 +5344,7 @@ definitions:
           - ImpalaProxy
           - ImpalaStatestored
           - ImpalaTokenAuth
+          - ImpalaAdmissiond
       set:
         description: Configuration files of the selected component to update.
         type: array
@@ -5768,6 +5908,9 @@ definitions:
         x-form-factors: public
         type: string
         description: The underlying instance type for this Virtual Warehouse.
+      imageVersion:
+        type: string
+        description: Version of the Virtual Warehouse.
       dbcId:
         type: string
         description: ID of Database Catalog that the Virtual Warehouse is attached to.
@@ -5824,28 +5967,9 @@ definitions:
             type: string
             x-form-factors: private
             description: JDBC URL for Impala Virtual Warehouses with Kerberos authentication.
-          impalaFENGJdbc:
-            x-deprecated: true
-            type: string
-            description: 'DEPRECATED: FENG JDBC URL for Impala Virtual Warehouses. FENG support will be removed in subsequent releases.'
-          impalaFengKerberosJdbc:
-            x-deprecated: true
-            type: string
-            x-form-factors: private
-            description: 'DEPRECATED: Unified Analytics JDBC URL with Kerberos authentication for Impala Virtual Warehouses in Private Cloud. FENG support will be removed in subsequent releases.'
           impalaShell:
             type: string
             description: Command to use impala-shell for Impala Virtual Warehouses.
-          fengImpalaShell:
-            x-deprecated: true
-            type: string
-            x-form-factors: private
-            description: 'DEPRECATED: Command to use impala-shell for Unified Analytics. FENG support will be removed in subsequent releases.'
-          fengKerberosImpalaShell:
-            x-deprecated: true
-            type: string
-            x-form-factors: private
-            description: 'DEPRECATED: Command to use impala-shell for Unified Analytics with Kerberos authentication in Private Cloud. FENG support will be removed in subsequent releases.'
           kerberosImpalaShell:
             type: string
             x-form-factors: private
@@ -5915,10 +6039,6 @@ definitions:
       viz:
         type: boolean
         description: Denotes whether the Virtual Warehouse has Data Visualisation or not.
-      enableUnifiedAnalytics:
-        x-deprecated: true
-        type: boolean
-        description: 'DEPRECATED: Denotes whether the Unified Analytics is enabled. FENG support will be removed in subsequent releases.'
       autoscalingOptions:
         description: The current settings stored for autoscaling.
         $ref: '#/definitions/AutoscalingOptionsResponse'
@@ -5939,6 +6059,11 @@ definitions:
         type: string
         description: The name of the Resource Pool the Virtual Warehouse is in.
         x-form-factors: private
+      additionalQuota:
+        x-nullable: true
+        x-form-factors: private
+        $ref: '#/definitions/Quota'
+        description: Setting the quota for the 3rd party services injected into the Virtual Warehouse namespace.
       hiveAuthenticationMode:
         type: string
         x-nullable: true
@@ -5961,6 +6086,59 @@ definitions:
         description: The actual resources used by the Virtual Warehouse.
         additionalProperties:
           $ref: '#/definitions/ApplicationResources'
+      impalaRestCatalogConnectors:
+        description: List of Impala Iceberg REST Catalog connectors.
+        type: array
+        items:
+          $ref: '#/definitions/VwSummaryImpalaRestCatalogConnectorResponse'
+      associatedConnectors:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/ConnectorData'
+        description: Map of connector ID to connector information for the Virtual Warehouse.
+        x-omitempty: true
+        x-nullable: true
+  ConnectorData:
+    type: object
+    description: Information about a connector associated with a Virtual Warehouse.
+    properties:
+      name:
+        type: string
+        description: The name of the connector
+        x-omitempty: true
+        x-nullable: true
+      configId:
+        type: string
+        description: The config UUID of the connector
+        x-omitempty: true
+        x-nullable: true
+    x-omitempty: true
+    x-nullable: true
+  VwSummaryImpalaRestCatalogConnectorResponse:
+    type: object
+    description: Impala REST Catalog Connector settings.
+    properties:
+      name:
+        type: string
+        description: Name of the Impala REST Catalog Connector.
+      description:
+        type: string
+        description: Description of the Impala REST Catalog Connector.
+      config:
+        type: array
+        description: Key-value type configurations for the Impala REST Catalog Connector.
+        items:
+          $ref: '#/definitions/VwSummaryImpalaRestCatalogConnectorConfigResponse'
+  VwSummaryImpalaRestCatalogConnectorConfigResponse:
+    type: object
+    description: Impala REST Catalog Connector Configuration Entry.
+    properties:
+      key:
+        type: string
+        description: Configuration key.
+      value:
+        type: string
+        description: Configuration value.
   TagResponse:
     description: A key/value pair attached to some resources.
     type: object
@@ -6170,6 +6348,7 @@ definitions:
           - small
           - medium
           - large
+          - waa
       nodeCount:
         type: integer
         format: int32
@@ -6212,6 +6391,17 @@ definitions:
         x-nullable: true
         x-form-factors: private
         description: 'If specified, modifies Hive Server High Availability mode in Private Cloud: * `DISABLED` - Disables Hive Server high availability. * `ACTIVE_PASSIVE` - Runs two Hive Server instances, one active and one passive. Hive session failover is not supported in this setup.'
+      associatedConnectors:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/ConnectorData'
+        description: Map of connector ID to connector information for the VW.
+        x-nullable: true
+      additionalQuota:
+        x-nullable: true
+        x-form-factors: private
+        $ref: '#/definitions/QuotaRequest'
+        description: Setting the quota for the 3rd party services injected into the Virtual Warehouse namespace.
   UpdateVwResponse:
     type: object
     description: Response object for the updateVw method.
@@ -7127,6 +7317,50 @@ definitions:
       message:
         type: string
         description: Additional message from the restore process.
+      restorePlan:
+        type: object
+        description: The plan for the restoration without cluster metadata in case of rebuild.
+        properties:
+          dbc:
+            type: array
+            description: The plan for the restoration of the DB Catalogs.
+            items:
+              $ref: '#/definitions/RestoreClusterEntityPlan'
+          hue:
+            type: array
+            description: The plan for the restoration of the Hue.
+            items:
+              $ref: '#/definitions/RestoreClusterEntityPlan'
+          hive:
+            type: array
+            description: The plan for the restoration of the Hive Virtual Warehouses.
+            items:
+              $ref: '#/definitions/RestoreClusterEntityPlan'
+          impala:
+            type: array
+            description: The plan for the restoration of the Impala Virtual Warehouses.
+            items:
+              $ref: '#/definitions/RestoreClusterEntityPlan'
+          trino:
+            type: array
+            description: The plan for the restoration of the Trino Virtual Warehouses.
+            items:
+              $ref: '#/definitions/RestoreClusterEntityPlan'
+          viz:
+            type: array
+            description: The plan for the restoration of the Data Visualization Apps.
+            items:
+              $ref: '#/definitions/RestoreClusterEntityPlan'
+          cdwHue:
+            type: array
+            description: The plan for the restoration of the Hue Query Editors.
+            items:
+              $ref: '#/definitions/RestoreClusterEntityPlan'
+          dwxSecrets:
+            type: array
+            description: The plan for the restoration of the DWX Secrets.
+            items:
+              type: string
   DescribeRestoreRequest:
     type: object
     x-form-factors: private

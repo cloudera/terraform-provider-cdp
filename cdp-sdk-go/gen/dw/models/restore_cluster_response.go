@@ -48,6 +48,9 @@ type RestoreClusterResponse struct {
 	// The ID of the restore operation.
 	OperationID string `json:"operationId,omitempty"`
 
+	// Information about the restore-plan of the Trino Virtual Warehouses.
+	TrinoRestorePlans []*RestoreClusterEntityPlan `json:"trinoRestorePlans"`
+
 	// Information about the restore-plan of the Data Visualization Apps.
 	VizRestorePlans []*RestoreClusterEntityPlan `json:"vizRestorePlans"`
 }
@@ -73,6 +76,10 @@ func (m *RestoreClusterResponse) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateImpalaRestorePlans(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTrinoRestorePlans(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -236,6 +243,36 @@ func (m *RestoreClusterResponse) validateImpalaRestorePlans(formats strfmt.Regis
 	return nil
 }
 
+func (m *RestoreClusterResponse) validateTrinoRestorePlans(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.TrinoRestorePlans) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.TrinoRestorePlans); i++ {
+		if typeutils.IsZero(m.TrinoRestorePlans[i]) { // not required
+			continue
+		}
+
+		if m.TrinoRestorePlans[i] != nil {
+			if err := m.TrinoRestorePlans[i].Validate(formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("trinoRestorePlans" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("trinoRestorePlans" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *RestoreClusterResponse) validateVizRestorePlans(formats strfmt.Registry) error {
 	if typeutils.IsZero(m.VizRestorePlans) { // not required
 		return nil
@@ -287,6 +324,10 @@ func (m *RestoreClusterResponse) ContextValidate(ctx context.Context, formats st
 	}
 
 	if err := m.contextValidateImpalaRestorePlans(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTrinoRestorePlans(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -434,6 +475,35 @@ func (m *RestoreClusterResponse) contextValidateImpalaRestorePlans(ctx context.C
 				ce := new(errors.CompositeError)
 				if stderrors.As(err, &ce) {
 					return ce.ValidateName("impalaRestorePlans" + "." + strconv.Itoa(i))
+				}
+
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *RestoreClusterResponse) contextValidateTrinoRestorePlans(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.TrinoRestorePlans); i++ {
+
+		if m.TrinoRestorePlans[i] != nil {
+
+			if typeutils.IsZero(m.TrinoRestorePlans[i]) { // not required
+				return nil
+			}
+
+			if err := m.TrinoRestorePlans[i].ContextValidate(ctx, formats); err != nil {
+				ve := new(errors.Validation)
+				if stderrors.As(err, &ve) {
+					return ve.ValidateName("trinoRestorePlans" + "." + strconv.Itoa(i))
+				}
+				ce := new(errors.CompositeError)
+				if stderrors.As(err, &ce) {
+					return ce.ValidateName("trinoRestorePlans" + "." + strconv.Itoa(i))
 				}
 
 				return err

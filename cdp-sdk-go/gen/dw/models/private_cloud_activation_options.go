@@ -17,6 +17,9 @@ import (
 // swagger:model PrivateCloudActivationOptions
 type PrivateCloudActivationOptions struct {
 
+	// Optional hostname parameter. If not empty, this hostname will be used in the Kerberos service principal required by Cloudera Data Warehouse on Premises runtime components (Database Catalog, Virtual Warehouses).
+	CustomKerberosPrincipalHostname string `json:"customKerberosPrincipalHostname,omitempty"`
+
 	// A certificate and private key pair belonging together for mutual SSL handshake when Database Catalog (aka DBC) connects to the metastore database.
 	DbClientCredentials *KeyPairCredentials `json:"dbClientCredentials,omitempty"`
 

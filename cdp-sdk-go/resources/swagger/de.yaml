@@ -5,7 +5,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.153 (BETA)
+  version: 0.9.160 (BETA)
   title: Cloudera Data Engineering
   license:
     name: Apache 2.0
@@ -831,6 +831,10 @@ definitions:
         additionalProperties:
           type: string
           description: Spark configs that will be applied to all the spark jobs inside a virtual cluster.
+      computeOverrideEnabled:
+        type: string
+        description: Indicates whether the job-level override is enabled for how drivers and executors run in the Virtual Cluster.
+        x-form-factors: public
   VcResources:
     type: object
     properties:
@@ -1170,6 +1174,15 @@ definitions:
         type: integer
         format: int32
         description: EBS volume size in GB for the All Purpose Instance Group.
+      disableArm64:
+        type: boolean
+        description: When set to true, disables ARM64 (Graviton) instances for the CDE service database. When set to false (default), Graviton instances may be used for the database. If Graviton instances are not available, the system falls back to x86.
+      azureServiceManagedIdentity:
+        type: string
+        description: Azure managed identity resource ID for service.
+      azureVirtualClusterManagedIdentities:
+        type: string
+        description: Azure managed identity resource IDs for virtual cluster.
   CustomAzureFilesConfigs:
     type: object
     description: Override Azure Files Configs.
@@ -1528,6 +1541,10 @@ definitions:
         additionalProperties:
           type: string
           description: Spark configs that will be applied to all the spark jobs inside a virtual cluster.
+      enableComputeOverride:
+        type: boolean
+        description: Whether to enable job-level override for how drivers and executors run in the Virtual Cluster.
+        x-form-factors: public
   CreateVcResponse:
     type: object
     description: Response object for CreateVc method.
@@ -1601,6 +1618,10 @@ definitions:
         description: Discard the Spark configs inside a VC.
         type: boolean
         default: false
+      enableComputeOverride:
+        type: boolean
+        description: Whether to enable job-level override for how drivers and executors run in the Virtual Cluster.
+        x-form-factors: public
   UpdateVcResponse:
     type: object
     description: Response object for updateVc method.
@@ -1950,6 +1971,11 @@ definitions:
       serviceName:
         type: string
         description: Specify the restored service name. If not specified, the service name from the backup will be reused.
+      servicePropertyOverride:
+        type: object
+        additionalProperties:
+          type: string
+        description: Optional service property override. Specified properties will be merged with backup properties.
   RestoreServiceResponse:
     type: object
     description: Response object for Restore Service command.

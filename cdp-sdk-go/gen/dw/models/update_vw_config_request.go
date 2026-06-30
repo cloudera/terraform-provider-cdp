@@ -24,9 +24,9 @@ type UpdateVwConfigRequest struct {
 	// Required: true
 	ClusterID *string `json:"clusterId"`
 
-	// Configuration component to update. Hive components are [DasWebapp, Hiveserver2, QueryCoordinator, QueryExecutor, StandaloneQueryExecutor, TokenAuth, Hue]. Impala components are [Hue, ImpalaAutoscaler, ImpalaCatalogd, ImpalaCoordinator, ImpalaExecutor, ImpalaProxy, ImpalaStatestored, ImpalaTokenAuth].
+	// Configuration component to update. Hive components are [DasWebapp, Hiveserver2, QueryCoordinator, QueryExecutor, StandaloneQueryExecutor, TokenAuth, Hue]. Impala components are [Hue, ImpalaAutoscaler, ImpalaCatalogd, ImpalaCoordinator, ImpalaExecutor, ImpalaProxy, ImpalaStatestored, ImpalaTokenAuth, ImpalaAdmissiond].
 	// Required: true
-	// Enum: ["DasWebapp","Hiveserver2","QueryCoordinator","QueryExecutor","StandaloneQueryExecutor","TokenAuth","Hue","ImpalaAutoscaler","ImpalaCatalogd","ImpalaCoordinator","ImpalaExecutor","ImpalaProxy","ImpalaStatestored","ImpalaTokenAuth"]
+	// Enum: ["DasWebapp","Hiveserver2","QueryCoordinator","QueryExecutor","StandaloneQueryExecutor","TokenAuth","Hue","ImpalaAutoscaler","ImpalaCatalogd","ImpalaCoordinator","ImpalaExecutor","ImpalaProxy","ImpalaStatestored","ImpalaTokenAuth","ImpalaAdmissiond"]
 	Component *string `json:"component"`
 
 	// Configuration files of the selected component to update.
@@ -76,7 +76,7 @@ var updateVwConfigRequestTypeComponentPropEnum []any
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["DasWebapp","Hiveserver2","QueryCoordinator","QueryExecutor","StandaloneQueryExecutor","TokenAuth","Hue","ImpalaAutoscaler","ImpalaCatalogd","ImpalaCoordinator","ImpalaExecutor","ImpalaProxy","ImpalaStatestored","ImpalaTokenAuth"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["DasWebapp","Hiveserver2","QueryCoordinator","QueryExecutor","StandaloneQueryExecutor","TokenAuth","Hue","ImpalaAutoscaler","ImpalaCatalogd","ImpalaCoordinator","ImpalaExecutor","ImpalaProxy","ImpalaStatestored","ImpalaTokenAuth","ImpalaAdmissiond"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -127,6 +127,9 @@ const (
 
 	// UpdateVwConfigRequestComponentImpalaTokenAuth captures enum value "ImpalaTokenAuth"
 	UpdateVwConfigRequestComponentImpalaTokenAuth string = "ImpalaTokenAuth"
+
+	// UpdateVwConfigRequestComponentImpalaAdmissiond captures enum value "ImpalaAdmissiond"
+	UpdateVwConfigRequestComponentImpalaAdmissiond string = "ImpalaAdmissiond"
 )
 
 // prop value enum

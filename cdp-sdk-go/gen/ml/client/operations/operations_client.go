@@ -331,6 +331,12 @@ type ClientService interface {
 	// RequestWorkflowCancellationContext request a workflow cancellation.
 	RequestWorkflowCancellationContext(ctx context.Context, params *RequestWorkflowCancellationParams, opts ...ClientOption) (*RequestWorkflowCancellationOK, error)
 
+	// RequestWorkflowRollback request a workflow rollback.
+	RequestWorkflowRollback(params *RequestWorkflowRollbackParams, opts ...ClientOption) (*RequestWorkflowRollbackOK, error)
+
+	// RequestWorkflowRollbackContext request a workflow rollback.
+	RequestWorkflowRollbackContext(ctx context.Context, params *RequestWorkflowRollbackParams, opts ...ClientOption) (*RequestWorkflowRollbackOK, error)
+
 	// RestoreWorkspace restore a cloudera a i workbench.
 	RestoreWorkspace(params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error)
 
@@ -3386,6 +3392,71 @@ func (a *Client) RequestWorkflowCancellationContext(ctx context.Context, params 
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RequestWorkflowCancellationDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// RequestWorkflowRollback requests a workflow rollback.
+//
+// Request a long running workflow rollback by resourve ID and workflow type..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RequestWorkflowRollbackContext] instead.
+func (a *Client) RequestWorkflowRollback(params *RequestWorkflowRollbackParams, opts ...ClientOption) (*RequestWorkflowRollbackOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RequestWorkflowRollbackContext(ctx, params, opts...)
+}
+
+// RequestWorkflowRollbackContext requests a workflow rollback.
+//
+// Request a long running workflow rollback by resourve ID and workflow type..
+//
+// Do not use the deprecated [RequestWorkflowRollbackParams.Context] with this method: it would be ignored.
+func (a *Client) RequestWorkflowRollbackContext(ctx context.Context, params *RequestWorkflowRollbackParams, opts ...ClientOption) (*RequestWorkflowRollbackOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewRequestWorkflowRollbackParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "requestWorkflowRollback",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/requestWorkflowRollback",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RequestWorkflowRollbackReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*RequestWorkflowRollbackOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*RequestWorkflowRollbackDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }

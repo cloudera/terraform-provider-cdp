@@ -151,6 +151,12 @@ type ClientService interface {
 	// EnableRangerRazContext sets the ranger raz enabled flag to true if raz is manually installed on the datalake.
 	EnableRangerRazContext(ctx context.Context, params *EnableRangerRazParams, opts ...ClientOption) (*EnableRangerRazOK, error)
 
+	// FinalizeZookeeperToKraftMigration finalize the migration from zookeeper to k raft broker.
+	FinalizeZookeeperToKraftMigration(params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error)
+
+	// FinalizeZookeeperToKraftMigrationContext finalize the migration from zookeeper to k raft broker.
+	FinalizeZookeeperToKraftMigrationContext(ctx context.Context, params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error)
+
 	// GetBackupRestoreConfiguration gets the backup and restore configuration for the datalake.
 	GetBackupRestoreConfiguration(params *GetBackupRestoreConfigurationParams, opts ...ClientOption) (*GetBackupRestoreConfigurationOK, error)
 
@@ -223,6 +229,12 @@ type ClientService interface {
 	// MigrateSkusContext migrate the data lake to a new s k u.
 	MigrateSkusContext(ctx context.Context, params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error)
 
+	// MigrateZookeeperToKraft migrate from zookeeper to k raft broker.
+	MigrateZookeeperToKraft(params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error)
+
+	// MigrateZookeeperToKraftContext migrate from zookeeper to k raft broker.
+	MigrateZookeeperToKraftContext(ctx context.Context, params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error)
+
 	// PrepareDatalakeUpgrade prepares the data lake cluster for upgrade.
 	PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, opts ...ClientOption) (*PrepareDatalakeUpgradeOK, error)
 
@@ -288,6 +300,12 @@ type ClientService interface {
 
 	// RetryDatalakeContext retry last failed operation on a datalake.
 	RetryDatalakeContext(ctx context.Context, params *RetryDatalakeParams, opts ...ClientOption) (*RetryDatalakeOK, error)
+
+	// RollbackZookeeperToKraftMigration rollback the migration from zookeeper to k raft broker.
+	RollbackZookeeperToKraftMigration(params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error)
+
+	// RollbackZookeeperToKraftMigrationContext rollback the migration from zookeeper to k raft broker.
+	RollbackZookeeperToKraftMigrationContext(ctx context.Context, params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error)
 
 	// RotateAutoTLSCertificates rotate autotls certificates on the datalake s hosts.
 	RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error)
@@ -379,6 +397,12 @@ type ClientService interface {
 	// UpdateOrchestratorStateContext run orchestrator engine state update on the data lake cluster.
 	UpdateOrchestratorStateContext(ctx context.Context, params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
+	// UpdatePublicDNSEntries update public DNS entries of a data lake cluster by name or c r n.
+	UpdatePublicDNSEntries(params *UpdatePublicDNSEntriesParams, opts ...ClientOption) (*UpdatePublicDNSEntriesOK, error)
+
+	// UpdatePublicDNSEntriesContext update public DNS entries of a data lake cluster by name or c r n.
+	UpdatePublicDNSEntriesContext(ctx context.Context, params *UpdatePublicDNSEntriesParams, opts ...ClientOption) (*UpdatePublicDNSEntriesOK, error)
+
 	// UpdateToAwsImdsV1 updates data lake a w s cluster to use i m d sv1.
 	UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error)
 
@@ -408,6 +432,12 @@ type ClientService interface {
 
 	// ValidateAzureCloudStorageContext validates azure cloud storage.
 	ValidateAzureCloudStorageContext(ctx context.Context, params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error)
+
+	// ZookeeperToKraftMigrationStatus returns the status of the zookeeper to k raft migration.
+	ZookeeperToKraftMigrationStatus(params *ZookeeperToKraftMigrationStatusParams, opts ...ClientOption) (*ZookeeperToKraftMigrationStatusOK, error)
+
+	// ZookeeperToKraftMigrationStatusContext returns the status of the zookeeper to k raft migration.
+	ZookeeperToKraftMigrationStatusContext(ctx context.Context, params *ZookeeperToKraftMigrationStatusParams, opts ...ClientOption) (*ZookeeperToKraftMigrationStatusOK, error)
 
 	SetTransport(transport runtime.ContextualTransport)
 }
@@ -1452,6 +1482,71 @@ func (a *Client) EnableRangerRazContext(ctx context.Context, params *EnableRange
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// FinalizeZookeeperToKraftMigration finalizes the migration from zookeeper to k raft broker.
+//
+// Initiates the finalization of the migration from Zookeeper to KRaft broker on the given Data Lake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.FinalizeZookeeperToKraftMigrationContext] instead.
+func (a *Client) FinalizeZookeeperToKraftMigration(params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.FinalizeZookeeperToKraftMigrationContext(ctx, params, opts...)
+}
+
+// FinalizeZookeeperToKraftMigrationContext finalizes the migration from zookeeper to k raft broker.
+//
+// Initiates the finalization of the migration from Zookeeper to KRaft broker on the given Data Lake..
+//
+// Do not use the deprecated [FinalizeZookeeperToKraftMigrationParams.Context] with this method: it would be ignored.
+func (a *Client) FinalizeZookeeperToKraftMigrationContext(ctx context.Context, params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewFinalizeZookeeperToKraftMigrationParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "finalizeZookeeperToKraftMigration",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/finalizeZookeeperToKraftMigration",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &FinalizeZookeeperToKraftMigrationReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*FinalizeZookeeperToKraftMigrationOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*FinalizeZookeeperToKraftMigrationDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // GetBackupRestoreConfiguration gets the backup and restore configuration for the datalake.
 //
 // Gets the backup and restore configuration for the datalake. This configuration is used to determine timeouts and where the backups are stored..
@@ -2232,6 +2327,71 @@ func (a *Client) MigrateSkusContext(ctx context.Context, params *MigrateSkusPara
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// MigrateZookeeperToKraft migrates from zookeeper to k raft broker.
+//
+// Initiates the migration from Zookeeper to KRaft broker on the given Data Lake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.MigrateZookeeperToKraftContext] instead.
+func (a *Client) MigrateZookeeperToKraft(params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.MigrateZookeeperToKraftContext(ctx, params, opts...)
+}
+
+// MigrateZookeeperToKraftContext migrates from zookeeper to k raft broker.
+//
+// Initiates the migration from Zookeeper to KRaft broker on the given Data Lake..
+//
+// Do not use the deprecated [MigrateZookeeperToKraftParams.Context] with this method: it would be ignored.
+func (a *Client) MigrateZookeeperToKraftContext(ctx context.Context, params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewMigrateZookeeperToKraftParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "migrateZookeeperToKraft",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/migrateZookeeperToKraft",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &MigrateZookeeperToKraftReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*MigrateZookeeperToKraftOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*MigrateZookeeperToKraftDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // PrepareDatalakeUpgrade prepares the data lake cluster for upgrade.
 //
 // In order to reduce the chance of upgrade failures, we're introducing a preparation phase for runtime upgrades. During this phase, we're running all validations and downloading the required parcels for the machines. You can track the progress of the parcel preparation on the Cloudera Manager UI or you can check on the Management Console as well..
@@ -2943,6 +3103,71 @@ func (a *Client) RetryDatalakeContext(ctx context.Context, params *RetryDatalake
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*RetryDatalakeDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// RollbackZookeeperToKraftMigration rollbacks the migration from zookeeper to k raft broker.
+//
+// Initiates the rollback of the migration from Zookeeper to KRaft broker on the given Data Lake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.RollbackZookeeperToKraftMigrationContext] instead.
+func (a *Client) RollbackZookeeperToKraftMigration(params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.RollbackZookeeperToKraftMigrationContext(ctx, params, opts...)
+}
+
+// RollbackZookeeperToKraftMigrationContext rollbacks the migration from zookeeper to k raft broker.
+//
+// Initiates the rollback of the migration from Zookeeper to KRaft broker on the given Data Lake..
+//
+// Do not use the deprecated [RollbackZookeeperToKraftMigrationParams.Context] with this method: it would be ignored.
+func (a *Client) RollbackZookeeperToKraftMigrationContext(ctx context.Context, params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewRollbackZookeeperToKraftMigrationParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "rollbackZookeeperToKraftMigration",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/rollbackZookeeperToKraftMigration",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &RollbackZookeeperToKraftMigrationReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*RollbackZookeeperToKraftMigrationOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*RollbackZookeeperToKraftMigrationDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
@@ -3922,6 +4147,71 @@ func (a *Client) UpdateOrchestratorStateContext(ctx context.Context, params *Upd
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// UpdatePublicDNSEntries updates public DNS entries of a data lake cluster by name or c r n.
+//
+// Update public DNS entries of a Data Lake cluster by name or CRN..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UpdatePublicDNSEntriesContext] instead.
+func (a *Client) UpdatePublicDNSEntries(params *UpdatePublicDNSEntriesParams, opts ...ClientOption) (*UpdatePublicDNSEntriesOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UpdatePublicDNSEntriesContext(ctx, params, opts...)
+}
+
+// UpdatePublicDNSEntriesContext updates public DNS entries of a data lake cluster by name or c r n.
+//
+// Update public DNS entries of a Data Lake cluster by name or CRN..
+//
+// Do not use the deprecated [UpdatePublicDNSEntriesParams.Context] with this method: it would be ignored.
+func (a *Client) UpdatePublicDNSEntriesContext(ctx context.Context, params *UpdatePublicDNSEntriesParams, opts ...ClientOption) (*UpdatePublicDNSEntriesOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewUpdatePublicDNSEntriesParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "updatePublicDnsEntries",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/updatePublicDnsEntries",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UpdatePublicDNSEntriesReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*UpdatePublicDNSEntriesOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*UpdatePublicDNSEntriesDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // UpdateToAwsImdsV1 updates data lake a w s cluster to use i m d sv1.
 //
 // Updates Data Lake AWS cluster to use IMDSv1..
@@ -4243,6 +4533,71 @@ func (a *Client) ValidateAzureCloudStorageContext(ctx context.Context, params *V
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ValidateAzureCloudStorageDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// ZookeeperToKraftMigrationStatus returns the status of the zookeeper to k raft migration.
+//
+// Returns the current status of the migration from Zookeeper to KRaft broker on the given Data Lake..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ZookeeperToKraftMigrationStatusContext] instead.
+func (a *Client) ZookeeperToKraftMigrationStatus(params *ZookeeperToKraftMigrationStatusParams, opts ...ClientOption) (*ZookeeperToKraftMigrationStatusOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ZookeeperToKraftMigrationStatusContext(ctx, params, opts...)
+}
+
+// ZookeeperToKraftMigrationStatusContext returns the status of the zookeeper to k raft migration.
+//
+// Returns the current status of the migration from Zookeeper to KRaft broker on the given Data Lake..
+//
+// Do not use the deprecated [ZookeeperToKraftMigrationStatusParams.Context] with this method: it would be ignored.
+func (a *Client) ZookeeperToKraftMigrationStatusContext(ctx context.Context, params *ZookeeperToKraftMigrationStatusParams, opts ...ClientOption) (*ZookeeperToKraftMigrationStatusOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewZookeeperToKraftMigrationStatusParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "zookeeperToKraftMigrationStatus",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/zookeeperToKraftMigrationStatus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ZookeeperToKraftMigrationStatusReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*ZookeeperToKraftMigrationStatusOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*ZookeeperToKraftMigrationStatusDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }

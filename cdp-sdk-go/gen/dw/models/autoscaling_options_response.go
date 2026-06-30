@@ -25,9 +25,6 @@ type AutoscalingOptionsResponse struct {
 	// Turn off auto suspend for Virtual Warehouse.
 	DisableAutoSuspend bool `json:"disableAutoSuspend,omitempty"`
 
-	// DEPRECATED: in favor of the top level enableUnifiedAnalytics flag. Whether the Unified Analytics is enabled. FENG support will be removed in subsequent releases.
-	EnableUnifiedAnalytics bool `json:"enableUnifiedAnalytics,omitempty"`
-
 	// Desired free capacity.
 	HiveDesiredFreeCapacity int32 `json:"hiveDesiredFreeCapacity,omitempty"`
 

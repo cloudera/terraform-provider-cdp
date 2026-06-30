@@ -29,6 +29,9 @@ type ImpalaHASettingsCreateRequest struct {
 	// Set High Availability mode. If not provided, the default will apply. DISABLED - Disables Impala coordinator and Database Catalog high availability. ACTIVE_PASSIVE - Runs multiple coordinators (one active, one passive) and Database Catalogs (one active, one passive). ACTIVE_ACTIVE - Runs multiple coordinators (both active) and Database Catalogs (one active, one passive). If Unified Analytics is enabled, then this cannot be set to ACTIVE_ACTIVE.
 	HighAvailabilityMode ImpalaHighAvailabilityMode `json:"highAvailabilityMode,omitempty"`
 
+	// Set whether the Impala Global Admission Controller is enabled. This feature can only be used with high-availability mode ACTIVE_ACTIVE.
+	ImpalaEnableGlobalAdmissionController bool `json:"impalaEnableGlobalAdmissionController,omitempty"`
+
 	// The number of active coordinators.
 	NumOfActiveCoordinators int32 `json:"numOfActiveCoordinators,omitempty"`
 
