@@ -34,6 +34,7 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 		updateAzureAvailabilityZonesIfChanged,
 		updateAzureComputeClusterIfChanged,
 		updateAzureSecurityAccessIfChanged,
+		updateAzureDataServicesIfChanged,
 		updateAzureCredentialIfChanged,
 		updateAzureEncryptionIfChanged,
 		updateAzureCatalogIfChanged,
@@ -173,6 +174,52 @@ func updateAzureEncryptionResources(ctx context.Context, client *environmentscli
 	})
 	_, err := client.Operations.UpdateAzureEncryptionResourcesContext(ctx, params)
 	return err
+}
+
+func updateAzureDataServicesIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan.DataServices == nil {
+		// The backing API requires shared_managed_identity, so the provider cannot apply a removal of the entire block.
+		if state.DataServices != nil {
+			resp.Diagnostics.AddError("update data service resources", "data_services cannot be removed once set; please keep it configured or recreate the environment")
+		}
+		return resp
+	}
+
+	if state.DataServices != nil && reflect.DeepEqual(*plan.DataServices, *state.DataServices) {
+		return resp
+	}
+
+	if plan.DataServices.SharedManagedIdentity.IsNull() || plan.DataServices.SharedManagedIdentity.IsUnknown() {
+		resp.Diagnostics.AddError("update data service resources", "shared_managed_identity must be set to a known value when updating data service resources")
+		return resp
+	}
+
+	// Avoid silently drifting state when the optional zone ID is unset; the API model omits empty string values.
+	if plan.DataServices.AksPrivateDnsZoneId.IsNull() && state.DataServices != nil && !state.DataServices.AksPrivateDnsZoneId.IsNull() {
+		resp.Diagnostics.AddError("update data service resources", "aks_private_dns_zone_id cannot be unset via update; please keep the existing value or recreate the environment")
+		return resp
+	}
+
+	params := operations.NewUpdateDataServiceResourcesParams().WithInput(&environmentsmodels.UpdateDataServiceResourcesRequest{
+		Environment: plan.EnvironmentName.ValueStringPointer(),
+		DataServices: &environmentsmodels.DataServicesRequest{
+			Azure: &environmentsmodels.AzureDataServicesParametersRequest{
+				SharedManagedIdentity: plan.DataServices.SharedManagedIdentity.ValueStringPointer(),
+				AksPrivateDNSZoneID:   plan.DataServices.AksPrivateDnsZoneId.ValueString(),
+			},
+		},
+	})
+	tflog.Info(ctx, fmt.Sprintf("Updating data service resources for environment '%s'", plan.EnvironmentName.ValueString()))
+	if _, err := client.Operations.UpdateDataServiceResourcesContext(ctx, params); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update data service resources")
+		return resp
+	}
+
+	if state.DataServices == nil {
+		state.DataServices = &DataServices{}
+	}
+	*state.DataServices = *plan.DataServices
+	return resp
 }
 
 func convertConfigToAzureComputeClusterConfigurationRequest(config *AzureComputeClusterConfiguration, fallbackSubnetIds types.Set) *environmentsmodels.AzureComputeClusterConfigurationRequest {
