@@ -35,6 +35,11 @@ const (
 	testEncryptionUserManagedIdentity  = "/subscriptions/sub-id/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/my-identity"
 	testAzureSubnet                    = "subnet-a"
 	testAzureIpRange                   = "10.0.0.0/24"
+
+	testOldSharedManagedIdentity = "/subscriptions/sub-id/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/old-ds-identity"
+	testNewSharedManagedIdentity = "/subscriptions/sub-id/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/new-ds-identity"
+	testOldAksPrivateDnsZoneId   = "/subscriptions/sub-id/resourceGroups/rg/providers/Microsoft.Network/privateDnsZones/old-zone"
+	testNewAksPrivateDnsZoneId   = "/subscriptions/sub-id/resourceGroups/rg/providers/Microsoft.Network/privateDnsZones/new-zone"
 )
 
 func TestConvertNilConfigReturnsNilRequestForAzure(t *testing.T) {
@@ -600,4 +605,811 @@ func TestUpdateAzureSecurityAccessIfChanged_APIError_AddsDiagnostic(t *testing.T
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, types.StringValue(testOldDefaultSG), state.SecurityAccess.DefaultSecurityGroupID)
 	assert.Equal(t, types.StringValue(testOldKnoxSG), state.SecurityAccess.SecurityGroupIDForKnox)
+}
+
+// Tests for updateAzureDataServicesIfChanged
+
+func TestUpdateAzureDataServicesIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testNewSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testNewAksPrivateDnsZoneId),
+		},
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testOldSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testOldAksPrivateDnsZoneId),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateDataServiceResourcesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateDataServiceResourcesParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			params.Input.DataServices != nil &&
+			params.Input.DataServices.Azure != nil &&
+			*params.Input.DataServices.Azure.SharedManagedIdentity == testNewSharedManagedIdentity &&
+			params.Input.DataServices.Azure.AksPrivateDNSZoneID == testNewAksPrivateDnsZoneId
+	}), mock.Anything).Return(&operations.UpdateDataServiceResourcesOK{}, nil)
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testNewSharedManagedIdentity), state.DataServices.SharedManagedIdentity)
+	assert.Equal(t, types.StringValue(testNewAksPrivateDnsZoneId), state.DataServices.AksPrivateDnsZoneId)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureDataServicesIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	ds := &DataServices{
+		SharedManagedIdentity: types.StringValue(testOldSharedManagedIdentity),
+		AksPrivateDnsZoneId:   types.StringValue(testOldAksPrivateDnsZoneId),
+	}
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices:    ds,
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testOldSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testOldAksPrivateDnsZoneId),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateDataServiceResourcesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureDataServicesIfChanged_PlanNilStateNonNil_ReturnsRemovalError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices:    nil,
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testOldSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testOldAksPrivateDnsZoneId),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Contains(t, result.Diagnostics.Errors()[0].Detail(), "cannot be removed once set")
+	mockClient.AssertNotCalled(t, "UpdateDataServiceResourcesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureDataServicesIfChanged_PlanNilStateNil_NoOp(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices:    nil,
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: nil,
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateDataServiceResourcesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureDataServicesIfChanged_StateNil_CallsAPIAndSetsState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testNewSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testNewAksPrivateDnsZoneId),
+		},
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: nil,
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateDataServiceResourcesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateDataServiceResourcesParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			params.Input.DataServices != nil &&
+			params.Input.DataServices.Azure != nil &&
+			*params.Input.DataServices.Azure.SharedManagedIdentity == testNewSharedManagedIdentity &&
+			params.Input.DataServices.Azure.AksPrivateDNSZoneID == testNewAksPrivateDnsZoneId
+	}), mock.Anything).Return(&operations.UpdateDataServiceResourcesOK{}, nil)
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.NotNil(t, state.DataServices)
+	assert.Equal(t, types.StringValue(testNewSharedManagedIdentity), state.DataServices.SharedManagedIdentity)
+	assert.Equal(t, types.StringValue(testNewAksPrivateDnsZoneId), state.DataServices.AksPrivateDnsZoneId)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureDataServicesIfChanged_APIError_AddsDiagnosticAndPreservesState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testNewSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testNewAksPrivateDnsZoneId),
+		},
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testOldSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testOldAksPrivateDnsZoneId),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateDataServiceResourcesContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateDataServiceResourcesOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testOldSharedManagedIdentity), state.DataServices.SharedManagedIdentity)
+	assert.Equal(t, types.StringValue(testOldAksPrivateDnsZoneId), state.DataServices.AksPrivateDnsZoneId)
+}
+
+func TestUpdateAzureDataServicesIfChanged_OnlySharedManagedIdentityChanged_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testNewSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testOldAksPrivateDnsZoneId),
+		},
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testOldSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testOldAksPrivateDnsZoneId),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateDataServiceResourcesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateDataServiceResourcesParams) bool {
+		return params.Input != nil &&
+			*params.Input.DataServices.Azure.SharedManagedIdentity == testNewSharedManagedIdentity &&
+			params.Input.DataServices.Azure.AksPrivateDNSZoneID == testOldAksPrivateDnsZoneId
+	}), mock.Anything).Return(&operations.UpdateDataServiceResourcesOK{}, nil)
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testNewSharedManagedIdentity), state.DataServices.SharedManagedIdentity)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureDataServicesIfChanged_SharedManagedIdentityNull_ReturnsValidationError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringNull(),
+			AksPrivateDnsZoneId:   types.StringValue(testNewAksPrivateDnsZoneId),
+		},
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testOldSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testOldAksPrivateDnsZoneId),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Contains(t, result.Diagnostics.Errors()[0].Detail(), "shared_managed_identity must be set")
+	mockClient.AssertNotCalled(t, "UpdateDataServiceResourcesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureDataServicesIfChanged_SharedManagedIdentityUnknown_ReturnsValidationError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringUnknown(),
+			AksPrivateDnsZoneId:   types.StringValue(testNewAksPrivateDnsZoneId),
+		},
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testOldSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testOldAksPrivateDnsZoneId),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Contains(t, result.Diagnostics.Errors()[0].Detail(), "shared_managed_identity must be set")
+	mockClient.AssertNotCalled(t, "UpdateDataServiceResourcesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureDataServicesIfChanged_AksPrivateDnsZoneIdUnset_ReturnsError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testNewSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringNull(),
+		},
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testOldSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringValue(testOldAksPrivateDnsZoneId),
+		},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Contains(t, result.Diagnostics.Errors()[0].Detail(), "aks_private_dns_zone_id cannot be unset")
+	mockClient.AssertNotCalled(t, "UpdateDataServiceResourcesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureDataServicesIfChanged_AksPrivateDnsZoneIdNullWithStateNil_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		DataServices: &DataServices{
+			SharedManagedIdentity: types.StringValue(testNewSharedManagedIdentity),
+			AksPrivateDnsZoneId:   types.StringNull(),
+		},
+	}
+	state := &azureEnvironmentResourceModel{
+		DataServices: nil,
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateDataServiceResourcesContext", mock.Anything, mock.Anything, mock.Anything).
+		Return(&operations.UpdateDataServiceResourcesOK{}, nil)
+
+	result := updateAzureDataServicesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+// Tests for updateAzureCredentialIfChanged
+
+func TestUpdateAzureCredentialIfChanged_Changed_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		CredentialName:  types.StringValue(testNewCredentialName),
+	}
+	state := &azureEnvironmentResourceModel{
+		CredentialName: types.StringValue(testOldCredentialName),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("ChangeEnvironmentCredentialContext", mock.Anything, mock.MatchedBy(func(params *operations.ChangeEnvironmentCredentialParams) bool {
+		return params.Input != nil &&
+			*params.Input.CredentialName == testNewCredentialName &&
+			*params.Input.EnvironmentName == testEnvName
+	}), mock.Anything).Return(&operations.ChangeEnvironmentCredentialOK{}, nil)
+
+	result := updateAzureCredentialIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testNewCredentialName), state.CredentialName)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureCredentialIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		CredentialName:  types.StringValue(testSameCredentialName),
+	}
+	state := &azureEnvironmentResourceModel{
+		CredentialName: types.StringValue(testSameCredentialName),
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureCredentialIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "ChangeEnvironmentCredentialContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureCredentialIfChanged_APIError_AddsDiagnostic(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		CredentialName:  types.StringValue(testNewCredentialName),
+	}
+	state := &azureEnvironmentResourceModel{
+		CredentialName: types.StringValue(testOldCredentialName),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("ChangeEnvironmentCredentialContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.ChangeEnvironmentCredentialOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateAzureCredentialIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testOldCredentialName), state.CredentialName)
+}
+
+// Tests for updateAzureSshKeyIfChanged
+
+func TestUpdateAzureSshKeyIfChanged_Changed_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		PublicKey:       types.StringValue(testNewKey),
+	}
+	state := &azureEnvironmentResourceModel{
+		PublicKey: types.StringValue(testOldKey),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSSHKeyContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSSHKeyParams) bool {
+		return params.Input != nil &&
+			params.Input.NewPublicKey == testNewKey &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateSSHKeyOK{}, nil)
+
+	result := updateAzureSshKeyIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testNewKey), state.PublicKey)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureSshKeyIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		PublicKey:       types.StringValue(testSameKey),
+	}
+	state := &azureEnvironmentResourceModel{
+		PublicKey: types.StringValue(testSameKey),
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureSshKeyIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureSshKeyIfChanged_APIError_AddsDiagnostic(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		PublicKey:       types.StringValue(testNewKey),
+	}
+	state := &azureEnvironmentResourceModel{
+		PublicKey: types.StringValue(testOldKey),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateSSHKeyOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateAzureSshKeyIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testOldKey), state.PublicKey)
+}
+
+// Tests for updateAzureProxyConfigurationIfChanged
+
+func TestUpdateAzureProxyConfigurationIfChanged_Changed_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		ProxyConfigName: types.StringValue(testNewProxyConfigName),
+	}
+	state := &azureEnvironmentResourceModel{
+		ProxyConfigName: types.StringValue(testOldProxyConfigName),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateProxyConfigParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			params.Input.ProxyConfigName == testNewProxyConfigName &&
+			!params.Input.RemoveProxy
+	}), mock.Anything).Return(&operations.UpdateProxyConfigOK{}, nil)
+
+	result := updateAzureProxyConfigurationIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testNewProxyConfigName), state.ProxyConfigName)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureProxyConfigurationIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		ProxyConfigName: types.StringValue(testOldProxyConfigName),
+	}
+	state := &azureEnvironmentResourceModel{
+		ProxyConfigName: types.StringValue(testOldProxyConfigName),
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureProxyConfigurationIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureProxyConfigurationIfChanged_APIError_AddsDiagnostic(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		ProxyConfigName: types.StringValue(testNewProxyConfigName),
+	}
+	state := &azureEnvironmentResourceModel{
+		ProxyConfigName: types.StringValue(testOldProxyConfigName),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateProxyConfigOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateAzureProxyConfigurationIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testOldProxyConfigName), state.ProxyConfigName)
+}
+
+// Tests for updateAzureCustomDockerRegistryIfChanged
+
+func TestUpdateAzureCustomDockerRegistryIfChanged_Changed_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:      types.StringValue(testEnvName),
+		CustomDockerRegistry: &CustomDockerRegistry{Crn: types.StringValue(testNewDockerRegistryCrn)},
+	}
+	state := &azureEnvironmentResourceModel{
+		CustomDockerRegistry: &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateCustomDockerRegistryContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateCustomDockerRegistryParams) bool {
+		return params.Input != nil &&
+			*params.Input.CustomDockerRegistry == testNewDockerRegistryCrn &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.UpdateCustomDockerRegistryOK{}, nil)
+
+	result := updateAzureCustomDockerRegistryIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testNewDockerRegistryCrn), state.CustomDockerRegistry.Crn)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureCustomDockerRegistryIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:      types.StringValue(testEnvName),
+		CustomDockerRegistry: &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)},
+	}
+	state := &azureEnvironmentResourceModel{
+		CustomDockerRegistry: &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureCustomDockerRegistryIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureCustomDockerRegistryIfChanged_APIError_AddsDiagnostic(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:      types.StringValue(testEnvName),
+		CustomDockerRegistry: &CustomDockerRegistry{Crn: types.StringValue(testNewDockerRegistryCrn)},
+	}
+	state := &azureEnvironmentResourceModel{
+		CustomDockerRegistry: &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateCustomDockerRegistryOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateAzureCustomDockerRegistryIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testOldDockerRegistryCrn), state.CustomDockerRegistry.Crn)
+}
+
+// Tests for updateAzureEndpointAccessGatewayIfChanged
+
+func TestUpdateAzureEndpointAccessGatewayIfChanged_SchemeChanged_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planSubnets := utils.ToSetValueFromStringList([]string{testAzureSubnet})
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:                types.StringValue(testEnvName),
+		EndpointAccessGatewayScheme:    types.StringValue(testGatewaySchemePrivate),
+		EndpointAccessGatewaySubnetIds: planSubnets,
+	}
+	state := &azureEnvironmentResourceModel{
+		EndpointAccessGatewayScheme:    types.StringValue(testGatewaySchemePublic),
+		EndpointAccessGatewaySubnetIds: planSubnets,
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.MatchedBy(func(params *operations.SetEndpointAccessGatewayParams) bool {
+		return params.Input != nil &&
+			*params.Input.EndpointAccessGatewayScheme == testGatewaySchemePrivate &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.SetEndpointAccessGatewayOK{
+		Payload: &environmentsmodels.SetEndpointAccessGatewayResponse{},
+	}, nil)
+
+	result := updateAzureEndpointAccessGatewayIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testGatewaySchemePrivate), state.EndpointAccessGatewayScheme)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureEndpointAccessGatewayIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	subnets := utils.ToSetValueFromStringList([]string{testAzureSubnet})
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:                types.StringValue(testEnvName),
+		EndpointAccessGatewayScheme:    types.StringValue(testGatewaySchemePublic),
+		EndpointAccessGatewaySubnetIds: subnets,
+	}
+	state := &azureEnvironmentResourceModel{
+		EndpointAccessGatewayScheme:    types.StringValue(testGatewaySchemePublic),
+		EndpointAccessGatewaySubnetIds: subnets,
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureEndpointAccessGatewayIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureEndpointAccessGatewayIfChanged_APIError_AddsDiagnostic(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planSubnets := utils.ToSetValueFromStringList([]string{testAzureSubnet})
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:                types.StringValue(testEnvName),
+		EndpointAccessGatewayScheme:    types.StringValue(testGatewaySchemePrivate),
+		EndpointAccessGatewaySubnetIds: planSubnets,
+	}
+	state := &azureEnvironmentResourceModel{
+		EndpointAccessGatewayScheme:    types.StringValue(testGatewaySchemePublic),
+		EndpointAccessGatewaySubnetIds: planSubnets,
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.SetEndpointAccessGatewayOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateAzureEndpointAccessGatewayIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.StringValue(testGatewaySchemePublic), state.EndpointAccessGatewayScheme)
+}
+
+// Tests for updateAzureAvailabilityZonesIfChanged
+
+func TestUpdateAzureAvailabilityZonesIfChanged_Changed_DelegatesToUpdateAvailabilityZones(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:   types.StringValue(testEnvName),
+		AvailabilityZones: utils.ToSetValueFromStringList([]string{"1", "2", "3"}),
+	}
+	state := &azureEnvironmentResourceModel{
+		AvailabilityZones: utils.ToSetValueFromStringList([]string{"1", "2"}),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateAzureAvailabilityZonesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateAzureAvailabilityZonesParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			len(params.Input.AvailabilityZones) == 3
+	}), mock.Anything).Return(&operations.UpdateAzureAvailabilityZonesOK{}, nil)
+
+	result := updateAzureAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, plan.AvailabilityZones, state.AvailabilityZones)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureAvailabilityZonesIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	zones := utils.ToSetValueFromStringList([]string{"1", "2"})
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:   types.StringValue(testEnvName),
+		AvailabilityZones: zones,
+	}
+	state := &azureEnvironmentResourceModel{
+		AvailabilityZones: utils.ToSetValueFromStringList([]string{"1", "2"}),
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateAzureAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+// Tests for updateAzureCatalogIfChanged
+
+func TestUpdateAzureCatalogIfChanged_Changed_CallsAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		FreeIpa:         newFreeIpaObject(testNewCatalogURL),
+	}
+	state := &azureEnvironmentResourceModel{
+		FreeIpa: newFreeIpaObject(testOldCatalogURL),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("SetCatalogContext", mock.Anything, mock.MatchedBy(func(params *operations.SetCatalogParams) bool {
+		return params.Input != nil &&
+			*params.Input.Catalog == testNewCatalogURL &&
+			*params.Input.Environment == testEnvName
+	}), mock.Anything).Return(&operations.SetCatalogOK{}, nil)
+
+	result := updateAzureCatalogIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureCatalogIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		FreeIpa:         newFreeIpaObject(testSameCatalogURL),
+	}
+	state := &azureEnvironmentResourceModel{
+		FreeIpa: newFreeIpaObject(testSameCatalogURL),
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureCatalogIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "SetCatalogContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureCatalogIfChanged_APIError_AddsDiagnostic(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName: types.StringValue(testEnvName),
+		FreeIpa:         newFreeIpaObject(testNewCatalogURL),
+	}
+	state := &azureEnvironmentResourceModel{
+		FreeIpa: newFreeIpaObject(testOldCatalogURL),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("SetCatalogContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.SetCatalogOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateAzureCatalogIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
 }
