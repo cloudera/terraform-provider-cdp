@@ -166,7 +166,6 @@ func createFilledGcpEnvironmentResourceModel() *gcpEnvironmentResourceModel {
 		Description:                 types.StringValue("someDescription"),
 		EnableTunnel:                types.BoolValue(true),
 		WorkloadAnalytics:           types.BoolValue(true),
-		ReportDeploymentLogs:        types.BoolValue(true),
 		FreeIpa:                     freeIpaObj,
 		EndpointAccessGatewayScheme: types.StringValue("someEndpointAccessGatewayScheme"),
 		Tags:                        createMapOfString(),

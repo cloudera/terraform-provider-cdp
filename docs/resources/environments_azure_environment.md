@@ -118,7 +118,6 @@ output "environment" {
 
 - `crn` (String) The CRN of the environment.
 - `id` (String) The id of the environment associated by Terraform
-- `report_deployment_logs` (Boolean) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
 - `status` (String) The current status of the environment.
 - `status_reason` (String) The detailed status reason of the environment.
 

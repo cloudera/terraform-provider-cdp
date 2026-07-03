@@ -108,7 +108,6 @@ output "shared_project_id" {
 
 - `crn` (String) The CRN of the environment resource.
 - `id` (String) The id of the environment associated by Terraform
-- `report_deployment_logs` (Boolean) [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
 - `status` (String) The last known status for the environment.
 - `status_reason` (String) The last known detailed status reason for the environment.
 

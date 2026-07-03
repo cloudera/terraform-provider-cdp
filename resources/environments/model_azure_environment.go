@@ -55,8 +55,6 @@ type azureEnvironmentResourceModel struct {
 
 	Region types.String `tfsdk:"region"`
 
-	ReportDeploymentLogs types.Bool `tfsdk:"report_deployment_logs"`
-
 	ResourceGroupName types.String `tfsdk:"resource_group_name"`
 
 	SecurityAccess *SecurityAccess `tfsdk:"security_access"`

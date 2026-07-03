@@ -146,13 +146,6 @@ var awsSchemaElements = []test.ResourceSchemaTestCaseStructure{
 		AttributeType: schema.StringAttribute{},
 	},
 	{
-		Name:          "report_deployment_logs should exist and be valid",
-		Field:         "report_deployment_logs",
-		Computed:      true,
-		Required:      false,
-		AttributeType: schema.BoolAttribute{},
-	},
-	{
 		Name:          "proxy_config_name should exist and be valid",
 		Field:         "proxy_config_name",
 		Computed:      true,
@@ -246,7 +239,7 @@ var awsSchemaElements = []test.ResourceSchemaTestCaseStructure{
 }
 
 func TestAwsEnvironmentSchemaAttributeNumber(t *testing.T) {
-	expected := 32
+	expected := 31
 	if len(AwsEnvironmentSchema.Attributes) != expected {
 		t.Errorf("The number of fields in the AwsEnvironmentSchema schema should be: %d but it is: %d", expected, len(AwsEnvironmentSchema.Attributes))
 		t.FailNow()

@@ -295,16 +295,6 @@ var AwsEnvironmentSchema = schema.Schema{
 			Description:         "The region of the environment.",
 			Required:            true,
 		},
-		"report_deployment_logs": schema.BoolAttribute{
-			MarkdownDescription: " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
-			Description:         " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
-			DeprecationMessage:  "report_deployment_logs is a deprecated field and should not be used. ",
-			Computed:            true,
-			Default:             booldefault.StaticBool(false),
-			PlanModifiers: []planmodifier.Bool{
-				boolplanmodifier.UseStateForUnknown(),
-			},
-		},
 		"proxy_config_name": schema.StringAttribute{
 			MarkdownDescription: "Name of the proxy config to use for the environment.",
 			Description:         "Name of the proxy config to use for the environment.",

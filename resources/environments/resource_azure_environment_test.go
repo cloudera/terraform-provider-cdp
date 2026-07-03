@@ -59,7 +59,6 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 						"backup_storage_location_base": tftypes.String,
 					},
 				},
-				"report_deployment_logs": tftypes.Bool,
 				"security_access": tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
 						"cidr":                      tftypes.String,
@@ -171,7 +170,6 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 				"storage_location_base":        tftypes.NewValue(tftypes.String, ""),
 				"backup_storage_location_base": tftypes.NewValue(tftypes.String, ""),
 			}),
-			"report_deployment_logs": tftypes.NewValue(tftypes.Bool, false),
 			"security_access": tftypes.NewValue(tftypes.Object{
 				AttributeTypes: map[string]tftypes.Type{
 					"cidr":                      tftypes.String,

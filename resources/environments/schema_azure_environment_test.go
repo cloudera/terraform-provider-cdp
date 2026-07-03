@@ -160,13 +160,6 @@ var azureSchemaElements = []test.ResourceSchemaTestCaseStructure{
 		AttributeType: schema.StringAttribute{},
 	},
 	{
-		Name:          "report_deployment_logs should exist and be valid",
-		Field:         "report_deployment_logs",
-		Computed:      true,
-		Required:      false,
-		AttributeType: schema.BoolAttribute{},
-	},
-	{
 		Name:          "resource_group_name should exist and be valid",
 		Field:         "resource_group_name",
 		Computed:      true,
@@ -281,7 +274,7 @@ var azureSchemaElements = []test.ResourceSchemaTestCaseStructure{
 }
 
 func TestAzureEnvironmentSchemaSchemaAttributeNumber(t *testing.T) {
-	expected := 37
+	expected := 36
 	if len(AzureEnvironmentSchema.Attributes) != expected {
 		t.Errorf("The number of fields in the AzureEnvironment schema should be: %d but it is: %d", expected, len(AzureEnvironmentSchema.Attributes))
 		t.FailNow()
