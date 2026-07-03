@@ -158,7 +158,7 @@ func waitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 
 func checkResponseStatusForError(resp *operations.DescribeEnvironmentOK) (interface{}, string, error) {
 	if utils.ContainsAsSubstring([]string{"FAILED", "ERROR"}, *resp.GetPayload().Environment.Status) {
-		return nil, "", fmt.Errorf("unexpected Enviornment status: %s. Reason: %s", *resp.GetPayload().Environment.Status, resp.GetPayload().Environment.StatusReason)
+		return nil, "", fmt.Errorf("unexpected Environment status: %s. Reason: %s", *resp.GetPayload().Environment.Status, resp.GetPayload().Environment.StatusReason)
 	}
 	return resp, *resp.GetPayload().Environment.Status, nil
 }

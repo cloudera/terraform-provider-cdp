@@ -12,23 +12,122 @@ package environments
 
 import (
 	"context"
+	"math"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/stretchr/testify/assert"
 )
 
-func TestConvertTagsWhenInputIsNil(t *testing.T) {
-	if ConvertTags(context.TODO(), types.MapNull(types.StringType)) != nil {
-		t.Error("Result list is not nil but it should be!")
-	}
+type tagKV struct {
+	Key   string
+	Value string
 }
 
-func TestConvertTagsWhenInputIsEmpty(t *testing.T) {
-	inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{})
-	if ConvertTags(context.TODO(), inMap) != nil {
-		t.Error("Result list is not nil but it should be!")
+func convertTagsToKV(input types.Map) []tagKV {
+	result := ConvertTags(context.TODO(), input)
+	if result == nil {
+		return nil
 	}
+	kvs := make([]tagKV, len(result))
+	for i, tag := range result {
+		kvs[i] = tagKV{Key: *tag.Key, Value: *tag.Value}
+	}
+	return kvs
+}
+
+func convertGcpTagsToKV(input types.Map) []tagKV {
+	result := ConvertGcpTags(context.TODO(), input)
+	if result == nil {
+		return nil
+	}
+	kvs := make([]tagKV, len(result))
+	for i, tag := range result {
+		kvs[i] = tagKV{Key: *tag.Key, Value: *tag.Value}
+	}
+	return kvs
+}
+
+func testConvertTagsNilReturnsNil(t *testing.T, name string, convertFn func(types.Map) []tagKV) {
+	t.Run(name, func(t *testing.T) {
+		result := convertFn(types.MapNull(types.StringType))
+		assert.Nil(t, result)
+	})
+}
+
+func testConvertTagsEmptyReturnsNil(t *testing.T, name string, convertFn func(types.Map) []tagKV) {
+	t.Run(name, func(t *testing.T) {
+		inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{})
+		result := convertFn(inMap)
+		assert.Nil(t, result)
+	})
+}
+
+func testConvertTagsSingleElement(t *testing.T, name string, convertFn func(types.Map) []tagKV) {
+	t.Run(name, func(t *testing.T) {
+		inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{
+			"someKey-1": types.StringValue("someValue-1"),
+		})
+		result := convertFn(inMap)
+		assert.Len(t, result, 1)
+		assert.Equal(t, "someKey-1", result[0].Key)
+		assert.Equal(t, "someValue-1", result[0].Value)
+	})
+}
+
+func testConvertTagsMultipleElements(t *testing.T, name string, convertFn func(types.Map) []tagKV) {
+	t.Run(name, func(t *testing.T) {
+		inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{
+			"someKey-1": types.StringValue("someValue-1"),
+			"someKey-2": types.StringValue("someValue-2"),
+		})
+		result := convertFn(inMap)
+		assert.Len(t, result, 2)
+
+		tagMap := make(map[string]string)
+		for _, kv := range result {
+			tagMap[kv.Key] = kv.Value
+		}
+		assert.Equal(t, "someValue-1", tagMap["someKey-1"])
+		assert.Equal(t, "someValue-2", tagMap["someKey-2"])
+	})
+}
+
+func testConvertTagsPreservesKeyValuePairing(t *testing.T, name string, convertFn func(types.Map) []tagKV) {
+	t.Run(name, func(t *testing.T) {
+		inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{
+			"env":     types.StringValue("prod"),
+			"team":    types.StringValue("platform"),
+			"project": types.StringValue("cdp"),
+		})
+		result := convertFn(inMap)
+		assert.Len(t, result, 3)
+
+		tagMap := make(map[string]string)
+		for _, kv := range result {
+			tagMap[kv.Key] = kv.Value
+		}
+		assert.Equal(t, "prod", tagMap["env"])
+		assert.Equal(t, "platform", tagMap["team"])
+		assert.Equal(t, "cdp", tagMap["project"])
+	})
+}
+
+func TestConvertTags(t *testing.T) {
+	testConvertTagsNilReturnsNil(t, "nil input returns nil", convertTagsToKV)
+	testConvertTagsEmptyReturnsNil(t, "empty input returns nil", convertTagsToKV)
+	testConvertTagsSingleElement(t, "single element", convertTagsToKV)
+	testConvertTagsMultipleElements(t, "multiple elements", convertTagsToKV)
+	testConvertTagsPreservesKeyValuePairing(t, "preserves key-value pairing", convertTagsToKV)
+}
+
+func TestConvertGcpTags(t *testing.T) {
+	testConvertTagsNilReturnsNil(t, "nil input returns nil", convertGcpTagsToKV)
+	testConvertTagsEmptyReturnsNil(t, "empty input returns nil", convertGcpTagsToKV)
+	testConvertTagsSingleElement(t, "single element", convertGcpTagsToKV)
+	testConvertTagsMultipleElements(t, "multiple elements", convertGcpTagsToKV)
+	testConvertTagsPreservesKeyValuePairing(t, "preserves key-value pairing", convertGcpTagsToKV)
 }
 
 func TestGetStringValueIfNotEmpty(t *testing.T) {
@@ -37,162 +136,98 @@ func TestGetStringValueIfNotEmpty(t *testing.T) {
 		input    string
 		expected types.String
 	}{
-		{
-			name:     "Empty string",
-			input:    "",
-			expected: types.StringNull(),
-		},
-		{
-			name:     "Normal content",
-			input:    "arm",
-			expected: types.StringValue("arm"),
-		},
-		{
-			name:     "String with spaces",
-			input:    "   ",
-			expected: types.StringNull(),
-		},
+		{"empty string", "", types.StringNull()},
+		{"normal content", "arm", types.StringValue("arm")},
+		{"spaces only", "   ", types.StringNull()},
+		{"leading/trailing spaces", "  hello  ", types.StringValue("hello")},
+		{"tab only", "\t", types.StringNull()},
+		{"newline only", "\n", types.StringNull()},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := getStringValueIfNotEmpty(tt.input)
-			if result != tt.expected {
-				t.Errorf("Unexpected result for input '%s'. Expected: %v, got: %v", tt.input, tt.expected, result)
-			}
+			assert.Equal(t, tt.expected, getStringValueIfNotEmpty(tt.input))
 		})
 	}
 }
 
-func TestConvertTagsWhenInputIsNotEmpty(t *testing.T) {
-	key, value := "someKey-1", "someValue-1"
-	inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{key: types.StringValue(value)})
-	result := ConvertTags(context.TODO(), inMap)
-
-	if len(result) != 1 {
-		t.Errorf("After tag conversion, not the expected amount came back. Expected: %d, got: %d.",
-			1, len(result))
-	}
-	for _, tag := range result {
-		if *tag.Key != key {
-			t.Errorf("The provided key (%s) is not present in the result map!", key)
-		}
-		if *tag.Value != value {
-			t.Errorf("The provided value (%s) is not present in the result map!", value)
-		}
-	}
-}
-
-func TestConvertTagsWhenInputHasMoreElements(t *testing.T) {
-	keys := []string{"someKey-1", "someKey-2"}
-	values := []string{"someValue-1", "someValue-2"}
-	inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{
-		keys[0]: types.StringValue(values[0]),
-		keys[1]: types.StringValue(values[1]),
-	})
-	result := ConvertTags(context.TODO(), inMap)
-
-	if len(result) != len(keys) {
-		t.Errorf("After tag conversion, not the expected amount came back. Expected: %d, got: %d.",
-			len(keys), len(result))
+func TestSafeIntToInt32_ValidValues(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    int
+		expected int32
+	}{
+		{"zero", 0, 0},
+		{"positive", 42, 42},
+		{"negative", -100, -100},
+		{"max int32", math.MaxInt32, math.MaxInt32},
+		{"min int32", math.MinInt32, math.MinInt32},
 	}
 
-	var has bool
-	for _, inputKey := range keys {
-		has = false
-		for _, tag := range result {
-			if *tag.Key == inputKey {
-				has = true
-				break
-			}
-		}
-		if !has {
-			t.Errorf("The following key is not present in the result: %s", inputKey)
-		}
-	}
-	for _, inputValue := range values {
-		has = false
-		for _, tag := range result {
-			if *tag.Value == inputValue {
-				has = true
-				break
-			}
-		}
-		if !has {
-			t.Errorf("The following value is not present in the result: %s", inputValue)
-		}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result, err := safeIntToInt32(tt.input)
+			assert.NoError(t, err)
+			assert.Equal(t, tt.expected, result)
+		})
 	}
 }
 
-func TestConvertGcpTagsWhenInputIsNil(t *testing.T) {
-	if ConvertGcpTags(context.TODO(), types.MapNull(types.StringType)) != nil {
-		t.Error("Result list is not nil but it should be!")
+func TestSafeIntToInt32_OutOfRange(t *testing.T) {
+	tests := []struct {
+		name  string
+		input int
+	}{
+		{"overflow", math.MaxInt32 + 1},
+		{"underflow", math.MinInt32 - 1},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result, err := safeIntToInt32(tt.input)
+			assert.Error(t, err)
+			assert.Equal(t, int32(0), result)
+			assert.Contains(t, err.Error(), "out of int32 range")
+		})
 	}
 }
 
-func TestConvertGcpTagsWhenInputIsEmpty(t *testing.T) {
-	inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{})
-	if ConvertGcpTags(context.TODO(), inMap) != nil {
-		t.Error("Result list is not nil but it should be!")
+func TestConvertIntToInt32IfPossible_ValidValues(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    int
+		expected int32
+	}{
+		{"zero", 0, 0},
+		{"positive", 123, 123},
+		{"negative", -456, -456},
+		{"max int32", math.MaxInt32, math.MaxInt32},
+		{"min int32", math.MinInt32, math.MinInt32},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result, err := ConvertIntToInt32IfPossible(tt.input)
+			assert.NoError(t, err)
+			assert.Equal(t, types.Int32Value(tt.expected), result)
+		})
 	}
 }
 
-func TestConvertGcpTagsWhenInputIsNotEmpty(t *testing.T) {
-	key, value := "someKey-1", "someValue-1"
-	inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{key: types.StringValue(value)})
-	result := ConvertGcpTags(context.TODO(), inMap)
-
-	if len(result) != 1 {
-		t.Errorf("After tag conversion, not the expected amount came back. Expected: %d, got: %d.",
-			1, len(result))
-	}
-	for _, tag := range result {
-		if *tag.Key != key {
-			t.Errorf("The provided key (%s) is not present in the result map!", key)
-		}
-		if *tag.Value != value {
-			t.Errorf("The provided value (%s) is not present in the result map!", value)
-		}
-	}
-}
-
-func TestConvertGcpTagsWhenInputHasMoreElements(t *testing.T) {
-	keys := []string{"someKey-1", "someKey-2"}
-	values := []string{"someValue-1", "someValue-2"}
-	inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{
-		keys[0]: types.StringValue(values[0]),
-		keys[1]: types.StringValue(values[1]),
-	})
-	result := ConvertGcpTags(context.TODO(), inMap)
-
-	if len(result) != len(keys) {
-		t.Errorf("After tag conversion, not the expected amount came back. Expected: %d, got: %d.",
-			len(keys), len(result))
+func TestConvertIntToInt32IfPossible_OutOfRange(t *testing.T) {
+	tests := []struct {
+		name  string
+		input int
+	}{
+		{"overflow", math.MaxInt32 + 1},
+		{"underflow", math.MinInt32 - 1},
 	}
 
-	var has bool
-	for _, inputKey := range keys {
-		has = false
-		for _, tag := range result {
-			if *tag.Key == inputKey {
-				has = true
-				break
-			}
-		}
-		if !has {
-			t.Errorf("The following key is not present in the result: %s", inputKey)
-		}
-	}
-	for _, inputValue := range values {
-		has = false
-		for _, tag := range result {
-			if *tag.Value == inputValue {
-				has = true
-				break
-			}
-		}
-		if !has {
-			t.Errorf("The following value is not present in the result: %s", inputValue)
-		}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := ConvertIntToInt32IfPossible(tt.input)
+			assert.Error(t, err)
+			assert.Contains(t, err.Error(), "out of int32 range")
+		})
 	}
 }

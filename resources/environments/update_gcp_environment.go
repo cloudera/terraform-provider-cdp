@@ -30,6 +30,7 @@ func updateGcpEnvironment(ctx context.Context, plan *gcpEnvironmentResourceModel
 		updateGcpCustomDockerRegistryIfChanged,
 		updateGcpProxyConfigurationIfChanged,
 		updateGcpAvailabilityZonesIfChanged,
+		updateGcpTelemetryFeaturesIfChanged,
 		updateGcpSecurityAccessIfChanged,
 		updateGcpCredentialIfChanged,
 		updateGcpCatalogIfChanged,
@@ -71,6 +72,10 @@ func updateGcpSecurityAccessIfChanged(ctx context.Context, plan *gcpEnvironmentR
 
 func updateGcpCustomDockerRegistryIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateGcpTelemetryFeaturesIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateTelemetryFeaturesIfChanged(ctx, client, plan.WorkloadAnalytics, &state.WorkloadAnalytics, plan.EnvironmentName.ValueStringPointer(), resp)
 }
 
 func updateGcpAvailabilityZonesIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {

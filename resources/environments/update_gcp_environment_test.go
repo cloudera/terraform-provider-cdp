@@ -20,18 +20,34 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/mocks"
 )
 
+type gcpUpdateTestFixture struct {
+	ctx        context.Context
+	mockClient *mocks.MockEnvironmentClientService
+	client     *environmentsclient.Environments
+	resp       *resource.UpdateResponse
+}
+
+func setupGcpUpdateTest(t *testing.T) gcpUpdateTestFixture {
+	t.Helper()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	return gcpUpdateTestFixture{
+		ctx:        context.TODO(),
+		mockClient: mockClient,
+		client:     NewMockEnvironments(mockClient),
+		resp:       &resource.UpdateResponse{},
+	}
+}
+
 // Tests for updateGcpCredentialIfChanged
 
 func TestUpdateGcpCredentialIfChanged_Changed_CallsAPI(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		CredentialName:  types.StringValue(testNewCredentialName),
 		EnvironmentName: types.StringValue(testEnvName),
@@ -39,26 +55,22 @@ func TestUpdateGcpCredentialIfChanged_Changed_CallsAPI(t *testing.T) {
 	state := &gcpEnvironmentResourceModel{
 		CredentialName: types.StringValue(testOldCredentialName),
 	}
-	resp := &resource.UpdateResponse{}
 
-	mockClient.On("ChangeEnvironmentCredentialContext", mock.Anything, mock.MatchedBy(func(params *operations.ChangeEnvironmentCredentialParams) bool {
+	f.mockClient.On("ChangeEnvironmentCredentialContext", mock.Anything, mock.MatchedBy(func(params *operations.ChangeEnvironmentCredentialParams) bool {
 		return params.Input != nil &&
 			*params.Input.CredentialName == testNewCredentialName &&
 			*params.Input.EnvironmentName == testEnvName
 	}), mock.Anything).Return(&operations.ChangeEnvironmentCredentialOK{}, nil)
 
-	result := updateGcpCredentialIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpCredentialIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	assert.Equal(t, types.StringValue(testNewCredentialName), state.CredentialName)
-	mockClient.AssertExpectations(t)
+	f.mockClient.AssertExpectations(t)
 }
 
 func TestUpdateGcpCredentialIfChanged_Unchanged_Skips(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		CredentialName:  types.StringValue(testSameCredentialName),
 		EnvironmentName: types.StringValue(testEnvName),
@@ -66,21 +78,17 @@ func TestUpdateGcpCredentialIfChanged_Unchanged_Skips(t *testing.T) {
 	state := &gcpEnvironmentResourceModel{
 		CredentialName: types.StringValue(testSameCredentialName),
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpCredentialIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpCredentialIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "ChangeEnvironmentCredentialContext", mock.Anything, mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "ChangeEnvironmentCredentialContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 // Tests for updateGcpSshKeyIfChanged
 
 func TestUpdateGcpSshKeyIfChanged_Changed_CallsAPI(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		PublicKey:       types.StringValue(testNewKey),
 		EnvironmentName: types.StringValue(testEnvName),
@@ -88,26 +96,22 @@ func TestUpdateGcpSshKeyIfChanged_Changed_CallsAPI(t *testing.T) {
 	state := &gcpEnvironmentResourceModel{
 		PublicKey: types.StringValue(testOldKey),
 	}
-	resp := &resource.UpdateResponse{}
 
-	mockClient.On("UpdateSSHKeyContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSSHKeyParams) bool {
+	f.mockClient.On("UpdateSSHKeyContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSSHKeyParams) bool {
 		return params.Input != nil &&
 			params.Input.NewPublicKey == testNewKey &&
 			*params.Input.Environment == testEnvName
 	}), mock.Anything).Return(&operations.UpdateSSHKeyOK{}, nil)
 
-	result := updateGcpSshKeyIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpSshKeyIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	assert.Equal(t, types.StringValue(testNewKey), state.PublicKey)
-	mockClient.AssertExpectations(t)
+	f.mockClient.AssertExpectations(t)
 }
 
 func TestUpdateGcpSshKeyIfChanged_Unchanged_Skips(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		PublicKey:       types.StringValue(testSameKey),
 		EnvironmentName: types.StringValue(testEnvName),
@@ -115,21 +119,17 @@ func TestUpdateGcpSshKeyIfChanged_Unchanged_Skips(t *testing.T) {
 	state := &gcpEnvironmentResourceModel{
 		PublicKey: types.StringValue(testSameKey),
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpSshKeyIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpSshKeyIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "UpdateSSHKeyContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 // Tests for updateGcpProxyConfigurationIfChanged
 
 func TestUpdateGcpProxyConfigurationIfChanged_Changed_CallsAPI(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		ProxyConfigName: types.StringValue(testNewProxyConfigName),
 		EnvironmentName: types.StringValue(testEnvName),
@@ -137,27 +137,23 @@ func TestUpdateGcpProxyConfigurationIfChanged_Changed_CallsAPI(t *testing.T) {
 	state := &gcpEnvironmentResourceModel{
 		ProxyConfigName: types.StringValue(testOldProxyConfigName),
 	}
-	resp := &resource.UpdateResponse{}
 
-	mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateProxyConfigParams) bool {
+	f.mockClient.On("UpdateProxyConfigContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateProxyConfigParams) bool {
 		return params.Input != nil &&
 			params.Input.ProxyConfigName == testNewProxyConfigName &&
 			*params.Input.Environment == testEnvName &&
 			!params.Input.RemoveProxy
 	}), mock.Anything).Return(&operations.UpdateProxyConfigOK{}, nil)
 
-	result := updateGcpProxyConfigurationIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpProxyConfigurationIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	assert.Equal(t, types.StringValue(testNewProxyConfigName), state.ProxyConfigName)
-	mockClient.AssertExpectations(t)
+	f.mockClient.AssertExpectations(t)
 }
 
 func TestUpdateGcpProxyConfigurationIfChanged_Unchanged_Skips(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		ProxyConfigName: types.StringValue(testOldProxyConfigName),
 		EnvironmentName: types.StringValue(testEnvName),
@@ -165,21 +161,17 @@ func TestUpdateGcpProxyConfigurationIfChanged_Unchanged_Skips(t *testing.T) {
 	state := &gcpEnvironmentResourceModel{
 		ProxyConfigName: types.StringValue(testOldProxyConfigName),
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpProxyConfigurationIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpProxyConfigurationIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "UpdateProxyConfigContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 // Tests for updateGcpCustomDockerRegistryIfChanged
 
 func TestUpdateGcpCustomDockerRegistryIfChanged_Changed_CallsAPI(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		CustomDockerRegistry: &CustomDockerRegistry{Crn: types.StringValue(testNewDockerRegistryCrn)},
 		EnvironmentName:      types.StringValue(testEnvName),
@@ -187,26 +179,22 @@ func TestUpdateGcpCustomDockerRegistryIfChanged_Changed_CallsAPI(t *testing.T) {
 	state := &gcpEnvironmentResourceModel{
 		CustomDockerRegistry: &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)},
 	}
-	resp := &resource.UpdateResponse{}
 
-	mockClient.On("UpdateCustomDockerRegistryContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateCustomDockerRegistryParams) bool {
+	f.mockClient.On("UpdateCustomDockerRegistryContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateCustomDockerRegistryParams) bool {
 		return params.Input != nil &&
 			*params.Input.CustomDockerRegistry == testNewDockerRegistryCrn &&
 			*params.Input.Environment == testEnvName
 	}), mock.Anything).Return(&operations.UpdateCustomDockerRegistryOK{}, nil)
 
-	result := updateGcpCustomDockerRegistryIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpCustomDockerRegistryIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	assert.Equal(t, types.StringValue(testNewDockerRegistryCrn), state.CustomDockerRegistry.Crn)
-	mockClient.AssertExpectations(t)
+	f.mockClient.AssertExpectations(t)
 }
 
 func TestUpdateGcpCustomDockerRegistryIfChanged_Unchanged_Skips(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	registry := &CustomDockerRegistry{Crn: types.StringValue(testOldDockerRegistryCrn)}
 	plan := &gcpEnvironmentResourceModel{
 		CustomDockerRegistry: registry,
@@ -215,21 +203,17 @@ func TestUpdateGcpCustomDockerRegistryIfChanged_Unchanged_Skips(t *testing.T) {
 	state := &gcpEnvironmentResourceModel{
 		CustomDockerRegistry: registry,
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpCustomDockerRegistryIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpCustomDockerRegistryIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "UpdateCustomDockerRegistryContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 // Tests for updateGcpEndpointAccessGatewayIfChanged
 
 func TestUpdateGcpEndpointAccessGatewayIfChanged_Changed_CallsAPI(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		EndpointAccessGatewayScheme:    types.StringValue(testGatewaySchemePublic),
 		EndpointAccessGatewaySubnetIds: types.SetNull(types.StringType),
@@ -239,9 +223,8 @@ func TestUpdateGcpEndpointAccessGatewayIfChanged_Changed_CallsAPI(t *testing.T) 
 		EndpointAccessGatewayScheme:    types.StringValue(testGatewaySchemePrivate),
 		EndpointAccessGatewaySubnetIds: types.SetNull(types.StringType),
 	}
-	resp := &resource.UpdateResponse{}
 
-	mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.MatchedBy(func(params *operations.SetEndpointAccessGatewayParams) bool {
+	f.mockClient.On("SetEndpointAccessGatewayContext", mock.Anything, mock.MatchedBy(func(params *operations.SetEndpointAccessGatewayParams) bool {
 		return params.Input != nil &&
 			*params.Input.EndpointAccessGatewayScheme == testGatewaySchemePublic &&
 			*params.Input.Environment == testEnvName
@@ -249,18 +232,15 @@ func TestUpdateGcpEndpointAccessGatewayIfChanged_Changed_CallsAPI(t *testing.T) 
 		Payload: &environmentsmodels.SetEndpointAccessGatewayResponse{},
 	}, nil)
 
-	result := updateGcpEndpointAccessGatewayIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpEndpointAccessGatewayIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	assert.Equal(t, types.StringValue(testGatewaySchemePublic), state.EndpointAccessGatewayScheme)
-	mockClient.AssertExpectations(t)
+	f.mockClient.AssertExpectations(t)
 }
 
 func TestUpdateGcpEndpointAccessGatewayIfChanged_Unchanged_Skips(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		EndpointAccessGatewayScheme:    types.StringValue(testGatewaySchemePublic),
 		EndpointAccessGatewaySubnetIds: types.SetNull(types.StringType),
@@ -270,21 +250,17 @@ func TestUpdateGcpEndpointAccessGatewayIfChanged_Unchanged_Skips(t *testing.T) {
 		EndpointAccessGatewayScheme:    types.StringValue(testGatewaySchemePublic),
 		EndpointAccessGatewaySubnetIds: types.SetNull(types.StringType),
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpEndpointAccessGatewayIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpEndpointAccessGatewayIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 // Tests for updateGcpCatalogIfChanged
 
 func TestUpdateGcpCatalogIfChanged_Changed_CallsAPI(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		FreeIpa:         newFreeIpaObject(testNewCatalogURL),
 		EnvironmentName: types.StringValue(testEnvName),
@@ -292,25 +268,21 @@ func TestUpdateGcpCatalogIfChanged_Changed_CallsAPI(t *testing.T) {
 	state := &gcpEnvironmentResourceModel{
 		FreeIpa: newFreeIpaObject(testOldCatalogURL),
 	}
-	resp := &resource.UpdateResponse{}
 
-	mockClient.On("SetCatalogContext", mock.Anything, mock.MatchedBy(func(params *operations.SetCatalogParams) bool {
+	f.mockClient.On("SetCatalogContext", mock.Anything, mock.MatchedBy(func(params *operations.SetCatalogParams) bool {
 		return params.Input != nil &&
 			*params.Input.Catalog == testNewCatalogURL &&
 			*params.Input.Environment == testEnvName
 	})).Return(&operations.SetCatalogOK{}, nil)
 
-	result := updateGcpCatalogIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpCatalogIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertExpectations(t)
+	f.mockClient.AssertExpectations(t)
 }
 
 func TestUpdateGcpCatalogIfChanged_Unchanged_Skips(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		FreeIpa:         newFreeIpaObject(testSameCatalogURL),
 		EnvironmentName: types.StringValue(testEnvName),
@@ -318,21 +290,17 @@ func TestUpdateGcpCatalogIfChanged_Unchanged_Skips(t *testing.T) {
 	state := &gcpEnvironmentResourceModel{
 		FreeIpa: newFreeIpaObject(testSameCatalogURL),
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpCatalogIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpCatalogIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "SetCatalogContext", mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "SetCatalogContext", mock.Anything, mock.Anything)
 }
 
 // Tests for updateGcpSecurityAccessIfChanged
 
 func TestUpdateGcpSecurityAccessIfChanged_Changed_CallsAPI(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		SecurityAccess: &GcpSecurityAccess{
 			DefaultSecurityGroupId: types.StringValue(testNewDefaultSG),
@@ -346,28 +314,24 @@ func TestUpdateGcpSecurityAccessIfChanged_Changed_CallsAPI(t *testing.T) {
 			SecurityGroupIdForKnox: types.StringValue(testOldKnoxSG),
 		},
 	}
-	resp := &resource.UpdateResponse{}
 
-	mockClient.On("UpdateSecurityAccessContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSecurityAccessParams) bool {
+	f.mockClient.On("UpdateSecurityAccessContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSecurityAccessParams) bool {
 		return params.Input != nil &&
 			*params.Input.DefaultSecurityGroupID == testNewDefaultSG &&
 			*params.Input.GatewayNodeSecurityGroupID == testNewKnoxSG &&
 			*params.Input.Environment == testEnvName
 	}), mock.Anything).Return(&operations.UpdateSecurityAccessOK{}, nil)
 
-	result := updateGcpSecurityAccessIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpSecurityAccessIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	assert.Equal(t, types.StringValue(testNewDefaultSG), state.SecurityAccess.DefaultSecurityGroupId)
 	assert.Equal(t, types.StringValue(testNewKnoxSG), state.SecurityAccess.SecurityGroupIdForKnox)
-	mockClient.AssertExpectations(t)
+	f.mockClient.AssertExpectations(t)
 }
 
 func TestUpdateGcpSecurityAccessIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		SecurityAccess: &GcpSecurityAccess{
 			DefaultSecurityGroupId: types.StringValue(testSameDefaultSG),
@@ -381,19 +345,15 @@ func TestUpdateGcpSecurityAccessIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
 			SecurityGroupIdForKnox: types.StringValue(testSameKnoxSG),
 		},
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpSecurityAccessIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpSecurityAccessIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateGcpSecurityAccessIfChanged_NilPlanSecurityAccess_SkipsAPICall(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		SecurityAccess:  nil,
 		EnvironmentName: types.StringValue(testEnvName),
@@ -404,19 +364,15 @@ func TestUpdateGcpSecurityAccessIfChanged_NilPlanSecurityAccess_SkipsAPICall(t *
 			SecurityGroupIdForKnox: types.StringValue(testOldKnoxSG),
 		},
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpSecurityAccessIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpSecurityAccessIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateGcpSecurityAccessIfChanged_APIError_AddsDiagnostic(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		SecurityAccess: &GcpSecurityAccess{
 			DefaultSecurityGroupId: types.StringValue(testNewDefaultSG),
@@ -430,12 +386,11 @@ func TestUpdateGcpSecurityAccessIfChanged_APIError_AddsDiagnostic(t *testing.T) 
 			SecurityGroupIdForKnox: types.StringValue(testOldKnoxSG),
 		},
 	}
-	resp := &resource.UpdateResponse{}
 
-	mockClient.On("UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything).
+	f.mockClient.On("UpdateSecurityAccessContext", mock.Anything, mock.Anything, mock.Anything).
 		Return((*operations.UpdateSecurityAccessOK)(nil), errors.New(testServiceUnavailable))
 
-	result := updateGcpSecurityAccessIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpSecurityAccessIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, types.StringValue(testOldDefaultSG), state.SecurityAccess.DefaultSecurityGroupId)
@@ -445,10 +400,7 @@ func TestUpdateGcpSecurityAccessIfChanged_APIError_AddsDiagnostic(t *testing.T) 
 // Tests for updateGcpAvailabilityZonesIfChanged
 
 func TestUpdateGcpAvailabilityZonesIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		AvailabilityZones: []types.String{types.StringValue("us-central1-a"), types.StringValue("us-central1-b"), types.StringValue("us-central1-c")},
 		EnvironmentName:   types.StringValue(testEnvName),
@@ -456,26 +408,22 @@ func TestUpdateGcpAvailabilityZonesIfChanged_Changed_CallsAPIAndUpdatesState(t *
 	state := &gcpEnvironmentResourceModel{
 		AvailabilityZones: []types.String{types.StringValue("us-central1-a"), types.StringValue("us-central1-b")},
 	}
-	resp := &resource.UpdateResponse{}
 
-	mockClient.On("UpdateGcpAvailabilityZonesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateGcpAvailabilityZonesParams) bool {
+	f.mockClient.On("UpdateGcpAvailabilityZonesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateGcpAvailabilityZonesParams) bool {
 		return params.Input != nil &&
 			*params.Input.Environment == testEnvName &&
 			len(params.Input.AvailabilityZones) == 3
 	}), mock.Anything).Return(&operations.UpdateGcpAvailabilityZonesOK{}, nil)
 
-	result := updateGcpAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpAvailabilityZonesIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	assert.Equal(t, plan.AvailabilityZones, state.AvailabilityZones)
-	mockClient.AssertExpectations(t)
+	f.mockClient.AssertExpectations(t)
 }
 
 func TestUpdateGcpAvailabilityZonesIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	zones := []types.String{types.StringValue("us-central1-a"), types.StringValue("us-central1-b")}
 	plan := &gcpEnvironmentResourceModel{
 		AvailabilityZones: zones,
@@ -484,19 +432,15 @@ func TestUpdateGcpAvailabilityZonesIfChanged_Unchanged_SkipsAPICall(t *testing.T
 	state := &gcpEnvironmentResourceModel{
 		AvailabilityZones: zones,
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpAvailabilityZonesIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateGcpAvailabilityZonesIfChanged_NilPlan_SkipsAPICall(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		AvailabilityZones: nil,
 		EnvironmentName:   types.StringValue(testEnvName),
@@ -504,19 +448,15 @@ func TestUpdateGcpAvailabilityZonesIfChanged_NilPlan_SkipsAPICall(t *testing.T) 
 	state := &gcpEnvironmentResourceModel{
 		AvailabilityZones: []types.String{types.StringValue("us-central1-a")},
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpAvailabilityZonesIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateGcpAvailabilityZonesIfChanged_EmptyPlan_AddsValidationError(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		AvailabilityZones: []types.String{},
 		EnvironmentName:   types.StringValue(testEnvName),
@@ -524,19 +464,15 @@ func TestUpdateGcpAvailabilityZonesIfChanged_EmptyPlan_AddsValidationError(t *te
 	state := &gcpEnvironmentResourceModel{
 		AvailabilityZones: []types.String{types.StringValue("us-central1-a")},
 	}
-	resp := &resource.UpdateResponse{}
 
-	result := updateGcpAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpAvailabilityZonesIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.True(t, result.Diagnostics.HasError())
-	mockClient.AssertNotCalled(t, "UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+	f.mockClient.AssertNotCalled(t, "UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 func TestUpdateGcpAvailabilityZonesIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
-	ctx := context.TODO()
-	mockClient := mocks.NewMockEnvironmentClientService(t)
-	client := NewMockEnvironments(mockClient)
-
+	f := setupGcpUpdateTest(t)
 	plan := &gcpEnvironmentResourceModel{
 		AvailabilityZones: []types.String{types.StringValue("us-central1-a"), types.StringValue("us-central1-b")},
 		EnvironmentName:   types.StringValue(testEnvName),
@@ -544,13 +480,100 @@ func TestUpdateGcpAvailabilityZonesIfChanged_APIError_AddsDiagnosticError(t *tes
 	state := &gcpEnvironmentResourceModel{
 		AvailabilityZones: []types.String{types.StringValue("us-central1-a")},
 	}
-	resp := &resource.UpdateResponse{}
 
-	mockClient.On("UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything).
+	f.mockClient.On("UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything).
 		Return((*operations.UpdateGcpAvailabilityZonesOK)(nil), errors.New(testServiceUnavailable))
 
-	result := updateGcpAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+	result := updateGcpAvailabilityZonesIfChanged(f.ctx, plan, state, f.client, f.resp)
 
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, []types.String{types.StringValue("us-central1-a")}, state.AvailabilityZones)
+}
+
+// Tests for updateGcpTelemetryFeaturesIfChanged
+
+func TestUpdateGcpTelemetryFeaturesIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
+	f := setupGcpUpdateTest(t)
+	plan := &gcpEnvironmentResourceModel{
+		WorkloadAnalytics: types.BoolValue(true),
+		EnvironmentName:   types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		WorkloadAnalytics: types.BoolValue(false),
+	}
+
+	f.mockClient.On("SetTelemetryFeaturesContext", mock.Anything, mock.MatchedBy(func(params *operations.SetTelemetryFeaturesParams) bool {
+		return params.Input != nil &&
+			*params.Input.EnvironmentName == testEnvName &&
+			params.Input.WorkloadAnalytics == true
+	}), mock.Anything).Return(&operations.SetTelemetryFeaturesOK{}, nil)
+
+	result := updateGcpTelemetryFeaturesIfChanged(f.ctx, plan, state, f.client, f.resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.BoolValue(true), state.WorkloadAnalytics)
+	f.mockClient.AssertExpectations(t)
+}
+
+func TestUpdateGcpTelemetryFeaturesIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	f := setupGcpUpdateTest(t)
+	plan := &gcpEnvironmentResourceModel{
+		WorkloadAnalytics: types.BoolValue(true),
+		EnvironmentName:   types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		WorkloadAnalytics: types.BoolValue(true),
+	}
+
+	result := updateGcpTelemetryFeaturesIfChanged(f.ctx, plan, state, f.client, f.resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	f.mockClient.AssertNotCalled(t, "SetTelemetryFeaturesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateGcpTelemetryFeaturesIfChanged_NullOrUnknownPlan_SkipsAPICall(t *testing.T) {
+	tests := []struct {
+		name      string
+		planValue types.Bool
+	}{
+		{"null", types.BoolNull()},
+		{"unknown", types.BoolUnknown()},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			f := setupGcpUpdateTest(t)
+			plan := &gcpEnvironmentResourceModel{
+				WorkloadAnalytics: tt.planValue,
+				EnvironmentName:   types.StringValue(testEnvName),
+			}
+			state := &gcpEnvironmentResourceModel{
+				WorkloadAnalytics: types.BoolValue(true),
+			}
+
+			result := updateGcpTelemetryFeaturesIfChanged(f.ctx, plan, state, f.client, f.resp)
+
+			assert.False(t, result.Diagnostics.HasError())
+			f.mockClient.AssertNotCalled(t, "SetTelemetryFeaturesContext", mock.Anything, mock.Anything, mock.Anything)
+		})
+	}
+}
+
+func TestUpdateGcpTelemetryFeaturesIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
+	f := setupGcpUpdateTest(t)
+	plan := &gcpEnvironmentResourceModel{
+		WorkloadAnalytics: types.BoolValue(false),
+		EnvironmentName:   types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		WorkloadAnalytics: types.BoolValue(true),
+	}
+
+	f.mockClient.On("SetTelemetryFeaturesContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.SetTelemetryFeaturesOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateGcpTelemetryFeaturesIfChanged(f.ctx, plan, state, f.client, f.resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, types.BoolValue(true), state.WorkloadAnalytics)
 }
