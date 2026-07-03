@@ -327,15 +327,6 @@ var AzureEnvironmentSchema = schema.Schema{
 			Description:         "The region of the environment.",
 			Required:            true,
 		},
-		"report_deployment_logs": schema.BoolAttribute{
-			// report_deployment_logs is a deprecated field and should not be used
-			MarkdownDescription: " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
-			Computed:            true,
-			Default:             booldefault.StaticBool(false),
-			PlanModifiers: []planmodifier.Bool{
-				boolplanmodifier.UseStateForUnknown(),
-			},
-		},
 		"resource_group_name": schema.StringAttribute{
 			MarkdownDescription: "Name of an existing Azure resource group to be used for the environment. If it is not specified then new resource groups will be generated.",
 			Description:         "Name of an existing Azure resource group to be used for the environment. If it is not specified then new resource groups will be generated.",

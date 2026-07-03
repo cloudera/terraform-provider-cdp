@@ -53,8 +53,6 @@ type awsEnvironmentResourceModel struct {
 
 	Region types.String `tfsdk:"region"`
 
-	ReportDeploymentLogs types.Bool `tfsdk:"report_deployment_logs"`
-
 	S3GuardTableName types.String `tfsdk:"s3_guard_table_name"`
 
 	SecurityAccess *SecurityAccess `tfsdk:"security_access"`

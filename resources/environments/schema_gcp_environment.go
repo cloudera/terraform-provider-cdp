@@ -218,16 +218,6 @@ var GcpEnvironmentSchema = schema.Schema{
 				boolplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"report_deployment_logs": schema.BoolAttribute{
-			// report_deployment_logs is a deprecated field and should not be used
-			MarkdownDescription: " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
-			Description:         " [Deprecated] When true, this will report additional diagnostic information back to Cloudera.",
-			Computed:            true,
-			Default:             booldefault.StaticBool(false),
-			PlanModifiers: []planmodifier.Bool{
-				boolplanmodifier.UseStateForUnknown(),
-			},
-		},
 		"freeipa": FreeIpaSchema,
 		"endpoint_access_gateway_scheme": schema.StringAttribute{
 			MarkdownDescription: "The scheme for the endpoint gateway. PUBLIC creates an external endpoint that can be accessed over the Internet. Defaults to PRIVATE which restricts the traffic to be internal to the VPC.",

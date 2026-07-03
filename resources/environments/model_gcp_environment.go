@@ -43,8 +43,6 @@ type gcpEnvironmentResourceModel struct {
 
 	WorkloadAnalytics types.Bool `tfsdk:"workload_analytics"`
 
-	ReportDeploymentLogs types.Bool `tfsdk:"report_deployment_logs"`
-
 	FreeIpa types.Object `tfsdk:"freeipa"`
 
 	EndpointAccessGatewayScheme types.String `tfsdk:"endpoint_access_gateway_scheme"`

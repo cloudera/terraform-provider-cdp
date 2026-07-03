@@ -131,9 +131,6 @@ var awsSchema = schema.SingleNestedAttribute{
 		"region": schema.StringAttribute{
 			Computed: true,
 		},
-		"report_deployment_logs": schema.BoolAttribute{
-			Computed: true,
-		},
 		"proxy_config_name": schema.StringAttribute{
 			Computed: true,
 		},
@@ -326,9 +323,6 @@ var azureSchema = schema.SingleNestedAttribute{
 		"region": schema.StringAttribute{
 			Computed: true,
 		},
-		"report_deployment_logs": schema.BoolAttribute{
-			Computed: true,
-		},
 		"resource_group_name": schema.StringAttribute{
 			Computed: true,
 		},
@@ -481,9 +475,6 @@ var gcpSchema = schema.SingleNestedAttribute{
 			Computed: true,
 		},
 		"workload_analytics": schema.BoolAttribute{
-			Computed: true,
-		},
-		"report_deployment_logs": schema.BoolAttribute{
 			Computed: true,
 		},
 		"freeipa": freeIpaConfigSchema,
