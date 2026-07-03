@@ -220,6 +220,26 @@ func updateEndpointAccessGatewayIfChanged(ctx context.Context, client *environme
 	return resp
 }
 
+func updateTelemetryFeaturesIfChanged(ctx context.Context, client *environmentsclient.Environments, planWorkloadAnalytics types.Bool, stateWorkloadAnalytics *types.Bool, env *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if planWorkloadAnalytics.IsNull() || planWorkloadAnalytics.IsUnknown() {
+		return resp
+	}
+	if reflect.DeepEqual(planWorkloadAnalytics, *stateWorkloadAnalytics) {
+		return resp
+	}
+	params := operations.NewSetTelemetryFeaturesParams().WithInput(&environmentsmodels.SetTelemetryFeaturesRequest{
+		EnvironmentName:   env,
+		WorkloadAnalytics: planWorkloadAnalytics.ValueBool(),
+	})
+	tflog.Info(ctx, fmt.Sprintf("Updating telemetry features for environment '%s'", *env))
+	if _, err := client.Operations.SetTelemetryFeaturesContext(ctx, params); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update telemetry features")
+		return resp
+	}
+	*stateWorkloadAnalytics = planWorkloadAnalytics
+	return resp
+}
+
 func waitForOperationToComplete(ctx context.Context, environmentName string, operationID string, client *environmentsclient.Environments, pollingOptions *utils.PollingOptions) error {
 	timeout, err := utils.CalculateTimeoutOrDefault(ctx, pollingOptions, timeoutOneHour)
 	if err != nil {
