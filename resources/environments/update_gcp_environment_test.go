@@ -441,3 +441,116 @@ func TestUpdateGcpSecurityAccessIfChanged_APIError_AddsDiagnostic(t *testing.T) 
 	assert.Equal(t, types.StringValue(testOldDefaultSG), state.SecurityAccess.DefaultSecurityGroupId)
 	assert.Equal(t, types.StringValue(testOldKnoxSG), state.SecurityAccess.SecurityGroupIdForKnox)
 }
+
+// Tests for updateGcpAvailabilityZonesIfChanged
+
+func TestUpdateGcpAvailabilityZonesIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &gcpEnvironmentResourceModel{
+		AvailabilityZones: []types.String{types.StringValue("us-central1-a"), types.StringValue("us-central1-b"), types.StringValue("us-central1-c")},
+		EnvironmentName:   types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		AvailabilityZones: []types.String{types.StringValue("us-central1-a"), types.StringValue("us-central1-b")},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateGcpAvailabilityZonesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateGcpAvailabilityZonesParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			len(params.Input.AvailabilityZones) == 3
+	}), mock.Anything).Return(&operations.UpdateGcpAvailabilityZonesOK{}, nil)
+
+	result := updateGcpAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, plan.AvailabilityZones, state.AvailabilityZones)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateGcpAvailabilityZonesIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	zones := []types.String{types.StringValue("us-central1-a"), types.StringValue("us-central1-b")}
+	plan := &gcpEnvironmentResourceModel{
+		AvailabilityZones: zones,
+		EnvironmentName:   types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		AvailabilityZones: zones,
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateGcpAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateGcpAvailabilityZonesIfChanged_NilPlan_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &gcpEnvironmentResourceModel{
+		AvailabilityZones: nil,
+		EnvironmentName:   types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		AvailabilityZones: []types.String{types.StringValue("us-central1-a")},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateGcpAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateGcpAvailabilityZonesIfChanged_EmptyPlan_AddsValidationError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &gcpEnvironmentResourceModel{
+		AvailabilityZones: []types.String{},
+		EnvironmentName:   types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		AvailabilityZones: []types.String{types.StringValue("us-central1-a")},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateGcpAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateGcpAvailabilityZonesIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &gcpEnvironmentResourceModel{
+		AvailabilityZones: []types.String{types.StringValue("us-central1-a"), types.StringValue("us-central1-b")},
+		EnvironmentName:   types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		AvailabilityZones: []types.String{types.StringValue("us-central1-a")},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateGcpAvailabilityZonesContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateGcpAvailabilityZonesOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateGcpAvailabilityZonesIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, []types.String{types.StringValue("us-central1-a")}, state.AvailabilityZones)
+}

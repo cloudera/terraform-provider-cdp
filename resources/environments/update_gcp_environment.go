@@ -12,10 +12,16 @@ package environments
 
 import (
 	"context"
+	"fmt"
+	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	environmentsclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 func updateGcpEnvironment(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
@@ -23,6 +29,7 @@ func updateGcpEnvironment(ctx context.Context, plan *gcpEnvironmentResourceModel
 		updateGcpEndpointAccessGatewayIfChanged,
 		updateGcpCustomDockerRegistryIfChanged,
 		updateGcpProxyConfigurationIfChanged,
+		updateGcpAvailabilityZonesIfChanged,
 		updateGcpSecurityAccessIfChanged,
 		updateGcpCredentialIfChanged,
 		updateGcpCatalogIfChanged,
@@ -64,4 +71,28 @@ func updateGcpSecurityAccessIfChanged(ctx context.Context, plan *gcpEnvironmentR
 
 func updateGcpCustomDockerRegistryIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateGcpAvailabilityZonesIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan.AvailabilityZones == nil || reflect.DeepEqual(plan.AvailabilityZones, state.AvailabilityZones) {
+		return resp
+	}
+	if len(plan.AvailabilityZones) == 0 {
+		resp.Diagnostics.AddError("Invalid availability zone setup", "availability_zones must be a non-empty, known value.")
+		return resp
+	}
+	tflog.Info(ctx, fmt.Sprintf("Updating GCP availability zones for environment '%s'", plan.EnvironmentName.ValueString()))
+	request := environmentsmodels.UpdateGcpAvailabilityZonesRequest{
+		AvailabilityZones: utils.FromTfStringSliceToStringSlice(plan.AvailabilityZones),
+		Environment:       plan.EnvironmentName.ValueStringPointer(),
+	}
+	params := operations.NewUpdateGcpAvailabilityZonesParams()
+	params.WithInput(&request)
+	_, err := client.Operations.UpdateGcpAvailabilityZonesContext(ctx, params)
+	if err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update GCP availability zones")
+	} else {
+		state.AvailabilityZones = plan.AvailabilityZones
+	}
+	return resp
 }
