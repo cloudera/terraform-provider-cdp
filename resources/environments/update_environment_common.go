@@ -60,6 +60,24 @@ func executeUpdateOperations[T any](ctx context.Context, plan *T, state *T, clie
 	return resp
 }
 
+func updateSubnetIfChanged(ctx context.Context, client *environmentsclient.Environments, planSubnets types.Set, stateSubnets *types.Set, environmentName *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if reflect.DeepEqual(planSubnets, *stateSubnets) {
+		return resp
+	}
+	tflog.Info(ctx, fmt.Sprintf("Updating subnets for environment '%s'", *environmentName))
+	params := operations.NewUpdateSubnetParams()
+	params.WithInput(&environmentsmodels.UpdateSubnetRequest{
+		Environment: environmentName,
+		SubnetIds:   utils.FromSetValueToStringList(planSubnets),
+	})
+	if _, err := client.Operations.UpdateSubnetContext(ctx, params); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update subnet")
+	} else {
+		*stateSubnets = planSubnets
+	}
+	return resp
+}
+
 func updateSshKeyIfChanged(ctx context.Context, client *environmentsclient.Environments, planKey types.String, stateKey *types.String, envName *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if planKey.IsNull() || planKey.IsUnknown() {
 		return resp

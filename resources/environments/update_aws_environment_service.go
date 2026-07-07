@@ -28,6 +28,7 @@ import (
 
 func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return executeUpdateOperations(ctx, plan, state, client, resp,
+		updateAwsSubnetIfChanged,
 		updateAwsEndpointAccessGatewayIfChanged,
 		updateAwsCustomDockerRegistryIfChanged,
 		updateAwsProxyConfigurationIfChanged,
@@ -38,6 +39,10 @@ func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel
 		updateAwsCredentialIfChanged,
 		updateAwsCatalogIfChanged,
 	)
+}
+
+func updateAwsSubnetIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateSubnetIfChanged(ctx, client, plan.SubnetIds, &state.SubnetIds, plan.EnvironmentName.ValueStringPointer(), resp)
 }
 
 func updateAwsComputeClusterIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {

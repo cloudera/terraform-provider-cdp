@@ -916,3 +916,57 @@ func TestUpdateSecurityAccessIfChanged_NullOrUnknownPlan_SkipsAPICall(t *testing
 		})
 	}
 }
+
+// Tests for updateSubnetIfChanged
+
+func TestUpdateSubnetIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	planSubnets := utils.ToSetValueFromStringList([]string{testSubnet1, testSubnet2})
+	stateSubnets := utils.ToSetValueFromStringList([]string{testSubnet1})
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSubnetContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSubnetParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			len(params.Input.SubnetIds) == 2
+	}), mock.Anything).Return(&operations.UpdateSubnetOK{}, nil)
+
+	result := updateSubnetIfChanged(ctx, client, planSubnets, &stateSubnets, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, planSubnets, stateSubnets)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateSubnetIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	subnets := utils.ToSetValueFromStringList([]string{testSubnet1, testSubnet2})
+	stateSubnets := utils.ToSetValueFromStringList([]string{testSubnet1, testSubnet2})
+	resp := &resource.UpdateResponse{}
+
+	result := updateSubnetIfChanged(ctx, client, subnets, &stateSubnets, new(testEnvName), resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateSubnetContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateSubnetIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+	planSubnets := utils.ToSetValueFromStringList([]string{testSubnet1, testSubnet2})
+	stateSubnets := utils.ToSetValueFromStringList([]string{testSubnet1})
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSubnetContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateSubnetOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateSubnetIfChanged(ctx, client, planSubnets, &stateSubnets, new(testEnvName), resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, utils.ToSetValueFromStringList([]string{testSubnet1}), stateSubnets)
+}

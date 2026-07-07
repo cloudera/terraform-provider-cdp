@@ -33,6 +33,7 @@ func updateGcpEnvironment(ctx context.Context, plan *gcpEnvironmentResourceModel
 		updateGcpTelemetryFeaturesIfChanged,
 		updateGcpSecurityAccessIfChanged,
 		updateGcpCredentialIfChanged,
+		updateGcpSubnetIfChanged,
 		updateGcpCatalogIfChanged,
 		updateGcpSshKeyIfChanged,
 	)
@@ -72,6 +73,24 @@ func updateGcpSecurityAccessIfChanged(ctx context.Context, plan *gcpEnvironmentR
 
 func updateGcpCustomDockerRegistryIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return updateCustomDockerRegistryIfChanged(ctx, client, state.CustomDockerRegistry, plan.CustomDockerRegistry, plan.EnvironmentName.ValueStringPointer(), resp)
+}
+
+func updateGcpSubnetIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan.ExistingNetworkParams == nil || reflect.DeepEqual(plan.ExistingNetworkParams.SubnetNames, state.ExistingNetworkParams.SubnetNames) {
+		return resp
+	}
+	tflog.Info(ctx, fmt.Sprintf("Updating subnets for environment '%s'", plan.EnvironmentName.ValueString()))
+	params := operations.NewUpdateSubnetParams()
+	params.WithInput(&environmentsmodels.UpdateSubnetRequest{
+		Environment: plan.EnvironmentName.ValueStringPointer(),
+		SubnetIds:   utils.FromListValueToStringList(plan.ExistingNetworkParams.SubnetNames),
+	})
+	if _, err := client.Operations.UpdateSubnetContext(ctx, params); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update subnet")
+	} else {
+		state.ExistingNetworkParams.SubnetNames = plan.ExistingNetworkParams.SubnetNames
+	}
+	return resp
 }
 
 func updateGcpTelemetryFeaturesIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
