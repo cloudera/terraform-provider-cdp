@@ -15,6 +15,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
@@ -576,4 +577,113 @@ func TestUpdateGcpTelemetryFeaturesIfChanged_APIError_AddsDiagnosticError(t *tes
 
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, types.BoolValue(true), state.WorkloadAnalytics)
+}
+
+// Tests for updateGcpSubnetIfChanged
+
+func toSubnetNameList(names []string) types.List {
+	elems := make([]attr.Value, len(names))
+	for i, n := range names {
+		elems[i] = types.StringValue(n)
+	}
+	list, _ := types.ListValue(types.StringType, elems)
+	return list
+}
+
+func TestUpdateGcpSubnetIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planSubnets := toSubnetNameList([]string{"subnet-a", "subnet-b", "subnet-c"})
+	stateSubnets := toSubnetNameList([]string{"subnet-a", "subnet-b"})
+
+	plan := &gcpEnvironmentResourceModel{
+		ExistingNetworkParams: &ExistingNetworkParams{SubnetNames: planSubnets},
+		EnvironmentName:       types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		ExistingNetworkParams: &ExistingNetworkParams{SubnetNames: stateSubnets},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSubnetContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSubnetParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			len(params.Input.SubnetIds) == 3
+	}), mock.Anything).Return(&operations.UpdateSubnetOK{}, nil)
+
+	result := updateGcpSubnetIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, planSubnets, state.ExistingNetworkParams.SubnetNames)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateGcpSubnetIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	subnets := toSubnetNameList([]string{"subnet-a", "subnet-b"})
+
+	plan := &gcpEnvironmentResourceModel{
+		ExistingNetworkParams: &ExistingNetworkParams{SubnetNames: subnets},
+		EnvironmentName:       types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		ExistingNetworkParams: &ExistingNetworkParams{SubnetNames: subnets},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateGcpSubnetIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateSubnetContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateGcpSubnetIfChanged_NilExistingNetworkParams_SkipsAPICall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	plan := &gcpEnvironmentResourceModel{
+		ExistingNetworkParams: nil,
+		EnvironmentName:       types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		ExistingNetworkParams: &ExistingNetworkParams{SubnetNames: toSubnetNameList([]string{"subnet-a"})},
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateGcpSubnetIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateSubnetContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateGcpSubnetIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planSubnets := toSubnetNameList([]string{"subnet-a", "subnet-b"})
+	stateSubnets := toSubnetNameList([]string{"subnet-a"})
+
+	plan := &gcpEnvironmentResourceModel{
+		ExistingNetworkParams: &ExistingNetworkParams{SubnetNames: planSubnets},
+		EnvironmentName:       types.StringValue(testEnvName),
+	}
+	state := &gcpEnvironmentResourceModel{
+		ExistingNetworkParams: &ExistingNetworkParams{SubnetNames: stateSubnets},
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSubnetContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateSubnetOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateGcpSubnetIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, stateSubnets, state.ExistingNetworkParams.SubnetNames)
 }

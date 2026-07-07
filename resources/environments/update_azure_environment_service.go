@@ -28,6 +28,7 @@ import (
 
 func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return executeUpdateOperations(ctx, plan, state, client, resp,
+		updateAzureSubnetIfChanged,
 		updateAzureEndpointAccessGatewayIfChanged,
 		updateAzureCustomDockerRegistryIfChanged,
 		updateAzureProxyConfigurationIfChanged,
@@ -40,6 +41,33 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 		updateAzureCatalogIfChanged,
 		updateAzureSshKeyIfChanged,
 	)
+}
+
+func updateAzureSubnetIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if plan.ExistingNetworkParams.IsNull() || plan.ExistingNetworkParams.IsUnknown() {
+		return resp
+	}
+	var planNetwork, stateNetwork existingAzureNetwork
+	resp.Diagnostics.Append(plan.ExistingNetworkParams.As(ctx, &planNetwork, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
+	resp.Diagnostics.Append(state.ExistingNetworkParams.As(ctx, &stateNetwork, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+	if reflect.DeepEqual(planNetwork.SubnetIds, stateNetwork.SubnetIds) {
+		return resp
+	}
+	tflog.Info(ctx, fmt.Sprintf("Updating subnets for environment '%s'", plan.EnvironmentName.ValueString()))
+	params := operations.NewUpdateSubnetParams()
+	params.WithInput(&environmentsmodels.UpdateSubnetRequest{
+		Environment: plan.EnvironmentName.ValueStringPointer(),
+		SubnetIds:   utils.FromSetValueToStringList(planNetwork.SubnetIds),
+	})
+	if _, err := client.Operations.UpdateSubnetContext(ctx, params); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update subnet")
+	} else {
+		state.ExistingNetworkParams = plan.ExistingNetworkParams
+	}
+	return resp
 }
 
 func updateAzureCredentialIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
