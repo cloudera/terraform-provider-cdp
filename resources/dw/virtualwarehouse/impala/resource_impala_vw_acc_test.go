@@ -48,7 +48,7 @@ type impalaTestParameters struct {
 	NumOfActiveCoordinators          int
 	EnableCatalogHighAvailability    bool
 	EnableStatestoreHighAvailability bool
-	MaxQueries int
+	MaxQueries                       int
 	MaxNodesPerQuery                 int
 	InstanceType                     string
 	AvailabilityZone                 string

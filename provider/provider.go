@@ -35,6 +35,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/hive"
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/impala"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/auditcredential"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
 	"github.com/cloudera/terraform-provider-cdp/resources/recipe"
@@ -228,14 +229,18 @@ func getCdpConfig(ctx context.Context, data *CdpProviderModel, version string, t
 func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		environments.NewAwsCredentialResource,
+		auditcredential.NewAwsAuditCredentialResource,
+		auditcredential.NewAwsGovCloudAuditCredentialResource,
 		environments.NewAwsEnvironmentResource,
 		environments.NewIDBrokerMappingsResource,
 		environments.NewUserSyncResource,
 		environments.NewAzureCredentialResource,
+		auditcredential.NewAzureAuditCredentialResource,
 		environments.NewAzureEnvironmentResource,
 		environments.NewAzureImageTermsResource,
 		environments.NewGcpEnvironmentResource,
 		environments.NewGcpCredentialResource,
+		auditcredential.NewGcpAuditCredentialResource,
 		environments.NewProxyConfigurationResource,
 		datalake.NewAwsDatalakeResource,
 		datalake.NewAzureDatalakeResource,
