@@ -47,6 +47,8 @@ checksum:
 release:
   # If set to true, will not auto-publish the release.
   draft: false
+  # Use GitHub's auto-generated release notes (includes contributors section).
+  generate_release_notes: true
   # Whether to remove existing draft releases with the same name before creating
   # a new one.
   replace_existing_draft: true
@@ -70,6 +72,10 @@ signs:
       - "${signature}"
       - "--detach-sign"
       - "${artifact}"
+changelog:
+  # Disable GoReleaser's changelog; GitHub's auto-generated release notes
+  # (via generate_release_notes) include commit authors and contributors.
+  disable: true
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
 

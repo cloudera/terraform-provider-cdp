@@ -117,7 +117,7 @@ jobs:
           coverage-threshold: 40.0
           cover-pkg: ./...
           ignore-pattern: |
-            /cdp-sdk-go/ 
+            /cdp-sdk-go/
             /generated/
             /main.go$
             /testdata/

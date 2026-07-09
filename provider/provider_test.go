@@ -35,6 +35,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/hive"
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/impala"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/auditcredential"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
 	"github.com/cloudera/terraform-provider-cdp/resources/recipe"
@@ -614,13 +615,17 @@ func TestGetOrDefaultBoolFromEnvWhenValuePresentInEnvButNotFirst(t *testing.T) {
 func TestCdpProvider_Resources(t *testing.T) {
 	expectedResources := []func() resource.Resource{
 		environments.NewAwsCredentialResource,
+		auditcredential.NewAwsAuditCredentialResource,
+		auditcredential.NewAwsGovCloudAuditCredentialResource,
 		environments.NewAwsEnvironmentResource,
 		environments.NewIDBrokerMappingsResource,
 		environments.NewUserSyncResource,
 		environments.NewAzureCredentialResource,
+		auditcredential.NewAzureAuditCredentialResource,
 		environments.NewAzureEnvironmentResource,
 		environments.NewGcpEnvironmentResource,
 		environments.NewGcpCredentialResource,
+		auditcredential.NewGcpAuditCredentialResource,
 		environments.NewProxyConfigurationResource,
 		environments.NewAzureImageTermsResource,
 		datalake.NewAwsDatalakeResource,
