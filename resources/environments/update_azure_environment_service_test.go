@@ -16,6 +16,7 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
@@ -920,6 +921,354 @@ func TestUpdateAzureDataServicesIfChanged_AksPrivateDnsZoneIdNullWithStateNil_Ca
 
 	assert.False(t, result.Diagnostics.HasError())
 	mockClient.AssertExpectations(t)
+}
+
+// Tests for updateAzureNetworkParamsIfChanged
+
+func buildExistingNetworkParamsObject(ctx context.Context, network existingAzureNetwork) types.Object {
+	obj, _ := types.ObjectValueFrom(ctx, map[string]attr.Type{
+		"aks_private_dns_zone_id":      types.StringType,
+		"database_private_dns_zone_id": types.StringType,
+		"network_id":                   types.StringType,
+		"resource_group_name":          types.StringType,
+		"subnet_ids":                   types.SetType{ElemType: types.StringType},
+		"flexible_server_subnet_ids":   types.SetType{ElemType: types.StringType},
+	}, &network)
+	return obj
+}
+
+func TestUpdateAzureNetworkParamsIfChanged_SubnetChanged_CallsSubnetAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a", "subnet-b"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet"}),
+	}
+	stateNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet"}),
+	}
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:         types.StringValue(testEnvName),
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, planNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet"}),
+	}
+	state := &azureEnvironmentResourceModel{
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, stateNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet"}),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSubnetContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateSubnetParams) bool {
+		return params.Input != nil && *params.Input.Environment == testEnvName && len(params.Input.SubnetIds) == 2
+	}), mock.Anything).Return(&operations.UpdateSubnetOK{}, nil)
+
+	result := updateAzureNetworkParamsIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, plan.ExistingNetworkParams, state.ExistingNetworkParams)
+	mockClient.AssertExpectations(t)
+	mockClient.AssertNotCalled(t, "UpdateAzureDatabaseResourcesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureNetworkParamsIfChanged_DatabaseResourcesChanged_CallsDatabaseAPI(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("new-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet-new"}),
+	}
+	stateNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("old-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet-old"}),
+	}
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:         types.StringValue(testEnvName),
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, planNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet-new"}),
+	}
+	state := &azureEnvironmentResourceModel{
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, stateNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet-old"}),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateAzureDatabaseResourcesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateAzureDatabaseResourcesParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			params.Input.DatabasePrivateDNSZoneID == "new-dns-zone-id" &&
+			len(params.Input.FlexibleServerSubnetIds) == 1 &&
+			params.Input.FlexibleServerSubnetIds[0] == "flex-subnet-new"
+	}), mock.Anything).Return(&operations.UpdateAzureDatabaseResourcesOK{}, nil)
+
+	result := updateAzureNetworkParamsIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, plan.FlexibleServerSubnetIds, state.FlexibleServerSubnetIds)
+	assert.Equal(t, plan.ExistingNetworkParams, state.ExistingNetworkParams)
+	mockClient.AssertExpectations(t)
+	mockClient.AssertNotCalled(t, "UpdateSubnetContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureNetworkParamsIfChanged_SubnetAndDatabaseBothChanged_CallsBothAPIs(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("new-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a", "subnet-b"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet-new"}),
+	}
+	stateNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("old-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet-old"}),
+	}
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:         types.StringValue(testEnvName),
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, planNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet-new"}),
+	}
+	state := &azureEnvironmentResourceModel{
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, stateNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet-old"}),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSubnetContext", mock.Anything, mock.Anything, mock.Anything).
+		Return(&operations.UpdateSubnetOK{}, nil)
+	mockClient.On("UpdateAzureDatabaseResourcesContext", mock.Anything, mock.Anything, mock.Anything).
+		Return(&operations.UpdateAzureDatabaseResourcesOK{}, nil)
+
+	result := updateAzureNetworkParamsIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, plan.ExistingNetworkParams, state.ExistingNetworkParams)
+	assert.Equal(t, plan.FlexibleServerSubnetIds, state.FlexibleServerSubnetIds)
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureNetworkParamsIfChanged_Unchanged_SkipsAllAPICalls(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	network := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet"}),
+	}
+	networkObj := buildExistingNetworkParamsObject(ctx, network)
+	flexSubnets := utils.ToSetValueFromStringList([]string{"flex-subnet"})
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:         types.StringValue(testEnvName),
+		ExistingNetworkParams:   networkObj,
+		FlexibleServerSubnetIds: flexSubnets,
+	}
+	state := &azureEnvironmentResourceModel{
+		ExistingNetworkParams:   networkObj,
+		FlexibleServerSubnetIds: flexSubnets,
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureNetworkParamsIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateSubnetContext", mock.Anything, mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "UpdateAzureDatabaseResourcesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureNetworkParamsIfChanged_DnsZoneRemoval_ReturnsError(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringNull(),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet"}),
+	}
+	stateNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("old-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet"}),
+	}
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:         types.StringValue(testEnvName),
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, planNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet"}),
+	}
+	state := &azureEnvironmentResourceModel{
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, stateNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet"}),
+	}
+	resp := &resource.UpdateResponse{}
+
+	result := updateAzureNetworkParamsIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Contains(t, result.Diagnostics.Errors()[0].Detail(), "database_private_dns_zone_id cannot be unset")
+	mockClient.AssertNotCalled(t, "UpdateAzureDatabaseResourcesContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateAzureNetworkParamsIfChanged_DatabaseAPIError_PreservesState(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("new-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet-new"}),
+	}
+	stateNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("old-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet-old"}),
+	}
+	origStateNetworkObj := buildExistingNetworkParamsObject(ctx, stateNetwork)
+	origFlexSubnets := utils.ToSetValueFromStringList([]string{"flex-subnet-old"})
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:         types.StringValue(testEnvName),
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, planNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet-new"}),
+	}
+	state := &azureEnvironmentResourceModel{
+		ExistingNetworkParams:   origStateNetworkObj,
+		FlexibleServerSubnetIds: origFlexSubnets,
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateAzureDatabaseResourcesContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateAzureDatabaseResourcesOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateAzureNetworkParamsIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, origFlexSubnets, state.FlexibleServerSubnetIds)
+	assert.Equal(t, origStateNetworkObj, state.ExistingNetworkParams)
+}
+
+func TestUpdateAzureNetworkParamsIfChanged_TopLevelFlexNull_FallsBackToNested(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("new-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet-nested"}),
+	}
+	stateNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("old-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet-nested"}),
+	}
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:         types.StringValue(testEnvName),
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, planNetwork),
+		FlexibleServerSubnetIds: types.SetNull(types.StringType),
+	}
+	state := &azureEnvironmentResourceModel{
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, stateNetwork),
+		FlexibleServerSubnetIds: types.SetNull(types.StringType),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateAzureDatabaseResourcesContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateAzureDatabaseResourcesParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			params.Input.DatabasePrivateDNSZoneID == "new-dns-zone-id" &&
+			len(params.Input.FlexibleServerSubnetIds) == 1 &&
+			params.Input.FlexibleServerSubnetIds[0] == "flex-subnet-nested"
+	}), mock.Anything).Return(&operations.UpdateAzureDatabaseResourcesOK{}, nil)
+
+	result := updateAzureNetworkParamsIfChanged(ctx, plan, state, client, resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+}
+
+func TestUpdateAzureNetworkParamsIfChanged_SubnetAPIError_StopsBeforeDatabaseCall(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := mocks.NewMockEnvironmentClientService(t)
+	client := NewMockEnvironments(mockClient)
+
+	planNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("new-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a", "subnet-b"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet-new"}),
+	}
+	stateNetwork := existingAzureNetwork{
+		DatabasePrivateDNSZoneID: types.StringValue("old-dns-zone-id"),
+		NetworkID:                types.StringValue("net-id"),
+		ResourceGroupName:        types.StringValue("rg"),
+		SubnetIds:                utils.ToSetValueFromStringList([]string{"subnet-a"}),
+		FlexibleServerSubnetIds:  utils.ToSetValueFromStringList([]string{"flex-subnet-old"}),
+	}
+
+	plan := &azureEnvironmentResourceModel{
+		EnvironmentName:         types.StringValue(testEnvName),
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, planNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet-new"}),
+	}
+	state := &azureEnvironmentResourceModel{
+		ExistingNetworkParams:   buildExistingNetworkParamsObject(ctx, stateNetwork),
+		FlexibleServerSubnetIds: utils.ToSetValueFromStringList([]string{"flex-subnet-old"}),
+	}
+	resp := &resource.UpdateResponse{}
+
+	mockClient.On("UpdateSubnetContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateSubnetOK)(nil), errors.New(testServiceUnavailable))
+
+	result := updateAzureNetworkParamsIfChanged(ctx, plan, state, client, resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "UpdateAzureDatabaseResourcesContext", mock.Anything, mock.Anything, mock.Anything)
 }
 
 // Tests for updateAzureCredentialIfChanged
