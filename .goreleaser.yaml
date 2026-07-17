@@ -73,9 +73,7 @@ signs:
       - "--detach-sign"
       - "${artifact}"
 changelog:
-  # Disable GoReleaser's changelog; GitHub's auto-generated release notes
-  # (via generate_release_notes) include commit authors and contributors.
-  disable: true
+  use: github-native
 snapshot:
   version_template: "{{ incpatch .Version }}-next"
 

@@ -28,7 +28,7 @@ import (
 
 func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return executeUpdateOperations(ctx, plan, state, client, resp,
-		updateAzureSubnetIfChanged,
+		updateAzureNetworkParamsIfChanged,
 		updateAzureEndpointAccessGatewayIfChanged,
 		updateAzureCustomDockerRegistryIfChanged,
 		updateAzureProxyConfigurationIfChanged,
@@ -43,7 +43,7 @@ func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceM
 	)
 }
 
-func updateAzureSubnetIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+func updateAzureNetworkParamsIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if plan.ExistingNetworkParams.IsNull() || plan.ExistingNetworkParams.IsUnknown() {
 		return resp
 	}
@@ -53,19 +53,46 @@ func updateAzureSubnetIfChanged(ctx context.Context, plan *azureEnvironmentResou
 	if resp.Diagnostics.HasError() {
 		return resp
 	}
-	if reflect.DeepEqual(planNetwork.SubnetIds, stateNetwork.SubnetIds) {
-		return resp
+
+	subnetChanged := !reflect.DeepEqual(planNetwork.SubnetIds, stateNetwork.SubnetIds)
+	planFlex := effectiveFlexibleServerSubnetIds(plan.FlexibleServerSubnetIds, planNetwork.FlexibleServerSubnetIds)
+	stateFlex := effectiveFlexibleServerSubnetIds(state.FlexibleServerSubnetIds, stateNetwork.FlexibleServerSubnetIds)
+	flexChanged := !reflect.DeepEqual(planFlex, stateFlex)
+	dnsChanged := !reflect.DeepEqual(planNetwork.DatabasePrivateDNSZoneID, stateNetwork.DatabasePrivateDNSZoneID)
+
+	if subnetChanged {
+		tflog.Info(ctx, fmt.Sprintf("Updating subnets for environment '%s'", plan.EnvironmentName.ValueString()))
+		params := operations.NewUpdateSubnetParams()
+		params.WithInput(&environmentsmodels.UpdateSubnetRequest{
+			Environment: plan.EnvironmentName.ValueStringPointer(),
+			SubnetIds:   utils.FromSetValueToStringList(planNetwork.SubnetIds),
+		})
+		if _, err := client.Operations.UpdateSubnetContext(ctx, params); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update subnet")
+			return resp
+		}
 	}
-	tflog.Info(ctx, fmt.Sprintf("Updating subnets for environment '%s'", plan.EnvironmentName.ValueString()))
-	params := operations.NewUpdateSubnetParams()
-	params.WithInput(&environmentsmodels.UpdateSubnetRequest{
-		Environment: plan.EnvironmentName.ValueStringPointer(),
-		SubnetIds:   utils.FromSetValueToStringList(planNetwork.SubnetIds),
-	})
-	if _, err := client.Operations.UpdateSubnetContext(ctx, params); err != nil {
-		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update subnet")
-	} else {
+
+	if flexChanged || dnsChanged {
+		if planNetwork.DatabasePrivateDNSZoneID.IsNull() && !stateNetwork.DatabasePrivateDNSZoneID.IsNull() {
+			resp.Diagnostics.AddError("update Azure database resources", "database_private_dns_zone_id cannot be unset via update; please keep the existing value or recreate the environment")
+			return resp
+		}
+		tflog.Info(ctx, fmt.Sprintf("Updating Azure database resources for environment '%s'", plan.EnvironmentName.ValueString()))
+		params := operations.NewUpdateAzureDatabaseResourcesParams().WithInput(&environmentsmodels.UpdateAzureDatabaseResourcesRequest{
+			Environment:              plan.EnvironmentName.ValueStringPointer(),
+			DatabasePrivateDNSZoneID: planNetwork.DatabasePrivateDNSZoneID.ValueString(),
+			FlexibleServerSubnetIds:  utils.FromSetValueToStringList(planFlex),
+		})
+		if _, err := client.Operations.UpdateAzureDatabaseResourcesContext(ctx, params); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update Azure database resources")
+			return resp
+		}
+	}
+
+	if subnetChanged || flexChanged || dnsChanged {
 		state.ExistingNetworkParams = plan.ExistingNetworkParams
+		state.FlexibleServerSubnetIds = plan.FlexibleServerSubnetIds
 	}
 	return resp
 }
@@ -155,7 +182,7 @@ func updateAzureComputeClusterIfChanged(ctx context.Context, plan *azureEnvironm
 	if state.ComputeCluster == nil && plan.ComputeCluster != nil && plan.ComputeCluster.Enabled.ValueBool() {
 		tflog.Info(ctx, fmt.Sprintf("Request for compute cluster enablement for environment '%s' is detected.", plan.EnvironmentName.ValueString()))
 		var existingNetwork existingAzureNetwork
-		diags := state.ExistingNetworkParams.As(ctx, &existingNetwork, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+		diags := plan.ExistingNetworkParams.As(ctx, &existingNetwork, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
 		if err := enableComputeClusterForAzure(ctx, plan.ComputeCluster.Configuration, plan.EnvironmentName.ValueString(), existingNetwork.SubnetIds, client); err != nil {
 			tflog.Warn(ctx, "Failed to enable compute cluster", map[string]interface{}{
 				"error": err.Error(),
@@ -248,6 +275,13 @@ func updateAzureDataServicesIfChanged(ctx context.Context, plan *azureEnvironmen
 	}
 	*state.DataServices = *plan.DataServices
 	return resp
+}
+
+func effectiveFlexibleServerSubnetIds(topLevel, nested types.Set) types.Set {
+	if !topLevel.IsNull() && !topLevel.IsUnknown() {
+		return topLevel
+	}
+	return nested
 }
 
 func convertConfigToAzureComputeClusterConfigurationRequest(config *AzureComputeClusterConfiguration, fallbackSubnetIds types.Set) *environmentsmodels.AzureComputeClusterConfigurationRequest {
