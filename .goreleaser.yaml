@@ -8,9 +8,11 @@
 # OF ANY KIND, either express or implied. Refer to the License for the specific
 # permissions and limitations governing your use of the file.
 
+version: 2
+
 # Terraform recommendations from: https://developer.hashicorp.com/terraform/registry/providers/os-arch
 archives:
-  - format: zip
+  - formats: [zip]
     name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
 before:
   hooks:
@@ -47,8 +49,6 @@ checksum:
 release:
   # If set to true, will not auto-publish the release.
   draft: false
-  # Use GitHub's auto-generated release notes (includes contributors section).
-  generate_release_notes: true
   # Whether to remove existing draft releases with the same name before creating
   # a new one.
   replace_existing_draft: true
@@ -77,7 +77,7 @@ changelog:
   # (via generate_release_notes) include commit authors and contributors.
   disable: true
 snapshot:
-  name_template: "{{ incpatch .Version }}-next"
+  version_template: "{{ incpatch .Version }}-next"
 
 # The lines beneath this are called `modelines`. See `:help modeline`
 # Feel free to remove those if you don't want/use them.
