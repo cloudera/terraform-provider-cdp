@@ -130,6 +130,43 @@ func TestConvertGcpTags(t *testing.T) {
 	testConvertTagsPreservesKeyValuePairing(t, "preserves key-value pairing", convertGcpTagsToKV)
 }
 
+func TestConvertTagsToMap(t *testing.T) {
+	ctx := context.TODO()
+
+	t.Run("nil input returns nil", func(t *testing.T) {
+		result := convertTagsToMap(ctx, types.MapNull(types.StringType))
+		assert.Nil(t, result)
+	})
+
+	t.Run("unknown input returns nil", func(t *testing.T) {
+		result := convertTagsToMap(ctx, types.MapUnknown(types.StringType))
+		assert.Nil(t, result)
+	})
+
+	t.Run("empty input returns nil", func(t *testing.T) {
+		inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{})
+		result := convertTagsToMap(ctx, inMap)
+		assert.Nil(t, result)
+	})
+
+	t.Run("single element", func(t *testing.T) {
+		inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{
+			"env": types.StringValue("prod"),
+		})
+		result := convertTagsToMap(ctx, inMap)
+		assert.Equal(t, map[string]string{"env": "prod"}, result)
+	})
+
+	t.Run("multiple elements", func(t *testing.T) {
+		inMap, _ := types.MapValue(types.StringType, map[string]attr.Value{
+			"env":  types.StringValue("prod"),
+			"team": types.StringValue("platform"),
+		})
+		result := convertTagsToMap(ctx, inMap)
+		assert.Equal(t, map[string]string{"env": "prod", "team": "platform"}, result)
+	})
+}
+
 func TestGetStringValueIfNotEmpty(t *testing.T) {
 	tests := []struct {
 		name     string
