@@ -103,6 +103,12 @@ type ClientService interface {
 	// CreateConnectorContext creates a connector.
 	CreateConnectorContext(ctx context.Context, params *CreateConnectorParams, opts ...ClientOption) (*CreateConnectorOK, error)
 
+	// CreateConnectorTestJob test trino connector in a c d w cluster.
+	CreateConnectorTestJob(params *CreateConnectorTestJobParams, opts ...ClientOption) (*CreateConnectorTestJobOK, error)
+
+	// CreateConnectorTestJobContext test trino connector in a c d w cluster.
+	CreateConnectorTestJobContext(ctx context.Context, params *CreateConnectorTestJobParams, opts ...ClientOption) (*CreateConnectorTestJobOK, error)
+
 	// CreateDataVisualization creates a cloudera data visualization.
 	CreateDataVisualization(params *CreateDataVisualizationParams, opts ...ClientOption) (*CreateDataVisualizationOK, error)
 
@@ -408,6 +414,12 @@ type ClientService interface {
 
 	// ListClustersContext list cloudera data warehouse clusters.
 	ListClustersContext(ctx context.Context, params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error)
+
+	// ListConnectorTestJobs list test connector jobs.
+	ListConnectorTestJobs(params *ListConnectorTestJobsParams, opts ...ClientOption) (*ListConnectorTestJobsOK, error)
+
+	// ListConnectorTestJobsContext list test connector jobs.
+	ListConnectorTestJobsContext(ctx context.Context, params *ListConnectorTestJobsParams, opts ...ClientOption) (*ListConnectorTestJobsOK, error)
 
 	// ListConnectors lists database connectors.
 	ListConnectors(params *ListConnectorsParams, opts ...ClientOption) (*ListConnectorsOK, error)
@@ -1222,6 +1234,71 @@ func (a *Client) CreateConnectorContext(ctx context.Context, params *CreateConne
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*CreateConnectorDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// CreateConnectorTestJob tests trino connector in a c d w cluster.
+//
+// Test Trino Connector in a CDW cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CreateConnectorTestJobContext] instead.
+func (a *Client) CreateConnectorTestJob(params *CreateConnectorTestJobParams, opts ...ClientOption) (*CreateConnectorTestJobOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CreateConnectorTestJobContext(ctx, params, opts...)
+}
+
+// CreateConnectorTestJobContext tests trino connector in a c d w cluster.
+//
+// Test Trino Connector in a CDW cluster..
+//
+// Do not use the deprecated [CreateConnectorTestJobParams.Context] with this method: it would be ignored.
+func (a *Client) CreateConnectorTestJobContext(ctx context.Context, params *CreateConnectorTestJobParams, opts ...ClientOption) (*CreateConnectorTestJobOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewCreateConnectorTestJobParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "createConnectorTestJob",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/createConnectorTestJob",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateConnectorTestJobReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*CreateConnectorTestJobOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*CreateConnectorTestJobDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
@@ -4537,6 +4614,71 @@ func (a *Client) ListClustersContext(ctx context.Context, params *ListClustersPa
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListClustersDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// ListConnectorTestJobs lists test connector jobs.
+//
+// List test connector jobs..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListConnectorTestJobsContext] instead.
+func (a *Client) ListConnectorTestJobs(params *ListConnectorTestJobsParams, opts ...ClientOption) (*ListConnectorTestJobsOK, error) {
+	var ctx context.Context
+	if params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListConnectorTestJobsContext(ctx, params, opts...)
+}
+
+// ListConnectorTestJobsContext lists test connector jobs.
+//
+// List test connector jobs..
+//
+// Do not use the deprecated [ListConnectorTestJobsParams.Context] with this method: it would be ignored.
+func (a *Client) ListConnectorTestJobsContext(ctx context.Context, params *ListConnectorTestJobsParams, opts ...ClientOption) (*ListConnectorTestJobsOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewListConnectorTestJobsParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "listConnectorTestJobs",
+		Method:             "POST",
+		PathPattern:        "/api/v1/dw/listConnectorTestJobs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListConnectorTestJobsReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*ListConnectorTestJobsOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*ListConnectorTestJobsDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }

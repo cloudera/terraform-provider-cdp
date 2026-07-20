@@ -94,6 +94,9 @@ type ServiceDescription struct {
 	// CDP tenant ID.
 	TenantID string `json:"tenantId,omitempty"`
 
+	// The version of the CDE service.
+	Version string `json:"version,omitempty"`
+
 	// List of CIDRs that would be allowed to access kubernetes master API server.
 	WhitelistIps string `json:"whitelistIps,omitempty"`
 
