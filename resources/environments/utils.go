@@ -56,6 +56,20 @@ func ConvertGcpTags(ctx context.Context, tagsIn types.Map) []*environmentsmodels
 	return nil
 }
 
+func convertTagsToMap(ctx context.Context, tagsIn types.Map) map[string]string {
+	if tagsIn.IsNull() || tagsIn.IsUnknown() || len(tagsIn.Elements()) == 0 {
+		return nil
+	}
+	result := make(map[string]string, len(tagsIn.Elements()))
+	for k, v := range tagsIn.Elements() {
+		val, diag := v.(basetypes.StringValuable).ToStringValue(ctx)
+		if !diag.HasError() {
+			result[k] = val.ValueString()
+		}
+	}
+	return result
+}
+
 func ConvertIntToInt32IfPossible(value int) (basetypes.Int32Value, error) {
 	i32, err := safeIntToInt32(value)
 	if err != nil {

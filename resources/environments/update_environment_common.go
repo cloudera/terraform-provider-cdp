@@ -78,6 +78,27 @@ func updateSubnetIfChanged(ctx context.Context, client *environmentsclient.Envir
 	return resp
 }
 
+func updateTagsIfChanged(ctx context.Context, client *environmentsclient.Environments, planTags types.Map, stateTags *types.Map, environmentName *string, pollingOptions *utils.PollingOptions, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	if reflect.DeepEqual(planTags, *stateTags) {
+		return resp
+	}
+	tflog.Info(ctx, fmt.Sprintf("Updating tags for environment '%s'", *environmentName))
+	params := operations.NewUpdateTagsParams()
+	params.WithInput(&environmentsmodels.UpdateTagsRequest{
+		Environment: environmentName,
+		Tags:        convertTagsToMap(ctx, planTags),
+	})
+	if _, err := client.Operations.UpdateTagsContext(ctx, params); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "update tags")
+		return resp
+	}
+	*stateTags = planTags
+	if err := waitForEnvironmentToBeAvailable(*environmentName, timeoutOneHour, callFailureThreshold, client, ctx, pollingOptions, func(_ *environmentsmodels.Environment) {}); err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "wait for environment to be available after tag update")
+	}
+	return resp
+}
+
 func updateSshKeyIfChanged(ctx context.Context, client *environmentsclient.Environments, planKey types.String, stateKey *types.String, envName *string, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if planKey.IsNull() || planKey.IsUnknown() {
 		return resp

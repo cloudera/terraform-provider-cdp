@@ -15,6 +15,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	rsschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
@@ -969,4 +970,111 @@ func TestUpdateSubnetIfChanged_APIError_AddsDiagnosticError(t *testing.T) {
 
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, utils.ToSetValueFromStringList([]string{testSubnet1}), stateSubnets)
+}
+
+// Tests for updateTagsIfChanged
+
+func testTagMap(tags map[string]string) types.Map {
+	elems := make(map[string]attr.Value, len(tags))
+	for k, v := range tags {
+		elems[k] = types.StringValue(v)
+	}
+	m, _ := types.MapValue(types.StringType, elems)
+	return m
+}
+
+func mockDescribeAvailable(mockClient *mocks.MockEnvironmentClientService) {
+	envStatus := "AVAILABLE"
+	mockClient.On("DescribeEnvironmentContext", mock.Anything, mock.Anything, mock.Anything).
+		Return(&operations.DescribeEnvironmentOK{
+			Payload: &environmentsmodels.DescribeEnvironmentResponse{
+				Environment: &environmentsmodels.Environment{
+					Status: &envStatus,
+				},
+			},
+		}, nil)
+}
+
+func TestUpdateTagsIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
+	f := setupCommonTest(t)
+	planTags := testTagMap(map[string]string{"env": "prod", "team": "platform"})
+	stateTags := testTagMap(map[string]string{"env": "dev"})
+
+	f.mockClient.On("UpdateTagsContext", mock.Anything, mock.MatchedBy(func(params *operations.UpdateTagsParams) bool {
+		return params.Input != nil &&
+			*params.Input.Environment == testEnvName &&
+			params.Input.Tags["env"] == "prod" &&
+			params.Input.Tags["team"] == "platform" &&
+			len(params.Input.Tags) == 2
+	}), mock.Anything).Return(&operations.UpdateTagsOK{}, nil)
+	mockDescribeAvailable(f.mockClient)
+
+	result := updateTagsIfChanged(f.ctx, f.client, planTags, &stateTags, new(testEnvName), nil, f.resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	assert.Equal(t, planTags, stateTags)
+	f.mockClient.AssertExpectations(t)
+}
+
+func TestUpdateTagsIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
+	f := setupCommonTest(t)
+	tags := testTagMap(map[string]string{"env": "prod", "team": "platform"})
+	stateTags := testTagMap(map[string]string{"env": "prod", "team": "platform"})
+
+	result := updateTagsIfChanged(f.ctx, f.client, tags, &stateTags, new(testEnvName), nil, f.resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	f.mockClient.AssertNotCalled(t, "UpdateTagsContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateTagsIfChanged_SameTagsDifferentInsertionOrder_SkipsAPICall(t *testing.T) {
+	f := setupCommonTest(t)
+	planTags := testTagMap(map[string]string{"b": "2", "a": "1", "c": "3"})
+	stateTags := testTagMap(map[string]string{"c": "3", "a": "1", "b": "2"})
+
+	result := updateTagsIfChanged(f.ctx, f.client, planTags, &stateTags, new(testEnvName), nil, f.resp)
+
+	assert.False(t, result.Diagnostics.HasError())
+	f.mockClient.AssertNotCalled(t, "UpdateTagsContext", mock.Anything, mock.Anything, mock.Anything)
+}
+
+func TestUpdateTagsIfChanged_APIError_AddsDiagnosticAndPreservesState(t *testing.T) {
+	f := setupCommonTest(t)
+	planTags := testTagMap(map[string]string{"env": "prod"})
+	stateTags := testTagMap(map[string]string{"env": "dev"})
+	originalState := stateTags
+
+	f.mockClient.On("UpdateTagsContext", mock.Anything, mock.Anything, mock.Anything).
+		Return((*operations.UpdateTagsOK)(nil), errors.New("API error"))
+
+	result := updateTagsIfChanged(f.ctx, f.client, planTags, &stateTags, new(testEnvName), nil, f.resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, originalState, stateTags)
+}
+
+func TestUpdateTagsIfChanged_PollingError_AddsDiagnosticButUpdatesState(t *testing.T) {
+	f := setupCommonTest(t)
+	planTags := testTagMap(map[string]string{"env": "prod"})
+	stateTags := testTagMap(map[string]string{"env": "dev"})
+
+	f.mockClient.On("UpdateTagsContext", mock.Anything, mock.Anything, mock.Anything).
+		Return(&operations.UpdateTagsOK{}, nil)
+
+	failedStatus := "USER_DEFINED_TAGS_MODIFICATION_FAILED"
+	failedReason := "tag modification failed"
+	f.mockClient.On("DescribeEnvironmentContext", mock.Anything, mock.Anything, mock.Anything).
+		Return(&operations.DescribeEnvironmentOK{
+			Payload: &environmentsmodels.DescribeEnvironmentResponse{
+				Environment: &environmentsmodels.Environment{
+					Status:       &failedStatus,
+					StatusReason: failedReason,
+				},
+			},
+		}, nil)
+
+	result := updateTagsIfChanged(f.ctx, f.client, planTags, &stateTags, new(testEnvName), nil, f.resp)
+
+	assert.True(t, result.Diagnostics.HasError())
+	assert.Equal(t, planTags, stateTags)
 }

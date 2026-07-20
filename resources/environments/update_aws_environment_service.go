@@ -28,17 +28,22 @@ import (
 
 func updateAwsEnvironment(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return executeUpdateOperations(ctx, plan, state, client, resp,
-		updateAwsSubnetIfChanged,
 		updateAwsEndpointAccessGatewayIfChanged,
 		updateAwsCustomDockerRegistryIfChanged,
 		updateAwsProxyConfigurationIfChanged,
-		updateAwsAuthenticationIfChanged,
-		updateAwsSecurityAccessIfChanged,
 		updateAwsComputeClusterIfChanged,
+		updateAwsSecurityAccessIfChanged,
+		updateAwsAuthenticationIfChanged,
 		updateAwsEncryptionKeyIfChanged,
 		updateAwsCredentialIfChanged,
 		updateAwsCatalogIfChanged,
+		updateAwsSubnetIfChanged,
+		updateAwsTagsIfChanged,
 	)
+}
+
+func updateAwsTagsIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateTagsIfChanged(ctx, client, plan.Tags, &state.Tags, plan.EnvironmentName.ValueStringPointer(), plan.PollingOptions, resp)
 }
 
 func updateAwsSubnetIfChanged(ctx context.Context, plan *awsEnvironmentResourceModel, state *awsEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {

@@ -24,7 +24,7 @@ The AWS audit credential is used for MSA (Monitoring, SPI, and Auditing) access 
 # permissions and limitations governing your use of the file.
 
 resource "cdp_environments_aws_audit_credential" "example" {
-  role_arn    = "arn:aws:iam::11111111111:role/example-audit-role"
+  role_arn = "arn:aws:iam::11111111111:role/example-audit-role"
 }
 
 output "credential_name" {
