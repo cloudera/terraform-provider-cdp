@@ -29,14 +29,19 @@ func updateGcpEnvironment(ctx context.Context, plan *gcpEnvironmentResourceModel
 		updateGcpEndpointAccessGatewayIfChanged,
 		updateGcpCustomDockerRegistryIfChanged,
 		updateGcpProxyConfigurationIfChanged,
-		updateGcpAvailabilityZonesIfChanged,
 		updateGcpTelemetryFeaturesIfChanged,
+		updateGcpAvailabilityZonesIfChanged,
 		updateGcpSecurityAccessIfChanged,
 		updateGcpCredentialIfChanged,
 		updateGcpSubnetIfChanged,
 		updateGcpCatalogIfChanged,
 		updateGcpSshKeyIfChanged,
+		updateGcpTagsIfChanged,
 	)
+}
+
+func updateGcpTagsIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateTagsIfChanged(ctx, client, plan.Tags, &state.Tags, plan.EnvironmentName.ValueStringPointer(), plan.PollingOptions, resp)
 }
 
 func updateGcpCredentialIfChanged(ctx context.Context, plan *gcpEnvironmentResourceModel, state *gcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {

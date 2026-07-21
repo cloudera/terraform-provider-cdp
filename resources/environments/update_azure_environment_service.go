@@ -28,19 +28,24 @@ import (
 
 func updateAzureEnvironment(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return executeUpdateOperations(ctx, plan, state, client, resp,
-		updateAzureNetworkParamsIfChanged,
 		updateAzureEndpointAccessGatewayIfChanged,
 		updateAzureCustomDockerRegistryIfChanged,
 		updateAzureProxyConfigurationIfChanged,
 		updateAzureAvailabilityZonesIfChanged,
 		updateAzureComputeClusterIfChanged,
+		updateAzureNetworkParamsIfChanged,
 		updateAzureSecurityAccessIfChanged,
 		updateAzureDataServicesIfChanged,
 		updateAzureCredentialIfChanged,
 		updateAzureEncryptionIfChanged,
 		updateAzureCatalogIfChanged,
 		updateAzureSshKeyIfChanged,
+		updateAzureTagsIfChanged,
 	)
+}
+
+func updateAzureTagsIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return updateTagsIfChanged(ctx, client, plan.Tags, &state.Tags, plan.EnvironmentName.ValueStringPointer(), plan.PollingOptions, resp)
 }
 
 func updateAzureNetworkParamsIfChanged(ctx context.Context, plan *azureEnvironmentResourceModel, state *azureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
