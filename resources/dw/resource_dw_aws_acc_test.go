@@ -224,7 +224,7 @@ func testAccAwsEnvironmentConfig(envParams *awsEnvironmentTestParameters) string
 			credential_name = cdp_environments_aws_credential.test_cred.credential_name
 			region = %[2]q
 			security_access = {
-			cidr = "0.0.0.0/0"
+			cidr = "10.0.0.0/16"
 			}
 			endpoint_access_gateway_scheme = "PRIVATE"
 			enable_tunnel = false

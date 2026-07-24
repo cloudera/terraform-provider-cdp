@@ -37,8 +37,8 @@ resource "cdp_dw_aws_cluster" "example" {
     worker_subnet_ids                     = ["<value>", "<value>", "<value>"]
     load_balancer_subnet_ids              = ["<value>", "<value>", "<value>"]
     use_overlay_network                   = false
-    whitelist_k8s_cluster_access_ip_cidrs = ["0.0.0.0/0"]
-    whitelist_workload_access_ip_cidrs    = ["0.0.0.0/0"]
+    whitelist_k8s_cluster_access_ip_cidrs = ["10.0.0.0/16"]
+    whitelist_workload_access_ip_cidrs    = ["10.0.0.0/16"]
     use_private_load_balancer             = true
     use_public_worker_node                = false
     enable_private_eks                    = true
