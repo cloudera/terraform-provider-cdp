@@ -168,7 +168,7 @@ func testAccAzureEnvironmentConfig(envParams *azureEnvironmentTestParameters) st
 			region = %[2]q
 			use_public_ip = false
 			security_access = {
-			  cidr = "0.0.0.0/0"
+			  cidr = "10.0.0.0/16"
 			}
 			endpoint_access_gateway_scheme = "PRIVATE"
 			enable_tunnel = false

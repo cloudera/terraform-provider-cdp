@@ -1,0 +1,99 @@
+// Copyright 2023 Cloudera. All Rights Reserved.
+//
+// This file is licensed under the Apache License Version 2.0 (the "License").
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+//
+// This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+// OF ANY KIND, either express or implied. Refer to the License for the specific
+// permissions and limitations governing your use of the file.
+
+package aws
+
+import (
+	"context"
+	"errors"
+	"fmt"
+
+	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/utils"
+)
+
+// Ensure the implementation satisfies the expected interfaces.
+var (
+	_ datasource.DataSourceWithConfigure = &awsCredentialPrerequisitesDataSource{}
+)
+
+func NewAWSCredentialPrerequisitesDataSource() datasource.DataSource {
+	return &awsCredentialPrerequisitesDataSource{}
+}
+
+type awsCredentialPrerequisitesDataSource struct {
+	client *cdp.Client
+}
+
+// Configure adds the provider-configured client to the data source.
+func (d *awsCredentialPrerequisitesDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+	d.client = utils.GetCdpClientForDataSource(req, resp)
+}
+
+func (d *awsCredentialPrerequisitesDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_environments_aws_credential_prerequisites"
+}
+
+// Read refreshes the Terraform state with the latest data.
+func (d *awsCredentialPrerequisitesDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data awsCredentialPrerequisitesDataSourceModel
+
+	// Read Terraform configuration data into the model
+	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	tflog.Info(ctx, "Reading GetCredentialPrerequisites")
+
+	client := d.client.Environments
+	params := operations.NewGetCredentialPrerequisitesParams()
+	params.WithInput(&environmentsmodels.GetCredentialPrerequisitesRequest{CloudPlatform: new("AWS")})
+
+	response, err := client.Operations.GetCredentialPrerequisitesContext(ctx, params)
+	if err != nil {
+		msg := err.Error()
+		if d, ok := errors.AsType[*operations.GetCredentialPrerequisitesDefault](err); ok && d.GetPayload() != nil {
+			msg = d.GetPayload().Message
+		}
+		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read cdp_environments_aws_credential_prerequisites, got error: %s", msg))
+		return
+	}
+	prerequisites := response.GetPayload()
+	if prerequisites == nil || prerequisites.Aws == nil {
+		resp.State.RemoveResource(ctx) // deleted
+		return
+	}
+
+	ctx = tflog.SetField(ctx, "Client info:", client)
+	tflog.Info(ctx, "Read GetCredentialPrerequisites")
+
+	data.AccountID = types.StringValue(prerequisites.AccountID)
+	data.ExternalID = types.StringValue(*prerequisites.Aws.ExternalID)
+	data.ID = types.StringValue(prerequisites.AccountID + ":" + *prerequisites.Aws.ExternalID)
+	data.Policy = types.StringPointerValue(prerequisites.Aws.PolicyJSON)
+
+	var policyMap = make(map[string]string)
+	for _, policy := range prerequisites.Aws.Policies {
+		policyMap[*policy.Service] = *policy.PolicyJSON
+	}
+
+	policyTypeMap, convDiag := types.MapValueFrom(ctx, types.StringType, policyMap)
+	data.Policies = policyTypeMap
+	resp.Diagnostics.Append(convDiag...)
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}

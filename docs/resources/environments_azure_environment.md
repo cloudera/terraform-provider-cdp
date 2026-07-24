@@ -38,7 +38,7 @@ resource "cdp_environments_azure_environment" "example-env" {
   credential_name  = cdp_environments_azure_credential.example-cred.credential_name
   region           = "<your-region>"
   security_access = {
-    cidr = "0.0.0.0/0"
+    cidr = "10.0.0.0/16"
   }
   existing_network_params = {
     network_id          = "network-name"
@@ -58,7 +58,7 @@ resource "cdp_environments_azure_environment" "example-env" {
     configuration = {
       private_cluster               = false
       outbound_type                 = "udr"
-      kube_api_authorized_ip_ranges = ["0.0.0.0/0"]
+      kube_api_authorized_ip_ranges = ["10.0.0.0/16"]
       worker_node_subnets           = ["<env-subnet-1>", "<env-subnet-2>", "<env-subnet-3>"]
     }
   }

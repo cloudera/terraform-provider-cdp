@@ -1,0 +1,261 @@
+// Copyright 2023 Cloudera. All Rights Reserved.
+//
+// This file is licensed under the Apache License Version 2.0 (the "License").
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+//
+// This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+// OF ANY KIND, either express or implied. Refer to the License for the specific
+// permissions and limitations governing your use of the file.
+
+package aws
+
+import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
+	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/client/operations"
+	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/envcommon"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/freeipa"
+	"github.com/cloudera/terraform-provider-cdp/utils"
+)
+
+var (
+	_ resource.ResourceWithConfigure   = &awsEnvironmentResource{}
+	_ resource.ResourceWithImportState = &awsEnvironmentResource{}
+)
+
+type awsEnvironmentResource struct {
+	client *cdp.Client
+}
+
+func (r *awsEnvironmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+func NewAwsEnvironmentResource() resource.Resource {
+	return &awsEnvironmentResource{}
+}
+
+func (r *awsEnvironmentResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_environments_aws_environment"
+}
+
+func (r *awsEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = AwsEnvironmentSchema
+}
+
+func (r *awsEnvironmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data ResourceModel
+	diags := req.Plan.Get(ctx, &data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		tflog.Error(ctx, "Got Error while trying to set plan")
+		return
+	}
+
+	client := r.client.Environments
+
+	params := operations.NewCreateAWSEnvironmentParams()
+	params.WithInput(ToAwsEnvironmentRequest(ctx, &data))
+
+	responseOk, err := client.Operations.CreateAWSEnvironmentContext(ctx, params)
+	if err != nil {
+		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create AWS Environment")
+		return
+	}
+
+	envResp := responseOk.Payload.Environment
+	ToAwsEnvironmentResource(ctx, envResp, &data, data.PollingOptions, &resp.Diagnostics)
+
+	diags = resp.State.Set(ctx, data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	descEnvResp, err := envcommon.DescribeEnvironmentWithDiagnosticHandle(data.EnvironmentName.ValueString(), data.ID.ValueString(), ctx, r.client, &resp.Diagnostics, &resp.State)
+	if err != nil {
+		return
+	}
+	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
+		stateSaver := func(env *environmentsmodels.Environment) {
+			ToAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+			diags = resp.State.Set(ctx, data)
+			resp.Diagnostics.Append(diags...)
+		}
+		descEnvResp, err = envcommon.WaitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions, stateSaver)
+		if err != nil {
+			return
+		}
+	}
+
+	ToAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp, envcommon.DescribeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+
+	diags = resp.State.Set(ctx, data)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+}
+
+func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var state ResourceModel
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	envName := state.EnvironmentName.ValueString()
+	if len(envName) == 0 {
+		envName = state.ID.ValueString()
+	}
+	env, err := envcommon.DescribeEnvironmentWithDiagnosticHandle(envName, state.ID.ValueString(), ctx, r.client, &resp.Diagnostics, &resp.State)
+	if err != nil {
+		return
+	}
+	ToAwsEnvironmentResource(ctx, env, &state, state.PollingOptions, &resp.Diagnostics)
+
+	diags = resp.State.Set(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+}
+
+func (r *awsEnvironmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	envcommon.PerformEnvironmentUpdate(ctx, req, resp, r.client.Environments, updateAwsEnvironment)
+}
+
+func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state ResourceModel
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	cascading := state.cascadeDelete()
+	forced := state.forceDelete()
+
+	if err := envcommon.DeleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, forced, ctx, r.client, resp, state.PollingOptions); err != nil {
+		return
+	}
+}
+
+func ToAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *ResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+	utils.LogEnvironmentSilently(ctx, env, "Converting environment: ")
+	model.ID = types.StringPointerValue(env.Crn)
+	if env.AwsDetails != nil {
+		model.S3GuardTableName = types.StringValue(env.AwsDetails.S3GuardTableName)
+	}
+	model.CredentialName = types.StringPointerValue(env.CredentialName)
+	model.Crn = types.StringPointerValue(env.Crn)
+	model.Description = types.StringValue(env.Description)
+	model.EnvironmentName = types.StringPointerValue(env.EnvironmentName)
+	model.PollingOptions = pollingOptions
+	if env.LogStorage != nil {
+		if env.LogStorage.AwsDetails != nil {
+			model.LogStorage = &LogStorage{
+				InstanceProfile:     types.StringValue(env.LogStorage.AwsDetails.InstanceProfile),
+				StorageLocationBase: types.StringValue(env.LogStorage.AwsDetails.StorageLocationBase),
+			}
+			if env.BackupStorage != nil {
+				if env.BackupStorage.AwsDetails != nil {
+					model.LogStorage.BackupStorageLocationBase = types.StringValue(env.BackupStorage.AwsDetails.StorageLocationBase)
+				}
+
+			}
+		}
+	}
+	diags.Append(*freeipa.FreeIpaResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
+	if env.Network != nil {
+		model.EndpointAccessGatewayScheme = types.StringValue(env.Network.EndpointAccessGatewayScheme)
+		if env.Network.EndpointAccessGatewaySubnetIds != nil {
+			var eagSubnetids types.Set
+			if len(env.Network.EndpointAccessGatewaySubnetIds) > 0 {
+				var eagSnDiags diag.Diagnostics
+				eagSubnetids, eagSnDiags = types.SetValueFrom(ctx, types.StringType, env.Network.EndpointAccessGatewaySubnetIds)
+				diags.Append(eagSnDiags...)
+			} else {
+				eagSubnetids = types.SetNull(types.StringType)
+			}
+			model.EndpointAccessGatewaySubnetIds = eagSubnetids
+		}
+		if env.Network.Aws != nil {
+			model.VpcID = types.StringPointerValue(env.Network.Aws.VpcID)
+		}
+		var subnetids types.Set
+		if len(env.Network.SubnetIds) > 0 {
+			var snDiags diag.Diagnostics
+			subnetids, snDiags = types.SetValueFrom(ctx, types.StringType, env.Network.SubnetIds)
+			diags.Append(snDiags...)
+		} else {
+			subnetids = types.SetNull(types.StringType)
+		}
+		model.SubnetIds = subnetids
+
+	}
+	if env.ProxyConfig != nil {
+		model.ProxyConfigName = types.StringPointerValue(env.ProxyConfig.ProxyConfigName)
+	}
+	model.Region = types.StringPointerValue(env.Region)
+	if env.SecurityAccess != nil {
+		var dsgIDs types.Set
+		if model.SecurityAccess != nil && !model.SecurityAccess.DefaultSecurityGroupIDs.IsUnknown() {
+			dsgIDs = model.SecurityAccess.DefaultSecurityGroupIDs
+		} else {
+			dsgIDs = types.SetNull(types.StringType)
+		}
+		var sgIDsknox types.Set
+		if model.SecurityAccess != nil && !model.SecurityAccess.SecurityGroupIDsForKnox.IsUnknown() {
+			sgIDsknox = model.SecurityAccess.SecurityGroupIDsForKnox
+		} else {
+			sgIDsknox = types.SetNull(types.StringType)
+		}
+		model.SecurityAccess = &SecurityAccess{
+			Cidr:                    types.StringValue(env.SecurityAccess.Cidr),
+			DefaultSecurityGroupID:  types.StringValue(env.SecurityAccess.DefaultSecurityGroupID),
+			DefaultSecurityGroupIDs: dsgIDs,
+			SecurityGroupIDForKnox:  types.StringValue(env.SecurityAccess.SecurityGroupIDForKnox),
+			SecurityGroupIDsForKnox: sgIDsknox,
+		}
+	}
+	model.Status = types.StringPointerValue(env.Status)
+	model.StatusReason = types.StringValue(env.StatusReason)
+	if env.Tags != nil {
+		var tagDiags diag.Diagnostics
+		tagMap, tagDiags := types.MapValueFrom(ctx, types.StringType, env.Tags.UserDefined)
+		diags.Append(tagDiags...)
+		model.Tags = tagMap
+	}
+	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
+	model.TunnelType = types.StringValue(string(env.TunnelType))
+	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
+	if env.Authentication != nil {
+		newAuth := &Authentication{
+			PublicKey:   envcommon.GetStringValueIfNotEmpty(env.Authentication.PublicKey),
+			PublicKeyID: envcommon.GetStringValueIfNotEmpty(env.Authentication.PublicKeyID),
+		}
+		if model.Authentication != nil && !model.Authentication.PublicKey.IsNull() {
+			newAuth.PublicKey = model.Authentication.PublicKey
+			newAuth.PublicKeyID = types.StringNull()
+		}
+		model.Authentication = newAuth
+	} else {
+		model.Authentication = nil
+	}
+	utils.LogEnvironmentSilently(ctx, env, "Environment conversion finished: ")
+}

@@ -34,8 +34,20 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/dataviz"
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/hive"
 	"github.com/cloudera/terraform-provider-cdp/resources/dw/virtualwarehouse/impala"
-	"github.com/cloudera/terraform-provider-cdp/resources/environments"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/auditcredential"
+	awscred "github.com/cloudera/terraform-provider-cdp/resources/environments/credential/aws"
+	azurecred "github.com/cloudera/terraform-provider-cdp/resources/environments/credential/azure"
+	gcpcred "github.com/cloudera/terraform-provider-cdp/resources/environments/credential/gcp"
+	awsenv "github.com/cloudera/terraform-provider-cdp/resources/environments/environment/aws"
+	azureenv "github.com/cloudera/terraform-provider-cdp/resources/environments/environment/azure"
+	gcpenv "github.com/cloudera/terraform-provider-cdp/resources/environments/environment/gcp"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/environmentconfig"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/environmentlist"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/idbroker"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/imageterms"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/keytab"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/proxyconfiguration"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/usersync"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
 	"github.com/cloudera/terraform-provider-cdp/resources/recipe"
@@ -228,20 +240,20 @@ func getCdpConfig(ctx context.Context, data *CdpProviderModel, version string, t
 
 func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		environments.NewAwsCredentialResource,
+		awscred.NewAwsCredentialResource,
 		auditcredential.NewAwsAuditCredentialResource,
 		auditcredential.NewAwsGovCloudAuditCredentialResource,
-		environments.NewAwsEnvironmentResource,
-		environments.NewIDBrokerMappingsResource,
-		environments.NewUserSyncResource,
-		environments.NewAzureCredentialResource,
+		awsenv.NewAwsEnvironmentResource,
+		idbroker.NewIDBrokerMappingsResource,
+		usersync.NewUserSyncResource,
+		azurecred.NewAzureCredentialResource,
 		auditcredential.NewAzureAuditCredentialResource,
-		environments.NewAzureEnvironmentResource,
-		environments.NewAzureImageTermsResource,
-		environments.NewGcpEnvironmentResource,
-		environments.NewGcpCredentialResource,
+		azureenv.NewAzureEnvironmentResource,
+		imageterms.NewAzureImageTermsResource,
+		gcpenv.NewGcpEnvironmentResource,
+		gcpcred.NewGcpCredentialResource,
 		auditcredential.NewGcpAuditCredentialResource,
-		environments.NewProxyConfigurationResource,
+		proxyconfiguration.NewProxyConfigurationResource,
 		datalake.NewAwsDatalakeResource,
 		datalake.NewAzureDatalakeResource,
 		datalake.NewGcpDatalakeResource,
@@ -267,10 +279,10 @@ func (p *CdpProvider) Resources(_ context.Context) []func() resource.Resource {
 
 func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		environments.NewAWSCredentialPrerequisitesDataSource,
-		environments.NewEnvironmentConfigDataSource,
-		environments.NewListEnvironmentsDataSource,
-		environments.NewKeytabDataSource,
+		awscred.NewAWSCredentialPrerequisitesDataSource,
+		environmentconfig.NewEnvironmentConfigDataSource,
+		environmentlist.NewListEnvironmentsDataSource,
+		keytab.NewKeytabDataSource,
 		datalake.NewListRuntimeDataSource,
 		datalake.NewListDatalakesDataSource,
 		datalake.NewDatalakeConfigDataSource,

@@ -10,7 +10,7 @@ deadcode . > deadcode-output.txt
 # it will be omitted from the report thus this approach is potentially unsafe,
 # but it is the best we can do for now, until the deadcode team won't introduce
 # a flag to ignore files by pattern.
-sed -i '/test_.*util.go\|test_.*utils.go/d' ./deadcode-output.txt
+sed -i '/test_.*util.go\|test_.*utils.go\|utils\/test\//d' ./deadcode-output.txt
 
 if [ -s deadcode-output.txt ]; then
     echo "The following function(s) is/are not used in the code:"

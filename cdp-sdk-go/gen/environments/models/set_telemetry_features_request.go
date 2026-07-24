@@ -24,7 +24,7 @@ type SetTelemetryFeaturesRequest struct {
 	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
 
 	// Flag to enable environment level workload analytics.
-	WorkloadAnalytics bool `json:"workloadAnalytics,omitempty"`
+	WorkloadAnalytics *bool `json:"workloadAnalytics,omitempty"`
 }
 
 // Validate validates this set telemetry features request

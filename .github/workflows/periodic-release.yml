@@ -2,7 +2,7 @@ name: Periodic Release
 
 on:
   schedule:
-    - cron: '0 1 */2 * *'
+    - cron: '0 0 * * MON'
   workflow_dispatch:
 
 permissions:
