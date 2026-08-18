@@ -13,6 +13,7 @@ package freeipa
 import (
 	"context"
 	"fmt"
+	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -27,7 +28,7 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func FreeIpaResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *types.Object, ctx context.Context) *diag.Diagnostics {
+func ResponseToModel(ipaResp *environmentsmodels.FreeipaDetails, model *types.Object, ctx context.Context) *diag.Diagnostics {
 	utils.LogFreeIpaSilently(ctx, ipaResp, "Converting FreeIpa to Model from response: ")
 	var diags diag.Diagnostics
 
@@ -125,7 +126,7 @@ func convertAttachedVolumes(v *environmentsmodels.FreeIpaInstance, ctx context.C
 	return volumes, diags
 }
 
-type FreeIpaTransitional struct {
+type Transitional struct {
 	InstanceCountByGroup int32
 
 	InstanceType string
@@ -137,10 +138,10 @@ type FreeIpaTransitional struct {
 	Architecture string
 }
 
-func FreeIpaModelToRequest(model *types.Object, ctx context.Context) (*FreeIpaTransitional, *environmentsmodels.FreeIpaImageRequest) {
+func ModelToRequest(model *types.Object, ctx context.Context) (*Transitional, *environmentsmodels.FreeIpaImageRequest) {
 	var freeIpaDetails FreeIpaDetails
 	model.As(ctx, &freeIpaDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
-	return &FreeIpaTransitional{
+	return &Transitional{
 			InstanceCountByGroup: freeIpaDetails.InstanceCountByGroup.ValueInt32(),
 			InstanceType:         freeIpaDetails.InstanceType.ValueString(),
 			MultiAz:              freeIpaDetails.MultiAz.ValueBool(),
@@ -195,6 +196,90 @@ func updateFreeIpaCatalogInState(ctx context.Context, freeIpaObj *types.Object, 
 		return
 	}
 	details.Catalog = newCatalog
+	newObj, objDiags := types.ObjectValueFrom(ctx, FreeIpaDetailsType.AttrTypes, &details)
+	diags.Append(objDiags...)
+	*freeIpaObj = newObj
+}
+
+func UpdateRecipesIfChanged(ctx context.Context, planFreeIpa types.Object, stateFreeIpa *types.Object, environmentName string, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	var planDetails FreeIpaDetails
+	resp.Diagnostics.Append(planFreeIpa.As(ctx, &planDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+
+	var stateDetails FreeIpaDetails
+	resp.Diagnostics.Append(stateFreeIpa.As(ctx, &stateDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+
+	if planDetails.Recipes.IsNull() || planDetails.Recipes.IsUnknown() || reflect.DeepEqual(planDetails.Recipes, stateDetails.Recipes) {
+		return resp
+	}
+
+	tflog.Info(ctx, fmt.Sprintf("Recipe change detected for environment '%s', calling Attach/Detach.", environmentName))
+
+	planRecipes := utils.FromSetValueToStringList(planDetails.Recipes)
+	stateRecipes := utils.FromSetValueToStringList(stateDetails.Recipes)
+
+	planMap := make(map[string]struct{}, len(planRecipes))
+	for _, r := range planRecipes {
+		planMap[r] = struct{}{}
+	}
+	stateMap := make(map[string]struct{}, len(stateRecipes))
+	for _, r := range stateRecipes {
+		stateMap[r] = struct{}{}
+	}
+
+	var toAttach []string
+	for r := range planMap {
+		if _, exists := stateMap[r]; !exists {
+			toAttach = append(toAttach, r)
+		}
+	}
+	var toDetach []string
+	for r := range stateMap {
+		if _, exists := planMap[r]; !exists {
+			toDetach = append(toDetach, r)
+		}
+	}
+
+	if len(toAttach) > 0 {
+		params := operations.NewAttachFreeIpaRecipesParams()
+		params.WithInput(&environmentsmodels.AttachFreeIpaRecipesRequest{
+			Environment: &environmentName,
+			Recipes:     toAttach,
+		})
+		if _, err := client.Operations.AttachFreeIpaRecipesContext(ctx, params); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "attach freeipa recipes")
+			return resp
+		}
+	}
+
+	if len(toDetach) > 0 {
+		params := operations.NewDetachFreeIpaRecipesParams()
+		params.WithInput(&environmentsmodels.DetachFreeIpaRecipesRequest{
+			Environment: &environmentName,
+			Recipes:     toDetach,
+		})
+		if _, err := client.Operations.DetachFreeIpaRecipesContext(ctx, params); err != nil {
+			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "detach freeipa recipes")
+			return resp
+		}
+	}
+
+	updateFreeIpaRecipesInState(ctx, stateFreeIpa, planDetails.Recipes, &resp.Diagnostics)
+	return resp
+}
+
+func updateFreeIpaRecipesInState(ctx context.Context, freeIpaObj *types.Object, newRecipes types.Set, diags *diag.Diagnostics) {
+	var details FreeIpaDetails
+	diags.Append(freeIpaObj.As(ctx, &details, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})...)
+	if diags.HasError() {
+		return
+	}
+	details.Recipes = newRecipes
 	newObj, objDiags := types.ObjectValueFrom(ctx, FreeIpaDetailsType.AttrTypes, &details)
 	diags.Append(objDiags...)
 	*freeIpaObj = newObj

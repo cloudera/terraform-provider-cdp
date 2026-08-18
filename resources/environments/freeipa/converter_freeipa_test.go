@@ -166,3 +166,194 @@ func TestSetCatalogIfChanged_CatalogChangedFromNull_CallsSetCatalog(t *testing.T
 	assert.False(t, asDiags.HasError())
 	assert.Equal(t, testNewCatalogURL, updatedDetails.Catalog.ValueString())
 }
+
+func newFreeIpaObjectWithRecipes(catalog string, recipes []string) types.Object {
+	instances, _ := types.SetValueFrom(context.TODO(), FreeIpaInstanceType, []FreeIpaInstance{})
+	var recipesSet types.Set
+	if recipes == nil {
+		recipesSet = types.SetNull(types.StringType)
+	} else {
+		recipesSet, _ = types.SetValueFrom(context.TODO(), types.StringType, recipes)
+	}
+	obj, _ := basetypes.NewObjectValueFrom(context.TODO(), FreeIpaDetailsType.AttrTypes, &FreeIpaDetails{
+		Catalog:              types.StringValue(catalog),
+		ImageID:              types.StringValue("img-1"),
+		Os:                   types.StringValue("centos7"),
+		InstanceCountByGroup: types.Int32Value(1),
+		InstanceType:         types.StringValue("m5.xlarge"),
+		Instances:            instances,
+		MultiAz:              types.BoolValue(false),
+		Recipes:              recipesSet,
+		Architecture:         types.StringValue("X86_64"),
+	})
+	return obj
+}
+
+func TestUpdateRecipesIfChanged_RecipesAdded_CallsAttachOnly(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-b", "recipe-c"})
+	stateFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-b"})
+
+	matcher := func(params *operations.AttachFreeIpaRecipesParams) bool {
+		return *params.Input.Environment == "test-env" &&
+			len(params.Input.Recipes) == 1 &&
+			params.Input.Recipes[0] == "recipe-c"
+	}
+	mockClient.On("AttachFreeIpaRecipesContext", mock.Anything, mock.MatchedBy(matcher)).Return(&operations.AttachFreeIpaRecipesOK{}, nil)
+
+	resp := &resource.UpdateResponse{}
+	UpdateRecipesIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), resp)
+
+	assert.False(t, resp.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+	mockClient.AssertNotCalled(t, "DetachFreeIpaRecipesContext", mock.Anything, mock.Anything)
+
+	var updatedDetails FreeIpaDetails
+	asDiags := stateFreeIpa.As(ctx, &updatedDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	assert.False(t, asDiags.HasError())
+	assert.True(t, updatedDetails.Recipes.Equal(planFreeIpa.Attributes()["recipes"].(types.Set)))
+}
+
+func TestUpdateRecipesIfChanged_RecipesRemoved_CallsDetachOnly(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a"})
+	stateFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-b"})
+
+	matcher := func(params *operations.DetachFreeIpaRecipesParams) bool {
+		return *params.Input.Environment == "test-env" &&
+			len(params.Input.Recipes) == 1 &&
+			params.Input.Recipes[0] == "recipe-b"
+	}
+	mockClient.On("DetachFreeIpaRecipesContext", mock.Anything, mock.MatchedBy(matcher)).Return(&operations.DetachFreeIpaRecipesOK{}, nil)
+
+	resp := &resource.UpdateResponse{}
+	UpdateRecipesIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), resp)
+
+	assert.False(t, resp.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+	mockClient.AssertNotCalled(t, "AttachFreeIpaRecipesContext", mock.Anything, mock.Anything)
+
+	var updatedDetails FreeIpaDetails
+	asDiags := stateFreeIpa.As(ctx, &updatedDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	assert.False(t, asDiags.HasError())
+	assert.True(t, updatedDetails.Recipes.Equal(planFreeIpa.Attributes()["recipes"].(types.Set)))
+}
+
+func TestUpdateRecipesIfChanged_RecipesSwapped_CallsBoth(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-c"})
+	stateFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-b"})
+
+	attachMatcher := func(params *operations.AttachFreeIpaRecipesParams) bool {
+		return *params.Input.Environment == "test-env" &&
+			len(params.Input.Recipes) == 1 &&
+			params.Input.Recipes[0] == "recipe-c"
+	}
+	detachMatcher := func(params *operations.DetachFreeIpaRecipesParams) bool {
+		return *params.Input.Environment == "test-env" &&
+			len(params.Input.Recipes) == 1 &&
+			params.Input.Recipes[0] == "recipe-b"
+	}
+	mockClient.On("AttachFreeIpaRecipesContext", mock.Anything, mock.MatchedBy(attachMatcher)).Return(&operations.AttachFreeIpaRecipesOK{}, nil)
+	mockClient.On("DetachFreeIpaRecipesContext", mock.Anything, mock.MatchedBy(detachMatcher)).Return(&operations.DetachFreeIpaRecipesOK{}, nil)
+
+	resp := &resource.UpdateResponse{}
+	UpdateRecipesIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), resp)
+
+	assert.False(t, resp.Diagnostics.HasError())
+	mockClient.AssertExpectations(t)
+
+	var updatedDetails FreeIpaDetails
+	asDiags := stateFreeIpa.As(ctx, &updatedDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	assert.False(t, asDiags.HasError())
+	assert.True(t, updatedDetails.Recipes.Equal(planFreeIpa.Attributes()["recipes"].(types.Set)))
+}
+
+func TestUpdateRecipesIfChanged_RecipesUnchanged_SkipsAPIs(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-b"})
+	resp := &resource.UpdateResponse{}
+	UpdateRecipesIfChanged(ctx, planFreeIpa, new(newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-b"})), "test-env", newMockEnvClient(mockClient), resp)
+
+	assert.False(t, resp.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "AttachFreeIpaRecipesContext", mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "DetachFreeIpaRecipesContext", mock.Anything, mock.Anything)
+}
+
+func TestUpdateRecipesIfChanged_SameRecipesDifferentOrder_SkipsAPIs(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-b", "recipe-a"})
+	resp := &resource.UpdateResponse{}
+	UpdateRecipesIfChanged(ctx, planFreeIpa, new(newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-b"})), "test-env", newMockEnvClient(mockClient), resp)
+
+	assert.False(t, resp.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "AttachFreeIpaRecipesContext", mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "DetachFreeIpaRecipesContext", mock.Anything, mock.Anything)
+}
+
+func TestUpdateRecipesIfChanged_PlanRecipesNull_SkipsAPIs(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, nil)
+	resp := &resource.UpdateResponse{}
+	UpdateRecipesIfChanged(ctx, planFreeIpa, new(newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a"})), "test-env", newMockEnvClient(mockClient), resp)
+
+	assert.False(t, resp.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "AttachFreeIpaRecipesContext", mock.Anything, mock.Anything)
+	mockClient.AssertNotCalled(t, "DetachFreeIpaRecipesContext", mock.Anything, mock.Anything)
+}
+
+func TestUpdateRecipesIfChanged_AttachFails_AddsDiagnosticsStateUnchanged(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-b", "recipe-c"})
+	stateFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-b"})
+
+	mockClient.On("AttachFreeIpaRecipesContext", mock.Anything, mock.Anything).Return((*operations.AttachFreeIpaRecipesOK)(nil), errors.New("API connection failed"))
+
+	resp := &resource.UpdateResponse{}
+	UpdateRecipesIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), resp)
+
+	assert.True(t, resp.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "DetachFreeIpaRecipesContext", mock.Anything, mock.Anything)
+
+	var stateDetails FreeIpaDetails
+	asDiags := stateFreeIpa.As(ctx, &stateDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	assert.False(t, asDiags.HasError())
+	expectedState, _ := types.SetValueFrom(ctx, types.StringType, []string{"recipe-a", "recipe-b"})
+	assert.True(t, stateDetails.Recipes.Equal(expectedState))
+}
+
+func TestUpdateRecipesIfChanged_DetachFails_AddsDiagnosticsStateUnchanged(t *testing.T) {
+	ctx := context.TODO()
+	mockClient := new(mocks.MockEnvironmentClientService)
+
+	planFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a"})
+	stateFreeIpa := newFreeIpaObjectWithRecipes(testSameCatalogURL, []string{"recipe-a", "recipe-b"})
+
+	mockClient.On("DetachFreeIpaRecipesContext", mock.Anything, mock.Anything).Return((*operations.DetachFreeIpaRecipesOK)(nil), errors.New("API connection failed"))
+
+	resp := &resource.UpdateResponse{}
+	UpdateRecipesIfChanged(ctx, planFreeIpa, &stateFreeIpa, "test-env", newMockEnvClient(mockClient), resp)
+
+	assert.True(t, resp.Diagnostics.HasError())
+	mockClient.AssertNotCalled(t, "AttachFreeIpaRecipesContext", mock.Anything, mock.Anything)
+
+	var stateDetails FreeIpaDetails
+	asDiags := stateFreeIpa.As(ctx, &stateDetails, basetypes.ObjectAsOptions{UnhandledNullAsEmpty: true, UnhandledUnknownAsEmpty: true})
+	assert.False(t, asDiags.HasError())
+	expectedState, _ := types.SetValueFrom(ctx, types.StringType, []string{"recipe-a", "recipe-b"})
+	assert.True(t, stateDetails.Recipes.Equal(expectedState))
+}

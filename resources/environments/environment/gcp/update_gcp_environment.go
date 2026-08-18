@@ -34,6 +34,7 @@ func updateGcpEnvironment(ctx context.Context, plan *GcpEnvironmentResourceModel
 		updateGcpTelemetryFeaturesIfChanged,
 		updateGcpAvailabilityZonesIfChanged,
 		updateGcpSecurityAccessIfChanged,
+		updateFreeIpaRecipesIfChanged,
 		updateGcpCredentialIfChanged,
 		updateGcpSubnetIfChanged,
 		updateGcpCatalogIfChanged,
@@ -60,6 +61,10 @@ func updateGcpProxyConfigurationIfChanged(ctx context.Context, plan *GcpEnvironm
 
 func updateGcpCatalogIfChanged(ctx context.Context, plan *GcpEnvironmentResourceModel, state *GcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return freeipa.UpdateCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, resp)
+}
+
+func updateFreeIpaRecipesIfChanged(ctx context.Context, plan *GcpEnvironmentResourceModel, state *GcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return freeipa.UpdateRecipesIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, resp)
 }
 
 func updateGcpEndpointAccessGatewayIfChanged(ctx context.Context, plan *GcpEnvironmentResourceModel, state *GcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {

@@ -38,6 +38,7 @@ func updateAwsEnvironment(ctx context.Context, plan *ResourceModel, state *Resou
 		updateAwsSecurityAccessIfChanged,
 		updateAwsAuthenticationIfChanged,
 		updateAwsEncryptionKeyIfChanged,
+		updateFreeIpaRecipesIfChanged,
 		updateAwsCredentialIfChanged,
 		updateAwsCatalogIfChanged,
 		updateAwsSubnetIfChanged,
@@ -104,6 +105,10 @@ func updateAwsEncryptionKeyIfChanged(ctx context.Context, plan *ResourceModel, s
 
 func updateAwsCatalogIfChanged(ctx context.Context, plan *ResourceModel, state *ResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return freeipa.UpdateCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, resp)
+}
+
+func updateFreeIpaRecipesIfChanged(ctx context.Context, plan *ResourceModel, state *ResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return freeipa.UpdateRecipesIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, resp)
 }
 
 func updateAwsProxyConfigurationIfChanged(ctx context.Context, plan *ResourceModel, state *ResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
