@@ -59,7 +59,7 @@ func toGcpEnvironmentRequest(ctx context.Context, model *GcpEnvironmentResourceM
 	}
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
-		trans, img := freeipa.FreeIpaModelToRequest(&model.FreeIpa, ctx)
+		trans, img := freeipa.ModelToRequest(&model.FreeIpa, ctx)
 		req.FreeIpa = &environmentsmodels.GCPFreeIpaCreationRequest{
 			InstanceCountByGroup: trans.InstanceCountByGroup,
 			InstanceType:         trans.InstanceType,
@@ -165,5 +165,5 @@ func ToGcpEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	}
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.WorkloadAnalytics = types.BoolValue(env.WorkloadAnalytics)
-	diags.Append(*freeipa.FreeIpaResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
+	diags.Append(*freeipa.ResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
 }

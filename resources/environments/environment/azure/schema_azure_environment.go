@@ -526,7 +526,7 @@ func ToAzureEnvironmentRequest(ctx context.Context, model *AzureEnvironmentResou
 	}
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
-		trans, img := freeipa.FreeIpaModelToRequest(&model.FreeIpa, ctx)
+		trans, img := freeipa.ModelToRequest(&model.FreeIpa, ctx)
 		req.FreeIpa = &environmentsmodels.AzureFreeIpaCreationRequest{
 			InstanceCountByGroup: trans.InstanceCountByGroup,
 			InstanceType:         trans.InstanceType,

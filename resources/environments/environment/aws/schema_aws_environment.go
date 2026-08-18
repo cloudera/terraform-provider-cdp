@@ -445,7 +445,7 @@ func ToAwsEnvironmentRequest(ctx context.Context, model *ResourceModel) *environ
 	}
 
 	if !model.FreeIpa.IsNull() && !model.FreeIpa.IsUnknown() {
-		trans, img := freeipa.FreeIpaModelToRequest(&model.FreeIpa, ctx)
+		trans, img := freeipa.ModelToRequest(&model.FreeIpa, ctx)
 		req.FreeIpa = &environmentsmodels.AWSFreeIpaCreationRequest{
 			InstanceCountByGroup: trans.InstanceCountByGroup,
 			InstanceType:         trans.InstanceType,

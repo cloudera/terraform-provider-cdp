@@ -40,6 +40,7 @@ func updateAzureEnvironment(ctx context.Context, plan *AzureEnvironmentResourceM
 		updateAzureDataServicesIfChanged,
 		updateAzureCredentialIfChanged,
 		updateAzureEncryptionIfChanged,
+		updateFreeIpaRecipesIfChanged,
 		updateAzureCatalogIfChanged,
 		updateAzureSshKeyIfChanged,
 		updateAzureTagsIfChanged,
@@ -114,6 +115,10 @@ func updateAzureSshKeyIfChanged(ctx context.Context, plan *AzureEnvironmentResou
 
 func updateAzureCatalogIfChanged(ctx context.Context, plan *AzureEnvironmentResourceModel, state *AzureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	return freeipa.UpdateCatalogIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, resp)
+}
+
+func updateFreeIpaRecipesIfChanged(ctx context.Context, plan *AzureEnvironmentResourceModel, state *AzureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
+	return freeipa.UpdateRecipesIfChanged(ctx, plan.FreeIpa, &state.FreeIpa, plan.EnvironmentName.ValueString(), client, resp)
 }
 
 func updateAzureEndpointAccessGatewayIfChanged(ctx context.Context, plan *AzureEnvironmentResourceModel, state *AzureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {

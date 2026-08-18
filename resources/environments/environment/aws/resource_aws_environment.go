@@ -180,7 +180,7 @@ func ToAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 			}
 		}
 	}
-	diags.Append(*freeipa.FreeIpaResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
+	diags.Append(*freeipa.ResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
 	if env.Network != nil {
 		model.EndpointAccessGatewayScheme = types.StringValue(env.Network.EndpointAccessGatewayScheme)
 		if env.Network.EndpointAccessGatewaySubnetIds != nil {

@@ -159,7 +159,7 @@ func ToAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 			}
 		}
 	}
-	diags.Append(*freeipa.FreeIpaResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
+	diags.Append(*freeipa.ResponseToModel(env.Freeipa, &model.FreeIpa, ctx)...)
 	if env.Network != nil {
 		var npDiags diag.Diagnostics
 		if env.Network.EndpointAccessGatewaySubnetIds != nil {
