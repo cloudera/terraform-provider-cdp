@@ -335,4 +335,7 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 	if model.CertificateExpirationState.IsUnknown() {
 		model.CertificateExpirationState = types.StringNull()
 	}
+	if model.Runtime.IsUnknown() {
+		model.Runtime = types.StringNull()
+	}
 }

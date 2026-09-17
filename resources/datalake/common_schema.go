@@ -105,6 +105,10 @@ var generalAttributes = map[string]schema.Attribute{
 		MarkdownDescription: "The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image.",
 		Description:         "The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image.",
 		Optional:            true,
+		Computed:            true,
+		PlanModifiers: []planmodifier.Object{
+			useStateOrNullForUnknown(),
+		},
 		Validators: []validator.Object{
 			datalakevalidators.ImageRuntimeCompatibilityValidator(),
 		},
@@ -176,6 +180,10 @@ var generalAttributes = map[string]schema.Attribute{
 		MarkdownDescription: "Cloudera Runtime version.",
 		Description:         "Cloudera Runtime version.",
 		Optional:            true,
+		Computed:            true,
+		PlanModifiers: []planmodifier.String{
+			stringplanmodifier.UseStateForUnknown(),
+		},
 	},
 	"scale": schema.StringAttribute{
 		MarkdownDescription: "Represents the available datalake scales. Defaults to LIGHT_DUTY if not set.",

@@ -26,6 +26,18 @@ func TestAwsDatalakeSchemaMatchesDatalakeConfigSchema(t *testing.T) {
 		"AWS",
 		awsDatalakeSchema.Attributes,
 		awsSchema.Attributes,
+		map[string]bool{
+			"upgrade_options":                          true,
+			"upgrade_options.dry_run":                  true,
+			"upgrade_options.lock_components":          true,
+			"upgrade_options.rolling_upgrade_enabled":  true,
+			"upgrade_options.skip_backup":              true,
+			"upgrade_options.skip_backup_validation":   true,
+			"upgrade_options.skip_atlas_metadata":      true,
+			"upgrade_options.skip_ranger_audits":       true,
+			"upgrade_options.skip_ranger_hms_metadata": true,
+			"upgrade_options.skip_datahub_validation":  true,
+		},
 	)
 }
 
@@ -35,6 +47,7 @@ func TestAzureDatalakeSchemaMatchesDatalakeConfigSchema(t *testing.T) {
 		"Azure",
 		azureDatalakeResourceSchema.Attributes,
 		azureSchema.Attributes,
+		nil,
 	)
 }
 
@@ -44,6 +57,7 @@ func TestGcpDatalakeSchemaMatchesDatalakeConfigSchema(t *testing.T) {
 		"GCP",
 		gcpDatalakeSchema.Attributes,
 		gcpSchema.Attributes,
+		nil,
 	)
 }
 
@@ -52,6 +66,7 @@ func assertSchemaPathsMatch(
 	name string,
 	resourceAttrs map[string]rsschema.Attribute,
 	dataSourceAttrs map[string]dsschema.Attribute,
+	resourceOnlyPaths map[string]bool,
 ) {
 	t.Helper()
 
@@ -59,6 +74,16 @@ func assertSchemaPathsMatch(
 	dataSourcePaths := collectDataSourceSchemaPaths(dataSourceAttrs, "")
 
 	onlyInResource, onlyInDataSource := diffPathSets(resourcePaths, dataSourcePaths)
+
+	if resourceOnlyPaths != nil {
+		filtered := onlyInResource[:0]
+		for _, p := range onlyInResource {
+			if !resourceOnlyPaths[p] {
+				filtered = append(filtered, p)
+			}
+		}
+		onlyInResource = filtered
+	}
 
 	if len(onlyInResource) == 0 && len(onlyInDataSource) == 0 {
 		return
