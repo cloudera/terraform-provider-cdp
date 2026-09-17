@@ -99,6 +99,7 @@ output "recipes" {
 - `scale` (String) Represents the available datalake scales. Defaults to LIGHT_DUTY if not set.
 - `security` (Attributes) Security related configuration for Datalake. (see [below for nested schema](#nestedatt--security))
 - `tags` (Map of String) Tags to be added to Data Lake related resources.
+- `upgrade_options` (Attributes) Options controlling datalake upgrade behavior. An upgrade is triggered when `runtime` or `image` changes. Set `dry_run = true` to preview available upgrades without applying them. (see [below for nested schema](#nestedatt--upgrade_options))
 
 ### Read-Only
 
@@ -162,3 +163,19 @@ Required:
 Optional:
 
 - `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Values are: PERMISSIVE, ENFORCING
+
+
+<a id="nestedatt--upgrade_options"></a>
+### Nested Schema for `upgrade_options`
+
+Optional:
+
+- `dry_run` (Boolean) Checks the eligibility of an image to upgrade without performing the upgrade. When set, the provider reports available upgrade candidates as a warning and preserves the current runtime and image values in state.
+- `lock_components` (Boolean) Perform an OS upgrade only, locking Cloudera component versions.
+- `rolling_upgrade_enabled` (Boolean) Enables the ability to perform a rolling runtime upgrade.
+- `skip_atlas_metadata` (Boolean) Skip backup of Atlas metadata. Redundant if skip_backup is set.
+- `skip_backup` (Boolean) Skip the backup step before upgrade.
+- `skip_backup_validation` (Boolean) Skip validation steps that run before backup. Redundant if skip_backup is set.
+- `skip_datahub_validation` (Boolean) Allow upgrade with running DataHub clusters. This may cause issues on running DataHub clusters during upgrade.
+- `skip_ranger_audits` (Boolean) Skip backup of Ranger audit logs. Redundant if skip_backup is set.
+- `skip_ranger_hms_metadata` (Boolean) Skip backup of HMS/Ranger databases. Redundant if skip_backup is set.

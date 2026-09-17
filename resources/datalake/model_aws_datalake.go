@@ -68,6 +68,8 @@ type awsDatalakeResourceModel struct {
 	Architecture types.String `tfsdk:"architecture"`
 
 	DeleteOptions *DeleteOptions `tfsdk:"delete_options"`
+
+	UpgradeOptions *UpgradeOptions `tfsdk:"upgrade_options"`
 }
 
 type awsDatalakeImage struct {

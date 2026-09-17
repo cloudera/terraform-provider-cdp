@@ -19,3 +19,15 @@ type Security struct {
 type DeleteOptions struct {
 	Forced types.Bool `tfsdk:"forced"`
 }
+
+type UpgradeOptions struct {
+	DryRun                types.Bool `tfsdk:"dry_run"`
+	LockComponents        types.Bool `tfsdk:"lock_components"`
+	RollingUpgradeEnabled types.Bool `tfsdk:"rolling_upgrade_enabled"`
+	SkipBackup            types.Bool `tfsdk:"skip_backup"`
+	SkipBackupValidation  types.Bool `tfsdk:"skip_backup_validation"`
+	SkipAtlasMetadata     types.Bool `tfsdk:"skip_atlas_metadata"`
+	SkipRangerAudits      types.Bool `tfsdk:"skip_ranger_audits"`
+	SkipRangerHmsMetadata types.Bool `tfsdk:"skip_ranger_hms_metadata"`
+	SkipDatahubValidation types.Bool `tfsdk:"skip_datahub_validation"`
+}

@@ -344,9 +344,44 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 	if model.CertificateExpirationState.IsUnknown() {
 		model.CertificateExpirationState = types.StringNull()
 	}
+	if model.Runtime.IsUnknown() {
+		model.Runtime = types.StringNull()
+	}
 }
 
-func (r *awsDatalakeResource) Update(_ context.Context, _ resource.UpdateRequest, _ *resource.UpdateResponse) {
+func (r *awsDatalakeResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var plan awsDatalakeResourceModel
+	var state awsDatalakeResourceModel
+
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	upgradeAwsDatalake(ctx, &plan, &state, r.client.Datalake, resp)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	if isDryRun(plan.UpgradeOptions) {
+		plan.Runtime = state.Runtime
+		plan.Image = state.Image
+	}
+
+	descParams := operations.NewDescribeDatalakeParams()
+	descParams.WithInput(&datalakemodels.DescribeDatalakeRequest{
+		DatalakeName: plan.DatalakeName.ValueStringPointer(),
+	})
+	descResp, err := r.client.Datalake.Operations.DescribeDatalakeContext(ctx, descParams)
+	if err != nil {
+		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "read AWS Datalake after upgrade")
+		return
+	}
+
+	datalakeDetailsToAwsDatalakeResourceModel(ctx, descResp.Payload.Datalake, &plan, plan.PollingOptions, &resp.Diagnostics)
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, plan)...)
 }
 
 func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

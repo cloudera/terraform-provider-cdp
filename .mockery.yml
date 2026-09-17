@@ -33,3 +33,10 @@ packages:
       ClientService:
         config:
           structname: MockCloudPrivateLinks{{.InterfaceName}}
+  github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client/operations:
+    config:
+      filename: datalake_clientservice.go
+    interfaces:
+      ClientService:
+        config:
+          structname: MockDatalake{{.InterfaceName}}

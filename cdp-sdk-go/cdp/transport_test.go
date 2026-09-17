@@ -53,7 +53,6 @@ func getTestOperation() *runtime.ClientOperation {
 		Params: runtime.ClientRequestWriterFunc(func(req runtime.ClientRequest, reg strfmt.Registry) error {
 			return req.SetBodyParam("test body")
 		}),
-		Context: context.Background(),
 	}
 }
 
@@ -76,7 +75,7 @@ func TestDefaultUserAgent(t *testing.T) {
 		t.Fatalf("Failed to get transport: %v", err)
 	}
 
-	_, err = transport.Submit(getTestOperation())
+	_, err = transport.SubmitContext(context.Background(), getTestOperation())
 
 	userAgent := mockRoundTripper.req.UserAgent()
 
@@ -100,7 +99,7 @@ func TestCustomUserAgent(t *testing.T) {
 		t.Fatalf("Failed to get transport: %v", err)
 	}
 
-	_, err = transport.Submit(getTestOperation())
+	_, err = transport.SubmitContext(context.Background(), getTestOperation())
 
 	userAgent := mockRoundTripper.req.UserAgent()
 
@@ -122,7 +121,7 @@ func TestDefaultClientApplicationName(t *testing.T) {
 		t.Fatalf("Failed to get transport: %v", err)
 	}
 
-	_, err = transport.Submit(getTestOperation())
+	_, err = transport.SubmitContext(context.Background(), getTestOperation())
 
 	clientAppName := mockRoundTripper.req.Header.Get("x-altus-client-app")
 
@@ -145,7 +144,7 @@ func TestCustomClientApplicationName(t *testing.T) {
 		t.Fatalf("Failed to get transport: %v", err)
 	}
 
-	_, err = transport.Submit(getTestOperation())
+	_, err = transport.SubmitContext(context.Background(), getTestOperation())
 
 	clientAppName := mockRoundTripper.req.Header.Get("x-altus-client-app")
 

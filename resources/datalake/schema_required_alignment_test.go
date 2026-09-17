@@ -129,6 +129,7 @@ func TestAwsDatalakeSchemaFieldsCoverage(t *testing.T) {
 		"environment":                  true, // Maps to CDP's environmentName
 		"custom_instance_groups":       true, // Maps to CDP's customInstanceGroups but with different naming
 		"recipes":                      true, // Maps to CDP's recipes but with different structure
+		"upgrade_options":              true, // Maps to UpgradeDatalakeRequest, not CreateAWSDatalakeRequest
 	}
 
 	assertAllSchemaFieldsMapped(t,

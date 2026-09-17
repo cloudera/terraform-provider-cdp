@@ -87,7 +87,7 @@ var (
 		{
 			Name:          "'image' should exist",
 			Field:         "image",
-			Computed:      false,
+			Computed:      true,
 			Required:      false,
 			AttributeType: schema.SingleNestedAttribute{},
 		},
@@ -115,7 +115,7 @@ var (
 		{
 			Name:          "'runtime' should exist",
 			Field:         "runtime",
-			Computed:      false,
+			Computed:      true,
 			Required:      false,
 			AttributeType: schema.StringAttribute{},
 		},

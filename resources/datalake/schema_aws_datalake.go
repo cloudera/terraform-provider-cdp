@@ -71,6 +71,58 @@ func getAwsResourceSchema() schema.Schema {
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
+		"upgrade_options": schema.SingleNestedAttribute{
+			MarkdownDescription: "Options controlling datalake upgrade behavior. An upgrade is triggered when `runtime` or `image` changes. Set `dry_run = true` to preview available upgrades without applying them.",
+			Description:         "Options controlling datalake upgrade behavior. An upgrade is triggered when runtime or image changes. Set dry_run = true to preview available upgrades without applying them.",
+			Optional:            true,
+			Attributes: map[string]schema.Attribute{
+				"dry_run": schema.BoolAttribute{
+					MarkdownDescription: "Checks the eligibility of an image to upgrade without performing the upgrade. When set, the provider reports available upgrade candidates as a warning and preserves the current runtime and image values in state.",
+					Description:         "Checks the eligibility of an image to upgrade without performing the upgrade. When set, the provider reports available upgrade candidates as a warning and preserves the current runtime and image values in state.",
+					Optional:            true,
+				},
+				"lock_components": schema.BoolAttribute{
+					MarkdownDescription: "Perform an OS upgrade only, locking Cloudera component versions.",
+					Description:         "Perform an OS upgrade only, locking Cloudera component versions.",
+					Optional:            true,
+				},
+				"rolling_upgrade_enabled": schema.BoolAttribute{
+					MarkdownDescription: "Enables the ability to perform a rolling runtime upgrade.",
+					Description:         "Enables the ability to perform a rolling runtime upgrade.",
+					Optional:            true,
+				},
+				"skip_backup": schema.BoolAttribute{
+					MarkdownDescription: "Skip the backup step before upgrade.",
+					Description:         "Skip the backup step before upgrade.",
+					Optional:            true,
+				},
+				"skip_backup_validation": schema.BoolAttribute{
+					MarkdownDescription: "Skip validation steps that run before backup. Redundant if skip_backup is set.",
+					Description:         "Skip validation steps that run before backup. Redundant if skip_backup is set.",
+					Optional:            true,
+				},
+				"skip_atlas_metadata": schema.BoolAttribute{
+					MarkdownDescription: "Skip backup of Atlas metadata. Redundant if skip_backup is set.",
+					Description:         "Skip backup of Atlas metadata. Redundant if skip_backup is set.",
+					Optional:            true,
+				},
+				"skip_ranger_audits": schema.BoolAttribute{
+					MarkdownDescription: "Skip backup of Ranger audit logs. Redundant if skip_backup is set.",
+					Description:         "Skip backup of Ranger audit logs. Redundant if skip_backup is set.",
+					Optional:            true,
+				},
+				"skip_ranger_hms_metadata": schema.BoolAttribute{
+					MarkdownDescription: "Skip backup of HMS/Ranger databases. Redundant if skip_backup is set.",
+					Description:         "Skip backup of HMS/Ranger databases. Redundant if skip_backup is set.",
+					Optional:            true,
+				},
+				"skip_datahub_validation": schema.BoolAttribute{
+					MarkdownDescription: "Allow upgrade with running DataHub clusters. This may cause issues on running DataHub clusters during upgrade.",
+					Description:         "Allow upgrade with running DataHub clusters. This may cause issues on running DataHub clusters during upgrade.",
+					Optional:            true,
+				},
+			},
+		},
 	})
 	return schema.Schema{
 		MarkdownDescription: "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",

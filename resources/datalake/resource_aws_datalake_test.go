@@ -76,13 +76,22 @@ func TestAccAwsDataLake_basic(t *testing.T) {
 		VpcId:               os.Getenv(AwsVpcId),
 		SubnetIds:           os.Getenv(AwsSubnetIds),
 	}
+	dlName := cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix)
 	dlParams := awsDataLakeTestParameters{
-		Name:                cdpacctest.RandomShortWithPrefix(cdpacctest.ResourcePrefix),
+		Name:                dlName,
 		DataAccessRole:      os.Getenv(AwsDataAccessRole),
 		RangerAuditRole:     os.Getenv(AwsRangerAuditRole),
 		AssumerRole:         os.Getenv(AwsAssumerRole),
 		StorageLocationBase: os.Getenv(AwsStorageLocationBase),
 		Runtime:             os.Getenv(AwsRuntime),
+	}
+	upgradedDlParams := awsDataLakeTestParameters{
+		Name:                dlName,
+		DataAccessRole:      os.Getenv(AwsDataAccessRole),
+		RangerAuditRole:     os.Getenv(AwsRangerAuditRole),
+		AssumerRole:         os.Getenv(AwsAssumerRole),
+		StorageLocationBase: os.Getenv(AwsStorageLocationBase),
+		Runtime:             "7.3.2",
 	}
 	resourceName := "cdp_datalake_aws_datalake.test_dl"
 	resource.Test(t, resource.TestCase{
@@ -103,6 +112,17 @@ func TestAccAwsDataLake_basic(t *testing.T) {
 					resource.TestCheckResourceAttrWith(resourceName, "id", cdpacctest.CheckCrn),
 					resource.TestCheckResourceAttr(resourceName, "datalake_name", dlParams.Name),
 					resource.TestCheckResourceAttrWith(resourceName, "crn", cdpacctest.CheckCrn),
+				),
+			},
+			{
+				Config: utils.Concat(
+					cdpacctest.TestAccCdpProviderConfig(),
+					testAccAwsCredentialBasicConfig(credName, os.Getenv(AwsXAccRoleArn)),
+					testAccAwsEnvironmentConfig(&envParams),
+					testAccAwsDataLakeConfig(&upgradedDlParams)),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "datalake_name", dlParams.Name),
+					resource.TestCheckResourceAttr(resourceName, "runtime", "7.3.2"),
 				),
 			},
 		},
