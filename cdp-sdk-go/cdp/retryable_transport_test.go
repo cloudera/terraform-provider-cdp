@@ -12,6 +12,7 @@ package cdp
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io"
 	"net/http"
@@ -31,10 +32,14 @@ const (
 )
 
 type mockReadCloser struct {
-	closed bool
+	closed  bool
+	readErr error
 }
 
 func (m *mockReadCloser) Read(p []byte) (int, error) {
+	if m.readErr != nil {
+		return 0, m.readErr
+	}
 	return 0, io.EOF
 }
 
@@ -43,109 +48,103 @@ func (m *mockReadCloser) Close() error {
 	return nil
 }
 
-func TestRoundTripRetriesOnError(t *testing.T) {
+func setupRetryTest(t *testing.T) *RetryableTransport {
+	t.Helper()
 	_ = os.Setenv(testRetryCountEnvVariableKey, fmt.Sprintf("%v", testRetryCount))
-	defer func() {
-		_ = os.Unsetenv(testRetryCountEnvVariableKey)
-	}()
+	t.Cleanup(func() { _ = os.Unsetenv(testRetryCountEnvVariableKey) })
 	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
+	t.Cleanup(httpmock.DeactivateAndReset)
+	return &RetryableTransport{transport: http.DefaultTransport}
+}
 
+func registerErrorResponder() {
 	httpmock.RegisterResponder(testGetHttpMethod, testUrl,
 		httpmock.NewErrorResponder(fmt.Errorf("network error")))
+}
 
+func registerSuccessResponder() {
+	httpmock.RegisterResponder(testGetHttpMethod, testUrl,
+		httpmock.NewStringResponder(http.StatusOK, testEmptyBody))
+}
+
+func newTestGetRequest(t *testing.T) *http.Request {
+	t.Helper()
 	req, _ := http.NewRequest(testGetHttpMethod, testUrl, nil)
-	retryableTransport := &RetryableTransport{transport: http.DefaultTransport}
+	return req
+}
 
-	resp, err := retryableTransport.RoundTrip(req)
+func assertCallCount(t *testing.T, expected int, msg string) {
+	t.Helper()
+	if httpmock.GetTotalCallCount() != expected {
+		t.Fatalf("%s: expected %v calls, got %v", msg, expected, httpmock.GetTotalCallCount())
+	}
+}
+
+func TestShouldRetryWithNilErrorAndNilResponse(t *testing.T) {
+	if shouldRetry(nil, nil) {
+		t.Fatalf("Expected false for nil error and nil response")
+	}
+}
+
+func TestRoundTripRetriesOnError(t *testing.T) {
+	transport := setupRetryTest(t)
+	registerErrorResponder()
+
+	resp, err := transport.RoundTrip(newTestGetRequest(t))
 	if err == nil {
 		t.Fatalf("Expected error, got nil")
 	}
 	if resp != nil {
 		t.Fatalf("Expected nil response, got %v", resp)
 	}
-	if httpmock.GetTotalCallCount() != testRetryCount+1 {
-		t.Fatalf("Expected %v retries, got %v", testRetryCount, httpmock.GetTotalCallCount()-1)
-	}
+	assertCallCount(t, testRetryCount+1, "retries on error")
 }
 
 func TestRoundTripRetriesOnRetryableStatusCode(t *testing.T) {
-	_ = os.Setenv(testRetryCountEnvVariableKey, fmt.Sprintf("%v", testRetryCount))
-	defer func() {
-		_ = os.Unsetenv(testRetryCountEnvVariableKey)
-	}()
-	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
-
+	transport := setupRetryTest(t)
 	httpmock.RegisterResponder(testGetHttpMethod, testUrl,
 		httpmock.NewStringResponder(http.StatusTooManyRequests, testEmptyBody))
 
-	req, _ := http.NewRequest(testGetHttpMethod, testUrl, nil)
-	retryableTransport := &RetryableTransport{transport: http.DefaultTransport}
-
-	resp, err := retryableTransport.RoundTrip(req)
+	resp, err := transport.RoundTrip(newTestGetRequest(t))
 	if err != nil {
 		t.Fatalf("Expected nil error, got %v", err)
 	}
 	if resp.StatusCode != http.StatusTooManyRequests {
 		t.Fatalf("Expected status code %v, got %v", http.StatusTooManyRequests, resp.StatusCode)
 	}
-	if httpmock.GetTotalCallCount() != testRetryCount+1 {
-		t.Fatalf("Expected %v retries, got %v", testRetryCount, httpmock.GetTotalCallCount()-1)
-	}
+	assertCallCount(t, testRetryCount+1, "retries on 429")
 }
 
 func TestRoundTripNoRetryOnSuccess(t *testing.T) {
-	_ = os.Setenv(testRetryCountEnvVariableKey, fmt.Sprintf("%v", testRetryCount))
-	defer func() {
-		_ = os.Unsetenv(testRetryCountEnvVariableKey)
-	}()
-	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
+	transport := setupRetryTest(t)
+	registerSuccessResponder()
 
-	httpmock.RegisterResponder(testGetHttpMethod, testUrl,
-		httpmock.NewStringResponder(http.StatusOK, testEmptyBody))
-
-	req, _ := http.NewRequest(testGetHttpMethod, testUrl, nil)
-	retryableTransport := &RetryableTransport{transport: http.DefaultTransport}
-
-	resp, err := retryableTransport.RoundTrip(req)
+	resp, err := transport.RoundTrip(newTestGetRequest(t))
 	if err != nil {
 		t.Fatalf("Expected nil error, got %v", err)
 	}
 	if resp.StatusCode != http.StatusOK {
 		t.Fatalf("Expected status code %v, got %v", http.StatusOK, resp.StatusCode)
 	}
-	if httpmock.GetTotalCallCount() != 1 {
-		t.Fatalf("Expected 1 call, got %v", httpmock.GetTotalCallCount())
-	}
+	assertCallCount(t, 1, "no retry on success")
 }
 
 func TestRoundTripRetriesWithBody(t *testing.T) {
-	_ = os.Setenv(testRetryCountEnvVariableKey, fmt.Sprintf("%v", testRetryCount))
-	defer func() {
-		_ = os.Unsetenv(testRetryCountEnvVariableKey)
-	}()
-	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
-
+	transport := setupRetryTest(t)
 	httpmock.RegisterResponder(testPostHttpMethod, testUrl,
 		httpmock.NewErrorResponder(fmt.Errorf("network error")))
 
 	body := "test body"
 	req, _ := http.NewRequest(testPostHttpMethod, testUrl, bytes.NewBufferString(body))
-	retryableTransport := &RetryableTransport{transport: http.DefaultTransport}
 
-	resp, err := retryableTransport.RoundTrip(req)
+	resp, err := transport.RoundTrip(req)
 	if err == nil {
 		t.Fatalf("Expected error, got nil")
 	}
 	if resp != nil {
 		t.Fatalf("Expected nil response, got %v", resp)
 	}
-	if httpmock.GetTotalCallCount() != testRetryCount+1 {
-		t.Fatalf("Expected %v retries, got %v", testRetryCount, httpmock.GetTotalCallCount()-1)
-	}
+	assertCallCount(t, testRetryCount+1, "retries with body")
 	if req.Body == nil {
 		t.Fatalf("Expected request body to be retried, but it was not")
 	}
@@ -153,13 +152,11 @@ func TestRoundTripRetriesWithBody(t *testing.T) {
 
 func TestDrainBodyWithNilResponse(t *testing.T) {
 	drainBody(nil)
-	// No assertions needed, just ensure no panic occurs
 }
 
 func TestDrainBodyWithNilBody(t *testing.T) {
 	resp := &http.Response{}
 	drainBody(resp)
-	// No assertions needed, just ensure no panic occurs
 }
 
 func TestDrainBodyWithNonNilBody(t *testing.T) {
@@ -172,4 +169,87 @@ func TestDrainBodyWithNonNilBody(t *testing.T) {
 	if !mockBody.closed {
 		t.Fatalf("Expected body to be closed, but it was not")
 	}
+}
+
+func TestDrainBodyWithReadError(t *testing.T) {
+	mockBody := &mockReadCloser{readErr: fmt.Errorf("read error")}
+	resp := &http.Response{Body: mockBody}
+	drainBody(resp)
+
+	if !mockBody.closed {
+		t.Fatalf("Expected body to be closed even after read error")
+	}
+}
+
+func TestRoundTripRecoversOnIntermittentFailure(t *testing.T) {
+	transport := setupRetryTest(t)
+
+	callCount := 0
+	httpmock.RegisterResponder(testGetHttpMethod, testUrl,
+		func(req *http.Request) (*http.Response, error) {
+			callCount++
+			if callCount <= 2 {
+				return nil, fmt.Errorf("network error")
+			}
+			return httpmock.NewStringResponse(http.StatusOK, ""), nil
+		})
+
+	resp, err := transport.RoundTrip(newTestGetRequest(t))
+	if err != nil {
+		t.Fatalf("Expected nil error after recovery, got %v", err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("Expected status %v, got %v", http.StatusOK, resp.StatusCode)
+	}
+	assertCallCount(t, 3, "intermittent failure recovery")
+}
+
+func TestRoundTripRetryCounterPersistsAcrossCalls(t *testing.T) {
+	transport := setupRetryTest(t)
+	registerErrorResponder()
+
+	_, _ = transport.RoundTrip(newTestGetRequest(t))
+	assertCallCount(t, testRetryCount+1, "call 1")
+
+	httpmock.Reset()
+	registerErrorResponder()
+
+	_, _ = transport.RoundTrip(newTestGetRequest(t))
+	assertCallCount(t, 1, "call 2 (budget exhausted)")
+}
+
+func TestRoundTripBackoffResetsAfterSuccessfulCall(t *testing.T) {
+	transport := setupRetryTest(t)
+
+	registerErrorResponder()
+	_, _ = transport.RoundTrip(newTestGetRequest(t))
+	assertCallCount(t, testRetryCount+1, "call 1 (all fail)")
+
+	httpmock.Reset()
+	registerSuccessResponder()
+	resp, err := transport.RoundTrip(newTestGetRequest(t))
+	if err != nil || resp.StatusCode != http.StatusOK {
+		t.Fatalf("Call 2: expected success, got err=%v status=%v", err, resp.StatusCode)
+	}
+	assertCallCount(t, 1, "call 2 (success resets counter)")
+
+	httpmock.Reset()
+	registerErrorResponder()
+	_, _ = transport.RoundTrip(newTestGetRequest(t))
+	assertCallCount(t, testRetryCount+1, "call 3 (full budget after reset)")
+}
+
+func TestRoundTripStopsOnCancelledContext(t *testing.T) {
+	transport := setupRetryTest(t)
+	registerErrorResponder()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	req, _ := http.NewRequestWithContext(ctx, testGetHttpMethod, testUrl, nil)
+
+	_, err := transport.RoundTrip(req)
+	if err == nil {
+		t.Fatalf("Expected error, got nil")
+	}
+	assertCallCount(t, 1, "no retries with cancelled context")
 }
