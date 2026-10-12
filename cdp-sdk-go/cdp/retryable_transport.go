@@ -16,6 +16,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"sync/atomic"
 	"time"
 )
 
@@ -31,6 +32,7 @@ var (
 
 type RetryableTransport struct {
 	transport http.RoundTripper
+	retries   int32
 }
 
 func shouldRetry(err error, resp *http.Response) bool {
@@ -61,18 +63,26 @@ func (t *RetryableTransport) RoundTrip(req *http.Request) (*http.Response, error
 		req.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 	}
 	resp, err := t.transport.RoundTrip(req)
-	retries := 0
-	retryCount := intFromEnvOrDefault("CDP_TF_CALL_RETRY_COUNT", 10)
+	retries := atomic.LoadInt32(&t.retries)
+	retryCount := int32FromEnvOrDefault("CDP_TF_CALL_RETRY_COUNT", 10)
 	for shouldRetry(err, resp) && retries < retryCount {
+		if req.Context().Err() != nil {
+			break
+		}
 		log.Default().Printf("Retrying request (caused by: %+v;%+v)\n", err, resp)
-		time.Sleep(backoff(retries))
+		time.Sleep(backoff(int(retries)))
 		drainBody(resp)
 		if req.Body != nil {
 			req.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 		}
 		resp, err = t.transport.RoundTrip(req)
-		fmt.Printf("%v retry out of %v\n", retries+1, retryCount)
 		retries++
+		fmt.Printf("%v retry out of %v\n", retries, retryCount)
+	}
+	if !shouldRetry(err, resp) {
+		atomic.StoreInt32(&t.retries, 0)
+	} else {
+		atomic.StoreInt32(&t.retries, retries)
 	}
 	return resp, err
 }

@@ -24,6 +24,18 @@ func sliceContains(slice []int, element int) bool {
 	return false
 }
 
+func int32FromEnvOrDefault(env string, fallback int32) int32 {
+	value := os.Getenv(env)
+	if value == "" {
+		return fallback
+	}
+	i, err := strconv.ParseInt(value, 10, 32)
+	if err != nil {
+		return fallback
+	}
+	return int32(i)
+}
+
 func intFromEnvOrDefault(env string, fallback int) int {
 	value := os.Getenv(env)
 	if value == "" {
