@@ -47,13 +47,13 @@ func TestCreateAwsAuditCredential(t *testing.T) {
 		"BadRequest": {
 			expectedErrorResponse: &operations.SetAWSAuditCredentialDefault{Payload: &models.Error{Code: "BAD_REQUEST", Message: "Invalid role ARN"}},
 			expectedError:         true,
-			expectedSummary:       "Create Aws Audit Credential",
+			expectedSummary:       "Create AWS Audit Credential",
 			expectedDetail:        "Failed to create AWS Audit Credential, unexpected error: Invalid role ARN",
 		},
 		"TransportError": {
 			expectedErrorResponse: errors.New("connection timeout"),
 			expectedError:         true,
-			expectedSummary:       "Create Aws Audit Credential",
+			expectedSummary:       "Create AWS Audit Credential",
 			expectedDetail:        "Failed to create AWS Audit Credential, unexpected error: connection timeout",
 		},
 	}
@@ -121,7 +121,7 @@ func TestReadAwsAuditCredential(t *testing.T) {
 		"TransportError": {
 			expectedErrorResponse: errors.New("connection timeout"),
 			expectedError:         true,
-			expectedSummary:       "Read Aws Audit Credential",
+			expectedSummary:       "Read AWS Audit Credential",
 			expectedDetail:        "Failed to read AWS Audit Credential, unexpected error: connection timeout",
 		},
 	}
@@ -200,13 +200,13 @@ func TestDeleteAwsAuditCredential(t *testing.T) {
 		"BadRequest": {
 			expectedErrorResponse: &operations.DeleteAuditCredentialDefault{Payload: &models.Error{Code: "NOT_FOUND", Message: "Credential not found"}},
 			expectedError:         true,
-			expectedSummary:       "Delete Aws Audit Credential",
-			expectedDetail:        "Failed to delete AWS Audit Credential, unexpected error: Credential not found",
+			expectedSummary:       "Delete AWS Audit Credential",
+			expectedDetail:        "Failed to delete AWS Audit Credential, unexpected error: Credential not found\n\nThe resource may have been deleted outside of Terraform. Run 'terraform plan' to reconcile the state.",
 		},
 		"TransportError": {
 			expectedErrorResponse: errors.New("connection timeout"),
 			expectedError:         true,
-			expectedSummary:       "Delete Aws Audit Credential",
+			expectedSummary:       "Delete AWS Audit Credential",
 			expectedDetail:        "Failed to delete AWS Audit Credential, unexpected error: connection timeout",
 		},
 	}

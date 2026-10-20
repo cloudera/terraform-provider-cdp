@@ -120,10 +120,7 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 	// Create new Data Visualization
 	create, err := r.createDataViz(ctx, createRequestFromPlan(ctx, plan))
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating Data Visualization",
-			fmt.Sprintf("Could not create Data Visualization, unexpected error: %v", err),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "create Data Visualization")
 		return
 	}
 
@@ -149,10 +146,7 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 	// Describe the fresh data
 	describe, err := r.describeDataViz(ctx, describeRequest(ctx, clusterID, vizID))
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating Data Visualization",
-			fmt.Sprintf("Could not describe Data Visualization, unexpected error: %v", err),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "describe Data Visualization")
 		return
 	}
 
@@ -195,10 +189,7 @@ func (r *datavizResource) Delete(ctx context.Context, req resource.DeleteRequest
 		if strings.Contains(err.Error(), "unable to get viz-webapp") {
 			return
 		}
-		resp.Diagnostics.AddError(
-			"Error deleting Data Visualization",
-			fmt.Sprintf("Could not delete Data Visualization, unexpected error: %v", err),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "delete Data Visualization")
 		return
 	}
 

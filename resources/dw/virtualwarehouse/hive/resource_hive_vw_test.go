@@ -472,8 +472,8 @@ func (suite *HiveTestSuite) TestHiveCreate_CreationError() {
 	var result resourceModel
 	resp.State.Get(ctx, &result)
 	suite.True(resp.Diagnostics.HasError())
-	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error creating hive virtual warehouse")
-	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "Could not create hive")
+	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Create Hive Virtual Warehouse")
+	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "create Hive virtual warehouse")
 }
 
 func (suite *HiveTestSuite) TestHiveCreate_DescribeError() {
@@ -501,8 +501,8 @@ func (suite *HiveTestSuite) TestHiveCreate_DescribeError() {
 	var result resourceModel
 	resp.State.Get(ctx, &result)
 	suite.True(resp.Diagnostics.HasError())
-	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error creating hive virtual warehouse")
-	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "Could not describe hive")
+	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Describe Hive Virtual Warehouse")
+	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "describe Hive virtual warehouse")
 }
 
 func (suite *HiveTestSuite) TestHiveDeletion_Success() {

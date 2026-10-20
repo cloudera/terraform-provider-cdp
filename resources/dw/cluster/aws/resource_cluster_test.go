@@ -449,8 +449,8 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_CreationError() {
 	var result resourceModel
 	resp.State.Get(ctx, &result)
 	suite.True(resp.Diagnostics.HasError())
-	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error creating Data Warehouse AWS cluster")
-	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "Could not create cluster")
+	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Create Data Warehouse")
+	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "create Data Warehouse AWS cluster")
 }
 
 func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_DescribeError() {
@@ -478,8 +478,8 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterCreate_DescribeError() {
 	var result resourceModel
 	resp.State.Get(ctx, &result)
 	suite.True(resp.Diagnostics.HasError())
-	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error creating Data Warehouse AWS cluster")
-	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "Could not describe cluster")
+	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Describe Data Warehouse")
+	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "describe Data Warehouse AWS cluster")
 }
 
 func (suite *DwClusterTestSuite) TestDwAwsClusterDeletion_Success() {
@@ -520,8 +520,8 @@ func (suite *DwClusterTestSuite) TestDwAwsClusterDeletion_ReturnsError() {
 	// Function under test
 	dwApi.Delete(ctx, req, resp)
 	suite.True(resp.Diagnostics.HasError())
-	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Error deleting Data Warehouse AWS cluster")
-	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "Could not delete cluster")
+	suite.Contains(resp.Diagnostics.Errors()[0].Summary(), "Delete Data Warehouse")
+	suite.Contains(resp.Diagnostics.Errors()[0].Detail(), "delete Data Warehouse AWS cluster")
 }
 
 func (suite *DwClusterTestSuite) TestStateRefresh_Success() {

@@ -11,18 +11,28 @@
 package utils
 
 import (
+	"errors"
+	"strings"
+
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
 	datalakemodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/models"
+	dwmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	iammodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/iam/models"
 	opdbmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
 )
 
-const authFailMsg = "authentication failure, no access key provided or the key is no longer valid"
+const authGuidance = "Verify that your CDP access key is valid and has not expired. " +
+	"Check your credentials in ~/.cdp/credentials or the CDP_ACCESS_KEY_ID and CDP_PRIVATE_KEY environment variables."
+
+const permissionGuidance = "Verify that your CDP user or machine user has the required role assignments for this operation."
+
+const notFoundGuidance = "The resource may have been deleted outside of Terraform. " +
+	"Run 'terraform plan' to reconcile the state."
 
 var NonRetryableErrorCodes = [...]int{403}
 
@@ -39,172 +49,140 @@ func IsRetryableError(code int) bool {
 	return !IsNonRetryableError(code)
 }
 
+func isReadOrDeleteOperation(errMsg string) bool {
+	op, _, _ := strings.Cut(errMsg, " ")
+	switch strings.ToLower(op) {
+	case "read", "reading", "delete", "deleting":
+		return true
+	}
+	return false
+}
+
+func addDiagnosticsErrorFromPayload(code string, apiMessage string, fallbackMsg string, diagnostics *diag.Diagnostics, errMsg string) {
+	detail := fallbackMsg
+
+	switch code {
+	case "401":
+		if apiMessage != "" {
+			detail = apiMessage + "\n\n" + authGuidance
+		} else {
+			detail = fallbackMsg + "\n\n" + authGuidance
+		}
+	case "403":
+		if apiMessage != "" {
+			detail = apiMessage + "\n\n" + permissionGuidance
+		} else {
+			detail = fallbackMsg + "\n\n" + permissionGuidance
+		}
+	case "NOT_FOUND":
+		if apiMessage != "" {
+			detail = apiMessage
+		}
+		if isReadOrDeleteOperation(errMsg) {
+			detail += "\n\n" + notFoundGuidance
+		}
+	default:
+		if apiMessage != "" {
+			detail = apiMessage
+		}
+	}
+
+	caser := cases.Title(language.English, cases.NoLower)
+	diagnostics.AddError(
+		caser.String(errMsg),
+		"Failed to "+errMsg+", unexpected error: "+detail,
+	)
+}
+
+func addServiceDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string, extract func(error) (string, string)) {
+	code, apiMessage := extract(err)
+	addDiagnosticsErrorFromPayload(code, apiMessage, err.Error(), diagnostics, errMsg)
+}
+
 type EnvironmentErrorPayload interface {
 	GetPayload() *environmentsmodels.Error
 }
 
-func decorateEnvironmentUnauthorizedErrorIfMessageNotExists(err *environmentsmodels.Error) *environmentsmodels.Error {
-	if err != nil && len(err.Message) == 0 {
-		return &environmentsmodels.Error{
-			Message: authFailMsg,
-		}
-	}
-	return err
-}
-
 func AddEnvironmentDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
-	msg := err.Error()
-	if d, ok := err.(EnvironmentErrorPayload); ok && d.GetPayload() != nil {
-		if d.GetPayload().Code == "401" {
-			msg = decorateEnvironmentUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
-		} else {
-			msg = d.GetPayload().Message
+	addServiceDiagnosticsError(err, diagnostics, errMsg, func(e error) (string, string) {
+		var d EnvironmentErrorPayload
+		if errors.As(e, &d) && d.GetPayload() != nil {
+			return d.GetPayload().Code, d.GetPayload().Message
 		}
-	}
-	caser := cases.Title(language.English)
-	diagnostics.AddError(
-		caser.String(errMsg),
-		"Failed to "+errMsg+", unexpected error: "+msg,
-	)
+		return "", ""
+	})
 }
 
 type IamErrorPayload interface {
 	GetPayload() *iammodels.Error
 }
 
-func decorateIamUnauthorizedErrorIfMessageNotExists(err *iammodels.Error) *iammodels.Error {
-	if err != nil && len(err.Message) == 0 {
-		return &iammodels.Error{
-			Message: authFailMsg,
-		}
-	}
-	return err
-}
-
 func AddIamDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
-	msg := err.Error()
-	if d, ok := err.(IamErrorPayload); ok && d.GetPayload() != nil {
-		if d.GetPayload().Code == "401" {
-			msg = decorateIamUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
-		} else {
-			msg = d.GetPayload().Message
+	addServiceDiagnosticsError(err, diagnostics, errMsg, func(e error) (string, string) {
+		var d IamErrorPayload
+		if errors.As(e, &d) && d.GetPayload() != nil {
+			return d.GetPayload().Code, d.GetPayload().Message
 		}
-	}
-	caser := cases.Title(language.English)
-	diagnostics.AddError(
-		caser.String(errMsg),
-		"Failed to "+errMsg+", unexpected error: "+msg,
-	)
+		return "", ""
+	})
 }
 
 type DatalakeErrorPayload interface {
 	GetPayload() *datalakemodels.Error
 }
 
-func decorateDatalakeUnauthorizedErrorIfMessageNotExists(err *datalakemodels.Error) *datalakemodels.Error {
-	if err != nil && len(err.Message) == 0 {
-		return &datalakemodels.Error{
-			Message: authFailMsg,
-		}
-	}
-	return err
-}
-
 func AddDatalakeDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
-	msg := err.Error()
-	if d, ok := err.(DatalakeErrorPayload); ok && d.GetPayload() != nil {
-		if d.GetPayload().Code == "401" {
-			msg = decorateDatalakeUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
-		} else {
-			msg = d.GetPayload().Message
+	addServiceDiagnosticsError(err, diagnostics, errMsg, func(e error) (string, string) {
+		var d DatalakeErrorPayload
+		if errors.As(e, &d) && d.GetPayload() != nil {
+			return d.GetPayload().Code, d.GetPayload().Message
 		}
-	}
-	caser := cases.Title(language.English)
-	diagnostics.AddError(
-		caser.String(errMsg),
-		"Failed to "+errMsg+", unexpected error: "+msg,
-	)
+		return "", ""
+	})
 }
 
 type DatahubErrorPayload interface {
 	GetPayload() *datahubmodels.Error
 }
 
-func decorateDatahubUnauthorizedErrorIfMessageNotExists(err *datahubmodels.Error) *datahubmodels.Error {
-	if err != nil && len(err.Message) == 0 {
-		return &datahubmodels.Error{
-			Message: authFailMsg,
-		}
-	}
-	return err
-}
-
-func decorateRecipeUnauthorizedErrorIfMessageNotExists(err *datahubmodels.Error) *datahubmodels.Error {
-	if err != nil && len(err.Message) == 0 {
-		return &datahubmodels.Error{
-			Message: authFailMsg,
-		}
-	}
-	return err
-}
-
 func AddDatahubDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
-	msg := err.Error()
-	if d, ok := err.(DatahubErrorPayload); ok && d.GetPayload() != nil {
-		if d.GetPayload().Code == "401" {
-			msg = decorateDatahubUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
-		} else {
-			msg = d.GetPayload().Message
+	addServiceDiagnosticsError(err, diagnostics, errMsg, func(e error) (string, string) {
+		var d DatahubErrorPayload
+		if errors.As(e, &d) && d.GetPayload() != nil {
+			return d.GetPayload().Code, d.GetPayload().Message
 		}
-	}
-	caser := cases.Title(language.English)
-	diagnostics.AddError(
-		caser.String(errMsg),
-		"Failed to "+errMsg+", unexpected error: "+msg,
-	)
+		return "", ""
+	})
 }
 
 func AddRecipeDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
-	msg := err.Error()
-	if d, ok := err.(DatahubErrorPayload); ok && d.GetPayload() != nil {
-		if d.GetPayload().Code == "401" {
-			msg = decorateRecipeUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
-		} else {
-			msg = d.GetPayload().Message
-		}
-	}
-	caser := cases.Title(language.English)
-	diagnostics.AddError(
-		caser.String(errMsg),
-		"Failed to "+errMsg+", unexpected error: "+msg,
-	)
+	AddDatahubDiagnosticsError(err, diagnostics, errMsg)
 }
 
 type DatabaseErrorPayload interface {
 	GetPayload() *opdbmodels.Error
 }
 
-func decorateDatabaseUnauthorizedErrorIfMessageNotExists(err *opdbmodels.Error) *opdbmodels.Error {
-	if err != nil && len(err.Message) == 0 {
-		return &opdbmodels.Error{
-			Message: authFailMsg,
+func AddDatabaseDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
+	addServiceDiagnosticsError(err, diagnostics, errMsg, func(e error) (string, string) {
+		var d DatabaseErrorPayload
+		if errors.As(e, &d) && d.GetPayload() != nil {
+			return d.GetPayload().Code, d.GetPayload().Message
 		}
-	}
-	return err
+		return "", ""
+	})
 }
 
-func AddDatabaseDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
-	msg := err.Error()
-	if d, ok := err.(DatabaseErrorPayload); ok && d.GetPayload() != nil {
-		if d.GetPayload().Code == "401" {
-			msg = decorateDatabaseUnauthorizedErrorIfMessageNotExists(d.GetPayload()).Message
-		} else {
-			msg = d.GetPayload().Message
+type DwErrorPayload interface {
+	GetPayload() *dwmodels.Error
+}
+
+func AddDwDiagnosticsError(err error, diagnostics *diag.Diagnostics, errMsg string) {
+	addServiceDiagnosticsError(err, diagnostics, errMsg, func(e error) (string, string) {
+		var d DwErrorPayload
+		if errors.As(e, &d) && d.GetPayload() != nil {
+			return d.GetPayload().Code, d.GetPayload().Message
 		}
-	}
-	caser := cases.Title(language.English)
-	diagnostics.AddError(
-		caser.String(errMsg),
-		"Failed to "+errMsg+", unexpected error: "+msg,
-	)
+		return "", ""
+	})
 }
