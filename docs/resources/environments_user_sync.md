@@ -33,7 +33,7 @@ This approach allows a fine-grain control of the sync operation.
 
 resource "cdp_environments_user_sync" "example-user_sync" {
   environment_names = ["example-cdp-environment-1", "example-cdp-environment-2"]
-  async = true
+  async             = true
 }
 ```
 
