@@ -72,6 +72,6 @@ func TestCreateAwsGovCloudAuditCredentialError(t *testing.T) {
 	r.Create(ctx, req, resp)
 
 	assert.True(t, resp.Diagnostics.HasError())
-	assert.Equal(t, "Create Aws Govcloud Audit Credential", resp.Diagnostics.Errors()[0].Summary())
+	assert.Equal(t, "Create AWS GovCloud Audit Credential", resp.Diagnostics.Errors()[0].Summary())
 	mockClient.AssertExpectations(t)
 }

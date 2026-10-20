@@ -16,6 +16,7 @@ import (
 	"os"
 	"runtime"
 	"strconv"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -143,10 +144,13 @@ func (p *CdpProvider) Configure(ctx context.Context, req provider.ConfigureReque
 	client, err := cdp.NewClient(getCdpConfig(ctx, &data, p.version, req.TerraformVersion))
 
 	if err != nil {
+		validRegions := strings.Join([]string{cdp.RegionUsWest1, cdp.RegionEu1, cdp.RegionAp1, cdp.RegionUsg1}, ", ")
 		resp.Diagnostics.AddError(
 			"Unable to Create CDP API Client",
 			"An unexpected error occurred when creating the CDP API client. "+
-				"If the error is not clear, please contact Cloudera.\n\n"+
+				"Verify that your credentials are configured correctly in ~/.cdp/credentials or via "+
+				"the CDP_ACCESS_KEY_ID and CDP_PRIVATE_KEY environment variables. "+
+				"If you specified cdp_region, verify it is a valid CDP control plane region ("+validRegions+").\n\n"+
 				"CDP API Client Error: "+err.Error(),
 		)
 		return

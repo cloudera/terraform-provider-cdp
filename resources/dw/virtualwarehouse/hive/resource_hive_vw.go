@@ -89,10 +89,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 
 	response, err := r.client.Dw.Operations.CreateVwContext(ctx, vw)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating hive virtual warehouse",
-			"Could not create hive, unexpected error: "+err.Error(),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "create Hive virtual warehouse")
 		return
 	}
 
@@ -127,10 +124,7 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 		WithInput(&models.DescribeVwRequest{VwID: vwID, ClusterID: clusterID})
 	describe, err := r.client.Dw.Operations.DescribeVwContext(ctx, desc)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating hive virtual warehouse",
-			"Could not describe hive, unexpected error: "+err.Error(),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "describe Hive virtual warehouse")
 		return
 	}
 
@@ -168,10 +162,7 @@ func (r *hiveResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		if strings.Contains(err.Error(), "Virtual Warehouse not found") {
 			return
 		}
-		resp.Diagnostics.AddError(
-			"Error deleting Hive Virtual Warehouse",
-			"Could not delete Hive Virtual Warehouse, unexpected error: "+err.Error(),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "delete Hive virtual warehouse")
 		return
 	}
 
