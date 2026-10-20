@@ -31,6 +31,20 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
+      - name: Compute previous tag for changelog
+        id: prev_tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          PATCH=$(echo "$VERSION" | cut -d. -f3)
+          if [ "$PATCH" = "0" ]; then
+            MAJOR=$(echo "$VERSION" | cut -d. -f1)
+            MINOR=$(echo "$VERSION" | cut -d. -f2)
+            if [ "$MINOR" -gt 0 ]; then
+              PREV_MINOR=$((MINOR - 1))
+              echo "previous_tag=v${MAJOR}.${PREV_MINOR}.0" >> "$GITHUB_OUTPUT"
+            fi
+          fi
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7.2.3
         with:
@@ -39,3 +53,4 @@ jobs:
           # GitHub sets the GITHUB_TOKEN secret automatically.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+          GORELEASER_PREVIOUS_TAG: ${{ steps.prev_tag.outputs.previous_tag }}
