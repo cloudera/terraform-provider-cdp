@@ -323,8 +323,8 @@ func (suite *DataVizTestSuite) TestDatavizCreate_CreationError() {
 	suite.True(resp.Diagnostics.HasError())
 
 	err0 := resp.Diagnostics.Errors()[0]
-	suite.Contains(err0.Summary(), "Error creating Data Visualization")
-	suite.Contains(err0.Detail(), "Could not create Data Visualization, unexpected error: create failed")
+	suite.Contains(err0.Summary(), "Create Data Visualization")
+	suite.Contains(err0.Detail(), "create Data Visualization")
 }
 
 func (suite *DataVizTestSuite) TestDatavizCreate_DescribeError() {
@@ -356,8 +356,8 @@ func (suite *DataVizTestSuite) TestDatavizCreate_DescribeError() {
 	resp.State.Get(ctx, &result)
 	suite.True(resp.Diagnostics.HasError())
 	err0 := resp.Diagnostics.Errors()[0]
-	suite.Contains(err0.Summary(), "Error creating Data Visualization")
-	suite.Contains(err0.Detail(), "Could not describe Data Visualization, unexpected error: describe failed")
+	suite.Contains(err0.Summary(), "Describe Data Visualization")
+	suite.Contains(err0.Detail(), "describe Data Visualization")
 }
 
 func (suite *DataVizTestSuite) TestDatavizDeletion_Success() {

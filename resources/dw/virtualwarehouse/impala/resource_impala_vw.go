@@ -80,10 +80,10 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 	response, err := r.client.Dw.Operations.CreateVwContext(ctx,
 		operations.NewCreateVwParams().WithInput(vwhCreateRequest))
 	if err != nil || response.GetPayload() == nil {
-		resp.Diagnostics.AddError(
-			"Error creating Impala virtual warehouse",
-			fmt.Sprintf("Could not create Impala, unexpected error: %v", err),
-		)
+		if err == nil {
+			err = fmt.Errorf("empty response payload")
+		}
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "create Impala virtual warehouse")
 		return
 	}
 	tflog.Debug(ctx, fmt.Sprintf("CreateVw response: %+v", response.GetPayload()))
@@ -99,10 +99,7 @@ func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest,
 
 	// Fetch and map the response to plan using a helper
 	if err := r.populatePlanFromDescribe(ctx, &plan, &response.GetPayload().VwID); err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating Impala virtual warehouse",
-			fmt.Sprintf("Could not describe Impala, unexpected error: %v", err),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "describe Impala virtual warehouse")
 		return
 	}
 
@@ -143,10 +140,7 @@ func (r *impalaResource) Delete(ctx context.Context, req resource.DeleteRequest,
 		if strings.Contains(err.Error(), "Virtual Warehouse not found") {
 			return
 		}
-		resp.Diagnostics.AddError(
-			"Error deleting Impala Virtual Warehouse",
-			"Could not delete Impala Virtual Warehouse, unexpected error: "+err.Error(),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "delete Impala virtual warehouse")
 		return
 	}
 

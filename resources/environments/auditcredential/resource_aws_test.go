@@ -201,7 +201,7 @@ func TestDeleteAwsAuditCredential(t *testing.T) {
 			expectedErrorResponse: &operations.DeleteAuditCredentialDefault{Payload: &models.Error{Code: "NOT_FOUND", Message: "Credential not found"}},
 			expectedError:         true,
 			expectedSummary:       "Delete Aws Audit Credential",
-			expectedDetail:        "Failed to delete AWS Audit Credential, unexpected error: Credential not found",
+			expectedDetail:        "Failed to delete AWS Audit Credential, unexpected error: Credential not found\n\nThe resource may have been deleted outside of Terraform. Run 'terraform plan' to reconcile the state.",
 		},
 		"TransportError": {
 			expectedErrorResponse: errors.New("connection timeout"),

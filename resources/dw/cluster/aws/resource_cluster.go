@@ -80,10 +80,7 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 	// Create new AWS cluster
 	response, err := r.client.Dw.Operations.CreateAwsClusterContext(ctx, clusterParams)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating Data Warehouse AWS cluster",
-			"Could not create cluster, unexpected error: "+err.Error(),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "create Data Warehouse AWS cluster")
 		return
 	}
 	payload := response.GetPayload()
@@ -94,10 +91,7 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 		WithInput(&models.DescribeClusterRequest{ClusterID: clusterID})
 	describe, err := r.client.Dw.Operations.DescribeClusterContext(ctx, desc)
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error creating Data Warehouse AWS cluster",
-			"Could not describe cluster, unexpected error: "+err.Error(),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "describe Data Warehouse AWS cluster")
 		return
 	}
 
@@ -172,10 +166,7 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 		})
 
 	if _, err := r.client.Dw.Operations.DeleteClusterContext(ctx, op); err != nil {
-		resp.Diagnostics.AddError(
-			"Error deleting Data Warehouse AWS cluster",
-			"Could not delete cluster, unexpected error: "+err.Error(),
-		)
+		utils.AddDwDiagnosticsError(err, &resp.Diagnostics, "delete Data Warehouse AWS cluster")
 		return
 	}
 
