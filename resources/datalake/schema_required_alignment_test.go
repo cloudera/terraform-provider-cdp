@@ -121,6 +121,9 @@ func TestAwsDatalakeSchemaFieldsCoverage(t *testing.T) {
 		"creation_date":                true,
 		"environment_crn":              true,
 		"polling_options":              true,
+		"async":                        true,
+		"call_failure_threshold":       true,
+		"timeouts":                     true,
 		"delete_options":               true,
 		"certificate_expiration_state": true,
 		"instance_profile":             true, // Flat field mapping to CloudProviderConfiguration.InstanceProfile
@@ -148,6 +151,9 @@ func TestAzureDatalakeSchemaFieldsCoverage(t *testing.T) {
 		"creation_date":                true,
 		"environment_crn":              true,
 		"polling_options":              true,
+		"async":                        true,
+		"call_failure_threshold":       true,
+		"timeouts":                     true,
 		"delete_options":               true,
 		"certificate_expiration_state": true,
 		"managed_identity":             true, // Flat field mapping to CloudProviderConfiguration.ManagedIdentity
@@ -174,6 +180,9 @@ func TestGcpDatalakeSchemaFieldsCoverage(t *testing.T) {
 		"creation_date":          true,
 		"environment_crn":        true,
 		"polling_options":        true,
+		"async":                  true,
+		"call_failure_threshold": true,
+		"timeouts":               true,
 		"delete_options":         true,
 		"environment_name":       true, // Deprecated alias for environment
 		"environment":            true, // Maps to CDP's environmentName

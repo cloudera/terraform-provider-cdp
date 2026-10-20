@@ -16,6 +16,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -33,10 +34,11 @@ type datavizResource struct {
 }
 
 var (
-	_ resource.Resource                   = (*datavizResource)(nil)
-	_ resource.ResourceWithConfigure      = (*datavizResource)(nil)
-	_ resource.ResourceWithImportState    = (*datavizResource)(nil)
-	_ resource.ResourceWithValidateConfig = (*datavizResource)(nil)
+	_ resource.Resource                     = (*datavizResource)(nil)
+	_ resource.ResourceWithConfigure        = (*datavizResource)(nil)
+	_ resource.ResourceWithImportState      = (*datavizResource)(nil)
+	_ resource.ResourceWithValidateConfig   = (*datavizResource)(nil)
+	_ resource.ResourceWithConfigValidators = (*datavizResource)(nil)
 )
 
 const (
@@ -52,6 +54,10 @@ func NewDataVizResource() resource.Resource {
 
 func (r *datavizResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *datavizResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *datavizResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
@@ -97,7 +103,8 @@ func (r *datavizResource) Metadata(_ context.Context, req resource.MetadataReque
 	resp.TypeName = req.ProviderTypeName + "_dw_data_visualization"
 }
 
-func (r *datavizResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *datavizResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	datavizSchema.Attributes["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true})
 	resp.Schema = datavizSchema
 }
 
@@ -124,8 +131,13 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 	vizID := &create.GetPayload().DataVisualizationID
 
 	// Wait the desired state
-	if opts := plan.PollingOptions; opts == nil || !opts.Async.ValueBool() {
-		if _, err = r.retryStateConf(ctx, setupRetryCfg(clusterID, vizID), &plan).WaitForStateContext(ctx); err != nil {
+	if !utils.ResolveAsync(plan.PollingOptions, plan.Async) {
+		createTimeout, diagsTimeout := utils.ResolveTimeout(ctx, plan.PollingOptions, plan.Timeouts.Create, 20*time.Minute)
+		resp.Diagnostics.Append(diagsTimeout...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		if _, err = r.retryStateConf(ctx, setupRetryCfg(clusterID, vizID), createTimeout, utils.ResolveCallFailureThreshold(plan.PollingOptions, plan.CallFailureThreshold, 3)).WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
 				"Error waiting for Data Visualization",
 				"Could not create Data Visualization, unexpected error: "+err.Error(),
@@ -152,6 +164,9 @@ func (r *datavizResource) Create(ctx context.Context, req resource.CreateRequest
 			plan.ResourceTemplate.ValueStringPointer(),
 			time.Now(),
 			plan.PollingOptions,
+			plan.Async,
+			plan.CallFailureThreshold,
+			plan.Timeouts,
 		),
 	)
 	resp.Diagnostics.Append(diags...)
@@ -187,8 +202,13 @@ func (r *datavizResource) Delete(ctx context.Context, req resource.DeleteRequest
 		return
 	}
 
-	if opts := state.PollingOptions; opts == nil || !opts.Async.ValueBool() {
-		if _, err := r.retryStateConf(ctx, teardownRetryCfg(clusterID, vizID), &state).WaitForStateContext(ctx); err != nil {
+	if !utils.ResolveAsync(state.PollingOptions, state.Async) {
+		deleteTimeout, diagsTimeout := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, 20*time.Minute)
+		resp.Diagnostics.Append(diagsTimeout...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		if _, err := r.retryStateConf(ctx, teardownRetryCfg(clusterID, vizID), deleteTimeout, utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, 3)).WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
 				"Error waiting for Data Visualization to delete",
 				fmt.Sprintf("Could not delete Data Visualization, unexpected error: %v", err),
@@ -245,16 +265,17 @@ func deleteRequest(ctx context.Context, clusterID *string, vizID *string) *opera
 func (r *datavizResource) retryStateConf(
 	ctx context.Context,
 	cfg *retryStateCfg,
-	po utils.HasPollingOptions,
+	timeout time.Duration,
+	callFailureThreshold int,
 ) *retry.StateChangeConf {
 	failedCnt := 0
 	return &retry.StateChangeConf{
 		Pending:      cfg.pending,
 		Target:       cfg.target,
 		Delay:        30 * time.Second,
-		Timeout:      utils.GetPollingTimeout(po, 20*time.Minute),
+		Timeout:      timeout,
 		PollInterval: 10 * time.Second,
-		Refresh:      r.stateRefresh(ctx, cfg.clusterID, cfg.vizID, &failedCnt, utils.GetCallFailureThreshold(po, 3)),
+		Refresh:      r.stateRefresh(ctx, cfg.clusterID, cfg.vizID, &failedCnt, callFailureThreshold),
 	}
 }
 
@@ -300,7 +321,10 @@ func stateFromDataViz(
 	viz *models.DataVisualizationSummary,
 	template *string,
 	updated time.Time,
-	pollingOpts *utils.PollingOptions,
+	pollingOptions *utils.PollingOptions,
+	async types.Bool,
+	callFailureThreshold types.Int64,
+	timeoutsVal timeouts.Value,
 ) resourceModel {
 	t := types.StringNull()
 	if template != nil {
@@ -318,10 +342,12 @@ func stateFromDataViz(
 		UserGroups:  utils.FromStringListToListValue(viz.UserGroups),
 		AdminGroups: utils.FromStringListToListValue(viz.AdminGroups),
 
-		LastUpdated: types.StringValue(updated.Format(time.RFC850)),
-		Status:      types.StringValue(viz.Status),
-
-		PollingOptions: pollingOpts,
+		LastUpdated:          types.StringValue(updated.Format(time.RFC850)),
+		Status:               types.StringValue(viz.Status),
+		PollingOptions:       pollingOptions,
+		Async:                async,
+		CallFailureThreshold: callFailureThreshold,
+		Timeouts:             timeoutsVal,
 	}
 }
 

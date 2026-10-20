@@ -14,6 +14,7 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -47,7 +48,13 @@ func updateAwsEnvironment(ctx context.Context, plan *ResourceModel, state *Resou
 }
 
 func updateAwsTagsIfChanged(ctx context.Context, plan *ResourceModel, state *ResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
-	return envcommon.UpdateTagsIfChanged(ctx, client, plan.Tags, &state.Tags, plan.EnvironmentName.ValueStringPointer(), plan.PollingOptions, resp)
+	updateTimeout, diags := plan.Timeouts.Update(ctx, 60*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+	callFailureThreshold := utils.GetCallFailureThresholdOrDefault(plan.CallFailureThreshold, envcommon.CallFailureThreshold)
+	return envcommon.UpdateTagsIfChanged(ctx, client, plan.Tags, &state.Tags, plan.EnvironmentName.ValueStringPointer(), updateTimeout, callFailureThreshold, resp)
 }
 
 func updateAwsSubnetIfChanged(ctx context.Context, plan *ResourceModel, state *ResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
@@ -64,7 +71,7 @@ func updateAwsComputeClusterIfChanged(ctx context.Context, plan *ResourceModel, 
 			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "enable compute cluster")
 			return resp
 		}
-		if err := waitForUpdateToFinish(ctx, plan.EnvironmentName.ValueString(), client, resp, plan.PollingOptions, nil, state); err != nil {
+		if err := waitForUpdateToFinish(ctx, plan.EnvironmentName.ValueString(), client, resp, plan, nil, state); err != nil {
 			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "wait for environment to be available")
 			return resp
 		}
@@ -116,7 +123,13 @@ func updateAwsProxyConfigurationIfChanged(ctx context.Context, plan *ResourceMod
 }
 
 func updateAwsEndpointAccessGatewayIfChanged(ctx context.Context, plan *ResourceModel, state *ResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
-	return envcommon.UpdateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), plan.PollingOptions, resp)
+	updateTimeout, diags := plan.Timeouts.Update(ctx, 60*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+	callFailureThreshold := utils.GetCallFailureThresholdOrDefault(plan.CallFailureThreshold, envcommon.CallFailureThreshold)
+	return envcommon.UpdateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), updateTimeout, callFailureThreshold, resp)
 }
 
 func updateAwsSecurityAccessIfChanged(ctx context.Context, plan *ResourceModel, state *ResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
@@ -165,13 +178,19 @@ func convertConfigToAwsComputeClusterConfigurationRequest(config *ComputeCluster
 	}
 }
 
-func waitForUpdateToFinish(ctx context.Context, id string, client *environmentsclient.Environments, resp *resource.UpdateResponse, options *utils.PollingOptions, diags diag.Diagnostics, data *ResourceModel) error {
-	stateSaver := func(env *environmentsmodels.Environment) {
-		ToAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), data, data.PollingOptions, &resp.Diagnostics)
-		diags = resp.State.Set(ctx, data)
-		resp.Diagnostics.Append(diags...)
+func waitForUpdateToFinish(ctx context.Context, id string, client *environmentsclient.Environments, resp *resource.UpdateResponse, plan *ResourceModel, _ diag.Diagnostics, data *ResourceModel) error {
+	updateTimeout, diags := plan.Timeouts.Update(ctx, 60*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return fmt.Errorf("failed to resolve update timeout")
 	}
-	if err := envcommon.WaitForEnvironmentToBeAvailable(id, envcommon.TimeoutOneHour, envcommon.CallFailureThreshold, client, ctx, options, stateSaver); err != nil {
+	callFailureThreshold := utils.GetCallFailureThresholdOrDefault(plan.CallFailureThreshold, envcommon.CallFailureThreshold)
+	stateSaver := func(env *environmentsmodels.Environment) {
+		ToAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), data, &resp.Diagnostics)
+		stateDiags := resp.State.Set(ctx, data)
+		resp.Diagnostics.Append(stateDiags...)
+	}
+	if err := envcommon.WaitForEnvironmentToBeAvailable(id, updateTimeout, callFailureThreshold, client, ctx, stateSaver); err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
 		return err
 	}

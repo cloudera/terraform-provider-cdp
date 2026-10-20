@@ -26,8 +26,9 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure   = &databaseResource{}
-	_ resource.ResourceWithImportState = &databaseResource{}
+	_ resource.ResourceWithConfigure        = &databaseResource{}
+	_ resource.ResourceWithImportState      = &databaseResource{}
+	_ resource.ResourceWithConfigValidators = &databaseResource{}
 )
 
 type databaseResource struct {
@@ -48,6 +49,10 @@ func (r *databaseResource) Metadata(_ context.Context, req resource.MetadataRequ
 
 func (r *databaseResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *databaseResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *databaseResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -83,8 +88,13 @@ func (r *databaseResource) Create(ctx context.Context, req resource.CreateReques
 		return
 	}
 
-	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
-		status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, data.PollingOptions)
+	if !utils.ResolveAsync(data.PollingOptions, data.Async) {
+		timeout, diags := utils.ResolveTimeout(ctx, data.PollingOptions, data.Timeouts.Create, defaultPollingTimeout)
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, timeout, utils.ResolveCallFailureThreshold(data.PollingOptions, data.CallFailureThreshold, callFailureThreshold))
 		tflog.Debug(ctx, fmt.Sprintf("Database polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
 		data.Status = types.StringValue(status)
 		diags = resp.State.Set(ctx, data)
@@ -189,8 +199,13 @@ func (r *databaseResource) Update(ctx context.Context, req resource.UpdateReques
 		return
 	}
 
-	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
-		status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, data.PollingOptions)
+	if !utils.ResolveAsync(data.PollingOptions, data.Async) {
+		timeout, diags := utils.ResolveTimeout(ctx, data.PollingOptions, data.Timeouts.Update, defaultPollingTimeout)
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		status, err := waitForToBeAvailable(data.DatabaseName.ValueString(), data.Environment.ValueString(), r.client.Opdb, ctx, timeout, utils.ResolveCallFailureThreshold(data.PollingOptions, data.CallFailureThreshold, callFailureThreshold))
 		tflog.Debug(ctx, fmt.Sprintf("Database polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
 		data.Status = types.StringValue(status)
 		diags = resp.State.Set(ctx, data)
@@ -230,8 +245,13 @@ func (r *databaseResource) Delete(ctx context.Context, req resource.DeleteReques
 		return
 	}
 
-	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
-		err = waitForToBeDeleted(state.DatabaseName.ValueString(), state.Environment.ValueString(), r.client.Opdb, ctx, state.PollingOptions)
+	if !utils.ResolveAsync(state.PollingOptions, state.Async) {
+		timeout, diags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, defaultPollingTimeout)
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		err = waitForToBeDeleted(state.DatabaseName.ValueString(), state.Environment.ValueString(), r.client.Opdb, ctx, timeout)
 
 		if err != nil {
 			utils.AddDatabaseDiagnosticsError(err, &resp.Diagnostics, "delete database")

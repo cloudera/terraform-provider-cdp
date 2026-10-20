@@ -16,13 +16,15 @@ import (
 	"testing"
 
 	"github.com/go-openapi/runtime"
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/stretchr/testify/mock"
@@ -33,7 +35,12 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/mocks"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
+
+func init() {
+	testImpalaSchema.Attributes["timeouts"] = timeouts.Attributes(context.Background(), timeouts.Opts{Create: true, Delete: true})
+}
 
 var testImpalaSchema = schema.Schema{
 	MarkdownDescription: "A Impala Virtual Warehouse is service which is able to run low-latency SQL queries.",
@@ -230,31 +237,20 @@ var testImpalaSchema = schema.Schema{
 			Optional:            true,
 			MarkdownDescription: "Enable or disable Impala query logging.",
 		},
-		"polling_options": schema.SingleNestedAttribute{
-			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+		"polling_options": utils.PollingOptionsSchema(40),
+		"async": schema.BoolAttribute{
+			MarkdownDescription: "When set to `true`, the resource operation returns immediately without waiting for completion. When `false` (default), Terraform waits for the operation to finish, subject to the duration set in the `timeouts` block.",
 			Optional:            true,
-			Attributes: map[string]schema.Attribute{
-				"async": schema.BoolAttribute{
-					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
-					Optional:            true,
-					Computed:            true,
-					Default:             booldefault.StaticBool(false),
-					PlanModifiers: []planmodifier.Bool{
-						boolplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"polling_timeout": schema.Int64Attribute{
-					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
-					Default:             int64default.StaticInt64(40),
-					Computed:            true,
-					Optional:            true,
-				},
-				"call_failure_threshold": schema.Int64Attribute{
-					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
-					Default:             int64default.StaticInt64(3),
-					Computed:            true,
-					Optional:            true,
-				},
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			MarkdownDescription: "The number of consecutive internal API call failures before the provider gives up waiting. Applies only when `async` is `false`. Defaults to `3`.",
+			Optional:            true,
+			Computed:            true,
+			Default:             int64default.StaticInt64(3),
+			Validators: []validator.Int64{
+				int64validator.AtLeast(1),
 			},
 		},
 	},
@@ -339,6 +335,14 @@ func createRawImpalaResource() tftypes.Value {
 						"async":                  tftypes.Bool,
 						"polling_timeout":        tftypes.Number,
 						"call_failure_threshold": tftypes.Number,
+					},
+				},
+				"async":                  tftypes.Bool,
+				"call_failure_threshold": tftypes.Number,
+				"timeouts": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"create": tftypes.String,
+						"delete": tftypes.String,
 					},
 				},
 				"enable_sso": tftypes.Bool,
@@ -460,20 +464,21 @@ func createRawImpalaResource() tftypes.Value {
 					),
 				},
 			),
-			"polling_options": tftypes.NewValue(
-				tftypes.Object{
-					AttributeTypes: map[string]tftypes.Type{
-						"async":                  tftypes.Bool,
-						"polling_timeout":        tftypes.Number,
-						"call_failure_threshold": tftypes.Number,
-					},
+			"polling_options": tftypes.NewValue(tftypes.Object{
+				AttributeTypes: map[string]tftypes.Type{
+					"async":                  tftypes.Bool,
+					"polling_timeout":        tftypes.Number,
+					"call_failure_threshold": tftypes.Number,
 				},
-				map[string]tftypes.Value{
-					"async":                  tftypes.NewValue(tftypes.Bool, true),
-					"polling_timeout":        tftypes.NewValue(tftypes.Number, 600),
-					"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+			}, nil),
+			"async":                  tftypes.NewValue(tftypes.Bool, true),
+			"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+			"timeouts": tftypes.NewValue(tftypes.Object{
+				AttributeTypes: map[string]tftypes.Type{
+					"create": tftypes.String,
+					"delete": tftypes.String,
 				},
-			),
+			}, nil),
 		},
 	)
 }

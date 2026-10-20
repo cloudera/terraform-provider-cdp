@@ -21,28 +21,16 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/cloudprivatelinks/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/cloudprivatelinks/client/operations"
 	cloudprivatelinkmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/cloudprivatelinks/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 var (
-	pollingDelay         = 10 * time.Second
-	pollingTimeout       = 30 * time.Minute
-	pollingInterval      = 15 * time.Second
-	callFailureThreshold = 3
+	pollingDelay    = 10 * time.Second
+	pollingInterval = 15 * time.Second
 )
 
-func waitForEndpointToBeCreated(trackingID string, plClient *client.Cloudprivatelinks, ctx context.Context, options *utils.PollingOptions) ([]*cloudprivatelinkmodels.PrivateLinkEndpointStatus, error) {
+func waitForEndpointToBeCreated(trackingID string, plClient *client.Cloudprivatelinks, ctx context.Context, timeout time.Duration, callFailureThreshold int) ([]*cloudprivatelinkmodels.PrivateLinkEndpointStatus, error) {
 	tflog.Info(ctx, fmt.Sprintf("About to poll private link endpoint creation (trackingId: %s, polling [delay: %s, timeout: %s, interval: %s]).",
-		trackingID, pollingDelay, pollingTimeout, pollingInterval))
-
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, pollingTimeout)
-	if err != nil {
-		return nil, err
-	}
-	failureThreshold, failureThresholdErr := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThreshold)
-	if failureThresholdErr != nil {
-		return nil, failureThresholdErr
-	}
+		trackingID, pollingDelay, timeout, pollingInterval))
 
 	callFailedCount := 0
 	var resultStatuses []*cloudprivatelinkmodels.PrivateLinkEndpointStatus
@@ -51,7 +39,7 @@ func waitForEndpointToBeCreated(trackingID string, plClient *client.Cloudprivate
 		Pending:      []string{"IN_PROGRESS"},
 		Target:       []string{"SUCCESS"},
 		Delay:        pollingDelay,
-		Timeout:      *timeout,
+		Timeout:      timeout,
 		PollInterval: pollingInterval,
 		Refresh: func() (interface{}, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("Polling private link endpoint statuses for trackingId: %s", trackingID))
@@ -62,8 +50,8 @@ func waitForEndpointToBeCreated(trackingID string, plClient *client.Cloudprivate
 			)
 			if err != nil {
 				callFailedCount++
-				if callFailedCount <= failureThreshold {
-					tflog.Warn(ctx, fmt.Sprintf("Error listing private link endpoint statuses [%s], threshold not reached yet (%d/%d).", err.Error(), callFailedCount, failureThreshold))
+				if callFailedCount <= callFailureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error listing private link endpoint statuses [%s], threshold not reached yet (%d/%d).", err.Error(), callFailedCount, callFailureThreshold))
 					return nil, "IN_PROGRESS", nil
 				}
 				tflog.Error(ctx, fmt.Sprintf("Error listing private link endpoint statuses [%s], threshold exceeded.", err.Error()))
@@ -85,22 +73,13 @@ func waitForEndpointToBeCreated(trackingID string, plClient *client.Cloudprivate
 		},
 	}
 
-	_, err = stateConf.WaitForStateContext(ctx)
+	_, err := stateConf.WaitForStateContext(ctx)
 	return resultStatuses, err
 }
 
-func waitForEndpointToBeDeleted(trackingID string, plClient *client.Cloudprivatelinks, ctx context.Context, options *utils.PollingOptions) error {
+func waitForEndpointToBeDeleted(trackingID string, plClient *client.Cloudprivatelinks, ctx context.Context, timeout time.Duration, callFailureThreshold int) error {
 	tflog.Info(ctx, fmt.Sprintf("About to poll private link endpoint deletion (trackingId: %s, polling [delay: %s, timeout: %s, interval: %s]).",
-		trackingID, pollingDelay, pollingTimeout, pollingInterval))
-
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, pollingTimeout)
-	if err != nil {
-		return err
-	}
-	failureThreshold, failureThresholdErr := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThreshold)
-	if failureThresholdErr != nil {
-		return failureThresholdErr
-	}
+		trackingID, pollingDelay, timeout, pollingInterval))
 
 	callFailedCount := 0
 
@@ -108,7 +87,7 @@ func waitForEndpointToBeDeleted(trackingID string, plClient *client.Cloudprivate
 		Pending:      []string{"IN_PROGRESS"},
 		Target:       []string{"SUCCESS"},
 		Delay:        pollingDelay,
-		Timeout:      *timeout,
+		Timeout:      timeout,
 		PollInterval: pollingInterval,
 		Refresh: func() (interface{}, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("Polling private link endpoint statuses for trackingId: %s", trackingID))
@@ -119,8 +98,8 @@ func waitForEndpointToBeDeleted(trackingID string, plClient *client.Cloudprivate
 			)
 			if err != nil {
 				callFailedCount++
-				if callFailedCount <= failureThreshold {
-					tflog.Warn(ctx, fmt.Sprintf("Error listing private link endpoint statuses [%s], threshold not reached yet (%d/%d).", err.Error(), callFailedCount, failureThreshold))
+				if callFailedCount <= callFailureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error listing private link endpoint statuses [%s], threshold not reached yet (%d/%d).", err.Error(), callFailedCount, callFailureThreshold))
 					return nil, "IN_PROGRESS", nil
 				}
 				tflog.Error(ctx, fmt.Sprintf("Error listing private link endpoint statuses [%s], threshold exceeded.", err.Error()))
@@ -141,6 +120,6 @@ func waitForEndpointToBeDeleted(trackingID string, plClient *client.Cloudprivate
 		},
 	}
 
-	_, err = stateConf.WaitForStateContext(ctx)
+	_, err := stateConf.WaitForStateContext(ctx)
 	return err
 }

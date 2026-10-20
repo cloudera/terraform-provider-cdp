@@ -33,16 +33,17 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure   = &awsDatalakeResource{}
-	_ resource.ResourceWithImportState = &awsDatalakeResource{}
+	_ resource.ResourceWithConfigure        = &awsDatalakeResource{}
+	_ resource.ResourceWithImportState      = &awsDatalakeResource{}
+	_ resource.ResourceWithConfigValidators = &awsDatalakeResource{}
 )
 
 type awsDatalakeResource struct {
 	client *cdp.Client
 }
 
-func (r *awsDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest, response *resource.SchemaResponse) {
-	response.Schema = awsDatalakeSchema
+func (r *awsDatalakeResource) Schema(ctx context.Context, _ resource.SchemaRequest, response *resource.SchemaResponse) {
+	response.Schema = getAwsResourceSchema(ctx)
 }
 
 func (r *awsDatalakeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
@@ -59,6 +60,10 @@ func (r *awsDatalakeResource) Metadata(_ context.Context, req resource.MetadataR
 
 func (r *awsDatalakeResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *awsDatalakeResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func toAwsDatalakeRequest(ctx context.Context, model *awsDatalakeResourceModel) *datalakemodels.CreateAWSDatalakeRequest {
@@ -155,13 +160,19 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 
-	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
+	if !utils.ResolveAsync(state.PollingOptions, state.Async) {
+		createTimeout, timeoutDiags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Create, 60*time.Minute)
+		resp.Diagnostics.Append(timeoutDiags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		callFailureThresholdVal := utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, callFailureThreshold)
 		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
-			datalakeDetailsToAwsDatalakeResourceModel(ctx, dlDtl, &state, state.PollingOptions, &resp.Diagnostics)
+			datalakeDetailsToAwsDatalakeResourceModel(ctx, dlDtl, &state, &resp.Diagnostics)
 			diags = resp.State.Set(ctx, state)
 			resp.Diagnostics.Append(diags...)
 		}
-		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, callFailureThreshold, r.client.Datalake, state.PollingOptions, stateSaver); err != nil {
+		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), createTimeout, callFailureThresholdVal, r.client.Datalake, stateSaver); err != nil {
 			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create AWS Datalake")
 			return
 		}
@@ -176,7 +187,7 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	descDlResp := descResponseOk.Payload
-	datalakeDetailsToAwsDatalakeResourceModel(ctx, descDlResp.Datalake, &state, state.PollingOptions, &resp.Diagnostics)
+	datalakeDetailsToAwsDatalakeResourceModel(ctx, descDlResp.Datalake, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -185,16 +196,8 @@ func (r *awsDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 }
 
-func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallbackPollingTimeout time.Duration, callFailureThresholdDefault int, client *client.Datalake, options *utils.PollingOptions,
+func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, timeout time.Duration, callFailureThresholdDefault int, client *client.Datalake,
 	stateSaverCb func(*datalakemodels.DatalakeDetails)) error {
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, fallbackPollingTimeout)
-	if err != nil {
-		return err
-	}
-	callFailureThreshold, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThresholdDefault)
-	if failureThresholdError != nil {
-		return failureThresholdError
-	}
 	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{"REQUESTED", "WAIT_FOR_ENVIRONMENT", "ENVIRONMENT_CREATED", "STACK_CREATION_IN_PROGRESS",
@@ -202,7 +205,7 @@ func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallba
 		},
 		Target:       []string{"RUNNING"},
 		Delay:        5 * time.Second,
-		Timeout:      *timeout,
+		Timeout:      timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			log.Printf("About to describe datalake")
@@ -211,8 +214,8 @@ func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallba
 			resp, err := client.Operations.DescribeDatalakeContext(ctx, params)
 			if err != nil {
 				callFailedCount++
-				if callFailedCount <= callFailureThreshold {
-					tflog.Warn(ctx, fmt.Sprintf("Error describing datalake with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+				if callFailedCount <= callFailureThresholdDefault {
+					tflog.Warn(ctx, fmt.Sprintf("Error describing datalake with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThresholdDefault))
 					return nil, "", nil
 				}
 				tflog.Error(ctx, fmt.Sprintf("Error describing datalake (due to: %s) and call failure threshold limit exceeded.", err))
@@ -224,7 +227,7 @@ func waitForDatalakeToBeRunning(ctx context.Context, datalakeName string, fallba
 			return checkResponseStatusForError(resp)
 		},
 	}
-	_, err = stateConf.WaitForStateContext(ctx)
+	_, err := stateConf.WaitForStateContext(ctx)
 	return err
 }
 
@@ -277,7 +280,7 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	}
 
 	datalakeResp := responseOk.Payload
-	datalakeDetailsToAwsDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, state.PollingOptions, &resp.Diagnostics)
+	datalakeDetailsToAwsDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -286,7 +289,7 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	}
 }
 
-func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *awsDatalakeResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *awsDatalakeResourceModel, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(resp.Crn)
 	if resp.AwsConfiguration != nil {
 		model.InstanceProfile = types.StringValue(resp.AwsConfiguration.InstanceProfile)
@@ -295,7 +298,6 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 	model.Crn = types.StringPointerValue(resp.Crn)
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
-	model.PollingOptions = pollingOptions
 	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
 	instanceGroups := make([]*instanceGroup, len(resp.InstanceGroups))
 	for i, v := range resp.InstanceGroups {
@@ -379,7 +381,7 @@ func (r *awsDatalakeResource) Update(ctx context.Context, req resource.UpdateReq
 		return
 	}
 
-	datalakeDetailsToAwsDatalakeResourceModel(ctx, descResp.Payload.Datalake, &plan, plan.PollingOptions, &resp.Diagnostics)
+	datalakeDetailsToAwsDatalakeResourceModel(ctx, descResp.Payload.Datalake, &plan, &resp.Diagnostics)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, plan)...)
 }
@@ -420,27 +422,26 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 		return
 	}
 
-	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
+	deleteTimeout, timeoutDiags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, 60*time.Minute)
+	resp.Diagnostics.Append(timeoutDiags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	callFailureThresholdVal := utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, callFailureThreshold)
+
+	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), deleteTimeout, r.client.Datalake, callFailureThresholdVal); err != nil {
 		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete AWS Datalake")
 		return
 	}
 
 }
 
-func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, fallbackPollingTimeout time.Duration, datalake *client.Datalake, options *utils.PollingOptions) error {
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, fallbackPollingTimeout)
-	if err != nil {
-		return err
-	}
-	failureThreshold, failureThresholdErr := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThreshold)
-	if failureThresholdErr != nil {
-		return failureThresholdErr
-	}
+func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, timeout time.Duration, datalake *client.Datalake, failureThreshold int) error {
 	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{"DELETE_REQUESTED", "STACK_DELETION_IN_PROGRESS", "STACK_DELETED", "EXTERNAL_DATABASE_DELETION_IN_PROGRESS", "DELETED"},
 		Target:  []string{},
-		Timeout: *timeout,
+		Timeout: timeout,
 		Refresh: func() (interface{}, string, error) {
 			params := operations.NewDescribeDatalakeParams()
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
@@ -464,7 +465,7 @@ func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, fallba
 			return checkResponseStatusForError(resp)
 		},
 	}
-	_, err = stateConf.WaitForStateContext(ctx)
+	_, err := stateConf.WaitForStateContext(ctx)
 
 	return err
 }

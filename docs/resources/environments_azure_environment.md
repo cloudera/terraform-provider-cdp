@@ -89,7 +89,9 @@ output "environment" {
 
 ### Optional
 
+- `async` (Boolean) When set to `true`, the resource operation returns immediately without waiting for completion. When `false` (default), Terraform waits for the operation to finish, subject to the duration set in the `timeouts` block.
 - `availability_zones` (Set of String) The zones of the environment in the given region.
+- `call_failure_threshold` (Number) The number of consecutive internal API call failures before the provider gives up waiting. Applies only when `async` is `false`. Defaults to `3`.
 - `compute_cluster` (Attributes) Option to set up Externalized compute cluster for the environment. (see [below for nested schema](#nestedatt--compute_cluster))
 - `create_private_endpoints` (Boolean) When this is enabled, then Azure Postgres will be configured with Private Endpoint and a Private DNS Zone. When this is disabled, then Azure Service Endpoints will be created. The default value is disabled.
 - `custom_docker_registry` (Attributes) The desired custom docker registry for data services to be used. (see [below for nested schema](#nestedatt--custom_docker_registry))
@@ -107,11 +109,12 @@ output "environment" {
 - `environment_type` (String) Environment type which can be hybrid or public cloud. Available values: PUBLIC_CLOUD, HYBRID
 - `flexible_server_subnet_ids` (Set of String) The subnets delegated for Flexible Server database. Accepts either the name or the full resource id.
 - `freeipa` (Attributes) Request object for creating FreeIPA in the environment. (see [below for nested schema](#nestedatt--freeipa))
-- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
+- `polling_options` (Attributes, Deprecated) Polling options for the resource operation. Deprecated: use the top-level `async`, `call_failure_threshold` attributes and the `timeouts` block instead. (see [below for nested schema](#nestedatt--polling_options))
 - `proxy_config_name` (String) Name of the proxy config to use for the environment.
 - `resource_group_name` (String) Name of an existing Azure resource group to be used for the environment. If it is not specified then new resource groups will be generated.
 - `security` (Attributes) Security related configuration for Data Hub cluster. (see [below for nested schema](#nestedatt--security))
 - `tags` (Map of String) Tags associated with the resources.
+- `timeouts` (Attributes) (see [below for nested schema](#nestedatt--timeouts))
 - `workload_analytics` (Boolean) When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
 
 ### Read-Only
@@ -269,9 +272,9 @@ Read-Only:
 
 Optional:
 
-- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
-- `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
-- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+- `async` (Boolean) When set to `true`, the resource operation returns immediately without waiting for completion.
+- `call_failure_threshold` (Number) The number of consecutive internal API call failures before the provider gives up waiting. Defaults to `3`.
+- `polling_timeout` (Number) Timeout in minutes for how long to wait for the operation to complete. Defaults to `60`.
 
 
 <a id="nestedatt--security"></a>
@@ -280,3 +283,13 @@ Optional:
 Optional:
 
 - `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Available values: PERMISSIVE, ENFORCING
+
+
+<a id="nestedatt--timeouts"></a>
+### Nested Schema for `timeouts`
+
+Optional:
+
+- `create` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+- `delete` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+- `update` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).

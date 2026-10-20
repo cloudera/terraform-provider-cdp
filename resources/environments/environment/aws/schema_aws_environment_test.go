@@ -34,11 +34,18 @@ var awsSchemaElements = []test.ResourceSchemaTestCaseStructure{
 		AttributeType: schema.StringAttribute{},
 	},
 	{
-		Name:          "polling_options should exist and be valid",
-		Field:         "polling_options",
-		Computed:      false,
+		Name:          "async should exist and be valid",
+		Field:         "async",
+		Computed:      true,
 		Required:      false,
-		AttributeType: schema.SingleNestedAttribute{},
+		AttributeType: schema.BoolAttribute{},
+	},
+	{
+		Name:          "call_failure_threshold should exist and be valid",
+		Field:         "call_failure_threshold",
+		Computed:      true,
+		Required:      false,
+		AttributeType: schema.Int64Attribute{},
 	},
 	{
 		Name:          "authentication should exist and be valid",
@@ -239,7 +246,7 @@ var awsSchemaElements = []test.ResourceSchemaTestCaseStructure{
 }
 
 func TestAwsEnvironmentSchemaAttributeNumber(t *testing.T) {
-	expected := 31
+	expected := 33
 	if len(AwsEnvironmentSchema.Attributes) != expected {
 		t.Errorf("The number of fields in the AwsEnvironmentSchema schema should be: %d but it is: %d", expected, len(AwsEnvironmentSchema.Attributes))
 		t.FailNow()

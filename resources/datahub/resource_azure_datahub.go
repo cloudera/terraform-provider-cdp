@@ -26,8 +26,9 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure   = &azureDatahubResource{}
-	_ resource.ResourceWithImportState = &azureDatahubResource{}
+	_ resource.ResourceWithConfigure        = &azureDatahubResource{}
+	_ resource.ResourceWithImportState      = &azureDatahubResource{}
+	_ resource.ResourceWithConfigValidators = &azureDatahubResource{}
 )
 
 type azureDatahubResource struct {
@@ -48,6 +49,10 @@ func (r *azureDatahubResource) Metadata(_ context.Context, req resource.Metadata
 
 func (r *azureDatahubResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *azureDatahubResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *azureDatahubResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -79,7 +84,12 @@ func (r *azureDatahubResource) Create(ctx context.Context, req resource.CreateRe
 		return
 	}
 
-	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx, data.PollingOptions)
+	createTimeout, diags := utils.ResolveTimeout(ctx, data.PollingOptions, data.Timeouts.Create, datahubDefaultTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx, createTimeout, utils.ResolveCallFailureThreshold(data.PollingOptions, data.CallFailureThreshold, callFailureThreshold))
 	tflog.Debug(ctx, fmt.Sprintf("Cluster polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
 	//TODO: Should save to state fields filled by the backend from the response to make the resource more versatile for TF developers
 	data.Status = types.StringValue(status)
@@ -166,7 +176,12 @@ func (r *azureDatahubResource) Delete(ctx context.Context, req resource.DeleteRe
 		return
 	}
 
-	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx, state.PollingOptions)
+	deleteTimeout, diags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, datahubDefaultTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx, deleteTimeout)
 	if err != nil {
 		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datahub")
 		return

@@ -13,6 +13,7 @@ package datahub
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -25,9 +26,12 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
+const datahubDefaultTimeout = 60 * time.Minute
+
 var (
-	_ resource.ResourceWithConfigure   = &awsDatahubResource{}
-	_ resource.ResourceWithImportState = &awsDatahubResource{}
+	_ resource.ResourceWithConfigure        = &awsDatahubResource{}
+	_ resource.ResourceWithImportState      = &awsDatahubResource{}
+	_ resource.ResourceWithConfigValidators = &awsDatahubResource{}
 )
 
 type awsDatahubResource struct {
@@ -48,6 +52,10 @@ func (r *awsDatahubResource) Metadata(_ context.Context, req resource.MetadataRe
 
 func (r *awsDatahubResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *awsDatahubResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -85,7 +93,12 @@ func (r *awsDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx, data.PollingOptions)
+	createTimeout, diags := utils.ResolveTimeout(ctx, data.PollingOptions, data.Timeouts.Create, datahubDefaultTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx, createTimeout, utils.ResolveCallFailureThreshold(data.PollingOptions, data.CallFailureThreshold, callFailureThreshold))
 	tflog.Debug(ctx, fmt.Sprintf("Cluster polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
 	//TODO: Should save to state fields filled by the backend from the response to make the resource more versatile for TF developers
 	data.Status = types.StringValue(status)
@@ -172,7 +185,12 @@ func (r *awsDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx, state.PollingOptions)
+	deleteTimeout, diags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, datahubDefaultTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx, deleteTimeout)
 	if err != nil {
 		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "delete AWS Datahub")
 		return

@@ -13,6 +13,7 @@ package opdb
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -28,9 +29,10 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func (r *databaseResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *databaseResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
 	utils.AppendToResourceSchema(attr, generalAttributes)
+	attr["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true, Update: true})
 	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"database_name": schema.StringAttribute{
 			MarkdownDescription: "The name of the database.",

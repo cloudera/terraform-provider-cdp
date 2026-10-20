@@ -11,6 +11,7 @@
 package dataviz
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -27,11 +28,10 @@ type resourceModel struct {
 	UserGroups  types.List `tfsdk:"user_groups"`
 	AdminGroups types.List `tfsdk:"admin_groups"`
 
-	LastUpdated    types.String          `tfsdk:"last_updated"`
-	Status         types.String          `tfsdk:"status"`
-	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
-}
-
-func (m *resourceModel) GetPollingOptions() *utils.PollingOptions {
-	return m.PollingOptions
+	LastUpdated          types.String          `tfsdk:"last_updated"`
+	Status               types.String          `tfsdk:"status"`
+	PollingOptions       *utils.PollingOptions `tfsdk:"polling_options"`
+	Async                types.Bool            `tfsdk:"async"`
+	CallFailureThreshold types.Int64           `tfsdk:"call_failure_threshold"`
+	Timeouts             timeouts.Value        `tfsdk:"timeouts"`
 }

@@ -26,8 +26,9 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure   = &gcpDatalakeResource{}
-	_ resource.ResourceWithImportState = &gcpDatalakeResource{}
+	_ resource.ResourceWithConfigure        = &gcpDatalakeResource{}
+	_ resource.ResourceWithImportState      = &gcpDatalakeResource{}
+	_ resource.ResourceWithConfigValidators = &gcpDatalakeResource{}
 )
 
 type gcpDatalakeResource struct {
@@ -48,6 +49,10 @@ func (r *gcpDatalakeResource) Metadata(_ context.Context, req resource.MetadataR
 
 func (r *gcpDatalakeResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *gcpDatalakeResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -78,13 +83,19 @@ func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 
-	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
+	if !utils.ResolveAsync(state.PollingOptions, state.Async) {
+		createTimeout, timeoutDiags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Create, 60*time.Minute)
+		resp.Diagnostics.Append(timeoutDiags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		callFailureThresholdVal := utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, callFailureThreshold)
 		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
-			datalakeDetailsToGcpDatalakeResourceModelFromCreation(dlDtl, &state, state.PollingOptions)
+			datalakeDetailsToGcpDatalakeResourceModelFromCreation(dlDtl, &state)
 			diags = resp.State.Set(ctx, state)
 			resp.Diagnostics.Append(diags...)
 		}
-		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, callFailureThreshold, r.client.Datalake, state.PollingOptions, stateSaver); err != nil {
+		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), createTimeout, callFailureThresholdVal, r.client.Datalake, stateSaver); err != nil {
 			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create GCP Datalake")
 			return
 		}
@@ -99,7 +110,7 @@ func (r *gcpDatalakeResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	descDlResp := descResponseOk.Payload
-	datalakeDetailsToGcpDatalakeResourceModelFromCreation(descDlResp.Datalake, &state, state.PollingOptions)
+	datalakeDetailsToGcpDatalakeResourceModelFromCreation(descDlResp.Datalake, &state)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -142,7 +153,7 @@ func (r *gcpDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	}
 
 	datalakeResp := responseOk.Payload
-	datalakeDetailsToGcpDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, state.PollingOptions, &diags)
+	datalakeDetailsToGcpDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, &diags)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -187,7 +198,13 @@ func (r *gcpDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 		return
 	}
 
-	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
+	deleteTimeout, timeoutDiags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, 60*time.Minute)
+	resp.Diagnostics.Append(timeoutDiags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	callFailureThresholdVal := utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, callFailureThreshold)
+	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), deleteTimeout, r.client.Datalake, callFailureThresholdVal); err != nil {
 		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete GCP Datalake")
 		return
 	}

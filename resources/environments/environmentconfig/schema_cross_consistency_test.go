@@ -102,25 +102,18 @@ func TestSecurityAccessResourceFieldsExistInAzureConfig(t *testing.T) {
 	}
 }
 
-// TestPollingOptionsConsistentAcrossProviders verifies that the polling_options nested
-// schema has the same number of fields across aws, azure, and gcp in the environment config.
-func TestPollingOptionsConsistentAcrossProviders(t *testing.T) {
+// TestAsyncFieldsConsistentAcrossProviders verifies that the async and call_failure_threshold
+// fields exist as top-level attributes across aws, azure, and gcp in the environment config.
+func TestAsyncFieldsConsistentAcrossProviders(t *testing.T) {
 	aws, azure, gcp := getEnvironmentConfigProviderSchemas(t)
 
-	awsFields := extractNestedFieldNames(t, aws, "polling_options")
-	azureFields := extractNestedFieldNames(t, azure, "polling_options")
-	gcpFields := extractNestedFieldNames(t, gcp, "polling_options")
-
-	assert.Equal(t, len(awsFields), len(azureFields),
-		"AWS and Azure polling_options should have the same number of fields")
-	assert.Equal(t, len(awsFields), len(gcpFields),
-		"AWS and GCP polling_options should have the same number of fields")
-
-	for _, name := range awsFields {
-		assert.Contains(t, azureFields, name,
-			"polling_options field %q exists in AWS but not in Azure", name)
-		assert.Contains(t, gcpFields, name,
-			"polling_options field %q exists in AWS but not in GCP", name)
+	for _, fieldName := range []string{"async", "call_failure_threshold"} {
+		assert.Contains(t, aws.Attributes, fieldName,
+			"AWS schema should contain top-level field %q", fieldName)
+		assert.Contains(t, azure.Attributes, fieldName,
+			"Azure schema should contain top-level field %q", fieldName)
+		assert.Contains(t, gcp.Attributes, fieldName,
+			"GCP schema should contain top-level field %q", fieldName)
 	}
 }
 

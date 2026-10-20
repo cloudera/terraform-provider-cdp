@@ -11,13 +11,16 @@
 package dataviz
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 var datavizSchema = schema.Schema{
@@ -74,31 +77,20 @@ var datavizSchema = schema.Schema{
 			Computed:            true,
 			MarkdownDescription: "The status of the Data Visualization.",
 		},
-		"polling_options": schema.SingleNestedAttribute{
-			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+		"polling_options": utils.PollingOptionsSchema(20),
+		"async": schema.BoolAttribute{
+			MarkdownDescription: "When set to `true`, the resource operation returns immediately without waiting for completion. When `false` (default), Terraform waits for the operation to finish, subject to the duration set in the `timeouts` block.",
 			Optional:            true,
-			Attributes: map[string]schema.Attribute{
-				"async": schema.BoolAttribute{
-					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
-					Optional:            true,
-					Computed:            true,
-					Default:             booldefault.StaticBool(false),
-					PlanModifiers: []planmodifier.Bool{
-						boolplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"polling_timeout": schema.Int64Attribute{
-					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
-					Default:             int64default.StaticInt64(20),
-					Computed:            true,
-					Optional:            true,
-				},
-				"call_failure_threshold": schema.Int64Attribute{
-					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
-					Default:             int64default.StaticInt64(3),
-					Computed:            true,
-					Optional:            true,
-				},
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			MarkdownDescription: "The number of consecutive internal API call failures before the provider gives up waiting. Applies only when `async` is `false`. Defaults to `3`.",
+			Optional:            true,
+			Computed:            true,
+			Default:             int64default.StaticInt64(3),
+			Validators: []validator.Int64{
+				int64validator.AtLeast(1),
 			},
 		},
 	},

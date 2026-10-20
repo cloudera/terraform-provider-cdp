@@ -16,6 +16,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -32,8 +33,9 @@ type impalaResource struct {
 }
 
 var (
-	_ resource.Resource              = (*impalaResource)(nil)
-	_ resource.ResourceWithConfigure = (*impalaResource)(nil)
+	_ resource.Resource                     = (*impalaResource)(nil)
+	_ resource.ResourceWithConfigure        = (*impalaResource)(nil)
+	_ resource.ResourceWithConfigValidators = (*impalaResource)(nil)
 )
 
 func NewImpalaResource() resource.Resource {
@@ -48,8 +50,13 @@ func (r *impalaResource) Metadata(_ context.Context, req resource.MetadataReques
 	resp.TypeName = req.ProviderTypeName + "_dw_vw_impala"
 }
 
-func (r *impalaResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *impalaResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	impalaSchema.Attributes["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true})
 	resp.Schema = impalaSchema
+}
+
+func (r *impalaResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *impalaResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -144,7 +151,7 @@ func (r *impalaResource) Delete(ctx context.Context, req resource.DeleteRequest,
 	}
 
 	// Handle polling for not async call
-	if opts := state.PollingOptions; opts == nil || !opts.Async.ValueBool() {
+	if !utils.ResolveAsync(state.PollingOptions, state.Async) {
 		err = r.pollForDeletion(ctx, state, clusterID, vwID)
 		if err != nil {
 			resp.Diagnostics.AddError(
@@ -267,15 +274,19 @@ func (r *impalaResource) createVwRequestFromPlan(plan *resourceModel, ctx contex
 func (r *impalaResource) waitForVwRunning(ctx context.Context, plan *resourceModel, vwID *string) error {
 	clusterID := plan.ClusterID.ValueStringPointer()
 
-	if opts := plan.PollingOptions; opts == nil || !opts.Async.ValueBool() {
+	if !utils.ResolveAsync(plan.PollingOptions, plan.Async) {
+		createTimeout, diags := utils.ResolveTimeout(ctx, plan.PollingOptions, plan.Timeouts.Create, 40*time.Minute)
+		if diags.HasError() {
+			return fmt.Errorf("error reading create timeout: %s", diags)
+		}
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
 			Target:       []string{"Running"},
 			Delay:        30 * time.Second,
-			Timeout:      utils.GetPollingTimeout(plan, 20*time.Minute),
+			Timeout:      createTimeout,
 			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(plan, 3)),
+			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.ResolveCallFailureThreshold(plan.PollingOptions, plan.CallFailureThreshold, 3)),
 		}
 		_, err := stateConf.WaitForStateContext(ctx)
 		return err
@@ -310,14 +321,18 @@ func (r *impalaResource) deleteVirtualWarehouse(ctx context.Context, clusterID, 
 }
 
 func (r *impalaResource) pollForDeletion(ctx context.Context, state resourceModel, clusterID, vwID *string) error {
+	deleteTimeout, diags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, 40*time.Minute)
+	if diags.HasError() {
+		return fmt.Errorf("error reading delete timeout: %s", diags)
+	}
 	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending:      []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
 		Target:       []string{"Deleted"},
 		Delay:        30 * time.Second,
-		Timeout:      utils.GetPollingTimeout(&state, 20*time.Minute),
+		Timeout:      deleteTimeout,
 		PollInterval: 30 * time.Second,
-		Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(&state, 3)),
+		Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, 3)),
 	}
 
 	_, err := stateConf.WaitForStateContext(ctx)

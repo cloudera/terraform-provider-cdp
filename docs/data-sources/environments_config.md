@@ -81,7 +81,9 @@ output "env" {
 
 Read-Only:
 
+- `async` (Boolean)
 - `authentication` (Attributes) (see [below for nested schema](#nestedatt--aws--authentication))
+- `call_failure_threshold` (Number)
 - `compute_cluster` (Attributes) (see [below for nested schema](#nestedatt--aws--compute_cluster))
 - `create_private_subnets` (Boolean)
 - `create_service_endpoints` (Boolean)
@@ -259,7 +261,9 @@ Optional:
 
 Read-Only:
 
+- `async` (Boolean)
 - `availability_zones` (Set of String)
+- `call_failure_threshold` (Number)
 - `compute_cluster` (Attributes) (see [below for nested schema](#nestedatt--azure--compute_cluster))
 - `create_private_endpoints` (Boolean)
 - `credential_name` (String)
@@ -449,7 +453,9 @@ Read-Only:
 
 Read-Only:
 
+- `async` (Boolean)
 - `availability_zones` (List of String)
+- `call_failure_threshold` (Number)
 - `credential_name` (String)
 - `crn` (String)
 - `custom_docker_registry` (Attributes) (see [below for nested schema](#nestedatt--gcp--custom_docker_registry))

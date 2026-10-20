@@ -12,9 +12,12 @@ package gcp
 
 import (
 	"context"
+	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
@@ -25,8 +28,9 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure   = &gcpEnvironmentResource{}
-	_ resource.ResourceWithImportState = &gcpEnvironmentResource{}
+	_ resource.ResourceWithConfigure        = &gcpEnvironmentResource{}
+	_ resource.ResourceWithImportState      = &gcpEnvironmentResource{}
+	_ resource.ResourceWithConfigValidators = &gcpEnvironmentResource{}
 )
 
 type gcpEnvironmentResource struct {
@@ -41,8 +45,14 @@ func NewGcpEnvironmentResource() resource.Resource {
 	return &gcpEnvironmentResource{}
 }
 
-func (r *gcpEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = GcpEnvironmentSchema
+func (r *gcpEnvironmentResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	s := GcpEnvironmentSchema
+	s.Attributes = make(map[string]schema.Attribute, len(GcpEnvironmentSchema.Attributes)+1)
+	for k, v := range GcpEnvironmentSchema.Attributes {
+		s.Attributes[k] = v
+	}
+	s.Attributes["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true, Update: true})
+	resp.Schema = s
 }
 
 func (r *gcpEnvironmentResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -51,6 +61,10 @@ func (r *gcpEnvironmentResource) Metadata(_ context.Context, req resource.Metada
 
 func (r *gcpEnvironmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *gcpEnvironmentResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -75,7 +89,7 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 
 	ToGcpEnvironmentResource(ctx,
 		utils.LogEnvironmentSilently(ctx, responseOk.Payload.Environment, envcommon.DescribeLogPrefix),
-		&data, data.PollingOptions, &resp.Diagnostics)
+		&data, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -87,19 +101,25 @@ func (r *gcpEnvironmentResource) Create(ctx context.Context, req resource.Create
 	if err != nil {
 		return
 	}
-	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
+	if !utils.ResolveAsync(data.PollingOptions, data.Async) {
+		createTimeout, diagsT := utils.ResolveTimeout(ctx, data.PollingOptions, data.Timeouts.Create, 60*time.Minute)
+		resp.Diagnostics.Append(diagsT...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		callFailureThreshold := utils.ResolveCallFailureThreshold(data.PollingOptions, data.CallFailureThreshold, envcommon.CallFailureThreshold)
 		stateSaver := func(env *environmentsmodels.Environment) {
-			ToGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+			ToGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), &data, &resp.Diagnostics)
 			diags = resp.State.Set(ctx, data)
 			resp.Diagnostics.Append(diags...)
 		}
-		descEnvResp, err = envcommon.WaitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions, stateSaver)
+		descEnvResp, err = envcommon.WaitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, createTimeout, callFailureThreshold, stateSaver)
 		if err != nil {
 			return
 		}
 	}
 
-	ToGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp, envcommon.DescribeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+	ToGcpEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp, envcommon.DescribeLogPrefix), &data, &resp.Diagnostics)
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -123,7 +143,7 @@ func (r *gcpEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 	if err != nil {
 		return
 	}
-	ToGcpEnvironmentResource(ctx, descEnvResp, &state, state.PollingOptions, &resp.Diagnostics)
+	ToGcpEnvironmentResource(ctx, descEnvResp, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -147,7 +167,13 @@ func (r *gcpEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 	cascading := state.cascadeDelete()
 	forced := state.forceDelete()
 
-	if err := envcommon.DeleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, forced, ctx, r.client, resp, state.PollingOptions); err != nil {
+	deleteTimeout, diags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, 60*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	callFailureThreshold := utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, envcommon.CallFailureThreshold)
+	if err := envcommon.DeleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, forced, ctx, r.client, resp, deleteTimeout, callFailureThreshold); err != nil {
 		return
 	}
 }

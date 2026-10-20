@@ -29,11 +29,18 @@ var (
 			AttributeType: schema.StringAttribute{},
 		},
 		{
-			Name:          "'polling_options' should exist",
-			Field:         "polling_options",
-			Computed:      false,
+			Name:          "'async' should exist",
+			Field:         "async",
+			Computed:      true,
 			Required:      false,
-			AttributeType: schema.SingleNestedAttribute{},
+			AttributeType: schema.BoolAttribute{},
+		},
+		{
+			Name:          "'call_failure_threshold' should exist",
+			Field:         "call_failure_threshold",
+			Computed:      true,
+			Required:      false,
+			AttributeType: schema.Int64Attribute{},
 		},
 		{
 			Name:          "'creation_date' should exist",

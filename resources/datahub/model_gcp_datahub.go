@@ -11,6 +11,7 @@
 package datahub
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -24,6 +25,9 @@ type gcpDatahubResourceModel struct {
 	Environment              types.String          `tfsdk:"environment_name"`
 	InstanceGroup            []GcpInstanceGroup    `tfsdk:"instance_group"`
 	PollingOptions           *utils.PollingOptions `tfsdk:"polling_options"`
+	Async                    types.Bool            `tfsdk:"async"`
+	CallFailureThreshold     types.Int64           `tfsdk:"call_failure_threshold"`
+	Timeouts                 timeouts.Value        `tfsdk:"timeouts"`
 	DestroyOptions           *DestroyOptions       `tfsdk:"destroy_options"`
 	ClusterTemplate          types.String          `tfsdk:"cluster_template_name"`
 	ClusterDefinition        types.String          `tfsdk:"cluster_definition_name"`

@@ -13,19 +13,20 @@ package datalake
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func (r *gcpDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = gcpDatalakeSchema
+func (r *gcpDatalakeResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = getGcpResourceSchema(ctx)
 }
 
-var gcpDatalakeSchema = getGcpResourceSchema()
+var gcpDatalakeSchema = getGcpResourceSchema(context.Background())
 
-func getGcpResourceSchema() schema.Schema {
+func getGcpResourceSchema(ctx context.Context) schema.Schema {
 	attr := map[string]schema.Attribute{}
 	utils.AppendToResourceSchema(attr, generalAttributes)
 	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
@@ -45,6 +46,7 @@ func getGcpResourceSchema() schema.Schema {
 			},
 		},
 	})
+	attr["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true})
 	return schema.Schema{
 		MarkdownDescription: "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",
 		Description:         "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",

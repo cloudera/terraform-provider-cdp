@@ -41,6 +41,19 @@ var awsSchema = schema.SingleNestedAttribute{
 			Computed: true,
 		},
 		"polling_options": pollingOptionsSchema,
+		"async": schema.BoolAttribute{
+			Computed: true,
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			Computed: true,
+		},
+		"timeouts": schema.SingleNestedAttribute{
+			Computed: true,
+			Attributes: map[string]schema.Attribute{
+				"create": schema.StringAttribute{Computed: true},
+				"delete": schema.StringAttribute{Computed: true},
+			},
+		},
 		"creation_date": schema.StringAttribute{
 			Computed: true,
 		},
@@ -159,6 +172,19 @@ var azureSchema = schema.SingleNestedAttribute{
 			Computed: true,
 		},
 		"polling_options": pollingOptionsSchema,
+		"async": schema.BoolAttribute{
+			Computed: true,
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			Computed: true,
+		},
+		"timeouts": schema.SingleNestedAttribute{
+			Computed: true,
+			Attributes: map[string]schema.Attribute{
+				"create": schema.StringAttribute{Computed: true},
+				"delete": schema.StringAttribute{Computed: true},
+			},
+		},
 		"managed_identity": schema.StringAttribute{
 			Computed: true,
 		},
@@ -280,6 +306,19 @@ var gcpSchema = schema.SingleNestedAttribute{
 			Computed: true,
 		},
 		"polling_options": pollingOptionsSchema,
+		"async": schema.BoolAttribute{
+			Computed: true,
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			Computed: true,
+		},
+		"timeouts": schema.SingleNestedAttribute{
+			Computed: true,
+			Attributes: map[string]schema.Attribute{
+				"create": schema.StringAttribute{Computed: true},
+				"delete": schema.StringAttribute{Computed: true},
+			},
+		},
 		"creation_date": schema.StringAttribute{
 			Computed: true,
 		},

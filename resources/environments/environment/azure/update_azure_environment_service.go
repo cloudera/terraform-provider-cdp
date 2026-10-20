@@ -14,6 +14,7 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -48,7 +49,13 @@ func updateAzureEnvironment(ctx context.Context, plan *AzureEnvironmentResourceM
 }
 
 func updateAzureTagsIfChanged(ctx context.Context, plan *AzureEnvironmentResourceModel, state *AzureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
-	return envcommon.UpdateTagsIfChanged(ctx, client, plan.Tags, &state.Tags, plan.EnvironmentName.ValueStringPointer(), plan.PollingOptions, resp)
+	updateTimeout, diags := plan.Timeouts.Update(ctx, 60*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+	callFailureThreshold := utils.GetCallFailureThresholdOrDefault(plan.CallFailureThreshold, envcommon.CallFailureThreshold)
+	return envcommon.UpdateTagsIfChanged(ctx, client, plan.Tags, &state.Tags, plan.EnvironmentName.ValueStringPointer(), updateTimeout, callFailureThreshold, resp)
 }
 
 func updateAzureNetworkParamsIfChanged(ctx context.Context, plan *AzureEnvironmentResourceModel, state *AzureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
@@ -122,7 +129,13 @@ func updateFreeIpaRecipesIfChanged(ctx context.Context, plan *AzureEnvironmentRe
 }
 
 func updateAzureEndpointAccessGatewayIfChanged(ctx context.Context, plan *AzureEnvironmentResourceModel, state *AzureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
-	return envcommon.UpdateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), plan.PollingOptions, resp)
+	updateTimeout, diags := plan.Timeouts.Update(ctx, 60*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+	callFailureThreshold := utils.GetCallFailureThresholdOrDefault(plan.CallFailureThreshold, envcommon.CallFailureThreshold)
+	return envcommon.UpdateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), updateTimeout, callFailureThreshold, resp)
 }
 
 func updateAzureAvailabilityZonesIfChanged(ctx context.Context, plan *AzureEnvironmentResourceModel, state *AzureEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
@@ -202,12 +215,18 @@ func updateAzureComputeClusterIfChanged(ctx context.Context, plan *AzureEnvironm
 			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "enable compute cluster")
 			return resp
 		}
+		updateTimeout, diagsT := plan.Timeouts.Update(ctx, 60*time.Minute)
+		resp.Diagnostics.Append(diagsT...)
+		if resp.Diagnostics.HasError() {
+			return resp
+		}
+		callFailureThreshold := utils.GetCallFailureThresholdOrDefault(plan.CallFailureThreshold, envcommon.CallFailureThreshold)
 		stateSaver := func(env *environmentsmodels.Environment) {
-			ToAzureEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), state, state.PollingOptions, &resp.Diagnostics)
+			ToAzureEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), state, &resp.Diagnostics)
 			resp.Diagnostics = resp.State.Set(ctx, state)
 			resp.Diagnostics.Append(diags...)
 		}
-		if err := envcommon.WaitForEnvironmentToBeAvailable(state.ID.ValueString(), envcommon.TimeoutOneHour, envcommon.CallFailureThreshold, client, ctx, state.PollingOptions, stateSaver); err != nil {
+		if err := envcommon.WaitForEnvironmentToBeAvailable(state.ID.ValueString(), updateTimeout, callFailureThreshold, client, ctx, stateSaver); err != nil {
 			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "wait for environment to be available")
 		}
 	}

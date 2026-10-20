@@ -11,6 +11,7 @@
 package azure
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/envcommon"
@@ -23,6 +24,12 @@ type AzureEnvironmentResourceModel struct {
 	Crn types.String `tfsdk:"crn"`
 
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
+
+	Async types.Bool `tfsdk:"async"`
+
+	CallFailureThreshold types.Int64 `tfsdk:"call_failure_threshold"`
+
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 
 	CreatePrivateEndpoints types.Bool `tfsdk:"create_private_endpoints"`
 

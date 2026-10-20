@@ -110,14 +110,17 @@ func TestGcpDatahubRequiredCDPFieldsHaveSchemaCounterpart(t *testing.T) {
 
 func TestAwsDatahubSchemaFieldsCoverage(t *testing.T) {
 	tfOnlyFields := map[string]bool{
-		"id":              true,
-		"crn":             true,
-		"status":          true,
-		"polling_options": true,
-		"destroy_options": true,
-		"name":            true, // Maps to CDP's clusterName (different naming)
-		"environment":     true, // Maps to CDP's environment (same name but Required handling differs)
-		"instance_group":  true, // Maps to CDP's instanceGroups (singular vs plural, different structure)
+		"id":                     true,
+		"crn":                    true,
+		"status":                 true,
+		"polling_options":        true,
+		"async":                  true,
+		"call_failure_threshold": true,
+		"timeouts":               true,
+		"destroy_options":        true,
+		"name":                   true, // Maps to CDP's clusterName (different naming)
+		"environment":            true, // Maps to CDP's environment (same name but Required handling differs)
+		"instance_group":         true, // Maps to CDP's instanceGroups (singular vs plural, different structure)
 	}
 
 	assertAllSchemaFieldsMapped(t,
@@ -129,16 +132,19 @@ func TestAwsDatahubSchemaFieldsCoverage(t *testing.T) {
 
 func TestAzureDatahubSchemaFieldsCoverage(t *testing.T) {
 	tfOnlyFields := map[string]bool{
-		"id":                 true,
-		"crn":                true,
-		"status":             true,
-		"polling_options":    true,
-		"destroy_options":    true,
-		"name":               true, // Maps to CDP's clusterName (different naming)
-		"environment":        true, // Maps to CDP's environmentName (different naming)
-		"instance_group":     true, // Maps to CDP's instanceGroups (singular vs plural, different structure)
-		"cluster_template":   true, // Maps to CDP's clusterTemplateName (alias without _name suffix)
-		"cluster_definition": true, // Maps to CDP's clusterDefinitionName (alias without _name suffix)
+		"id":                     true,
+		"crn":                    true,
+		"status":                 true,
+		"polling_options":        true,
+		"async":                  true,
+		"call_failure_threshold": true,
+		"timeouts":               true,
+		"destroy_options":        true,
+		"name":                   true, // Maps to CDP's clusterName (different naming)
+		"environment":            true, // Maps to CDP's environmentName (different naming)
+		"instance_group":         true, // Maps to CDP's instanceGroups (singular vs plural, different structure)
+		"cluster_template":       true, // Maps to CDP's clusterTemplateName (alias without _name suffix)
+		"cluster_definition":     true, // Maps to CDP's clusterDefinitionName (alias without _name suffix)
 	}
 
 	assertAllSchemaFieldsMapped(t,
@@ -150,13 +156,16 @@ func TestAzureDatahubSchemaFieldsCoverage(t *testing.T) {
 
 func TestGcpDatahubSchemaFieldsCoverage(t *testing.T) {
 	tfOnlyFields := map[string]bool{
-		"id":              true,
-		"crn":             true,
-		"status":          true,
-		"polling_options": true,
-		"destroy_options": true,
-		"instance_group":  true, // Maps to CDP's instanceGroups (singular vs plural, different structure)
-		"name":            true, // Maps to CDP's clusterName (different naming)
+		"id":                     true,
+		"crn":                    true,
+		"status":                 true,
+		"polling_options":        true,
+		"async":                  true,
+		"call_failure_threshold": true,
+		"timeouts":               true,
+		"destroy_options":        true,
+		"instance_group":         true, // Maps to CDP's instanceGroups (singular vs plural, different structure)
+		"name":                   true, // Maps to CDP's clusterName (different naming)
 	}
 
 	assertAllSchemaFieldsMapped(t,

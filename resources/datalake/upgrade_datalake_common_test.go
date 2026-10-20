@@ -14,6 +14,7 @@ import (
 	"context"
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -68,7 +69,7 @@ func TestUpgradeDatalake_ApiError(t *testing.T) {
 		Return((*operations.UpgradeDatalakeOK)(nil), errors.New("service unavailable"))
 
 	resp := &resource.UpdateResponse{}
-	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, nil, nil, resp)
+	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, nil, time.Hour, callFailureThreshold, resp)
 
 	assert.True(t, resp.Diagnostics.HasError())
 }
@@ -93,7 +94,7 @@ func TestUpgradeDatalake_OperationFinished(t *testing.T) {
 		}, nil)
 
 	resp := &resource.UpdateResponse{}
-	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, nil, nil, resp)
+	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, nil, time.Hour, callFailureThreshold, resp)
 
 	assert.False(t, resp.Diagnostics.HasError())
 }
@@ -114,7 +115,7 @@ func TestUpgradeDatalake_OperationFailed(t *testing.T) {
 		}, nil)
 
 	resp := &resource.UpdateResponse{}
-	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, nil, nil, resp)
+	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, nil, time.Hour, callFailureThreshold, resp)
 
 	assert.True(t, resp.Diagnostics.HasError())
 }
@@ -130,7 +131,7 @@ func TestUpgradeDatalake_NoOperationID_ReturnsError(t *testing.T) {
 		}, nil)
 
 	resp := &resource.UpdateResponse{}
-	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, nil, nil, resp)
+	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, nil, time.Hour, callFailureThreshold, resp)
 
 	assert.True(t, resp.Diagnostics.HasError())
 	assert.Contains(t, resp.Diagnostics.Errors()[0].Detail(), "no operation ID")
@@ -150,7 +151,7 @@ func TestUpgradeDatalake_NoOperationID_WithReason_ReturnsError(t *testing.T) {
 		}, nil)
 
 	resp := &resource.UpdateResponse{}
-	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, nil, nil, resp)
+	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, nil, time.Hour, callFailureThreshold, resp)
 
 	assert.True(t, resp.Diagnostics.HasError())
 	assert.Contains(t, resp.Diagnostics.Errors()[0].Detail(), "No compatible images found")
@@ -203,7 +204,7 @@ func TestUpgradeDatalake_DryRun_SkipsPolling(t *testing.T) {
 		}, nil)
 
 	resp := &resource.UpdateResponse{}
-	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, opts, nil, resp)
+	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, opts, time.Hour, callFailureThreshold, resp)
 
 	assert.False(t, resp.Diagnostics.HasError())
 	assert.Equal(t, 1, resp.Diagnostics.WarningsCount())
@@ -239,7 +240,7 @@ func TestUpgradeDatalake_DryRun_WithReason(t *testing.T) {
 		}, nil)
 
 	resp := &resource.UpdateResponse{}
-	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, opts, nil, resp)
+	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, opts, time.Hour, callFailureThreshold, resp)
 
 	assert.False(t, resp.Diagnostics.HasError())
 	assert.Equal(t, 1, resp.Diagnostics.WarningsCount())
@@ -305,7 +306,7 @@ func TestUpgradeDatalake_WithUpgradeOptions(t *testing.T) {
 		}, nil)
 
 	resp := &resource.UpdateResponse{}
-	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, opts, nil, resp)
+	UpgradeDatalake(ctx, client, testDatalakeName, testNewRuntime, testImageID, opts, time.Hour, callFailureThreshold, resp)
 
 	assert.False(t, resp.Diagnostics.HasError())
 }

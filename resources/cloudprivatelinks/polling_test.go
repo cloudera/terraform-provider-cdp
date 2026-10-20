@@ -25,18 +25,20 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/mocks"
 )
 
-// overridePollingTimings replaces package-level timing vars with test-friendly values.
-// Do NOT combine with t.Parallel() — the vars are shared package state.
+const (
+	testTimeout              = 5 * time.Second
+	testShortTimeout         = 200 * time.Millisecond
+	testCallFailureThreshold = 3
+)
+
 func overridePollingTimings(t *testing.T) {
 	t.Helper()
-	origDelay, origInterval, origTimeout := pollingDelay, pollingInterval, pollingTimeout
+	origDelay, origInterval := pollingDelay, pollingInterval
 	pollingDelay = 0
 	pollingInterval = 50 * time.Millisecond
-	pollingTimeout = 5 * time.Second
 	t.Cleanup(func() {
 		pollingDelay = origDelay
 		pollingInterval = origInterval
-		pollingTimeout = origTimeout
 	})
 }
 
@@ -63,7 +65,7 @@ func TestWaitForEndpointToBeCreated_AllSuccess(t *testing.T) {
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	statuses, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), nil)
+	statuses, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), testTimeout, testCallFailureThreshold)
 
 	require.NoError(t, err)
 	require.Len(t, statuses, 2)
@@ -82,7 +84,7 @@ func TestWaitForEndpointToBeCreated_ErrorStatus(t *testing.T) {
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	_, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), nil)
+	_, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), testTimeout, testCallFailureThreshold)
 
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "IAMAPI")
@@ -106,7 +108,7 @@ func TestWaitForEndpointToBeCreated_InProgressThenSuccess(t *testing.T) {
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	statuses, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), nil)
+	statuses, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), testTimeout, testCallFailureThreshold)
 
 	require.NoError(t, err)
 	require.Len(t, statuses, 1)
@@ -123,22 +125,14 @@ func TestWaitForEndpointToBeCreated_EmptyEndpoints(t *testing.T) {
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	statuses, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), nil)
+	statuses, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), testTimeout, testCallFailureThreshold)
 
 	require.NoError(t, err)
 	require.Empty(t, statuses)
 }
 
 func TestWaitForEndpointToBeCreated_Timeout(t *testing.T) {
-	origDelay, origInterval, origTimeout := pollingDelay, pollingInterval, pollingTimeout
-	pollingDelay = 0
-	pollingInterval = 50 * time.Millisecond
-	pollingTimeout = 200 * time.Millisecond
-	t.Cleanup(func() {
-		pollingDelay = origDelay
-		pollingInterval = origInterval
-		pollingTimeout = origTimeout
-	})
+	overridePollingTimings(t)
 
 	mockOps := mocks.NewMockCloudPrivateLinksClientService(t)
 	mockOps.EXPECT().
@@ -149,7 +143,7 @@ func TestWaitForEndpointToBeCreated_Timeout(t *testing.T) {
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	_, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), nil)
+	_, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), testShortTimeout, testCallFailureThreshold)
 
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "timeout")
@@ -161,14 +155,13 @@ func TestWaitForEndpointToBeCreated_APIErrorExceedsThreshold(t *testing.T) {
 	apiErr := errors.New("service unavailable")
 
 	mockOps := mocks.NewMockCloudPrivateLinksClientService(t)
-	// threshold=3: first 3 calls return IN_PROGRESS, 4th exceeds and returns error
 	mockOps.EXPECT().
 		ListPrivateLinkEndpointStatusesContext(mock.Anything, mock.Anything).
-		Return(nil, apiErr).Times(callFailureThreshold + 1)
+		Return(nil, apiErr).Times(testCallFailureThreshold + 1)
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	_, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), nil)
+	_, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), testTimeout, testCallFailureThreshold)
 
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "service unavailable")
@@ -180,10 +173,9 @@ func TestWaitForEndpointToBeCreated_APIErrorBelowThreshold(t *testing.T) {
 	apiErr := errors.New("transient error")
 
 	mockOps := mocks.NewMockCloudPrivateLinksClientService(t)
-	// 3 failures reach but do not exceed threshold (callFailedCount <= failureThreshold)
 	mockOps.EXPECT().
 		ListPrivateLinkEndpointStatusesContext(mock.Anything, mock.Anything).
-		Return(nil, apiErr).Times(callFailureThreshold)
+		Return(nil, apiErr).Times(testCallFailureThreshold)
 	mockOps.EXPECT().
 		ListPrivateLinkEndpointStatusesContext(mock.Anything, mock.Anything).
 		Return(makeEndpointStatusesOK([]*cloudprivatelinkmodels.PrivateLinkEndpointStatus{
@@ -192,7 +184,7 @@ func TestWaitForEndpointToBeCreated_APIErrorBelowThreshold(t *testing.T) {
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	statuses, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), nil)
+	statuses, err := waitForEndpointToBeCreated("track-123", plClient, context.Background(), testTimeout, testCallFailureThreshold)
 
 	require.NoError(t, err)
 	require.Len(t, statuses, 1)
@@ -212,7 +204,7 @@ func TestWaitForEndpointToBeDeleted_AllSuccess(t *testing.T) {
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	err := waitForEndpointToBeDeleted("track-123", plClient, context.Background(), nil)
+	err := waitForEndpointToBeDeleted("track-123", plClient, context.Background(), testTimeout, testCallFailureThreshold)
 
 	require.NoError(t, err)
 }
@@ -229,7 +221,7 @@ func TestWaitForEndpointToBeDeleted_ErrorStatus(t *testing.T) {
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	err := waitForEndpointToBeDeleted("track-123", plClient, context.Background(), nil)
+	err := waitForEndpointToBeDeleted("track-123", plClient, context.Background(), testTimeout, testCallFailureThreshold)
 
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "API")
@@ -237,15 +229,7 @@ func TestWaitForEndpointToBeDeleted_ErrorStatus(t *testing.T) {
 }
 
 func TestWaitForEndpointToBeDeleted_Timeout(t *testing.T) {
-	origDelay, origInterval, origTimeout := pollingDelay, pollingInterval, pollingTimeout
-	pollingDelay = 0
-	pollingInterval = 50 * time.Millisecond
-	pollingTimeout = 200 * time.Millisecond
-	t.Cleanup(func() {
-		pollingDelay = origDelay
-		pollingInterval = origInterval
-		pollingTimeout = origTimeout
-	})
+	overridePollingTimings(t)
 
 	mockOps := mocks.NewMockCloudPrivateLinksClientService(t)
 	mockOps.EXPECT().
@@ -256,7 +240,7 @@ func TestWaitForEndpointToBeDeleted_Timeout(t *testing.T) {
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	err := waitForEndpointToBeDeleted("track-123", plClient, context.Background(), nil)
+	err := waitForEndpointToBeDeleted("track-123", plClient, context.Background(), testShortTimeout, testCallFailureThreshold)
 
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "timeout")
@@ -270,11 +254,11 @@ func TestWaitForEndpointToBeDeleted_APIErrorExceedsThreshold(t *testing.T) {
 	mockOps := mocks.NewMockCloudPrivateLinksClientService(t)
 	mockOps.EXPECT().
 		ListPrivateLinkEndpointStatusesContext(mock.Anything, mock.Anything).
-		Return(nil, apiErr).Times(callFailureThreshold + 1)
+		Return(nil, apiErr).Times(testCallFailureThreshold + 1)
 
 	plClient := &cloudprivatelinksclient.Cloudprivatelinks{Operations: mockOps}
 
-	err := waitForEndpointToBeDeleted("track-123", plClient, context.Background(), nil)
+	err := waitForEndpointToBeDeleted("track-123", plClient, context.Background(), testTimeout, testCallFailureThreshold)
 
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "service unavailable")
@@ -284,7 +268,5 @@ func TestWaitForEndpointToBeDeleted_APIErrorExceedsThreshold(t *testing.T) {
 
 func TestPollingDefaultValues(t *testing.T) {
 	require.Equal(t, 10*time.Second, pollingDelay)
-	require.Equal(t, 30*time.Minute, pollingTimeout)
 	require.Equal(t, 15*time.Second, pollingInterval)
-	require.Equal(t, 3, callFailureThreshold)
 }

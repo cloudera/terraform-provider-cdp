@@ -16,14 +16,16 @@ import (
 	"testing"
 
 	"github.com/go-openapi/runtime"
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -36,7 +38,12 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/client/operations"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/dw/models"
 	"github.com/cloudera/terraform-provider-cdp/mocks"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
+
+func init() {
+	testDatavizSchema.Attributes["timeouts"] = timeouts.Attributes(context.Background(), timeouts.Opts{Create: true, Delete: true})
+}
 
 var testDatavizSchema = schema.Schema{
 	MarkdownDescription: "Cloudera Data Warehouse (CDW) integrates [Data Visualization](https://docs.cloudera.com/data-warehouse/cloud/managing-warehouses/topics/dw-use-data-visualization.html) for building graphic representations of data, dashboards, and visual applications based on CDW data.",
@@ -92,31 +99,20 @@ var testDatavizSchema = schema.Schema{
 			Computed:            true,
 			MarkdownDescription: "The status of the Data Visualization.",
 		},
-		"polling_options": schema.SingleNestedAttribute{
-			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+		"polling_options": utils.PollingOptionsSchema(20),
+		"async": schema.BoolAttribute{
+			MarkdownDescription: "When set to `true`, the resource operation returns immediately without waiting for completion. When `false` (default), Terraform waits for the operation to finish, subject to the duration set in the `timeouts` block.",
 			Optional:            true,
-			Attributes: map[string]schema.Attribute{
-				"async": schema.BoolAttribute{
-					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
-					Optional:            true,
-					Computed:            true,
-					Default:             booldefault.StaticBool(false),
-					PlanModifiers: []planmodifier.Bool{
-						boolplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"polling_timeout": schema.Int64Attribute{
-					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
-					Default:             int64default.StaticInt64(20),
-					Computed:            true,
-					Optional:            true,
-				},
-				"call_failure_threshold": schema.Int64Attribute{
-					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
-					Default:             int64default.StaticInt64(3),
-					Computed:            true,
-					Optional:            true,
-				},
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			MarkdownDescription: "The number of consecutive internal API call failures before the provider gives up waiting. Applies only when `async` is `false`. Defaults to `3`.",
+			Optional:            true,
+			Computed:            true,
+			Default:             int64default.StaticInt64(3),
+			Validators: []validator.Int64{
+				int64validator.AtLeast(1),
 			},
 		},
 	},
@@ -158,20 +154,23 @@ func createRawDatavizResource(overrides map[string]tftypes.Value) tftypes.Value 
 				tftypes.NewValue(tftypes.String, "admin-group1"),
 				tftypes.NewValue(tftypes.String, "admin-group2"),
 			}),
-		"last_updated": tftypes.NewValue(tftypes.String, ""),
-		"status":       tftypes.NewValue(tftypes.String, "Running"),
-
-		"polling_options": tftypes.NewValue(
-			tftypes.Object{
-				AttributeTypes: map[string]tftypes.Type{
-					"async":                  tftypes.Bool,
-					"polling_timeout":        tftypes.Number,
-					"call_failure_threshold": tftypes.Number,
-				}}, map[string]tftypes.Value{
-				"async":                  tftypes.NewValue(tftypes.Bool, true),
-				"polling_timeout":        tftypes.NewValue(tftypes.Number, 90),
-				"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
-			}),
+		"last_updated":           tftypes.NewValue(tftypes.String, ""),
+		"status":                 tftypes.NewValue(tftypes.String, "Running"),
+		"async":                  tftypes.NewValue(tftypes.Bool, true),
+		"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+		"polling_options": tftypes.NewValue(tftypes.Object{
+			AttributeTypes: map[string]tftypes.Type{
+				"async":                  tftypes.Bool,
+				"polling_timeout":        tftypes.Number,
+				"call_failure_threshold": tftypes.Number,
+			},
+		}, nil),
+		"timeouts": tftypes.NewValue(tftypes.Object{
+			AttributeTypes: map[string]tftypes.Type{
+				"create": tftypes.String,
+				"delete": tftypes.String,
+			},
+		}, nil),
 	}
 
 	for k, v := range overrides {
@@ -192,13 +191,21 @@ func createRawDatavizResource(overrides map[string]tftypes.Value) tftypes.Value 
 				"user_groups":  tftypes.List{ElementType: tftypes.String},
 				"admin_groups": tftypes.List{ElementType: tftypes.String},
 
-				"last_updated": tftypes.String,
-				"status":       tftypes.String,
+				"last_updated":           tftypes.String,
+				"status":                 tftypes.String,
+				"async":                  tftypes.Bool,
+				"call_failure_threshold": tftypes.Number,
 				"polling_options": tftypes.Object{
 					AttributeTypes: map[string]tftypes.Type{
 						"async":                  tftypes.Bool,
 						"polling_timeout":        tftypes.Number,
 						"call_failure_threshold": tftypes.Number,
+					},
+				},
+				"timeouts": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"create": tftypes.String,
+						"delete": tftypes.String,
 					},
 				},
 			},

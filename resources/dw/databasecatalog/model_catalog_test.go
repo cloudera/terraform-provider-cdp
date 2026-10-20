@@ -13,7 +13,6 @@ package databasecatalog
 import (
 	"context"
 	"testing"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
@@ -39,14 +38,4 @@ func (s *DwDatabaseCatalogModelTestSuite) SetupSuite() {
 	rm := &resourceModel{}
 	req.Plan.Get(context.Background(), &rm)
 	s.rm = rm
-}
-
-func (s *DwDatabaseCatalogModelTestSuite) TestGetPollingTimeout() {
-	timeout := s.rm.getPollingTimeout()
-	s.Equal(90*time.Minute, timeout)
-}
-
-func (s *DwDatabaseCatalogModelTestSuite) TestGetCallFailureThreshold() {
-	out := s.rm.getCallFailureThreshold()
-	s.Equal(3, out)
 }

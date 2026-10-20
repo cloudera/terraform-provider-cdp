@@ -83,21 +83,21 @@ func fillEnvironmentPlatformValid(ctx context.Context, env *models.Environment, 
 		case "AWS":
 			{
 				mappedEnv := &awsenv.ResourceModel{}
-				awsenv.ToAwsEnvironmentResource(ctx, env, mappedEnv, &utils.PollingOptions{}, &resp.Diagnostics)
+				awsenv.ToAwsEnvironmentResource(ctx, env, mappedEnv, &resp.Diagnostics)
 				data.Aws = mappedEnv
 				break
 			}
 		case "AZURE":
 			{
 				mappedEnv := &azureenv.AzureEnvironmentResourceModel{}
-				azureenv.ToAzureEnvironmentResource(ctx, env, mappedEnv, &utils.PollingOptions{}, &resp.Diagnostics)
+				azureenv.ToAzureEnvironmentResource(ctx, env, mappedEnv, &resp.Diagnostics)
 				data.Azure = mappedEnv
 				break
 			}
 		case "GCP":
 			{
 				mappedEnv := &gcpenv.GcpEnvironmentResourceModel{}
-				gcpenv.ToGcpEnvironmentResource(ctx, env, mappedEnv, &utils.PollingOptions{}, &resp.Diagnostics)
+				gcpenv.ToGcpEnvironmentResource(ctx, env, mappedEnv, &resp.Diagnostics)
 				data.Gcp = mappedEnv
 				break
 			}

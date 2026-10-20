@@ -13,7 +13,6 @@ package aws
 import (
 	"context"
 	"testing"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
@@ -59,14 +58,4 @@ func (s *DwClusterModelTestSuite) TestConvertToCreateAwsClusterRequest() {
 	s.Equal(models2.CustomRegistryOptions{RegistryType: "", RepositoryURL: ""}, *awsCluster.CustomRegistryOptions)
 	s.Equal(false, *awsCluster.EnableSpotInstances)
 	s.Equal("", awsCluster.CustomAmiID)
-}
-
-func (s *DwClusterModelTestSuite) TestGetPollingTimeout() {
-	timeout := s.rm.getPollingTimeout()
-	s.Equal(90*time.Minute, timeout)
-}
-
-func (s *DwClusterModelTestSuite) TestGetCallFailureThreshold() {
-	out := s.rm.getCallFailureThreshold()
-	s.Equal(3, out)
 }

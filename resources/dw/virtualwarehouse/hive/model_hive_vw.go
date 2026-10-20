@@ -14,6 +14,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
@@ -55,10 +56,9 @@ type resourceModel struct {
 	LastUpdated                  types.String          `tfsdk:"last_updated"`
 	Status                       types.String          `tfsdk:"status"`
 	PollingOptions               *utils.PollingOptions `tfsdk:"polling_options"`
-}
-
-func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
-	return p.PollingOptions
+	Async                        types.Bool            `tfsdk:"async"`
+	CallFailureThreshold         types.Int64           `tfsdk:"call_failure_threshold"`
+	Timeouts                     timeouts.Value        `tfsdk:"timeouts"`
 }
 
 func (p *resourceModel) convertToCreateVwRequest(ctx context.Context) (*models.CreateVwRequest, diag.Diagnostics) {

@@ -32,6 +32,8 @@ Collects datalake information for re-creation purposes.
 Read-Only:
 
 - `architecture` (String)
+- `async` (Boolean)
+- `call_failure_threshold` (Number)
 - `certificate_expiration_state` (String)
 - `creation_date` (String)
 - `crn` (String)
@@ -57,6 +59,7 @@ Read-Only:
 - `status_reason` (Boolean)
 - `storage_location_base` (String)
 - `tags` (Map of String)
+- `timeouts` (Attributes) (see [below for nested schema](#nestedatt--aws--timeouts))
 
 <a id="nestedatt--aws--custom_instance_groups"></a>
 ### Nested Schema for `aws.custom_instance_groups`
@@ -112,12 +115,23 @@ Read-Only:
 - `se_linux` (String)
 
 
+<a id="nestedatt--aws--timeouts"></a>
+### Nested Schema for `aws.timeouts`
+
+Read-Only:
+
+- `create` (String)
+- `delete` (String)
+
+
 
 <a id="nestedatt--azure"></a>
 ### Nested Schema for `azure`
 
 Read-Only:
 
+- `async` (Boolean)
+- `call_failure_threshold` (Number)
 - `certificate_expiration_state` (String)
 - `creation_date` (String)
 - `crn` (String)
@@ -145,6 +159,7 @@ Read-Only:
 - `status_reason` (String)
 - `storage_location_base` (String)
 - `tags` (Map of String)
+- `timeouts` (Attributes) (see [below for nested schema](#nestedatt--azure--timeouts))
 
 <a id="nestedatt--azure--custom_instance_groups"></a>
 ### Nested Schema for `azure.custom_instance_groups`
@@ -200,12 +215,23 @@ Read-Only:
 - `se_linux` (String)
 
 
+<a id="nestedatt--azure--timeouts"></a>
+### Nested Schema for `azure.timeouts`
+
+Read-Only:
+
+- `create` (String)
+- `delete` (String)
+
+
 
 <a id="nestedatt--gcp"></a>
 ### Nested Schema for `gcp`
 
 Read-Only:
 
+- `async` (Boolean)
+- `call_failure_threshold` (Number)
 - `cloud_provider_configuration` (Attributes) (see [below for nested schema](#nestedatt--gcp--cloud_provider_configuration))
 - `creation_date` (String)
 - `crn` (String)
@@ -228,6 +254,7 @@ Read-Only:
 - `status` (String)
 - `status_reason` (Boolean)
 - `tags` (Map of String)
+- `timeouts` (Attributes) (see [below for nested schema](#nestedatt--gcp--timeouts))
 
 <a id="nestedatt--gcp--cloud_provider_configuration"></a>
 ### Nested Schema for `gcp.cloud_provider_configuration`
@@ -290,3 +317,12 @@ Read-Only:
 Read-Only:
 
 - `se_linux` (String)
+
+
+<a id="nestedatt--gcp--timeouts"></a>
+### Nested Schema for `gcp.timeouts`
+
+Read-Only:
+
+- `create` (String)
+- `delete` (String)

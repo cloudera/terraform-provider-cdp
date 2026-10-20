@@ -16,6 +16,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -37,9 +38,10 @@ func (r *dwClusterResource) ImportState(ctx context.Context, req resource.Import
 }
 
 var (
-	_ resource.Resource                = (*dwClusterResource)(nil)
-	_ resource.ResourceWithConfigure   = (*dwClusterResource)(nil)
-	_ resource.ResourceWithImportState = (*dwClusterResource)(nil)
+	_ resource.Resource                     = (*dwClusterResource)(nil)
+	_ resource.ResourceWithConfigure        = (*dwClusterResource)(nil)
+	_ resource.ResourceWithImportState      = (*dwClusterResource)(nil)
+	_ resource.ResourceWithConfigValidators = (*dwClusterResource)(nil)
 )
 
 func NewDwClusterResource() resource.Resource {
@@ -54,8 +56,13 @@ func (r *dwClusterResource) Metadata(_ context.Context, req resource.MetadataReq
 	resp.TypeName = req.ProviderTypeName + "_dw_aws_cluster"
 }
 
-func (r *dwClusterResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *dwClusterResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	dwClusterSchema.Attributes["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true})
 	resp.Schema = dwClusterSchema
+}
+
+func (r *dwClusterResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -110,15 +117,20 @@ func (r *dwClusterResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	if plan.PollingOptions == nil || !plan.PollingOptions.Async.ValueBool() {
+	if !utils.ResolveAsync(plan.PollingOptions, plan.Async) {
+		createTimeout, diagsTimeout := utils.ResolveTimeout(ctx, plan.PollingOptions, plan.Timeouts.Create, 40*time.Minute)
+		resp.Diagnostics.Append(diagsTimeout...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
 			Target:       []string{"Running"},
 			Delay:        30 * time.Second,
-			Timeout:      plan.getPollingTimeout(),
+			Timeout:      createTimeout,
 			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, plan.getCallFailureThreshold()),
+			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, utils.ResolveCallFailureThreshold(plan.PollingOptions, plan.CallFailureThreshold, 3)),
 		}
 		if _, err = stateConf.WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
@@ -167,15 +179,20 @@ func (r *dwClusterResource) Delete(ctx context.Context, req resource.DeleteReque
 		return
 	}
 
-	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
+	if !utils.ResolveAsync(state.PollingOptions, state.Async) {
+		deleteTimeout, diagsTimeout := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, 40*time.Minute)
+		resp.Diagnostics.Append(diagsTimeout...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Deleting", "Running"},
 			Target:       []string{"Deleted"}, // This is not an actual state, we added it to fake the state change
 			Delay:        30 * time.Second,
-			Timeout:      state.getPollingTimeout(),
+			Timeout:      deleteTimeout,
 			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, state.getCallFailureThreshold()),
+			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, 3)),
 		}
 		if _, err := stateConf.WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(

@@ -13,6 +13,7 @@ package datahub
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int32validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -115,10 +116,14 @@ var gcpInstanceGroupSchemaAttributes = map[string]schema.Attribute{
 	},
 }
 
-func (r *gcpDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *gcpDatahubResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
 	utils.AppendToResourceSchema(attr, generalAttributes)
 	utils.AppendToResourceSchema(attr, gcpInstanceGroupSchemaAttributes)
+	attr["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{
+		Create: true,
+		Delete: true,
+	})
 	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"cluster_template_name": schema.StringAttribute{
 			MarkdownDescription: "The name of the cluster template.",

@@ -30,8 +30,9 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure   = &azureDatalakeResource{}
-	_ resource.ResourceWithImportState = &azureDatalakeResource{}
+	_ resource.ResourceWithConfigure        = &azureDatalakeResource{}
+	_ resource.ResourceWithImportState      = &azureDatalakeResource{}
+	_ resource.ResourceWithConfigValidators = &azureDatalakeResource{}
 )
 
 type azureDatalakeResource struct {
@@ -50,12 +51,16 @@ func (r *azureDatalakeResource) Metadata(_ context.Context, req resource.Metadat
 	resp.TypeName = req.ProviderTypeName + "_datalake_azure_datalake"
 }
 
-func (r *azureDatalakeResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = azureDatalakeResourceSchema
+func (r *azureDatalakeResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = getAzureResourceSchema(ctx)
 }
 
 func (r *azureDatalakeResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *azureDatalakeResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func toAzureDatalakeRequest(ctx context.Context, model *azureDatalakeResourceModel) *datalakemodels.CreateAzureDatalakeRequest {
@@ -153,13 +158,19 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
+	if !utils.ResolveAsync(state.PollingOptions, state.Async) {
+		createTimeout, timeoutDiags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Create, 90*time.Minute)
+		resp.Diagnostics.Append(timeoutDiags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		callFailureThresholdVal := utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, callFailureThreshold)
 		stateSaver := func(dlDtl *datalakemodels.DatalakeDetails) {
-			datalakeDetailsToAzureDatalakeResourceModel(ctx, dlDtl, &state, state.PollingOptions, &resp.Diagnostics)
+			datalakeDetailsToAzureDatalakeResourceModel(ctx, dlDtl, &state, &resp.Diagnostics)
 			diags = resp.State.Set(ctx, state)
 			resp.Diagnostics.Append(diags...)
 		}
-		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), time.Hour, callFailureThreshold, r.client.Datalake, state.PollingOptions, stateSaver); err != nil {
+		if err := waitForDatalakeToBeRunning(ctx, state.DatalakeName.ValueString(), createTimeout, callFailureThresholdVal, r.client.Datalake, stateSaver); err != nil {
 			utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "create Azure Datalake")
 			return
 		}
@@ -173,7 +184,7 @@ func (r *azureDatalakeResource) Create(ctx context.Context, req resource.CreateR
 	}
 
 	descDlResp := descResponseOk.Payload
-	datalakeDetailsToAzureDatalakeResourceModel(ctx, descDlResp.Datalake, &state, state.PollingOptions, &resp.Diagnostics)
+	datalakeDetailsToAzureDatalakeResourceModel(ctx, descDlResp.Datalake, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -215,7 +226,7 @@ func (r *azureDatalakeResource) Read(ctx context.Context, req resource.ReadReque
 	}
 
 	datalakeResp := responseOk.Payload
-	datalakeDetailsToAzureDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, state.PollingOptions, &resp.Diagnostics)
+	datalakeDetailsToAzureDatalakeResourceModel(ctx, datalakeResp.Datalake, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
@@ -259,7 +270,14 @@ func (r *azureDatalakeResource) Delete(ctx context.Context, req resource.DeleteR
 		return
 	}
 
-	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), time.Hour, r.client.Datalake, state.PollingOptions); err != nil {
+	deleteTimeout, timeoutDiags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, 90*time.Minute)
+	resp.Diagnostics.Append(timeoutDiags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	callFailureThresholdVal := utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, callFailureThreshold)
+
+	if err := waitForDatalakeToBeDeleted(ctx, state.DatalakeName.ValueString(), deleteTimeout, r.client.Datalake, callFailureThresholdVal); err != nil {
 		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics, "delete Azure Datalake")
 		return
 	}
@@ -277,7 +295,7 @@ func toAzureDatalakeResourceModel(resp *datalakemodels.CreateAzureDatalakeRespon
 	model.StatusReason = types.StringValue(resp.Datalake.StatusReason)
 }
 
-func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *azureDatalakeResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *azureDatalakeResourceModel, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(resp.Crn)
 	if resp.AzureConfiguration != nil {
 		model.ManagedIdentity = types.StringValue(resp.AzureConfiguration.ManagedIdentity)
@@ -286,7 +304,6 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 	model.Crn = types.StringPointerValue(resp.Crn)
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
-	model.PollingOptions = pollingOptions
 	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
 	instanceGroups := make([]*instanceGroup, len(resp.InstanceGroups))
 	for i, v := range resp.InstanceGroups {

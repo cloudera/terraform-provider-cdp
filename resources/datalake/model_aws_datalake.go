@@ -11,6 +11,7 @@
 package datalake
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -20,6 +21,12 @@ type awsDatalakeResourceModel struct {
 	ID types.String `tfsdk:"id"`
 
 	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
+
+	Async types.Bool `tfsdk:"async"`
+
+	CallFailureThreshold types.Int64 `tfsdk:"call_failure_threshold"`
+
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 
 	InstanceProfile types.String `tfsdk:"instance_profile"`
 

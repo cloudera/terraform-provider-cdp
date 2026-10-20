@@ -19,9 +19,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/cdp"
 )
@@ -64,40 +64,17 @@ func GetCdpClientForDataSource(req datasource.ConfigureRequest, resp *datasource
 	return client
 }
 
-func CalculateTimeoutOrDefault(ctx context.Context, options *PollingOptions, fallback time.Duration) (*time.Duration, error) {
-	tflog.Debug(ctx, fmt.Sprintf("About to calculate polling timeout using the desired timeout (%+v) and the given fallback timeout (%+v)", options, fallback))
-	var timeout time.Duration
-	if options != nil && !options.PollingTimeout.IsNull() {
-		timeout = time.Duration(options.PollingTimeout.ValueInt64()) * time.Minute
-	} else {
-		tflog.Info(ctx, "No desired polling timeout is given, the fallback value will be used.")
-		timeout = fallback
+func GetCallFailureThresholdOrDefault(threshold types.Int64, fallback int) int {
+	if !threshold.IsNull() && !threshold.IsUnknown() {
+		v := int(threshold.ValueInt64())
+		if v > 0 {
+			return v
+		}
 	}
-	if timeout.Minutes() <= 0 {
-		msg := "no meaningful timeout value can be calculated based on the given parameters, thus operation shall fail immediately"
-		tflog.Warn(ctx, msg)
-		return nil, fmt.Errorf("%s", msg)
+	if fallback > 0 {
+		return fallback
 	}
-	tflog.Info(ctx, fmt.Sprintf("The following polling timeout calculated: %+v", timeout))
-	return &timeout, nil
-}
-
-func CalculateCallFailureThresholdOrDefault(ctx context.Context, options *PollingOptions, fallback int) (int, error) {
-	tflog.Debug(ctx, fmt.Sprintf("About to calculate call failure threshold using the desired threshold (%+v) and the given fallback threshold (%+v)", options, fallback))
-	var threshold int
-	if options != nil && !options.CallFailureThreshold.IsNull() {
-		threshold = int(options.CallFailureThreshold.ValueInt64())
-	} else {
-		tflog.Debug(ctx, "No desired call failure threshold is given, the fallback value will be used.")
-		threshold = fallback
-	}
-	if threshold <= 0 {
-		msg := "no meaningful threshold value can be calculated based on the given parameters, thus operation shall fail immediately"
-		tflog.Warn(ctx, msg)
-		return 0, fmt.Errorf("%s", msg)
-	}
-	tflog.Debug(ctx, fmt.Sprintf("The following call failure threshold calculated: %+v", threshold))
-	return threshold, nil
+	return 0
 }
 
 func FromStringListToListValue(s []string) types.List {
@@ -158,40 +135,27 @@ func Int64To32(in types.Int64) int32 {
 	panic(fmt.Sprintf("int64 value %d is out of range for int32", n64))
 }
 
-type HasPollingOptions interface {
-	GetPollingOptions() *PollingOptions
-}
-
-// GetPollingTimeout returns the polling timeout from the given polling options or the fallback value. In case a negative
-// value is given, it will be treated as one minute.
-func GetPollingTimeout[T HasPollingOptions](p T, fallback time.Duration) time.Duration {
-	var timeout time.Duration
-	if opts := p.GetPollingOptions(); opts != nil && !opts.PollingTimeout.IsNull() {
-		timeout = time.Duration(p.GetPollingOptions().PollingTimeout.ValueInt64()) * time.Minute
-	} else {
-		timeout = fallback
-	}
-	if timeout.Seconds() <= 0 {
-		return time.Minute
-	}
-	return timeout
-}
-
-// GetCallFailureThreshold returns the call failure threshold from the given polling options or the fallback value.
-// In case a negative value is given, it will be treated as zero.
-func GetCallFailureThreshold[T HasPollingOptions](p T, fallback int) int {
-	var threshold int
-	if opts := p.GetPollingOptions(); opts != nil && !opts.CallFailureThreshold.IsNull() {
-		threshold = int(p.GetPollingOptions().CallFailureThreshold.ValueInt64())
-	} else {
-		threshold = fallback
-	}
-	if threshold <= 0 {
-		return 0
-	}
-	return threshold
-}
-
 func IsStringTypeHasValue(value types.String) bool {
 	return !value.IsNull() && !value.IsUnknown() && len(strings.TrimSpace(value.ValueString())) > 0
+}
+
+func ResolveAsync(po *PollingOptions, topLevelAsync types.Bool) bool {
+	if po != nil {
+		return po.Async.ValueBool()
+	}
+	return topLevelAsync.ValueBool()
+}
+
+func ResolveTimeout(ctx context.Context, po *PollingOptions, timeoutGetter func(context.Context, time.Duration) (time.Duration, diag.Diagnostics), defaultTimeout time.Duration) (time.Duration, diag.Diagnostics) {
+	if po != nil && !po.PollingTimeout.IsNull() && !po.PollingTimeout.IsUnknown() {
+		return time.Duration(po.PollingTimeout.ValueInt64()) * time.Minute, nil
+	}
+	return timeoutGetter(ctx, defaultTimeout)
+}
+
+func ResolveCallFailureThreshold(po *PollingOptions, topLevelCFT types.Int64, fallback int) int {
+	if po != nil {
+		return GetCallFailureThresholdOrDefault(po.CallFailureThreshold, fallback)
+	}
+	return GetCallFailureThresholdOrDefault(topLevelCFT, fallback)
 }
