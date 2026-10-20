@@ -14,6 +14,8 @@ GOPATH ?= $(shell go env GOPATH)
 EXCLUDE_PKGS_REGEX := '/mocks($$|/)|/generated($$|/)|/gen($$|/)|/testdata($$|/)'
 PKGS := $(shell go list ./... | grep -vE $(EXCLUDE_PKGS_REGEX))
 
+check: fix-lint docs deadcode-check.sh test
+
 all: check-go test main
 
 check-go:
