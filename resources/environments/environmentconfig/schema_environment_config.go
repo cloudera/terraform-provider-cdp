@@ -44,6 +44,12 @@ var awsSchema = schema.SingleNestedAttribute{
 			Computed: true,
 		},
 		"polling_options": pollingOptionsSchema,
+		"async": schema.BoolAttribute{
+			Computed: true,
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			Computed: true,
+		},
 		"authentication": schema.SingleNestedAttribute{
 			Computed: true,
 			Attributes: map[string]schema.Attribute{
@@ -212,6 +218,12 @@ var azureSchema = schema.SingleNestedAttribute{
 			Computed: true,
 		},
 		"polling_options": pollingOptionsSchema,
+		"async": schema.BoolAttribute{
+			Computed: true,
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			Computed: true,
+		},
 		"create_private_endpoints": schema.BoolAttribute{
 			Computed: true,
 		},
@@ -416,6 +428,12 @@ var gcpSchema = schema.SingleNestedAttribute{
 		},
 		"delete_options":  deleteOptionsSchema,
 		"polling_options": pollingOptionsSchema,
+		"async": schema.BoolAttribute{
+			Computed: true,
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			Computed: true,
+		},
 		"credential_name": schema.StringAttribute{
 			Computed: true,
 		},

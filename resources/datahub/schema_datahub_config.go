@@ -59,6 +59,20 @@ func awsDatahubConfigAttributes() map[string]schema.Attribute {
 		"crn": schema.StringAttribute{
 			Computed: true,
 		},
+		"polling_options": pollingOptionsSchema,
+		"async": schema.BoolAttribute{
+			Computed: true,
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			Computed: true,
+		},
+		"timeouts": schema.SingleNestedAttribute{
+			Computed: true,
+			Attributes: map[string]schema.Attribute{
+				"create": schema.StringAttribute{Computed: true},
+				"delete": schema.StringAttribute{Computed: true},
+			},
+		},
 		"name": schema.StringAttribute{
 			Computed: true,
 		},
@@ -106,6 +120,20 @@ func azureDatahubConfigAttributes() map[string]schema.Attribute {
 		},
 		"crn": schema.StringAttribute{
 			Computed: true,
+		},
+		"polling_options": pollingOptionsSchema,
+		"async": schema.BoolAttribute{
+			Computed: true,
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			Computed: true,
+		},
+		"timeouts": schema.SingleNestedAttribute{
+			Computed: true,
+			Attributes: map[string]schema.Attribute{
+				"create": schema.StringAttribute{Computed: true},
+				"delete": schema.StringAttribute{Computed: true},
+			},
 		},
 		"name": schema.StringAttribute{
 			Computed: true,
@@ -155,6 +183,20 @@ func gcpDatahubConfigAttributes() map[string]schema.Attribute {
 		"crn": schema.StringAttribute{
 			Computed: true,
 		},
+		"polling_options": pollingOptionsSchema,
+		"async": schema.BoolAttribute{
+			Computed: true,
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			Computed: true,
+		},
+		"timeouts": schema.SingleNestedAttribute{
+			Computed: true,
+			Attributes: map[string]schema.Attribute{
+				"create": schema.StringAttribute{Computed: true},
+				"delete": schema.StringAttribute{Computed: true},
+			},
+		},
 		"name": schema.StringAttribute{
 			Computed: true,
 		},
@@ -193,4 +235,19 @@ func gcpDatahubConfigAttributes() map[string]schema.Attribute {
 			},
 		},
 	}
+}
+
+var pollingOptionsSchema = schema.SingleNestedAttribute{
+	Computed: true,
+	Attributes: map[string]schema.Attribute{
+		"async": schema.BoolAttribute{
+			Computed: true,
+		},
+		"polling_timeout": schema.Int64Attribute{
+			Computed: true,
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			Computed: true,
+		},
+	},
 }

@@ -180,8 +180,10 @@ It is also possible to change Catalog name for the image.
 ### Optional
 
 - `architecture` (String) CPU Architecture is used for the cluster
+- `async` (Boolean) When set to `true`, the resource operation returns immediately without waiting for completion. When `false` (default), Terraform waits for the operation to finish, subject to the duration set in the `timeouts` block.
 - `attached_storage_for_workers` (Attributes) Attached storage for the worker nodes for AWS, Azure, and GCP cloud providers. (see [below for nested schema](#nestedatt--attached_storage_for_workers))
 - `auto_scaling_parameters` (Attributes) (see [below for nested schema](#nestedatt--auto_scaling_parameters))
+- `call_failure_threshold` (Number) The number of consecutive internal API call failures before the provider gives up waiting. Applies only when `async` is `false`. Defaults to `3`.
 - `custom_user_tags` (Attributes Set) Optional tags to apply to launched infrastructure resources (see [below for nested schema](#nestedatt--custom_user_tags))
 - `disable_external_db` (Boolean) Disable external database creation or not. It is only available in the BETA api.
 - `disable_jwt_auth` (Boolean) Disable OAuth Bearer (JWT) authentication scheme.
@@ -192,12 +194,13 @@ It is also possible to change Catalog name for the image.
 - `image` (Attributes) Details of an Image. (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number) Java version. It is only available in the BETA api.
 - `num_edge_nodes` (Number) Number of edge nodes
-- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
+- `polling_options` (Attributes, Deprecated) Polling options for the resource operation. Deprecated: use the top-level `async`, `call_failure_threshold` attributes and the `timeouts` block instead. (see [below for nested schema](#nestedatt--polling_options))
 - `recipes` (Attributes Set) Custom recipes for the database. (see [below for nested schema](#nestedatt--recipes))
 - `scale_type` (String) Scale type, MICRO, LIGHT or HEAVY
 - `storage_location` (String) Storage Location for OPDB. It is only available in the BETA api.
 - `storage_type` (String) Storage type for clusters, CLOUD_WITH_EPHEMERAL, CLOUD or HDFS
 - `subnet_id` (String) ID of the subnet to deploy to
+- `timeouts` (Attributes) (see [below for nested schema](#nestedatt--timeouts))
 - `volume_encryptions` (Attributes Set) Specifies encryption key to encrypt volume for instance group. It is currently supported for AWS cloud provider only. It is only available in the BETA api. (see [below for nested schema](#nestedatt--volume_encryptions))
 
 ### Read-Only
@@ -256,9 +259,9 @@ Required:
 
 Optional:
 
-- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
-- `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
-- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+- `async` (Boolean) When set to `true`, the resource operation returns immediately without waiting for completion.
+- `call_failure_threshold` (Number) The number of consecutive internal API call failures before the provider gives up waiting. Defaults to `3`.
+- `polling_timeout` (Number) Timeout in minutes for how long to wait for the operation to complete. Defaults to `90`.
 
 
 <a id="nestedatt--recipes"></a>
@@ -268,6 +271,16 @@ Required:
 
 - `instance_group` (String) The name of the designated instance group.
 - `names` (Set of String) The set of recipe names that are going to be applied on the given instance group.
+
+
+<a id="nestedatt--timeouts"></a>
+### Nested Schema for `timeouts`
+
+Optional:
+
+- `create` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+- `delete` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+- `update` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 
 
 <a id="nestedatt--volume_encryptions"></a>

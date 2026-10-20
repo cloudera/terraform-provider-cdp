@@ -14,6 +14,7 @@ import (
 	"context"
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -653,7 +654,7 @@ func TestUpdateEndpointAccessGatewayIfChanged_SchemeChanged_CallsApiAndPolls(t *
 	UpdateEndpointAccessGatewayIfChanged(context.TODO(), NewMockEnvironments(mockClient),
 		types.StringValue(testGatewaySchemePublic), utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"}),
 		new(types.StringValue(testGatewaySchemePrivate)), new(utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"})),
-		testEnvName, nil, resp)
+		testEnvName, 60*time.Minute, 3, resp)
 
 	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertExpectations(t)
@@ -673,7 +674,7 @@ func TestUpdateEndpointAccessGatewayIfChanged_SubnetIdsChanged_CallsApiAndPolls(
 	UpdateEndpointAccessGatewayIfChanged(context.TODO(), NewMockEnvironments(mockClient),
 		types.StringValue(testGatewaySchemePublic), utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2", "subnet-3"}),
 		new(types.StringValue(testGatewaySchemePublic)), new(utils.ToSetValueFromStringList([]string{"subnet-1", "subnet-2"})),
-		testEnvName, nil, resp)
+		testEnvName, 60*time.Minute, 3, resp)
 
 	assert.False(t, resp.Diagnostics.HasError())
 	mockClient.AssertExpectations(t)
@@ -697,7 +698,7 @@ func TestUpdateEndpointAccessGatewayIfChanged_NoChangeOrNullScheme_DoesNotCallAp
 			UpdateEndpointAccessGatewayIfChanged(context.TODO(), NewMockEnvironments(mockClient),
 				tt.planScheme, utils.ToSetValueFromStringList([]string{"subnet-1"}),
 				new(tt.stateScheme), new(utils.ToSetValueFromStringList([]string{"subnet-1"})),
-				testEnvName, nil, resp)
+				testEnvName, 60*time.Minute, 3, resp)
 
 			assert.False(t, resp.Diagnostics.HasError())
 			mockClient.AssertNotCalled(t, "SetEndpointAccessGatewayContext", mock.Anything, mock.Anything, mock.Anything)
@@ -752,7 +753,7 @@ func TestUpdateEndpointAccessGatewayIfChanged_ErrorAndEdgeCases(t *testing.T) {
 			UpdateEndpointAccessGatewayIfChanged(context.TODO(), NewMockEnvironments(mockClient),
 				types.StringValue(testGatewaySchemePublic), utils.ToSetValueFromStringList([]string{"subnet-1"}),
 				new(types.StringValue(testGatewaySchemePrivate)), new(utils.ToSetValueFromStringList([]string{"subnet-1"})),
-				testEnvName, nil, resp)
+				testEnvName, 60*time.Minute, 3, resp)
 
 			assert.Equal(t, tt.wantError, resp.Diagnostics.HasError())
 			if tt.assertNoPolling {
@@ -1001,7 +1002,7 @@ func TestUpdateTagsIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
 	}), mock.Anything).Return(&operations.UpdateTagsOK{}, nil)
 	mockDescribeAvailable(f.mockClient)
 
-	result := UpdateTagsIfChanged(f.ctx, f.client, planTags, &stateTags, new(testEnvName), nil, f.resp)
+	result := UpdateTagsIfChanged(f.ctx, f.client, planTags, &stateTags, new(testEnvName), 60*time.Minute, 3, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	assert.Equal(t, planTags, stateTags)
@@ -1011,7 +1012,7 @@ func TestUpdateTagsIfChanged_Changed_CallsAPIAndUpdatesState(t *testing.T) {
 func TestUpdateTagsIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
 	f := setupCommonTest(t)
 	tags := testTagMap(map[string]string{"env": "prod", "team": "platform"})
-	result := UpdateTagsIfChanged(f.ctx, f.client, tags, new(testTagMap(map[string]string{"env": "prod", "team": "platform"})), new(testEnvName), nil, f.resp)
+	result := UpdateTagsIfChanged(f.ctx, f.client, tags, new(testTagMap(map[string]string{"env": "prod", "team": "platform"})), new(testEnvName), 60*time.Minute, 3, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	f.mockClient.AssertNotCalled(t, "UpdateTagsContext", mock.Anything, mock.Anything, mock.Anything)
@@ -1020,7 +1021,7 @@ func TestUpdateTagsIfChanged_Unchanged_SkipsAPICall(t *testing.T) {
 func TestUpdateTagsIfChanged_SameTagsDifferentInsertionOrder_SkipsAPICall(t *testing.T) {
 	f := setupCommonTest(t)
 	planTags := testTagMap(map[string]string{"b": "2", "a": "1", "c": "3"})
-	result := UpdateTagsIfChanged(f.ctx, f.client, planTags, new(testTagMap(map[string]string{"c": "3", "a": "1", "b": "2"})), new(testEnvName), nil, f.resp)
+	result := UpdateTagsIfChanged(f.ctx, f.client, planTags, new(testTagMap(map[string]string{"c": "3", "a": "1", "b": "2"})), new(testEnvName), 60*time.Minute, 3, f.resp)
 
 	assert.False(t, result.Diagnostics.HasError())
 	f.mockClient.AssertNotCalled(t, "UpdateTagsContext", mock.Anything, mock.Anything, mock.Anything)
@@ -1035,7 +1036,7 @@ func TestUpdateTagsIfChanged_APIError_AddsDiagnosticAndPreservesState(t *testing
 	f.mockClient.On("UpdateTagsContext", mock.Anything, mock.Anything, mock.Anything).
 		Return((*operations.UpdateTagsOK)(nil), errors.New("API error"))
 
-	result := UpdateTagsIfChanged(f.ctx, f.client, planTags, &stateTags, new(testEnvName), nil, f.resp)
+	result := UpdateTagsIfChanged(f.ctx, f.client, planTags, &stateTags, new(testEnvName), 60*time.Minute, 3, f.resp)
 
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, originalState, stateTags)
@@ -1060,7 +1061,7 @@ func TestUpdateTagsIfChanged_PollingError_AddsDiagnosticButUpdatesState(t *testi
 			},
 		}, nil)
 
-	result := UpdateTagsIfChanged(f.ctx, f.client, planTags, &stateTags, new(testEnvName), nil, f.resp)
+	result := UpdateTagsIfChanged(f.ctx, f.client, planTags, &stateTags, new(testEnvName), 60*time.Minute, 3, f.resp)
 
 	assert.True(t, result.Diagnostics.HasError())
 	assert.Equal(t, planTags, stateTags)

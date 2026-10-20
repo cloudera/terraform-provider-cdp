@@ -78,7 +78,7 @@ func UpdateSubnetIfChanged(ctx context.Context, client *environmentsclient.Envir
 	return resp
 }
 
-func UpdateTagsIfChanged(ctx context.Context, client *environmentsclient.Environments, planTags types.Map, stateTags *types.Map, environmentName *string, pollingOptions *utils.PollingOptions, resp *resource.UpdateResponse) *resource.UpdateResponse {
+func UpdateTagsIfChanged(ctx context.Context, client *environmentsclient.Environments, planTags types.Map, stateTags *types.Map, environmentName *string, timeout time.Duration, callFailureThreshold int, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if reflect.DeepEqual(planTags, *stateTags) {
 		return resp
 	}
@@ -93,7 +93,7 @@ func UpdateTagsIfChanged(ctx context.Context, client *environmentsclient.Environ
 		return resp
 	}
 	*stateTags = planTags
-	if err := WaitForEnvironmentToBeAvailable(*environmentName, TimeoutOneHour, CallFailureThreshold, client, ctx, pollingOptions, func(_ *environmentsmodels.Environment) {}); err != nil {
+	if err := WaitForEnvironmentToBeAvailable(*environmentName, timeout, callFailureThreshold, client, ctx, func(_ *environmentsmodels.Environment) {}); err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "wait for environment to be available after tag update")
 	}
 	return resp
@@ -218,7 +218,7 @@ func UpdateSecurityAccessIfChanged(ctx context.Context, client *environmentsclie
 	return resp
 }
 
-func UpdateEndpointAccessGatewayIfChanged(ctx context.Context, client *environmentsclient.Environments, planScheme types.String, planSubnetIds types.Set, stateScheme *types.String, stateSubnetIds *types.Set, environmentName string, pollingOptions *utils.PollingOptions, resp *resource.UpdateResponse) *resource.UpdateResponse {
+func UpdateEndpointAccessGatewayIfChanged(ctx context.Context, client *environmentsclient.Environments, planScheme types.String, planSubnetIds types.Set, stateScheme *types.String, stateSubnetIds *types.Set, environmentName string, timeout time.Duration, callFailureThreshold int, resp *resource.UpdateResponse) *resource.UpdateResponse {
 	if planScheme.IsNull() || planScheme.IsUnknown() {
 		return resp
 	}
@@ -248,7 +248,7 @@ func UpdateEndpointAccessGatewayIfChanged(ctx context.Context, client *environme
 	}
 
 	if apiResp.Payload != nil && apiResp.Payload.OperationID != "" {
-		if err := WaitForOperationToComplete(ctx, environmentName, apiResp.Payload.OperationID, client, pollingOptions); err != nil {
+		if err := WaitForOperationToComplete(ctx, environmentName, apiResp.Payload.OperationID, client, timeout, callFailureThreshold); err != nil {
 			utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "wait for set endpoint access gateway operation to complete")
 			return resp
 		}
@@ -280,22 +280,14 @@ func UpdateTelemetryFeaturesIfChanged(ctx context.Context, client *environmentsc
 	return resp
 }
 
-func WaitForOperationToComplete(ctx context.Context, environmentName string, operationID string, client *environmentsclient.Environments, pollingOptions *utils.PollingOptions) error {
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, pollingOptions, TimeoutOneHour)
-	if err != nil {
-		return err
-	}
-	CallFailureThresholdVal, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, pollingOptions, CallFailureThreshold)
-	if failureThresholdError != nil {
-		return failureThresholdError
-	}
+func WaitForOperationToComplete(ctx context.Context, environmentName string, operationID string, client *environmentsclient.Environments, timeout time.Duration, callFailureThreshold int) error {
 	callFailedCount := 0
 
 	stateConf := &retry.StateChangeConf{
 		Pending:      []string{"RUNNING", "UNKNOWN"},
 		Target:       []string{"FINISHED"},
 		Delay:        0,
-		Timeout:      *timeout,
+		Timeout:      timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("Polling operation '%s' for environment '%s'", operationID, environmentName))
@@ -307,8 +299,8 @@ func WaitForOperationToComplete(ctx context.Context, environmentName string, ope
 			resp, err := client.Operations.GetOperationContext(ctx, params)
 			if err != nil {
 				callFailedCount++
-				if callFailedCount <= CallFailureThresholdVal {
-					tflog.Warn(ctx, fmt.Sprintf("Error polling operation due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, CallFailureThresholdVal))
+				if callFailedCount <= callFailureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error polling operation due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
 					return nil, "RUNNING", nil
 				}
 				return nil, "", err
@@ -328,6 +320,6 @@ func WaitForOperationToComplete(ctx context.Context, environmentName string, ope
 			return resp, status, nil
 		},
 	}
-	_, err = stateConf.WaitForStateContext(ctx)
+	_, err := stateConf.WaitForStateContext(ctx)
 	return err
 }

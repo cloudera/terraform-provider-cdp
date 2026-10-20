@@ -14,6 +14,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
@@ -22,27 +23,18 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/client"
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/client/operations"
 	opdbmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/opdb/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func waitForToBeAvailable(dataBaseName string, environmentName string, client *client.Opdb, ctx context.Context, options *utils.PollingOptions) (string, error) {
+func waitForToBeAvailable(dataBaseName string, environmentName string, client *client.Opdb, ctx context.Context, timeout time.Duration, callFailureThreshold int) (string, error) {
 	tflog.Info(ctx, fmt.Sprintf("About to poll Database (name: %s) creation (polling [delay: %s, timeout: %s, interval :%s]).",
-		dataBaseName, pollingDelay, pollingTimeout, pollingInterval))
+		dataBaseName, pollingDelay, timeout, pollingInterval))
 	status := ""
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, pollingTimeout)
-	if err != nil {
-		return "", err
-	}
-	failureThreshold, failureThresholdErr := utils.CalculateCallFailureThresholdOrDefault(ctx, options, callFailureThreshold)
-	if failureThresholdErr != nil {
-		return "", failureThresholdErr
-	}
 	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending:                   []string{},
 		Target:                    []string{"AVAILABLE"},
 		Delay:                     pollingDelay,
-		Timeout:                   *timeout,
+		Timeout:                   timeout,
 		PollInterval:              pollingInterval,
 		ContinuousTargetOccurence: 2,
 		Refresh: func() (interface{}, string, error) {
@@ -55,7 +47,7 @@ func waitForToBeAvailable(dataBaseName string, environmentName string, client *c
 					return nil, "", nil
 				}
 				callFailedCount++
-				if callFailedCount <= failureThreshold {
+				if callFailedCount <= callFailureThreshold {
 					tflog.Warn(ctx, fmt.Sprintf("Error describing cluster with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
 					return nil, "", nil
 				}
@@ -70,21 +62,17 @@ func waitForToBeAvailable(dataBaseName string, environmentName string, client *c
 			return intf, st, e
 		},
 	}
-	_, err = stateConf.WaitForStateContext(ctx)
+	_, err := stateConf.WaitForStateContext(ctx)
 	return status, err
 }
 
-func waitForToBeDeleted(dataBaseName string, environmentName string, client *client.Opdb, ctx context.Context, options *utils.PollingOptions) error {
+func waitForToBeDeleted(dataBaseName string, environmentName string, client *client.Opdb, ctx context.Context, timeout time.Duration) error {
 	tflog.Info(ctx, fmt.Sprintf("About to poll Database (name: %s) deletion (polling [delay: %s, timeout: %s, interval :%s]).",
-		dataBaseName, pollingDelay, pollingTimeout, pollingInterval))
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, pollingTimeout)
-	if err != nil {
-		return err
-	}
+		dataBaseName, pollingDelay, timeout, pollingInterval))
 	stateConf := &retry.StateChangeConf{
 		Target:       []string{},
 		Delay:        pollingDelay,
-		Timeout:      *timeout,
+		Timeout:      timeout,
 		PollInterval: pollingInterval,
 		Refresh: func() (interface{}, string, error) {
 			resp, err := describeWithRecover(dataBaseName, environmentName, client, ctx)
@@ -107,7 +95,7 @@ func waitForToBeDeleted(dataBaseName string, environmentName string, client *cli
 			// TODO maybe there is a better solution for this
 		},
 	}
-	_, err = stateConf.WaitForStateContext(ctx)
+	_, err := stateConf.WaitForStateContext(ctx)
 	return err
 }
 

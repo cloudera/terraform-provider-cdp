@@ -54,7 +54,7 @@ func DescribeEnvironmentWithDiagnosticHandle(envName string, id string, ctx cont
 	return utils.LogEnvironmentSilently(ctx, descEnvResp.GetPayload().Environment, DescribeLogPrefix), nil
 }
 
-func DeleteEnvironmentWithDiagnosticHandle(environmentName string, cascading bool, forced bool, ctx context.Context, client *cdp.Client, resp *resource.DeleteResponse, pollingOptions *utils.PollingOptions) error {
+func DeleteEnvironmentWithDiagnosticHandle(environmentName string, cascading bool, forced bool, ctx context.Context, client *cdp.Client, resp *resource.DeleteResponse, timeout time.Duration, callFailureThreshold int) error {
 	params := operations.NewDeleteEnvironmentParams()
 	params.WithInput(&environmentsmodels.DeleteEnvironmentRequest{EnvironmentName: &environmentName, Cascading: cascading, Forced: forced})
 	_, err := client.Environments.Operations.DeleteEnvironmentContext(ctx, params)
@@ -63,7 +63,7 @@ func DeleteEnvironmentWithDiagnosticHandle(environmentName string, cascading boo
 		return err
 	}
 
-	err = WaitForEnvironmentToBeDeleted(environmentName, TimeoutOneHour, CallFailureThreshold, client.Environments, ctx, pollingOptions)
+	err = WaitForEnvironmentToBeDeleted(environmentName, timeout, callFailureThreshold, client.Environments, ctx)
 	if err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "delete Environment")
 		return err
@@ -80,9 +80,9 @@ func IsEnvNotFoundError(err error) bool {
 	return false
 }
 
-func WaitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *cdp.Client, id string, envName string, resp *resource.CreateResponse, options *utils.PollingOptions,
+func WaitForCreateEnvironmentWithDiagnosticHandle(ctx context.Context, client *cdp.Client, id string, envName string, resp *resource.CreateResponse, timeout time.Duration, callFailureThreshold int,
 	stateSaverCb func(*environmentsmodels.Environment)) (*environmentsmodels.Environment, error) {
-	if err := WaitForEnvironmentToBeAvailable(id, TimeoutOneHour, CallFailureThreshold, client.Environments, ctx, options, stateSaverCb); err != nil {
+	if err := WaitForEnvironmentToBeAvailable(id, timeout, callFailureThreshold, client.Environments, ctx, stateSaverCb); err != nil {
 		utils.AddEnvironmentDiagnosticsError(err, &resp.Diagnostics, "create Environment failed")
 		return nil, err
 	}

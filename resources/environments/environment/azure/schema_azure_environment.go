@@ -14,6 +14,7 @@ import (
 	"context"
 	"regexp"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
@@ -58,31 +59,20 @@ var AzureEnvironmentSchema = schema.Schema{
 				stringplanmodifier.UseStateForUnknown(),
 			},
 		},
-		"polling_options": schema.SingleNestedAttribute{
-			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+		"polling_options": utils.PollingOptionsSchema(60),
+		"async": schema.BoolAttribute{
+			MarkdownDescription: "When set to `true`, the resource operation returns immediately without waiting for completion. When `false` (default), Terraform waits for the operation to finish, subject to the duration set in the `timeouts` block.",
 			Optional:            true,
-			Attributes: map[string]schema.Attribute{
-				"async": schema.BoolAttribute{
-					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
-					Optional:            true,
-					Computed:            true,
-					Default:             booldefault.StaticBool(false),
-					PlanModifiers: []planmodifier.Bool{
-						boolplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"polling_timeout": schema.Int64Attribute{
-					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
-					Default:             int64default.StaticInt64(60),
-					Computed:            true,
-					Optional:            true,
-				},
-				"call_failure_threshold": schema.Int64Attribute{
-					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
-					Default:             int64default.StaticInt64(3),
-					Computed:            true,
-					Optional:            true,
-				},
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			MarkdownDescription: "The number of consecutive internal API call failures before the provider gives up waiting. Applies only when `async` is `false`. Defaults to `3`.",
+			Default:             int64default.StaticInt64(3),
+			Computed:            true,
+			Optional:            true,
+			Validators: []validator.Int64{
+				int64validator.AtLeast(1),
 			},
 		},
 		"create_private_endpoints": schema.BoolAttribute{

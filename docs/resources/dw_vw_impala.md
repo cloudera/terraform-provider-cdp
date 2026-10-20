@@ -93,19 +93,22 @@ resource "cdp_dw_vw_impala" "test-terraform" {
 
 ### Optional
 
+- `async` (Boolean) When set to `true`, the resource operation returns immediately without waiting for completion. When `false` (default), Terraform waits for the operation to finish, subject to the duration set in the `timeouts` block.
 - `autoscaling` (Attributes) Autoscaling configuration options. (see [below for nested schema](#nestedatt--autoscaling))
 - `availability_zone` (String) The availability zone for the Impala Virtual Warehouse.
 - `aws_options` (Attributes) Impala-specific configuration options. (see [below for nested schema](#nestedatt--aws_options))
+- `call_failure_threshold` (Number) The number of consecutive internal API call failures before the provider gives up waiting. Applies only when `async` is `false`. Defaults to `3`.
 - `enable_sso` (Boolean) Enable sso for Impala VWH
 - `ha_settings` (Attributes) High availability settings for Impala. (see [below for nested schema](#nestedatt--ha_settings))
 - `image_version` (String) Image version of the impala.
 - `instance_type` (String) The instance type for the Impala Virtual Warehouse.
 - `node_count` (Number) Node count of Impala.
 - `platform_jwt_auth` (Boolean) Platform JWT authentication flag.
-- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
+- `polling_options` (Attributes, Deprecated) Polling options for the resource operation. Deprecated: use the top-level `async`, `call_failure_threshold` attributes and the `timeouts` block instead. (see [below for nested schema](#nestedatt--polling_options))
 - `query_isolation_options` (Attributes) Query isolation options for Impala. (see [below for nested schema](#nestedatt--query_isolation_options))
 - `query_log` (Boolean) Enable or disable Impala query logging.
 - `tags` (Attributes List) Tags associated with the Impala Virtual Warehouse. (see [below for nested schema](#nestedatt--tags))
+- `timeouts` (Attributes) (see [below for nested schema](#nestedatt--timeouts))
 - `tshirt_size` (String) T-shirt size of Impala.
 
 ### Read-Only
@@ -154,9 +157,9 @@ Optional:
 
 Optional:
 
-- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
-- `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
-- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+- `async` (Boolean) When set to `true`, the resource operation returns immediately without waiting for completion.
+- `call_failure_threshold` (Number) The number of consecutive internal API call failures before the provider gives up waiting. Defaults to `3`.
+- `polling_timeout` (Number) Timeout in minutes for how long to wait for the operation to complete. Defaults to `40`.
 
 
 <a id="nestedatt--query_isolation_options"></a>
@@ -175,3 +178,12 @@ Required:
 
 - `key` (String)
 - `value` (String)
+
+
+<a id="nestedatt--timeouts"></a>
+### Nested Schema for `timeouts`
+
+Optional:
+
+- `create` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+- `delete` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.

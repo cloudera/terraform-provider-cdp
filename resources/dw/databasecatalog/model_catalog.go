@@ -11,32 +11,20 @@
 package databasecatalog
 
 import (
-	"time"
-
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 type resourceModel struct {
-	ID             types.String          `tfsdk:"id"`
-	Name           types.String          `tfsdk:"name"`
-	ClusterID      types.String          `tfsdk:"cluster_id"`
-	LastUpdated    types.String          `tfsdk:"last_updated"`
-	Status         types.String          `tfsdk:"status"`
-	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
-}
-
-func (p *resourceModel) getPollingTimeout() time.Duration {
-	if p.PollingOptions != nil {
-		return time.Duration(p.PollingOptions.PollingTimeout.ValueInt64()) * time.Minute
-	}
-	return 40 * time.Minute
-}
-
-func (p *resourceModel) getCallFailureThreshold() int {
-	if p.PollingOptions != nil {
-		return int(p.PollingOptions.CallFailureThreshold.ValueInt64())
-	}
-	return 3
+	ID                   types.String          `tfsdk:"id"`
+	Name                 types.String          `tfsdk:"name"`
+	ClusterID            types.String          `tfsdk:"cluster_id"`
+	LastUpdated          types.String          `tfsdk:"last_updated"`
+	Status               types.String          `tfsdk:"status"`
+	PollingOptions       *utils.PollingOptions `tfsdk:"polling_options"`
+	Async                types.Bool            `tfsdk:"async"`
+	CallFailureThreshold types.Int64           `tfsdk:"call_failure_threshold"`
+	Timeouts             timeouts.Value        `tfsdk:"timeouts"`
 }

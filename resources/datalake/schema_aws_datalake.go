@@ -11,6 +11,9 @@
 package datalake
 
 import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
@@ -22,9 +25,9 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-var awsDatalakeSchema = getAwsResourceSchema()
+var awsDatalakeSchema = getAwsResourceSchema(context.Background())
 
-func getAwsResourceSchema() schema.Schema {
+func getAwsResourceSchema(ctx context.Context) schema.Schema {
 	attr := map[string]schema.Attribute{}
 	utils.AppendToResourceSchema(attr, generalAttributes)
 	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
@@ -124,6 +127,7 @@ func getAwsResourceSchema() schema.Schema {
 			},
 		},
 	})
+	attr["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true})
 	return schema.Schema{
 		MarkdownDescription: "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",
 		Description:         "A Data Lake is a service which provides a protective ring around the data stored in a cloud object store, including authentication, authorization, and governance support.",

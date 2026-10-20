@@ -31,6 +31,8 @@ Retrieve configuration of an existing Datahub cluster.
 
 Read-Only:
 
+- `async` (Boolean)
+- `call_failure_threshold` (Number)
 - `cluster_template` (String)
 - `crn` (String)
 - `environment` (String)
@@ -38,8 +40,10 @@ Read-Only:
 - `instance_group` (Attributes List) (see [below for nested schema](#nestedatt--aws--instance_group))
 - `multi_az` (Boolean)
 - `name` (String)
+- `polling_options` (Attributes) (see [below for nested schema](#nestedatt--aws--polling_options))
 - `security` (Attributes) (see [below for nested schema](#nestedatt--aws--security))
 - `status` (String)
+- `timeouts` (Attributes) (see [below for nested schema](#nestedatt--aws--timeouts))
 
 <a id="nestedatt--aws--instance_group"></a>
 ### Nested Schema for `aws.instance_group`
@@ -50,6 +54,16 @@ Read-Only:
 - `instance_group_name` (String)
 
 
+<a id="nestedatt--aws--polling_options"></a>
+### Nested Schema for `aws.polling_options`
+
+Read-Only:
+
+- `async` (Boolean)
+- `call_failure_threshold` (Number)
+- `polling_timeout` (Number)
+
+
 <a id="nestedatt--aws--security"></a>
 ### Nested Schema for `aws.security`
 
@@ -58,12 +72,23 @@ Read-Only:
 - `se_linux` (String)
 
 
+<a id="nestedatt--aws--timeouts"></a>
+### Nested Schema for `aws.timeouts`
+
+Read-Only:
+
+- `create` (String)
+- `delete` (String)
+
+
 
 <a id="nestedatt--azure"></a>
 ### Nested Schema for `azure`
 
 Read-Only:
 
+- `async` (Boolean)
+- `call_failure_threshold` (Number)
 - `cluster_template` (String)
 - `crn` (String)
 - `environment` (String)
@@ -71,8 +96,10 @@ Read-Only:
 - `instance_group` (Attributes List) (see [below for nested schema](#nestedatt--azure--instance_group))
 - `multi_az` (Boolean)
 - `name` (String)
+- `polling_options` (Attributes) (see [below for nested schema](#nestedatt--azure--polling_options))
 - `security` (Attributes) (see [below for nested schema](#nestedatt--azure--security))
 - `status` (String)
+- `timeouts` (Attributes) (see [below for nested schema](#nestedatt--azure--timeouts))
 
 <a id="nestedatt--azure--instance_group"></a>
 ### Nested Schema for `azure.instance_group`
@@ -83,6 +110,16 @@ Read-Only:
 - `instance_group_name` (String)
 
 
+<a id="nestedatt--azure--polling_options"></a>
+### Nested Schema for `azure.polling_options`
+
+Read-Only:
+
+- `async` (Boolean)
+- `call_failure_threshold` (Number)
+- `polling_timeout` (Number)
+
+
 <a id="nestedatt--azure--security"></a>
 ### Nested Schema for `azure.security`
 
@@ -91,12 +128,23 @@ Read-Only:
 - `se_linux` (String)
 
 
+<a id="nestedatt--azure--timeouts"></a>
+### Nested Schema for `azure.timeouts`
+
+Read-Only:
+
+- `create` (String)
+- `delete` (String)
+
+
 
 <a id="nestedatt--gcp"></a>
 ### Nested Schema for `gcp`
 
 Read-Only:
 
+- `async` (Boolean)
+- `call_failure_threshold` (Number)
 - `cluster_template_name` (String)
 - `crn` (String)
 - `environment_name` (String)
@@ -104,8 +152,10 @@ Read-Only:
 - `instance_group` (Attributes List) (see [below for nested schema](#nestedatt--gcp--instance_group))
 - `multi_az` (Boolean)
 - `name` (String)
+- `polling_options` (Attributes) (see [below for nested schema](#nestedatt--gcp--polling_options))
 - `security` (Attributes) (see [below for nested schema](#nestedatt--gcp--security))
 - `status` (String)
+- `timeouts` (Attributes) (see [below for nested schema](#nestedatt--gcp--timeouts))
 
 <a id="nestedatt--gcp--instance_group"></a>
 ### Nested Schema for `gcp.instance_group`
@@ -116,9 +166,28 @@ Read-Only:
 - `instance_group_name` (String)
 
 
+<a id="nestedatt--gcp--polling_options"></a>
+### Nested Schema for `gcp.polling_options`
+
+Read-Only:
+
+- `async` (Boolean)
+- `call_failure_threshold` (Number)
+- `polling_timeout` (Number)
+
+
 <a id="nestedatt--gcp--security"></a>
 ### Nested Schema for `gcp.security`
 
 Read-Only:
 
 - `se_linux` (String)
+
+
+<a id="nestedatt--gcp--timeouts"></a>
+### Nested Schema for `gcp.timeouts`
+
+Read-Only:
+
+- `create` (String)
+- `delete` (String)

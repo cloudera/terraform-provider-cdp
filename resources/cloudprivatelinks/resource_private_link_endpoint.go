@@ -13,6 +13,7 @@ package cloudprivatelinks
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -105,7 +106,7 @@ func (r *privateLinkEndpointResource) Create(ctx context.Context, req resource.C
 	model.TrackingID = types.StringValue(trackingID)
 
 	tflog.Debug(ctx, "Waiting for Private Link endpoint", map[string]interface{}{"trackingId": trackingID})
-	statuses, err := waitForEndpointToBeCreated(trackingID, r.client.Cloudprivatelinks, ctx, nil)
+	statuses, err := waitForEndpointToBeCreated(trackingID, r.client.Cloudprivatelinks, ctx, 30*time.Minute, 3)
 	if err != nil {
 		resp.Diagnostics.AddError("Endpoint not ready", err.Error())
 		return
@@ -187,7 +188,7 @@ func (r *privateLinkEndpointResource) Delete(ctx context.Context, req resource.D
 	deleteTrackingID := deleteResult.GetPayload().TrackingID
 
 	tflog.Debug(ctx, "Waiting for Private Link endpoint deletion", map[string]interface{}{"trackingId": deleteTrackingID})
-	if err := waitForEndpointToBeDeleted(deleteTrackingID, r.client.Cloudprivatelinks, ctx, nil); err != nil {
+	if err := waitForEndpointToBeDeleted(deleteTrackingID, r.client.Cloudprivatelinks, ctx, 30*time.Minute, 3); err != nil {
 		resp.Diagnostics.AddError("Delete not completed", err.Error())
 		return
 	}

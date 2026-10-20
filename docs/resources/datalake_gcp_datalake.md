@@ -58,6 +58,8 @@ output "storage_location" {
 
 ### Optional
 
+- `async` (Boolean) When set to `true`, the resource operation returns immediately without waiting for completion. When `false` (default), Terraform waits for the operation to finish, subject to the duration set in the `timeouts` block.
+- `call_failure_threshold` (Number) The number of consecutive internal API call failures before the provider gives up waiting. Applies only when `async` is `false`. Defaults to `3`.
 - `custom_instance_groups` (Attributes Set) Request object for host group level custom configurations. (see [below for nested schema](#nestedatt--custom_instance_groups))
 - `delete_options` (Attributes) Options for deleting the Datalake. (see [below for nested schema](#nestedatt--delete_options))
 - `enable_ranger_raz` (Boolean) Whether to enable Ranger RAZ for the datalake. Defaults to not being enabled.
@@ -66,12 +68,13 @@ output "storage_location" {
 - `image` (Attributes) The image to use for the datalake. This must not be set if the runtime parameter is provided. When the 'runtime' parameter is set, only the 'os' parameter can be provided. Otherwise, you can use 'catalog name' and/or 'id' for selecting an image. (see [below for nested schema](#nestedatt--image))
 - `java_version` (Number) Configure the major version of Java on the cluster.
 - `multi_az` (Boolean) Controls if the datalake is deployed in a multi-availability zone way.
-- `polling_options` (Attributes) Polling related configuration options that could specify various values that will be used during CDP resource creation. (see [below for nested schema](#nestedatt--polling_options))
+- `polling_options` (Attributes, Deprecated) Polling options for the resource operation. Deprecated: use the top-level `async`, `call_failure_threshold` attributes and the `timeouts` block instead. (see [below for nested schema](#nestedatt--polling_options))
 - `recipes` (Attributes Set) Additional recipes that will be attached on the datalake instances (by instance groups, most common ones are like 'master' or 'idbroker'). (see [below for nested schema](#nestedatt--recipes))
 - `runtime` (String) Cloudera Runtime version.
 - `scale` (String) Represents the available datalake scales. Defaults to LIGHT_DUTY if not set.
 - `security` (Attributes) Security related configuration for Datalake. (see [below for nested schema](#nestedatt--security))
 - `tags` (Map of String) Tags to be added to Data Lake related resources.
+- `timeouts` (Attributes) (see [below for nested schema](#nestedatt--timeouts))
 
 ### Read-Only
 
@@ -123,9 +126,9 @@ Optional:
 
 Optional:
 
-- `async` (Boolean) Boolean value that specifies if Terraform should wait for resource creation/deletion.
-- `call_failure_threshold` (Number) Threshold value that specifies how many times should a single call failure happen before giving up the polling.
-- `polling_timeout` (Number) Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.
+- `async` (Boolean) When set to `true`, the resource operation returns immediately without waiting for completion.
+- `call_failure_threshold` (Number) The number of consecutive internal API call failures before the provider gives up waiting. Defaults to `3`.
+- `polling_timeout` (Number) Timeout in minutes for how long to wait for the operation to complete. Defaults to `60`.
 
 
 <a id="nestedatt--recipes"></a>
@@ -143,3 +146,12 @@ Required:
 Optional:
 
 - `se_linux` (String) Override default SELinux configuration which is PERMISSIVE by default. Values are: PERMISSIVE, ENFORCING
+
+
+<a id="nestedatt--timeouts"></a>
+### Nested Schema for `timeouts`
+
+Optional:
+
+- `create` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+- `delete` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.

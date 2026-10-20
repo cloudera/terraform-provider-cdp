@@ -265,15 +265,17 @@ func assertRequiredCDPFieldsHaveSchema(t *testing.T, cdpType reflect.Type, schem
 
 func TestAwsSchemaFieldsCoverage(t *testing.T) {
 	tfOnlyFields := map[string]bool{
-		"id":              true,
-		"crn":             true,
-		"status":          true,
-		"status_reason":   true,
-		"tunnel_type":     true,
-		"polling_options": true,
-		"delete_options":  true,
-		"freeipa":         true,
-		"compute_cluster": true, // Maps to computeClusterConfiguration + enableComputeCluster (composite)
+		"id":                     true,
+		"crn":                    true,
+		"status":                 true,
+		"status_reason":          true,
+		"tunnel_type":            true,
+		"polling_options":        true,
+		"async":                  true,
+		"call_failure_threshold": true,
+		"delete_options":         true,
+		"freeipa":                true,
+		"compute_cluster":        true, // Maps to computeClusterConfiguration + enableComputeCluster (composite)
 	}
 
 	assertAllSchemaFieldsMapped(t,
@@ -285,15 +287,17 @@ func TestAwsSchemaFieldsCoverage(t *testing.T) {
 
 func TestAzureSchemaFieldsCoverage(t *testing.T) {
 	tfOnlyFields := map[string]bool{
-		"id":              true,
-		"crn":             true,
-		"status":          true,
-		"status_reason":   true,
-		"tunnel_type":     true,
-		"polling_options": true,
-		"delete_options":  true,
-		"freeipa":         true,
-		"compute_cluster": true, // Maps to computeClusterConfiguration + enableComputeCluster (composite)
+		"id":                     true,
+		"crn":                    true,
+		"status":                 true,
+		"status_reason":          true,
+		"tunnel_type":            true,
+		"polling_options":        true,
+		"async":                  true,
+		"call_failure_threshold": true,
+		"delete_options":         true,
+		"freeipa":                true,
+		"compute_cluster":        true, // Maps to computeClusterConfiguration + enableComputeCluster (composite)
 	}
 
 	assertAllSchemaFieldsMapped(t,
@@ -305,14 +309,16 @@ func TestAzureSchemaFieldsCoverage(t *testing.T) {
 
 func TestGcpSchemaFieldsCoverage(t *testing.T) {
 	tfOnlyFields := map[string]bool{
-		"id":              true,
-		"crn":             true,
-		"status":          true,
-		"status_reason":   true,
-		"tunnel_type":     true,
-		"polling_options": true,
-		"delete_options":  true,
-		"freeipa":         true,
+		"id":                     true,
+		"crn":                    true,
+		"status":                 true,
+		"status_reason":          true,
+		"tunnel_type":            true,
+		"polling_options":        true,
+		"async":                  true,
+		"call_failure_threshold": true,
+		"delete_options":         true,
+		"freeipa":                true,
 	}
 
 	assertAllSchemaFieldsMapped(t,

@@ -62,7 +62,6 @@ func TestWaitForEnvironmentToBeAvailable_PendingStatuses(t *testing.T) {
 				1,
 				client,
 				context.Background(),
-				nil,
 				func(*environmentsmodels.Environment) {},
 			)
 
@@ -103,7 +102,6 @@ func TestWaitForEnvironmentToBeAvailable_TargetStatuses(t *testing.T) {
 				1,
 				client,
 				context.Background(),
-				nil,
 				func(env *environmentsmodels.Environment) {
 					saved = env
 				},
@@ -244,7 +242,6 @@ func TestWaitForEnvironmentToBeAvailable_FailedStatus_ReturnsError(t *testing.T)
 		3,
 		client,
 		context.Background(),
-		nil,
 		func(*environmentsmodels.Environment) {},
 	)
 
@@ -277,7 +274,6 @@ func TestWaitForEnvironmentToBeAvailable_NotFoundRecovery_RetriesUntilAvailable(
 		3,
 		client,
 		context.Background(),
-		nil,
 		func(*environmentsmodels.Environment) {},
 	)
 
@@ -304,7 +300,6 @@ func TestWaitForEnvironmentToBeAvailable_CallFailureThresholdExceeded_ReturnsErr
 		2,
 		client,
 		context.Background(),
-		nil,
 		func(*environmentsmodels.Environment) {},
 	)
 
@@ -329,7 +324,6 @@ func TestWaitForEnvironmentToBeAvailable_StateSaverCbCalledOnSuccess(t *testing.
 		3,
 		client,
 		context.Background(),
-		nil,
 		func(env *environmentsmodels.Environment) {
 			callCount++
 			assert.Equal(t, "AVAILABLE", *env.Status)
@@ -360,7 +354,6 @@ func TestWaitForEnvironmentToBeDeleted_EnvNotFound_ReturnsSuccess(t *testing.T) 
 		3,
 		client,
 		context.Background(),
-		nil,
 	)
 
 	require.NoError(t, err)
@@ -390,7 +383,6 @@ func TestWaitForEnvironmentToBeDeleted_DeleteInProgress_WaitsUntilGone(t *testin
 		3,
 		client,
 		context.Background(),
-		nil,
 	)
 
 	require.NoError(t, err)
@@ -420,7 +412,6 @@ func TestWaitForEnvironmentToBeDeleted_FailedStatus_ReturnsError(t *testing.T) {
 		3,
 		client,
 		context.Background(),
-		nil,
 	)
 
 	require.Error(t, err)
@@ -447,7 +438,6 @@ func TestWaitForEnvironmentToBeDeleted_NilEnvironment_ReturnsSuccess(t *testing.
 		3,
 		client,
 		context.Background(),
-		nil,
 	)
 
 	require.NoError(t, err)
@@ -471,7 +461,6 @@ func TestWaitForEnvironmentToBeDeleted_NonNotFoundError_BelowThreshold_TreatsAsG
 		3,
 		client,
 		context.Background(),
-		nil,
 	)
 
 	require.NoError(t, err)
@@ -495,7 +484,6 @@ func TestWaitForEnvironmentToBeDeleted_DescribeEnvironmentDefault_NonNotFound_Be
 		3,
 		client,
 		context.Background(),
-		nil,
 	)
 
 	require.NoError(t, err)
@@ -513,7 +501,6 @@ func TestWaitForEnvironmentToBeDeleted_InvalidThreshold_ReturnsErrorImmediately(
 		0,
 		client,
 		context.Background(),
-		nil,
 	)
 
 	require.Error(t, err)
@@ -532,7 +519,6 @@ func TestWaitForEnvironmentToBeAvailable_InvalidThreshold_ReturnsErrorImmediatel
 		0,
 		client,
 		context.Background(),
-		nil,
 		func(*environmentsmodels.Environment) {},
 	)
 
@@ -559,7 +545,6 @@ func TestWaitForEnvironmentToBeAvailable_NonNotFoundError_ThresholdExceeded_Retu
 		1,
 		client,
 		context.Background(),
-		nil,
 		func(*environmentsmodels.Environment) {},
 	)
 
@@ -610,7 +595,6 @@ func TestWaitForEnvironmentToBeDeleted_PendingStatuses(t *testing.T) {
 				3,
 				client,
 				context.Background(),
-				nil,
 			)
 
 			require.Error(t, err)

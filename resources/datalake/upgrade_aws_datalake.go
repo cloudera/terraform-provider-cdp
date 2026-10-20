@@ -13,10 +13,12 @@ package datalake
 import (
 	"context"
 	"reflect"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
 	datalakeclient "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datalake/client"
+	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 func upgradeAwsDatalake(ctx context.Context, plan *awsDatalakeResourceModel, state *awsDatalakeResourceModel,
@@ -48,7 +50,8 @@ func upgradeAwsRuntimeOrImageIfChanged(ctx context.Context, plan *awsDatalakeRes
 		plan.Runtime.ValueString(),
 		imageID,
 		plan.UpgradeOptions,
-		plan.PollingOptions,
+		60*time.Minute,
+		utils.GetCallFailureThresholdOrDefault(plan.CallFailureThreshold, callFailureThreshold),
 		resp)
 
 	if resp.Diagnostics.HasError() {

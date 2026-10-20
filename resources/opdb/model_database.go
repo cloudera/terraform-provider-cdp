@@ -11,6 +11,7 @@
 package opdb
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/utils"
@@ -26,7 +27,10 @@ type databaseResourceModel struct {
 	DisableExternalDB types.Bool   `tfsdk:"disable_external_db"`
 	StorageLocation   types.String `tfsdk:"storage_location"`
 
-	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
+	PollingOptions       *utils.PollingOptions `tfsdk:"polling_options"`
+	Async                types.Bool            `tfsdk:"async"`
+	CallFailureThreshold types.Int64           `tfsdk:"call_failure_threshold"`
+	Timeouts             timeouts.Value        `tfsdk:"timeouts"`
 
 	DisableMultiAz types.Bool   `tfsdk:"disable_multi_az"`
 	NumEdgeNodes   types.Int32  `tfsdk:"num_edge_nodes"`

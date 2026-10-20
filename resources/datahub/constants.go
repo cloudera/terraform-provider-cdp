@@ -14,7 +14,6 @@ import "time"
 
 const internalServerErrorRetryQuantity = 4
 const pollingInterval = 10 * time.Second
-const pollingTimeout = 1 * time.Hour
 const pollingDelay = 5 * time.Second
 const callFailureThreshold = 3
 

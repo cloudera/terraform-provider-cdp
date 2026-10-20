@@ -44,6 +44,13 @@ func NewMockEnvironments(mockClient *mocks.MockEnvironmentClientService) *enviro
 	}
 }
 
+func getUserSyncResourceSchema(ctx context.Context, r *userSyncResource) resource.SchemaResponse {
+	req := resource.SchemaRequest{}
+	resp := &resource.SchemaResponse{}
+	r.Schema(ctx, req, resp)
+	return *resp
+}
+
 func createRawUserSyncResource() tftypes.Value {
 	return tftypes.NewValue(
 		tftypes.Object{
@@ -59,6 +66,13 @@ func createRawUserSyncResource() tftypes.Value {
 						"call_failure_threshold": tftypes.Number,
 					},
 				},
+				"async":                  tftypes.Bool,
+				"call_failure_threshold": tftypes.Number,
+				"timeouts": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"create": tftypes.String,
+					},
+				},
 			},
 		},
 		map[string]tftypes.Value{
@@ -72,10 +86,15 @@ func createRawUserSyncResource() tftypes.Value {
 					"polling_timeout":        tftypes.Number,
 					"call_failure_threshold": tftypes.Number,
 				},
+			}, nil),
+			"async":                  tftypes.NewValue(tftypes.Bool, true),
+			"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+			"timeouts": tftypes.NewValue(tftypes.Object{
+				AttributeTypes: map[string]tftypes.Type{
+					"create": tftypes.String,
+				},
 			}, map[string]tftypes.Value{
-				"async":                  tftypes.NewValue(tftypes.Bool, true),
-				"polling_timeout":        tftypes.NewValue(tftypes.Number, 90),
-				"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+				"create": tftypes.NewValue(tftypes.String, nil),
 			}),
 		},
 	)
@@ -96,6 +115,13 @@ func createRawUserSyncResourceWithoutEnvNames() tftypes.Value {
 						"call_failure_threshold": tftypes.Number,
 					},
 				},
+				"async":                  tftypes.Bool,
+				"call_failure_threshold": tftypes.Number,
+				"timeouts": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"create": tftypes.String,
+					},
+				},
 			},
 		},
 		map[string]tftypes.Value{
@@ -109,10 +135,15 @@ func createRawUserSyncResourceWithoutEnvNames() tftypes.Value {
 					"polling_timeout":        tftypes.Number,
 					"call_failure_threshold": tftypes.Number,
 				},
+			}, nil),
+			"async":                  tftypes.NewValue(tftypes.Bool, true),
+			"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+			"timeouts": tftypes.NewValue(tftypes.Object{
+				AttributeTypes: map[string]tftypes.Type{
+					"create": tftypes.String,
+				},
 			}, map[string]tftypes.Value{
-				"async":                  tftypes.NewValue(tftypes.Bool, true),
-				"polling_timeout":        tftypes.NewValue(tftypes.Number, 90),
-				"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+				"create": tftypes.NewValue(tftypes.String, nil),
 			}),
 		},
 	)
@@ -134,7 +165,9 @@ func TestSchema(t *testing.T) {
 
 	assert.NotNil(t, resp.Schema.Attributes["id"])
 	assert.NotNil(t, resp.Schema.Attributes["environment_names"])
-	assert.NotNil(t, resp.Schema.Attributes["polling_options"])
+	assert.NotNil(t, resp.Schema.Attributes["async"])
+	assert.NotNil(t, resp.Schema.Attributes["call_failure_threshold"])
+	assert.NotNil(t, resp.Schema.Attributes["timeouts"])
 }
 
 func TestCreate(t *testing.T) {
@@ -185,16 +218,17 @@ func TestCreate(t *testing.T) {
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
 			}
 
+			s := getUserSyncResourceSchema(ctx, r).Schema
 			req := resource.CreateRequest{
 				Plan: tfsdk.Plan{
 					Raw:    createRawUserSyncResource(),
-					Schema: userSyncSchema,
+					Schema: s,
 				},
 			}
 
 			resp := &resource.CreateResponse{
 				State: tfsdk.State{
-					Schema: userSyncSchema,
+					Schema: s,
 				},
 			}
 
@@ -230,16 +264,17 @@ func TestCreateWithoutEnvironmentNames(t *testing.T) {
 		client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
 	}
 
+	s := getUserSyncResourceSchema(ctx, r).Schema
 	req := resource.CreateRequest{
 		Plan: tfsdk.Plan{
 			Raw:    createRawUserSyncResourceWithoutEnvNames(),
-			Schema: userSyncSchema,
+			Schema: s,
 		},
 	}
 
 	resp := &resource.CreateResponse{
 		State: tfsdk.State{
-			Schema: userSyncSchema,
+			Schema: s,
 		},
 	}
 
@@ -297,16 +332,17 @@ func TestUpdate(t *testing.T) {
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
 			}
 
+			s := getUserSyncResourceSchema(ctx, r).Schema
 			req := resource.UpdateRequest{
 				Plan: tfsdk.Plan{
 					Raw:    createRawUserSyncResource(),
-					Schema: userSyncSchema,
+					Schema: s,
 				},
 			}
 
 			resp := &resource.UpdateResponse{
 				State: tfsdk.State{
-					Schema: userSyncSchema,
+					Schema: s,
 				},
 			}
 

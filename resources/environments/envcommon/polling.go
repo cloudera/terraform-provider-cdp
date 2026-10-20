@@ -43,16 +43,11 @@ var (
 	envCreateTargetStatuses = []string{"AVAILABLE", "TRUST_SETUP_REQUIRED"}
 )
 
-func WaitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.Duration, CallFailureThresholdDefault int, client *client.Environments, ctx context.Context, options *utils.PollingOptions) error {
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, options, fallbackTimeout)
-	CallFailureThreshold, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, options, CallFailureThresholdDefault)
-	if failureThresholdError != nil {
-		return failureThresholdError
+func WaitForEnvironmentToBeDeleted(environmentName string, timeout time.Duration, callFailureThreshold int, client *client.Environments, ctx context.Context) error {
+	if callFailureThreshold <= 0 {
+		return fmt.Errorf("no meaningful threshold value provided: %d", callFailureThreshold)
 	}
 	callFailedCount := 0
-	if err != nil {
-		return err
-	}
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			"CLUSTER_DEFINITION_CLEANUP_PROGRESS",
@@ -76,7 +71,7 @@ func WaitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.
 		},
 		Target:       []string{},
 		Delay:        5 * time.Second,
-		Timeout:      *timeout,
+		Timeout:      timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("About to describe environment: %s", environmentName))
@@ -91,8 +86,8 @@ func WaitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.
 					}
 				}
 				callFailedCount++
-				if callFailedCount <= CallFailureThreshold {
-					tflog.Warn(ctx, fmt.Sprintf("Error describing environment with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, CallFailureThreshold))
+				if callFailedCount <= callFailureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error describing environment with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
 					return nil, "", nil
 				}
 				tflog.Error(ctx, fmt.Sprintf("Error describing environment (due to: %s) and call failure threshold limit exceeded.", err))
@@ -106,27 +101,22 @@ func WaitForEnvironmentToBeDeleted(environmentName string, fallbackTimeout time.
 			return checkResponseStatusForError(resp)
 		},
 	}
-	_, err = stateConf.WaitForStateContext(ctx)
+	_, err := stateConf.WaitForStateContext(ctx)
 
 	return err
 }
 
-func WaitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout time.Duration, CallFailureThresholdDefault int, client *client.Environments, ctx context.Context, pollingOptions *utils.PollingOptions,
+func WaitForEnvironmentToBeAvailable(environmentName string, timeout time.Duration, callFailureThreshold int, client *client.Environments, ctx context.Context,
 	stateSaverCb func(*environmentsmodels.Environment)) error {
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, pollingOptions, fallbackTimeout)
-	if err != nil {
-		return err
-	}
-	CallFailureThreshold, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, pollingOptions, CallFailureThresholdDefault)
-	if failureThresholdError != nil {
-		return failureThresholdError
+	if callFailureThreshold <= 0 {
+		return fmt.Errorf("no meaningful threshold value provided: %d", callFailureThreshold)
 	}
 	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending:      envCreatePendingStatuses,
 		Target:       envCreateTargetStatuses,
 		Delay:        5 * time.Second,
-		Timeout:      *timeout,
+		Timeout:      timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("About to describe environment %s", environmentName))
@@ -143,8 +133,8 @@ func WaitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 					return nil, "", nil
 				}
 				callFailedCount++
-				if callFailedCount <= CallFailureThreshold {
-					tflog.Warn(ctx, fmt.Sprintf("Error describing environment with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, CallFailureThreshold))
+				if callFailedCount <= callFailureThreshold {
+					tflog.Warn(ctx, fmt.Sprintf("Error describing environment with call failure due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
 					return nil, "", nil
 				}
 				tflog.Error(ctx, fmt.Sprintf("Error describing environment (due to: %s) and call failure threshold limit exceeded.", err))
@@ -156,7 +146,7 @@ func WaitForEnvironmentToBeAvailable(environmentName string, fallbackTimeout tim
 			return checkResponseStatusForError(resp)
 		},
 	}
-	_, err = stateConf.WaitForStateContext(ctx)
+	_, err := stateConf.WaitForStateContext(ctx)
 
 	return err
 }

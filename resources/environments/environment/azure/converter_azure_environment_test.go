@@ -15,7 +15,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
 
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
@@ -93,7 +92,7 @@ func TestToAzureEnvironmentResource_BasicFields(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.Equal(t, testCrn, model.ID.ValueString())
@@ -113,7 +112,7 @@ func TestToAzureEnvironmentResource_LogStorage(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.NotNil(t, model.LogStorage)
@@ -132,7 +131,7 @@ func TestToAzureEnvironmentResource_LogStorageWithBackup(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.NotNil(t, model.LogStorage)
@@ -146,7 +145,7 @@ func TestToAzureEnvironmentResource_LogStorageNilAzureDetails(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.Nil(t, model.LogStorage)
@@ -158,7 +157,7 @@ func TestToAzureEnvironmentResource_Network(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.True(t, model.UsePublicIP.ValueBool())
@@ -177,7 +176,7 @@ func TestToAzureEnvironmentResource_NetworkEmptyEAGSubnets(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.True(t, model.EndpointAccessGatewaySubnetIds.IsNull())
@@ -190,7 +189,7 @@ func TestToAzureEnvironmentResource_NetworkNilAzureParams(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.True(t, model.ExistingNetworkParams.IsNull())
@@ -204,7 +203,7 @@ func TestToAzureEnvironmentResource_NilNetwork(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.True(t, model.ExistingNetworkParams.IsNull())
@@ -217,7 +216,7 @@ func TestToAzureEnvironmentResource_ProxyConfig(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.Equal(t, testProxyName, model.ProxyConfigName.ValueString())
@@ -230,7 +229,7 @@ func TestToAzureEnvironmentResource_NilProxyConfig(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.True(t, model.ProxyConfigName.IsNull())
@@ -242,7 +241,7 @@ func TestToAzureEnvironmentResource_SecurityAccess(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.NotNil(t, model.SecurityAccess)
@@ -263,7 +262,7 @@ func TestToAzureEnvironmentResource_SecurityAccessPreservesExistingGroupIDs(t *t
 	}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.Equal(t, existingGroupIDs, model.SecurityAccess.DefaultSecurityGroupIDs)
@@ -277,7 +276,7 @@ func TestToAzureEnvironmentResource_SecurityAccessNilModelSetsNullGroupIDs(t *te
 	}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.NotNil(t, model.SecurityAccess)
@@ -292,7 +291,7 @@ func TestToAzureEnvironmentResource_NilSecurityAccess(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.Nil(t, model.SecurityAccess)
@@ -304,7 +303,7 @@ func TestToAzureEnvironmentResource_Tags(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.False(t, model.Tags.IsNull())
@@ -321,25 +320,10 @@ func TestToAzureEnvironmentResource_NilTags(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.True(t, model.Tags.IsNull())
-}
-
-func TestToAzureEnvironmentResource_PollingOptions(t *testing.T) {
-	ctx := context.TODO()
-	env := baseAzureEnvironment()
-	pollingOpts := &utils.PollingOptions{
-		Async: types.BoolValue(true),
-	}
-	model := &AzureEnvironmentResourceModel{}
-	diags := diag.Diagnostics{}
-
-	ToAzureEnvironmentResource(ctx, env, model, pollingOpts, &diags)
-
-	assert.False(t, diags.HasError())
-	assert.Equal(t, pollingOpts, model.PollingOptions)
 }
 
 func TestToAzureEnvironmentResource_NilLogStorage(t *testing.T) {
@@ -349,7 +333,7 @@ func TestToAzureEnvironmentResource_NilLogStorage(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.Nil(t, model.LogStorage)
@@ -366,7 +350,7 @@ func TestToAzureEnvironmentResource_FullEnvironment(t *testing.T) {
 	model := &AzureEnvironmentResourceModel{}
 	diags := diag.Diagnostics{}
 
-	ToAzureEnvironmentResource(ctx, env, model, nil, &diags)
+	ToAzureEnvironmentResource(ctx, env, model, &diags)
 
 	assert.False(t, diags.HasError())
 	assert.Equal(t, testCrn, model.ID.ValueString())

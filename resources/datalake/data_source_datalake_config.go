@@ -79,21 +79,21 @@ func fillDatalakePlatformValid(ctx context.Context, dl *models.DatalakeDetails, 
 		case "AWS":
 			{
 				mappedDatalake := &awsDatalakeResourceModel{}
-				datalakeDetailsToAwsDatalakeResourceModel(ctx, dl, mappedDatalake, &utils.PollingOptions{}, &resp.Diagnostics)
+				datalakeDetailsToAwsDatalakeResourceModel(ctx, dl, mappedDatalake, &resp.Diagnostics)
 				data.Aws = mappedDatalake
 				break
 			}
 		case "AZURE":
 			{
 				mappedDatalake := &azureDatalakeResourceModel{}
-				datalakeDetailsToAzureDatalakeResourceModel(ctx, dl, mappedDatalake, &utils.PollingOptions{}, &resp.Diagnostics)
+				datalakeDetailsToAzureDatalakeResourceModel(ctx, dl, mappedDatalake, &resp.Diagnostics)
 				data.Azure = mappedDatalake
 				break
 			}
 		case "GCP":
 			{
 				mappedDatalake := &gcpDatalakeResourceModel{}
-				datalakeDetailsToGcpDatalakeResourceModel(ctx, dl, mappedDatalake, &utils.PollingOptions{}, &resp.Diagnostics)
+				datalakeDetailsToGcpDatalakeResourceModel(ctx, dl, mappedDatalake, &resp.Diagnostics)
 				data.Gcp = mappedDatalake
 				break
 			}

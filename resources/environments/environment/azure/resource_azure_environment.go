@@ -12,11 +12,14 @@ package azure
 
 import (
 	"context"
+	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -29,8 +32,9 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure   = &azureEnvironmentResource{}
-	_ resource.ResourceWithImportState = &azureEnvironmentResource{}
+	_ resource.ResourceWithConfigure        = &azureEnvironmentResource{}
+	_ resource.ResourceWithImportState      = &azureEnvironmentResource{}
+	_ resource.ResourceWithConfigValidators = &azureEnvironmentResource{}
 )
 
 type azureEnvironmentResource struct {
@@ -49,12 +53,22 @@ func (r *azureEnvironmentResource) Metadata(_ context.Context, req resource.Meta
 	resp.TypeName = req.ProviderTypeName + "_environments_azure_environment"
 }
 
-func (r *azureEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = AzureEnvironmentSchema
+func (r *azureEnvironmentResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	s := AzureEnvironmentSchema
+	s.Attributes = make(map[string]schema.Attribute, len(AzureEnvironmentSchema.Attributes)+1)
+	for k, v := range AzureEnvironmentSchema.Attributes {
+		s.Attributes[k] = v
+	}
+	s.Attributes["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true, Update: true})
+	resp.Schema = s
 }
 
 func (r *azureEnvironmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *azureEnvironmentResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -78,7 +92,7 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	envResp := responseOk.Payload.Environment
-	ToAzureEnvironmentResource(ctx, envResp, &data, data.PollingOptions, &resp.Diagnostics)
+	ToAzureEnvironmentResource(ctx, envResp, &data, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -90,19 +104,25 @@ func (r *azureEnvironmentResource) Create(ctx context.Context, req resource.Crea
 	if err != nil {
 		return
 	}
-	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
+	if !utils.ResolveAsync(data.PollingOptions, data.Async) {
+		createTimeout, diagsT := utils.ResolveTimeout(ctx, data.PollingOptions, data.Timeouts.Create, 60*time.Minute)
+		resp.Diagnostics.Append(diagsT...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		callFailureThreshold := utils.ResolveCallFailureThreshold(data.PollingOptions, data.CallFailureThreshold, envcommon.CallFailureThreshold)
 		stateSaver := func(env *environmentsmodels.Environment) {
-			ToAzureEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+			ToAzureEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), &data, &resp.Diagnostics)
 			diags = resp.State.Set(ctx, data)
 			resp.Diagnostics.Append(diags...)
 		}
-		descEnvResp, err = envcommon.WaitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions, stateSaver)
+		descEnvResp, err = envcommon.WaitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, createTimeout, callFailureThreshold, stateSaver)
 		if err != nil {
 			return
 		}
 	}
 
-	ToAzureEnvironmentResource(ctx, descEnvResp, &data, data.PollingOptions, &resp.Diagnostics)
+	ToAzureEnvironmentResource(ctx, descEnvResp, &data, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -127,7 +147,7 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 	if err != nil {
 		return
 	}
-	ToAzureEnvironmentResource(ctx, descEnvResp, &state, state.PollingOptions, &resp.Diagnostics)
+	ToAzureEnvironmentResource(ctx, descEnvResp, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -136,7 +156,7 @@ func (r *azureEnvironmentResource) Read(ctx context.Context, req resource.ReadRe
 	}
 }
 
-func ToAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *AzureEnvironmentResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+func ToAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *AzureEnvironmentResourceModel, diags *diag.Diagnostics) {
 	utils.LogEnvironmentSilently(ctx, env, "Converting environment: ")
 	model.ID = types.StringPointerValue(env.Crn)
 	model.Crn = types.StringPointerValue(env.Crn)
@@ -144,7 +164,6 @@ func ToAzureEnvironmentResource(ctx context.Context, env *environmentsmodels.Env
 	model.Description = types.StringValue(env.Description)
 	model.EnableTunnel = types.BoolValue(env.TunnelEnabled)
 	model.EnvironmentName = types.StringPointerValue(env.EnvironmentName)
-	model.PollingOptions = pollingOptions
 	if env.LogStorage != nil {
 		if env.LogStorage.AzureDetails != nil {
 			model.LogStorage = &azureLogStorage{
@@ -253,7 +272,13 @@ func (r *azureEnvironmentResource) Delete(ctx context.Context, req resource.Dele
 	cascading := state.cascadeDelete()
 	forced := state.forceDelete()
 
-	if err := envcommon.DeleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, forced, ctx, r.client, resp, state.PollingOptions); err != nil {
+	deleteTimeout, diags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, 60*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	callFailureThreshold := utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, envcommon.CallFailureThreshold)
+	if err := envcommon.DeleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, forced, ctx, r.client, resp, deleteTimeout, callFailureThreshold); err != nil {
 		return
 	}
 }

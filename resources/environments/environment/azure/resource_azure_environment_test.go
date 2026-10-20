@@ -28,6 +28,13 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/freeipa"
 )
 
+func getAzureResourceSchema(ctx context.Context, r *azureEnvironmentResource) resource.SchemaResponse {
+	req := resource.SchemaRequest{}
+	resp := &resource.SchemaResponse{}
+	r.Schema(ctx, req, resp)
+	return *resp
+}
+
 func createRawAzureEnvironmentResource() tftypes.Value {
 	return tftypes.NewValue(
 		tftypes.Object{
@@ -39,6 +46,15 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 						"async":                  tftypes.Bool,
 						"polling_timeout":        tftypes.Number,
 						"call_failure_threshold": tftypes.Number,
+					},
+				},
+				"async":                  tftypes.Bool,
+				"call_failure_threshold": tftypes.Number,
+				"timeouts": tftypes.Object{
+					AttributeTypes: map[string]tftypes.Type{
+						"create": tftypes.String,
+						"delete": tftypes.String,
+						"update": tftypes.String,
 					},
 				},
 				"status_reason": tftypes.String,
@@ -142,10 +158,19 @@ func createRawAzureEnvironmentResource() tftypes.Value {
 					"polling_timeout":        tftypes.Number,
 					"call_failure_threshold": tftypes.Number,
 				},
+			}, nil),
+			"async":                  tftypes.NewValue(tftypes.Bool, false),
+			"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+			"timeouts": tftypes.NewValue(tftypes.Object{
+				AttributeTypes: map[string]tftypes.Type{
+					"create": tftypes.String,
+					"delete": tftypes.String,
+					"update": tftypes.String,
+				},
 			}, map[string]tftypes.Value{
-				"async":                  tftypes.NewValue(tftypes.Bool, false),
-				"polling_timeout":        tftypes.NewValue(tftypes.Number, 100),
-				"call_failure_threshold": tftypes.NewValue(tftypes.Number, 3),
+				"create": tftypes.NewValue(tftypes.String, nil),
+				"delete": tftypes.NewValue(tftypes.String, nil),
+				"update": tftypes.NewValue(tftypes.String, nil),
 			}),
 			"status_reason": tftypes.NewValue(tftypes.String, ""),
 			"tags": tftypes.NewValue(tftypes.Map{
@@ -421,16 +446,17 @@ func TestCreateAzureEnvironment(t *testing.T) {
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
 			}
 
+			s := getAzureResourceSchema(ctx, aitpResource).Schema
 			req := resource.CreateRequest{
 				Plan: tfsdk.Plan{
 					Raw:    createRawAzureEnvironmentResource(),
-					Schema: AzureEnvironmentSchema,
+					Schema: s,
 				},
 			}
 
 			resp := &resource.CreateResponse{
 				State: tfsdk.State{
-					Schema: AzureEnvironmentSchema,
+					Schema: s,
 				},
 			}
 
@@ -516,16 +542,17 @@ func TestReadAzureEnvironment(t *testing.T) {
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
 			}
 
+			s := getAzureResourceSchema(ctx, aitpResource).Schema
 			req := resource.ReadRequest{
 				State: tfsdk.State{
 					Raw:    createRawAzureEnvironmentResource(),
-					Schema: AzureEnvironmentSchema,
+					Schema: s,
 				},
 			}
 
 			resp := &resource.ReadResponse{
 				State: tfsdk.State{
-					Schema: AzureEnvironmentSchema,
+					Schema: s,
 				},
 			}
 
@@ -610,16 +637,17 @@ func TestDeleteAzureEnvironmentPolicy(t *testing.T) {
 				client: &cdp.Client{Environments: NewMockEnvironments(mockClient)},
 			}
 
+			s := getAzureResourceSchema(ctx, aitpResource).Schema
 			req := resource.DeleteRequest{
 				State: tfsdk.State{
 					Raw:    createRawAzureEnvironmentResource(),
-					Schema: AzureEnvironmentSchema,
+					Schema: s,
 				},
 			}
 
 			resp := &resource.DeleteResponse{
 				State: tfsdk.State{
-					Schema: AzureEnvironmentSchema,
+					Schema: s,
 				},
 			}
 

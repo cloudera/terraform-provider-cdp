@@ -14,6 +14,7 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -44,7 +45,13 @@ func updateGcpEnvironment(ctx context.Context, plan *GcpEnvironmentResourceModel
 }
 
 func updateGcpTagsIfChanged(ctx context.Context, plan *GcpEnvironmentResourceModel, state *GcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
-	return envcommon.UpdateTagsIfChanged(ctx, client, plan.Tags, &state.Tags, plan.EnvironmentName.ValueStringPointer(), plan.PollingOptions, resp)
+	updateTimeout, diags := plan.Timeouts.Update(ctx, 60*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+	callFailureThreshold := utils.GetCallFailureThresholdOrDefault(plan.CallFailureThreshold, envcommon.CallFailureThreshold)
+	return envcommon.UpdateTagsIfChanged(ctx, client, plan.Tags, &state.Tags, plan.EnvironmentName.ValueStringPointer(), updateTimeout, callFailureThreshold, resp)
 }
 
 func updateGcpCredentialIfChanged(ctx context.Context, plan *GcpEnvironmentResourceModel, state *GcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
@@ -68,7 +75,13 @@ func updateFreeIpaRecipesIfChanged(ctx context.Context, plan *GcpEnvironmentReso
 }
 
 func updateGcpEndpointAccessGatewayIfChanged(ctx context.Context, plan *GcpEnvironmentResourceModel, state *GcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {
-	return envcommon.UpdateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), plan.PollingOptions, resp)
+	updateTimeout, diags := plan.Timeouts.Update(ctx, 60*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return resp
+	}
+	callFailureThreshold := utils.GetCallFailureThresholdOrDefault(plan.CallFailureThreshold, envcommon.CallFailureThreshold)
+	return envcommon.UpdateEndpointAccessGatewayIfChanged(ctx, client, plan.EndpointAccessGatewayScheme, plan.EndpointAccessGatewaySubnetIds, &state.EndpointAccessGatewayScheme, &state.EndpointAccessGatewaySubnetIds, plan.EnvironmentName.ValueString(), updateTimeout, callFailureThreshold, resp)
 }
 
 func updateGcpSecurityAccessIfChanged(ctx context.Context, plan *GcpEnvironmentResourceModel, state *GcpEnvironmentResourceModel, client *environmentsclient.Environments, resp *resource.UpdateResponse) *resource.UpdateResponse {

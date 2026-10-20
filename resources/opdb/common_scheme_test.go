@@ -25,9 +25,15 @@ type TestCaseStructure struct {
 
 var commonElementCaseSet = []TestCaseStructure{
 	{
-		name:             "polling_options should exist",
-		field:            "polling_options",
-		computed:         false,
+		name:             "async should exist",
+		field:            "async",
+		computed:         true,
+		shouldBeRequired: false,
+	},
+	{
+		name:             "call_failure_threshold should exist",
+		field:            "call_failure_threshold",
+		computed:         true,
 		shouldBeRequired: false,
 	},
 	{

@@ -24,7 +24,6 @@ import (
 
 	environmentsmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/freeipa"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
 type GcpEnvironmentResourceModelMock struct {
@@ -112,7 +111,7 @@ func TestToGcpEnvironmentResourceRootFields(t *testing.T) {
 	testEnv := createFilledEnvironment()
 
 	diag := &diag.Diagnostics{}
-	ToGcpEnvironmentResource(context.Background(), testEnv, testModel, getTestPollingOption(), diag)
+	ToGcpEnvironmentResource(context.Background(), testEnv, testModel, diag)
 
 	stringExists(t, *testEnv.Crn, testModel.Crn)
 	stringExists(t, *testEnv.Region, testModel.Region)
@@ -145,7 +144,6 @@ func createFilledGcpEnvironmentResourceModel() *GcpEnvironmentResourceModel {
 	})
 	return &GcpEnvironmentResourceModel{
 		EnvironmentName: types.StringValue("someEnvironmentName"),
-		PollingOptions:  &utils.PollingOptions{PollingTimeout: types.Int64Value(123)},
 		CredentialName:  types.StringValue("someCredentialName"),
 		Region:          types.StringValue("someRegion"),
 		PublicKey:       types.StringValue("somePublicKey"),
@@ -316,10 +314,6 @@ func createFilledEnvironment() *environmentsmodels.Environment {
 		TunnelType:        environmentsmodels.TunnelTypeCCMV2,
 		WorkloadAnalytics: true,
 	}
-}
-
-func getTestPollingOption() *utils.PollingOptions {
-	return &utils.PollingOptions{PollingTimeout: types.Int64Value(1234)}
 }
 
 func createListOfStrings() types.List {

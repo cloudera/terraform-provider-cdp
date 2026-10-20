@@ -18,7 +18,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	datahubmodels "github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/datahub/models"
-	"github.com/cloudera/terraform-provider-cdp/utils"
 	"github.com/cloudera/terraform-provider-cdp/utils/test"
 )
 
@@ -480,10 +479,9 @@ func TestToAwsDatahubResource(t *testing.T) {
 		},
 	}
 
-	pollingOptions := &utils.PollingOptions{}
 	model := &awsDatahubResourceModel{}
 
-	toAwsDatahubResource(context.TODO(), dh, model, pollingOptions)
+	toAwsDatahubResource(context.TODO(), dh, model)
 
 	test.CompareStrings(model.ID.ValueString(), clusterCrn, t)
 	test.CompareStrings(model.Crn.ValueString(), clusterCrn, t)
@@ -492,10 +490,6 @@ func TestToAwsDatahubResource(t *testing.T) {
 	test.CompareStrings(model.ClusterTemplate.ValueString(), clusterTemplateCrn, t)
 	test.CompareStrings(model.Environment.ValueString(), environmentName, t)
 	test.CompareBools(model.MultiAz.ValueBool(), multiAz, t)
-
-	if model.PollingOptions != pollingOptions {
-		t.Errorf("Assertion error! Expected polling options to be assigned")
-	}
 
 	if model.Security == nil {
 		t.Fatalf("Assertion error! Expected security to be assigned")
@@ -542,10 +536,9 @@ func TestToAzureDatahubResource(t *testing.T) {
 		},
 	}
 
-	pollingOptions := &utils.PollingOptions{}
 	model := &azureDatahubResourceModel{}
 
-	toAzureDatahubResource(context.TODO(), dh, model, pollingOptions)
+	toAzureDatahubResource(context.TODO(), dh, model)
 
 	test.CompareStrings(model.ID.ValueString(), clusterCrn, t)
 	test.CompareStrings(model.Crn.ValueString(), clusterCrn, t)
@@ -554,10 +547,6 @@ func TestToAzureDatahubResource(t *testing.T) {
 	test.CompareStrings(model.ClusterTemplate.ValueString(), clusterTemplateCrn, t)
 	test.CompareStrings(model.Environment.ValueString(), environmentName, t)
 	test.CompareBools(model.MultiAz.ValueBool(), multiAz, t)
-
-	if model.PollingOptions != pollingOptions {
-		t.Errorf("Assertion error! Expected polling options to be assigned")
-	}
 
 	if model.Security == nil {
 		t.Fatalf("Assertion error! Expected security to be assigned")
@@ -604,10 +593,9 @@ func TestToGcpDatahubResource(t *testing.T) {
 		},
 	}
 
-	pollingOptions := &utils.PollingOptions{}
 	model := &gcpDatahubResourceModel{}
 
-	toGcpDatahubResource(context.TODO(), dh, model, pollingOptions)
+	toGcpDatahubResource(context.TODO(), dh, model)
 
 	test.CompareStrings(model.ID.ValueString(), clusterCrn, t)
 	test.CompareStrings(model.Crn.ValueString(), clusterCrn, t)
@@ -616,10 +604,6 @@ func TestToGcpDatahubResource(t *testing.T) {
 	test.CompareStrings(model.ClusterTemplate.ValueString(), clusterTemplateCrn, t)
 	test.CompareStrings(model.Environment.ValueString(), environmentName, t)
 	test.CompareBools(model.MultiAz.ValueBool(), multiAz, t)
-
-	if model.PollingOptions != pollingOptions {
-		t.Errorf("Assertion error! Expected polling options to be assigned")
-	}
 
 	if model.Security == nil {
 		t.Fatalf("Assertion error! Expected security to be assigned")

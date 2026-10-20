@@ -23,20 +23,19 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func datalakeDetailsToGcpDatalakeResourceModelFromCreation(resp *datalakemodels.DatalakeDetails, model *gcpDatalakeResourceModel, pollingOptions *utils.PollingOptions) {
+func datalakeDetailsToGcpDatalakeResourceModelFromCreation(resp *datalakemodels.DatalakeDetails, model *gcpDatalakeResourceModel) {
 	model.ID = types.StringPointerValue(resp.Crn)
 	model.CreationDate = types.StringValue(resp.CreationDate.String())
 	model.Crn = types.StringPointerValue(resp.Crn)
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
-	model.PollingOptions = pollingOptions
 	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
 	model.StatusReason = types.StringValue(resp.StatusReason)
 }
 
-func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *gcpDatalakeResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *gcpDatalakeResourceModel, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(resp.Crn)
 	if resp.GcpConfiguration != nil {
 		model.CloudProviderConfiguration.ServiceAccountEmail = types.StringValue(resp.GcpConfiguration.ServiceAccountEmail)
@@ -45,7 +44,6 @@ func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datala
 	model.Crn = types.StringPointerValue(resp.Crn)
 	model.DatalakeName = types.StringPointerValue(resp.DatalakeName)
 	model.EnableRangerRaz = types.BoolValue(resp.EnableRangerRaz)
-	model.PollingOptions = pollingOptions
 	model.EnvironmentCrn = types.StringValue(resp.EnvironmentCrn)
 	instanceGroups := make([]*instanceGroup, len(resp.InstanceGroups))
 	for i, v := range resp.InstanceGroups {

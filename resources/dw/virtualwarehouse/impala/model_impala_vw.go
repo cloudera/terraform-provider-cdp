@@ -16,6 +16,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -54,7 +55,10 @@ type resourceModel struct {
 	PlatformJwtAuth       types.Bool   `tfsdk:"platform_jwt_auth"`
 	ImpalaQueryLog        types.Bool   `tfsdk:"query_log"`
 
-	PollingOptions *utils.PollingOptions `tfsdk:"polling_options"`
+	PollingOptions       *utils.PollingOptions `tfsdk:"polling_options"`
+	Async                types.Bool            `tfsdk:"async"`
+	CallFailureThreshold types.Int64           `tfsdk:"call_failure_threshold"`
+	Timeouts             timeouts.Value        `tfsdk:"timeouts"`
 }
 
 func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwResponse, ctx context.Context) {
@@ -109,10 +113,6 @@ func (p *resourceModel) setFromDescribeVwResponse(resp *models.DescribeVwRespons
 	if len(resp.Vw.Tags) != 0 {
 		p.Tags = convertFromAPITagRequests(resp.Vw.Tags)
 	}
-}
-
-func (p *resourceModel) GetPollingOptions() *utils.PollingOptions {
-	return p.PollingOptions
 }
 
 func convertToAPIImpalaHASettings(model types.Object, ctx context.Context) (*models.ImpalaHASettingsCreateRequest, error) {

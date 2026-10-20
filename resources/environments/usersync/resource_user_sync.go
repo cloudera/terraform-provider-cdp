@@ -16,14 +16,16 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
@@ -37,7 +39,8 @@ import (
 )
 
 var (
-	_ resource.Resource = &userSyncResource{}
+	_ resource.Resource                     = &userSyncResource{}
+	_ resource.ResourceWithConfigValidators = &userSyncResource{}
 )
 
 var userSyncSchema = schema.Schema{
@@ -54,31 +57,20 @@ var userSyncSchema = schema.Schema{
 			ElementType:         types.StringType,
 			Optional:            true,
 		},
-		"polling_options": schema.SingleNestedAttribute{
-			MarkdownDescription: "Polling related configuration options that could specify various values that will be used during CDP resource creation.",
+		"polling_options": utils.PollingOptionsSchema(90),
+		"async": schema.BoolAttribute{
+			MarkdownDescription: "When set to `true`, the resource operation returns immediately without waiting for completion. When `false` (default), Terraform waits for the operation to finish, subject to the duration set in the `timeouts` block.",
 			Optional:            true,
-			Attributes: map[string]schema.Attribute{
-				"async": schema.BoolAttribute{
-					MarkdownDescription: "Boolean value that specifies if Terraform should wait for resource creation/deletion.",
-					Optional:            true,
-					Computed:            true,
-					Default:             booldefault.StaticBool(false),
-					PlanModifiers: []planmodifier.Bool{
-						boolplanmodifier.UseStateForUnknown(),
-					},
-				},
-				"polling_timeout": schema.Int64Attribute{
-					MarkdownDescription: "Timeout value in minutes that specifies for how long should the polling go for resource creation/deletion.",
-					Default:             int64default.StaticInt64(90),
-					Computed:            true,
-					Optional:            true,
-				},
-				"call_failure_threshold": schema.Int64Attribute{
-					MarkdownDescription: "Threshold value that specifies how many times should a single call failure happen before giving up the polling.",
-					Default:             int64default.StaticInt64(3),
-					Computed:            true,
-					Optional:            true,
-				},
+			Computed:            true,
+			Default:             booldefault.StaticBool(false),
+		},
+		"call_failure_threshold": schema.Int64Attribute{
+			MarkdownDescription: "The number of consecutive internal API call failures before the provider gives up waiting. Applies only when `async` is `false`. Defaults to `3`.",
+			Default:             int64default.StaticInt64(3),
+			Computed:            true,
+			Optional:            true,
+			Validators: []validator.Int64{
+				int64validator.AtLeast(1),
 			},
 		},
 	},
@@ -97,9 +89,12 @@ func (r *userSyncResource) Metadata(ctx context.Context, req resource.MetadataRe
 }
 
 type userSyncResourceModel struct {
-	ID               types.String          `tfsdk:"id"`
-	EnvironmentNames types.Set             `tfsdk:"environment_names"`
-	PollingOptions   *utils.PollingOptions `tfsdk:"polling_options"`
+	ID                   types.String          `tfsdk:"id"`
+	EnvironmentNames     types.Set             `tfsdk:"environment_names"`
+	PollingOptions       *utils.PollingOptions `tfsdk:"polling_options"`
+	Async                types.Bool            `tfsdk:"async"`
+	CallFailureThreshold types.Int64           `tfsdk:"call_failure_threshold"`
+	Timeouts             timeouts.Value        `tfsdk:"timeouts"`
 }
 
 func toSyncAllUsersRequest(ctx context.Context, model *userSyncResourceModel, diag *diag.Diagnostics) *environmentsmodels.SyncAllUsersRequest {
@@ -109,11 +104,21 @@ func toSyncAllUsersRequest(ctx context.Context, model *userSyncResourceModel, di
 }
 
 func (r *userSyncResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = userSyncSchema
+	s := userSyncSchema
+	s.Attributes = make(map[string]schema.Attribute, len(userSyncSchema.Attributes)+1)
+	for k, v := range userSyncSchema.Attributes {
+		s.Attributes[k] = v
+	}
+	s.Attributes["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true})
+	resp.Schema = s
 }
 
 func (r *userSyncResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *userSyncResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *userSyncResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -152,24 +157,22 @@ func (r *userSyncResource) Create(ctx context.Context, req resource.CreateReques
 
 	opID := res.Payload.OperationID
 	tflog.Debug(ctx, fmt.Sprintf("User sync operation ID: %s", *opID))
-	if state.PollingOptions == nil || !state.PollingOptions.Async.ValueBool() {
+	if !utils.ResolveAsync(state.PollingOptions, state.Async) {
+		createTimeout, diagsT := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Create, 90*time.Minute)
+		resp.Diagnostics.Append(diagsT...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		callFailureThreshold := utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, envcommon.CallFailureThreshold)
 		tflog.Debug(ctx, "User sync polling starts")
-		err = waitForUserSync(*opID, time.Hour*1, envcommon.CallFailureThreshold, r.client.Environments, ctx, state.PollingOptions)
+		err = waitForUserSync(*opID, createTimeout, callFailureThreshold, r.client.Environments, ctx)
 		if err != nil {
 			return
 		}
 	}
 }
 
-func waitForUserSync(opID string, fallbackTimeout time.Duration, callFailureThresholdDefault int, client *client.Environments, ctx context.Context, pollingOptions *utils.PollingOptions) error {
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, pollingOptions, fallbackTimeout)
-	if err != nil {
-		return err
-	}
-	callFailureThreshold, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, pollingOptions, callFailureThresholdDefault)
-	if failureThresholdError != nil {
-		return failureThresholdError
-	}
+func waitForUserSync(opID string, timeout time.Duration, callFailureThreshold int, client *client.Environments, ctx context.Context) error {
 	callFailedCount := 0
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{"NEVER_RUN",
@@ -181,7 +184,7 @@ func waitForUserSync(opID string, fallbackTimeout time.Duration, callFailureThre
 			"TIMEDOUT"},
 		Target:       []string{"COMPLETED"},
 		Delay:        5 * time.Second,
-		Timeout:      *timeout,
+		Timeout:      timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (interface{}, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("About to get sync status for operationID %s", opID))
@@ -207,7 +210,7 @@ func waitForUserSync(opID string, fallbackTimeout time.Duration, callFailureThre
 			return checkUserSyncResponseStatusForError(resp)
 		},
 	}
-	_, err = stateConf.WaitForStateContext(ctx)
+	_, err := stateConf.WaitForStateContext(ctx)
 
 	return err
 }

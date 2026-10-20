@@ -72,7 +72,7 @@ func TestEnvironmentConfigSchemaContainsElements(t *testing.T) {
 }
 
 func TestEnvironmentConfigAwsSchemaAttributeNumber(t *testing.T) {
-	expected := 31
+	expected := 33
 	attrs := createEnvironmentConfigTestSchema()
 	awsAttr := attrs["aws"].(schema.SingleNestedAttribute)
 	if len(awsAttr.Attributes) != expected {
@@ -82,7 +82,7 @@ func TestEnvironmentConfigAwsSchemaAttributeNumber(t *testing.T) {
 }
 
 func TestEnvironmentConfigAzureSchemaAttributeNumber(t *testing.T) {
-	expected := 36
+	expected := 38
 	attrs := createEnvironmentConfigTestSchema()
 	azureAttr := attrs["azure"].(schema.SingleNestedAttribute)
 	if len(azureAttr.Attributes) != expected {
@@ -92,7 +92,7 @@ func TestEnvironmentConfigAzureSchemaAttributeNumber(t *testing.T) {
 }
 
 func TestEnvironmentConfigGcpSchemaAttributeNumber(t *testing.T) {
-	expected := 27
+	expected := 29
 	attrs := createEnvironmentConfigTestSchema()
 	gcpAttr := attrs["gcp"].(schema.SingleNestedAttribute)
 	if len(gcpAttr.Attributes) != expected {

@@ -16,6 +16,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-validators/resourcevalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -37,9 +38,10 @@ func (r *hiveResource) ImportState(ctx context.Context, req resource.ImportState
 }
 
 var (
-	_ resource.Resource                = (*hiveResource)(nil)
-	_ resource.ResourceWithConfigure   = (*hiveResource)(nil)
-	_ resource.ResourceWithImportState = (*hiveResource)(nil)
+	_ resource.Resource                     = (*hiveResource)(nil)
+	_ resource.ResourceWithConfigure        = (*hiveResource)(nil)
+	_ resource.ResourceWithImportState      = (*hiveResource)(nil)
+	_ resource.ResourceWithConfigValidators = (*hiveResource)(nil)
 )
 
 func NewHiveResource() resource.Resource {
@@ -54,17 +56,19 @@ func (r *hiveResource) Metadata(_ context.Context, req resource.MetadataRequest,
 	resp.TypeName = req.ProviderTypeName + "_dw_vw_hive"
 }
 
-func (r *hiveResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *hiveResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	hiveSchema.Attributes["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true})
 	resp.Schema = hiveSchema
 }
 
 func (r *hiveResource) ConfigValidators(context.Context) []resource.ConfigValidator {
-	return []resource.ConfigValidator{
+	validators := []resource.ConfigValidator{
 		resourcevalidator.Conflicting(
 			path.MatchRoot("scale_wait_time_seconds"),
 			path.MatchRoot("headroom"),
 		),
 	}
+	return append(validators, utils.PollingOptionsConflictValidators()...)
 }
 
 func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -96,15 +100,20 @@ func (r *hiveResource) Create(ctx context.Context, req resource.CreateRequest, r
 	clusterID := plan.ClusterID.ValueStringPointer()
 	vwID := &payload.VwID
 
-	if opts := plan.PollingOptions; opts == nil || !opts.Async.ValueBool() {
+	if !utils.ResolveAsync(plan.PollingOptions, plan.Async) {
+		createTimeout, diagsTimeout := utils.ResolveTimeout(ctx, plan.PollingOptions, plan.Timeouts.Create, 40*time.Minute)
+		resp.Diagnostics.Append(diagsTimeout...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Starting"},
 			Target:       []string{"Running"},
 			Delay:        30 * time.Second,
-			Timeout:      utils.GetPollingTimeout(&plan, 20*time.Minute),
+			Timeout:      createTimeout,
 			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(&plan, 3)),
+			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.ResolveCallFailureThreshold(plan.PollingOptions, plan.CallFailureThreshold, 3)),
 		}
 		if _, err = stateConf.WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(
@@ -166,15 +175,20 @@ func (r *hiveResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
-	if opts := state.PollingOptions; opts == nil || !opts.Async.ValueBool() {
+	if !utils.ResolveAsync(state.PollingOptions, state.Async) {
+		deleteTimeout, diagsTimeout := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, 40*time.Minute)
+		resp.Diagnostics.Append(diagsTimeout...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Deleting", "Running", "Stopping", "Stopped", "Creating", "Created", "Starting", "Updating"},
 			Target:       []string{"Deleted"}, // This is not an actual state, we added it to fake the state change
 			Delay:        30 * time.Second,
-			Timeout:      utils.GetPollingTimeout(&state, 20*time.Minute),
+			Timeout:      deleteTimeout,
 			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.GetCallFailureThreshold(&state, 3)),
+			Refresh:      r.stateRefresh(ctx, clusterID, vwID, &callFailedCount, utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, 3)),
 		}
 		if _, err := stateConf.WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(

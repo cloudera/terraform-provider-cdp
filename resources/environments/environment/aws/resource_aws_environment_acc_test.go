@@ -188,9 +188,7 @@ func testAccAwsEnvironmentConfig(credName string, envParams *awsEnvironmentTestP
 		tags = {
 		  "made-with": "CDP Terraform Provider"
 		}
-		polling_options = {
-		  async = false
-		}
+		async = false
 		freeipa = {
     		recipes = [cdp_recipe.test_recipe.name]
 			instance_count_by_group = 3
@@ -227,9 +225,7 @@ func testAccAwsEnvironmentUpdatedConfig(credName string, envParams *awsEnvironme
 		  "made-with": "CDP Terraform Provider"
 		  "updated-by": "acc-test"
 		}
-		polling_options = {
-		  async = false
-		}
+		async = false
 		freeipa = {
     		recipes = [cdp_recipe.test_recipe.name]
 			instance_count_by_group = 3

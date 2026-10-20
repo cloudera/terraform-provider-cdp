@@ -85,21 +85,21 @@ func fillDatahubPlatformValid(ctx context.Context, dh *models.Cluster, resp *dat
 		case "AWS":
 			{
 				mappedDh := &awsDatahubResourceModel{}
-				toAwsDatahubResource(ctx, dh, mappedDh, &utils.PollingOptions{})
+				toAwsDatahubResource(ctx, dh, mappedDh)
 				data.Aws = mappedDh
 				break
 			}
 		case "AZURE":
 			{
 				mappedDh := &azureDatahubResourceModel{}
-				toAzureDatahubResource(ctx, dh, mappedDh, &utils.PollingOptions{})
+				toAzureDatahubResource(ctx, dh, mappedDh)
 				data.Azure = mappedDh
 				break
 			}
 		case "GCP":
 			{
 				mappedDh := &gcpDatahubResourceModel{}
-				toGcpDatahubResource(ctx, dh, mappedDh, &utils.PollingOptions{})
+				toGcpDatahubResource(ctx, dh, mappedDh)
 				data.Gcp = mappedDh
 				break
 			}

@@ -12,10 +12,13 @@ package aws
 
 import (
 	"context"
+	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -28,8 +31,9 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure   = &awsEnvironmentResource{}
-	_ resource.ResourceWithImportState = &awsEnvironmentResource{}
+	_ resource.ResourceWithConfigure        = &awsEnvironmentResource{}
+	_ resource.ResourceWithImportState      = &awsEnvironmentResource{}
+	_ resource.ResourceWithConfigValidators = &awsEnvironmentResource{}
 )
 
 type awsEnvironmentResource struct {
@@ -48,12 +52,22 @@ func (r *awsEnvironmentResource) Metadata(_ context.Context, req resource.Metada
 	resp.TypeName = req.ProviderTypeName + "_environments_aws_environment"
 }
 
-func (r *awsEnvironmentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
-	resp.Schema = AwsEnvironmentSchema
+func (r *awsEnvironmentResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	s := AwsEnvironmentSchema
+	s.Attributes = make(map[string]schema.Attribute, len(AwsEnvironmentSchema.Attributes)+1)
+	for k, v := range AwsEnvironmentSchema.Attributes {
+		s.Attributes[k] = v
+	}
+	s.Attributes["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true, Update: true})
+	resp.Schema = s
 }
 
 func (r *awsEnvironmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *awsEnvironmentResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -77,7 +91,7 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 	}
 
 	envResp := responseOk.Payload.Environment
-	ToAwsEnvironmentResource(ctx, envResp, &data, data.PollingOptions, &resp.Diagnostics)
+	ToAwsEnvironmentResource(ctx, envResp, &data, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -89,19 +103,25 @@ func (r *awsEnvironmentResource) Create(ctx context.Context, req resource.Create
 	if err != nil {
 		return
 	}
-	if data.PollingOptions == nil || !data.PollingOptions.Async.ValueBool() {
+	if !utils.ResolveAsync(data.PollingOptions, data.Async) {
+		createTimeout, diagsT := utils.ResolveTimeout(ctx, data.PollingOptions, data.Timeouts.Create, 60*time.Minute)
+		resp.Diagnostics.Append(diagsT...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		callFailureThreshold := utils.ResolveCallFailureThreshold(data.PollingOptions, data.CallFailureThreshold, envcommon.CallFailureThreshold)
 		stateSaver := func(env *environmentsmodels.Environment) {
-			ToAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+			ToAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, env, envcommon.DescribeLogPrefix), &data, &resp.Diagnostics)
 			diags = resp.State.Set(ctx, data)
 			resp.Diagnostics.Append(diags...)
 		}
-		descEnvResp, err = envcommon.WaitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, data.PollingOptions, stateSaver)
+		descEnvResp, err = envcommon.WaitForCreateEnvironmentWithDiagnosticHandle(ctx, r.client, data.ID.ValueString(), data.EnvironmentName.ValueString(), resp, createTimeout, callFailureThreshold, stateSaver)
 		if err != nil {
 			return
 		}
 	}
 
-	ToAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp, envcommon.DescribeLogPrefix), &data, data.PollingOptions, &resp.Diagnostics)
+	ToAwsEnvironmentResource(ctx, utils.LogEnvironmentSilently(ctx, descEnvResp, envcommon.DescribeLogPrefix), &data, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, data)
 	resp.Diagnostics.Append(diags...)
@@ -126,7 +146,7 @@ func (r *awsEnvironmentResource) Read(ctx context.Context, req resource.ReadRequ
 	if err != nil {
 		return
 	}
-	ToAwsEnvironmentResource(ctx, env, &state, state.PollingOptions, &resp.Diagnostics)
+	ToAwsEnvironmentResource(ctx, env, &state, &resp.Diagnostics)
 
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
@@ -150,12 +170,18 @@ func (r *awsEnvironmentResource) Delete(ctx context.Context, req resource.Delete
 	cascading := state.cascadeDelete()
 	forced := state.forceDelete()
 
-	if err := envcommon.DeleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, forced, ctx, r.client, resp, state.PollingOptions); err != nil {
+	deleteTimeout, diags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, 60*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	callFailureThreshold := utils.ResolveCallFailureThreshold(state.PollingOptions, state.CallFailureThreshold, envcommon.CallFailureThreshold)
+	if err := envcommon.DeleteEnvironmentWithDiagnosticHandle(state.EnvironmentName.ValueString(), cascading, forced, ctx, r.client, resp, deleteTimeout, callFailureThreshold); err != nil {
 		return
 	}
 }
 
-func ToAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *ResourceModel, pollingOptions *utils.PollingOptions, diags *diag.Diagnostics) {
+func ToAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Environment, model *ResourceModel, diags *diag.Diagnostics) {
 	utils.LogEnvironmentSilently(ctx, env, "Converting environment: ")
 	model.ID = types.StringPointerValue(env.Crn)
 	if env.AwsDetails != nil {
@@ -165,7 +191,6 @@ func ToAwsEnvironmentResource(ctx context.Context, env *environmentsmodels.Envir
 	model.Crn = types.StringPointerValue(env.Crn)
 	model.Description = types.StringValue(env.Description)
 	model.EnvironmentName = types.StringPointerValue(env.EnvironmentName)
-	model.PollingOptions = pollingOptions
 	if env.LogStorage != nil {
 		if env.LogStorage.AwsDetails != nil {
 			model.LogStorage = &LogStorage{

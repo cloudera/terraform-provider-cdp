@@ -54,7 +54,7 @@ func TestGcpSpecificElements(t *testing.T) {
 }
 
 func TestGcpDatalakeSchemaAttributeNumber(t *testing.T) {
-	expected := 22
+	expected := 25
 	attrs := createFilledTestObject()
 	if len(attrs) != expected {
 		t.Errorf("The number of fields in the GcpDatalakeSchema schema should be: %d but it is: %d", expected, len(attrs))

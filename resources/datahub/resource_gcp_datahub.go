@@ -26,8 +26,9 @@ import (
 )
 
 var (
-	_ resource.ResourceWithConfigure   = &gcpDatahubResource{}
-	_ resource.ResourceWithImportState = &gcpDatahubResource{}
+	_ resource.ResourceWithConfigure        = &gcpDatahubResource{}
+	_ resource.ResourceWithImportState      = &gcpDatahubResource{}
+	_ resource.ResourceWithConfigValidators = &gcpDatahubResource{}
 )
 
 type gcpDatahubResource struct {
@@ -48,6 +49,10 @@ func (r *gcpDatahubResource) Metadata(_ context.Context, req resource.MetadataRe
 
 func (r *gcpDatahubResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	r.client = utils.GetCdpClientForResource(req, resp)
+}
+
+func (r *gcpDatahubResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *gcpDatahubResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -80,7 +85,12 @@ func (r *gcpDatahubResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx, data.PollingOptions)
+	createTimeout, diags := utils.ResolveTimeout(ctx, data.PollingOptions, data.Timeouts.Create, datahubDefaultTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	status, err := waitForToBeAvailable(data.ID.ValueString(), r.client.Datahub, ctx, createTimeout, utils.ResolveCallFailureThreshold(data.PollingOptions, data.CallFailureThreshold, callFailureThreshold))
 	tflog.Debug(ctx, fmt.Sprintf("Cluster polling finished, setting status from '%s' to '%s'", data.Status.ValueString(), status))
 	//TODO: Should save to state fields filled by the backend from the response to make the resource more versatile for TF developers
 	data.Status = types.StringValue(status)
@@ -167,7 +177,12 @@ func (r *gcpDatahubResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx, state.PollingOptions)
+	deleteTimeout, diags := utils.ResolveTimeout(ctx, state.PollingOptions, state.Timeouts.Delete, datahubDefaultTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	err = waitForToBeDeleted(state.Name.ValueString(), r.client.Datahub, ctx, deleteTimeout)
 	if err != nil {
 		utils.AddDatahubDiagnosticsError(err, &resp.Diagnostics, "delete GCP Datahub")
 		return

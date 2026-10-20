@@ -27,11 +27,18 @@ var azureSchemaElements = []test.ResourceSchemaTestCaseStructure{
 		AttributeType: schema.StringAttribute{},
 	},
 	{
-		Name:          "polling_options should exist and be valid",
-		Field:         "polling_options",
-		Computed:      false,
+		Name:          "async should exist and be valid",
+		Field:         "async",
+		Computed:      true,
 		Required:      false,
-		AttributeType: schema.SingleNestedAttribute{},
+		AttributeType: schema.BoolAttribute{},
+	},
+	{
+		Name:          "call_failure_threshold should exist and be valid",
+		Field:         "call_failure_threshold",
+		Computed:      true,
+		Required:      false,
+		AttributeType: schema.Int64Attribute{},
 	},
 	{
 		Name:          "crn should exist and be valid",
@@ -274,7 +281,7 @@ var azureSchemaElements = []test.ResourceSchemaTestCaseStructure{
 }
 
 func TestAzureEnvironmentSchemaSchemaAttributeNumber(t *testing.T) {
-	expected := 36
+	expected := 38
 	if len(AzureEnvironmentSchema.Attributes) != expected {
 		t.Errorf("The number of fields in the AzureEnvironment schema should be: %d but it is: %d", expected, len(AzureEnvironmentSchema.Attributes))
 		t.FailNow()

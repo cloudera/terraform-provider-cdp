@@ -13,6 +13,7 @@ package datahub
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -20,10 +21,14 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/utils"
 )
 
-func (r *awsDatahubResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *awsDatahubResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	attr := map[string]schema.Attribute{}
 	utils.AppendToResourceSchema(attr, generalAttributes)
 	utils.AppendToResourceSchema(attr, instanceGroupSchemaAttributes)
+	attr["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{
+		Create: true,
+		Delete: true,
+	})
 	utils.AppendToResourceSchema(attr, map[string]schema.Attribute{
 		"cluster_template": schema.StringAttribute{
 			MarkdownDescription: "The name or CRN of the cluster template.",

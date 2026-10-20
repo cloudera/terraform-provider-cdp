@@ -272,14 +272,13 @@ func createAttachedVolumeRequest(attachedVolumeConfig AttachedVolumeConfiguratio
 	}
 }
 
-func toAwsDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model *awsDatahubResourceModel, pollingOptions *utils.PollingOptions) {
+func toAwsDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model *awsDatahubResourceModel) {
 	utils.LogDatahubSilently(ctx, dh, "Converting datahub: ")
 
 	model.ID = types.StringPointerValue(dh.Crn)
 	model.Crn = types.StringPointerValue(dh.Crn)
 	model.Name = types.StringPointerValue(dh.ClusterName)
 	model.Status = types.StringValue(dh.Status)
-	model.PollingOptions = pollingOptions
 	model.ClusterTemplate = getStringValue(dh.ClusterTemplateCrn)
 	model.Environment = getStringValue(dh.EnvironmentName)
 
@@ -300,14 +299,13 @@ func toAwsDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model 
 	utils.LogDatahubSilently(ctx, dh, "Converting datahub finished: ")
 }
 
-func toAzureDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model *azureDatahubResourceModel, pollingOptions *utils.PollingOptions) {
+func toAzureDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model *azureDatahubResourceModel) {
 	utils.LogDatahubSilently(ctx, dh, "Converting datahub: ")
 
 	model.ID = types.StringPointerValue(dh.Crn)
 	model.Crn = types.StringPointerValue(dh.Crn)
 	model.Name = types.StringPointerValue(dh.ClusterName)
 	model.Status = types.StringValue(dh.Status)
-	model.PollingOptions = pollingOptions
 	model.ClusterTemplate = getStringValue(dh.ClusterTemplateCrn)
 	model.Environment = getStringValue(dh.EnvironmentName)
 
@@ -328,14 +326,13 @@ func toAzureDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, mode
 	utils.LogDatahubSilently(ctx, dh, "Converting datahub finished: ")
 }
 
-func toGcpDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model *gcpDatahubResourceModel, pollingOptions *utils.PollingOptions) {
+func toGcpDatahubResource(ctx context.Context, dh *datahubmodels.Cluster, model *gcpDatahubResourceModel) {
 	utils.LogDatahubSilently(ctx, dh, "Converting datahub: ")
 
 	model.ID = types.StringPointerValue(dh.Crn)
 	model.Crn = types.StringPointerValue(dh.Crn)
 	model.Name = types.StringPointerValue(dh.ClusterName)
 	model.Status = types.StringValue(dh.Status)
-	model.PollingOptions = pollingOptions
 	model.ClusterTemplate = getStringValue(dh.ClusterTemplateCrn)
 	model.Environment = getStringValue(dh.EnvironmentName)
 

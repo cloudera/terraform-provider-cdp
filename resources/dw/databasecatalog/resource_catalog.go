@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -36,9 +37,10 @@ func (r *dwDatabaseCatalogResource) ImportState(ctx context.Context, req resourc
 }
 
 var (
-	_ resource.Resource                = (*dwDatabaseCatalogResource)(nil)
-	_ resource.ResourceWithConfigure   = (*dwDatabaseCatalogResource)(nil)
-	_ resource.ResourceWithImportState = (*dwDatabaseCatalogResource)(nil)
+	_ resource.Resource                     = (*dwDatabaseCatalogResource)(nil)
+	_ resource.ResourceWithConfigure        = (*dwDatabaseCatalogResource)(nil)
+	_ resource.ResourceWithImportState      = (*dwDatabaseCatalogResource)(nil)
+	_ resource.ResourceWithConfigValidators = (*dwDatabaseCatalogResource)(nil)
 )
 
 func NewDwDatabaseCatalogResource() resource.Resource {
@@ -53,8 +55,13 @@ func (r *dwDatabaseCatalogResource) Metadata(_ context.Context, req resource.Met
 	resp.TypeName = req.ProviderTypeName + "_dw_database_catalog"
 }
 
-func (r *dwDatabaseCatalogResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *dwDatabaseCatalogResource) Schema(ctx context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	dwDefaultDatabaseCatalogSchema.Attributes["timeouts"] = timeouts.Attributes(ctx, timeouts.Opts{Create: true, Delete: true})
 	resp.Schema = dwDefaultDatabaseCatalogSchema
+}
+
+func (r *dwDatabaseCatalogResource) ConfigValidators(context.Context) []resource.ConfigValidator {
+	return utils.PollingOptionsConflictValidators()
 }
 
 func (r *dwDatabaseCatalogResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -68,15 +75,20 @@ func (r *dwDatabaseCatalogResource) Create(ctx context.Context, req resource.Cre
 
 	clusterID := plan.ClusterID.ValueStringPointer()
 
-	if opts := plan.PollingOptions; opts == nil || !opts.Async.ValueBool() {
+	if !utils.ResolveAsync(plan.PollingOptions, plan.Async) {
+		createTimeout, diagsTimeout := utils.ResolveTimeout(ctx, plan.PollingOptions, plan.Timeouts.Create, 40*time.Minute)
+		resp.Diagnostics.Append(diagsTimeout...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
 		callFailedCount := 0
 		stateConf := &retry.StateChangeConf{
 			Pending:      []string{"Accepted", "Creating", "Created", "Loading", "Starting"},
 			Target:       []string{"Running"},
 			Delay:        30 * time.Second,
-			Timeout:      plan.getPollingTimeout(),
+			Timeout:      createTimeout,
 			PollInterval: 30 * time.Second,
-			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, plan.getCallFailureThreshold()),
+			Refresh:      r.stateRefresh(ctx, clusterID, &callFailedCount, utils.ResolveCallFailureThreshold(plan.PollingOptions, plan.CallFailureThreshold, 3)),
 		}
 		if _, err := stateConf.WaitForStateContext(ctx); err != nil {
 			resp.Diagnostics.AddError(

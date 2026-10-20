@@ -46,7 +46,7 @@ func isDryRun(opts *UpgradeOptions) bool {
 
 func UpgradeDatalake(ctx context.Context, client *datalakeclient.Datalake,
 	datalakeName string, runtime string, imageID string,
-	upgradeOpts *UpgradeOptions, pollingOptions *utils.PollingOptions,
+	upgradeOpts *UpgradeOptions, timeout time.Duration, callFailureThresholdDefault int,
 	resp *resource.UpdateResponse) {
 
 	dryRun := isDryRun(upgradeOpts)
@@ -93,7 +93,7 @@ func UpgradeDatalake(ctx context.Context, client *datalakeclient.Datalake,
 	}
 
 	if err := waitForDatalakeOperationToComplete(ctx, datalakeName,
-		apiResp.Payload.OperationID, client, pollingOptions); err != nil {
+		apiResp.Payload.OperationID, client, timeout, callFailureThresholdDefault); err != nil {
 		utils.AddDatalakeDiagnosticsError(err, &resp.Diagnostics,
 			"wait for Datalake upgrade to complete")
 	}
@@ -173,22 +173,14 @@ func applyUpgradeOptions(req *datalakemodels.UpgradeDatalakeRequest, opts *Upgra
 
 func waitForDatalakeOperationToComplete(ctx context.Context, datalakeName string,
 	operationID string, client *datalakeclient.Datalake,
-	pollingOptions *utils.PollingOptions) error {
-	timeout, err := utils.CalculateTimeoutOrDefault(ctx, pollingOptions, time.Hour)
-	if err != nil {
-		return err
-	}
-	callFailureThresholdVal, failureThresholdError := utils.CalculateCallFailureThresholdOrDefault(ctx, pollingOptions, callFailureThreshold)
-	if failureThresholdError != nil {
-		return failureThresholdError
-	}
+	timeout time.Duration, callFailureThresholdVal int) error {
 	callFailedCount := 0
 
 	stateConf := &retry.StateChangeConf{
 		Pending:      []string{"RUNNING", "UNKNOWN"},
 		Target:       []string{"FINISHED"},
 		Delay:        0,
-		Timeout:      *timeout,
+		Timeout:      timeout,
 		PollInterval: 10 * time.Second,
 		Refresh: func() (any, string, error) {
 			tflog.Debug(ctx, fmt.Sprintf("Polling operation '%s' for datalake '%s'", operationID, datalakeName))
@@ -221,6 +213,6 @@ func waitForDatalakeOperationToComplete(ctx context.Context, datalakeName string
 			return resp, status, nil
 		},
 	}
-	_, err = stateConf.WaitForStateContext(ctx)
-	return err
+	_, waitErr := stateConf.WaitForStateContext(ctx)
+	return waitErr
 }
