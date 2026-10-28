@@ -249,6 +249,7 @@ func toAwsDatalakeResourceModel(resp *datalakemodels.CreateAWSDatalakeResponse, 
 	model.MultiAz = types.BoolValue(resp.Datalake.MultiAz)
 	model.Status = types.StringValue(resp.Datalake.Status)
 	model.StatusReason = types.StringValue(resp.Datalake.StatusReason)
+	resolveUnknownToNull(&model.Runtime)
 }
 
 func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -343,12 +344,6 @@ func datalakeDetailsToAwsDatalakeResourceModel(ctx context.Context, resp *datala
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
 	model.StatusReason = types.StringValue(resp.StatusReason)
-	if model.CertificateExpirationState.IsUnknown() {
-		model.CertificateExpirationState = types.StringNull()
-	}
-	if model.Runtime.IsUnknown() {
-		model.Runtime = types.StringNull()
-	}
 }
 
 func (r *awsDatalakeResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
