@@ -12,6 +12,7 @@ package iam_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"testing"
 
@@ -82,7 +83,7 @@ func testAccCheckIamMachineUserRoleAssignmentExists(muName, roleName string) res
 
 		responseOk, err := cdpClient.Iam.Operations.ListMachineUserAssignedRolesContext(context.TODO(), params)
 		if err != nil {
-			if d, ok := err.(*operations.ListMachineUserAssignedRolesDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
+			if d, ok := errors.AsType[*operations.ListMachineUserAssignedRolesDefault](err); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
 				return fmt.Errorf("machine user %s not found", muName)
 			}
 			return nil
