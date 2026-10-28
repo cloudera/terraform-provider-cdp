@@ -12,6 +12,7 @@ package iam
 
 import (
 	"context"
+	"errors"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -125,7 +126,7 @@ func (r *machineUserResource) Read(ctx context.Context, req resource.ReadRequest
 	responseOk, err := iamClient.Operations.ListMachineUsersContext(ctx, params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "read Machine User")
-		if d, ok := err.(*operations.ListMachineUsersDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
+		if d, ok := errors.AsType[*operations.ListMachineUsersDefault](err); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
 			resp.Diagnostics.AddWarning("Resource not found on provider", "Machine User not found, removing from state.")
 			tflog.Warn(ctx, "Machine User not found, removing from state", map[string]interface{}{
 				"id": data.Id,

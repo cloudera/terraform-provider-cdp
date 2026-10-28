@@ -11,6 +11,7 @@
 package opdb
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -27,14 +28,14 @@ func checkIfDatabaseCreationFailed(resp *operations.DescribeDatabaseOK) (interfa
 }
 
 func isNotFoundError(err error) bool {
-	if d, ok := err.(*operations.DescribeDatabaseDefault); ok && d.GetPayload() != nil {
+	if d, ok := errors.AsType[*operations.DescribeDatabaseDefault](err); ok && d.GetPayload() != nil {
 		return d.GetPayload().Code == "NOT_FOUND"
 	}
 	return false
 }
 
 func isInternalServerError(err error) bool {
-	if d, ok := err.(*operations.DescribeDatabaseDefault); ok && d.GetPayload() != nil {
+	if d, ok := errors.AsType[*operations.DescribeDatabaseDefault](err); ok && d.GetPayload() != nil {
 		return d.GetPayload().Code == "UNKNOWN"
 	}
 	return false
