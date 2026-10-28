@@ -12,6 +12,7 @@ package datalake
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -266,7 +267,7 @@ func (r *awsDatalakeResource) Read(ctx context.Context, req resource.ReadRequest
 	params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: state.DatalakeName.ValueStringPointer()})
 	responseOk, err := client.Operations.DescribeDatalakeContext(ctx, params)
 	if err != nil {
-		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
+		if dlErr, ok := errors.AsType[*operations.DescribeDatalakeDefault](err); ok {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 				resp.Diagnostics.AddWarning("Resource not found on provider", "Data lake not found, removing from state.")
 				tflog.Warn(ctx, "Data lake not found, removing from state", map[string]interface{}{
@@ -405,7 +406,7 @@ func (r *awsDatalakeResource) Delete(ctx context.Context, req resource.DeleteReq
 	})
 	_, err := client.Operations.DeleteDatalakeContext(ctx, params)
 	if err != nil {
-		if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
+		if dlErr, ok := errors.AsType[*operations.DescribeDatalakeDefault](err); ok {
 			if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 				tflog.Info(ctx, "Data lake already deleted", map[string]interface{}{
 					"id": state.ID.ValueString(),
@@ -442,7 +443,7 @@ func waitForDatalakeToBeDeleted(ctx context.Context, datalakeName string, timeou
 			params.WithInput(&datalakemodels.DescribeDatalakeRequest{DatalakeName: &datalakeName})
 			resp, err := datalake.Operations.DescribeDatalakeContext(ctx, params)
 			if err != nil {
-				if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
+				if dlErr, ok := errors.AsType[*operations.DescribeDatalakeDefault](err); ok {
 					if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 						return nil, "", nil
 					}

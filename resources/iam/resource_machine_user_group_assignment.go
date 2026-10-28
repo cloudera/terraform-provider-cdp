@@ -12,6 +12,7 @@ package iam
 
 import (
 	"context"
+	"errors"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -106,7 +107,7 @@ func (r *machineUserGroupAssignmentResource) Read(ctx context.Context, req resou
 	responseOk, err := client.Operations.ListGroupsForMachineUserContext(ctx, params)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "read machine user group assignment")
-		if d, ok := err.(*operations.ListGroupsForMachineUserDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
+		if d, ok := errors.AsType[*operations.ListGroupsForMachineUserDefault](err); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
 			logAndRemoveNotFoundAssignment(ctx, resp, &data)
 		}
 		return
@@ -120,7 +121,7 @@ func (r *machineUserGroupAssignmentResource) Read(ctx context.Context, req resou
 	grRespOk, err := client.Operations.ListGroupsContext(ctx, grParams)
 	if err != nil {
 		utils.AddIamDiagnosticsError(err, &resp.Diagnostics, "read machine user group assignment")
-		if d, ok := err.(*operations.ListGroupsDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
+		if d, ok := errors.AsType[*operations.ListGroupsDefault](err); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
 			logAndRemoveNotFoundAssignment(ctx, resp, &data)
 		}
 		return
