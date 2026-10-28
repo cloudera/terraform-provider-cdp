@@ -33,11 +33,15 @@ func datalakeDetailsToGcpDatalakeResourceModelFromCreation(resp *datalakemodels.
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
 	model.StatusReason = types.StringValue(resp.StatusReason)
+	resolveUnknownToNull(&model.Runtime)
 }
 
 func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *gcpDatalakeResourceModel, diags *diag.Diagnostics) {
 	model.ID = types.StringPointerValue(resp.Crn)
 	if resp.GcpConfiguration != nil {
+		if model.CloudProviderConfiguration == nil {
+			model.CloudProviderConfiguration = &gcpConfiguration{}
+		}
 		model.CloudProviderConfiguration.ServiceAccountEmail = types.StringValue(resp.GcpConfiguration.ServiceAccountEmail)
 	}
 	model.CreationDate = types.StringValue(resp.CreationDate.String())
@@ -89,6 +93,9 @@ func datalakeDetailsToGcpDatalakeResourceModel(ctx context.Context, resp *datala
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
 	model.StatusReason = types.StringValue(resp.StatusReason)
+	if model.CloudProviderConfiguration == nil {
+		model.CloudProviderConfiguration = &gcpConfiguration{}
+	}
 	model.CloudProviderConfiguration.StorageLocation = types.StringValue(resp.CloudStorageBaseLocation)
 }
 
@@ -169,4 +176,5 @@ func toGcpDatalakeResourceModel(resp *datalakemodels.CreateGCPDatalakeResponse, 
 	model.MultiAz = types.BoolValue(resp.Datalake.MultiAz)
 	model.Status = types.StringValue(resp.Datalake.Status)
 	model.StatusReason = types.StringValue(resp.Datalake.StatusReason)
+	resolveUnknownToNull(&model.Runtime)
 }

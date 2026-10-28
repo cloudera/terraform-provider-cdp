@@ -293,6 +293,7 @@ func toAzureDatalakeResourceModel(resp *datalakemodels.CreateAzureDatalakeRespon
 	model.EnvironmentCrn = types.StringValue(resp.Datalake.EnvironmentCrn)
 	model.Status = types.StringValue(resp.Datalake.Status)
 	model.StatusReason = types.StringValue(resp.Datalake.StatusReason)
+	resolveUnknownToNull(&model.Runtime)
 }
 
 func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *datalakemodels.DatalakeDetails, model *azureDatalakeResourceModel, diags *diag.Diagnostics) {
@@ -349,10 +350,4 @@ func datalakeDetailsToAzureDatalakeResourceModel(ctx context.Context, resp *data
 	model.Scale = types.StringValue(string(resp.Shape))
 	model.Status = types.StringValue(resp.Status)
 	model.StatusReason = types.StringValue(resp.StatusReason)
-	if model.CertificateExpirationState.IsUnknown() {
-		model.CertificateExpirationState = types.StringNull()
-	}
-	if model.Runtime.IsUnknown() {
-		model.Runtime = types.StringNull()
-	}
 }
