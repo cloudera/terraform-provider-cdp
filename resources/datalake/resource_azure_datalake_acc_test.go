@@ -11,6 +11,7 @@ package datalake_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"testing"
@@ -234,7 +235,7 @@ func testAccCheckAzureDataLakeDestroy(s *terraform.State) error {
 		})
 		_, err := cdpClient.Datalake.Operations.DescribeDatalakeContext(context.Background(), params)
 		if err != nil {
-			if dlErr, ok := err.(*operations.DescribeDatalakeDefault); ok {
+			if dlErr, ok := errors.AsType[*operations.DescribeDatalakeDefault](err); ok {
 				fmt.Println(dlErr.GetPayload().Code)
 				if cdp.IsDatalakeError(dlErr.GetPayload(), "NOT_FOUND", "") {
 					return nil

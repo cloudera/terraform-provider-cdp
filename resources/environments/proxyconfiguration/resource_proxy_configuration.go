@@ -133,7 +133,7 @@ func (p *proxyConfigurationResource) Delete(ctx context.Context, req resource.De
 
 	_, err := environmentClient.Operations.DeleteProxyConfigContext(ctx, params)
 	if err != nil {
-		if envErr, ok := err.(*operations.DeleteProxyConfigDefault); ok {
+		if envErr, ok := errors.AsType[*operations.DeleteProxyConfigDefault](err); ok {
 			if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
 				return
 			} else {
@@ -170,7 +170,7 @@ func FindProxyConfigurationByName(name string, ctx context.Context, client *clie
 
 	responseOk, err := client.Operations.ListProxyConfigsContext(ctx, params)
 	if err != nil {
-		if envErr, ok := err.(*operations.DeleteProxyConfigDefault); ok {
+		if envErr, ok := errors.AsType[*operations.DeleteProxyConfigDefault](err); ok {
 			if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
 				return nil, errors.New("not found")
 			} else {

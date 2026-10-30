@@ -12,6 +12,7 @@ package iam_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"testing"
 
@@ -82,7 +83,7 @@ func testAccCheckIamMachineUserGroupAssignmentExists(rName string, grName string
 
 		responseOk, err := cdpClient.Iam.Operations.ListGroupsForMachineUserContext(context.TODO(), params)
 		if err != nil {
-			if d, ok := err.(*operations.ListGroupsForMachineUserDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
+			if d, ok := errors.AsType[*operations.ListGroupsForMachineUserDefault](err); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
 				return fmt.Errorf("machine user %s not found", rName)
 			}
 			return nil
@@ -95,7 +96,7 @@ func testAccCheckIamMachineUserGroupAssignmentExists(rName string, grName string
 
 		grRespOk, err := cdpClient.Iam.Operations.ListGroupsContext(context.TODO(), grParams)
 		if err != nil {
-			if d, ok := err.(*operations.ListGroupsDefault); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
+			if d, ok := errors.AsType[*operations.ListGroupsDefault](err); ok && d.GetPayload() != nil && d.GetPayload().Code == "NOT_FOUND" {
 				return fmt.Errorf("group %s not found", grName)
 			}
 			return nil
