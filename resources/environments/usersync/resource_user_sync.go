@@ -12,6 +12,7 @@ package usersync
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -223,7 +224,7 @@ func checkUserSyncResponseStatusForError(resp *operations.SyncStatusOK) (interfa
 }
 
 func isSyncAllUsersNotFoundError(err error) bool {
-	if envErr, ok := err.(*operations.SyncAllUsersDefault); ok {
+	if envErr, ok := errors.AsType[*operations.SyncAllUsersDefault](err); ok {
 		if cdp.IsEnvironmentsError(envErr.GetPayload(), "NOT_FOUND", "") {
 			return true
 		}
