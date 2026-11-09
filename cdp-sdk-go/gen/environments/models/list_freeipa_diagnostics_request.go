@@ -45,7 +45,7 @@ func (m *ListFreeipaDiagnosticsRequest) validateEnvironmentName(formats strfmt.R
 }
 
 // ContextValidate validates this list freeipa diagnostics request based on context it is used
-func (m *ListFreeipaDiagnosticsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListFreeipaDiagnosticsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

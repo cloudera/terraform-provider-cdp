@@ -62,7 +62,7 @@ func (m *ListDiagnosticsRequest) validateEnvironmentName(formats strfmt.Registry
 }
 
 // ContextValidate validates this list diagnostics request based on context it is used
-func (m *ListDiagnosticsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListDiagnosticsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

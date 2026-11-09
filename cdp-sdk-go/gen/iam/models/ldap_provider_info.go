@@ -143,7 +143,7 @@ func (m *LdapProviderInfo) validateUserSearchFilter(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this ldap provider info based on context it is used
-func (m *LdapProviderInfo) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *LdapProviderInfo) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

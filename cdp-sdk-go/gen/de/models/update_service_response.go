@@ -22,12 +22,12 @@ type UpdateServiceResponse struct {
 }
 
 // Validate validates this update service response
-func (m *UpdateServiceResponse) Validate(formats strfmt.Registry) error {
+func (m *UpdateServiceResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update service response based on context it is used
-func (m *UpdateServiceResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateServiceResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

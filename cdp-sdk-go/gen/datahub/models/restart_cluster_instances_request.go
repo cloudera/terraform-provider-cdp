@@ -62,7 +62,7 @@ func (m *RestartClusterInstancesRequest) validateInstances(formats strfmt.Regist
 }
 
 // ContextValidate validates this restart cluster instances request based on context it is used
-func (m *RestartClusterInstancesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RestartClusterInstancesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

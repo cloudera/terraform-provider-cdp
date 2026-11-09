@@ -45,7 +45,7 @@ func (m *SetAWSGovCloudAuditCredentialRequest) validateRoleArn(formats strfmt.Re
 }
 
 // ContextValidate validates this set a w s gov cloud audit credential request based on context it is used
-func (m *SetAWSGovCloudAuditCredentialRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetAWSGovCloudAuditCredentialRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

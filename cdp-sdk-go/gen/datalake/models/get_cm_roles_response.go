@@ -19,12 +19,12 @@ type GetCmRolesResponse struct {
 }
 
 // Validate validates this get cm roles response
-func (m *GetCmRolesResponse) Validate(formats strfmt.Registry) error {
+func (m *GetCmRolesResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this get cm roles response based on context it is used
-func (m *GetCmRolesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetCmRolesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

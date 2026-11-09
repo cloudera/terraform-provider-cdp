@@ -22,12 +22,12 @@ type ConnectorData struct {
 }
 
 // Validate validates this connector data
-func (m *ConnectorData) Validate(formats strfmt.Registry) error {
+func (m *ConnectorData) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this connector data based on context it is used
-func (m *ConnectorData) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ConnectorData) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

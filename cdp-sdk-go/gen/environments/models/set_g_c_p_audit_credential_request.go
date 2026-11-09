@@ -45,7 +45,7 @@ func (m *SetGCPAuditCredentialRequest) validateCredentialKey(formats strfmt.Regi
 }
 
 // ContextValidate validates this set g c p audit credential request based on context it is used
-func (m *SetGCPAuditCredentialRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetGCPAuditCredentialRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

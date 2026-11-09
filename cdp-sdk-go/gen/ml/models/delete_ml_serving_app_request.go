@@ -48,7 +48,7 @@ func (m *DeleteMlServingAppRequest) validateAppCrn(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this delete ml serving app request based on context it is used
-func (m *DeleteMlServingAppRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteMlServingAppRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

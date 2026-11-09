@@ -107,7 +107,7 @@ func (m *ReplaceRecipesRequest) contextValidateInstanceGroupRecipes(ctx context.
 		if m.InstanceGroupRecipes[i] != nil {
 
 			if typeutils.IsZero(m.InstanceGroupRecipes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.InstanceGroupRecipes[i].ContextValidate(ctx, formats); err != nil {

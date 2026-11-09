@@ -79,7 +79,7 @@ func (m *UnassignGroupResourceRoleRequest) validateResourceRoleCrn(formats strfm
 }
 
 // ContextValidate validates this unassign group resource role request based on context it is used
-func (m *UnassignGroupResourceRoleRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UnassignGroupResourceRoleRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

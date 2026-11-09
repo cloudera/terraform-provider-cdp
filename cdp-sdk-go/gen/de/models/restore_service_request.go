@@ -24,6 +24,9 @@ type RestoreServiceRequest struct {
 	// Required: true
 	EnvironmentCrn *string `json:"environmentCrn"`
 
+	// Optional final service config override as a JSON string, passed through to the restore backend as-is. At most one of serviceConfigReplacement or servicePropertyOverride may be specified.
+	ServiceConfigReplacement string `json:"serviceConfigReplacement,omitempty"`
+
 	// Specify the restored service ID. If not specified, a new service ID will be generated.
 	ServiceID string `json:"serviceId,omitempty"`
 
@@ -71,7 +74,7 @@ func (m *RestoreServiceRequest) validateEnvironmentCrn(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this restore service request based on context it is used
-func (m *RestoreServiceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RestoreServiceRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

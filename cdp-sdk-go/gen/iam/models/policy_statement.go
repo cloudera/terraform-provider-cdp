@@ -62,7 +62,7 @@ func (m *PolicyStatement) validateRights(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this policy statement based on context it is used
-func (m *PolicyStatement) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *PolicyStatement) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -60,7 +60,7 @@ func (m *ListSamlProvidersRequest) validatePageSize(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this list saml providers request based on context it is used
-func (m *ListSamlProvidersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListSamlProvidersRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

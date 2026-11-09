@@ -25,12 +25,12 @@ type AWSComputeClusterConfigurationRequest struct {
 }
 
 // Validate validates this a w s compute cluster configuration request
-func (m *AWSComputeClusterConfigurationRequest) Validate(formats strfmt.Registry) error {
+func (m *AWSComputeClusterConfigurationRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this a w s compute cluster configuration request based on context it is used
-func (m *AWSComputeClusterConfigurationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AWSComputeClusterConfigurationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

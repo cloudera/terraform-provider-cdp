@@ -87,7 +87,7 @@ func (m *ListResourceTemplatesResponse) contextValidateTemplates(ctx context.Con
 		if m.Templates[i] != nil {
 
 			if typeutils.IsZero(m.Templates[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Templates[i].ContextValidate(ctx, formats); err != nil {

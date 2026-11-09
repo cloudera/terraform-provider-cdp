@@ -19,12 +19,12 @@ type HealthCheckResponse struct {
 }
 
 // Validate validates this health check response
-func (m *HealthCheckResponse) Validate(formats strfmt.Registry) error {
+func (m *HealthCheckResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this health check response based on context it is used
-func (m *HealthCheckResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *HealthCheckResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

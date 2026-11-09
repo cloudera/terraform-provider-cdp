@@ -72,6 +72,6 @@ func (m EdgeUpgradeStrategy) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this edge upgrade strategy based on context it is used
-func (m EdgeUpgradeStrategy) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m EdgeUpgradeStrategy) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

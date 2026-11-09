@@ -45,7 +45,7 @@ func (m *BackupClusterRequest) validateClusterID(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this backup cluster request based on context it is used
-func (m *BackupClusterRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BackupClusterRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

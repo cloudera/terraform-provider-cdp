@@ -106,9 +106,6 @@ type CreateAzureEnvironmentRequest struct {
 	// Required: true
 	Region *string `json:"region"`
 
-	// [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
-	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
-
 	// Name of an existing Azure resource group to be used for the environment. If it is not specified then new resource groups will be generated.
 	ResourceGroupName string `json:"resourceGroupName,omitempty"`
 
@@ -847,7 +844,7 @@ func (m *CreateAzureEnvironmentRequest) contextValidateTags(ctx context.Context,
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

@@ -48,7 +48,7 @@ func (m *StartEnvironmentRequest) validateEnvironmentName(formats strfmt.Registr
 }
 
 // ContextValidate validates this start environment request based on context it is used
-func (m *StartEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartEnvironmentRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

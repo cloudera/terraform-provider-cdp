@@ -851,7 +851,7 @@ func (m *VwSummary) contextValidateImpalaRestCatalogConnectors(ctx context.Conte
 		if m.ImpalaRestCatalogConnectors[i] != nil {
 
 			if typeutils.IsZero(m.ImpalaRestCatalogConnectors[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ImpalaRestCatalogConnectors[i].ContextValidate(ctx, formats); err != nil {
@@ -995,7 +995,7 @@ func (m *VwSummary) contextValidateTags(ctx context.Context, formats strfmt.Regi
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
@@ -1103,12 +1103,12 @@ type VwSummaryEndpoints struct {
 }
 
 // Validate validates this vw summary endpoints
-func (m *VwSummaryEndpoints) Validate(formats strfmt.Registry) error {
+func (m *VwSummaryEndpoints) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this vw summary endpoints based on context it is used
-func (m *VwSummaryEndpoints) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *VwSummaryEndpoints) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 
@@ -1140,12 +1140,12 @@ type VwSummaryJwtAuth struct {
 }
 
 // Validate validates this vw summary jwt auth
-func (m *VwSummaryJwtAuth) Validate(formats strfmt.Registry) error {
+func (m *VwSummaryJwtAuth) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this vw summary jwt auth based on context it is used
-func (m *VwSummaryJwtAuth) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *VwSummaryJwtAuth) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 
@@ -1235,7 +1235,7 @@ func (m *VwSummarySupportedAuthMethods) validateSso(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this vw summary supported auth methods based on context it is used
-func (m *VwSummarySupportedAuthMethods) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *VwSummarySupportedAuthMethods) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

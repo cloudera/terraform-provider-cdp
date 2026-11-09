@@ -79,7 +79,7 @@ func (m *AssignServicePrincipalAzureCloudIdentityRequest) validateServicePrincip
 }
 
 // ContextValidate validates this assign service principal azure cloud identity request based on context it is used
-func (m *AssignServicePrincipalAzureCloudIdentityRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AssignServicePrincipalAzureCloudIdentityRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -103,7 +103,7 @@ func (m *ListScalingEventsRequest) validateToTimestamp(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this list scaling events request based on context it is used
-func (m *ListScalingEventsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListScalingEventsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

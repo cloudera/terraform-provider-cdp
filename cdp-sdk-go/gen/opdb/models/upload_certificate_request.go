@@ -79,7 +79,7 @@ func (m *UploadCertificateRequest) validateEnvironment(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this upload certificate request based on context it is used
-func (m *UploadCertificateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UploadCertificateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

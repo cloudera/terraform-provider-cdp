@@ -19,12 +19,12 @@ type Topology struct {
 }
 
 // Validate validates this topology
-func (m *Topology) Validate(formats strfmt.Registry) error {
+func (m *Topology) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this topology based on context it is used
-func (m *Topology) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Topology) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

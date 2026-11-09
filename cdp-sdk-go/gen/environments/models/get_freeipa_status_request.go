@@ -45,7 +45,7 @@ func (m *GetFreeipaStatusRequest) validateEnvironmentName(formats strfmt.Registr
 }
 
 // ContextValidate validates this get freeipa status request based on context it is used
-func (m *GetFreeipaStatusRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetFreeipaStatusRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

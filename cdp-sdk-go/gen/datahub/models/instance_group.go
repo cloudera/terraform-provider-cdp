@@ -116,7 +116,7 @@ func (m *InstanceGroup) contextValidateInstances(ctx context.Context, formats st
 		if m.Instances[i] != nil {
 
 			if typeutils.IsZero(m.Instances[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Instances[i].ContextValidate(ctx, formats); err != nil {

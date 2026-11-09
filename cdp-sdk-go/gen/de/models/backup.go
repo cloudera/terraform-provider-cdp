@@ -56,6 +56,9 @@ type Backup struct {
 	// Required: true
 	ID *int64 `json:"id"`
 
+	// The backup restore request. Only populated when describe-backup is called with includeRestoreRequest set to true.
+	RestoreRequest string `json:"restoreRequest,omitempty"`
+
 	// Service ID of a backed-up CDE service.
 	// Required: true
 	ServiceID *string `json:"serviceID"`
@@ -227,7 +230,7 @@ func (m *Backup) validateStatus(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this backup based on context it is used
-func (m *Backup) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Backup) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

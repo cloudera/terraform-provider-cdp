@@ -153,7 +153,7 @@ func (m *DatabaseServerSslConfig) validateSslMode(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this database server ssl config based on context it is used
-func (m *DatabaseServerSslConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DatabaseServerSslConfig) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

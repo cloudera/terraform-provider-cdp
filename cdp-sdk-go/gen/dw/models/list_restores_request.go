@@ -22,12 +22,12 @@ type ListRestoresRequest struct {
 }
 
 // Validate validates this list restores request
-func (m *ListRestoresRequest) Validate(formats strfmt.Registry) error {
+func (m *ListRestoresRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list restores request based on context it is used
-func (m *ListRestoresRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListRestoresRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

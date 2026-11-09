@@ -19,12 +19,12 @@ type UpdateServerSettingResponse struct {
 }
 
 // Validate validates this update server setting response
-func (m *UpdateServerSettingResponse) Validate(formats strfmt.Registry) error {
+func (m *UpdateServerSettingResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update server setting response based on context it is used
-func (m *UpdateServerSettingResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateServerSettingResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

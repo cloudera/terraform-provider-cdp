@@ -102,7 +102,7 @@ func (m *ListInstanceTypeConfigurationRequest) validateProductType(formats strfm
 }
 
 // ContextValidate validates this list instance type configuration request based on context it is used
-func (m *ListInstanceTypeConfigurationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListInstanceTypeConfigurationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

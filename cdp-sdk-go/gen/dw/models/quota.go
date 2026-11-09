@@ -22,12 +22,12 @@ type Quota struct {
 }
 
 // Validate validates this quota
-func (m *Quota) Validate(formats strfmt.Registry) error {
+func (m *Quota) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this quota based on context it is used
-func (m *Quota) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Quota) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

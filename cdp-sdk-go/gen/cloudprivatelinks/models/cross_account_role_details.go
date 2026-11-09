@@ -22,12 +22,12 @@ type CrossAccountRoleDetails struct {
 }
 
 // Validate validates this cross account role details
-func (m *CrossAccountRoleDetails) Validate(formats strfmt.Registry) error {
+func (m *CrossAccountRoleDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this cross account role details based on context it is used
-func (m *CrossAccountRoleDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CrossAccountRoleDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -93,7 +93,7 @@ func (m *ListScalingActivitiesResponse) contextValidateScalingActivity(ctx conte
 		if m.ScalingActivity[i] != nil {
 
 			if typeutils.IsZero(m.ScalingActivity[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ScalingActivity[i].ContextValidate(ctx, formats); err != nil {

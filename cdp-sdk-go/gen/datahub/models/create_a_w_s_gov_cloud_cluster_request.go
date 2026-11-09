@@ -387,7 +387,7 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateInstanceGroups(ctx cont
 		if m.InstanceGroups[i] != nil {
 
 			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
@@ -441,7 +441,7 @@ func (m *CreateAWSGovCloudClusterRequest) contextValidateTags(ctx context.Contex
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

@@ -31,12 +31,12 @@ type ExistingDatabaseConfig struct {
 }
 
 // Validate validates this existing database config
-func (m *ExistingDatabaseConfig) Validate(formats strfmt.Registry) error {
+func (m *ExistingDatabaseConfig) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this existing database config based on context it is used
-func (m *ExistingDatabaseConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ExistingDatabaseConfig) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

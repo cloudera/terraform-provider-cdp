@@ -87,7 +87,7 @@ func (m *ListConnectorsResponse) contextValidateConnectors(ctx context.Context, 
 		if m.Connectors[i] != nil {
 
 			if typeutils.IsZero(m.Connectors[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Connectors[i].ContextValidate(ctx, formats); err != nil {

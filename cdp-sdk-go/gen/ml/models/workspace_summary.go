@@ -443,7 +443,7 @@ func (m *WorkspaceSummary) contextValidateHealthInfoLists(ctx context.Context, f
 		if m.HealthInfoLists[i] != nil {
 
 			if typeutils.IsZero(m.HealthInfoLists[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.HealthInfoLists[i].ContextValidate(ctx, formats); err != nil {

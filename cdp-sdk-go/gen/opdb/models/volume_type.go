@@ -75,6 +75,6 @@ func (m VolumeType) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this volume type based on context it is used
-func (m VolumeType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m VolumeType) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

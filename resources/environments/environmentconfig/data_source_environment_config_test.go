@@ -117,7 +117,6 @@ func createEnvironmentTestModel(cloudPlatform *string) *models.Environment {
 		Network:                          nil,
 		ProxyConfig:                      nil,
 		Region:                           nil,
-		ReportDeploymentLogs:             new(false),
 		SecurityAccess:                   nil,
 		Status:                           new("ACTIVE"),
 		StatusReason:                     "",

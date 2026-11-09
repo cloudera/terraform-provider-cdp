@@ -77,9 +77,6 @@ type CreateAWSGovCloudEnvironmentRequest struct {
 	// Required: true
 	Region *string `json:"region"`
 
-	// [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
-	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
-
 	// Deprecated. S3Guard was used to ensure consistent S3 updates when S3 was still eventually consistent. With the introduction of Consistent S3, the goal and usage of S3 Guard have become superfluous and defunct.
 	S3GuardTableName string `json:"s3GuardTableName,omitempty"`
 
@@ -653,7 +650,7 @@ func (m *CreateAWSGovCloudEnvironmentRequest) contextValidateTags(ctx context.Co
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

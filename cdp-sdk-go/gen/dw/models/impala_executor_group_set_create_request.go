@@ -37,12 +37,12 @@ type ImpalaExecutorGroupSetCreateRequest struct {
 }
 
 // Validate validates this impala executor group set create request
-func (m *ImpalaExecutorGroupSetCreateRequest) Validate(formats strfmt.Registry) error {
+func (m *ImpalaExecutorGroupSetCreateRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this impala executor group set create request based on context it is used
-func (m *ImpalaExecutorGroupSetCreateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ImpalaExecutorGroupSetCreateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

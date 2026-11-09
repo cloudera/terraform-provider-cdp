@@ -19,7 +19,7 @@ import (
 // swagger:model DescribeWorkspaceBackupResponse
 type DescribeWorkspaceBackupResponse struct {
 
-	// The CRN of the backup snaphot.
+	// The CRN of the backup snapshot.
 	BackupCrn string `json:"backupCrn,omitempty"`
 
 	// The name of the backup snapshot.
@@ -126,7 +126,7 @@ func (m *DescribeWorkspaceBackupResponse) contextValidateInstanceGroups(ctx cont
 		if m.InstanceGroups[i] != nil {
 
 			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {

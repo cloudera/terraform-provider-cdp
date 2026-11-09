@@ -74,7 +74,7 @@ func (m *UpdateAwsCredentialRequest) validateRoleArn(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this update aws credential request based on context it is used
-func (m *UpdateAwsCredentialRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateAwsCredentialRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

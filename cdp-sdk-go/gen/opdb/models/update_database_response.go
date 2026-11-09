@@ -19,12 +19,12 @@ type UpdateDatabaseResponse struct {
 }
 
 // Validate validates this update database response
-func (m *UpdateDatabaseResponse) Validate(formats strfmt.Registry) error {
+func (m *UpdateDatabaseResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update database response based on context it is used
-func (m *UpdateDatabaseResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateDatabaseResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

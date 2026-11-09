@@ -101,7 +101,7 @@ func (m *SetSamlResponseDecryptionKeyResponse) validateSamlResponseEncryptionDec
 }
 
 // ContextValidate validates this set saml response decryption key response based on context it is used
-func (m *SetSamlResponseDecryptionKeyResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetSamlResponseDecryptionKeyResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

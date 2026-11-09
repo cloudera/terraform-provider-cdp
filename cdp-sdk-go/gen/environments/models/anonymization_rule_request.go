@@ -48,7 +48,7 @@ func (m *AnonymizationRuleRequest) validateValue(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this anonymization rule request based on context it is used
-func (m *AnonymizationRuleRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AnonymizationRuleRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

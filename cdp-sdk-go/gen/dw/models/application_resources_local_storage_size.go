@@ -25,12 +25,12 @@ type ApplicationResourcesLocalStorageSize struct {
 }
 
 // Validate validates this application resources local storage size
-func (m *ApplicationResourcesLocalStorageSize) Validate(formats strfmt.Registry) error {
+func (m *ApplicationResourcesLocalStorageSize) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this application resources local storage size based on context it is used
-func (m *ApplicationResourcesLocalStorageSize) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ApplicationResourcesLocalStorageSize) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

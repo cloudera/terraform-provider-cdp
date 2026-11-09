@@ -101,7 +101,7 @@ func (m *SetSamlAuthnRequestSigningKeyResponse) validateNextAuthnRequestVerifica
 }
 
 // ContextValidate validates this set saml authn request signing key response based on context it is used
-func (m *SetSamlAuthnRequestSigningKeyResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetSamlAuthnRequestSigningKeyResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

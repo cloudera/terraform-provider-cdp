@@ -90,7 +90,7 @@ func (m *ListSSHPublicKeysResponse) contextValidateSSHPublicKeys(ctx context.Con
 		if m.SSHPublicKeys[i] != nil {
 
 			if typeutils.IsZero(m.SSHPublicKeys[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.SSHPublicKeys[i].ContextValidate(ctx, formats); err != nil {

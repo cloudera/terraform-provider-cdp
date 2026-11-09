@@ -25,12 +25,12 @@ type Authentication struct {
 }
 
 // Validate validates this authentication
-func (m *Authentication) Validate(formats strfmt.Registry) error {
+func (m *Authentication) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this authentication based on context it is used
-func (m *Authentication) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Authentication) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

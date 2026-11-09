@@ -45,7 +45,7 @@ func (m *SetupActiveDirectoryTrustResponse) validateFlowID(formats strfmt.Regist
 }
 
 // ContextValidate validates this setup active directory trust response based on context it is used
-func (m *SetupActiveDirectoryTrustResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetupActiveDirectoryTrustResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

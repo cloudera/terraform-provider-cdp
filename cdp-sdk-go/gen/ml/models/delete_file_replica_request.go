@@ -45,7 +45,7 @@ func (m *DeleteFileReplicaRequest) validateWorkspaceCrn(formats strfmt.Registry)
 }
 
 // ContextValidate validates this delete file replica request based on context it is used
-func (m *DeleteFileReplicaRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteFileReplicaRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

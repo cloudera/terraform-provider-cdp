@@ -181,7 +181,7 @@ func (m *ListClustersRequest) validateStatus(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this list clusters request based on context it is used
-func (m *ListClustersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListClustersRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

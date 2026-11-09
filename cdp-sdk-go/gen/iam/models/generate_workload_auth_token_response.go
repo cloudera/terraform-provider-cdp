@@ -55,7 +55,7 @@ func (m *GenerateWorkloadAuthTokenResponse) validateExpireAt(formats strfmt.Regi
 }
 
 // ContextValidate validates this generate workload auth token response based on context it is used
-func (m *GenerateWorkloadAuthTokenResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GenerateWorkloadAuthTokenResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

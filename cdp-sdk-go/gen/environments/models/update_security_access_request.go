@@ -79,7 +79,7 @@ func (m *UpdateSecurityAccessRequest) validateGatewayNodeSecurityGroupID(formats
 }
 
 // ContextValidate validates this update security access request based on context it is used
-func (m *UpdateSecurityAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateSecurityAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

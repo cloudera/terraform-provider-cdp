@@ -131,7 +131,7 @@ func (m *PasswordPolicy) validatePasswordHistorySize(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this password policy based on context it is used
-func (m *PasswordPolicy) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *PasswordPolicy) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

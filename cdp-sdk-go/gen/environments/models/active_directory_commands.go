@@ -45,7 +45,7 @@ func (m *ActiveDirectoryCommands) validateCommands(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this active directory commands based on context it is used
-func (m *ActiveDirectoryCommands) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ActiveDirectoryCommands) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

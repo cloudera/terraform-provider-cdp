@@ -90,7 +90,7 @@ func (m *Endpoints) contextValidateEndpoints(ctx context.Context, formats strfmt
 		if m.Endpoints[i] != nil {
 
 			if typeutils.IsZero(m.Endpoints[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Endpoints[i].ContextValidate(ctx, formats); err != nil {

@@ -51,7 +51,7 @@ func (m *DeleteEnvironmentRequest) validateEnvironmentName(formats strfmt.Regist
 }
 
 // ContextValidate validates this delete environment request based on context it is used
-func (m *DeleteEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteEnvironmentRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

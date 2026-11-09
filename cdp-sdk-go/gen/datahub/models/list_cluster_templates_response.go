@@ -90,7 +90,7 @@ func (m *ListClusterTemplatesResponse) contextValidateClusterTemplates(ctx conte
 		if m.ClusterTemplates[i] != nil {
 
 			if typeutils.IsZero(m.ClusterTemplates[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ClusterTemplates[i].ContextValidate(ctx, formats); err != nil {

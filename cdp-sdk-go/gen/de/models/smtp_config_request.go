@@ -77,7 +77,7 @@ func (m *SMTPConfigRequest) validateHost(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this Smtp config request based on context it is used
-func (m *SMTPConfigRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SMTPConfigRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -62,7 +62,7 @@ func (m *AddUserRequest) validateUserID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this add user request based on context it is used
-func (m *AddUserRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AddUserRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

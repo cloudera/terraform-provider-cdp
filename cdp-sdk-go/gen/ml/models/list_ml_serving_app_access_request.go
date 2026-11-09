@@ -19,12 +19,12 @@ type ListMlServingAppAccessRequest struct {
 }
 
 // Validate validates this list ml serving app access request
-func (m *ListMlServingAppAccessRequest) Validate(formats strfmt.Registry) error {
+func (m *ListMlServingAppAccessRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list ml serving app access request based on context it is used
-func (m *ListMlServingAppAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListMlServingAppAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -19,12 +19,12 @@ type RotateAutoTLSCertificatesResponse struct {
 }
 
 // Validate validates this rotate auto Tls certificates response
-func (m *RotateAutoTLSCertificatesResponse) Validate(formats strfmt.Registry) error {
+func (m *RotateAutoTLSCertificatesResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this rotate auto Tls certificates response based on context it is used
-func (m *RotateAutoTLSCertificatesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotateAutoTLSCertificatesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

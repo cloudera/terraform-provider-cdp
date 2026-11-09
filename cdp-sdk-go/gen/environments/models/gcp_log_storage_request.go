@@ -65,7 +65,7 @@ func (m *GcpLogStorageRequest) validateStorageLocationBase(formats strfmt.Regist
 }
 
 // ContextValidate validates this gcp log storage request based on context it is used
-func (m *GcpLogStorageRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GcpLogStorageRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

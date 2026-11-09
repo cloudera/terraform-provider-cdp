@@ -25,12 +25,12 @@ type ConfigContentReq struct {
 }
 
 // Validate validates this config content req
-func (m *ConfigContentReq) Validate(formats strfmt.Registry) error {
+func (m *ConfigContentReq) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this config content req based on context it is used
-func (m *ConfigContentReq) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ConfigContentReq) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

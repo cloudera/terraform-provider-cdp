@@ -90,7 +90,7 @@ func (m *ExistingAzureNetworkRequest) validateSubnetIds(formats strfmt.Registry)
 }
 
 // ContextValidate validates this existing azure network request based on context it is used
-func (m *ExistingAzureNetworkRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ExistingAzureNetworkRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

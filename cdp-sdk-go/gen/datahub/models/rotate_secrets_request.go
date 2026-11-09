@@ -62,7 +62,7 @@ func (m *RotateSecretsRequest) validateSecretTypes(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this rotate secrets request based on context it is used
-func (m *RotateSecretsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotateSecretsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

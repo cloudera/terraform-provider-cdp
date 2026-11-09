@@ -22,12 +22,12 @@ type ChartValueOverridesRequest struct {
 }
 
 // Validate validates this chart value overrides request
-func (m *ChartValueOverridesRequest) Validate(formats strfmt.Registry) error {
+func (m *ChartValueOverridesRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this chart value overrides request based on context it is used
-func (m *ChartValueOverridesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ChartValueOverridesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

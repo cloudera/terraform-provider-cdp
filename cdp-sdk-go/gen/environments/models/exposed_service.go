@@ -105,7 +105,7 @@ func (m *ExposedService) contextValidateServiceValidationMessages(ctx context.Co
 		if m.ServiceValidationMessages[i] != nil {
 
 			if typeutils.IsZero(m.ServiceValidationMessages[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ServiceValidationMessages[i].ContextValidate(ctx, formats); err != nil {

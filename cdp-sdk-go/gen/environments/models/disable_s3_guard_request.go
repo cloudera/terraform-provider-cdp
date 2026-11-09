@@ -45,7 +45,7 @@ func (m *DisableS3GuardRequest) validateEnvironmentName(formats strfmt.Registry)
 }
 
 // ContextValidate validates this disable s3 guard request based on context it is used
-func (m *DisableS3GuardRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DisableS3GuardRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

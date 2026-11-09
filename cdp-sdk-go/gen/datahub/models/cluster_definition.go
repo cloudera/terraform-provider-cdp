@@ -77,7 +77,7 @@ func (m *ClusterDefinition) validateCrn(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this cluster definition based on context it is used
-func (m *ClusterDefinition) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ClusterDefinition) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

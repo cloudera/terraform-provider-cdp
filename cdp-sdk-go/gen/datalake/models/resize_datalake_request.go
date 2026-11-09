@@ -267,7 +267,7 @@ func (m *ResizeDatalakeRequest) contextValidateCustomInstanceDisks(ctx context.C
 		if m.CustomInstanceDisks[i] != nil {
 
 			if typeutils.IsZero(m.CustomInstanceDisks[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.CustomInstanceDisks[i].ContextValidate(ctx, formats); err != nil {
@@ -296,7 +296,7 @@ func (m *ResizeDatalakeRequest) contextValidateCustomInstanceTypes(ctx context.C
 		if m.CustomInstanceTypes[i] != nil {
 
 			if typeutils.IsZero(m.CustomInstanceTypes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.CustomInstanceTypes[i].ContextValidate(ctx, formats); err != nil {

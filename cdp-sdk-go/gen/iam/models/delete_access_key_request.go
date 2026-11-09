@@ -45,7 +45,7 @@ func (m *DeleteAccessKeyRequest) validateAccessKeyID(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this delete access key request based on context it is used
-func (m *DeleteAccessKeyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteAccessKeyRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

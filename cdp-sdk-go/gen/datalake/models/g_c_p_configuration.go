@@ -19,12 +19,12 @@ type GCPConfiguration struct {
 }
 
 // Validate validates this g c p configuration
-func (m *GCPConfiguration) Validate(formats strfmt.Registry) error {
+func (m *GCPConfiguration) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this g c p configuration based on context it is used
-func (m *GCPConfiguration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GCPConfiguration) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -118,7 +118,7 @@ func (m *AuditEvent) validateWorkspaceCrn(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this audit event based on context it is used
-func (m *AuditEvent) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AuditEvent) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

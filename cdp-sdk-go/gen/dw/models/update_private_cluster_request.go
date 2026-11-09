@@ -51,7 +51,7 @@ func (m *UpdatePrivateClusterRequest) validateClusterID(formats strfmt.Registry)
 }
 
 // ContextValidate validates this update private cluster request based on context it is used
-func (m *UpdatePrivateClusterRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdatePrivateClusterRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

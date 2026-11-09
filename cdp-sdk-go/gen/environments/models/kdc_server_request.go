@@ -62,7 +62,7 @@ func (m *KdcServerRequest) validateIP(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this kdc server request based on context it is used
-func (m *KdcServerRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *KdcServerRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

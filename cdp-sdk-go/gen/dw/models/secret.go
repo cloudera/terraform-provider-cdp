@@ -140,12 +140,12 @@ type SecretProperties struct {
 }
 
 // Validate validates this secret properties
-func (m *SecretProperties) Validate(formats strfmt.Registry) error {
+func (m *SecretProperties) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this secret properties based on context it is used
-func (m *SecretProperties) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SecretProperties) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

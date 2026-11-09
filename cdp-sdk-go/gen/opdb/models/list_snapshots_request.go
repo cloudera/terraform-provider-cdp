@@ -109,7 +109,7 @@ func (m *ListSnapshotsRequest) validateToCreationTime(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this list snapshots request based on context it is used
-func (m *ListSnapshotsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListSnapshotsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

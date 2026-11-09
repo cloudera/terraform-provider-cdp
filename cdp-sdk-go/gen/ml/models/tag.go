@@ -62,7 +62,7 @@ func (m *Tag) validateValue(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this tag based on context it is used
-func (m *Tag) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Tag) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

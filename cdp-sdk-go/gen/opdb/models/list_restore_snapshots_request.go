@@ -115,7 +115,7 @@ func (m *ListRestoreSnapshotsRequest) validateToRestoreTime(formats strfmt.Regis
 }
 
 // ContextValidate validates this list restore snapshots request based on context it is used
-func (m *ListRestoreSnapshotsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListRestoreSnapshotsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

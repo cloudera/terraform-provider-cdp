@@ -62,7 +62,7 @@ func (m *AddUserToGroupRequest) validateUserID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this add user to group request based on context it is used
-func (m *AddUserToGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AddUserToGroupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -51,7 +51,7 @@ func (m *AddSSHPublicKeyRequest) validatePublicKey(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this add Ssh public key request based on context it is used
-func (m *AddSSHPublicKeyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AddSSHPublicKeyRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

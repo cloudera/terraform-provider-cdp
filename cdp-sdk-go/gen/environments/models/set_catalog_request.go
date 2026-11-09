@@ -62,7 +62,7 @@ func (m *SetCatalogRequest) validateEnvironment(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this set catalog request based on context it is used
-func (m *SetCatalogRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetCatalogRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

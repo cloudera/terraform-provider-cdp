@@ -45,7 +45,7 @@ func (m *GetAzureImageTermsPolicyResponse) validateAccepted(formats strfmt.Regis
 }
 
 // ContextValidate validates this get azure image terms policy response based on context it is used
-func (m *GetAzureImageTermsPolicyResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetAzureImageTermsPolicyResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

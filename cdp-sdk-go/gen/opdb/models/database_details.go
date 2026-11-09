@@ -480,7 +480,7 @@ func (m *DatabaseDetails) contextValidateStorageDetailsForWorkers(ctx context.Co
 		if m.StorageDetailsForWorkers[i] != nil {
 
 			if typeutils.IsZero(m.StorageDetailsForWorkers[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.StorageDetailsForWorkers[i].ContextValidate(ctx, formats); err != nil {

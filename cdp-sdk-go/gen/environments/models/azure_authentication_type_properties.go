@@ -70,6 +70,6 @@ func (m AzureAuthenticationTypeProperties) Validate(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this azure authentication type properties based on context it is used
-func (m AzureAuthenticationTypeProperties) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m AzureAuthenticationTypeProperties) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

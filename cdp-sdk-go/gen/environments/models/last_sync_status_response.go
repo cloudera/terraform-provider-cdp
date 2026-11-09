@@ -253,7 +253,7 @@ func (m *LastSyncStatusResponse) contextValidateFailure(ctx context.Context, for
 		if m.Failure[i] != nil {
 
 			if typeutils.IsZero(m.Failure[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Failure[i].ContextValidate(ctx, formats); err != nil {
@@ -326,7 +326,7 @@ func (m *LastSyncStatusResponse) contextValidateSuccess(ctx context.Context, for
 		if m.Success[i] != nil {
 
 			if typeutils.IsZero(m.Success[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Success[i].ContextValidate(ctx, formats); err != nil {

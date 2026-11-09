@@ -87,7 +87,7 @@ func (m *ApplicationConfigResp) contextValidateConfigBlocks(ctx context.Context,
 		if m.ConfigBlocks[i] != nil {
 
 			if typeutils.IsZero(m.ConfigBlocks[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ConfigBlocks[i].ContextValidate(ctx, formats); err != nil {

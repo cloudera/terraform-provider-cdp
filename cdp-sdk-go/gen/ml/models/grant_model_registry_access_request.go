@@ -22,12 +22,12 @@ type GrantModelRegistryAccessRequest struct {
 }
 
 // Validate validates this grant model registry access request
-func (m *GrantModelRegistryAccessRequest) Validate(formats strfmt.Registry) error {
+func (m *GrantModelRegistryAccessRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this grant model registry access request based on context it is used
-func (m *GrantModelRegistryAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GrantModelRegistryAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

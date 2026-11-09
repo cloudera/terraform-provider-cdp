@@ -45,7 +45,7 @@ func (m *GetKubeconfigResponse) validateKubeconfig(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this get kubeconfig response based on context it is used
-func (m *GetKubeconfigResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetKubeconfigResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

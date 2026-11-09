@@ -19,12 +19,12 @@ type DependencyManagement struct {
 }
 
 // Validate validates this dependency management
-func (m *DependencyManagement) Validate(formats strfmt.Registry) error {
+func (m *DependencyManagement) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this dependency management based on context it is used
-func (m *DependencyManagement) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DependencyManagement) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

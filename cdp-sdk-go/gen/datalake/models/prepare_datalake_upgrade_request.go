@@ -51,7 +51,7 @@ func (m *PrepareDatalakeUpgradeRequest) validateDatalake(formats strfmt.Registry
 }
 
 // ContextValidate validates this prepare datalake upgrade request based on context it is used
-func (m *PrepareDatalakeUpgradeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *PrepareDatalakeUpgradeRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -259,7 +259,7 @@ func (m *SetPasswordResponse) contextValidateFailure(ctx context.Context, format
 		if m.Failure[i] != nil {
 
 			if typeutils.IsZero(m.Failure[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Failure[i].ContextValidate(ctx, formats); err != nil {
@@ -332,7 +332,7 @@ func (m *SetPasswordResponse) contextValidateSuccess(ctx context.Context, format
 		if m.Success[i] != nil {
 
 			if typeutils.IsZero(m.Success[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Success[i].ContextValidate(ctx, formats); err != nil {

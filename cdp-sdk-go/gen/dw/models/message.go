@@ -25,12 +25,12 @@ type Message struct {
 }
 
 // Validate validates this message
-func (m *Message) Validate(formats strfmt.Registry) error {
+func (m *Message) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this message based on context it is used
-func (m *Message) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Message) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

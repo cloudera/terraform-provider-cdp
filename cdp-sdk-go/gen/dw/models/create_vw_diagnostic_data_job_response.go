@@ -28,12 +28,12 @@ type CreateVwDiagnosticDataJobResponse struct {
 }
 
 // Validate validates this create vw diagnostic data job response
-func (m *CreateVwDiagnosticDataJobResponse) Validate(formats strfmt.Registry) error {
+func (m *CreateVwDiagnosticDataJobResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this create vw diagnostic data job response based on context it is used
-func (m *CreateVwDiagnosticDataJobResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateVwDiagnosticDataJobResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

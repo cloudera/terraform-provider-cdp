@@ -85,6 +85,12 @@ type ClientService interface {
 	// CancelRestoreContext cancels the restore that was performed.
 	CancelRestoreContext(ctx context.Context, params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error)
 
+	// CheckDatalakeUpgradeReinitiable check if the last failed upgrade operation on a data lake can be reinitiated.
+	CheckDatalakeUpgradeReinitiable(params *CheckDatalakeUpgradeReinitiableParams, opts ...ClientOption) (*CheckDatalakeUpgradeReinitiableOK, error)
+
+	// CheckDatalakeUpgradeReinitiableContext check if the last failed upgrade operation on a data lake can be reinitiated.
+	CheckDatalakeUpgradeReinitiableContext(ctx context.Context, params *CheckDatalakeUpgradeReinitiableParams, opts ...ClientOption) (*CheckDatalakeUpgradeReinitiableOK, error)
+
 	// CollectCmDiagnostics start data lake cloudera manager based diagnostics collection.
 	CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error)
 
@@ -247,6 +253,12 @@ type ClientService interface {
 	// RecoverDatalakeContext recover data lake to the original version after a failed upgrade.
 	RecoverDatalakeContext(ctx context.Context, params *RecoverDatalakeParams, opts ...ClientOption) (*RecoverDatalakeOK, error)
 
+	// ReinitiateDatalakeUpgrade reinitiate the last failed upgrade operation on a data lake.
+	ReinitiateDatalakeUpgrade(params *ReinitiateDatalakeUpgradeParams, opts ...ClientOption) (*ReinitiateDatalakeUpgradeOK, error)
+
+	// ReinitiateDatalakeUpgradeContext reinitiate the last failed upgrade operation on a data lake.
+	ReinitiateDatalakeUpgradeContext(ctx context.Context, params *ReinitiateDatalakeUpgradeParams, opts ...ClientOption) (*ReinitiateDatalakeUpgradeOK, error)
+
 	// RenewCertificate renew certificate on datalake cluster by name or c r n.
 	RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error)
 
@@ -391,6 +403,12 @@ type ClientService interface {
 	// SyncComponentVersionsFromCmContext syncs component versions from c m after a failed upgrade.
 	SyncComponentVersionsFromCmContext(ctx context.Context, params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error)
 
+	// TriggerDiskSync triggers disk sync job for a datalake either in dry run or persist mode.
+	TriggerDiskSync(params *TriggerDiskSyncParams, opts ...ClientOption) (*TriggerDiskSyncOK, error)
+
+	// TriggerDiskSyncContext triggers disk sync job for a datalake either in dry run or persist mode.
+	TriggerDiskSyncContext(ctx context.Context, params *TriggerDiskSyncParams, opts ...ClientOption) (*TriggerDiskSyncOK, error)
+
 	// UpdateOrchestratorState run orchestrator engine state update on the data lake cluster.
 	UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error)
 
@@ -452,7 +470,7 @@ type ClientService interface {
 // If you need to pass a specific context, use [Client.BackupDatalakeContext] instead.
 func (a *Client) BackupDatalake(params *BackupDatalakeParams, opts ...ClientOption) (*BackupDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -517,7 +535,7 @@ func (a *Client) BackupDatalakeContext(ctx context.Context, params *BackupDatala
 // If you need to pass a specific context, use [Client.BackupDatalakeStatusContext] instead.
 func (a *Client) BackupDatalakeStatus(params *BackupDatalakeStatusParams, opts ...ClientOption) (*BackupDatalakeStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -582,7 +600,7 @@ func (a *Client) BackupDatalakeStatusContext(ctx context.Context, params *Backup
 // If you need to pass a specific context, use [Client.CancelBackupContext] instead.
 func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -647,7 +665,7 @@ func (a *Client) CancelBackupContext(ctx context.Context, params *CancelBackupPa
 // If you need to pass a specific context, use [Client.CancelDatalakeDiagnosticsContext] instead.
 func (a *Client) CancelDatalakeDiagnostics(params *CancelDatalakeDiagnosticsParams, opts ...ClientOption) (*CancelDatalakeDiagnosticsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -712,7 +730,7 @@ func (a *Client) CancelDatalakeDiagnosticsContext(ctx context.Context, params *C
 // If you need to pass a specific context, use [Client.CancelRestoreContext] instead.
 func (a *Client) CancelRestore(params *CancelRestoreParams, opts ...ClientOption) (*CancelRestoreOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -767,6 +785,71 @@ func (a *Client) CancelRestoreContext(ctx context.Context, params *CancelRestore
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// CheckDatalakeUpgradeReinitiable checks if the last failed upgrade operation on a data lake can be reinitiated.
+//
+// Check if there was any failed upgrade operation on a DataLake and whether it can be reinitiated or not. Return the reason why the upgrade can or cannot be reinitiated..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.CheckDatalakeUpgradeReinitiableContext] instead.
+func (a *Client) CheckDatalakeUpgradeReinitiable(params *CheckDatalakeUpgradeReinitiableParams, opts ...ClientOption) (*CheckDatalakeUpgradeReinitiableOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.CheckDatalakeUpgradeReinitiableContext(ctx, params, opts...)
+}
+
+// CheckDatalakeUpgradeReinitiableContext checks if the last failed upgrade operation on a data lake can be reinitiated.
+//
+// Check if there was any failed upgrade operation on a DataLake and whether it can be reinitiated or not. Return the reason why the upgrade can or cannot be reinitiated..
+//
+// Do not use the deprecated [CheckDatalakeUpgradeReinitiableParams.Context] with this method: it would be ignored.
+func (a *Client) CheckDatalakeUpgradeReinitiableContext(ctx context.Context, params *CheckDatalakeUpgradeReinitiableParams, opts ...ClientOption) (*CheckDatalakeUpgradeReinitiableOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewCheckDatalakeUpgradeReinitiableParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "checkDatalakeUpgradeReinitiable",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/checkDatalakeUpgradeReinitiable",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CheckDatalakeUpgradeReinitiableReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*CheckDatalakeUpgradeReinitiableOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*CheckDatalakeUpgradeReinitiableDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // CollectCmDiagnostics starts data lake cloudera manager based diagnostics collection.
 //
 // Start Datalake Cloudera Manager based diagnostics collection.
@@ -777,7 +860,7 @@ func (a *Client) CancelRestoreContext(ctx context.Context, params *CancelRestore
 // If you need to pass a specific context, use [Client.CollectCmDiagnosticsContext] instead.
 func (a *Client) CollectCmDiagnostics(params *CollectCmDiagnosticsParams, opts ...ClientOption) (*CollectCmDiagnosticsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -842,7 +925,7 @@ func (a *Client) CollectCmDiagnosticsContext(ctx context.Context, params *Collec
 // If you need to pass a specific context, use [Client.CollectDatalakeDiagnosticsContext] instead.
 func (a *Client) CollectDatalakeDiagnostics(params *CollectDatalakeDiagnosticsParams, opts ...ClientOption) (*CollectDatalakeDiagnosticsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -907,7 +990,7 @@ func (a *Client) CollectDatalakeDiagnosticsContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.CreateAWSDatalakeContext] instead.
 func (a *Client) CreateAWSDatalake(params *CreateAWSDatalakeParams, opts ...ClientOption) (*CreateAWSDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -972,7 +1055,7 @@ func (a *Client) CreateAWSDatalakeContext(ctx context.Context, params *CreateAWS
 // If you need to pass a specific context, use [Client.CreateAWSGovCloudDatalakeContext] instead.
 func (a *Client) CreateAWSGovCloudDatalake(params *CreateAWSGovCloudDatalakeParams, opts ...ClientOption) (*CreateAWSGovCloudDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1037,7 +1120,7 @@ func (a *Client) CreateAWSGovCloudDatalakeContext(ctx context.Context, params *C
 // If you need to pass a specific context, use [Client.CreateAzureDatalakeContext] instead.
 func (a *Client) CreateAzureDatalake(params *CreateAzureDatalakeParams, opts ...ClientOption) (*CreateAzureDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1102,7 +1185,7 @@ func (a *Client) CreateAzureDatalakeContext(ctx context.Context, params *CreateA
 // If you need to pass a specific context, use [Client.CreateGCPDatalakeContext] instead.
 func (a *Client) CreateGCPDatalake(params *CreateGCPDatalakeParams, opts ...ClientOption) (*CreateGCPDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1167,7 +1250,7 @@ func (a *Client) CreateGCPDatalakeContext(ctx context.Context, params *CreateGCP
 // If you need to pass a specific context, use [Client.DeleteBackupRestoreConfigurationContext] instead.
 func (a *Client) DeleteBackupRestoreConfiguration(params *DeleteBackupRestoreConfigurationParams, opts ...ClientOption) (*DeleteBackupRestoreConfigurationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1232,7 +1315,7 @@ func (a *Client) DeleteBackupRestoreConfigurationContext(ctx context.Context, pa
 // If you need to pass a specific context, use [Client.DeleteDatalakeContext] instead.
 func (a *Client) DeleteDatalake(params *DeleteDatalakeParams, opts ...ClientOption) (*DeleteDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1297,7 +1380,7 @@ func (a *Client) DeleteDatalakeContext(ctx context.Context, params *DeleteDatala
 // If you need to pass a specific context, use [Client.DescribeDatabaseServerContext] instead.
 func (a *Client) DescribeDatabaseServer(params *DescribeDatabaseServerParams, opts ...ClientOption) (*DescribeDatabaseServerOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1362,7 +1445,7 @@ func (a *Client) DescribeDatabaseServerContext(ctx context.Context, params *Desc
 // If you need to pass a specific context, use [Client.DescribeDatalakeContext] instead.
 func (a *Client) DescribeDatalake(params *DescribeDatalakeParams, opts ...ClientOption) (*DescribeDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1427,7 +1510,7 @@ func (a *Client) DescribeDatalakeContext(ctx context.Context, params *DescribeDa
 // If you need to pass a specific context, use [Client.EnableRangerRazContext] instead.
 func (a *Client) EnableRangerRaz(params *EnableRangerRazParams, opts ...ClientOption) (*EnableRangerRazOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1492,7 +1575,7 @@ func (a *Client) EnableRangerRazContext(ctx context.Context, params *EnableRange
 // If you need to pass a specific context, use [Client.FinalizeZookeeperToKraftMigrationContext] instead.
 func (a *Client) FinalizeZookeeperToKraftMigration(params *FinalizeZookeeperToKraftMigrationParams, opts ...ClientOption) (*FinalizeZookeeperToKraftMigrationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1557,7 +1640,7 @@ func (a *Client) FinalizeZookeeperToKraftMigrationContext(ctx context.Context, p
 // If you need to pass a specific context, use [Client.GetBackupRestoreConfigurationContext] instead.
 func (a *Client) GetBackupRestoreConfiguration(params *GetBackupRestoreConfigurationParams, opts ...ClientOption) (*GetBackupRestoreConfigurationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1622,7 +1705,7 @@ func (a *Client) GetBackupRestoreConfigurationContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.GetClusterHostStatusContext] instead.
 func (a *Client) GetClusterHostStatus(params *GetClusterHostStatusParams, opts ...ClientOption) (*GetClusterHostStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1687,7 +1770,7 @@ func (a *Client) GetClusterHostStatusContext(ctx context.Context, params *GetClu
 // If you need to pass a specific context, use [Client.GetClusterServiceStatusContext] instead.
 func (a *Client) GetClusterServiceStatus(params *GetClusterServiceStatusParams, opts ...ClientOption) (*GetClusterServiceStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1752,7 +1835,7 @@ func (a *Client) GetClusterServiceStatusContext(ctx context.Context, params *Get
 // If you need to pass a specific context, use [Client.GetCmRolesContext] instead.
 func (a *Client) GetCmRoles(params *GetCmRolesParams, opts ...ClientOption) (*GetCmRolesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1817,7 +1900,7 @@ func (a *Client) GetCmRolesContext(ctx context.Context, params *GetCmRolesParams
 // If you need to pass a specific context, use [Client.GetDatalakeLogDescriptorsContext] instead.
 func (a *Client) GetDatalakeLogDescriptors(params *GetDatalakeLogDescriptorsParams, opts ...ClientOption) (*GetDatalakeLogDescriptorsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1882,7 +1965,7 @@ func (a *Client) GetDatalakeLogDescriptorsContext(ctx context.Context, params *G
 // If you need to pass a specific context, use [Client.GetOperationContext] instead.
 func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1947,7 +2030,7 @@ func (a *Client) GetOperationContext(ctx context.Context, params *GetOperationPa
 // If you need to pass a specific context, use [Client.ListDatalakeBackupsContext] instead.
 func (a *Client) ListDatalakeBackups(params *ListDatalakeBackupsParams, opts ...ClientOption) (*ListDatalakeBackupsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2012,7 +2095,7 @@ func (a *Client) ListDatalakeBackupsContext(ctx context.Context, params *ListDat
 // If you need to pass a specific context, use [Client.ListDatalakeDiagnosticsContext] instead.
 func (a *Client) ListDatalakeDiagnostics(params *ListDatalakeDiagnosticsParams, opts ...ClientOption) (*ListDatalakeDiagnosticsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2077,7 +2160,7 @@ func (a *Client) ListDatalakeDiagnosticsContext(ctx context.Context, params *Lis
 // If you need to pass a specific context, use [Client.ListDatalakeSecretTypesContext] instead.
 func (a *Client) ListDatalakeSecretTypes(params *ListDatalakeSecretTypesParams, opts ...ClientOption) (*ListDatalakeSecretTypesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2142,7 +2225,7 @@ func (a *Client) ListDatalakeSecretTypesContext(ctx context.Context, params *Lis
 // If you need to pass a specific context, use [Client.ListDatalakesContext] instead.
 func (a *Client) ListDatalakes(params *ListDatalakesParams, opts ...ClientOption) (*ListDatalakesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2207,7 +2290,7 @@ func (a *Client) ListDatalakesContext(ctx context.Context, params *ListDatalakes
 // If you need to pass a specific context, use [Client.ListRuntimesContext] instead.
 func (a *Client) ListRuntimes(params *ListRuntimesParams, opts ...ClientOption) (*ListRuntimesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2272,7 +2355,7 @@ func (a *Client) ListRuntimesContext(ctx context.Context, params *ListRuntimesPa
 // If you need to pass a specific context, use [Client.MigrateSkusContext] instead.
 func (a *Client) MigrateSkus(params *MigrateSkusParams, opts ...ClientOption) (*MigrateSkusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2337,7 +2420,7 @@ func (a *Client) MigrateSkusContext(ctx context.Context, params *MigrateSkusPara
 // If you need to pass a specific context, use [Client.MigrateZookeeperToKraftContext] instead.
 func (a *Client) MigrateZookeeperToKraft(params *MigrateZookeeperToKraftParams, opts ...ClientOption) (*MigrateZookeeperToKraftOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2402,7 +2485,7 @@ func (a *Client) MigrateZookeeperToKraftContext(ctx context.Context, params *Mig
 // If you need to pass a specific context, use [Client.PrepareDatalakeUpgradeContext] instead.
 func (a *Client) PrepareDatalakeUpgrade(params *PrepareDatalakeUpgradeParams, opts ...ClientOption) (*PrepareDatalakeUpgradeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2467,7 +2550,7 @@ func (a *Client) PrepareDatalakeUpgradeContext(ctx context.Context, params *Prep
 // If you need to pass a specific context, use [Client.RecoverDatalakeContext] instead.
 func (a *Client) RecoverDatalake(params *RecoverDatalakeParams, opts ...ClientOption) (*RecoverDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2522,6 +2605,71 @@ func (a *Client) RecoverDatalakeContext(ctx context.Context, params *RecoverData
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// ReinitiateDatalakeUpgrade reinitiates the last failed upgrade operation on a data lake.
+//
+// Checks if there was any failed upgrade operation on a DataLake, and whether it can be reinitiated or not. If it can be reinitiated, it tries to collect the parameters used for that failed upgrade, and if it is able to collect them then reinitiates the upgrade operation..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ReinitiateDatalakeUpgradeContext] instead.
+func (a *Client) ReinitiateDatalakeUpgrade(params *ReinitiateDatalakeUpgradeParams, opts ...ClientOption) (*ReinitiateDatalakeUpgradeOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ReinitiateDatalakeUpgradeContext(ctx, params, opts...)
+}
+
+// ReinitiateDatalakeUpgradeContext reinitiates the last failed upgrade operation on a data lake.
+//
+// Checks if there was any failed upgrade operation on a DataLake, and whether it can be reinitiated or not. If it can be reinitiated, it tries to collect the parameters used for that failed upgrade, and if it is able to collect them then reinitiates the upgrade operation..
+//
+// Do not use the deprecated [ReinitiateDatalakeUpgradeParams.Context] with this method: it would be ignored.
+func (a *Client) ReinitiateDatalakeUpgradeContext(ctx context.Context, params *ReinitiateDatalakeUpgradeParams, opts ...ClientOption) (*ReinitiateDatalakeUpgradeOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewReinitiateDatalakeUpgradeParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "reinitiateDatalakeUpgrade",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/reinitiateDatalakeUpgrade",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ReinitiateDatalakeUpgradeReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*ReinitiateDatalakeUpgradeOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*ReinitiateDatalakeUpgradeDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // RenewCertificate renews certificate on datalake cluster by name or c r n.
 //
 // Deprecated, please use renew-public-certificate command instead. Renew certificate on Datalake cluster by name or CRN..
@@ -2532,7 +2680,7 @@ func (a *Client) RecoverDatalakeContext(ctx context.Context, params *RecoverData
 // If you need to pass a specific context, use [Client.RenewCertificateContext] instead.
 func (a *Client) RenewCertificate(params *RenewCertificateParams, opts ...ClientOption) (*RenewCertificateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2597,7 +2745,7 @@ func (a *Client) RenewCertificateContext(ctx context.Context, params *RenewCerti
 // If you need to pass a specific context, use [Client.RenewPublicCertificateContext] instead.
 func (a *Client) RenewPublicCertificate(params *RenewPublicCertificateParams, opts ...ClientOption) (*RenewPublicCertificateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2662,7 +2810,7 @@ func (a *Client) RenewPublicCertificateContext(ctx context.Context, params *Rene
 // If you need to pass a specific context, use [Client.RepairDatalakeContext] instead.
 func (a *Client) RepairDatalake(params *RepairDatalakeParams, opts ...ClientOption) (*RepairDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2727,7 +2875,7 @@ func (a *Client) RepairDatalakeContext(ctx context.Context, params *RepairDatala
 // If you need to pass a specific context, use [Client.ReplaceRecipesContext] instead.
 func (a *Client) ReplaceRecipes(params *ReplaceRecipesParams, opts ...ClientOption) (*ReplaceRecipesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2792,7 +2940,7 @@ func (a *Client) ReplaceRecipesContext(ctx context.Context, params *ReplaceRecip
 // If you need to pass a specific context, use [Client.ResizeDatalakeContext] instead.
 func (a *Client) ResizeDatalake(params *ResizeDatalakeParams, opts ...ClientOption) (*ResizeDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2857,7 +3005,7 @@ func (a *Client) ResizeDatalakeContext(ctx context.Context, params *ResizeDatala
 // If you need to pass a specific context, use [Client.RestartDatalakeInstancesContext] instead.
 func (a *Client) RestartDatalakeInstances(params *RestartDatalakeInstancesParams, opts ...ClientOption) (*RestartDatalakeInstancesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2922,7 +3070,7 @@ func (a *Client) RestartDatalakeInstancesContext(ctx context.Context, params *Re
 // If you need to pass a specific context, use [Client.RestoreDatalakeContext] instead.
 func (a *Client) RestoreDatalake(params *RestoreDatalakeParams, opts ...ClientOption) (*RestoreDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2987,7 +3135,7 @@ func (a *Client) RestoreDatalakeContext(ctx context.Context, params *RestoreData
 // If you need to pass a specific context, use [Client.RestoreDatalakeStatusContext] instead.
 func (a *Client) RestoreDatalakeStatus(params *RestoreDatalakeStatusParams, opts ...ClientOption) (*RestoreDatalakeStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3052,7 +3200,7 @@ func (a *Client) RestoreDatalakeStatusContext(ctx context.Context, params *Resto
 // If you need to pass a specific context, use [Client.RetryDatalakeContext] instead.
 func (a *Client) RetryDatalake(params *RetryDatalakeParams, opts ...ClientOption) (*RetryDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3117,7 +3265,7 @@ func (a *Client) RetryDatalakeContext(ctx context.Context, params *RetryDatalake
 // If you need to pass a specific context, use [Client.RollbackZookeeperToKraftMigrationContext] instead.
 func (a *Client) RollbackZookeeperToKraftMigration(params *RollbackZookeeperToKraftMigrationParams, opts ...ClientOption) (*RollbackZookeeperToKraftMigrationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3182,7 +3330,7 @@ func (a *Client) RollbackZookeeperToKraftMigrationContext(ctx context.Context, p
 // If you need to pass a specific context, use [Client.RotateAutoTLSCertificatesContext] instead.
 func (a *Client) RotateAutoTLSCertificates(params *RotateAutoTLSCertificatesParams, opts ...ClientOption) (*RotateAutoTLSCertificatesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3247,7 +3395,7 @@ func (a *Client) RotateAutoTLSCertificatesContext(ctx context.Context, params *R
 // If you need to pass a specific context, use [Client.RotateDbCertificateContext] instead.
 func (a *Client) RotateDbCertificate(params *RotateDbCertificateParams, opts ...ClientOption) (*RotateDbCertificateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3312,7 +3460,7 @@ func (a *Client) RotateDbCertificateContext(ctx context.Context, params *RotateD
 // If you need to pass a specific context, use [Client.RotatePrivateCertificatesContext] instead.
 func (a *Client) RotatePrivateCertificates(params *RotatePrivateCertificatesParams, opts ...ClientOption) (*RotatePrivateCertificatesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3377,7 +3525,7 @@ func (a *Client) RotatePrivateCertificatesContext(ctx context.Context, params *R
 // If you need to pass a specific context, use [Client.RotateSaltPasswordContext] instead.
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3442,7 +3590,7 @@ func (a *Client) RotateSaltPasswordContext(ctx context.Context, params *RotateSa
 // If you need to pass a specific context, use [Client.RotateSecretsContext] instead.
 func (a *Client) RotateSecrets(params *RotateSecretsParams, opts ...ClientOption) (*RotateSecretsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3507,7 +3655,7 @@ func (a *Client) RotateSecretsContext(ctx context.Context, params *RotateSecrets
 // If you need to pass a specific context, use [Client.ScaleHorizontallyContext] instead.
 func (a *Client) ScaleHorizontally(params *ScaleHorizontallyParams, opts ...ClientOption) (*ScaleHorizontallyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3572,7 +3720,7 @@ func (a *Client) ScaleHorizontallyContext(ctx context.Context, params *ScaleHori
 // If you need to pass a specific context, use [Client.SetBackupRestoreConfigurationContext] instead.
 func (a *Client) SetBackupRestoreConfiguration(params *SetBackupRestoreConfigurationParams, opts ...ClientOption) (*SetBackupRestoreConfigurationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3637,7 +3785,7 @@ func (a *Client) SetBackupRestoreConfigurationContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.SetCatalogContext] instead.
 func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3702,7 +3850,7 @@ func (a *Client) SetCatalogContext(ctx context.Context, params *SetCatalogParams
 // If you need to pass a specific context, use [Client.SetDefaultJavaVersionContext] instead.
 func (a *Client) SetDefaultJavaVersion(params *SetDefaultJavaVersionParams, opts ...ClientOption) (*SetDefaultJavaVersionOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3767,7 +3915,7 @@ func (a *Client) SetDefaultJavaVersionContext(ctx context.Context, params *SetDe
 // If you need to pass a specific context, use [Client.StartDatabaseUpgradeContext] instead.
 func (a *Client) StartDatabaseUpgrade(params *StartDatabaseUpgradeParams, opts ...ClientOption) (*StartDatabaseUpgradeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3832,7 +3980,7 @@ func (a *Client) StartDatabaseUpgradeContext(ctx context.Context, params *StartD
 // If you need to pass a specific context, use [Client.StartDatalakeContext] instead.
 func (a *Client) StartDatalake(params *StartDatalakeParams, opts ...ClientOption) (*StartDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3897,7 +4045,7 @@ func (a *Client) StartDatalakeContext(ctx context.Context, params *StartDatalake
 // If you need to pass a specific context, use [Client.StartDatalakeVerticalScalingContext] instead.
 func (a *Client) StartDatalakeVerticalScaling(params *StartDatalakeVerticalScalingParams, opts ...ClientOption) (*StartDatalakeVerticalScalingOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3962,7 +4110,7 @@ func (a *Client) StartDatalakeVerticalScalingContext(ctx context.Context, params
 // If you need to pass a specific context, use [Client.StopDatalakeContext] instead.
 func (a *Client) StopDatalake(params *StopDatalakeParams, opts ...ClientOption) (*StopDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4027,7 +4175,7 @@ func (a *Client) StopDatalakeContext(ctx context.Context, params *StopDatalakePa
 // If you need to pass a specific context, use [Client.SyncComponentVersionsFromCmContext] instead.
 func (a *Client) SyncComponentVersionsFromCm(params *SyncComponentVersionsFromCmParams, opts ...ClientOption) (*SyncComponentVersionsFromCmOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4082,6 +4230,71 @@ func (a *Client) SyncComponentVersionsFromCmContext(ctx context.Context, params 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// TriggerDiskSync triggers disk sync job for a datalake either in dry run or persist mode.
+//
+// Triggers disk sync job for a datalake cluster..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.TriggerDiskSyncContext] instead.
+func (a *Client) TriggerDiskSync(params *TriggerDiskSyncParams, opts ...ClientOption) (*TriggerDiskSyncOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.TriggerDiskSyncContext(ctx, params, opts...)
+}
+
+// TriggerDiskSyncContext triggers disk sync job for a datalake either in dry run or persist mode.
+//
+// Triggers disk sync job for a datalake cluster..
+//
+// Do not use the deprecated [TriggerDiskSyncParams.Context] with this method: it would be ignored.
+func (a *Client) TriggerDiskSyncContext(ctx context.Context, params *TriggerDiskSyncParams, opts ...ClientOption) (*TriggerDiskSyncOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewTriggerDiskSyncParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "triggerDiskSync",
+		Method:             "POST",
+		PathPattern:        "/api/v1/datalake/triggerDiskSync",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &TriggerDiskSyncReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*TriggerDiskSyncOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*TriggerDiskSyncDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // UpdateOrchestratorState runs orchestrator engine state update on the data lake cluster.
 //
 // Run orchestrator engine state update on the Data Lake cluster..
@@ -4092,7 +4305,7 @@ func (a *Client) SyncComponentVersionsFromCmContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.UpdateOrchestratorStateContext] instead.
 func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4157,7 +4370,7 @@ func (a *Client) UpdateOrchestratorStateContext(ctx context.Context, params *Upd
 // If you need to pass a specific context, use [Client.UpdatePublicDNSEntriesContext] instead.
 func (a *Client) UpdatePublicDNSEntries(params *UpdatePublicDNSEntriesParams, opts ...ClientOption) (*UpdatePublicDNSEntriesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4222,7 +4435,7 @@ func (a *Client) UpdatePublicDNSEntriesContext(ctx context.Context, params *Upda
 // If you need to pass a specific context, use [Client.UpdateToAwsImdsV1Context] instead.
 func (a *Client) UpdateToAwsImdsV1(params *UpdateToAwsImdsV1Params, opts ...ClientOption) (*UpdateToAwsImdsV1OK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4287,7 +4500,7 @@ func (a *Client) UpdateToAwsImdsV1Context(ctx context.Context, params *UpdateToA
 // If you need to pass a specific context, use [Client.UpdateToAwsImdsV2Context] instead.
 func (a *Client) UpdateToAwsImdsV2(params *UpdateToAwsImdsV2Params, opts ...ClientOption) (*UpdateToAwsImdsV2OK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4352,7 +4565,7 @@ func (a *Client) UpdateToAwsImdsV2Context(ctx context.Context, params *UpdateToA
 // If you need to pass a specific context, use [Client.UpgradeDatalakeContext] instead.
 func (a *Client) UpgradeDatalake(params *UpgradeDatalakeParams, opts ...ClientOption) (*UpgradeDatalakeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4417,7 +4630,7 @@ func (a *Client) UpgradeDatalakeContext(ctx context.Context, params *UpgradeData
 // If you need to pass a specific context, use [Client.ValidateAwsCloudStorageContext] instead.
 func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4482,7 +4695,7 @@ func (a *Client) ValidateAwsCloudStorageContext(ctx context.Context, params *Val
 // If you need to pass a specific context, use [Client.ValidateAzureCloudStorageContext] instead.
 func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4547,7 +4760,7 @@ func (a *Client) ValidateAzureCloudStorageContext(ctx context.Context, params *V
 // If you need to pass a specific context, use [Client.ZookeeperToKraftMigrationStatusContext] instead.
 func (a *Client) ZookeeperToKraftMigrationStatus(params *ZookeeperToKraftMigrationStatusParams, opts ...ClientOption) (*ZookeeperToKraftMigrationStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()

@@ -19,12 +19,12 @@ type ListCertificatesResponse struct {
 }
 
 // Validate validates this list certificates response
-func (m *ListCertificatesResponse) Validate(formats strfmt.Registry) error {
+func (m *ListCertificatesResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list certificates response based on context it is used
-func (m *ListCertificatesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListCertificatesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

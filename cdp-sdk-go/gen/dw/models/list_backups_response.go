@@ -90,7 +90,7 @@ func (m *ListBackupsResponse) contextValidateBackups(ctx context.Context, format
 		if m.Backups[i] != nil {
 
 			if typeutils.IsZero(m.Backups[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Backups[i].ContextValidate(ctx, formats); err != nil {

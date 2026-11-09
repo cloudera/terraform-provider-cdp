@@ -14,17 +14,20 @@ import (
 // swagger:model InstanceTemplate
 type InstanceTemplate struct {
 
+	// A list of fallback instance types, ordered by priority, to be used if the primary instanceType is unavailable in the specified zone.
+	FallbackInstanceTypes []string `json:"fallbackInstanceTypes"`
+
 	// The type of the instance.
 	InstanceType string `json:"instanceType,omitempty"`
 }
 
 // Validate validates this instance template
-func (m *InstanceTemplate) Validate(formats strfmt.Registry) error {
+func (m *InstanceTemplate) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this instance template based on context it is used
-func (m *InstanceTemplate) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *InstanceTemplate) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

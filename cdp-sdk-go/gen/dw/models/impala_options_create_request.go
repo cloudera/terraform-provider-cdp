@@ -22,12 +22,12 @@ type ImpalaOptionsCreateRequest struct {
 }
 
 // Validate validates this impala options create request
-func (m *ImpalaOptionsCreateRequest) Validate(formats strfmt.Registry) error {
+func (m *ImpalaOptionsCreateRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this impala options create request based on context it is used
-func (m *ImpalaOptionsCreateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ImpalaOptionsCreateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -87,7 +87,7 @@ func (m *ListServicesResponse) contextValidateServices(ctx context.Context, form
 		if m.Services[i] != nil {
 
 			if typeutils.IsZero(m.Services[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Services[i].ContextValidate(ctx, formats); err != nil {

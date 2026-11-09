@@ -25,12 +25,12 @@ type GetSuspendResumeStatusResponse struct {
 }
 
 // Validate validates this get suspend resume status response
-func (m *GetSuspendResumeStatusResponse) Validate(formats strfmt.Registry) error {
+func (m *GetSuspendResumeStatusResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this get suspend resume status response based on context it is used
-func (m *GetSuspendResumeStatusResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetSuspendResumeStatusResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *RootVolume) validateSize(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this root volume based on context it is used
-func (m *RootVolume) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RootVolume) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

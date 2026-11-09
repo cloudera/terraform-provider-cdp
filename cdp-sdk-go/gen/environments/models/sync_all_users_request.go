@@ -19,12 +19,12 @@ type SyncAllUsersRequest struct {
 }
 
 // Validate validates this sync all users request
-func (m *SyncAllUsersRequest) Validate(formats strfmt.Registry) error {
+func (m *SyncAllUsersRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this sync all users request based on context it is used
-func (m *SyncAllUsersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SyncAllUsersRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

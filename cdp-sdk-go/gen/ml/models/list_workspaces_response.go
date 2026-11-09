@@ -87,7 +87,7 @@ func (m *ListWorkspacesResponse) contextValidateWorkspaces(ctx context.Context, 
 		if m.Workspaces[i] != nil {
 
 			if typeutils.IsZero(m.Workspaces[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Workspaces[i].ContextValidate(ctx, formats); err != nil {

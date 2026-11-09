@@ -45,7 +45,7 @@ func (m *DeleteCredentialRequest) validateCredentialName(formats strfmt.Registry
 }
 
 // ContextValidate validates this delete credential request based on context it is used
-func (m *DeleteCredentialRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteCredentialRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

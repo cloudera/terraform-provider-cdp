@@ -134,7 +134,7 @@ func (m *ScaleHorizontallyRequest) validateInstanceGroupName(formats strfmt.Regi
 }
 
 // ContextValidate validates this scale horizontally request based on context it is used
-func (m *ScaleHorizontallyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ScaleHorizontallyRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

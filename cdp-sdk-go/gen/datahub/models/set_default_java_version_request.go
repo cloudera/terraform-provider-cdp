@@ -65,7 +65,7 @@ func (m *SetDefaultJavaVersionRequest) validateJavaVersion(formats strfmt.Regist
 }
 
 // ContextValidate validates this set default java version request based on context it is used
-func (m *SetDefaultJavaVersionRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetDefaultJavaVersionRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

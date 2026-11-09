@@ -122,7 +122,7 @@ func (m *ListEdgeNodesResponse) contextValidateEdgeNodes(ctx context.Context, fo
 		if m.EdgeNodes[i] != nil {
 
 			if typeutils.IsZero(m.EdgeNodes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.EdgeNodes[i].ContextValidate(ctx, formats); err != nil {

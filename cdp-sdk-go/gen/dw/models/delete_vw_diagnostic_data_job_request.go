@@ -79,7 +79,7 @@ func (m *DeleteVwDiagnosticDataJobRequest) validateVwID(formats strfmt.Registry)
 }
 
 // ContextValidate validates this delete vw diagnostic data job request based on context it is used
-func (m *DeleteVwDiagnosticDataJobRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteVwDiagnosticDataJobRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

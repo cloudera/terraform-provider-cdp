@@ -61,7 +61,7 @@ func (m *BackupMetadata) validateLastSuccessfulBackupTime(formats strfmt.Registr
 }
 
 // ContextValidate validates this backup metadata based on context it is used
-func (m *BackupMetadata) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BackupMetadata) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -62,7 +62,7 @@ func (m *UnassignMachineUserRoleRequest) validateRole(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this unassign machine user role request based on context it is used
-func (m *UnassignMachineUserRoleRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UnassignMachineUserRoleRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

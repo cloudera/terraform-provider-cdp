@@ -92,7 +92,7 @@ func (m *AWSFreeIpaCreationRequest) validateArchitecture(formats strfmt.Registry
 }
 
 // ContextValidate validates this a w s free ipa creation request based on context it is used
-func (m *AWSFreeIpaCreationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AWSFreeIpaCreationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

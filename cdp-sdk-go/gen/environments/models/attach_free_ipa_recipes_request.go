@@ -62,7 +62,7 @@ func (m *AttachFreeIpaRecipesRequest) validateRecipes(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this attach free ipa recipes request based on context it is used
-func (m *AttachFreeIpaRecipesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AttachFreeIpaRecipesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

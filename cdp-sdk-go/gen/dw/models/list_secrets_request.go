@@ -45,7 +45,7 @@ func (m *ListSecretsRequest) validateClusterID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this list secrets request based on context it is used
-func (m *ListSecretsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListSecretsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

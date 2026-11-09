@@ -19,12 +19,12 @@ type RebuildVwResponse struct {
 }
 
 // Validate validates this rebuild vw response
-func (m *RebuildVwResponse) Validate(formats strfmt.Registry) error {
+func (m *RebuildVwResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this rebuild vw response based on context it is used
-func (m *RebuildVwResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RebuildVwResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

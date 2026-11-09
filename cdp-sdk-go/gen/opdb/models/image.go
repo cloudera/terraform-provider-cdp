@@ -22,12 +22,12 @@ type Image struct {
 }
 
 // Validate validates this image
-func (m *Image) Validate(formats strfmt.Registry) error {
+func (m *Image) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this image based on context it is used
-func (m *Image) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Image) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

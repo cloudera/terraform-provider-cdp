@@ -133,6 +133,12 @@ type Workspace struct {
 	// Secondary range names for kubernetes pod CIDR in GCP.
 	SecondaryPodRangeNames []string `json:"secondaryPodRangeNames"`
 
+	// Available quota for the cml service resource pool.
+	ServiceAvailableQuota *ResourceQuota `json:"serviceAvailableQuota,omitempty"`
+
+	// Quota configured for the cml service resource pool.
+	ServiceQuota *ResourceQuota `json:"serviceQuota,omitempty"`
+
 	// The subnets of the workbench.
 	Subnets []string `json:"subnets"`
 
@@ -234,6 +240,14 @@ func (m *Workspace) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateQuota(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateServiceAvailableQuota(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateServiceQuota(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -514,6 +528,52 @@ func (m *Workspace) validateQuota(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Workspace) validateServiceAvailableQuota(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.ServiceAvailableQuota) { // not required
+		return nil
+	}
+
+	if m.ServiceAvailableQuota != nil {
+		if err := m.ServiceAvailableQuota.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("serviceAvailableQuota")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("serviceAvailableQuota")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Workspace) validateServiceQuota(formats strfmt.Registry) error {
+	if typeutils.IsZero(m.ServiceQuota) { // not required
+		return nil
+	}
+
+	if m.ServiceQuota != nil {
+		if err := m.ServiceQuota.Validate(formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("serviceQuota")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("serviceQuota")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *Workspace) validateTags(formats strfmt.Registry) error {
 
 	if err := validate.Required("tags", "body", m.Tags); err != nil {
@@ -601,6 +661,14 @@ func (m *Workspace) ContextValidate(ctx context.Context, formats strfmt.Registry
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateServiceAvailableQuota(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateServiceQuota(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateTags(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -672,7 +740,7 @@ func (m *Workspace) contextValidateHealthInfoLists(ctx context.Context, formats 
 		if m.HealthInfoLists[i] != nil {
 
 			if typeutils.IsZero(m.HealthInfoLists[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.HealthInfoLists[i].ContextValidate(ctx, formats); err != nil {
@@ -701,7 +769,7 @@ func (m *Workspace) contextValidateInstanceGroups(ctx context.Context, formats s
 		if m.InstanceGroups[i] != nil {
 
 			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
@@ -748,6 +816,56 @@ func (m *Workspace) contextValidateQuota(ctx context.Context, formats strfmt.Reg
 	return nil
 }
 
+func (m *Workspace) contextValidateServiceAvailableQuota(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ServiceAvailableQuota != nil {
+
+		if typeutils.IsZero(m.ServiceAvailableQuota) { // not required
+			return nil
+		}
+
+		if err := m.ServiceAvailableQuota.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("serviceAvailableQuota")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("serviceAvailableQuota")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Workspace) contextValidateServiceQuota(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ServiceQuota != nil {
+
+		if typeutils.IsZero(m.ServiceQuota) { // not required
+			return nil
+		}
+
+		if err := m.ServiceQuota.ContextValidate(ctx, formats); err != nil {
+			ve := new(errors.Validation)
+			if stderrors.As(err, &ve) {
+				return ve.ValidateName("serviceQuota")
+			}
+			ce := new(errors.CompositeError)
+			if stderrors.As(err, &ce) {
+				return ce.ValidateName("serviceQuota")
+			}
+
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *Workspace) contextValidateTags(ctx context.Context, formats strfmt.Registry) error {
 
 	for i := 0; i < len(m.Tags); i++ {
@@ -755,7 +873,7 @@ func (m *Workspace) contextValidateTags(ctx context.Context, formats strfmt.Regi
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

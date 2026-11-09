@@ -198,7 +198,7 @@ func (m *DatalakeBackup) validateUserCrn(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this datalake backup based on context it is used
-func (m *DatalakeBackup) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DatalakeBackup) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

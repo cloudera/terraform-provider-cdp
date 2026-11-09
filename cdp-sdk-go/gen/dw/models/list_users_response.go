@@ -87,7 +87,7 @@ func (m *ListUsersResponse) contextValidateUsers(ctx context.Context, formats st
 		if m.Users[i] != nil {
 
 			if typeutils.IsZero(m.Users[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Users[i].ContextValidate(ctx, formats); err != nil {

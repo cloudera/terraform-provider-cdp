@@ -19,12 +19,12 @@ type RetryFreeipaResponse struct {
 }
 
 // Validate validates this retry freeipa response
-func (m *RetryFreeipaResponse) Validate(formats strfmt.Registry) error {
+func (m *RetryFreeipaResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this retry freeipa response based on context it is used
-func (m *RetryFreeipaResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RetryFreeipaResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -22,12 +22,12 @@ type UpdateSSHKeyResponse struct {
 }
 
 // Validate validates this update Ssh key response
-func (m *UpdateSSHKeyResponse) Validate(formats strfmt.Registry) error {
+func (m *UpdateSSHKeyResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update Ssh key response based on context it is used
-func (m *UpdateSSHKeyResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateSSHKeyResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

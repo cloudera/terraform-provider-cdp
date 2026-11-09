@@ -180,7 +180,7 @@ func (m *UpdateLdapProviderRequest) validateUsernameMappingAttribute(formats str
 }
 
 // ContextValidate validates this update ldap provider request based on context it is used
-func (m *UpdateLdapProviderRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateLdapProviderRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

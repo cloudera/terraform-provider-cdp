@@ -45,7 +45,7 @@ func (m *ListConnectorsRequest) validateClusterID(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this list connectors request based on context it is used
-func (m *ListConnectorsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListConnectorsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

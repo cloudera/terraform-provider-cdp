@@ -228,7 +228,7 @@ func (m *ConfigBlocksDiffs) contextValidateAdded(ctx context.Context, formats st
 		if m.Added[i] != nil {
 
 			if typeutils.IsZero(m.Added[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Added[i].ContextValidate(ctx, formats); err != nil {
@@ -257,7 +257,7 @@ func (m *ConfigBlocksDiffs) contextValidateChanged(ctx context.Context, formats 
 		if m.Changed[i] != nil {
 
 			if typeutils.IsZero(m.Changed[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Changed[i].ContextValidate(ctx, formats); err != nil {
@@ -286,7 +286,7 @@ func (m *ConfigBlocksDiffs) contextValidateRemoved(ctx context.Context, formats 
 		if m.Removed[i] != nil {
 
 			if typeutils.IsZero(m.Removed[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Removed[i].ContextValidate(ctx, formats); err != nil {
@@ -315,7 +315,7 @@ func (m *ConfigBlocksDiffs) contextValidateSame(ctx context.Context, formats str
 		if m.Same[i] != nil {
 
 			if typeutils.IsZero(m.Same[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Same[i].ContextValidate(ctx, formats); err != nil {

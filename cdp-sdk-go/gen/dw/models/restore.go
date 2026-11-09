@@ -158,7 +158,7 @@ func (m *Restore) contextValidateErrors(ctx context.Context, formats strfmt.Regi
 		if m.Errors[i] != nil {
 
 			if typeutils.IsZero(m.Errors[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Errors[i].ContextValidate(ctx, formats); err != nil {
@@ -187,7 +187,7 @@ func (m *Restore) contextValidateWarnings(ctx context.Context, formats strfmt.Re
 		if m.Warnings[i] != nil {
 
 			if typeutils.IsZero(m.Warnings[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Warnings[i].ContextValidate(ctx, formats); err != nil {

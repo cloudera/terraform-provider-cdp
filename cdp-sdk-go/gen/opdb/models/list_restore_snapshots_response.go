@@ -122,7 +122,7 @@ func (m *ListRestoreSnapshotsResponse) contextValidateRestoreSnapshots(ctx conte
 		if m.RestoreSnapshots[i] != nil {
 
 			if typeutils.IsZero(m.RestoreSnapshots[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.RestoreSnapshots[i].ContextValidate(ctx, formats); err != nil {

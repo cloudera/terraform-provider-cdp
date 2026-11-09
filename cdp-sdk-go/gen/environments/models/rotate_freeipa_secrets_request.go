@@ -62,7 +62,7 @@ func (m *RotateFreeipaSecretsRequest) validateSecretTypes(formats strfmt.Registr
 }
 
 // ContextValidate validates this rotate freeipa secrets request based on context it is used
-func (m *RotateFreeipaSecretsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotateFreeipaSecretsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

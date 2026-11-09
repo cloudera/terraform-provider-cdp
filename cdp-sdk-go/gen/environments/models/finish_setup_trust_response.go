@@ -48,7 +48,7 @@ func (m *FinishSetupTrustResponse) validateFlowID(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this finish setup trust response based on context it is used
-func (m *FinishSetupTrustResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FinishSetupTrustResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

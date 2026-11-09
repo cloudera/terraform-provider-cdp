@@ -45,7 +45,7 @@ func (m *ListDatalakeDiagnosticsRequest) validateCrn(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this list datalake diagnostics request based on context it is used
-func (m *ListDatalakeDiagnosticsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListDatalakeDiagnosticsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -93,7 +93,7 @@ func (m *ListResourceAssigneesResponse) contextValidateResourceAssignees(ctx con
 		if m.ResourceAssignees[i] != nil {
 
 			if typeutils.IsZero(m.ResourceAssignees[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ResourceAssignees[i].ContextValidate(ctx, formats); err != nil {

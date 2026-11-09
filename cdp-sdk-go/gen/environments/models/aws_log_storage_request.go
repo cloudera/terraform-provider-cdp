@@ -65,7 +65,7 @@ func (m *AwsLogStorageRequest) validateStorageLocationBase(formats strfmt.Regist
 }
 
 // ContextValidate validates this aws log storage request based on context it is used
-func (m *AwsLogStorageRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AwsLogStorageRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

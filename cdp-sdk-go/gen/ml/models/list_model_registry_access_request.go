@@ -19,12 +19,12 @@ type ListModelRegistryAccessRequest struct {
 }
 
 // Validate validates this list model registry access request
-func (m *ListModelRegistryAccessRequest) Validate(formats strfmt.Registry) error {
+func (m *ListModelRegistryAccessRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list model registry access request based on context it is used
-func (m *ListModelRegistryAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListModelRegistryAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

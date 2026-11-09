@@ -55,7 +55,7 @@ func (m *ClusterSummaryProductSupportResponse) validateExpiryDate(formats strfmt
 }
 
 // ContextValidate validates this cluster summary product support response based on context it is used
-func (m *ClusterSummaryProductSupportResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ClusterSummaryProductSupportResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

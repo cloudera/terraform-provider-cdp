@@ -64,7 +64,7 @@ func (m *ScalingEvent) validateEventTimestamp(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this scaling event based on context it is used
-func (m *ScalingEvent) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ScalingEvent) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *CancelDatalakeDiagnosticsRequest) validateCrn(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this cancel datalake diagnostics request based on context it is used
-func (m *CancelDatalakeDiagnosticsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CancelDatalakeDiagnosticsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

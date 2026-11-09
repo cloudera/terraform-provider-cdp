@@ -109,7 +109,7 @@ func (m *AzureCredentialCertificateProperties) validateStatus(formats strfmt.Reg
 }
 
 // ContextValidate validates this azure credential certificate properties based on context it is used
-func (m *AzureCredentialCertificateProperties) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureCredentialCertificateProperties) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

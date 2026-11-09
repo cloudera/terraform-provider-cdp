@@ -22,12 +22,12 @@ type LastSyncStatusRequest struct {
 }
 
 // Validate validates this last sync status request
-func (m *LastSyncStatusRequest) Validate(formats strfmt.Registry) error {
+func (m *LastSyncStatusRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this last sync status request based on context it is used
-func (m *LastSyncStatusRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *LastSyncStatusRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

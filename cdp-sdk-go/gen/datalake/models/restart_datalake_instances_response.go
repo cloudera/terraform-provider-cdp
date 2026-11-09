@@ -19,12 +19,12 @@ type RestartDatalakeInstancesResponse struct {
 }
 
 // Validate validates this restart datalake instances response
-func (m *RestartDatalakeInstancesResponse) Validate(formats strfmt.Registry) error {
+func (m *RestartDatalakeInstancesResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this restart datalake instances response based on context it is used
-func (m *RestartDatalakeInstancesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RestartDatalakeInstancesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

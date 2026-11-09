@@ -48,7 +48,7 @@ func (m *CreateGroupRequest) validateGroupName(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this create group request based on context it is used
-func (m *CreateGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateGroupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

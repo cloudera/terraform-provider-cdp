@@ -22,12 +22,12 @@ type StartFreeIpaVerticalScalingResponse struct {
 }
 
 // Validate validates this start free ipa vertical scaling response
-func (m *StartFreeIpaVerticalScalingResponse) Validate(formats strfmt.Registry) error {
+func (m *StartFreeIpaVerticalScalingResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this start free ipa vertical scaling response based on context it is used
-func (m *StartFreeIpaVerticalScalingResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartFreeIpaVerticalScalingResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

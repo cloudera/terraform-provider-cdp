@@ -25,12 +25,12 @@ type ListWorkspaceAccessRequest struct {
 }
 
 // Validate validates this list workspace access request
-func (m *ListWorkspaceAccessRequest) Validate(formats strfmt.Registry) error {
+func (m *ListWorkspaceAccessRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list workspace access request based on context it is used
-func (m *ListWorkspaceAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListWorkspaceAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

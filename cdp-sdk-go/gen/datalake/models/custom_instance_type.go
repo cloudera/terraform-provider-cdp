@@ -22,12 +22,12 @@ type CustomInstanceType struct {
 }
 
 // Validate validates this custom instance type
-func (m *CustomInstanceType) Validate(formats strfmt.Registry) error {
+func (m *CustomInstanceType) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this custom instance type based on context it is used
-func (m *CustomInstanceType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CustomInstanceType) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

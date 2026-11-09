@@ -28,12 +28,12 @@ type CloudSubnet struct {
 }
 
 // Validate validates this cloud subnet
-func (m *CloudSubnet) Validate(formats strfmt.Registry) error {
+func (m *CloudSubnet) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this cloud subnet based on context it is used
-func (m *CloudSubnet) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CloudSubnet) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

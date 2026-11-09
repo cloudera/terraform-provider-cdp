@@ -214,7 +214,7 @@ func (m *UpdateVwConfigRequest) contextValidateSet(ctx context.Context, formats 
 		if m.Set[i] != nil {
 
 			if typeutils.IsZero(m.Set[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Set[i].ContextValidate(ctx, formats); err != nil {

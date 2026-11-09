@@ -22,12 +22,12 @@ type ScaleHorizontallyResponse struct {
 }
 
 // Validate validates this scale horizontally response
-func (m *ScaleHorizontallyResponse) Validate(formats strfmt.Registry) error {
+func (m *ScaleHorizontallyResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this scale horizontally response based on context it is used
-func (m *ScaleHorizontallyResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ScaleHorizontallyResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

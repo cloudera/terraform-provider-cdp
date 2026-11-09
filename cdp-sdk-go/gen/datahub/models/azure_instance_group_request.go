@@ -184,7 +184,7 @@ func (m *AzureInstanceGroupRequest) contextValidateAttachedVolumeConfiguration(c
 		if m.AttachedVolumeConfiguration[i] != nil {
 
 			if typeutils.IsZero(m.AttachedVolumeConfiguration[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AttachedVolumeConfiguration[i].ContextValidate(ctx, formats); err != nil {

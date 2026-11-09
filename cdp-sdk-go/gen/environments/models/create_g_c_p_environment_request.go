@@ -78,9 +78,6 @@ type CreateGCPEnvironmentRequest struct {
 	// Required: true
 	Region *string `json:"region"`
 
-	// [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
-	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
-
 	// Security related configurations for Data Hub clusters.
 	Security *SecurityRequest `json:"security,omitempty"`
 
@@ -709,7 +706,7 @@ func (m *CreateGCPEnvironmentRequest) contextValidateTags(ctx context.Context, f
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

@@ -141,7 +141,7 @@ func (m *DeleteMachineUserResponse) contextValidateResourcesUnassigned(ctx conte
 		if m.ResourcesUnassigned[i] != nil {
 
 			if typeutils.IsZero(m.ResourcesUnassigned[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ResourcesUnassigned[i].ContextValidate(ctx, formats); err != nil {

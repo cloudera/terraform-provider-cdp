@@ -45,7 +45,7 @@ func (m *ListDatahubDiagnosticsRequest) validateCrn(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this list datahub diagnostics request based on context it is used
-func (m *ListDatahubDiagnosticsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListDatahubDiagnosticsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

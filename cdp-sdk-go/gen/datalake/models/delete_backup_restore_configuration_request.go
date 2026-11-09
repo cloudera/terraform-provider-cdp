@@ -45,7 +45,7 @@ func (m *DeleteBackupRestoreConfigurationRequest) validateDatalake(formats strfm
 }
 
 // ContextValidate validates this delete backup restore configuration request based on context it is used
-func (m *DeleteBackupRestoreConfigurationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteBackupRestoreConfigurationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

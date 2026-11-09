@@ -45,7 +45,7 @@ func (m *ListDbcsRequest) validateClusterID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this list dbcs request based on context it is used
-func (m *ListDbcsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListDbcsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

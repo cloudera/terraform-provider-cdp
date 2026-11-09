@@ -25,12 +25,12 @@ type FreeIpaLoadBalancer struct {
 }
 
 // Validate validates this free ipa load balancer
-func (m *FreeIpaLoadBalancer) Validate(formats strfmt.Registry) error {
+func (m *FreeIpaLoadBalancer) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this free ipa load balancer based on context it is used
-func (m *FreeIpaLoadBalancer) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FreeIpaLoadBalancer) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

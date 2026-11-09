@@ -61,7 +61,7 @@ func (m *BackupClusterResponse) validateTimestamp(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this backup cluster response based on context it is used
-func (m *BackupClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BackupClusterResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

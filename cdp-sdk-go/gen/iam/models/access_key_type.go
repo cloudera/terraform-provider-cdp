@@ -73,6 +73,6 @@ func (m AccessKeyType) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this access key type based on context it is used
-func (m AccessKeyType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m AccessKeyType) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

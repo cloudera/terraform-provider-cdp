@@ -45,7 +45,7 @@ func (m *SuspendWorkspaceRequest) validateWorkspaceCrn(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this suspend workspace request based on context it is used
-func (m *SuspendWorkspaceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SuspendWorkspaceRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

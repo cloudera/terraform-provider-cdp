@@ -19,12 +19,12 @@ type UpdateToAwsImdsV1Response struct {
 }
 
 // Validate validates this update to aws imds v1 response
-func (m *UpdateToAwsImdsV1Response) Validate(formats strfmt.Registry) error {
+func (m *UpdateToAwsImdsV1Response) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update to aws imds v1 response based on context it is used
-func (m *UpdateToAwsImdsV1Response) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateToAwsImdsV1Response) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

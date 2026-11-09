@@ -22,12 +22,12 @@ type StartDatabaseUpgradeResponse struct {
 }
 
 // Validate validates this start database upgrade response
-func (m *StartDatabaseUpgradeResponse) Validate(formats strfmt.Registry) error {
+func (m *StartDatabaseUpgradeResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this start database upgrade response based on context it is used
-func (m *StartDatabaseUpgradeResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartDatabaseUpgradeResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

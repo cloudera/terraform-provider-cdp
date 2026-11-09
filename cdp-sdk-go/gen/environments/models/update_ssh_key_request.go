@@ -51,7 +51,7 @@ func (m *UpdateSSHKeyRequest) validateEnvironment(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this update Ssh key request based on context it is used
-func (m *UpdateSSHKeyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateSSHKeyRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

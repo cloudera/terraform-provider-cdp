@@ -19,12 +19,12 @@ type DeleteResourceTemplateResponse struct {
 }
 
 // Validate validates this delete resource template response
-func (m *DeleteResourceTemplateResponse) Validate(formats strfmt.Registry) error {
+func (m *DeleteResourceTemplateResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this delete resource template response based on context it is used
-func (m *DeleteResourceTemplateResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteResourceTemplateResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -19,12 +19,12 @@ type DisableS3GuardResponse struct {
 }
 
 // Validate validates this disable s3 guard response
-func (m *DisableS3GuardResponse) Validate(formats strfmt.Registry) error {
+func (m *DisableS3GuardResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this disable s3 guard response based on context it is used
-func (m *DisableS3GuardResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DisableS3GuardResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

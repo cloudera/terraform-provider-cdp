@@ -93,7 +93,7 @@ func (m *ListCustomConfigurationsResponse) contextValidateCustomConfigurations(c
 		if m.CustomConfigurations[i] != nil {
 
 			if typeutils.IsZero(m.CustomConfigurations[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.CustomConfigurations[i].ContextValidate(ctx, formats); err != nil {

@@ -62,7 +62,7 @@ func (m *DescribeDbcRequest) validateDbcID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this describe dbc request based on context it is used
-func (m *DescribeDbcRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeDbcRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

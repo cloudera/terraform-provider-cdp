@@ -72,6 +72,6 @@ func (m SELinux) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this s e linux based on context it is used
-func (m SELinux) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m SELinux) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

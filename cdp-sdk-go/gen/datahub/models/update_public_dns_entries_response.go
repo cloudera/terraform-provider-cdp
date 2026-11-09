@@ -19,12 +19,12 @@ type UpdatePublicDNSEntriesResponse struct {
 }
 
 // Validate validates this update public Dns entries response
-func (m *UpdatePublicDNSEntriesResponse) Validate(formats strfmt.Registry) error {
+func (m *UpdatePublicDNSEntriesResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update public Dns entries response based on context it is used
-func (m *UpdatePublicDNSEntriesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdatePublicDNSEntriesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

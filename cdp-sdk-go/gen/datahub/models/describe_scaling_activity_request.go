@@ -62,7 +62,7 @@ func (m *DescribeScalingActivityRequest) validateOperationID(formats strfmt.Regi
 }
 
 // ContextValidate validates this describe scaling activity request based on context it is used
-func (m *DescribeScalingActivityRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeScalingActivityRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -28,12 +28,12 @@ type AzureFreeIpaCreationRequest struct {
 }
 
 // Validate validates this azure free ipa creation request
-func (m *AzureFreeIpaCreationRequest) Validate(formats strfmt.Registry) error {
+func (m *AzureFreeIpaCreationRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this azure free ipa creation request based on context it is used
-func (m *AzureFreeIpaCreationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureFreeIpaCreationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

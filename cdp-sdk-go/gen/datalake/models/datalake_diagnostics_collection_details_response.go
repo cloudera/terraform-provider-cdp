@@ -37,12 +37,12 @@ type DatalakeDiagnosticsCollectionDetailsResponse struct {
 }
 
 // Validate validates this datalake diagnostics collection details response
-func (m *DatalakeDiagnosticsCollectionDetailsResponse) Validate(formats strfmt.Registry) error {
+func (m *DatalakeDiagnosticsCollectionDetailsResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this datalake diagnostics collection details response based on context it is used
-func (m *DatalakeDiagnosticsCollectionDetailsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DatalakeDiagnosticsCollectionDetailsResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

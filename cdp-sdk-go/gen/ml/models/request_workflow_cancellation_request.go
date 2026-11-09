@@ -22,12 +22,12 @@ type RequestWorkflowCancellationRequest struct {
 }
 
 // Validate validates this request workflow cancellation request
-func (m *RequestWorkflowCancellationRequest) Validate(formats strfmt.Registry) error {
+func (m *RequestWorkflowCancellationRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this request workflow cancellation request based on context it is used
-func (m *RequestWorkflowCancellationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RequestWorkflowCancellationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

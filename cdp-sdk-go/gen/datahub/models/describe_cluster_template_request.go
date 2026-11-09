@@ -45,7 +45,7 @@ func (m *DescribeClusterTemplateRequest) validateClusterTemplateName(formats str
 }
 
 // ContextValidate validates this describe cluster template request based on context it is used
-func (m *DescribeClusterTemplateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeClusterTemplateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

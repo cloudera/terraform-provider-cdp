@@ -78,7 +78,7 @@ func (m *SecurityAccessRequest) validateSecurityGroupIDsForKnox(formats strfmt.R
 }
 
 // ContextValidate validates this security access request based on context it is used
-func (m *SecurityAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SecurityAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

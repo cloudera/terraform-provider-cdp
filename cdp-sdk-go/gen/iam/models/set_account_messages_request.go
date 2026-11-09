@@ -19,12 +19,12 @@ type SetAccountMessagesRequest struct {
 }
 
 // Validate validates this set account messages request
-func (m *SetAccountMessagesRequest) Validate(formats strfmt.Registry) error {
+func (m *SetAccountMessagesRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this set account messages request based on context it is used
-func (m *SetAccountMessagesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetAccountMessagesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *RotateSaltPasswordRequest) validateEnvironment(formats strfmt.Registry)
 }
 
 // ContextValidate validates this rotate salt password request based on context it is used
-func (m *RotateSaltPasswordRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotateSaltPasswordRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

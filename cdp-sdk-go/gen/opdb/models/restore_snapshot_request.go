@@ -113,7 +113,7 @@ func (m *RestoreSnapshotRequest) validateTargetEnvironmentName(formats strfmt.Re
 }
 
 // ContextValidate validates this restore snapshot request based on context it is used
-func (m *RestoreSnapshotRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RestoreSnapshotRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

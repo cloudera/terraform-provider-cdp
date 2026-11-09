@@ -45,7 +45,7 @@ func (m *SetDefaultIdentityProviderRequest) validateNameOrCrn(formats strfmt.Reg
 }
 
 // ContextValidate validates this set default identity provider request based on context it is used
-func (m *SetDefaultIdentityProviderRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetDefaultIdentityProviderRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

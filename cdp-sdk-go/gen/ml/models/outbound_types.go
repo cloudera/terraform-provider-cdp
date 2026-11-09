@@ -70,6 +70,6 @@ func (m OutboundTypes) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this outbound types based on context it is used
-func (m OutboundTypes) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m OutboundTypes) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

@@ -74,7 +74,7 @@ func (m *ListClusterLifecycleEventsRequest) validatePageSize(formats strfmt.Regi
 }
 
 // ContextValidate validates this list cluster lifecycle events request based on context it is used
-func (m *ListClusterLifecycleEventsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListClusterLifecycleEventsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -22,12 +22,12 @@ type AllowedInstanceTypesWithDefault struct {
 }
 
 // Validate validates this allowed instance types with default
-func (m *AllowedInstanceTypesWithDefault) Validate(formats strfmt.Registry) error {
+func (m *AllowedInstanceTypesWithDefault) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this allowed instance types with default based on context it is used
-func (m *AllowedInstanceTypesWithDefault) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AllowedInstanceTypesWithDefault) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

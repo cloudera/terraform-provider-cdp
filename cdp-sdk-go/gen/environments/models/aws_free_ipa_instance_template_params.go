@@ -79,7 +79,7 @@ func (m *AwsFreeIpaInstanceTemplateParams) validateSpotPercentage(formats strfmt
 }
 
 // ContextValidate validates this aws free ipa instance template params based on context it is used
-func (m *AwsFreeIpaInstanceTemplateParams) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AwsFreeIpaInstanceTemplateParams) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -22,12 +22,12 @@ type DatalakeVMLogResponse struct {
 }
 
 // Validate validates this datalake Vm log response
-func (m *DatalakeVMLogResponse) Validate(formats strfmt.Registry) error {
+func (m *DatalakeVMLogResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this datalake Vm log response based on context it is used
-func (m *DatalakeVMLogResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DatalakeVMLogResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -22,12 +22,12 @@ type VMTypeResponseWithMetadata struct {
 }
 
 // Validate validates this Vm type response with metadata
-func (m *VMTypeResponseWithMetadata) Validate(formats strfmt.Registry) error {
+func (m *VMTypeResponseWithMetadata) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this Vm type response with metadata based on context it is used
-func (m *VMTypeResponseWithMetadata) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *VMTypeResponseWithMetadata) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

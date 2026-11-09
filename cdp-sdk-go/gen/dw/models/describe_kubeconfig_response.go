@@ -19,12 +19,12 @@ type DescribeKubeconfigResponse struct {
 }
 
 // Validate validates this describe kubeconfig response
-func (m *DescribeKubeconfigResponse) Validate(formats strfmt.Registry) error {
+func (m *DescribeKubeconfigResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this describe kubeconfig response based on context it is used
-func (m *DescribeKubeconfigResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeKubeconfigResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

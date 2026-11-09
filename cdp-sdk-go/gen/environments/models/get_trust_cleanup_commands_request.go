@@ -45,7 +45,7 @@ func (m *GetTrustCleanupCommandsRequest) validateEnvironment(formats strfmt.Regi
 }
 
 // ContextValidate validates this get trust cleanup commands request based on context it is used
-func (m *GetTrustCleanupCommandsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetTrustCleanupCommandsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

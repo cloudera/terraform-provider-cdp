@@ -93,7 +93,7 @@ func (m *ListAccessKeysResponse) contextValidateAccessKeys(ctx context.Context, 
 		if m.AccessKeys[i] != nil {
 
 			if typeutils.IsZero(m.AccessKeys[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AccessKeys[i].ContextValidate(ctx, formats); err != nil {

@@ -45,7 +45,7 @@ func (m *DescribeClusterRequest) validateClusterName(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this describe cluster request based on context it is used
-func (m *DescribeClusterRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeClusterRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

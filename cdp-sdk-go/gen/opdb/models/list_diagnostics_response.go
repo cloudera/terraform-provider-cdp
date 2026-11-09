@@ -87,7 +87,7 @@ func (m *ListDiagnosticsResponse) contextValidateDiagnosticsBundles(ctx context.
 		if m.DiagnosticsBundles[i] != nil {
 
 			if typeutils.IsZero(m.DiagnosticsBundles[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.DiagnosticsBundles[i].ContextValidate(ctx, formats); err != nil {

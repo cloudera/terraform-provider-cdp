@@ -22,12 +22,12 @@ type SecretTypeResponse struct {
 }
 
 // Validate validates this secret type response
-func (m *SecretTypeResponse) Validate(formats strfmt.Registry) error {
+func (m *SecretTypeResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this secret type response based on context it is used
-func (m *SecretTypeResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SecretTypeResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

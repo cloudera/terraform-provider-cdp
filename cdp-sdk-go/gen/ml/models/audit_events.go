@@ -107,7 +107,7 @@ func (m *AuditEvents) contextValidateEvents(ctx context.Context, formats strfmt.
 		if m.Events[i] != nil {
 
 			if typeutils.IsZero(m.Events[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Events[i].ContextValidate(ctx, formats); err != nil {

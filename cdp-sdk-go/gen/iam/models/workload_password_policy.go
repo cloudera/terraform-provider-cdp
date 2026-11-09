@@ -164,7 +164,7 @@ func (m *WorkloadPasswordPolicy) validatePasswordHistorySize(formats strfmt.Regi
 }
 
 // ContextValidate validates this workload password policy based on context it is used
-func (m *WorkloadPasswordPolicy) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *WorkloadPasswordPolicy) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

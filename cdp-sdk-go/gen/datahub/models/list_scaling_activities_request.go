@@ -86,7 +86,7 @@ func (m *ListScalingActivitiesRequest) validatePageSize(formats strfmt.Registry)
 }
 
 // ContextValidate validates this list scaling activities request based on context it is used
-func (m *ListScalingActivitiesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListScalingActivitiesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -25,12 +25,12 @@ type ImpalaHASettingsUpdateRequest struct {
 }
 
 // Validate validates this impala h a settings update request
-func (m *ImpalaHASettingsUpdateRequest) Validate(formats strfmt.Registry) error {
+func (m *ImpalaHASettingsUpdateRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this impala h a settings update request based on context it is used
-func (m *ImpalaHASettingsUpdateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ImpalaHASettingsUpdateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

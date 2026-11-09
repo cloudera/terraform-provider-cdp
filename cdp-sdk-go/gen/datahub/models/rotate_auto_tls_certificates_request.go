@@ -45,7 +45,7 @@ func (m *RotateAutoTLSCertificatesRequest) validateDatahubName(formats strfmt.Re
 }
 
 // ContextValidate validates this rotate auto Tls certificates request based on context it is used
-func (m *RotateAutoTLSCertificatesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotateAutoTLSCertificatesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

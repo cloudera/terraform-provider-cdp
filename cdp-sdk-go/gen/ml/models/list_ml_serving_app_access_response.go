@@ -45,7 +45,7 @@ func (m *ListMlServingAppAccessResponse) validateUsers(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this list ml serving app access response based on context it is used
-func (m *ListMlServingAppAccessResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListMlServingAppAccessResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

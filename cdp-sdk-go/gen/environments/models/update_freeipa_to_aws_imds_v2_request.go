@@ -45,7 +45,7 @@ func (m *UpdateFreeipaToAwsImdsV2Request) validateEnvironmentCrn(formats strfmt.
 }
 
 // ContextValidate validates this update freeipa to aws imds v2 request based on context it is used
-func (m *UpdateFreeipaToAwsImdsV2Request) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateFreeipaToAwsImdsV2Request) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

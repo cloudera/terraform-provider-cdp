@@ -45,7 +45,7 @@ func (m *GetRootCertificateRequest) validateEnvironmentName(formats strfmt.Regis
 }
 
 // ContextValidate validates this get root certificate request based on context it is used
-func (m *GetRootCertificateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetRootCertificateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *GrantMlServingAppAccessResponse) validateKubeconfig(formats strfmt.Regi
 }
 
 // ContextValidate validates this grant ml serving app access response based on context it is used
-func (m *GrantMlServingAppAccessResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GrantMlServingAppAccessResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

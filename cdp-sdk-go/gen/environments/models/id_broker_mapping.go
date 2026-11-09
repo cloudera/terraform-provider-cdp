@@ -62,7 +62,7 @@ func (m *IDBrokerMapping) validateRole(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this Id broker mapping based on context it is used
-func (m *IDBrokerMapping) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *IDBrokerMapping) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

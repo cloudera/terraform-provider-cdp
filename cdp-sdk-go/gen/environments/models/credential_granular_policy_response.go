@@ -62,7 +62,7 @@ func (m *CredentialGranularPolicyResponse) validateService(formats strfmt.Regist
 }
 
 // ContextValidate validates this credential granular policy response based on context it is used
-func (m *CredentialGranularPolicyResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CredentialGranularPolicyResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

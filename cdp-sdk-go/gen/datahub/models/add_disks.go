@@ -132,7 +132,7 @@ func (m *AddDisks) validateVolumeType(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this add disks based on context it is used
-func (m *AddDisks) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AddDisks) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

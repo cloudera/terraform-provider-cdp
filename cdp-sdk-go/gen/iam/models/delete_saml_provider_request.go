@@ -45,7 +45,7 @@ func (m *DeleteSamlProviderRequest) validateSamlProviderName(formats strfmt.Regi
 }
 
 // ContextValidate validates this delete saml provider request based on context it is used
-func (m *DeleteSamlProviderRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteSamlProviderRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

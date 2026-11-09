@@ -87,7 +87,7 @@ func (m *ListDbcConfigsResponse) contextValidateConfigHistory(ctx context.Contex
 		if m.ConfigHistory[i] != nil {
 
 			if typeutils.IsZero(m.ConfigHistory[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ConfigHistory[i].ContextValidate(ctx, formats); err != nil {

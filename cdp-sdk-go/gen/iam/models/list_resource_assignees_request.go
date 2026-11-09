@@ -74,7 +74,7 @@ func (m *ListResourceAssigneesRequest) validateResourceCrn(formats strfmt.Regist
 }
 
 // ContextValidate validates this list resource assignees request based on context it is used
-func (m *ListResourceAssigneesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListResourceAssigneesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

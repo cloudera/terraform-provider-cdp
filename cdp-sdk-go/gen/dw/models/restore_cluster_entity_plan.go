@@ -28,12 +28,12 @@ type RestoreClusterEntityPlan struct {
 }
 
 // Validate validates this restore cluster entity plan
-func (m *RestoreClusterEntityPlan) Validate(formats strfmt.Registry) error {
+func (m *RestoreClusterEntityPlan) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this restore cluster entity plan based on context it is used
-func (m *RestoreClusterEntityPlan) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RestoreClusterEntityPlan) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

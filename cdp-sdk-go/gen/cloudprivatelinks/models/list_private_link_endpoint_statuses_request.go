@@ -45,7 +45,7 @@ func (m *ListPrivateLinkEndpointStatusesRequest) validateTrackingID(formats strf
 }
 
 // ContextValidate validates this list private link endpoint statuses request based on context it is used
-func (m *ListPrivateLinkEndpointStatusesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListPrivateLinkEndpointStatusesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -140,7 +140,7 @@ func (m *FreeIPANodeStatus) validateStatus(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this free IP a node status based on context it is used
-func (m *FreeIPANodeStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FreeIPANodeStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

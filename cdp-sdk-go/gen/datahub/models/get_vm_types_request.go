@@ -85,7 +85,7 @@ func (m *GetVMTypesRequest) validateRegion(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this get Vm types request based on context it is used
-func (m *GetVMTypesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetVMTypesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

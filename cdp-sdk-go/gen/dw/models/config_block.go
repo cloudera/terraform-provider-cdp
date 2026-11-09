@@ -25,12 +25,12 @@ type ConfigBlock struct {
 }
 
 // Validate validates this config block
-func (m *ConfigBlock) Validate(formats strfmt.Registry) error {
+func (m *ConfigBlock) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this config block based on context it is used
-func (m *ConfigBlock) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ConfigBlock) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

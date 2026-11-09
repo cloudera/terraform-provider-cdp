@@ -26,6 +26,9 @@ type GCPInstanceGroupRequest struct {
 	// List of availability zones that this instance group is associated with.
 	AvailabilityZones []string `json:"availabilityZones"`
 
+	// A list of fallback instance types, ordered by priority, to be used if the primary instanceType is unavailable in the specified zone.
+	FallbackInstanceTypes []string `json:"fallbackInstanceTypes"`
+
 	// The instance group name.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`
@@ -184,7 +187,7 @@ func (m *GCPInstanceGroupRequest) contextValidateAttachedVolumeConfiguration(ctx
 		if m.AttachedVolumeConfiguration[i] != nil {
 
 			if typeutils.IsZero(m.AttachedVolumeConfiguration[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AttachedVolumeConfiguration[i].ContextValidate(ctx, formats); err != nil {

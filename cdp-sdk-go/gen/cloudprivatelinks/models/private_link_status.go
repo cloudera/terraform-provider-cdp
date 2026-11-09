@@ -75,6 +75,6 @@ func (m PrivateLinkStatus) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this private link status based on context it is used
-func (m PrivateLinkStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m PrivateLinkStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

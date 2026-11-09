@@ -65,7 +65,7 @@ func (m *StartInstancesRequest) validateHostGroup(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this start instances request based on context it is used
-func (m *StartInstancesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartInstancesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

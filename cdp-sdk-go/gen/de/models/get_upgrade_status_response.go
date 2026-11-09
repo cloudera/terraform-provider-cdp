@@ -92,7 +92,7 @@ func (m *GetUpgradeStatusResponse) validateNextStep(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this get upgrade status response based on context it is used
-func (m *GetUpgradeStatusResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetUpgradeStatusResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

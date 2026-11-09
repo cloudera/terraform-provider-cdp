@@ -19,12 +19,12 @@ type UpdateFreeipaToAwsImdsV2Response struct {
 }
 
 // Validate validates this update freeipa to aws imds v2 response
-func (m *UpdateFreeipaToAwsImdsV2Response) Validate(formats strfmt.Registry) error {
+func (m *UpdateFreeipaToAwsImdsV2Response) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update freeipa to aws imds v2 response based on context it is used
-func (m *UpdateFreeipaToAwsImdsV2Response) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateFreeipaToAwsImdsV2Response) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

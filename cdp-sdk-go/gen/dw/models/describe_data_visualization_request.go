@@ -62,7 +62,7 @@ func (m *DescribeDataVisualizationRequest) validateDataVisualizationID(formats s
 }
 
 // ContextValidate validates this describe data visualization request based on context it is used
-func (m *DescribeDataVisualizationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeDataVisualizationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

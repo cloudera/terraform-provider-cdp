@@ -57,7 +57,7 @@ func (m *GetLogsRequest) validateRequestID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this get logs request based on context it is used
-func (m *GetLogsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetLogsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

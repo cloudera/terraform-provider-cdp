@@ -87,7 +87,7 @@ func (m *ListModelRegistriesResponse) contextValidateModelRegistries(ctx context
 		if m.ModelRegistries[i] != nil {
 
 			if typeutils.IsZero(m.ModelRegistries[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ModelRegistries[i].ContextValidate(ctx, formats); err != nil {

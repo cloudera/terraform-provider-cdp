@@ -19,12 +19,12 @@ type ResumeClusterResponse struct {
 }
 
 // Validate validates this resume cluster response
-func (m *ResumeClusterResponse) Validate(formats strfmt.Registry) error {
+func (m *ResumeClusterResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this resume cluster response based on context it is used
-func (m *ResumeClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ResumeClusterResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -72,6 +72,6 @@ func (m CloudServiceProvider) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this cloud service provider based on context it is used
-func (m CloudServiceProvider) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m CloudServiceProvider) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

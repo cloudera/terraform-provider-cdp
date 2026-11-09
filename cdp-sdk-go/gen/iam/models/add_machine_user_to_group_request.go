@@ -62,7 +62,7 @@ func (m *AddMachineUserToGroupRequest) validateMachineUserName(formats strfmt.Re
 }
 
 // ContextValidate validates this add machine user to group request based on context it is used
-func (m *AddMachineUserToGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AddMachineUserToGroupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

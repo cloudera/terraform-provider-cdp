@@ -22,12 +22,12 @@ type RequestWorkflowRollbackRequest struct {
 }
 
 // Validate validates this request workflow rollback request
-func (m *RequestWorkflowRollbackRequest) Validate(formats strfmt.Registry) error {
+func (m *RequestWorkflowRollbackRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this request workflow rollback request based on context it is used
-func (m *RequestWorkflowRollbackRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RequestWorkflowRollbackRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

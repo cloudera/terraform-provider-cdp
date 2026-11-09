@@ -93,7 +93,7 @@ func (m *ListSamlProvidersResponse) contextValidateSamlProviders(ctx context.Con
 		if m.SamlProviders[i] != nil {
 
 			if typeutils.IsZero(m.SamlProviders[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.SamlProviders[i].ContextValidate(ctx, formats); err != nil {

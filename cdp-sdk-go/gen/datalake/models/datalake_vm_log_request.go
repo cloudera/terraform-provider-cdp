@@ -62,7 +62,7 @@ func (m *DatalakeVMLogRequest) validatePath(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this datalake Vm log request based on context it is used
-func (m *DatalakeVMLogRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DatalakeVMLogRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

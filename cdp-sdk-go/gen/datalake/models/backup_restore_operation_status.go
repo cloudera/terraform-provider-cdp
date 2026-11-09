@@ -54,7 +54,7 @@ func (m *BackupRestoreOperationStatus) validateStatus(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this backup restore operation status based on context it is used
-func (m *BackupRestoreOperationStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BackupRestoreOperationStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

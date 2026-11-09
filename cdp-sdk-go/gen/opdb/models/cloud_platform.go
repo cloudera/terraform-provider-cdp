@@ -75,6 +75,6 @@ func (m CloudPlatform) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this cloud platform based on context it is used
-func (m CloudPlatform) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m CloudPlatform) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

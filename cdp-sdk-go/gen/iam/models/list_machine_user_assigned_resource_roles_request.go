@@ -74,7 +74,7 @@ func (m *ListMachineUserAssignedResourceRolesRequest) validatePageSize(formats s
 }
 
 // ContextValidate validates this list machine user assigned resource roles request based on context it is used
-func (m *ListMachineUserAssignedResourceRolesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListMachineUserAssignedResourceRolesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

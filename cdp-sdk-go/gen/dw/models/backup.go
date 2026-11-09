@@ -152,7 +152,7 @@ func (m *Backup) contextValidateErrors(ctx context.Context, formats strfmt.Regis
 		if m.Errors[i] != nil {
 
 			if typeutils.IsZero(m.Errors[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Errors[i].ContextValidate(ctx, formats); err != nil {
@@ -181,7 +181,7 @@ func (m *Backup) contextValidateWarnings(ctx context.Context, formats strfmt.Reg
 		if m.Warnings[i] != nil {
 
 			if typeutils.IsZero(m.Warnings[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Warnings[i].ContextValidate(ctx, formats); err != nil {

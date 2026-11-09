@@ -48,7 +48,7 @@ func (m *SetPasswordRequest) validatePassword(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this set password request based on context it is used
-func (m *SetPasswordRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetPasswordRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

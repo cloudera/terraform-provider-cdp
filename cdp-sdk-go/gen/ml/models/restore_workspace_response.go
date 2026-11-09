@@ -22,12 +22,12 @@ type RestoreWorkspaceResponse struct {
 }
 
 // Validate validates this restore workspace response
-func (m *RestoreWorkspaceResponse) Validate(formats strfmt.Registry) error {
+func (m *RestoreWorkspaceResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this restore workspace response based on context it is used
-func (m *RestoreWorkspaceResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RestoreWorkspaceResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

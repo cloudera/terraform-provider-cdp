@@ -67,7 +67,7 @@ func (m *CreateScimAccessTokenRequest) validateIdentityProviderNameOrCrn(formats
 }
 
 // ContextValidate validates this create scim access token request based on context it is used
-func (m *CreateScimAccessTokenRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateScimAccessTokenRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -90,7 +90,7 @@ func (m *GetClusterServiceStatusResponse) contextValidateServices(ctx context.Co
 		if m.Services[i] != nil {
 
 			if typeutils.IsZero(m.Services[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Services[i].ContextValidate(ctx, formats); err != nil {

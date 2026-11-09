@@ -70,6 +70,6 @@ func (m OperationType) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this operation type based on context it is used
-func (m OperationType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m OperationType) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

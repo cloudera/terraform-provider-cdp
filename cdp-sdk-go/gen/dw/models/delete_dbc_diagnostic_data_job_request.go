@@ -79,7 +79,7 @@ func (m *DeleteDbcDiagnosticDataJobRequest) validateJobID(formats strfmt.Registr
 }
 
 // ContextValidate validates this delete dbc diagnostic data job request based on context it is used
-func (m *DeleteDbcDiagnosticDataJobRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteDbcDiagnosticDataJobRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

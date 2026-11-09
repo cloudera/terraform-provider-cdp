@@ -74,7 +74,7 @@ func (m *ValidateAzureCloudStorageRequest) validateStorageLocation(formats strfm
 }
 
 // ContextValidate validates this validate azure cloud storage request based on context it is used
-func (m *ValidateAzureCloudStorageRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ValidateAzureCloudStorageRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

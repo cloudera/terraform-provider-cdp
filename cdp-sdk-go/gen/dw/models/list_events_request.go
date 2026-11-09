@@ -31,12 +31,12 @@ type ListEventsRequest struct {
 }
 
 // Validate validates this list events request
-func (m *ListEventsRequest) Validate(formats strfmt.Registry) error {
+func (m *ListEventsRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list events request based on context it is used
-func (m *ListEventsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListEventsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

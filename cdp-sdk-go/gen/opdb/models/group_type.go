@@ -72,6 +72,6 @@ func (m GroupType) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this group type based on context it is used
-func (m GroupType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m GroupType) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

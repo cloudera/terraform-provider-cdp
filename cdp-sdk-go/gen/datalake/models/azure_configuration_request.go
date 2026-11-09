@@ -62,7 +62,7 @@ func (m *AzureConfigurationRequest) validateStorageLocation(formats strfmt.Regis
 }
 
 // ContextValidate validates this azure configuration request based on context it is used
-func (m *AzureConfigurationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureConfigurationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

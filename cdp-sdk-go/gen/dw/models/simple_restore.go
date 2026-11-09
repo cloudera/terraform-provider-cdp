@@ -28,12 +28,12 @@ type SimpleRestore struct {
 }
 
 // Validate validates this simple restore
-func (m *SimpleRestore) Validate(formats strfmt.Registry) error {
+func (m *SimpleRestore) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this simple restore based on context it is used
-func (m *SimpleRestore) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SimpleRestore) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

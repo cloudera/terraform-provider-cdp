@@ -74,7 +74,7 @@ func (m *GetBackupLogsRequest) validatePageSize(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this get backup logs request based on context it is used
-func (m *GetBackupLogsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetBackupLogsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

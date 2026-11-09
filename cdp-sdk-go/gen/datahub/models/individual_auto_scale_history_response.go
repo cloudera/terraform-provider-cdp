@@ -52,7 +52,7 @@ func (m *IndividualAutoScaleHistoryResponse) validateEventTime(formats strfmt.Re
 }
 
 // ContextValidate validates this individual auto scale history response based on context it is used
-func (m *IndividualAutoScaleHistoryResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *IndividualAutoScaleHistoryResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

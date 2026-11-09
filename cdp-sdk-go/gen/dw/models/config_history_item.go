@@ -55,7 +55,7 @@ func (m *ConfigHistoryItem) validateFrom(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this config history item based on context it is used
-func (m *ConfigHistoryItem) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ConfigHistoryItem) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

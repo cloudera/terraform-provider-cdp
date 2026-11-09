@@ -48,7 +48,7 @@ func (m *ListConnectorTestJobsRequest) validateClusterID(formats strfmt.Registry
 }
 
 // ContextValidate validates this list connector test jobs request based on context it is used
-func (m *ListConnectorTestJobsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListConnectorTestJobsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

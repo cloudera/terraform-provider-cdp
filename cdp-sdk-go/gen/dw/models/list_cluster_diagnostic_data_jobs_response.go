@@ -90,7 +90,7 @@ func (m *ListClusterDiagnosticDataJobsResponse) contextValidateJobs(ctx context.
 		if m.Jobs[i] != nil {
 
 			if typeutils.IsZero(m.Jobs[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Jobs[i].ContextValidate(ctx, formats); err != nil {

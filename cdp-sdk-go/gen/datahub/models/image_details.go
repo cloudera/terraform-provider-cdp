@@ -31,12 +31,12 @@ type ImageDetails struct {
 }
 
 // Validate validates this image details
-func (m *ImageDetails) Validate(formats strfmt.Registry) error {
+func (m *ImageDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this image details based on context it is used
-func (m *ImageDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ImageDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

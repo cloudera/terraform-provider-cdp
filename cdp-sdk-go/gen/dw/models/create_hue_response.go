@@ -22,12 +22,12 @@ type CreateHueResponse struct {
 }
 
 // Validate validates this create hue response
-func (m *CreateHueResponse) Validate(formats strfmt.Registry) error {
+func (m *CreateHueResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this create hue response based on context it is used
-func (m *CreateHueResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateHueResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

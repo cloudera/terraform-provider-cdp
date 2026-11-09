@@ -40,12 +40,12 @@ type VcResources struct {
 }
 
 // Validate validates this vc resources
-func (m *VcResources) Validate(formats strfmt.Registry) error {
+func (m *VcResources) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this vc resources based on context it is used
-func (m *VcResources) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *VcResources) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

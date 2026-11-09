@@ -93,7 +93,7 @@ func (m *ListServicePrincipalCloudIdentitiesResponse) contextValidateServicePrin
 		if m.ServicePrincipalCloudIdentities[i] != nil {
 
 			if typeutils.IsZero(m.ServicePrincipalCloudIdentities[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ServicePrincipalCloudIdentities[i].ContextValidate(ctx, formats); err != nil {

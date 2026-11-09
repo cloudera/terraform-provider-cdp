@@ -93,6 +93,6 @@ func (m CoprocessorStatusType) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this coprocessor status type based on context it is used
-func (m CoprocessorStatusType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m CoprocessorStatusType) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

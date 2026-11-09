@@ -22,12 +22,12 @@ type VolumeEncryptionRequest struct {
 }
 
 // Validate validates this volume encryption request
-func (m *VolumeEncryptionRequest) Validate(formats strfmt.Registry) error {
+func (m *VolumeEncryptionRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this volume encryption request based on context it is used
-func (m *VolumeEncryptionRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *VolumeEncryptionRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

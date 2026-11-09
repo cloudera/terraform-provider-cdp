@@ -25,12 +25,12 @@ type SimpleBackup struct {
 }
 
 // Validate validates this simple backup
-func (m *SimpleBackup) Validate(formats strfmt.Registry) error {
+func (m *SimpleBackup) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this simple backup based on context it is used
-func (m *SimpleBackup) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SimpleBackup) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

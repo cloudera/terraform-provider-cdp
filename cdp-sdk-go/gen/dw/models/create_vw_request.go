@@ -638,7 +638,7 @@ func (m *CreateVwRequest) contextValidateImpalaRestCatalogConnectors(ctx context
 		if m.ImpalaRestCatalogConnectors[i] != nil {
 
 			if typeutils.IsZero(m.ImpalaRestCatalogConnectors[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ImpalaRestCatalogConnectors[i].ContextValidate(ctx, formats); err != nil {
@@ -692,7 +692,7 @@ func (m *CreateVwRequest) contextValidateTags(ctx context.Context, formats strfm
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

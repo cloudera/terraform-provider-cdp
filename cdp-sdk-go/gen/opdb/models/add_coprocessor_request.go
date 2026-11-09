@@ -74,7 +74,7 @@ func (m *AddCoprocessorRequest) validateTableName(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this add coprocessor request based on context it is used
-func (m *AddCoprocessorRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AddCoprocessorRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *RenewCertificatesRequest) validateClusterID(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this renew certificates request based on context it is used
-func (m *RenewCertificatesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RenewCertificatesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

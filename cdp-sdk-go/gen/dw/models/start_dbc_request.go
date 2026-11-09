@@ -65,7 +65,7 @@ func (m *StartDbcRequest) validateDbcID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this start dbc request based on context it is used
-func (m *StartDbcRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartDbcRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

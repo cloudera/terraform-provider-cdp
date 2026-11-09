@@ -19,12 +19,12 @@ type AzureConfiguration struct {
 }
 
 // Validate validates this azure configuration
-func (m *AzureConfiguration) Validate(formats strfmt.Registry) error {
+func (m *AzureConfiguration) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this azure configuration based on context it is used
-func (m *AzureConfiguration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureConfiguration) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

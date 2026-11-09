@@ -22,12 +22,12 @@ type ClientConfigurationDetails struct {
 }
 
 // Validate validates this client configuration details
-func (m *ClientConfigurationDetails) Validate(formats strfmt.Registry) error {
+func (m *ClientConfigurationDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this client configuration details based on context it is used
-func (m *ClientConfigurationDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ClientConfigurationDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

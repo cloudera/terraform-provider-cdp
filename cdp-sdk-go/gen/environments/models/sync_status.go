@@ -85,6 +85,6 @@ func (m SyncStatus) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this sync status based on context it is used
-func (m SyncStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m SyncStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

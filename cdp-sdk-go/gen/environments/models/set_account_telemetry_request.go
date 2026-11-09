@@ -18,9 +18,6 @@ import (
 // swagger:model SetAccountTelemetryRequest
 type SetAccountTelemetryRequest struct {
 
-	// [Deprecated] Flag to enable environment level deployment log collection.
-	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
-
 	// List of anonymization rules that are applied on logs that are shipped to Cloudera
 	Rules []*AnonymizationRuleRequest `json:"rules"`
 
@@ -93,7 +90,7 @@ func (m *SetAccountTelemetryRequest) contextValidateRules(ctx context.Context, f
 		if m.Rules[i] != nil {
 
 			if typeutils.IsZero(m.Rules[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Rules[i].ContextValidate(ctx, formats); err != nil {

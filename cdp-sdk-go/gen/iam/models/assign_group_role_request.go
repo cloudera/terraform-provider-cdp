@@ -62,7 +62,7 @@ func (m *AssignGroupRoleRequest) validateRole(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this assign group role request based on context it is used
-func (m *AssignGroupRoleRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AssignGroupRoleRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

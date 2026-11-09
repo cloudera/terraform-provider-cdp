@@ -45,7 +45,7 @@ func (m *StopClusterRequest) validateClusterName(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this stop cluster request based on context it is used
-func (m *StopClusterRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StopClusterRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

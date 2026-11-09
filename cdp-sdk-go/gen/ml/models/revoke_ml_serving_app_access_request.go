@@ -22,12 +22,12 @@ type RevokeMlServingAppAccessRequest struct {
 }
 
 // Validate validates this revoke ml serving app access request
-func (m *RevokeMlServingAppAccessRequest) Validate(formats strfmt.Registry) error {
+func (m *RevokeMlServingAppAccessRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this revoke ml serving app access request based on context it is used
-func (m *RevokeMlServingAppAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RevokeMlServingAppAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

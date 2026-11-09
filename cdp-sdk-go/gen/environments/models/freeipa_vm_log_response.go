@@ -22,12 +22,12 @@ type FreeipaVMLogResponse struct {
 }
 
 // Validate validates this freeipa Vm log response
-func (m *FreeipaVMLogResponse) Validate(formats strfmt.Registry) error {
+func (m *FreeipaVMLogResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this freeipa Vm log response based on context it is used
-func (m *FreeipaVMLogResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FreeipaVMLogResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

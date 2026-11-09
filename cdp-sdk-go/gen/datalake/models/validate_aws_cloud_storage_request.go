@@ -150,7 +150,7 @@ func (m *ValidateAwsCloudStorageRequest) validateStorageLocation(formats strfmt.
 }
 
 // ContextValidate validates this validate aws cloud storage request based on context it is used
-func (m *ValidateAwsCloudStorageRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ValidateAwsCloudStorageRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

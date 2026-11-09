@@ -62,7 +62,7 @@ func (m *GetHueUpgradeVersionRequest) validateHueID(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this get hue upgrade version request based on context it is used
-func (m *GetHueUpgradeVersionRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetHueUpgradeVersionRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

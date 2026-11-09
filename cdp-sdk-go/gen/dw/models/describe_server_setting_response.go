@@ -87,7 +87,7 @@ func (m *DescribeServerSettingResponse) contextValidateSettings(ctx context.Cont
 		if m.Settings[i] != nil {
 
 			if typeutils.IsZero(m.Settings[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Settings[i].ContextValidate(ctx, formats); err != nil {

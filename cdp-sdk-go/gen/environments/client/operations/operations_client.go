@@ -409,6 +409,12 @@ type ClientService interface {
 	// ListProxyConfigsContext lists proxy configs.
 	ListProxyConfigsContext(ctx context.Context, params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error)
 
+	// PrepareFreeipaUpgrade prepares and validates an environment for free IP a upgrade.
+	PrepareFreeipaUpgrade(params *PrepareFreeipaUpgradeParams, opts ...ClientOption) (*PrepareFreeipaUpgradeOK, error)
+
+	// PrepareFreeipaUpgradeContext prepares and validates an environment for free IP a upgrade.
+	PrepareFreeipaUpgradeContext(ctx context.Context, params *PrepareFreeipaUpgradeParams, opts ...ClientOption) (*PrepareFreeipaUpgradeOK, error)
+
 	// RebuildFreeipa recreate free IP a in case of disaster.
 	RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOption) (*RebuildFreeipaOK, error)
 
@@ -734,7 +740,7 @@ type ClientService interface {
 // If you need to pass a specific context, use [Client.AddTrustContext] instead.
 func (a *Client) AddTrust(params *AddTrustParams, opts ...ClientOption) (*AddTrustOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -799,7 +805,7 @@ func (a *Client) AddTrustContext(ctx context.Context, params *AddTrustParams, op
 // If you need to pass a specific context, use [Client.AttachFreeIpaRecipesContext] instead.
 func (a *Client) AttachFreeIpaRecipes(params *AttachFreeIpaRecipesParams, opts ...ClientOption) (*AttachFreeIpaRecipesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -864,7 +870,7 @@ func (a *Client) AttachFreeIpaRecipesContext(ctx context.Context, params *Attach
 // If you need to pass a specific context, use [Client.CancelFreeipaDiagnosticsContext] instead.
 func (a *Client) CancelFreeipaDiagnostics(params *CancelFreeipaDiagnosticsParams, opts ...ClientOption) (*CancelFreeipaDiagnosticsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -929,7 +935,7 @@ func (a *Client) CancelFreeipaDiagnosticsContext(ctx context.Context, params *Ca
 // If you need to pass a specific context, use [Client.CancelTrustContext] instead.
 func (a *Client) CancelTrust(params *CancelTrustParams, opts ...ClientOption) (*CancelTrustOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -994,7 +1000,7 @@ func (a *Client) CancelTrustContext(ctx context.Context, params *CancelTrustPara
 // If you need to pass a specific context, use [Client.ChangeEnvironmentCredentialContext] instead.
 func (a *Client) ChangeEnvironmentCredential(params *ChangeEnvironmentCredentialParams, opts ...ClientOption) (*ChangeEnvironmentCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1059,7 +1065,7 @@ func (a *Client) ChangeEnvironmentCredentialContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.CheckDatabaseConnectivityContext] instead.
 func (a *Client) CheckDatabaseConnectivity(params *CheckDatabaseConnectivityParams, opts ...ClientOption) (*CheckDatabaseConnectivityOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1124,7 +1130,7 @@ func (a *Client) CheckDatabaseConnectivityContext(ctx context.Context, params *C
 // If you need to pass a specific context, use [Client.CheckEnvironmentConnectivityContext] instead.
 func (a *Client) CheckEnvironmentConnectivity(params *CheckEnvironmentConnectivityParams, opts ...ClientOption) (*CheckEnvironmentConnectivityOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1189,7 +1195,7 @@ func (a *Client) CheckEnvironmentConnectivityContext(ctx context.Context, params
 // If you need to pass a specific context, use [Client.CheckKubernetesConnectivityContext] instead.
 func (a *Client) CheckKubernetesConnectivity(params *CheckKubernetesConnectivityParams, opts ...ClientOption) (*CheckKubernetesConnectivityOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1254,7 +1260,7 @@ func (a *Client) CheckKubernetesConnectivityContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.CollectFreeipaDiagnosticsContext] instead.
 func (a *Client) CollectFreeipaDiagnostics(params *CollectFreeipaDiagnosticsParams, opts ...ClientOption) (*CollectFreeipaDiagnosticsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1319,7 +1325,7 @@ func (a *Client) CollectFreeipaDiagnosticsContext(ctx context.Context, params *C
 // If you need to pass a specific context, use [Client.CreateAWSCredentialContext] instead.
 func (a *Client) CreateAWSCredential(params *CreateAWSCredentialParams, opts ...ClientOption) (*CreateAWSCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1384,7 +1390,7 @@ func (a *Client) CreateAWSCredentialContext(ctx context.Context, params *CreateA
 // If you need to pass a specific context, use [Client.CreateAWSEnvironmentContext] instead.
 func (a *Client) CreateAWSEnvironment(params *CreateAWSEnvironmentParams, opts ...ClientOption) (*CreateAWSEnvironmentOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1449,7 +1455,7 @@ func (a *Client) CreateAWSEnvironmentContext(ctx context.Context, params *Create
 // If you need to pass a specific context, use [Client.CreateAWSGovCloudCredentialContext] instead.
 func (a *Client) CreateAWSGovCloudCredential(params *CreateAWSGovCloudCredentialParams, opts ...ClientOption) (*CreateAWSGovCloudCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1514,7 +1520,7 @@ func (a *Client) CreateAWSGovCloudCredentialContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.CreateAWSGovCloudEnvironmentContext] instead.
 func (a *Client) CreateAWSGovCloudEnvironment(params *CreateAWSGovCloudEnvironmentParams, opts ...ClientOption) (*CreateAWSGovCloudEnvironmentOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1579,7 +1585,7 @@ func (a *Client) CreateAWSGovCloudEnvironmentContext(ctx context.Context, params
 // If you need to pass a specific context, use [Client.CreateAzureCredentialContext] instead.
 func (a *Client) CreateAzureCredential(params *CreateAzureCredentialParams, opts ...ClientOption) (*CreateAzureCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1644,7 +1650,7 @@ func (a *Client) CreateAzureCredentialContext(ctx context.Context, params *Creat
 // If you need to pass a specific context, use [Client.CreateAzureEnvironmentContext] instead.
 func (a *Client) CreateAzureEnvironment(params *CreateAzureEnvironmentParams, opts ...ClientOption) (*CreateAzureEnvironmentOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1709,7 +1715,7 @@ func (a *Client) CreateAzureEnvironmentContext(ctx context.Context, params *Crea
 // If you need to pass a specific context, use [Client.CreateGCPCredentialContext] instead.
 func (a *Client) CreateGCPCredential(params *CreateGCPCredentialParams, opts ...ClientOption) (*CreateGCPCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1774,7 +1780,7 @@ func (a *Client) CreateGCPCredentialContext(ctx context.Context, params *CreateG
 // If you need to pass a specific context, use [Client.CreateGCPEnvironmentContext] instead.
 func (a *Client) CreateGCPEnvironment(params *CreateGCPEnvironmentParams, opts ...ClientOption) (*CreateGCPEnvironmentOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1839,7 +1845,7 @@ func (a *Client) CreateGCPEnvironmentContext(ctx context.Context, params *Create
 // If you need to pass a specific context, use [Client.CreatePrivateEnvironmentContext] instead.
 func (a *Client) CreatePrivateEnvironment(params *CreatePrivateEnvironmentParams, opts ...ClientOption) (*CreatePrivateEnvironmentOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1904,7 +1910,7 @@ func (a *Client) CreatePrivateEnvironmentContext(ctx context.Context, params *Cr
 // If you need to pass a specific context, use [Client.CreateProxyConfigContext] instead.
 func (a *Client) CreateProxyConfig(params *CreateProxyConfigParams, opts ...ClientOption) (*CreateProxyConfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1969,7 +1975,7 @@ func (a *Client) CreateProxyConfigContext(ctx context.Context, params *CreatePro
 // If you need to pass a specific context, use [Client.DeleteAuditCredentialContext] instead.
 func (a *Client) DeleteAuditCredential(params *DeleteAuditCredentialParams, opts ...ClientOption) (*DeleteAuditCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2034,7 +2040,7 @@ func (a *Client) DeleteAuditCredentialContext(ctx context.Context, params *Delet
 // If you need to pass a specific context, use [Client.DeleteCredentialContext] instead.
 func (a *Client) DeleteCredential(params *DeleteCredentialParams, opts ...ClientOption) (*DeleteCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2099,7 +2105,7 @@ func (a *Client) DeleteCredentialContext(ctx context.Context, params *DeleteCred
 // If you need to pass a specific context, use [Client.DeleteEnvironmentContext] instead.
 func (a *Client) DeleteEnvironment(params *DeleteEnvironmentParams, opts ...ClientOption) (*DeleteEnvironmentOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2164,7 +2170,7 @@ func (a *Client) DeleteEnvironmentContext(ctx context.Context, params *DeleteEnv
 // If you need to pass a specific context, use [Client.DeleteProxyConfigContext] instead.
 func (a *Client) DeleteProxyConfig(params *DeleteProxyConfigParams, opts ...ClientOption) (*DeleteProxyConfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2229,7 +2235,7 @@ func (a *Client) DeleteProxyConfigContext(ctx context.Context, params *DeletePro
 // If you need to pass a specific context, use [Client.DescribeEnvironmentContext] instead.
 func (a *Client) DescribeEnvironment(params *DescribeEnvironmentParams, opts ...ClientOption) (*DescribeEnvironmentOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2294,7 +2300,7 @@ func (a *Client) DescribeEnvironmentContext(ctx context.Context, params *Describ
 // If you need to pass a specific context, use [Client.DetachFreeIpaRecipesContext] instead.
 func (a *Client) DetachFreeIpaRecipes(params *DetachFreeIpaRecipesParams, opts ...ClientOption) (*DetachFreeIpaRecipesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2359,7 +2365,7 @@ func (a *Client) DetachFreeIpaRecipesContext(ctx context.Context, params *Detach
 // If you need to pass a specific context, use [Client.DisableS3GuardContext] instead.
 func (a *Client) DisableS3Guard(params *DisableS3GuardParams, opts ...ClientOption) (*DisableS3GuardOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2424,7 +2430,7 @@ func (a *Client) DisableS3GuardContext(ctx context.Context, params *DisableS3Gua
 // If you need to pass a specific context, use [Client.DownscaleFreeipaContext] instead.
 func (a *Client) DownscaleFreeipa(params *DownscaleFreeipaParams, opts ...ClientOption) (*DownscaleFreeipaOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2489,7 +2495,7 @@ func (a *Client) DownscaleFreeipaContext(ctx context.Context, params *DownscaleF
 // If you need to pass a specific context, use [Client.FinishSetupTrustContext] instead.
 func (a *Client) FinishSetupTrust(params *FinishSetupTrustParams, opts ...ClientOption) (*FinishSetupTrustOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2554,7 +2560,7 @@ func (a *Client) FinishSetupTrustContext(ctx context.Context, params *FinishSetu
 // If you need to pass a specific context, use [Client.GetAccountTelemetryContext] instead.
 func (a *Client) GetAccountTelemetry(params *GetAccountTelemetryParams, opts ...ClientOption) (*GetAccountTelemetryOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2619,7 +2625,7 @@ func (a *Client) GetAccountTelemetryContext(ctx context.Context, params *GetAcco
 // If you need to pass a specific context, use [Client.GetAccountTelemetryDefaultContext] instead.
 func (a *Client) GetAccountTelemetryDefault(params *GetAccountTelemetryDefaultParams, opts ...ClientOption) (*GetAccountTelemetryDefaultOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2684,7 +2690,7 @@ func (a *Client) GetAccountTelemetryDefaultContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.GetAuditCredentialPrerequisitesContext] instead.
 func (a *Client) GetAuditCredentialPrerequisites(params *GetAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetAuditCredentialPrerequisitesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2749,7 +2755,7 @@ func (a *Client) GetAuditCredentialPrerequisitesContext(ctx context.Context, par
 // If you need to pass a specific context, use [Client.GetAutomatedSyncEnvironmentStatusContext] instead.
 func (a *Client) GetAutomatedSyncEnvironmentStatus(params *GetAutomatedSyncEnvironmentStatusParams, opts ...ClientOption) (*GetAutomatedSyncEnvironmentStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2814,7 +2820,7 @@ func (a *Client) GetAutomatedSyncEnvironmentStatusContext(ctx context.Context, p
 // If you need to pass a specific context, use [Client.GetAzureImageTermsPolicyContext] instead.
 func (a *Client) GetAzureImageTermsPolicy(params *GetAzureImageTermsPolicyParams, opts ...ClientOption) (*GetAzureImageTermsPolicyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2879,7 +2885,7 @@ func (a *Client) GetAzureImageTermsPolicyContext(ctx context.Context, params *Ge
 // If you need to pass a specific context, use [Client.GetCredentialPrerequisitesContext] instead.
 func (a *Client) GetCredentialPrerequisites(params *GetCredentialPrerequisitesParams, opts ...ClientOption) (*GetCredentialPrerequisitesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2944,7 +2950,7 @@ func (a *Client) GetCredentialPrerequisitesContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.GetEnvironmentSettingContext] instead.
 func (a *Client) GetEnvironmentSetting(params *GetEnvironmentSettingParams, opts ...ClientOption) (*GetEnvironmentSettingOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3009,7 +3015,7 @@ func (a *Client) GetEnvironmentSettingContext(ctx context.Context, params *GetEn
 // If you need to pass a specific context, use [Client.GetEnvironmentUserSyncStateContext] instead.
 func (a *Client) GetEnvironmentUserSyncState(params *GetEnvironmentUserSyncStateParams, opts ...ClientOption) (*GetEnvironmentUserSyncStateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3074,7 +3080,7 @@ func (a *Client) GetEnvironmentUserSyncStateContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.GetFreeipaLogDescriptorsContext] instead.
 func (a *Client) GetFreeipaLogDescriptors(params *GetFreeipaLogDescriptorsParams, opts ...ClientOption) (*GetFreeipaLogDescriptorsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3139,7 +3145,7 @@ func (a *Client) GetFreeipaLogDescriptorsContext(ctx context.Context, params *Ge
 // If you need to pass a specific context, use [Client.GetFreeipaStatusContext] instead.
 func (a *Client) GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...ClientOption) (*GetFreeipaStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3204,7 +3210,7 @@ func (a *Client) GetFreeipaStatusContext(ctx context.Context, params *GetFreeipa
 // If you need to pass a specific context, use [Client.GetFreeipaUpgradeOptionsContext] instead.
 func (a *Client) GetFreeipaUpgradeOptions(params *GetFreeipaUpgradeOptionsParams, opts ...ClientOption) (*GetFreeipaUpgradeOptionsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3269,7 +3275,7 @@ func (a *Client) GetFreeipaUpgradeOptionsContext(ctx context.Context, params *Ge
 // If you need to pass a specific context, use [Client.GetGovCloudAuditCredentialPrerequisitesContext] instead.
 func (a *Client) GetGovCloudAuditCredentialPrerequisites(params *GetGovCloudAuditCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudAuditCredentialPrerequisitesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3334,7 +3340,7 @@ func (a *Client) GetGovCloudAuditCredentialPrerequisitesContext(ctx context.Cont
 // If you need to pass a specific context, use [Client.GetGovCloudCredentialPrerequisitesContext] instead.
 func (a *Client) GetGovCloudCredentialPrerequisites(params *GetGovCloudCredentialPrerequisitesParams, opts ...ClientOption) (*GetGovCloudCredentialPrerequisitesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3399,7 +3405,7 @@ func (a *Client) GetGovCloudCredentialPrerequisitesContext(ctx context.Context, 
 // If you need to pass a specific context, use [Client.GetIDBrokerMappingsContext] instead.
 func (a *Client) GetIDBrokerMappings(params *GetIDBrokerMappingsParams, opts ...ClientOption) (*GetIDBrokerMappingsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3464,7 +3470,7 @@ func (a *Client) GetIDBrokerMappingsContext(ctx context.Context, params *GetIDBr
 // If you need to pass a specific context, use [Client.GetIDBrokerMappingsSyncStatusContext] instead.
 func (a *Client) GetIDBrokerMappingsSyncStatus(params *GetIDBrokerMappingsSyncStatusParams, opts ...ClientOption) (*GetIDBrokerMappingsSyncStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3529,7 +3535,7 @@ func (a *Client) GetIDBrokerMappingsSyncStatusContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.GetKeytabContext] instead.
 func (a *Client) GetKeytab(params *GetKeytabParams, opts ...ClientOption) (*GetKeytabOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3594,7 +3600,7 @@ func (a *Client) GetKeytabContext(ctx context.Context, params *GetKeytabParams, 
 // If you need to pass a specific context, use [Client.GetOperationContext] instead.
 func (a *Client) GetOperation(params *GetOperationParams, opts ...ClientOption) (*GetOperationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3659,7 +3665,7 @@ func (a *Client) GetOperationContext(ctx context.Context, params *GetOperationPa
 // If you need to pass a specific context, use [Client.GetRepairFreeipaStatusContext] instead.
 func (a *Client) GetRepairFreeipaStatus(params *GetRepairFreeipaStatusParams, opts ...ClientOption) (*GetRepairFreeipaStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3724,7 +3730,7 @@ func (a *Client) GetRepairFreeipaStatusContext(ctx context.Context, params *GetR
 // If you need to pass a specific context, use [Client.GetRootCertificateContext] instead.
 func (a *Client) GetRootCertificate(params *GetRootCertificateParams, opts ...ClientOption) (*GetRootCertificateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3789,7 +3795,7 @@ func (a *Client) GetRootCertificateContext(ctx context.Context, params *GetRootC
 // If you need to pass a specific context, use [Client.GetTrustCleanupCommandsContext] instead.
 func (a *Client) GetTrustCleanupCommands(params *GetTrustCleanupCommandsParams, opts ...ClientOption) (*GetTrustCleanupCommandsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3854,7 +3860,7 @@ func (a *Client) GetTrustCleanupCommandsContext(ctx context.Context, params *Get
 // If you need to pass a specific context, use [Client.GetTrustSetupCommandsContext] instead.
 func (a *Client) GetTrustSetupCommands(params *GetTrustSetupCommandsParams, opts ...ClientOption) (*GetTrustSetupCommandsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3919,7 +3925,7 @@ func (a *Client) GetTrustSetupCommandsContext(ctx context.Context, params *GetTr
 // If you need to pass a specific context, use [Client.InitializeAWSComputeClusterContext] instead.
 func (a *Client) InitializeAWSComputeCluster(params *InitializeAWSComputeClusterParams, opts ...ClientOption) (*InitializeAWSComputeClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3984,7 +3990,7 @@ func (a *Client) InitializeAWSComputeClusterContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.InitializeAzureComputeClusterContext] instead.
 func (a *Client) InitializeAzureComputeCluster(params *InitializeAzureComputeClusterParams, opts ...ClientOption) (*InitializeAzureComputeClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4049,7 +4055,7 @@ func (a *Client) InitializeAzureComputeClusterContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.LastSyncStatusContext] instead.
 func (a *Client) LastSyncStatus(params *LastSyncStatusParams, opts ...ClientOption) (*LastSyncStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4114,7 +4120,7 @@ func (a *Client) LastSyncStatusContext(ctx context.Context, params *LastSyncStat
 // If you need to pass a specific context, use [Client.ListAuditCredentialsContext] instead.
 func (a *Client) ListAuditCredentials(params *ListAuditCredentialsParams, opts ...ClientOption) (*ListAuditCredentialsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4179,7 +4185,7 @@ func (a *Client) ListAuditCredentialsContext(ctx context.Context, params *ListAu
 // If you need to pass a specific context, use [Client.ListConnectedDataServicesContext] instead.
 func (a *Client) ListConnectedDataServices(params *ListConnectedDataServicesParams, opts ...ClientOption) (*ListConnectedDataServicesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4244,7 +4250,7 @@ func (a *Client) ListConnectedDataServicesContext(ctx context.Context, params *L
 // If you need to pass a specific context, use [Client.ListCredentialsContext] instead.
 func (a *Client) ListCredentials(params *ListCredentialsParams, opts ...ClientOption) (*ListCredentialsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4309,7 +4315,7 @@ func (a *Client) ListCredentialsContext(ctx context.Context, params *ListCredent
 // If you need to pass a specific context, use [Client.ListEnvironmentsContext] instead.
 func (a *Client) ListEnvironments(params *ListEnvironmentsParams, opts ...ClientOption) (*ListEnvironmentsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4374,7 +4380,7 @@ func (a *Client) ListEnvironmentsContext(ctx context.Context, params *ListEnviro
 // If you need to pass a specific context, use [Client.ListFreeipaDiagnosticsContext] instead.
 func (a *Client) ListFreeipaDiagnostics(params *ListFreeipaDiagnosticsParams, opts ...ClientOption) (*ListFreeipaDiagnosticsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4439,7 +4445,7 @@ func (a *Client) ListFreeipaDiagnosticsContext(ctx context.Context, params *List
 // If you need to pass a specific context, use [Client.ListFreeipaSecretTypesContext] instead.
 func (a *Client) ListFreeipaSecretTypes(params *ListFreeipaSecretTypesParams, opts ...ClientOption) (*ListFreeipaSecretTypesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4504,7 +4510,7 @@ func (a *Client) ListFreeipaSecretTypesContext(ctx context.Context, params *List
 // If you need to pass a specific context, use [Client.ListProxyConfigsContext] instead.
 func (a *Client) ListProxyConfigs(params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4559,6 +4565,71 @@ func (a *Client) ListProxyConfigsContext(ctx context.Context, params *ListProxyC
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// PrepareFreeipaUpgrade prepares and validates an environment for free IP a upgrade.
+//
+// Runs pre-upgrade checks to minimize failure risk during the upgrade process. As part of validation, a temporary load balancer is provisioned to verify network permissions and is automatically deleted upon completion..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.PrepareFreeipaUpgradeContext] instead.
+func (a *Client) PrepareFreeipaUpgrade(params *PrepareFreeipaUpgradeParams, opts ...ClientOption) (*PrepareFreeipaUpgradeOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.PrepareFreeipaUpgradeContext(ctx, params, opts...)
+}
+
+// PrepareFreeipaUpgradeContext prepares and validates an environment for free IP a upgrade.
+//
+// Runs pre-upgrade checks to minimize failure risk during the upgrade process. As part of validation, a temporary load balancer is provisioned to verify network permissions and is automatically deleted upon completion..
+//
+// Do not use the deprecated [PrepareFreeipaUpgradeParams.Context] with this method: it would be ignored.
+func (a *Client) PrepareFreeipaUpgradeContext(ctx context.Context, params *PrepareFreeipaUpgradeParams, opts ...ClientOption) (*PrepareFreeipaUpgradeOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewPrepareFreeipaUpgradeParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "prepareFreeipaUpgrade",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/prepareFreeipaUpgrade",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &PrepareFreeipaUpgradeReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*PrepareFreeipaUpgradeOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*PrepareFreeipaUpgradeDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // RebuildFreeipa recreates free IP a in case of disaster.
 //
 // If FreeIPA backups are available and all of the FreeIPA nodes are lost, this command recreates FreeIPA from scratch and restores backup..
@@ -4569,7 +4640,7 @@ func (a *Client) ListProxyConfigsContext(ctx context.Context, params *ListProxyC
 // If you need to pass a specific context, use [Client.RebuildFreeipaContext] instead.
 func (a *Client) RebuildFreeipa(params *RebuildFreeipaParams, opts ...ClientOption) (*RebuildFreeipaOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4634,7 +4705,7 @@ func (a *Client) RebuildFreeipaContext(ctx context.Context, params *RebuildFreei
 // If you need to pass a specific context, use [Client.RepairFreeipaContext] instead.
 func (a *Client) RepairFreeipa(params *RepairFreeipaParams, opts ...ClientOption) (*RepairFreeipaOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4699,7 +4770,7 @@ func (a *Client) RepairFreeipaContext(ctx context.Context, params *RepairFreeipa
 // If you need to pass a specific context, use [Client.RepairTrustContext] instead.
 func (a *Client) RepairTrust(params *RepairTrustParams, opts ...ClientOption) (*RepairTrustOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4764,7 +4835,7 @@ func (a *Client) RepairTrustContext(ctx context.Context, params *RepairTrustPara
 // If you need to pass a specific context, use [Client.RetryFreeipaContext] instead.
 func (a *Client) RetryFreeipa(params *RetryFreeipaParams, opts ...ClientOption) (*RetryFreeipaOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4829,7 +4900,7 @@ func (a *Client) RetryFreeipaContext(ctx context.Context, params *RetryFreeipaPa
 // If you need to pass a specific context, use [Client.RotateFreeipaSecretsContext] instead.
 func (a *Client) RotateFreeipaSecrets(params *RotateFreeipaSecretsParams, opts ...ClientOption) (*RotateFreeipaSecretsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4894,7 +4965,7 @@ func (a *Client) RotateFreeipaSecretsContext(ctx context.Context, params *Rotate
 // If you need to pass a specific context, use [Client.RotateSaltPasswordContext] instead.
 func (a *Client) RotateSaltPassword(params *RotateSaltPasswordParams, opts ...ClientOption) (*RotateSaltPasswordOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4959,7 +5030,7 @@ func (a *Client) RotateSaltPasswordContext(ctx context.Context, params *RotateSa
 // If you need to pass a specific context, use [Client.SetAWSAuditCredentialContext] instead.
 func (a *Client) SetAWSAuditCredential(params *SetAWSAuditCredentialParams, opts ...ClientOption) (*SetAWSAuditCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5024,7 +5095,7 @@ func (a *Client) SetAWSAuditCredentialContext(ctx context.Context, params *SetAW
 // If you need to pass a specific context, use [Client.SetAWSGovCloudAuditCredentialContext] instead.
 func (a *Client) SetAWSGovCloudAuditCredential(params *SetAWSGovCloudAuditCredentialParams, opts ...ClientOption) (*SetAWSGovCloudAuditCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5089,7 +5160,7 @@ func (a *Client) SetAWSGovCloudAuditCredentialContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.SetAccountTelemetryContext] instead.
 func (a *Client) SetAccountTelemetry(params *SetAccountTelemetryParams, opts ...ClientOption) (*SetAccountTelemetryOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5154,7 +5225,7 @@ func (a *Client) SetAccountTelemetryContext(ctx context.Context, params *SetAcco
 // If you need to pass a specific context, use [Client.SetAzureAuditCredentialContext] instead.
 func (a *Client) SetAzureAuditCredential(params *SetAzureAuditCredentialParams, opts ...ClientOption) (*SetAzureAuditCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5219,7 +5290,7 @@ func (a *Client) SetAzureAuditCredentialContext(ctx context.Context, params *Set
 // If you need to pass a specific context, use [Client.SetCatalogContext] instead.
 func (a *Client) SetCatalog(params *SetCatalogParams, opts ...ClientOption) (*SetCatalogOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5284,7 +5355,7 @@ func (a *Client) SetCatalogContext(ctx context.Context, params *SetCatalogParams
 // If you need to pass a specific context, use [Client.SetEndpointAccessGatewayContext] instead.
 func (a *Client) SetEndpointAccessGateway(params *SetEndpointAccessGatewayParams, opts ...ClientOption) (*SetEndpointAccessGatewayOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5349,7 +5420,7 @@ func (a *Client) SetEndpointAccessGatewayContext(ctx context.Context, params *Se
 // If you need to pass a specific context, use [Client.SetEnvironmentSettingContext] instead.
 func (a *Client) SetEnvironmentSetting(params *SetEnvironmentSettingParams, opts ...ClientOption) (*SetEnvironmentSettingOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5414,7 +5485,7 @@ func (a *Client) SetEnvironmentSettingContext(ctx context.Context, params *SetEn
 // If you need to pass a specific context, use [Client.SetGCPAuditCredentialContext] instead.
 func (a *Client) SetGCPAuditCredential(params *SetGCPAuditCredentialParams, opts ...ClientOption) (*SetGCPAuditCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5479,7 +5550,7 @@ func (a *Client) SetGCPAuditCredentialContext(ctx context.Context, params *SetGC
 // If you need to pass a specific context, use [Client.SetIDBrokerMappingsContext] instead.
 func (a *Client) SetIDBrokerMappings(params *SetIDBrokerMappingsParams, opts ...ClientOption) (*SetIDBrokerMappingsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5544,7 +5615,7 @@ func (a *Client) SetIDBrokerMappingsContext(ctx context.Context, params *SetIDBr
 // If you need to pass a specific context, use [Client.SetPasswordContext] instead.
 func (a *Client) SetPassword(params *SetPasswordParams, opts ...ClientOption) (*SetPasswordOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5609,7 +5680,7 @@ func (a *Client) SetPasswordContext(ctx context.Context, params *SetPasswordPara
 // If you need to pass a specific context, use [Client.SetTelemetryFeaturesContext] instead.
 func (a *Client) SetTelemetryFeatures(params *SetTelemetryFeaturesParams, opts ...ClientOption) (*SetTelemetryFeaturesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5674,7 +5745,7 @@ func (a *Client) SetTelemetryFeaturesContext(ctx context.Context, params *SetTel
 // If you need to pass a specific context, use [Client.SetupActiveDirectoryTrustContext] instead.
 func (a *Client) SetupActiveDirectoryTrust(params *SetupActiveDirectoryTrustParams, opts ...ClientOption) (*SetupActiveDirectoryTrustOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5739,7 +5810,7 @@ func (a *Client) SetupActiveDirectoryTrustContext(ctx context.Context, params *S
 // If you need to pass a specific context, use [Client.SetupMitTrustContext] instead.
 func (a *Client) SetupMitTrust(params *SetupMitTrustParams, opts ...ClientOption) (*SetupMitTrustOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5804,7 +5875,7 @@ func (a *Client) SetupMitTrustContext(ctx context.Context, params *SetupMitTrust
 // If you need to pass a specific context, use [Client.StartEnvironmentContext] instead.
 func (a *Client) StartEnvironment(params *StartEnvironmentParams, opts ...ClientOption) (*StartEnvironmentOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5869,7 +5940,7 @@ func (a *Client) StartEnvironmentContext(ctx context.Context, params *StartEnvir
 // If you need to pass a specific context, use [Client.StartFreeIpaVerticalScalingContext] instead.
 func (a *Client) StartFreeIpaVerticalScaling(params *StartFreeIpaVerticalScalingParams, opts ...ClientOption) (*StartFreeIpaVerticalScalingOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5934,7 +6005,7 @@ func (a *Client) StartFreeIpaVerticalScalingContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.StopEnvironmentContext] instead.
 func (a *Client) StopEnvironment(params *StopEnvironmentParams, opts ...ClientOption) (*StopEnvironmentOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5999,7 +6070,7 @@ func (a *Client) StopEnvironmentContext(ctx context.Context, params *StopEnviron
 // If you need to pass a specific context, use [Client.SyncAllUsersContext] instead.
 func (a *Client) SyncAllUsers(params *SyncAllUsersParams, opts ...ClientOption) (*SyncAllUsersOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6064,7 +6135,7 @@ func (a *Client) SyncAllUsersContext(ctx context.Context, params *SyncAllUsersPa
 // If you need to pass a specific context, use [Client.SyncIDBrokerMappingsContext] instead.
 func (a *Client) SyncIDBrokerMappings(params *SyncIDBrokerMappingsParams, opts ...ClientOption) (*SyncIDBrokerMappingsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6129,7 +6200,7 @@ func (a *Client) SyncIDBrokerMappingsContext(ctx context.Context, params *SyncID
 // If you need to pass a specific context, use [Client.SyncStatusContext] instead.
 func (a *Client) SyncStatus(params *SyncStatusParams, opts ...ClientOption) (*SyncStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6194,7 +6265,7 @@ func (a *Client) SyncStatusContext(ctx context.Context, params *SyncStatusParams
 // If you need to pass a specific context, use [Client.SyncUserContext] instead.
 func (a *Client) SyncUser(params *SyncUserParams, opts ...ClientOption) (*SyncUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6259,7 +6330,7 @@ func (a *Client) SyncUserContext(ctx context.Context, params *SyncUserParams, op
 // If you need to pass a specific context, use [Client.SynchronizeAllEnvironmentsContext] instead.
 func (a *Client) SynchronizeAllEnvironments(params *SynchronizeAllEnvironmentsParams, opts ...ClientOption) (*SynchronizeAllEnvironmentsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6324,7 +6395,7 @@ func (a *Client) SynchronizeAllEnvironmentsContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.TestAccountTelemetryRulesContext] instead.
 func (a *Client) TestAccountTelemetryRules(params *TestAccountTelemetryRulesParams, opts ...ClientOption) (*TestAccountTelemetryRulesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6389,7 +6460,7 @@ func (a *Client) TestAccountTelemetryRulesContext(ctx context.Context, params *T
 // If you need to pass a specific context, use [Client.UpdateAwsCredentialContext] instead.
 func (a *Client) UpdateAwsCredential(params *UpdateAwsCredentialParams, opts ...ClientOption) (*UpdateAwsCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6454,7 +6525,7 @@ func (a *Client) UpdateAwsCredentialContext(ctx context.Context, params *UpdateA
 // If you need to pass a specific context, use [Client.UpdateAwsDiskEncryptionParametersContext] instead.
 func (a *Client) UpdateAwsDiskEncryptionParameters(params *UpdateAwsDiskEncryptionParametersParams, opts ...ClientOption) (*UpdateAwsDiskEncryptionParametersOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6519,7 +6590,7 @@ func (a *Client) UpdateAwsDiskEncryptionParametersContext(ctx context.Context, p
 // If you need to pass a specific context, use [Client.UpdateAzureAvailabilityZonesContext] instead.
 func (a *Client) UpdateAzureAvailabilityZones(params *UpdateAzureAvailabilityZonesParams, opts ...ClientOption) (*UpdateAzureAvailabilityZonesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6584,7 +6655,7 @@ func (a *Client) UpdateAzureAvailabilityZonesContext(ctx context.Context, params
 // If you need to pass a specific context, use [Client.UpdateAzureCredentialContext] instead.
 func (a *Client) UpdateAzureCredential(params *UpdateAzureCredentialParams, opts ...ClientOption) (*UpdateAzureCredentialOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6649,7 +6720,7 @@ func (a *Client) UpdateAzureCredentialContext(ctx context.Context, params *Updat
 // If you need to pass a specific context, use [Client.UpdateAzureDatabaseResourcesContext] instead.
 func (a *Client) UpdateAzureDatabaseResources(params *UpdateAzureDatabaseResourcesParams, opts ...ClientOption) (*UpdateAzureDatabaseResourcesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6714,7 +6785,7 @@ func (a *Client) UpdateAzureDatabaseResourcesContext(ctx context.Context, params
 // If you need to pass a specific context, use [Client.UpdateAzureEncryptionResourcesContext] instead.
 func (a *Client) UpdateAzureEncryptionResources(params *UpdateAzureEncryptionResourcesParams, opts ...ClientOption) (*UpdateAzureEncryptionResourcesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6779,7 +6850,7 @@ func (a *Client) UpdateAzureEncryptionResourcesContext(ctx context.Context, para
 // If you need to pass a specific context, use [Client.UpdateAzureImageTermsPolicyContext] instead.
 func (a *Client) UpdateAzureImageTermsPolicy(params *UpdateAzureImageTermsPolicyParams, opts ...ClientOption) (*UpdateAzureImageTermsPolicyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6844,7 +6915,7 @@ func (a *Client) UpdateAzureImageTermsPolicyContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.UpdateCustomDockerRegistryContext] instead.
 func (a *Client) UpdateCustomDockerRegistry(params *UpdateCustomDockerRegistryParams, opts ...ClientOption) (*UpdateCustomDockerRegistryOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6909,7 +6980,7 @@ func (a *Client) UpdateCustomDockerRegistryContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.UpdateDataServiceResourcesContext] instead.
 func (a *Client) UpdateDataServiceResources(params *UpdateDataServiceResourcesParams, opts ...ClientOption) (*UpdateDataServiceResourcesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6974,7 +7045,7 @@ func (a *Client) UpdateDataServiceResourcesContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.UpdateFreeipaToAwsImdsV1Context] instead.
 func (a *Client) UpdateFreeipaToAwsImdsV1(params *UpdateFreeipaToAwsImdsV1Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV1OK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7039,7 +7110,7 @@ func (a *Client) UpdateFreeipaToAwsImdsV1Context(ctx context.Context, params *Up
 // If you need to pass a specific context, use [Client.UpdateFreeipaToAwsImdsV2Context] instead.
 func (a *Client) UpdateFreeipaToAwsImdsV2(params *UpdateFreeipaToAwsImdsV2Params, opts ...ClientOption) (*UpdateFreeipaToAwsImdsV2OK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7104,7 +7175,7 @@ func (a *Client) UpdateFreeipaToAwsImdsV2Context(ctx context.Context, params *Up
 // If you need to pass a specific context, use [Client.UpdateGcpAvailabilityZonesContext] instead.
 func (a *Client) UpdateGcpAvailabilityZones(params *UpdateGcpAvailabilityZonesParams, opts ...ClientOption) (*UpdateGcpAvailabilityZonesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7169,7 +7240,7 @@ func (a *Client) UpdateGcpAvailabilityZonesContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.UpdateOrchestratorStateContext] instead.
 func (a *Client) UpdateOrchestratorState(params *UpdateOrchestratorStateParams, opts ...ClientOption) (*UpdateOrchestratorStateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7234,7 +7305,7 @@ func (a *Client) UpdateOrchestratorStateContext(ctx context.Context, params *Upd
 // If you need to pass a specific context, use [Client.UpdateProxyConfigContext] instead.
 func (a *Client) UpdateProxyConfig(params *UpdateProxyConfigParams, opts ...ClientOption) (*UpdateProxyConfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7299,7 +7370,7 @@ func (a *Client) UpdateProxyConfigContext(ctx context.Context, params *UpdatePro
 // If you need to pass a specific context, use [Client.UpdateRootVolumeFreeipaContext] instead.
 func (a *Client) UpdateRootVolumeFreeipa(params *UpdateRootVolumeFreeipaParams, opts ...ClientOption) (*UpdateRootVolumeFreeipaOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7364,7 +7435,7 @@ func (a *Client) UpdateRootVolumeFreeipaContext(ctx context.Context, params *Upd
 // If you need to pass a specific context, use [Client.UpdateSecurityAccessContext] instead.
 func (a *Client) UpdateSecurityAccess(params *UpdateSecurityAccessParams, opts ...ClientOption) (*UpdateSecurityAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7429,7 +7500,7 @@ func (a *Client) UpdateSecurityAccessContext(ctx context.Context, params *Update
 // If you need to pass a specific context, use [Client.UpdateSSHKeyContext] instead.
 func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7494,7 +7565,7 @@ func (a *Client) UpdateSSHKeyContext(ctx context.Context, params *UpdateSSHKeyPa
 // If you need to pass a specific context, use [Client.UpdateSubnetContext] instead.
 func (a *Client) UpdateSubnet(params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7559,7 +7630,7 @@ func (a *Client) UpdateSubnetContext(ctx context.Context, params *UpdateSubnetPa
 // If you need to pass a specific context, use [Client.UpdateTagsContext] instead.
 func (a *Client) UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7624,7 +7695,7 @@ func (a *Client) UpdateTagsContext(ctx context.Context, params *UpdateTagsParams
 // If you need to pass a specific context, use [Client.UpgradeCcmContext] instead.
 func (a *Client) UpgradeCcm(params *UpgradeCcmParams, opts ...ClientOption) (*UpgradeCcmOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7689,7 +7760,7 @@ func (a *Client) UpgradeCcmContext(ctx context.Context, params *UpgradeCcmParams
 // If you need to pass a specific context, use [Client.UpgradeFreeipaContext] instead.
 func (a *Client) UpgradeFreeipa(params *UpgradeFreeipaParams, opts ...ClientOption) (*UpgradeFreeipaOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7754,7 +7825,7 @@ func (a *Client) UpgradeFreeipaContext(ctx context.Context, params *UpgradeFreei
 // If you need to pass a specific context, use [Client.UpscaleFreeipaContext] instead.
 func (a *Client) UpscaleFreeipa(params *UpscaleFreeipaParams, opts ...ClientOption) (*UpscaleFreeipaOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7819,7 +7890,7 @@ func (a *Client) UpscaleFreeipaContext(ctx context.Context, params *UpscaleFreei
 // If you need to pass a specific context, use [Client.ValidateAwsCloudStorageContext] instead.
 func (a *Client) ValidateAwsCloudStorage(params *ValidateAwsCloudStorageParams, opts ...ClientOption) (*ValidateAwsCloudStorageOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7884,7 +7955,7 @@ func (a *Client) ValidateAwsCloudStorageContext(ctx context.Context, params *Val
 // If you need to pass a specific context, use [Client.ValidateAzureCloudStorageContext] instead.
 func (a *Client) ValidateAzureCloudStorage(params *ValidateAzureCloudStorageParams, opts ...ClientOption) (*ValidateAzureCloudStorageOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()

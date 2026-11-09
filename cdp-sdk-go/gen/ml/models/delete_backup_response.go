@@ -19,12 +19,12 @@ type DeleteBackupResponse struct {
 }
 
 // Validate validates this delete backup response
-func (m *DeleteBackupResponse) Validate(formats strfmt.Registry) error {
+func (m *DeleteBackupResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this delete backup response based on context it is used
-func (m *DeleteBackupResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteBackupResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

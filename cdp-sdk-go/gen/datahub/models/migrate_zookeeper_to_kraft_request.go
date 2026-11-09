@@ -45,7 +45,7 @@ func (m *MigrateZookeeperToKraftRequest) validateCrn(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this migrate zookeeper to kraft request based on context it is used
-func (m *MigrateZookeeperToKraftRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *MigrateZookeeperToKraftRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -82,6 +82,6 @@ func (m DiagnosticDataJobStatus) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this diagnostic data job status based on context it is used
-func (m DiagnosticDataJobStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m DiagnosticDataJobStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

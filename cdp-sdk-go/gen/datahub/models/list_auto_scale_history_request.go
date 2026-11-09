@@ -81,7 +81,7 @@ func (m *ListAutoScaleHistoryRequest) validateCount(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this list auto scale history request based on context it is used
-func (m *ListAutoScaleHistoryRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListAutoScaleHistoryRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

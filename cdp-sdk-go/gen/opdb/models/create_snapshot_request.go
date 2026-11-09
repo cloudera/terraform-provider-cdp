@@ -113,7 +113,7 @@ func (m *CreateSnapshotRequest) validateTableName(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this create snapshot request based on context it is used
-func (m *CreateSnapshotRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateSnapshotRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

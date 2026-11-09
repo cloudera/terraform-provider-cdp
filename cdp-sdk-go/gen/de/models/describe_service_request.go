@@ -45,7 +45,7 @@ func (m *DescribeServiceRequest) validateClusterID(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this describe service request based on context it is used
-func (m *DescribeServiceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeServiceRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

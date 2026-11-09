@@ -25,12 +25,12 @@ type AzureClientSecretCredential struct {
 }
 
 // Validate validates this azure client secret credential
-func (m *AzureClientSecretCredential) Validate(formats strfmt.Registry) error {
+func (m *AzureClientSecretCredential) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this azure client secret credential based on context it is used
-func (m *AzureClientSecretCredential) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureClientSecretCredential) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

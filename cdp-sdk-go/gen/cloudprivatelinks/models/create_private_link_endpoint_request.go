@@ -269,7 +269,7 @@ func (m *CreatePrivateLinkEndpointRequest) contextValidateResourceTags(ctx conte
 		if m.ResourceTags[i] != nil {
 
 			if typeutils.IsZero(m.ResourceTags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ResourceTags[i].ContextValidate(ctx, formats); err != nil {

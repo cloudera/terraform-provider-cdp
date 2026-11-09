@@ -45,7 +45,7 @@ func (m *UnlockMachineUserInControlPlaneRequest) validateMachineUser(formats str
 }
 
 // ContextValidate validates this unlock machine user in control plane request based on context it is used
-func (m *UnlockMachineUserInControlPlaneRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UnlockMachineUserInControlPlaneRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

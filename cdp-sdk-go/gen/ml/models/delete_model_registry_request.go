@@ -28,12 +28,12 @@ type DeleteModelRegistryRequest struct {
 }
 
 // Validate validates this delete model registry request
-func (m *DeleteModelRegistryRequest) Validate(formats strfmt.Registry) error {
+func (m *DeleteModelRegistryRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this delete model registry request based on context it is used
-func (m *DeleteModelRegistryRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteModelRegistryRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

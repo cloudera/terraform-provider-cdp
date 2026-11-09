@@ -4,7 +4,7 @@ package models
 
 import (
 	"context"
-	"encoding/json"
+	stderrors "errors"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -18,9 +18,8 @@ import (
 // swagger:model ClusterSummary
 type ClusterSummary struct {
 
-	// Indicates the certificate status on the cluster.
-	// Enum: ["VALID","HOST_CERT_EXPIRING"]
-	CertificateExpirationState string `json:"certificateExpirationState,omitempty"`
+	// Indicates the certificate expiration status on the cluster.
+	CertificateExpirationState CertificateExpirationState `json:"certificateExpirationState,omitempty"`
 
 	// The name of the cloud platform.
 	CloudPlatform string `json:"cloudPlatform,omitempty"`
@@ -85,42 +84,21 @@ func (m *ClusterSummary) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var clusterSummaryTypeCertificateExpirationStatePropEnum []any
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["VALID","HOST_CERT_EXPIRING"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		clusterSummaryTypeCertificateExpirationStatePropEnum = append(clusterSummaryTypeCertificateExpirationStatePropEnum, v)
-	}
-}
-
-const (
-
-	// ClusterSummaryCertificateExpirationStateVALID captures enum value "VALID"
-	ClusterSummaryCertificateExpirationStateVALID string = "VALID"
-
-	// ClusterSummaryCertificateExpirationStateHOSTCERTEXPIRING captures enum value "HOST_CERT_EXPIRING"
-	ClusterSummaryCertificateExpirationStateHOSTCERTEXPIRING string = "HOST_CERT_EXPIRING"
-)
-
-// prop value enum
-func (m *ClusterSummary) validateCertificateExpirationStateEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, clusterSummaryTypeCertificateExpirationStatePropEnum, true); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (m *ClusterSummary) validateCertificateExpirationState(formats strfmt.Registry) error {
 	if typeutils.IsZero(m.CertificateExpirationState) { // not required
 		return nil
 	}
 
-	// value enum
-	if err := m.validateCertificateExpirationStateEnum("certificateExpirationState", "body", m.CertificateExpirationState); err != nil {
+	if err := m.CertificateExpirationState.Validate(formats); err != nil {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
+			return ve.ValidateName("certificateExpirationState")
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
+			return ce.ValidateName("certificateExpirationState")
+		}
+
 		return err
 	}
 
@@ -157,8 +135,39 @@ func (m *ClusterSummary) validateCrn(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validates this cluster summary based on context it is used
+// ContextValidate validate this cluster summary based on the context it is used
 func (m *ClusterSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCertificateExpirationState(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *ClusterSummary) contextValidateCertificateExpirationState(ctx context.Context, formats strfmt.Registry) error {
+
+	if typeutils.IsZero(m.CertificateExpirationState) { // not required
+		return nil
+	}
+
+	if err := m.CertificateExpirationState.ContextValidate(ctx, formats); err != nil {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
+			return ve.ValidateName("certificateExpirationState")
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
+			return ce.ValidateName("certificateExpirationState")
+		}
+
+		return err
+	}
+
 	return nil
 }
 

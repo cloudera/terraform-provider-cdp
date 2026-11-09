@@ -19,12 +19,12 @@ type Network struct {
 }
 
 // Validate validates this network
-func (m *Network) Validate(formats strfmt.Registry) error {
+func (m *Network) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this network based on context it is used
-func (m *Network) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Network) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

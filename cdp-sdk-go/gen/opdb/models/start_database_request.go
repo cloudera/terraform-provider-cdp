@@ -62,7 +62,7 @@ func (m *StartDatabaseRequest) validateEnvironmentName(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this start database request based on context it is used
-func (m *StartDatabaseRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartDatabaseRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

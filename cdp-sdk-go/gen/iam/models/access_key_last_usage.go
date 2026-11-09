@@ -52,7 +52,7 @@ func (m *AccessKeyLastUsage) validateLastUsageDate(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this access key last usage based on context it is used
-func (m *AccessKeyLastUsage) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AccessKeyLastUsage) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

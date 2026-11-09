@@ -22,12 +22,12 @@ type AzureDatabaseResources struct {
 }
 
 // Validate validates this azure database resources
-func (m *AzureDatabaseResources) Validate(formats strfmt.Registry) error {
+func (m *AzureDatabaseResources) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this azure database resources based on context it is used
-func (m *AzureDatabaseResources) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureDatabaseResources) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

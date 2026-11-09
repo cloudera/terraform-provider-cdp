@@ -62,7 +62,7 @@ func (m *UpdateGcpAvailabilityZonesRequest) validateEnvironment(formats strfmt.R
 }
 
 // ContextValidate validates this update gcp availability zones request based on context it is used
-func (m *UpdateGcpAvailabilityZonesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateGcpAvailabilityZonesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

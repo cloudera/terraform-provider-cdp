@@ -45,7 +45,7 @@ func (m *GetK8sCertJKSRequest) validateClusterID(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this get k8s cert j k s request based on context it is used
-func (m *GetK8sCertJKSRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetK8sCertJKSRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

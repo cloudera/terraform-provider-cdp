@@ -45,7 +45,7 @@ func (m *DeleteScimAccessTokenRequest) validateAccessTokenIDOrCrn(formats strfmt
 }
 
 // ContextValidate validates this delete scim access token request based on context it is used
-func (m *DeleteScimAccessTokenRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteScimAccessTokenRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

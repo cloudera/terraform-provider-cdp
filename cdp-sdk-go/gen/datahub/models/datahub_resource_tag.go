@@ -62,7 +62,7 @@ func (m *DatahubResourceTag) validateValue(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this datahub resource tag based on context it is used
-func (m *DatahubResourceTag) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DatahubResourceTag) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

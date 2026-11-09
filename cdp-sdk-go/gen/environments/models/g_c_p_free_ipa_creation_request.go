@@ -28,12 +28,12 @@ type GCPFreeIpaCreationRequest struct {
 }
 
 // Validate validates this g c p free ipa creation request
-func (m *GCPFreeIpaCreationRequest) Validate(formats strfmt.Registry) error {
+func (m *GCPFreeIpaCreationRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this g c p free ipa creation request based on context it is used
-func (m *GCPFreeIpaCreationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GCPFreeIpaCreationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -93,7 +93,7 @@ func (m *ListResourceRolesResponse) contextValidateResourceRoles(ctx context.Con
 		if m.ResourceRoles[i] != nil {
 
 			if typeutils.IsZero(m.ResourceRoles[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ResourceRoles[i].ContextValidate(ctx, formats); err != nil {

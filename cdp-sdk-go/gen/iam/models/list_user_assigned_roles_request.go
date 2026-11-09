@@ -60,7 +60,7 @@ func (m *ListUserAssignedRolesRequest) validatePageSize(formats strfmt.Registry)
 }
 
 // ContextValidate validates this list user assigned roles request based on context it is used
-func (m *ListUserAssignedRolesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListUserAssignedRolesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

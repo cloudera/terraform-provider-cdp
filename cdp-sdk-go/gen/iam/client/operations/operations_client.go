@@ -439,6 +439,12 @@ type ClientService interface {
 	// SetDefaultIdentityProviderContext sets the default identity provider.
 	SetDefaultIdentityProviderContext(ctx context.Context, params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error)
 
+	// SetLocalAdminUsername sets username of the local admin.
+	SetLocalAdminUsername(params *SetLocalAdminUsernameParams, opts ...ClientOption) (*SetLocalAdminUsernameOK, error)
+
+	// SetLocalAdminUsernameContext sets username of the local admin.
+	SetLocalAdminUsernameContext(ctx context.Context, params *SetLocalAdminUsernameParams, opts ...ClientOption) (*SetLocalAdminUsernameOK, error)
+
 	// SetSamlAuthnRequestSigningKey sets the s a m l authn request signing key and verification certificate.
 	SetSamlAuthnRequestSigningKey(params *SetSamlAuthnRequestSigningKeyParams, opts ...ClientOption) (*SetSamlAuthnRequestSigningKeyOK, error)
 
@@ -578,7 +584,7 @@ type ClientService interface {
 // If you need to pass a specific context, use [Client.AddMachineUserToGroupContext] instead.
 func (a *Client) AddMachineUserToGroup(params *AddMachineUserToGroupParams, opts ...ClientOption) (*AddMachineUserToGroupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -643,7 +649,7 @@ func (a *Client) AddMachineUserToGroupContext(ctx context.Context, params *AddMa
 // If you need to pass a specific context, use [Client.AddSSHPublicKeyContext] instead.
 func (a *Client) AddSSHPublicKey(params *AddSSHPublicKeyParams, opts ...ClientOption) (*AddSSHPublicKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -708,7 +714,7 @@ func (a *Client) AddSSHPublicKeyContext(ctx context.Context, params *AddSSHPubli
 // If you need to pass a specific context, use [Client.AddUserToGroupContext] instead.
 func (a *Client) AddUserToGroup(params *AddUserToGroupParams, opts ...ClientOption) (*AddUserToGroupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -773,7 +779,7 @@ func (a *Client) AddUserToGroupContext(ctx context.Context, params *AddUserToGro
 // If you need to pass a specific context, use [Client.AssignAzureCloudIdentityContext] instead.
 func (a *Client) AssignAzureCloudIdentity(params *AssignAzureCloudIdentityParams, opts ...ClientOption) (*AssignAzureCloudIdentityOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -838,7 +844,7 @@ func (a *Client) AssignAzureCloudIdentityContext(ctx context.Context, params *As
 // If you need to pass a specific context, use [Client.AssignGroupResourceRoleContext] instead.
 func (a *Client) AssignGroupResourceRole(params *AssignGroupResourceRoleParams, opts ...ClientOption) (*AssignGroupResourceRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -903,7 +909,7 @@ func (a *Client) AssignGroupResourceRoleContext(ctx context.Context, params *Ass
 // If you need to pass a specific context, use [Client.AssignGroupRoleContext] instead.
 func (a *Client) AssignGroupRole(params *AssignGroupRoleParams, opts ...ClientOption) (*AssignGroupRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -968,7 +974,7 @@ func (a *Client) AssignGroupRoleContext(ctx context.Context, params *AssignGroup
 // If you need to pass a specific context, use [Client.AssignMachineUserResourceRoleContext] instead.
 func (a *Client) AssignMachineUserResourceRole(params *AssignMachineUserResourceRoleParams, opts ...ClientOption) (*AssignMachineUserResourceRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1033,7 +1039,7 @@ func (a *Client) AssignMachineUserResourceRoleContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.AssignMachineUserRoleContext] instead.
 func (a *Client) AssignMachineUserRole(params *AssignMachineUserRoleParams, opts ...ClientOption) (*AssignMachineUserRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1098,7 +1104,7 @@ func (a *Client) AssignMachineUserRoleContext(ctx context.Context, params *Assig
 // If you need to pass a specific context, use [Client.AssignServicePrincipalAzureCloudIdentityContext] instead.
 func (a *Client) AssignServicePrincipalAzureCloudIdentity(params *AssignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*AssignServicePrincipalAzureCloudIdentityOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1163,7 +1169,7 @@ func (a *Client) AssignServicePrincipalAzureCloudIdentityContext(ctx context.Con
 // If you need to pass a specific context, use [Client.AssignUserResourceRoleContext] instead.
 func (a *Client) AssignUserResourceRole(params *AssignUserResourceRoleParams, opts ...ClientOption) (*AssignUserResourceRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1228,7 +1234,7 @@ func (a *Client) AssignUserResourceRoleContext(ctx context.Context, params *Assi
 // If you need to pass a specific context, use [Client.AssignUserRoleContext] instead.
 func (a *Client) AssignUserRole(params *AssignUserRoleParams, opts ...ClientOption) (*AssignUserRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1293,7 +1299,7 @@ func (a *Client) AssignUserRoleContext(ctx context.Context, params *AssignUserRo
 // If you need to pass a specific context, use [Client.CreateGroupContext] instead.
 func (a *Client) CreateGroup(params *CreateGroupParams, opts ...ClientOption) (*CreateGroupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1358,7 +1364,7 @@ func (a *Client) CreateGroupContext(ctx context.Context, params *CreateGroupPara
 // If you need to pass a specific context, use [Client.CreateLdapProviderContext] instead.
 func (a *Client) CreateLdapProvider(params *CreateLdapProviderParams, opts ...ClientOption) (*CreateLdapProviderOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1423,7 +1429,7 @@ func (a *Client) CreateLdapProviderContext(ctx context.Context, params *CreateLd
 // If you need to pass a specific context, use [Client.CreateMachineUserContext] instead.
 func (a *Client) CreateMachineUser(params *CreateMachineUserParams, opts ...ClientOption) (*CreateMachineUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1488,7 +1494,7 @@ func (a *Client) CreateMachineUserContext(ctx context.Context, params *CreateMac
 // If you need to pass a specific context, use [Client.CreateMachineUserAccessKeyContext] instead.
 func (a *Client) CreateMachineUserAccessKey(params *CreateMachineUserAccessKeyParams, opts ...ClientOption) (*CreateMachineUserAccessKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1553,7 +1559,7 @@ func (a *Client) CreateMachineUserAccessKeyContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.CreateSamlProviderContext] instead.
 func (a *Client) CreateSamlProvider(params *CreateSamlProviderParams, opts ...ClientOption) (*CreateSamlProviderOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1618,7 +1624,7 @@ func (a *Client) CreateSamlProviderContext(ctx context.Context, params *CreateSa
 // If you need to pass a specific context, use [Client.CreateScimAccessTokenContext] instead.
 func (a *Client) CreateScimAccessToken(params *CreateScimAccessTokenParams, opts ...ClientOption) (*CreateScimAccessTokenOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1683,7 +1689,7 @@ func (a *Client) CreateScimAccessTokenContext(ctx context.Context, params *Creat
 // If you need to pass a specific context, use [Client.CreateUserContext] instead.
 func (a *Client) CreateUser(params *CreateUserParams, opts ...ClientOption) (*CreateUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1748,7 +1754,7 @@ func (a *Client) CreateUserContext(ctx context.Context, params *CreateUserParams
 // If you need to pass a specific context, use [Client.CreateUserAccessKeyContext] instead.
 func (a *Client) CreateUserAccessKey(params *CreateUserAccessKeyParams, opts ...ClientOption) (*CreateUserAccessKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1813,7 +1819,7 @@ func (a *Client) CreateUserAccessKeyContext(ctx context.Context, params *CreateU
 // If you need to pass a specific context, use [Client.DeleteAccessKeyContext] instead.
 func (a *Client) DeleteAccessKey(params *DeleteAccessKeyParams, opts ...ClientOption) (*DeleteAccessKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1878,7 +1884,7 @@ func (a *Client) DeleteAccessKeyContext(ctx context.Context, params *DeleteAcces
 // If you need to pass a specific context, use [Client.DeleteGroupContext] instead.
 func (a *Client) DeleteGroup(params *DeleteGroupParams, opts ...ClientOption) (*DeleteGroupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1943,7 +1949,7 @@ func (a *Client) DeleteGroupContext(ctx context.Context, params *DeleteGroupPara
 // If you need to pass a specific context, use [Client.DeleteMachineUserContext] instead.
 func (a *Client) DeleteMachineUser(params *DeleteMachineUserParams, opts ...ClientOption) (*DeleteMachineUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2008,7 +2014,7 @@ func (a *Client) DeleteMachineUserContext(ctx context.Context, params *DeleteMac
 // If you need to pass a specific context, use [Client.DeleteSamlProviderContext] instead.
 func (a *Client) DeleteSamlProvider(params *DeleteSamlProviderParams, opts ...ClientOption) (*DeleteSamlProviderOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2073,7 +2079,7 @@ func (a *Client) DeleteSamlProviderContext(ctx context.Context, params *DeleteSa
 // If you need to pass a specific context, use [Client.DeleteScimAccessTokenContext] instead.
 func (a *Client) DeleteScimAccessToken(params *DeleteScimAccessTokenParams, opts ...ClientOption) (*DeleteScimAccessTokenOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2138,7 +2144,7 @@ func (a *Client) DeleteScimAccessTokenContext(ctx context.Context, params *Delet
 // If you need to pass a specific context, use [Client.DeleteSSHPublicKeyContext] instead.
 func (a *Client) DeleteSSHPublicKey(params *DeleteSSHPublicKeyParams, opts ...ClientOption) (*DeleteSSHPublicKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2203,7 +2209,7 @@ func (a *Client) DeleteSSHPublicKeyContext(ctx context.Context, params *DeleteSS
 // If you need to pass a specific context, use [Client.DeleteUserContext] instead.
 func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2268,7 +2274,7 @@ func (a *Client) DeleteUserContext(ctx context.Context, params *DeleteUserParams
 // If you need to pass a specific context, use [Client.DescribeSamlProviderContext] instead.
 func (a *Client) DescribeSamlProvider(params *DescribeSamlProviderParams, opts ...ClientOption) (*DescribeSamlProviderOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2333,7 +2339,7 @@ func (a *Client) DescribeSamlProviderContext(ctx context.Context, params *Descri
 // If you need to pass a specific context, use [Client.DescribeSSHPublicKeyContext] instead.
 func (a *Client) DescribeSSHPublicKey(params *DescribeSSHPublicKeyParams, opts ...ClientOption) (*DescribeSSHPublicKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2398,7 +2404,7 @@ func (a *Client) DescribeSSHPublicKeyContext(ctx context.Context, params *Descri
 // If you need to pass a specific context, use [Client.DisableClouderaSSOLoginContext] instead.
 func (a *Client) DisableClouderaSSOLogin(params *DisableClouderaSSOLoginParams, opts ...ClientOption) (*DisableClouderaSSOLoginOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2463,7 +2469,7 @@ func (a *Client) DisableClouderaSSOLoginContext(ctx context.Context, params *Dis
 // If you need to pass a specific context, use [Client.DisableUserWorkloadPasswordChangedNotificationsContext] instead.
 func (a *Client) DisableUserWorkloadPasswordChangedNotifications(params *DisableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*DisableUserWorkloadPasswordChangedNotificationsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2528,7 +2534,7 @@ func (a *Client) DisableUserWorkloadPasswordChangedNotificationsContext(ctx cont
 // If you need to pass a specific context, use [Client.EnableClouderaSSOLoginContext] instead.
 func (a *Client) EnableClouderaSSOLogin(params *EnableClouderaSSOLoginParams, opts ...ClientOption) (*EnableClouderaSSOLoginOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2593,7 +2599,7 @@ func (a *Client) EnableClouderaSSOLoginContext(ctx context.Context, params *Enab
 // If you need to pass a specific context, use [Client.EnableUserWorkloadPasswordChangedNotificationsContext] instead.
 func (a *Client) EnableUserWorkloadPasswordChangedNotifications(params *EnableUserWorkloadPasswordChangedNotificationsParams, opts ...ClientOption) (*EnableUserWorkloadPasswordChangedNotificationsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2658,7 +2664,7 @@ func (a *Client) EnableUserWorkloadPasswordChangedNotificationsContext(ctx conte
 // If you need to pass a specific context, use [Client.GenerateWorkloadAuthTokenContext] instead.
 func (a *Client) GenerateWorkloadAuthToken(params *GenerateWorkloadAuthTokenParams, opts ...ClientOption) (*GenerateWorkloadAuthTokenOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2723,7 +2729,7 @@ func (a *Client) GenerateWorkloadAuthTokenContext(ctx context.Context, params *G
 // If you need to pass a specific context, use [Client.GetAccessKeyContext] instead.
 func (a *Client) GetAccessKey(params *GetAccessKeyParams, opts ...ClientOption) (*GetAccessKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2788,7 +2794,7 @@ func (a *Client) GetAccessKeyContext(ctx context.Context, params *GetAccessKeyPa
 // If you need to pass a specific context, use [Client.GetAccountContext] instead.
 func (a *Client) GetAccount(params *GetAccountParams, opts ...ClientOption) (*GetAccountOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2853,7 +2859,7 @@ func (a *Client) GetAccountContext(ctx context.Context, params *GetAccountParams
 // If you need to pass a specific context, use [Client.GetAccountMessagesContext] instead.
 func (a *Client) GetAccountMessages(params *GetAccountMessagesParams, opts ...ClientOption) (*GetAccountMessagesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2918,7 +2924,7 @@ func (a *Client) GetAccountMessagesContext(ctx context.Context, params *GetAccou
 // If you need to pass a specific context, use [Client.GetDefaultIdentityProviderContext] instead.
 func (a *Client) GetDefaultIdentityProvider(params *GetDefaultIdentityProviderParams, opts ...ClientOption) (*GetDefaultIdentityProviderOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2983,7 +2989,7 @@ func (a *Client) GetDefaultIdentityProviderContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.GetUserContext] instead.
 func (a *Client) GetUser(params *GetUserParams, opts ...ClientOption) (*GetUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3048,7 +3054,7 @@ func (a *Client) GetUserContext(ctx context.Context, params *GetUserParams, opts
 // If you need to pass a specific context, use [Client.ListAccessKeysContext] instead.
 func (a *Client) ListAccessKeys(params *ListAccessKeysParams, opts ...ClientOption) (*ListAccessKeysOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3113,7 +3119,7 @@ func (a *Client) ListAccessKeysContext(ctx context.Context, params *ListAccessKe
 // If you need to pass a specific context, use [Client.ListGroupAssignedResourceRolesContext] instead.
 func (a *Client) ListGroupAssignedResourceRoles(params *ListGroupAssignedResourceRolesParams, opts ...ClientOption) (*ListGroupAssignedResourceRolesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3178,7 +3184,7 @@ func (a *Client) ListGroupAssignedResourceRolesContext(ctx context.Context, para
 // If you need to pass a specific context, use [Client.ListGroupAssignedRolesContext] instead.
 func (a *Client) ListGroupAssignedRoles(params *ListGroupAssignedRolesParams, opts ...ClientOption) (*ListGroupAssignedRolesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3243,7 +3249,7 @@ func (a *Client) ListGroupAssignedRolesContext(ctx context.Context, params *List
 // If you need to pass a specific context, use [Client.ListGroupMembersContext] instead.
 func (a *Client) ListGroupMembers(params *ListGroupMembersParams, opts ...ClientOption) (*ListGroupMembersOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3308,7 +3314,7 @@ func (a *Client) ListGroupMembersContext(ctx context.Context, params *ListGroupM
 // If you need to pass a specific context, use [Client.ListGroupsContext] instead.
 func (a *Client) ListGroups(params *ListGroupsParams, opts ...ClientOption) (*ListGroupsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3373,7 +3379,7 @@ func (a *Client) ListGroupsContext(ctx context.Context, params *ListGroupsParams
 // If you need to pass a specific context, use [Client.ListGroupsForMachineUserContext] instead.
 func (a *Client) ListGroupsForMachineUser(params *ListGroupsForMachineUserParams, opts ...ClientOption) (*ListGroupsForMachineUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3438,7 +3444,7 @@ func (a *Client) ListGroupsForMachineUserContext(ctx context.Context, params *Li
 // If you need to pass a specific context, use [Client.ListGroupsForUserContext] instead.
 func (a *Client) ListGroupsForUser(params *ListGroupsForUserParams, opts ...ClientOption) (*ListGroupsForUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3503,7 +3509,7 @@ func (a *Client) ListGroupsForUserContext(ctx context.Context, params *ListGroup
 // If you need to pass a specific context, use [Client.ListMachineUserAssignedResourceRolesContext] instead.
 func (a *Client) ListMachineUserAssignedResourceRoles(params *ListMachineUserAssignedResourceRolesParams, opts ...ClientOption) (*ListMachineUserAssignedResourceRolesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3568,7 +3574,7 @@ func (a *Client) ListMachineUserAssignedResourceRolesContext(ctx context.Context
 // If you need to pass a specific context, use [Client.ListMachineUserAssignedRolesContext] instead.
 func (a *Client) ListMachineUserAssignedRoles(params *ListMachineUserAssignedRolesParams, opts ...ClientOption) (*ListMachineUserAssignedRolesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3633,7 +3639,7 @@ func (a *Client) ListMachineUserAssignedRolesContext(ctx context.Context, params
 // If you need to pass a specific context, use [Client.ListMachineUsersContext] instead.
 func (a *Client) ListMachineUsers(params *ListMachineUsersParams, opts ...ClientOption) (*ListMachineUsersOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3698,7 +3704,7 @@ func (a *Client) ListMachineUsersContext(ctx context.Context, params *ListMachin
 // If you need to pass a specific context, use [Client.ListResourceAssigneesContext] instead.
 func (a *Client) ListResourceAssignees(params *ListResourceAssigneesParams, opts ...ClientOption) (*ListResourceAssigneesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3763,7 +3769,7 @@ func (a *Client) ListResourceAssigneesContext(ctx context.Context, params *ListR
 // If you need to pass a specific context, use [Client.ListResourceRolesContext] instead.
 func (a *Client) ListResourceRoles(params *ListResourceRolesParams, opts ...ClientOption) (*ListResourceRolesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3828,7 +3834,7 @@ func (a *Client) ListResourceRolesContext(ctx context.Context, params *ListResou
 // If you need to pass a specific context, use [Client.ListRolesContext] instead.
 func (a *Client) ListRoles(params *ListRolesParams, opts ...ClientOption) (*ListRolesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3893,7 +3899,7 @@ func (a *Client) ListRolesContext(ctx context.Context, params *ListRolesParams, 
 // If you need to pass a specific context, use [Client.ListSamlProvidersContext] instead.
 func (a *Client) ListSamlProviders(params *ListSamlProvidersParams, opts ...ClientOption) (*ListSamlProvidersOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3958,7 +3964,7 @@ func (a *Client) ListSamlProvidersContext(ctx context.Context, params *ListSamlP
 // If you need to pass a specific context, use [Client.ListScimAccessTokensContext] instead.
 func (a *Client) ListScimAccessTokens(params *ListScimAccessTokensParams, opts ...ClientOption) (*ListScimAccessTokensOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4023,7 +4029,7 @@ func (a *Client) ListScimAccessTokensContext(ctx context.Context, params *ListSc
 // If you need to pass a specific context, use [Client.ListServicePrincipalCloudIdentitiesContext] instead.
 func (a *Client) ListServicePrincipalCloudIdentities(params *ListServicePrincipalCloudIdentitiesParams, opts ...ClientOption) (*ListServicePrincipalCloudIdentitiesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4088,7 +4094,7 @@ func (a *Client) ListServicePrincipalCloudIdentitiesContext(ctx context.Context,
 // If you need to pass a specific context, use [Client.ListSSHPublicKeysContext] instead.
 func (a *Client) ListSSHPublicKeys(params *ListSSHPublicKeysParams, opts ...ClientOption) (*ListSSHPublicKeysOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4153,7 +4159,7 @@ func (a *Client) ListSSHPublicKeysContext(ctx context.Context, params *ListSSHPu
 // If you need to pass a specific context, use [Client.ListUserAssignedResourceRolesContext] instead.
 func (a *Client) ListUserAssignedResourceRoles(params *ListUserAssignedResourceRolesParams, opts ...ClientOption) (*ListUserAssignedResourceRolesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4218,7 +4224,7 @@ func (a *Client) ListUserAssignedResourceRolesContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.ListUserAssignedRolesContext] instead.
 func (a *Client) ListUserAssignedRoles(params *ListUserAssignedRolesParams, opts ...ClientOption) (*ListUserAssignedRolesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4283,7 +4289,7 @@ func (a *Client) ListUserAssignedRolesContext(ctx context.Context, params *ListU
 // If you need to pass a specific context, use [Client.ListUsersContext] instead.
 func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4348,7 +4354,7 @@ func (a *Client) ListUsersContext(ctx context.Context, params *ListUsersParams, 
 // If you need to pass a specific context, use [Client.MigrateUsersToIdentityProviderContext] instead.
 func (a *Client) MigrateUsersToIdentityProvider(params *MigrateUsersToIdentityProviderParams, opts ...ClientOption) (*MigrateUsersToIdentityProviderOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4413,7 +4419,7 @@ func (a *Client) MigrateUsersToIdentityProviderContext(ctx context.Context, para
 // If you need to pass a specific context, use [Client.RemoveMachineUserFromGroupContext] instead.
 func (a *Client) RemoveMachineUserFromGroup(params *RemoveMachineUserFromGroupParams, opts ...ClientOption) (*RemoveMachineUserFromGroupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4478,7 +4484,7 @@ func (a *Client) RemoveMachineUserFromGroupContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.RemoveUserFromGroupContext] instead.
 func (a *Client) RemoveUserFromGroup(params *RemoveUserFromGroupParams, opts ...ClientOption) (*RemoveUserFromGroupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4543,7 +4549,7 @@ func (a *Client) RemoveUserFromGroupContext(ctx context.Context, params *RemoveU
 // If you need to pass a specific context, use [Client.SetAccountMessagesContext] instead.
 func (a *Client) SetAccountMessages(params *SetAccountMessagesParams, opts ...ClientOption) (*SetAccountMessagesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4608,7 +4614,7 @@ func (a *Client) SetAccountMessagesContext(ctx context.Context, params *SetAccou
 // If you need to pass a specific context, use [Client.SetAuthenticationPolicyContext] instead.
 func (a *Client) SetAuthenticationPolicy(params *SetAuthenticationPolicyParams, opts ...ClientOption) (*SetAuthenticationPolicyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4673,7 +4679,7 @@ func (a *Client) SetAuthenticationPolicyContext(ctx context.Context, params *Set
 // If you need to pass a specific context, use [Client.SetDefaultIdentityProviderContext] instead.
 func (a *Client) SetDefaultIdentityProvider(params *SetDefaultIdentityProviderParams, opts ...ClientOption) (*SetDefaultIdentityProviderOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4728,6 +4734,71 @@ func (a *Client) SetDefaultIdentityProviderContext(ctx context.Context, params *
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// SetLocalAdminUsername sets username of the local admin.
+//
+// Sets username of the local admin. Valid username is a non-empty string, must be alphanumeric, and may include '-', '_', and '.', and contain at most 128 characters..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.SetLocalAdminUsernameContext] instead.
+func (a *Client) SetLocalAdminUsername(params *SetLocalAdminUsernameParams, opts ...ClientOption) (*SetLocalAdminUsernameOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.SetLocalAdminUsernameContext(ctx, params, opts...)
+}
+
+// SetLocalAdminUsernameContext sets username of the local admin.
+//
+// Sets username of the local admin. Valid username is a non-empty string, must be alphanumeric, and may include '-', '_', and '.', and contain at most 128 characters..
+//
+// Do not use the deprecated [SetLocalAdminUsernameParams.Context] with this method: it would be ignored.
+func (a *Client) SetLocalAdminUsernameContext(ctx context.Context, params *SetLocalAdminUsernameParams, opts ...ClientOption) (*SetLocalAdminUsernameOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewSetLocalAdminUsernameParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "setLocalAdminUsername",
+		Method:             "POST",
+		PathPattern:        "/iam/setLocalAdminUsername",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &SetLocalAdminUsernameReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*SetLocalAdminUsernameOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*SetLocalAdminUsernameDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // SetSamlAuthnRequestSigningKey sets the s a m l authn request signing key and verification certificate.
 //
 // Sets the SAML AuthnRequest signing key and verification certificate. The signing key will be used by CDP to sign the AuthnRequest and the verification certificate(s) will be used by the customer's Identity Provider to verify the AuthnRequest. These keys are generated and managed by the customer. The API always replaces the previously stored signing key and verification certificates with the given key and certificates. The parameters that are omitted from the request will be cleared..
@@ -4738,7 +4809,7 @@ func (a *Client) SetDefaultIdentityProviderContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.SetSamlAuthnRequestSigningKeyContext] instead.
 func (a *Client) SetSamlAuthnRequestSigningKey(params *SetSamlAuthnRequestSigningKeyParams, opts ...ClientOption) (*SetSamlAuthnRequestSigningKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4803,7 +4874,7 @@ func (a *Client) SetSamlAuthnRequestSigningKeyContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.SetSamlResponseDecryptionKeyContext] instead.
 func (a *Client) SetSamlResponseDecryptionKey(params *SetSamlResponseDecryptionKeyParams, opts ...ClientOption) (*SetSamlResponseDecryptionKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4868,7 +4939,7 @@ func (a *Client) SetSamlResponseDecryptionKeyContext(ctx context.Context, params
 // If you need to pass a specific context, use [Client.SetWorkloadPasswordContext] instead.
 func (a *Client) SetWorkloadPassword(params *SetWorkloadPasswordParams, opts ...ClientOption) (*SetWorkloadPasswordOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4933,7 +5004,7 @@ func (a *Client) SetWorkloadPasswordContext(ctx context.Context, params *SetWork
 // If you need to pass a specific context, use [Client.SetWorkloadPasswordPolicyContext] instead.
 func (a *Client) SetWorkloadPasswordPolicy(params *SetWorkloadPasswordPolicyParams, opts ...ClientOption) (*SetWorkloadPasswordPolicyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4998,7 +5069,7 @@ func (a *Client) SetWorkloadPasswordPolicyContext(ctx context.Context, params *S
 // If you need to pass a specific context, use [Client.UnassignAzureCloudIdentityContext] instead.
 func (a *Client) UnassignAzureCloudIdentity(params *UnassignAzureCloudIdentityParams, opts ...ClientOption) (*UnassignAzureCloudIdentityOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5063,7 +5134,7 @@ func (a *Client) UnassignAzureCloudIdentityContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.UnassignGroupResourceRoleContext] instead.
 func (a *Client) UnassignGroupResourceRole(params *UnassignGroupResourceRoleParams, opts ...ClientOption) (*UnassignGroupResourceRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5128,7 +5199,7 @@ func (a *Client) UnassignGroupResourceRoleContext(ctx context.Context, params *U
 // If you need to pass a specific context, use [Client.UnassignGroupRoleContext] instead.
 func (a *Client) UnassignGroupRole(params *UnassignGroupRoleParams, opts ...ClientOption) (*UnassignGroupRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5193,7 +5264,7 @@ func (a *Client) UnassignGroupRoleContext(ctx context.Context, params *UnassignG
 // If you need to pass a specific context, use [Client.UnassignMachineUserResourceRoleContext] instead.
 func (a *Client) UnassignMachineUserResourceRole(params *UnassignMachineUserResourceRoleParams, opts ...ClientOption) (*UnassignMachineUserResourceRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5258,7 +5329,7 @@ func (a *Client) UnassignMachineUserResourceRoleContext(ctx context.Context, par
 // If you need to pass a specific context, use [Client.UnassignMachineUserRoleContext] instead.
 func (a *Client) UnassignMachineUserRole(params *UnassignMachineUserRoleParams, opts ...ClientOption) (*UnassignMachineUserRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5323,7 +5394,7 @@ func (a *Client) UnassignMachineUserRoleContext(ctx context.Context, params *Una
 // If you need to pass a specific context, use [Client.UnassignServicePrincipalAzureCloudIdentityContext] instead.
 func (a *Client) UnassignServicePrincipalAzureCloudIdentity(params *UnassignServicePrincipalAzureCloudIdentityParams, opts ...ClientOption) (*UnassignServicePrincipalAzureCloudIdentityOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5388,7 +5459,7 @@ func (a *Client) UnassignServicePrincipalAzureCloudIdentityContext(ctx context.C
 // If you need to pass a specific context, use [Client.UnassignUserResourceRoleContext] instead.
 func (a *Client) UnassignUserResourceRole(params *UnassignUserResourceRoleParams, opts ...ClientOption) (*UnassignUserResourceRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5453,7 +5524,7 @@ func (a *Client) UnassignUserResourceRoleContext(ctx context.Context, params *Un
 // If you need to pass a specific context, use [Client.UnassignUserRoleContext] instead.
 func (a *Client) UnassignUserRole(params *UnassignUserRoleParams, opts ...ClientOption) (*UnassignUserRoleOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5518,7 +5589,7 @@ func (a *Client) UnassignUserRoleContext(ctx context.Context, params *UnassignUs
 // If you need to pass a specific context, use [Client.UnlockMachineUserInControlPlaneContext] instead.
 func (a *Client) UnlockMachineUserInControlPlane(params *UnlockMachineUserInControlPlaneParams, opts ...ClientOption) (*UnlockMachineUserInControlPlaneOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5583,7 +5654,7 @@ func (a *Client) UnlockMachineUserInControlPlaneContext(ctx context.Context, par
 // If you need to pass a specific context, use [Client.UnlockUserInControlPlaneContext] instead.
 func (a *Client) UnlockUserInControlPlane(params *UnlockUserInControlPlaneParams, opts ...ClientOption) (*UnlockUserInControlPlaneOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5648,7 +5719,7 @@ func (a *Client) UnlockUserInControlPlaneContext(ctx context.Context, params *Un
 // If you need to pass a specific context, use [Client.UnsetWorkloadPasswordMinLifetimeContext] instead.
 func (a *Client) UnsetWorkloadPasswordMinLifetime(params *UnsetWorkloadPasswordMinLifetimeParams, opts ...ClientOption) (*UnsetWorkloadPasswordMinLifetimeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5713,7 +5784,7 @@ func (a *Client) UnsetWorkloadPasswordMinLifetimeContext(ctx context.Context, pa
 // If you need to pass a specific context, use [Client.UnsetWorkloadPasswordPolicyContext] instead.
 func (a *Client) UnsetWorkloadPasswordPolicy(params *UnsetWorkloadPasswordPolicyParams, opts ...ClientOption) (*UnsetWorkloadPasswordPolicyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5778,7 +5849,7 @@ func (a *Client) UnsetWorkloadPasswordPolicyContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.UpdateAccessKeyContext] instead.
 func (a *Client) UpdateAccessKey(params *UpdateAccessKeyParams, opts ...ClientOption) (*UpdateAccessKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5843,7 +5914,7 @@ func (a *Client) UpdateAccessKeyContext(ctx context.Context, params *UpdateAcces
 // If you need to pass a specific context, use [Client.UpdateGroupContext] instead.
 func (a *Client) UpdateGroup(params *UpdateGroupParams, opts ...ClientOption) (*UpdateGroupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5908,7 +5979,7 @@ func (a *Client) UpdateGroupContext(ctx context.Context, params *UpdateGroupPara
 // If you need to pass a specific context, use [Client.UpdateLdapProviderContext] instead.
 func (a *Client) UpdateLdapProvider(params *UpdateLdapProviderParams, opts ...ClientOption) (*UpdateLdapProviderOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5973,7 +6044,7 @@ func (a *Client) UpdateLdapProviderContext(ctx context.Context, params *UpdateLd
 // If you need to pass a specific context, use [Client.UpdateSamlProviderContext] instead.
 func (a *Client) UpdateSamlProvider(params *UpdateSamlProviderParams, opts ...ClientOption) (*UpdateSamlProviderOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6038,7 +6109,7 @@ func (a *Client) UpdateSamlProviderContext(ctx context.Context, params *UpdateSa
 // If you need to pass a specific context, use [Client.UpdateUserContext] instead.
 func (a *Client) UpdateUser(params *UpdateUserParams, opts ...ClientOption) (*UpdateUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()

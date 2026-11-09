@@ -45,7 +45,7 @@ func (m *RenewPublicCertificateRequest) validateDatahub(formats strfmt.Registry)
 }
 
 // ContextValidate validates this renew public certificate request based on context it is used
-func (m *RenewPublicCertificateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RenewPublicCertificateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

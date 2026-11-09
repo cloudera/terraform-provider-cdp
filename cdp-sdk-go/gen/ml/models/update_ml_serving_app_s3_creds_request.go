@@ -21,6 +21,15 @@ type UpdateMlServingAppS3CredsRequest struct {
 	// Required: true
 	AppCrn *string `json:"appCrn"`
 
+	// The environment name of the linked registry
+	EnvName string `json:"envName,omitempty"`
+
+	// Whether to link the registry
+	LinkRegistry bool `json:"linkRegistry,omitempty"`
+
+	// The namespace of the AI Registry
+	RegistryNamespace string `json:"registryNamespace,omitempty"`
+
 	// The S3 credentials to update.
 	// Required: true
 	S3Creds *MlServingOzoneCreds `json:"s3Creds"`

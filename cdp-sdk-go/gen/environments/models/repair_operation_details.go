@@ -48,7 +48,7 @@ func (m *RepairOperationDetails) validateEnvironmentCrn(formats strfmt.Registry)
 }
 
 // ContextValidate validates this repair operation details based on context it is used
-func (m *RepairOperationDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RepairOperationDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

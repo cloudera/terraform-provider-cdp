@@ -383,7 +383,7 @@ func (m *CreateAWSGovCloudDatalakeRequest) contextValidateCustomInstanceGroups(c
 		if m.CustomInstanceGroups[i] != nil {
 
 			if typeutils.IsZero(m.CustomInstanceGroups[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.CustomInstanceGroups[i].ContextValidate(ctx, formats); err != nil {
@@ -437,7 +437,7 @@ func (m *CreateAWSGovCloudDatalakeRequest) contextValidateRecipes(ctx context.Co
 		if m.Recipes[i] != nil {
 
 			if typeutils.IsZero(m.Recipes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Recipes[i].ContextValidate(ctx, formats); err != nil {
@@ -513,7 +513,7 @@ func (m *CreateAWSGovCloudDatalakeRequest) contextValidateTags(ctx context.Conte
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

@@ -73,6 +73,6 @@ func (m ImpalaHighAvailabilityMode) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this impala high availability mode based on context it is used
-func (m ImpalaHighAvailabilityMode) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m ImpalaHighAvailabilityMode) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

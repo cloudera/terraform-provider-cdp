@@ -74,7 +74,7 @@ func (m *ListGroupsForMachineUserRequest) validatePageSize(formats strfmt.Regist
 }
 
 // ContextValidate validates this list groups for machine user request based on context it is used
-func (m *ListGroupsForMachineUserRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListGroupsForMachineUserRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

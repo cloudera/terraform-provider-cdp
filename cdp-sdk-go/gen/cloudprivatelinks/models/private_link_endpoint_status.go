@@ -34,12 +34,12 @@ type PrivateLinkEndpointStatus struct {
 }
 
 // Validate validates this private link endpoint status
-func (m *PrivateLinkEndpointStatus) Validate(formats strfmt.Registry) error {
+func (m *PrivateLinkEndpointStatus) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this private link endpoint status based on context it is used
-func (m *PrivateLinkEndpointStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *PrivateLinkEndpointStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

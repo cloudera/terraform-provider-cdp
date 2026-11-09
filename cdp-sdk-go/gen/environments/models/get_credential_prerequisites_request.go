@@ -81,7 +81,7 @@ func (m *GetCredentialPrerequisitesRequest) validateCloudPlatform(formats strfmt
 }
 
 // ContextValidate validates this get credential prerequisites request based on context it is used
-func (m *GetCredentialPrerequisitesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetCredentialPrerequisitesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

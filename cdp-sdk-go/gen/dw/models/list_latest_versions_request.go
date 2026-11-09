@@ -45,7 +45,7 @@ func (m *ListLatestVersionsRequest) validateClusterID(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this list latest versions request based on context it is used
-func (m *ListLatestVersionsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListLatestVersionsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

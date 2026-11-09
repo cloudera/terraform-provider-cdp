@@ -62,7 +62,7 @@ func (m *DeleteConnectorRequest) validateConnectorID(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this delete connector request based on context it is used
-func (m *DeleteConnectorRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteConnectorRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

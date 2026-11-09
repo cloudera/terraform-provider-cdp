@@ -126,7 +126,7 @@ func (m *FreeIpaInstance) contextValidateAttachedVolumes(ctx context.Context, fo
 		if m.AttachedVolumes[i] != nil {
 
 			if typeutils.IsZero(m.AttachedVolumes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AttachedVolumes[i].ContextValidate(ctx, formats); err != nil {

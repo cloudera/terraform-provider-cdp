@@ -19,12 +19,12 @@ type MigrateSkusResponse struct {
 }
 
 // Validate validates this migrate skus response
-func (m *MigrateSkusResponse) Validate(formats strfmt.Registry) error {
+func (m *MigrateSkusResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this migrate skus response based on context it is used
-func (m *MigrateSkusResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *MigrateSkusResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

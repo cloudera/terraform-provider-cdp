@@ -49,12 +49,12 @@ type AutoScalingConfig struct {
 }
 
 // Validate validates this auto scaling config
-func (m *AutoScalingConfig) Validate(formats strfmt.Registry) error {
+func (m *AutoScalingConfig) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this auto scaling config based on context it is used
-func (m *AutoScalingConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AutoScalingConfig) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

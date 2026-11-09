@@ -45,7 +45,7 @@ func (m *GetAutomatedSyncEnvironmentStatusRequest) validateEnvironmentName(forma
 }
 
 // ContextValidate validates this get automated sync environment status request based on context it is used
-func (m *GetAutomatedSyncEnvironmentStatusRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetAutomatedSyncEnvironmentStatusRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

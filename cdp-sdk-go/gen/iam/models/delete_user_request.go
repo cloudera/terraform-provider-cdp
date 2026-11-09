@@ -45,7 +45,7 @@ func (m *DeleteUserRequest) validateUserID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this delete user request based on context it is used
-func (m *DeleteUserRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteUserRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

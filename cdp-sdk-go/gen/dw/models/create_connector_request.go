@@ -71,7 +71,7 @@ func (m *CreateConnectorRequest) validateTemplate(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this create connector request based on context it is used
-func (m *CreateConnectorRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateConnectorRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

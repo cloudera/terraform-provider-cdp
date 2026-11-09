@@ -19,12 +19,12 @@ type GetK8sCertPEMResponse struct {
 }
 
 // Validate validates this get k8s cert p e m response
-func (m *GetK8sCertPEMResponse) Validate(formats strfmt.Registry) error {
+func (m *GetK8sCertPEMResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this get k8s cert p e m response based on context it is used
-func (m *GetK8sCertPEMResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetK8sCertPEMResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

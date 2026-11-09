@@ -19,12 +19,12 @@ type ListMlServingAppsRequest struct {
 }
 
 // Validate validates this list ml serving apps request
-func (m *ListMlServingAppsRequest) Validate(formats strfmt.Registry) error {
+func (m *ListMlServingAppsRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list ml serving apps request based on context it is used
-func (m *ListMlServingAppsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListMlServingAppsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

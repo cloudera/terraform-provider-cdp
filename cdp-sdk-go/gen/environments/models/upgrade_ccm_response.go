@@ -19,12 +19,12 @@ type UpgradeCcmResponse struct {
 }
 
 // Validate validates this upgrade ccm response
-func (m *UpgradeCcmResponse) Validate(formats strfmt.Registry) error {
+func (m *UpgradeCcmResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this upgrade ccm response based on context it is used
-func (m *UpgradeCcmResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpgradeCcmResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

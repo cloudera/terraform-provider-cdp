@@ -45,7 +45,7 @@ func (m *DescribeEnvironmentRequest) validateEnvironmentName(formats strfmt.Regi
 }
 
 // ContextValidate validates this describe environment request based on context it is used
-func (m *DescribeEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeEnvironmentRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

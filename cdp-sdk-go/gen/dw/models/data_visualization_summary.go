@@ -43,12 +43,12 @@ type DataVisualizationSummary struct {
 }
 
 // Validate validates this data visualization summary
-func (m *DataVisualizationSummary) Validate(formats strfmt.Registry) error {
+func (m *DataVisualizationSummary) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this data visualization summary based on context it is used
-func (m *DataVisualizationSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DataVisualizationSummary) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

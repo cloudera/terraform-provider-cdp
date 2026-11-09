@@ -157,10 +157,10 @@ type ClientService interface {
 	// DescribeWorkspaceContext describe cloudera a i workbench.
 	DescribeWorkspaceContext(ctx context.Context, params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error)
 
-	// DescribeWorkspaceBackup describe backup snaphot of a workbench.
+	// DescribeWorkspaceBackup describe backup snapshot of a workbench.
 	DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error)
 
-	// DescribeWorkspaceBackupContext describe backup snaphot of a workbench.
+	// DescribeWorkspaceBackupContext describe backup snapshot of a workbench.
 	DescribeWorkspaceBackupContext(ctx context.Context, params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error)
 
 	// FailOverFileSystem failover to replica file system.
@@ -168,6 +168,12 @@ type ClientService interface {
 
 	// FailOverFileSystemContext failover to replica file system.
 	FailOverFileSystemContext(ctx context.Context, params *FailOverFileSystemParams, opts ...ClientOption) (*FailOverFileSystemOK, error)
+
+	// FetchAiRegistriesStorageConfig fetch a i registry storage configuration for a cloudera a i inference service.
+	FetchAiRegistriesStorageConfig(params *FetchAiRegistriesStorageConfigParams, opts ...ClientOption) (*FetchAiRegistriesStorageConfigOK, error)
+
+	// FetchAiRegistriesStorageConfigContext fetch a i registry storage configuration for a cloudera a i inference service.
+	FetchAiRegistriesStorageConfigContext(ctx context.Context, params *FetchAiRegistriesStorageConfigParams, opts ...ClientOption) (*FetchAiRegistriesStorageConfigOK, error)
 
 	// GetAuditEvents gets all the events belong to a workbench crn.
 	GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error)
@@ -403,6 +409,18 @@ type ClientService interface {
 	// UpgradeWorkspaceContext upgrade cloudera a i workbench.
 	UpgradeWorkspaceContext(ctx context.Context, params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error)
 
+	// UploadCertificate upload custom c a certificate for a i inference service.
+	UploadCertificate(params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error)
+
+	// UploadCertificateContext upload custom c a certificate for a i inference service.
+	UploadCertificateContext(ctx context.Context, params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error)
+
+	// UploadModelRegistryCertificate upload custom c a certificate for an a i registry instance.
+	UploadModelRegistryCertificate(params *UploadModelRegistryCertificateParams, opts ...ClientOption) (*UploadModelRegistryCertificateOK, error)
+
+	// UploadModelRegistryCertificateContext upload custom c a certificate for an a i registry instance.
+	UploadModelRegistryCertificateContext(ctx context.Context, params *UploadModelRegistryCertificateParams, opts ...ClientOption) (*UploadModelRegistryCertificateOK, error)
+
 	SetTransport(transport runtime.ContextualTransport)
 }
 
@@ -416,7 +434,7 @@ type ClientService interface {
 // If you need to pass a specific context, use [Client.AddInstanceGroupsContext] instead.
 func (a *Client) AddInstanceGroups(params *AddInstanceGroupsParams, opts ...ClientOption) (*AddInstanceGroupsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -481,7 +499,7 @@ func (a *Client) AddInstanceGroupsContext(ctx context.Context, params *AddInstan
 // If you need to pass a specific context, use [Client.AddInstanceGroupsMlServingAppContext] instead.
 func (a *Client) AddInstanceGroupsMlServingApp(params *AddInstanceGroupsMlServingAppParams, opts ...ClientOption) (*AddInstanceGroupsMlServingAppOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -546,7 +564,7 @@ func (a *Client) AddInstanceGroupsMlServingAppContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.BackupWorkspaceContext] instead.
 func (a *Client) BackupWorkspace(params *BackupWorkspaceParams, opts ...ClientOption) (*BackupWorkspaceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -611,7 +629,7 @@ func (a *Client) BackupWorkspaceContext(ctx context.Context, params *BackupWorks
 // If you need to pass a specific context, use [Client.CreateFileReplicaContext] instead.
 func (a *Client) CreateFileReplica(params *CreateFileReplicaParams, opts ...ClientOption) (*CreateFileReplicaOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -676,7 +694,7 @@ func (a *Client) CreateFileReplicaContext(ctx context.Context, params *CreateFil
 // If you need to pass a specific context, use [Client.CreateMlServingAppContext] instead.
 func (a *Client) CreateMlServingApp(params *CreateMlServingAppParams, opts ...ClientOption) (*CreateMlServingAppOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -741,7 +759,7 @@ func (a *Client) CreateMlServingAppContext(ctx context.Context, params *CreateMl
 // If you need to pass a specific context, use [Client.CreateModelRegistryContext] instead.
 func (a *Client) CreateModelRegistry(params *CreateModelRegistryParams, opts ...ClientOption) (*CreateModelRegistryOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -806,7 +824,7 @@ func (a *Client) CreateModelRegistryContext(ctx context.Context, params *CreateM
 // If you need to pass a specific context, use [Client.CreateWorkspaceContext] instead.
 func (a *Client) CreateWorkspace(params *CreateWorkspaceParams, opts ...ClientOption) (*CreateWorkspaceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -871,7 +889,7 @@ func (a *Client) CreateWorkspaceContext(ctx context.Context, params *CreateWorks
 // If you need to pass a specific context, use [Client.DeleteBackupContext] instead.
 func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -936,7 +954,7 @@ func (a *Client) DeleteBackupContext(ctx context.Context, params *DeleteBackupPa
 // If you need to pass a specific context, use [Client.DeleteFileReplicaContext] instead.
 func (a *Client) DeleteFileReplica(params *DeleteFileReplicaParams, opts ...ClientOption) (*DeleteFileReplicaOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1001,7 +1019,7 @@ func (a *Client) DeleteFileReplicaContext(ctx context.Context, params *DeleteFil
 // If you need to pass a specific context, use [Client.DeleteInstanceGroupContext] instead.
 func (a *Client) DeleteInstanceGroup(params *DeleteInstanceGroupParams, opts ...ClientOption) (*DeleteInstanceGroupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1066,7 +1084,7 @@ func (a *Client) DeleteInstanceGroupContext(ctx context.Context, params *DeleteI
 // If you need to pass a specific context, use [Client.DeleteInstanceGroupMlServingAppContext] instead.
 func (a *Client) DeleteInstanceGroupMlServingApp(params *DeleteInstanceGroupMlServingAppParams, opts ...ClientOption) (*DeleteInstanceGroupMlServingAppOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1131,7 +1149,7 @@ func (a *Client) DeleteInstanceGroupMlServingAppContext(ctx context.Context, par
 // If you need to pass a specific context, use [Client.DeleteMlServingAppContext] instead.
 func (a *Client) DeleteMlServingApp(params *DeleteMlServingAppParams, opts ...ClientOption) (*DeleteMlServingAppOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1196,7 +1214,7 @@ func (a *Client) DeleteMlServingAppContext(ctx context.Context, params *DeleteMl
 // If you need to pass a specific context, use [Client.DeleteModelRegistryContext] instead.
 func (a *Client) DeleteModelRegistry(params *DeleteModelRegistryParams, opts ...ClientOption) (*DeleteModelRegistryOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1261,7 +1279,7 @@ func (a *Client) DeleteModelRegistryContext(ctx context.Context, params *DeleteM
 // If you need to pass a specific context, use [Client.DeleteWorkspaceContext] instead.
 func (a *Client) DeleteWorkspace(params *DeleteWorkspaceParams, opts ...ClientOption) (*DeleteWorkspaceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1326,7 +1344,7 @@ func (a *Client) DeleteWorkspaceContext(ctx context.Context, params *DeleteWorks
 // If you need to pass a specific context, use [Client.DescribeMlServingAppContext] instead.
 func (a *Client) DescribeMlServingApp(params *DescribeMlServingAppParams, opts ...ClientOption) (*DescribeMlServingAppOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1391,7 +1409,7 @@ func (a *Client) DescribeMlServingAppContext(ctx context.Context, params *Descri
 // If you need to pass a specific context, use [Client.DescribeModelRegistryContext] instead.
 func (a *Client) DescribeModelRegistry(params *DescribeModelRegistryParams, opts ...ClientOption) (*DescribeModelRegistryOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1456,7 +1474,7 @@ func (a *Client) DescribeModelRegistryContext(ctx context.Context, params *Descr
 // If you need to pass a specific context, use [Client.DescribeWorkspaceContext] instead.
 func (a *Client) DescribeWorkspace(params *DescribeWorkspaceParams, opts ...ClientOption) (*DescribeWorkspaceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1511,9 +1529,9 @@ func (a *Client) DescribeWorkspaceContext(ctx context.Context, params *DescribeW
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-// DescribeWorkspaceBackup describes backup snaphot of a workbench.
+// DescribeWorkspaceBackup describes backup snapshot of a workbench.
 //
-// Describe backup snaphot of a workbench..
+// Describe backup snapshot of a workbench..
 //
 // This method does not support injected context.
 // However, timeout and opentracing contexts are honored whenever enabled.
@@ -1521,7 +1539,7 @@ func (a *Client) DescribeWorkspaceContext(ctx context.Context, params *DescribeW
 // If you need to pass a specific context, use [Client.DescribeWorkspaceBackupContext] instead.
 func (a *Client) DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1530,9 +1548,9 @@ func (a *Client) DescribeWorkspaceBackup(params *DescribeWorkspaceBackupParams, 
 	return a.DescribeWorkspaceBackupContext(ctx, params, opts...)
 }
 
-// DescribeWorkspaceBackupContext describes backup snaphot of a workbench.
+// DescribeWorkspaceBackupContext describes backup snapshot of a workbench.
 //
-// Describe backup snaphot of a workbench..
+// Describe backup snapshot of a workbench..
 //
 // Do not use the deprecated [DescribeWorkspaceBackupParams.Context] with this method: it would be ignored.
 func (a *Client) DescribeWorkspaceBackupContext(ctx context.Context, params *DescribeWorkspaceBackupParams, opts ...ClientOption) (*DescribeWorkspaceBackupOK, error) {
@@ -1586,7 +1604,7 @@ func (a *Client) DescribeWorkspaceBackupContext(ctx context.Context, params *Des
 // If you need to pass a specific context, use [Client.FailOverFileSystemContext] instead.
 func (a *Client) FailOverFileSystem(params *FailOverFileSystemParams, opts ...ClientOption) (*FailOverFileSystemOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1641,6 +1659,71 @@ func (a *Client) FailOverFileSystemContext(ctx context.Context, params *FailOver
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// FetchAiRegistriesStorageConfig fetches a i registry storage configuration for a cloudera a i inference service.
+//
+// Returns installed AI Registries in the environment with S3 fields from the database and link status from cluster secrets..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.FetchAiRegistriesStorageConfigContext] instead.
+func (a *Client) FetchAiRegistriesStorageConfig(params *FetchAiRegistriesStorageConfigParams, opts ...ClientOption) (*FetchAiRegistriesStorageConfigOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.FetchAiRegistriesStorageConfigContext(ctx, params, opts...)
+}
+
+// FetchAiRegistriesStorageConfigContext fetches a i registry storage configuration for a cloudera a i inference service.
+//
+// Returns installed AI Registries in the environment with S3 fields from the database and link status from cluster secrets..
+//
+// Do not use the deprecated [FetchAiRegistriesStorageConfigParams.Context] with this method: it would be ignored.
+func (a *Client) FetchAiRegistriesStorageConfigContext(ctx context.Context, params *FetchAiRegistriesStorageConfigParams, opts ...ClientOption) (*FetchAiRegistriesStorageConfigOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewFetchAiRegistriesStorageConfigParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "fetchAiRegistriesStorageConfig",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/fetchAiRegistriesStorageConfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &FetchAiRegistriesStorageConfigReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*FetchAiRegistriesStorageConfigOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*FetchAiRegistriesStorageConfigDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // GetAuditEvents gets all the events belong to a workbench crn.
 //
 // Gets all the events belong to a workbench crn..
@@ -1651,7 +1734,7 @@ func (a *Client) FailOverFileSystemContext(ctx context.Context, params *FailOver
 // If you need to pass a specific context, use [Client.GetAuditEventsContext] instead.
 func (a *Client) GetAuditEvents(params *GetAuditEventsParams, opts ...ClientOption) (*GetAuditEventsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1716,7 +1799,7 @@ func (a *Client) GetAuditEventsContext(ctx context.Context, params *GetAuditEven
 // If you need to pass a specific context, use [Client.GetKubeconfigContext] instead.
 func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1781,7 +1864,7 @@ func (a *Client) GetKubeconfigContext(ctx context.Context, params *GetKubeconfig
 // If you need to pass a specific context, use [Client.GetLatestModelRegistryVersionContext] instead.
 func (a *Client) GetLatestModelRegistryVersion(params *GetLatestModelRegistryVersionParams, opts ...ClientOption) (*GetLatestModelRegistryVersionOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1846,7 +1929,7 @@ func (a *Client) GetLatestModelRegistryVersionContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.GetLatestWorkspaceVersionContext] instead.
 func (a *Client) GetLatestWorkspaceVersion(params *GetLatestWorkspaceVersionParams, opts ...ClientOption) (*GetLatestWorkspaceVersionOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1911,7 +1994,7 @@ func (a *Client) GetLatestWorkspaceVersionContext(ctx context.Context, params *G
 // If you need to pass a specific context, use [Client.GetLogsContext] instead.
 func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1976,7 +2059,7 @@ func (a *Client) GetLogsContext(ctx context.Context, params *GetLogsParams, opts
 // If you need to pass a specific context, use [Client.GetMlServingAppKubeconfigContext] instead.
 func (a *Client) GetMlServingAppKubeconfig(params *GetMlServingAppKubeconfigParams, opts ...ClientOption) (*GetMlServingAppKubeconfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2041,7 +2124,7 @@ func (a *Client) GetMlServingAppKubeconfigContext(ctx context.Context, params *G
 // If you need to pass a specific context, use [Client.GetModelRegistryKubeconfigContext] instead.
 func (a *Client) GetModelRegistryKubeconfig(params *GetModelRegistryKubeconfigParams, opts ...ClientOption) (*GetModelRegistryKubeconfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2106,7 +2189,7 @@ func (a *Client) GetModelRegistryKubeconfigContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.GrantMlServingAppAccessContext] instead.
 func (a *Client) GrantMlServingAppAccess(params *GrantMlServingAppAccessParams, opts ...ClientOption) (*GrantMlServingAppAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2171,7 +2254,7 @@ func (a *Client) GrantMlServingAppAccessContext(ctx context.Context, params *Gra
 // If you need to pass a specific context, use [Client.GrantModelRegistryAccessContext] instead.
 func (a *Client) GrantModelRegistryAccess(params *GrantModelRegistryAccessParams, opts ...ClientOption) (*GrantModelRegistryAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2236,7 +2319,7 @@ func (a *Client) GrantModelRegistryAccessContext(ctx context.Context, params *Gr
 // If you need to pass a specific context, use [Client.GrantWorkspaceAccessContext] instead.
 func (a *Client) GrantWorkspaceAccess(params *GrantWorkspaceAccessParams, opts ...ClientOption) (*GrantWorkspaceAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2301,7 +2384,7 @@ func (a *Client) GrantWorkspaceAccessContext(ctx context.Context, params *GrantW
 // If you need to pass a specific context, use [Client.ListInstanceTypeConfigurationContext] instead.
 func (a *Client) ListInstanceTypeConfiguration(params *ListInstanceTypeConfigurationParams, opts ...ClientOption) (*ListInstanceTypeConfigurationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2366,7 +2449,7 @@ func (a *Client) ListInstanceTypeConfigurationContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.ListMlServingAppAccessContext] instead.
 func (a *Client) ListMlServingAppAccess(params *ListMlServingAppAccessParams, opts ...ClientOption) (*ListMlServingAppAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2431,7 +2514,7 @@ func (a *Client) ListMlServingAppAccessContext(ctx context.Context, params *List
 // If you need to pass a specific context, use [Client.ListMlServingAppsContext] instead.
 func (a *Client) ListMlServingApps(params *ListMlServingAppsParams, opts ...ClientOption) (*ListMlServingAppsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2496,7 +2579,7 @@ func (a *Client) ListMlServingAppsContext(ctx context.Context, params *ListMlSer
 // If you need to pass a specific context, use [Client.ListModelRegistriesContext] instead.
 func (a *Client) ListModelRegistries(params *ListModelRegistriesParams, opts ...ClientOption) (*ListModelRegistriesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2561,7 +2644,7 @@ func (a *Client) ListModelRegistriesContext(ctx context.Context, params *ListMod
 // If you need to pass a specific context, use [Client.ListModelRegistryAccessContext] instead.
 func (a *Client) ListModelRegistryAccess(params *ListModelRegistryAccessParams, opts ...ClientOption) (*ListModelRegistryAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2626,7 +2709,7 @@ func (a *Client) ListModelRegistryAccessContext(ctx context.Context, params *Lis
 // If you need to pass a specific context, use [Client.ListRelevantInstancesContext] instead.
 func (a *Client) ListRelevantInstances(params *ListRelevantInstancesParams, opts ...ClientOption) (*ListRelevantInstancesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2691,7 +2774,7 @@ func (a *Client) ListRelevantInstancesContext(ctx context.Context, params *ListR
 // If you need to pass a specific context, use [Client.ListWorkspaceAccessContext] instead.
 func (a *Client) ListWorkspaceAccess(params *ListWorkspaceAccessParams, opts ...ClientOption) (*ListWorkspaceAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2756,7 +2839,7 @@ func (a *Client) ListWorkspaceAccessContext(ctx context.Context, params *ListWor
 // If you need to pass a specific context, use [Client.ListWorkspaceBackupsContext] instead.
 func (a *Client) ListWorkspaceBackups(params *ListWorkspaceBackupsParams, opts ...ClientOption) (*ListWorkspaceBackupsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2821,7 +2904,7 @@ func (a *Client) ListWorkspaceBackupsContext(ctx context.Context, params *ListWo
 // If you need to pass a specific context, use [Client.ListWorkspacesContext] instead.
 func (a *Client) ListWorkspaces(params *ListWorkspacesParams, opts ...ClientOption) (*ListWorkspacesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2886,7 +2969,7 @@ func (a *Client) ListWorkspacesContext(ctx context.Context, params *ListWorkspac
 // If you need to pass a specific context, use [Client.ModifyClusterInstanceGroupContext] instead.
 func (a *Client) ModifyClusterInstanceGroup(params *ModifyClusterInstanceGroupParams, opts ...ClientOption) (*ModifyClusterInstanceGroupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2951,7 +3034,7 @@ func (a *Client) ModifyClusterInstanceGroupContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.ModifyClusterSecurityContext] instead.
 func (a *Client) ModifyClusterSecurity(params *ModifyClusterSecurityParams, opts ...ClientOption) (*ModifyClusterSecurityOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3016,7 +3099,7 @@ func (a *Client) ModifyClusterSecurityContext(ctx context.Context, params *Modif
 // If you need to pass a specific context, use [Client.ModifyMlServingAppContext] instead.
 func (a *Client) ModifyMlServingApp(params *ModifyMlServingAppParams, opts ...ClientOption) (*ModifyMlServingAppOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3081,7 +3164,7 @@ func (a *Client) ModifyMlServingAppContext(ctx context.Context, params *ModifyMl
 // If you need to pass a specific context, use [Client.ModifyWorkspaceLoadBalancerContext] instead.
 func (a *Client) ModifyWorkspaceLoadBalancer(params *ModifyWorkspaceLoadBalancerParams, opts ...ClientOption) (*ModifyWorkspaceLoadBalancerOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3146,7 +3229,7 @@ func (a *Client) ModifyWorkspaceLoadBalancerContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.RefreshAiInferenceContext] instead.
 func (a *Client) RefreshAiInference(params *RefreshAiInferenceParams, opts ...ClientOption) (*RefreshAiInferenceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3211,7 +3294,7 @@ func (a *Client) RefreshAiInferenceContext(ctx context.Context, params *RefreshA
 // If you need to pass a specific context, use [Client.RefreshAiRegistryContext] instead.
 func (a *Client) RefreshAiRegistry(params *RefreshAiRegistryParams, opts ...ClientOption) (*RefreshAiRegistryOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3276,7 +3359,7 @@ func (a *Client) RefreshAiRegistryContext(ctx context.Context, params *RefreshAi
 // If you need to pass a specific context, use [Client.RefreshModelRegistryConfigmapContext] instead.
 func (a *Client) RefreshModelRegistryConfigmap(params *RefreshModelRegistryConfigmapParams, opts ...ClientOption) (*RefreshModelRegistryConfigmapOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3341,7 +3424,7 @@ func (a *Client) RefreshModelRegistryConfigmapContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.RequestWorkflowCancellationContext] instead.
 func (a *Client) RequestWorkflowCancellation(params *RequestWorkflowCancellationParams, opts ...ClientOption) (*RequestWorkflowCancellationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3406,7 +3489,7 @@ func (a *Client) RequestWorkflowCancellationContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.RequestWorkflowRollbackContext] instead.
 func (a *Client) RequestWorkflowRollback(params *RequestWorkflowRollbackParams, opts ...ClientOption) (*RequestWorkflowRollbackOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3471,7 +3554,7 @@ func (a *Client) RequestWorkflowRollbackContext(ctx context.Context, params *Req
 // If you need to pass a specific context, use [Client.RestoreWorkspaceContext] instead.
 func (a *Client) RestoreWorkspace(params *RestoreWorkspaceParams, opts ...ClientOption) (*RestoreWorkspaceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3536,7 +3619,7 @@ func (a *Client) RestoreWorkspaceContext(ctx context.Context, params *RestoreWor
 // If you need to pass a specific context, use [Client.ResumeWorkspaceContext] instead.
 func (a *Client) ResumeWorkspace(params *ResumeWorkspaceParams, opts ...ClientOption) (*ResumeWorkspaceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3601,7 +3684,7 @@ func (a *Client) ResumeWorkspaceContext(ctx context.Context, params *ResumeWorks
 // If you need to pass a specific context, use [Client.RevokeMlServingAppAccessContext] instead.
 func (a *Client) RevokeMlServingAppAccess(params *RevokeMlServingAppAccessParams, opts ...ClientOption) (*RevokeMlServingAppAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3666,7 +3749,7 @@ func (a *Client) RevokeMlServingAppAccessContext(ctx context.Context, params *Re
 // If you need to pass a specific context, use [Client.RevokeModelRegistryAccessContext] instead.
 func (a *Client) RevokeModelRegistryAccess(params *RevokeModelRegistryAccessParams, opts ...ClientOption) (*RevokeModelRegistryAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3731,7 +3814,7 @@ func (a *Client) RevokeModelRegistryAccessContext(ctx context.Context, params *R
 // If you need to pass a specific context, use [Client.RevokeWorkspaceAccessContext] instead.
 func (a *Client) RevokeWorkspaceAccess(params *RevokeWorkspaceAccessParams, opts ...ClientOption) (*RevokeWorkspaceAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3796,7 +3879,7 @@ func (a *Client) RevokeWorkspaceAccessContext(ctx context.Context, params *Revok
 // If you need to pass a specific context, use [Client.RollbackModelRegistryUpgradeContext] instead.
 func (a *Client) RollbackModelRegistryUpgrade(params *RollbackModelRegistryUpgradeParams, opts ...ClientOption) (*RollbackModelRegistryUpgradeOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3861,7 +3944,7 @@ func (a *Client) RollbackModelRegistryUpgradeContext(ctx context.Context, params
 // If you need to pass a specific context, use [Client.SuspendWorkspaceContext] instead.
 func (a *Client) SuspendWorkspace(params *SuspendWorkspaceParams, opts ...ClientOption) (*SuspendWorkspaceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3926,7 +4009,7 @@ func (a *Client) SuspendWorkspaceContext(ctx context.Context, params *SuspendWor
 // If you need to pass a specific context, use [Client.UpdateMlServingAppS3CredsContext] instead.
 func (a *Client) UpdateMlServingAppS3Creds(params *UpdateMlServingAppS3CredsParams, opts ...ClientOption) (*UpdateMlServingAppS3CredsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3991,7 +4074,7 @@ func (a *Client) UpdateMlServingAppS3CredsContext(ctx context.Context, params *U
 // If you need to pass a specific context, use [Client.UpgradeMlServingAppContext] instead.
 func (a *Client) UpgradeMlServingApp(params *UpgradeMlServingAppParams, opts ...ClientOption) (*UpgradeMlServingAppOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4056,7 +4139,7 @@ func (a *Client) UpgradeMlServingAppContext(ctx context.Context, params *Upgrade
 // If you need to pass a specific context, use [Client.UpgradeModelRegistryContext] instead.
 func (a *Client) UpgradeModelRegistry(params *UpgradeModelRegistryParams, opts ...ClientOption) (*UpgradeModelRegistryOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4121,7 +4204,7 @@ func (a *Client) UpgradeModelRegistryContext(ctx context.Context, params *Upgrad
 // If you need to pass a specific context, use [Client.UpgradeWorkspaceContext] instead.
 func (a *Client) UpgradeWorkspace(params *UpgradeWorkspaceParams, opts ...ClientOption) (*UpgradeWorkspaceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4172,6 +4255,136 @@ func (a *Client) UpgradeWorkspaceContext(ctx context.Context, params *UpgradeWor
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*UpgradeWorkspaceDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// UploadCertificate uploads custom c a certificate for a i inference service.
+//
+// Uploads a custom CA certificate for the AI Inference Service trust store (private cloud only)..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UploadCertificateContext] instead.
+func (a *Client) UploadCertificate(params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UploadCertificateContext(ctx, params, opts...)
+}
+
+// UploadCertificateContext uploads custom c a certificate for a i inference service.
+//
+// Uploads a custom CA certificate for the AI Inference Service trust store (private cloud only)..
+//
+// Do not use the deprecated [UploadCertificateParams.Context] with this method: it would be ignored.
+func (a *Client) UploadCertificateContext(ctx context.Context, params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewUploadCertificateParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "uploadCertificate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/uploadCertificate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UploadCertificateReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*UploadCertificateOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*UploadCertificateDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// UploadModelRegistryCertificate uploads custom c a certificate for an a i registry instance.
+//
+// Uploads a CA certificate to be trusted by the AI Registry service. Supported on CSK only..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.UploadModelRegistryCertificateContext] instead.
+func (a *Client) UploadModelRegistryCertificate(params *UploadModelRegistryCertificateParams, opts ...ClientOption) (*UploadModelRegistryCertificateOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.UploadModelRegistryCertificateContext(ctx, params, opts...)
+}
+
+// UploadModelRegistryCertificateContext uploads custom c a certificate for an a i registry instance.
+//
+// Uploads a CA certificate to be trusted by the AI Registry service. Supported on CSK only..
+//
+// Do not use the deprecated [UploadModelRegistryCertificateParams.Context] with this method: it would be ignored.
+func (a *Client) UploadModelRegistryCertificateContext(ctx context.Context, params *UploadModelRegistryCertificateParams, opts ...ClientOption) (*UploadModelRegistryCertificateOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewUploadModelRegistryCertificateParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "uploadModelRegistryCertificate",
+		Method:             "POST",
+		PathPattern:        "/api/v1/ml/uploadModelRegistryCertificate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &UploadModelRegistryCertificateReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*UploadModelRegistryCertificateOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*UploadModelRegistryCertificateDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }

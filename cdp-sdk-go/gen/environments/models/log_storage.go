@@ -264,12 +264,12 @@ type LogStorageAwsDetails struct {
 }
 
 // Validate validates this log storage aws details
-func (m *LogStorageAwsDetails) Validate(formats strfmt.Registry) error {
+func (m *LogStorageAwsDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this log storage aws details based on context it is used
-func (m *LogStorageAwsDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *LogStorageAwsDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 
@@ -304,12 +304,12 @@ type LogStorageAzureDetails struct {
 }
 
 // Validate validates this log storage azure details
-func (m *LogStorageAzureDetails) Validate(formats strfmt.Registry) error {
+func (m *LogStorageAzureDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this log storage azure details based on context it is used
-func (m *LogStorageAzureDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *LogStorageAzureDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 
@@ -344,12 +344,12 @@ type LogStorageGcpDetails struct {
 }
 
 // Validate validates this log storage gcp details
-func (m *LogStorageGcpDetails) Validate(formats strfmt.Registry) error {
+func (m *LogStorageGcpDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this log storage gcp details based on context it is used
-func (m *LogStorageGcpDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *LogStorageGcpDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

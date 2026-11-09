@@ -19,12 +19,12 @@ type RotatePrivateCertificatesResponse struct {
 }
 
 // Validate validates this rotate private certificates response
-func (m *RotatePrivateCertificatesResponse) Validate(formats strfmt.Registry) error {
+func (m *RotatePrivateCertificatesResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this rotate private certificates response based on context it is used
-func (m *RotatePrivateCertificatesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotatePrivateCertificatesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

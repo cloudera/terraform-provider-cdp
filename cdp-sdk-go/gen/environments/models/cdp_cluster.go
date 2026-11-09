@@ -140,7 +140,7 @@ func (m *CdpCluster) contextValidateClusterValidationMessages(ctx context.Contex
 		if m.ClusterValidationMessages[i] != nil {
 
 			if typeutils.IsZero(m.ClusterValidationMessages[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ClusterValidationMessages[i].ContextValidate(ctx, formats); err != nil {
@@ -169,7 +169,7 @@ func (m *CdpCluster) contextValidateExposedServices(ctx context.Context, formats
 		if m.ExposedServices[i] != nil {
 
 			if typeutils.IsZero(m.ExposedServices[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ExposedServices[i].ContextValidate(ctx, formats); err != nil {

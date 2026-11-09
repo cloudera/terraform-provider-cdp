@@ -19,12 +19,12 @@ type RepairClusterResponse struct {
 }
 
 // Validate validates this repair cluster response
-func (m *RepairClusterResponse) Validate(formats strfmt.Registry) error {
+func (m *RepairClusterResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this repair cluster response based on context it is used
-func (m *RepairClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RepairClusterResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

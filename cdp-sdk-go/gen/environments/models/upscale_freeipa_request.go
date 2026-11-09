@@ -98,7 +98,7 @@ func (m *UpscaleFreeipaRequest) validateTargetAvailabilityType(formats strfmt.Re
 }
 
 // ContextValidate validates this upscale freeipa request based on context it is used
-func (m *UpscaleFreeipaRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpscaleFreeipaRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

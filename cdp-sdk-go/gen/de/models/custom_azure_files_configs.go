@@ -65,7 +65,7 @@ func (m *CustomAzureFilesConfigs) validateStorageAccountName(formats strfmt.Regi
 }
 
 // ContextValidate validates this custom azure files configs based on context it is used
-func (m *CustomAzureFilesConfigs) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CustomAzureFilesConfigs) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

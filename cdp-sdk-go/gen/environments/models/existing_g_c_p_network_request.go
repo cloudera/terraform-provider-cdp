@@ -70,7 +70,7 @@ func (m *ExistingGCPNetworkRequest) validateSubnetNames(formats strfmt.Registry)
 }
 
 // ContextValidate validates this existing g c p network request based on context it is used
-func (m *ExistingGCPNetworkRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ExistingGCPNetworkRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

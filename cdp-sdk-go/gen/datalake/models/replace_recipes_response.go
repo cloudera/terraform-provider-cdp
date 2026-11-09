@@ -128,7 +128,7 @@ func (m *ReplaceRecipesResponse) contextValidateAttachedRecipes(ctx context.Cont
 		if m.AttachedRecipes[i] != nil {
 
 			if typeutils.IsZero(m.AttachedRecipes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AttachedRecipes[i].ContextValidate(ctx, formats); err != nil {
@@ -157,7 +157,7 @@ func (m *ReplaceRecipesResponse) contextValidateDetachedRecipes(ctx context.Cont
 		if m.DetachedRecipes[i] != nil {
 
 			if typeutils.IsZero(m.DetachedRecipes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.DetachedRecipes[i].ContextValidate(ctx, formats); err != nil {

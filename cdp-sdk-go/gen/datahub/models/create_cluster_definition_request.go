@@ -93,7 +93,7 @@ func (m *CreateClusterDefinitionRequest) validateWorkloadTemplate(formats strfmt
 }
 
 // ContextValidate validates this create cluster definition request based on context it is used
-func (m *CreateClusterDefinitionRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateClusterDefinitionRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

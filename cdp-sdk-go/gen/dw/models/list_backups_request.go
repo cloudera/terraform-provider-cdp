@@ -25,12 +25,12 @@ type ListBackupsRequest struct {
 }
 
 // Validate validates this list backups request
-func (m *ListBackupsRequest) Validate(formats strfmt.Registry) error {
+func (m *ListBackupsRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list backups request based on context it is used
-func (m *ListBackupsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListBackupsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

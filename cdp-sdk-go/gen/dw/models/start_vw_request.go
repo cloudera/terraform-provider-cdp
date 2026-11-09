@@ -65,7 +65,7 @@ func (m *StartVwRequest) validateVwID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this start vw request based on context it is used
-func (m *StartVwRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartVwRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

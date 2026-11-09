@@ -90,7 +90,7 @@ func (m *ListDatabasesResponse) contextValidateDatabases(ctx context.Context, fo
 		if m.Databases[i] != nil {
 
 			if typeutils.IsZero(m.Databases[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Databases[i].ContextValidate(ctx, formats); err != nil {

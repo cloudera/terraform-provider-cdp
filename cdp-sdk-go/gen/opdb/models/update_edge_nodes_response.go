@@ -4,13 +4,10 @@ package models
 
 import (
 	"context"
-	stderrors "errors"
-	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag/jsonutils"
-	"github.com/go-openapi/swag/typeutils"
 	"github.com/go-openapi/validate"
 )
 
@@ -23,12 +20,12 @@ type UpdateEdgeNodesResponse struct {
 	// Required: true
 	Database *string `json:"database"`
 
-	// The list of edge nodes for a database.
-	EdgeNodes []*EdgeNode `json:"edgeNodes"`
-
 	// The name or CRN of the environment.
 	// Required: true
 	Environment *string `json:"environment"`
+
+	// Status of whether the edge node update request was submitted.
+	Status string `json:"status,omitempty"`
 }
 
 // Validate validates this update edge nodes response
@@ -36,10 +33,6 @@ func (m *UpdateEdgeNodesResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDatabase(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateEdgeNodes(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -62,36 +55,6 @@ func (m *UpdateEdgeNodesResponse) validateDatabase(formats strfmt.Registry) erro
 	return nil
 }
 
-func (m *UpdateEdgeNodesResponse) validateEdgeNodes(formats strfmt.Registry) error {
-	if typeutils.IsZero(m.EdgeNodes) { // not required
-		return nil
-	}
-
-	for i := 0; i < len(m.EdgeNodes); i++ {
-		if typeutils.IsZero(m.EdgeNodes[i]) { // not required
-			continue
-		}
-
-		if m.EdgeNodes[i] != nil {
-			if err := m.EdgeNodes[i].Validate(formats); err != nil {
-				ve := new(errors.Validation)
-				if stderrors.As(err, &ve) {
-					return ve.ValidateName("edgeNodes" + "." + strconv.Itoa(i))
-				}
-				ce := new(errors.CompositeError)
-				if stderrors.As(err, &ce) {
-					return ce.ValidateName("edgeNodes" + "." + strconv.Itoa(i))
-				}
-
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
 func (m *UpdateEdgeNodesResponse) validateEnvironment(formats strfmt.Registry) error {
 
 	if err := validate.Required("environment", "body", m.Environment); err != nil {
@@ -101,46 +64,8 @@ func (m *UpdateEdgeNodesResponse) validateEnvironment(formats strfmt.Registry) e
 	return nil
 }
 
-// ContextValidate validate this update edge nodes response based on the context it is used
-func (m *UpdateEdgeNodesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateEdgeNodes(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *UpdateEdgeNodesResponse) contextValidateEdgeNodes(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.EdgeNodes); i++ {
-
-		if m.EdgeNodes[i] != nil {
-
-			if typeutils.IsZero(m.EdgeNodes[i]) { // not required
-				return nil
-			}
-
-			if err := m.EdgeNodes[i].ContextValidate(ctx, formats); err != nil {
-				ve := new(errors.Validation)
-				if stderrors.As(err, &ve) {
-					return ve.ValidateName("edgeNodes" + "." + strconv.Itoa(i))
-				}
-				ce := new(errors.CompositeError)
-				if stderrors.As(err, &ce) {
-					return ce.ValidateName("edgeNodes" + "." + strconv.Itoa(i))
-				}
-
-				return err
-			}
-		}
-
-	}
-
+// ContextValidate validates this update edge nodes response based on context it is used
+func (m *UpdateEdgeNodesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

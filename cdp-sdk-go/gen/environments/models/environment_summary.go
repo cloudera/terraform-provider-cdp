@@ -160,7 +160,7 @@ func (m *EnvironmentSummary) validateStatus(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this environment summary based on context it is used
-func (m *EnvironmentSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *EnvironmentSummary) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

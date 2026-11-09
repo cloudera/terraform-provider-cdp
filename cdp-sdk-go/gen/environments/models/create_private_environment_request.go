@@ -400,7 +400,7 @@ func (m *CreatePrivateEnvironmentRequestDockerUserPass) validateUsername(formats
 }
 
 // ContextValidate validates this create private environment request docker user pass based on context it is used
-func (m *CreatePrivateEnvironmentRequestDockerUserPass) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreatePrivateEnvironmentRequestDockerUserPass) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

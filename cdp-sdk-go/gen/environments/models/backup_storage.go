@@ -249,12 +249,12 @@ type BackupStorageAwsDetails struct {
 }
 
 // Validate validates this backup storage aws details
-func (m *BackupStorageAwsDetails) Validate(formats strfmt.Registry) error {
+func (m *BackupStorageAwsDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this backup storage aws details based on context it is used
-func (m *BackupStorageAwsDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BackupStorageAwsDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 
@@ -289,12 +289,12 @@ type BackupStorageAzureDetails struct {
 }
 
 // Validate validates this backup storage azure details
-func (m *BackupStorageAzureDetails) Validate(formats strfmt.Registry) error {
+func (m *BackupStorageAzureDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this backup storage azure details based on context it is used
-func (m *BackupStorageAzureDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BackupStorageAzureDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 
@@ -329,12 +329,12 @@ type BackupStorageGcpDetails struct {
 }
 
 // Validate validates this backup storage gcp details
-func (m *BackupStorageGcpDetails) Validate(formats strfmt.Registry) error {
+func (m *BackupStorageGcpDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this backup storage gcp details based on context it is used
-func (m *BackupStorageGcpDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BackupStorageGcpDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

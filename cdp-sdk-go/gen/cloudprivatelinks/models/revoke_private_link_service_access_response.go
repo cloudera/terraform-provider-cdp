@@ -90,7 +90,7 @@ func (m *RevokePrivateLinkServiceAccessResponse) contextValidateRevokePrivateLin
 		if m.RevokePrivateLinkServiceAccessResults[i] != nil {
 
 			if typeutils.IsZero(m.RevokePrivateLinkServiceAccessResults[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.RevokePrivateLinkServiceAccessResults[i].ContextValidate(ctx, formats); err != nil {

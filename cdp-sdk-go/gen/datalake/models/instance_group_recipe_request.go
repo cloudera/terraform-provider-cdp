@@ -66,7 +66,7 @@ func (m *InstanceGroupRecipeRequest) validateRecipeNames(formats strfmt.Registry
 }
 
 // ContextValidate validates this instance group recipe request based on context it is used
-func (m *InstanceGroupRecipeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *InstanceGroupRecipeRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

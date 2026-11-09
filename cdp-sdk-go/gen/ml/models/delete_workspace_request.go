@@ -57,7 +57,7 @@ func (m *DeleteWorkspaceRequest) validateForce(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this delete workspace request based on context it is used
-func (m *DeleteWorkspaceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteWorkspaceRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

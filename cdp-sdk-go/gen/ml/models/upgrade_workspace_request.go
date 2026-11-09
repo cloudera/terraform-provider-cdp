@@ -20,6 +20,9 @@ type UpgradeWorkspaceRequest struct {
 	// The version of workbench to upgrade to.
 	MlVersion string `json:"mlVersion,omitempty"`
 
+	// Override parameter to perform Upgrade via Restore Based Upgrade
+	OverrideUpgrade bool `json:"overrideUpgrade,omitempty"`
+
 	// Whether to skip pre-flight validations before performing the restore-based upgrade.
 	SkipValidation bool `json:"skipValidation,omitempty"`
 
@@ -31,12 +34,12 @@ type UpgradeWorkspaceRequest struct {
 }
 
 // Validate validates this upgrade workspace request
-func (m *UpgradeWorkspaceRequest) Validate(formats strfmt.Registry) error {
+func (m *UpgradeWorkspaceRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this upgrade workspace request based on context it is used
-func (m *UpgradeWorkspaceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpgradeWorkspaceRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -19,12 +19,12 @@ type SyncComponentVersionsFromCmResponse struct {
 }
 
 // Validate validates this sync component versions from cm response
-func (m *SyncComponentVersionsFromCmResponse) Validate(formats strfmt.Registry) error {
+func (m *SyncComponentVersionsFromCmResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this sync component versions from cm response based on context it is used
-func (m *SyncComponentVersionsFromCmResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SyncComponentVersionsFromCmResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

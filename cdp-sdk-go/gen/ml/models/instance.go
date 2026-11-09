@@ -62,7 +62,7 @@ func (m *Instance) validateInstanceID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this instance based on context it is used
-func (m *Instance) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Instance) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

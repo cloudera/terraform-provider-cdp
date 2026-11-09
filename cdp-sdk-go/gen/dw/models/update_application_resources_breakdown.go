@@ -28,12 +28,12 @@ type UpdateApplicationResourcesBreakdown struct {
 }
 
 // Validate validates this update application resources breakdown
-func (m *UpdateApplicationResourcesBreakdown) Validate(formats strfmt.Registry) error {
+func (m *UpdateApplicationResourcesBreakdown) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update application resources breakdown based on context it is used
-func (m *UpdateApplicationResourcesBreakdown) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateApplicationResourcesBreakdown) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

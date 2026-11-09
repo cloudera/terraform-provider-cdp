@@ -19,12 +19,12 @@ type StopEnvironmentResponse struct {
 }
 
 // Validate validates this stop environment response
-func (m *StopEnvironmentResponse) Validate(formats strfmt.Registry) error {
+func (m *StopEnvironmentResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this stop environment response based on context it is used
-func (m *StopEnvironmentResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StopEnvironmentResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

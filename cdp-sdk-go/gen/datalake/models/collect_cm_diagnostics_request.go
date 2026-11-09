@@ -180,7 +180,7 @@ func (m *CollectCmDiagnosticsRequest) validateStartDate(formats strfmt.Registry)
 }
 
 // ContextValidate validates this collect cm diagnostics request based on context it is used
-func (m *CollectCmDiagnosticsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CollectCmDiagnosticsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

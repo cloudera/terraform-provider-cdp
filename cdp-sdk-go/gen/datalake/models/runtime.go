@@ -62,7 +62,7 @@ func (m *Runtime) validateRuntimeVersion(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this runtime based on context it is used
-func (m *Runtime) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Runtime) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

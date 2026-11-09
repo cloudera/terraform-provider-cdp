@@ -157,7 +157,7 @@ func (m *ListSnapshotsResponse) contextValidateSnapshots(ctx context.Context, fo
 		if m.Snapshots[i] != nil {
 
 			if typeutils.IsZero(m.Snapshots[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Snapshots[i].ContextValidate(ctx, formats); err != nil {

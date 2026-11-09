@@ -269,7 +269,7 @@ func UpdateTelemetryFeaturesIfChanged(ctx context.Context, client *environmentsc
 	workloadAnalytics := planWorkloadAnalytics.ValueBool()
 	params := operations.NewSetTelemetryFeaturesParams().WithInput(&environmentsmodels.SetTelemetryFeaturesRequest{
 		EnvironmentName:   env,
-		WorkloadAnalytics: &workloadAnalytics,
+		WorkloadAnalytics: workloadAnalytics,
 	})
 	tflog.Info(ctx, fmt.Sprintf("Updating telemetry features for environment '%s'", *env))
 	if _, err := client.Operations.SetTelemetryFeaturesContext(ctx, params); err != nil {

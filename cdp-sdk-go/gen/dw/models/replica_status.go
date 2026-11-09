@@ -28,12 +28,12 @@ type ReplicaStatus struct {
 }
 
 // Validate validates this replica status
-func (m *ReplicaStatus) Validate(formats strfmt.Registry) error {
+func (m *ReplicaStatus) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this replica status based on context it is used
-func (m *ReplicaStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ReplicaStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

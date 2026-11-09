@@ -296,7 +296,7 @@ func (m *CreateWorkspaceRequest) contextValidateOutboundTypes(ctx context.Contex
 	for i := 0; i < len(m.OutboundTypes); i++ {
 
 		if typeutils.IsZero(m.OutboundTypes[i]) { // not required
-			return nil
+			continue
 		}
 
 		if err := m.OutboundTypes[i].ContextValidate(ctx, formats); err != nil {

@@ -28,12 +28,12 @@ type ComponentsVersion struct {
 }
 
 // Validate validates this components version
-func (m *ComponentsVersion) Validate(formats strfmt.Registry) error {
+func (m *ComponentsVersion) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this components version based on context it is used
-func (m *ComponentsVersion) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ComponentsVersion) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

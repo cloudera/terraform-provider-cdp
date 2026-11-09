@@ -79,7 +79,7 @@ func (m *ModifyClusterSecurityRequest) validateWorkspaceCrn(formats strfmt.Regis
 }
 
 // ContextValidate validates this modify cluster security request based on context it is used
-func (m *ModifyClusterSecurityRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ModifyClusterSecurityRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

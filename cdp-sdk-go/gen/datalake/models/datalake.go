@@ -4,7 +4,6 @@ package models
 
 import (
 	"context"
-	"encoding/json"
 	stderrors "errors"
 	"strconv"
 
@@ -20,9 +19,8 @@ import (
 // swagger:model Datalake
 type Datalake struct {
 
-	// Indicates the certificate status on the cluster.
-	// Enum: ["VALID","HOST_CERT_EXPIRING"]
-	CertificateExpirationState string `json:"certificateExpirationState,omitempty"`
+	// Indicates the certificate expiration status on the cluster.
+	CertificateExpirationState CertificateExpirationState `json:"certificateExpirationState,omitempty"`
 
 	// The date when the datalake was created.
 	// Format: date-time
@@ -92,42 +90,21 @@ func (m *Datalake) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-var datalakeTypeCertificateExpirationStatePropEnum []any
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["VALID","HOST_CERT_EXPIRING"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		datalakeTypeCertificateExpirationStatePropEnum = append(datalakeTypeCertificateExpirationStatePropEnum, v)
-	}
-}
-
-const (
-
-	// DatalakeCertificateExpirationStateVALID captures enum value "VALID"
-	DatalakeCertificateExpirationStateVALID string = "VALID"
-
-	// DatalakeCertificateExpirationStateHOSTCERTEXPIRING captures enum value "HOST_CERT_EXPIRING"
-	DatalakeCertificateExpirationStateHOSTCERTEXPIRING string = "HOST_CERT_EXPIRING"
-)
-
-// prop value enum
-func (m *Datalake) validateCertificateExpirationStateEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, datalakeTypeCertificateExpirationStatePropEnum, true); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (m *Datalake) validateCertificateExpirationState(formats strfmt.Registry) error {
 	if typeutils.IsZero(m.CertificateExpirationState) { // not required
 		return nil
 	}
 
-	// value enum
-	if err := m.validateCertificateExpirationStateEnum("certificateExpirationState", "body", m.CertificateExpirationState); err != nil {
+	if err := m.CertificateExpirationState.Validate(formats); err != nil {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
+			return ve.ValidateName("certificateExpirationState")
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
+			return ce.ValidateName("certificateExpirationState")
+		}
+
 		return err
 	}
 
@@ -221,6 +198,10 @@ func (m *Datalake) validateTags(formats strfmt.Registry) error {
 func (m *Datalake) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateCertificateExpirationState(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateSecurity(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -232,6 +213,28 @@ func (m *Datalake) ContextValidate(ctx context.Context, formats strfmt.Registry)
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Datalake) contextValidateCertificateExpirationState(ctx context.Context, formats strfmt.Registry) error {
+
+	if typeutils.IsZero(m.CertificateExpirationState) { // not required
+		return nil
+	}
+
+	if err := m.CertificateExpirationState.ContextValidate(ctx, formats); err != nil {
+		ve := new(errors.Validation)
+		if stderrors.As(err, &ve) {
+			return ve.ValidateName("certificateExpirationState")
+		}
+		ce := new(errors.CompositeError)
+		if stderrors.As(err, &ce) {
+			return ce.ValidateName("certificateExpirationState")
+		}
+
+		return err
+	}
+
 	return nil
 }
 
@@ -267,7 +270,7 @@ func (m *Datalake) contextValidateTags(ctx context.Context, formats strfmt.Regis
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

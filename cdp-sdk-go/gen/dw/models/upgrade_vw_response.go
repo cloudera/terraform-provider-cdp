@@ -31,12 +31,12 @@ type UpgradeVwResponse struct {
 }
 
 // Validate validates this upgrade vw response
-func (m *UpgradeVwResponse) Validate(formats strfmt.Registry) error {
+func (m *UpgradeVwResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this upgrade vw response based on context it is used
-func (m *UpgradeVwResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpgradeVwResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

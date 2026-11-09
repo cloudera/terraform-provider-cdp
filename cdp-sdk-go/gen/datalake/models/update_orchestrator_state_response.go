@@ -19,12 +19,12 @@ type UpdateOrchestratorStateResponse struct {
 }
 
 // Validate validates this update orchestrator state response
-func (m *UpdateOrchestratorStateResponse) Validate(formats strfmt.Registry) error {
+func (m *UpdateOrchestratorStateResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update orchestrator state response based on context it is used
-func (m *UpdateOrchestratorStateResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateOrchestratorStateResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

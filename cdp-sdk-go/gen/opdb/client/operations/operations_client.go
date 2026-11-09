@@ -254,7 +254,7 @@ type ClientService interface {
 // If you need to pass a specific context, use [Client.AddCoprocessorContext] instead.
 func (a *Client) AddCoprocessor(params *AddCoprocessorParams, opts ...ClientOption) (*AddCoprocessorOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -319,7 +319,7 @@ func (a *Client) AddCoprocessorContext(ctx context.Context, params *AddCoprocess
 // If you need to pass a specific context, use [Client.CollectDiagnosticsContext] instead.
 func (a *Client) CollectDiagnostics(params *CollectDiagnosticsParams, opts ...ClientOption) (*CollectDiagnosticsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -384,7 +384,7 @@ func (a *Client) CollectDiagnosticsContext(ctx context.Context, params *CollectD
 // If you need to pass a specific context, use [Client.CreateDatabaseContext] instead.
 func (a *Client) CreateDatabase(params *CreateDatabaseParams, opts ...ClientOption) (*CreateDatabaseOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -449,7 +449,7 @@ func (a *Client) CreateDatabaseContext(ctx context.Context, params *CreateDataba
 // If you need to pass a specific context, use [Client.CreateSnapshotContext] instead.
 func (a *Client) CreateSnapshot(params *CreateSnapshotParams, opts ...ClientOption) (*CreateSnapshotOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -514,7 +514,7 @@ func (a *Client) CreateSnapshotContext(ctx context.Context, params *CreateSnapsh
 // If you need to pass a specific context, use [Client.DeleteSnapshotContext] instead.
 func (a *Client) DeleteSnapshot(params *DeleteSnapshotParams, opts ...ClientOption) (*DeleteSnapshotOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -579,7 +579,7 @@ func (a *Client) DeleteSnapshotContext(ctx context.Context, params *DeleteSnapsh
 // If you need to pass a specific context, use [Client.DescribeClientConnectivityContext] instead.
 func (a *Client) DescribeClientConnectivity(params *DescribeClientConnectivityParams, opts ...ClientOption) (*DescribeClientConnectivityOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -644,7 +644,7 @@ func (a *Client) DescribeClientConnectivityContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.DescribeDatabaseContext] instead.
 func (a *Client) DescribeDatabase(params *DescribeDatabaseParams, opts ...ClientOption) (*DescribeDatabaseOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -709,7 +709,7 @@ func (a *Client) DescribeDatabaseContext(ctx context.Context, params *DescribeDa
 // If you need to pass a specific context, use [Client.DescribeHbaseConfigurationContext] instead.
 func (a *Client) DescribeHbaseConfiguration(params *DescribeHbaseConfigurationParams, opts ...ClientOption) (*DescribeHbaseConfigurationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -774,7 +774,7 @@ func (a *Client) DescribeHbaseConfigurationContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.DescribeUpgradeDatabaseContext] instead.
 func (a *Client) DescribeUpgradeDatabase(params *DescribeUpgradeDatabaseParams, opts ...ClientOption) (*DescribeUpgradeDatabaseOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -839,7 +839,7 @@ func (a *Client) DescribeUpgradeDatabaseContext(ctx context.Context, params *Des
 // If you need to pass a specific context, use [Client.DropDatabaseContext] instead.
 func (a *Client) DropDatabase(params *DropDatabaseParams, opts ...ClientOption) (*DropDatabaseOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -904,7 +904,7 @@ func (a *Client) DropDatabaseContext(ctx context.Context, params *DropDatabasePa
 // If you need to pass a specific context, use [Client.ListCertificatesContext] instead.
 func (a *Client) ListCertificates(params *ListCertificatesParams, opts ...ClientOption) (*ListCertificatesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -969,7 +969,7 @@ func (a *Client) ListCertificatesContext(ctx context.Context, params *ListCertif
 // If you need to pass a specific context, use [Client.ListCoprocessorsContext] instead.
 func (a *Client) ListCoprocessors(params *ListCoprocessorsParams, opts ...ClientOption) (*ListCoprocessorsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1034,7 +1034,7 @@ func (a *Client) ListCoprocessorsContext(ctx context.Context, params *ListCoproc
 // If you need to pass a specific context, use [Client.ListDatabasesContext] instead.
 func (a *Client) ListDatabases(params *ListDatabasesParams, opts ...ClientOption) (*ListDatabasesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1099,7 +1099,7 @@ func (a *Client) ListDatabasesContext(ctx context.Context, params *ListDatabases
 // If you need to pass a specific context, use [Client.ListDiagnosticsContext] instead.
 func (a *Client) ListDiagnostics(params *ListDiagnosticsParams, opts ...ClientOption) (*ListDiagnosticsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1164,7 +1164,7 @@ func (a *Client) ListDiagnosticsContext(ctx context.Context, params *ListDiagnos
 // If you need to pass a specific context, use [Client.ListEdgeNodesContext] instead.
 func (a *Client) ListEdgeNodes(params *ListEdgeNodesParams, opts ...ClientOption) (*ListEdgeNodesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1229,7 +1229,7 @@ func (a *Client) ListEdgeNodesContext(ctx context.Context, params *ListEdgeNodes
 // If you need to pass a specific context, use [Client.ListEventsContext] instead.
 func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1294,7 +1294,7 @@ func (a *Client) ListEventsContext(ctx context.Context, params *ListEventsParams
 // If you need to pass a specific context, use [Client.ListRestoreSnapshotsContext] instead.
 func (a *Client) ListRestoreSnapshots(params *ListRestoreSnapshotsParams, opts ...ClientOption) (*ListRestoreSnapshotsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1359,7 +1359,7 @@ func (a *Client) ListRestoreSnapshotsContext(ctx context.Context, params *ListRe
 // If you need to pass a specific context, use [Client.ListScalingEventsContext] instead.
 func (a *Client) ListScalingEvents(params *ListScalingEventsParams, opts ...ClientOption) (*ListScalingEventsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1424,7 +1424,7 @@ func (a *Client) ListScalingEventsContext(ctx context.Context, params *ListScali
 // If you need to pass a specific context, use [Client.ListSnapshotsContext] instead.
 func (a *Client) ListSnapshots(params *ListSnapshotsParams, opts ...ClientOption) (*ListSnapshotsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1489,7 +1489,7 @@ func (a *Client) ListSnapshotsContext(ctx context.Context, params *ListSnapshots
 // If you need to pass a specific context, use [Client.ListSupportedEnvironmentsContext] instead.
 func (a *Client) ListSupportedEnvironments(params *ListSupportedEnvironmentsParams, opts ...ClientOption) (*ListSupportedEnvironmentsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1554,7 +1554,7 @@ func (a *Client) ListSupportedEnvironmentsContext(ctx context.Context, params *L
 // If you need to pass a specific context, use [Client.ListSupportedInstanceTypesContext] instead.
 func (a *Client) ListSupportedInstanceTypes(params *ListSupportedInstanceTypesParams, opts ...ClientOption) (*ListSupportedInstanceTypesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1619,7 +1619,7 @@ func (a *Client) ListSupportedInstanceTypesContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.PrepareUpgradeDatabaseContext] instead.
 func (a *Client) PrepareUpgradeDatabase(params *PrepareUpgradeDatabaseParams, opts ...ClientOption) (*PrepareUpgradeDatabaseOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1684,7 +1684,7 @@ func (a *Client) PrepareUpgradeDatabaseContext(ctx context.Context, params *Prep
 // If you need to pass a specific context, use [Client.RemoveCoprocessorContext] instead.
 func (a *Client) RemoveCoprocessor(params *RemoveCoprocessorParams, opts ...ClientOption) (*RemoveCoprocessorOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1749,7 +1749,7 @@ func (a *Client) RemoveCoprocessorContext(ctx context.Context, params *RemoveCop
 // If you need to pass a specific context, use [Client.RestoreSnapshotContext] instead.
 func (a *Client) RestoreSnapshot(params *RestoreSnapshotParams, opts ...ClientOption) (*RestoreSnapshotOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1814,7 +1814,7 @@ func (a *Client) RestoreSnapshotContext(ctx context.Context, params *RestoreSnap
 // If you need to pass a specific context, use [Client.StartDatabaseContext] instead.
 func (a *Client) StartDatabase(params *StartDatabaseParams, opts ...ClientOption) (*StartDatabaseOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1879,7 +1879,7 @@ func (a *Client) StartDatabaseContext(ctx context.Context, params *StartDatabase
 // If you need to pass a specific context, use [Client.StopDatabaseContext] instead.
 func (a *Client) StopDatabase(params *StopDatabaseParams, opts ...ClientOption) (*StopDatabaseOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1944,7 +1944,7 @@ func (a *Client) StopDatabaseContext(ctx context.Context, params *StopDatabasePa
 // If you need to pass a specific context, use [Client.UpdateDatabaseContext] instead.
 func (a *Client) UpdateDatabase(params *UpdateDatabaseParams, opts ...ClientOption) (*UpdateDatabaseOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2009,7 +2009,7 @@ func (a *Client) UpdateDatabaseContext(ctx context.Context, params *UpdateDataba
 // If you need to pass a specific context, use [Client.UpdateEdgeNodesContext] instead.
 func (a *Client) UpdateEdgeNodes(params *UpdateEdgeNodesParams, opts ...ClientOption) (*UpdateEdgeNodesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2074,7 +2074,7 @@ func (a *Client) UpdateEdgeNodesContext(ctx context.Context, params *UpdateEdgeN
 // If you need to pass a specific context, use [Client.UpdateHbaseConfigurationContext] instead.
 func (a *Client) UpdateHbaseConfiguration(params *UpdateHbaseConfigurationParams, opts ...ClientOption) (*UpdateHbaseConfigurationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2139,7 +2139,7 @@ func (a *Client) UpdateHbaseConfigurationContext(ctx context.Context, params *Up
 // If you need to pass a specific context, use [Client.UpgradeDatabaseContext] instead.
 func (a *Client) UpgradeDatabase(params *UpgradeDatabaseParams, opts ...ClientOption) (*UpgradeDatabaseOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2204,7 +2204,7 @@ func (a *Client) UpgradeDatabaseContext(ctx context.Context, params *UpgradeData
 // If you need to pass a specific context, use [Client.UploadCertificateContext] instead.
 func (a *Client) UploadCertificate(params *UploadCertificateParams, opts ...ClientOption) (*UploadCertificateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()

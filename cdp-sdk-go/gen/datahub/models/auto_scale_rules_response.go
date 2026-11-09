@@ -137,7 +137,7 @@ func (m *AutoScaleRulesResponse) contextValidateAutoScalePolicies(ctx context.Co
 		if m.AutoScalePolicies[i] != nil {
 
 			if typeutils.IsZero(m.AutoScalePolicies[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AutoScalePolicies[i].ContextValidate(ctx, formats); err != nil {

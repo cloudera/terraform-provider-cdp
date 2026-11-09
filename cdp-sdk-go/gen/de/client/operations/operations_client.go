@@ -218,7 +218,7 @@ type ClientService interface {
 // If you need to pass a specific context, use [Client.CancelBackupContext] instead.
 func (a *Client) CancelBackup(params *CancelBackupParams, opts ...ClientOption) (*CancelBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -283,7 +283,7 @@ func (a *Client) CancelBackupContext(ctx context.Context, params *CancelBackupPa
 // If you need to pass a specific context, use [Client.CreateBackupContext] instead.
 func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -348,7 +348,7 @@ func (a *Client) CreateBackupContext(ctx context.Context, params *CreateBackupPa
 // If you need to pass a specific context, use [Client.CreateVcContext] instead.
 func (a *Client) CreateVc(params *CreateVcParams, opts ...ClientOption) (*CreateVcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -413,7 +413,7 @@ func (a *Client) CreateVcContext(ctx context.Context, params *CreateVcParams, op
 // If you need to pass a specific context, use [Client.DeleteBackupContext] instead.
 func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -478,7 +478,7 @@ func (a *Client) DeleteBackupContext(ctx context.Context, params *DeleteBackupPa
 // If you need to pass a specific context, use [Client.DeleteVcContext] instead.
 func (a *Client) DeleteVc(params *DeleteVcParams, opts ...ClientOption) (*DeleteVcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -543,7 +543,7 @@ func (a *Client) DeleteVcContext(ctx context.Context, params *DeleteVcParams, op
 // If you need to pass a specific context, use [Client.DescribeBackupContext] instead.
 func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -608,7 +608,7 @@ func (a *Client) DescribeBackupContext(ctx context.Context, params *DescribeBack
 // If you need to pass a specific context, use [Client.DescribeServiceContext] instead.
 func (a *Client) DescribeService(params *DescribeServiceParams, opts ...ClientOption) (*DescribeServiceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -673,7 +673,7 @@ func (a *Client) DescribeServiceContext(ctx context.Context, params *DescribeSer
 // If you need to pass a specific context, use [Client.DescribeVcContext] instead.
 func (a *Client) DescribeVc(params *DescribeVcParams, opts ...ClientOption) (*DescribeVcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -738,7 +738,7 @@ func (a *Client) DescribeVcContext(ctx context.Context, params *DescribeVcParams
 // If you need to pass a specific context, use [Client.DisableServiceContext] instead.
 func (a *Client) DisableService(params *DisableServiceParams, opts ...ClientOption) (*DisableServiceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -803,7 +803,7 @@ func (a *Client) DisableServiceContext(ctx context.Context, params *DisableServi
 // If you need to pass a specific context, use [Client.EnableServiceContext] instead.
 func (a *Client) EnableService(params *EnableServiceParams, opts ...ClientOption) (*EnableServiceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -868,7 +868,7 @@ func (a *Client) EnableServiceContext(ctx context.Context, params *EnableService
 // If you need to pass a specific context, use [Client.GetBackupLogsContext] instead.
 func (a *Client) GetBackupLogs(params *GetBackupLogsParams, opts ...ClientOption) (*GetBackupLogsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -933,7 +933,7 @@ func (a *Client) GetBackupLogsContext(ctx context.Context, params *GetBackupLogs
 // If you need to pass a specific context, use [Client.GetKubeconfigContext] instead.
 func (a *Client) GetKubeconfig(params *GetKubeconfigParams, opts ...ClientOption) (*GetKubeconfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -998,7 +998,7 @@ func (a *Client) GetKubeconfigContext(ctx context.Context, params *GetKubeconfig
 // If you need to pass a specific context, use [Client.GetServiceInitLogsContext] instead.
 func (a *Client) GetServiceInitLogs(params *GetServiceInitLogsParams, opts ...ClientOption) (*GetServiceInitLogsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1063,7 +1063,7 @@ func (a *Client) GetServiceInitLogsContext(ctx context.Context, params *GetServi
 // If you need to pass a specific context, use [Client.GetSuspendResumeStatusContext] instead.
 func (a *Client) GetSuspendResumeStatus(params *GetSuspendResumeStatusParams, opts ...ClientOption) (*GetSuspendResumeStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1128,7 +1128,7 @@ func (a *Client) GetSuspendResumeStatusContext(ctx context.Context, params *GetS
 // If you need to pass a specific context, use [Client.GetUpgradeStatusContext] instead.
 func (a *Client) GetUpgradeStatus(params *GetUpgradeStatusParams, opts ...ClientOption) (*GetUpgradeStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1193,7 +1193,7 @@ func (a *Client) GetUpgradeStatusContext(ctx context.Context, params *GetUpgrade
 // If you need to pass a specific context, use [Client.ListBackupsContext] instead.
 func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1258,7 +1258,7 @@ func (a *Client) ListBackupsContext(ctx context.Context, params *ListBackupsPara
 // If you need to pass a specific context, use [Client.ListServicesContext] instead.
 func (a *Client) ListServices(params *ListServicesParams, opts ...ClientOption) (*ListServicesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1323,7 +1323,7 @@ func (a *Client) ListServicesContext(ctx context.Context, params *ListServicesPa
 // If you need to pass a specific context, use [Client.ListVcsContext] instead.
 func (a *Client) ListVcs(params *ListVcsParams, opts ...ClientOption) (*ListVcsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1388,7 +1388,7 @@ func (a *Client) ListVcsContext(ctx context.Context, params *ListVcsParams, opts
 // If you need to pass a specific context, use [Client.RestoreServiceContext] instead.
 func (a *Client) RestoreService(params *RestoreServiceParams, opts ...ClientOption) (*RestoreServiceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1453,7 +1453,7 @@ func (a *Client) RestoreServiceContext(ctx context.Context, params *RestoreServi
 // If you need to pass a specific context, use [Client.ResumeVcContext] instead.
 func (a *Client) ResumeVc(params *ResumeVcParams, opts ...ClientOption) (*ResumeVcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1518,7 +1518,7 @@ func (a *Client) ResumeVcContext(ctx context.Context, params *ResumeVcParams, op
 // If you need to pass a specific context, use [Client.SuspendResumeServiceContext] instead.
 func (a *Client) SuspendResumeService(params *SuspendResumeServiceParams, opts ...ClientOption) (*SuspendResumeServiceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1583,7 +1583,7 @@ func (a *Client) SuspendResumeServiceContext(ctx context.Context, params *Suspen
 // If you need to pass a specific context, use [Client.SuspendVcContext] instead.
 func (a *Client) SuspendVc(params *SuspendVcParams, opts ...ClientOption) (*SuspendVcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1648,7 +1648,7 @@ func (a *Client) SuspendVcContext(ctx context.Context, params *SuspendVcParams, 
 // If you need to pass a specific context, use [Client.UpdateServiceContext] instead.
 func (a *Client) UpdateService(params *UpdateServiceParams, opts ...ClientOption) (*UpdateServiceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1713,7 +1713,7 @@ func (a *Client) UpdateServiceContext(ctx context.Context, params *UpdateService
 // If you need to pass a specific context, use [Client.UpdateVcContext] instead.
 func (a *Client) UpdateVc(params *UpdateVcParams, opts ...ClientOption) (*UpdateVcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1778,7 +1778,7 @@ func (a *Client) UpdateVcContext(ctx context.Context, params *UpdateVcParams, op
 // If you need to pass a specific context, use [Client.UpgradeServiceContext] instead.
 func (a *Client) UpgradeService(params *UpgradeServiceParams, opts ...ClientOption) (*UpgradeServiceOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()

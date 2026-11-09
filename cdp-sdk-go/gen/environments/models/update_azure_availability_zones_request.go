@@ -62,7 +62,7 @@ func (m *UpdateAzureAvailabilityZonesRequest) validateEnvironment(formats strfmt
 }
 
 // ContextValidate validates this update azure availability zones request based on context it is used
-func (m *UpdateAzureAvailabilityZonesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateAzureAvailabilityZonesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 
