@@ -62,7 +62,7 @@ func (m *RebuildVwRequest) validateVwID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this rebuild vw request based on context it is used
-func (m *RebuildVwRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RebuildVwRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

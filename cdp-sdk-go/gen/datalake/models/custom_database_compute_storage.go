@@ -22,12 +22,12 @@ type CustomDatabaseComputeStorage struct {
 }
 
 // Validate validates this custom database compute storage
-func (m *CustomDatabaseComputeStorage) Validate(formats strfmt.Registry) error {
+func (m *CustomDatabaseComputeStorage) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this custom database compute storage based on context it is used
-func (m *CustomDatabaseComputeStorage) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CustomDatabaseComputeStorage) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

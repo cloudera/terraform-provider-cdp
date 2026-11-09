@@ -22,12 +22,12 @@ type UpgradeState struct {
 }
 
 // Validate validates this upgrade state
-func (m *UpgradeState) Validate(formats strfmt.Registry) error {
+func (m *UpgradeState) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this upgrade state based on context it is used
-func (m *UpgradeState) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpgradeState) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

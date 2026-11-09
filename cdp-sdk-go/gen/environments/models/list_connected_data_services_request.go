@@ -45,7 +45,7 @@ func (m *ListConnectedDataServicesRequest) validateEnvironment(formats strfmt.Re
 }
 
 // ContextValidate validates this list connected data services request based on context it is used
-func (m *ListConnectedDataServicesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListConnectedDataServicesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

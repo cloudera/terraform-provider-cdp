@@ -46,12 +46,12 @@ type Connector struct {
 }
 
 // Validate validates this connector
-func (m *Connector) Validate(formats strfmt.Registry) error {
+func (m *Connector) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this connector based on context it is used
-func (m *Connector) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Connector) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

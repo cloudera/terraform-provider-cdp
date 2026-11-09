@@ -90,7 +90,7 @@ func (m *ListRuntimesResponse) contextValidateVersions(ctx context.Context, form
 		if m.Versions[i] != nil {
 
 			if typeutils.IsZero(m.Versions[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Versions[i].ContextValidate(ctx, formats); err != nil {

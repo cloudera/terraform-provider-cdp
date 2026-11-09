@@ -48,7 +48,7 @@ func (m *ListGroupsForMachineUserResponse) validateGroupCrns(formats strfmt.Regi
 }
 
 // ContextValidate validates this list groups for machine user response based on context it is used
-func (m *ListGroupsForMachineUserResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListGroupsForMachineUserResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

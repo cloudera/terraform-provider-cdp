@@ -45,7 +45,7 @@ func (m *DeleteGroupRequest) validateGroupName(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this delete group request based on context it is used
-func (m *DeleteGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteGroupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

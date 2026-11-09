@@ -19,12 +19,12 @@ type GetMlServingAppKubeconfigRequest struct {
 }
 
 // Validate validates this get ml serving app kubeconfig request
-func (m *GetMlServingAppKubeconfigRequest) Validate(formats strfmt.Registry) error {
+func (m *GetMlServingAppKubeconfigRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this get ml serving app kubeconfig request based on context it is used
-func (m *GetMlServingAppKubeconfigRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetMlServingAppKubeconfigRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

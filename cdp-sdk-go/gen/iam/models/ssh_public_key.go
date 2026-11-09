@@ -68,7 +68,7 @@ func (m *SSHPublicKey) validatePublicKeyFingerprint(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this Ssh public key based on context it is used
-func (m *SSHPublicKey) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SSHPublicKey) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

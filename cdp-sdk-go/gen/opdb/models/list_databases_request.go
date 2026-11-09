@@ -19,12 +19,12 @@ type ListDatabasesRequest struct {
 }
 
 // Validate validates this list databases request
-func (m *ListDatabasesRequest) Validate(formats strfmt.Registry) error {
+func (m *ListDatabasesRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list databases request based on context it is used
-func (m *ListDatabasesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListDatabasesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

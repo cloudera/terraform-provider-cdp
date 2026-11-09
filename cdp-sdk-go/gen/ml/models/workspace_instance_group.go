@@ -292,7 +292,7 @@ func (m *WorkspaceInstanceGroup) contextValidateInstances(ctx context.Context, f
 		if m.Instances[i] != nil {
 
 			if typeutils.IsZero(m.Instances[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Instances[i].ContextValidate(ctx, formats); err != nil {
@@ -321,7 +321,7 @@ func (m *WorkspaceInstanceGroup) contextValidateTags(ctx context.Context, format
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

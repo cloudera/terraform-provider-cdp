@@ -45,7 +45,7 @@ func (m *GetDefaultIdentityProviderResponse) validateCrn(formats strfmt.Registry
 }
 
 // ContextValidate validates this get default identity provider response based on context it is used
-func (m *GetDefaultIdentityProviderResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetDefaultIdentityProviderResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

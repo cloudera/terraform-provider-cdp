@@ -79,7 +79,7 @@ func (m *UnassignUserResourceRoleRequest) validateUser(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this unassign user resource role request based on context it is used
-func (m *UnassignUserResourceRoleRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UnassignUserResourceRoleRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

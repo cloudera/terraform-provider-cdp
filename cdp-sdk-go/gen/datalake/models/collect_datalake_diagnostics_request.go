@@ -322,7 +322,7 @@ func (m *CollectDatalakeDiagnosticsRequest) contextValidateAdditionalLogs(ctx co
 		if m.AdditionalLogs[i] != nil {
 
 			if typeutils.IsZero(m.AdditionalLogs[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AdditionalLogs[i].ContextValidate(ctx, formats); err != nil {

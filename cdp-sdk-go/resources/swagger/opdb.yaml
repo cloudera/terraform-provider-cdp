@@ -5,7 +5,7 @@ x-products: CDP
 x-form-factors: public
 x-cdp-releases: PUBLIC
 info:
-  version: 0.9.161 (BETA)
+  version: 0.9.164 (BETA)
   title: Operational Database service
   license:
     name: Apache 2.0
@@ -932,6 +932,9 @@ definitions:
       securityRequest:
         description: Specifies the Security related configuration of the cluster.
         $ref: '#/definitions/SecurityRequest'
+      encryptionProfile:
+        type: string
+        description: The encryption profile name or CRN that manages the encryption.
   CustomInstanceTypes:
     type: object
     description: Custom VM Instance Types.
@@ -2546,11 +2549,9 @@ definitions:
       database:
         type: string
         description: The name or CRN of the database.
-      edgeNodes:
-        type: array
-        items:
-          $ref: '#/definitions/EdgeNode'
-        description: The list of edge nodes for a database.
+      status:
+        type: string
+        description: Status of whether the edge node update request was submitted.
   GroupType:
     type: string
     description: "Group type for the database nodes.\n `GATEWAY` - GATEWAY value of the Group variable. `MASTER` - MASTER value of the Group variable."

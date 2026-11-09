@@ -45,7 +45,7 @@ func (m *DeleteBackupRequest) validateBackupID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this delete backup request based on context it is used
-func (m *DeleteBackupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteBackupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

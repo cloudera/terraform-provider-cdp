@@ -473,7 +473,7 @@ func (m *CreateAzureClusterRequest) contextValidateInstanceGroups(ctx context.Co
 		if m.InstanceGroups[i] != nil {
 
 			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
@@ -549,7 +549,7 @@ func (m *CreateAzureClusterRequest) contextValidateTags(ctx context.Context, for
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

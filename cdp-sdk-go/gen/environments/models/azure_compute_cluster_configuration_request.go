@@ -86,7 +86,7 @@ func (m *AzureComputeClusterConfigurationRequest) validateOutboundType(formats s
 }
 
 // ContextValidate validates this azure compute cluster configuration request based on context it is used
-func (m *AzureComputeClusterConfigurationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureComputeClusterConfigurationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

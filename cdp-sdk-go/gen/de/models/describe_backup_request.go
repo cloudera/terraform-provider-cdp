@@ -19,6 +19,9 @@ type DescribeBackupRequest struct {
 	// The ID of the backup to describe.
 	// Required: true
 	BackupID *int64 `json:"backupID"`
+
+	// When true, the backup restoreRequest is included in the response.
+	IncludeRestoreRequest *bool `json:"includeRestoreRequest,omitempty"`
 }
 
 // Validate validates this describe backup request
@@ -45,7 +48,7 @@ func (m *DescribeBackupRequest) validateBackupID(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this describe backup request based on context it is used
-func (m *DescribeBackupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeBackupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -19,12 +19,12 @@ type StopClusterResponse struct {
 }
 
 // Validate validates this stop cluster response
-func (m *StopClusterResponse) Validate(formats strfmt.Registry) error {
+func (m *StopClusterResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this stop cluster response based on context it is used
-func (m *StopClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StopClusterResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

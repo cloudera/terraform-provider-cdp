@@ -48,7 +48,7 @@ func (m *UpdateUserRequest) validateUser(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this update user request based on context it is used
-func (m *UpdateUserRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateUserRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

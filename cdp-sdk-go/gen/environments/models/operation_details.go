@@ -48,7 +48,7 @@ func (m *OperationDetails) validateEnvironmentCrn(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this operation details based on context it is used
-func (m *OperationDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *OperationDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

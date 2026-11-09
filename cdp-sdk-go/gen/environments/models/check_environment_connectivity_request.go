@@ -131,7 +131,7 @@ func (m *CheckEnvironmentConnectivityRequest) validateUser(formats strfmt.Regist
 }
 
 // ContextValidate validates this check environment connectivity request based on context it is used
-func (m *CheckEnvironmentConnectivityRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CheckEnvironmentConnectivityRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

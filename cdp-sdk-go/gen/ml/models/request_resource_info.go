@@ -40,12 +40,12 @@ type RequestResourceInfo struct {
 }
 
 // Validate validates this request resource info
-func (m *RequestResourceInfo) Validate(formats strfmt.Registry) error {
+func (m *RequestResourceInfo) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this request resource info based on context it is used
-func (m *RequestResourceInfo) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RequestResourceInfo) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

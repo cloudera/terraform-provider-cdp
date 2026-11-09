@@ -22,12 +22,12 @@ type AwsOptionsNonTransparentProxyResponse struct {
 }
 
 // Validate validates this aws options non transparent proxy response
-func (m *AwsOptionsNonTransparentProxyResponse) Validate(formats strfmt.Registry) error {
+func (m *AwsOptionsNonTransparentProxyResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this aws options non transparent proxy response based on context it is used
-func (m *AwsOptionsNonTransparentProxyResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AwsOptionsNonTransparentProxyResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

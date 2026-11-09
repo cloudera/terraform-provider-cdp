@@ -74,7 +74,7 @@ func (m *CreateUserRequest) validateIdentityProviderUserID(formats strfmt.Regist
 }
 
 // ContextValidate validates this create user request based on context it is used
-func (m *CreateUserRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateUserRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

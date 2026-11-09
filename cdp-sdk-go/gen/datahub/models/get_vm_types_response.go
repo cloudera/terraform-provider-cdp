@@ -90,7 +90,7 @@ func (m *GetVMTypesResponse) contextValidateVMTypesWithMetadata(ctx context.Cont
 		if m.VMTypesWithMetadata[i] != nil {
 
 			if typeutils.IsZero(m.VMTypesWithMetadata[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.VMTypesWithMetadata[i].ContextValidate(ctx, formats); err != nil {

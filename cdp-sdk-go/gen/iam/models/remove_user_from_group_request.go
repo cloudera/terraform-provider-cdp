@@ -62,7 +62,7 @@ func (m *RemoveUserFromGroupRequest) validateUserID(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this remove user from group request based on context it is used
-func (m *RemoveUserFromGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RemoveUserFromGroupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

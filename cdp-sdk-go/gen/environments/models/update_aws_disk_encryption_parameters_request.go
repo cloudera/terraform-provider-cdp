@@ -62,7 +62,7 @@ func (m *UpdateAwsDiskEncryptionParametersRequest) validateEnvironment(formats s
 }
 
 // ContextValidate validates this update aws disk encryption parameters request based on context it is used
-func (m *UpdateAwsDiskEncryptionParametersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateAwsDiskEncryptionParametersRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

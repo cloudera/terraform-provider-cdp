@@ -19,12 +19,12 @@ type ScaleClusterResponse struct {
 }
 
 // Validate validates this scale cluster response
-func (m *ScaleClusterResponse) Validate(formats strfmt.Registry) error {
+func (m *ScaleClusterResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this scale cluster response based on context it is used
-func (m *ScaleClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ScaleClusterResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

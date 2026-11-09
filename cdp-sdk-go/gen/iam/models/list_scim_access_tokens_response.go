@@ -93,7 +93,7 @@ func (m *ListScimAccessTokensResponse) contextValidateAccessTokens(ctx context.C
 		if m.AccessTokens[i] != nil {
 
 			if typeutils.IsZero(m.AccessTokens[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AccessTokens[i].ContextValidate(ctx, formats); err != nil {

@@ -65,7 +65,7 @@ func (m *AzureLogStorageRequest) validateStorageLocationBase(formats strfmt.Regi
 }
 
 // ContextValidate validates this azure log storage request based on context it is used
-func (m *AzureLogStorageRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureLogStorageRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

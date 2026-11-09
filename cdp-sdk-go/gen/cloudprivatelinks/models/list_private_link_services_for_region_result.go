@@ -31,12 +31,12 @@ type ListPrivateLinkServicesForRegionResult struct {
 }
 
 // Validate validates this list private link services for region result
-func (m *ListPrivateLinkServicesForRegionResult) Validate(formats strfmt.Registry) error {
+func (m *ListPrivateLinkServicesForRegionResult) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list private link services for region result based on context it is used
-func (m *ListPrivateLinkServicesForRegionResult) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListPrivateLinkServicesForRegionResult) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

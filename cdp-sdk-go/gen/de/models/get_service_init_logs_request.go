@@ -74,7 +74,7 @@ func (m *GetServiceInitLogsRequest) validateServiceID(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this get service init logs request based on context it is used
-func (m *GetServiceInitLogsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetServiceInitLogsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

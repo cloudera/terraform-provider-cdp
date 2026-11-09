@@ -63,7 +63,7 @@ func (m *ListServicePrincipalCloudIdentitiesRequest) validatePageSize(formats st
 }
 
 // ContextValidate validates this list service principal cloud identities request based on context it is used
-func (m *ListServicePrincipalCloudIdentitiesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListServicePrincipalCloudIdentitiesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

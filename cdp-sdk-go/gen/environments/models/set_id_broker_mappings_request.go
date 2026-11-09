@@ -134,7 +134,7 @@ func (m *SetIDBrokerMappingsRequest) contextValidateMappings(ctx context.Context
 		if m.Mappings[i] != nil {
 
 			if typeutils.IsZero(m.Mappings[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Mappings[i].ContextValidate(ctx, formats); err != nil {

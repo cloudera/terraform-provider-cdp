@@ -45,7 +45,7 @@ func (m *CreateMachineUserRequest) validateMachineUserName(formats strfmt.Regist
 }
 
 // ContextValidate validates this create machine user request based on context it is used
-func (m *CreateMachineUserRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateMachineUserRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

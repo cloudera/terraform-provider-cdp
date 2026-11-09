@@ -45,7 +45,7 @@ func (m *EnableRangerRazRequest) validateDatalake(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this enable ranger raz request based on context it is used
-func (m *EnableRangerRazRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *EnableRangerRazRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

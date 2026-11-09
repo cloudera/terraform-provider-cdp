@@ -45,7 +45,7 @@ func (m *DescribeModelRegistryRequest) validateModelRegistryCrn(formats strfmt.R
 }
 
 // ContextValidate validates this describe model registry request based on context it is used
-func (m *DescribeModelRegistryRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeModelRegistryRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

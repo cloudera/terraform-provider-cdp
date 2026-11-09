@@ -23,6 +23,9 @@ type InstanceGroupRequest struct {
 	// Required: true
 	AttachedVolumeConfiguration []*AttachedVolumeRequest `json:"attachedVolumeConfiguration"`
 
+	// A list of fallback instance types, ordered by priority, to be used if the primary instanceType is unavailable in the specified zone.
+	FallbackInstanceTypes []string `json:"fallbackInstanceTypes"`
+
 	// The instance group name.
 	// Required: true
 	InstanceGroupName *string `json:"instanceGroupName"`
@@ -204,7 +207,7 @@ func (m *InstanceGroupRequest) contextValidateAttachedVolumeConfiguration(ctx co
 		if m.AttachedVolumeConfiguration[i] != nil {
 
 			if typeutils.IsZero(m.AttachedVolumeConfiguration[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AttachedVolumeConfiguration[i].ContextValidate(ctx, formats); err != nil {

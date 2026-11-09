@@ -87,7 +87,7 @@ func (m *ListVwsResponse) contextValidateVws(ctx context.Context, formats strfmt
 		if m.Vws[i] != nil {
 
 			if typeutils.IsZero(m.Vws[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Vws[i].ContextValidate(ctx, formats); err != nil {

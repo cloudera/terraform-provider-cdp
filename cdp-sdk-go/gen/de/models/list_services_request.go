@@ -19,12 +19,12 @@ type ListServicesRequest struct {
 }
 
 // Validate validates this list services request
-func (m *ListServicesRequest) Validate(formats strfmt.Registry) error {
+func (m *ListServicesRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list services request based on context it is used
-func (m *ListServicesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListServicesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *GetMlServingAppKubeconfigResponse) validateKubeconfig(formats strfmt.Re
 }
 
 // ContextValidate validates this get ml serving app kubeconfig response based on context it is used
-func (m *GetMlServingAppKubeconfigResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetMlServingAppKubeconfigResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

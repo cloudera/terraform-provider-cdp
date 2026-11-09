@@ -314,7 +314,7 @@ func (m *VcDescription) contextValidateChartValueOverrides(ctx context.Context, 
 		if m.ChartValueOverrides[i] != nil {
 
 			if typeutils.IsZero(m.ChartValueOverrides[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ChartValueOverrides[i].ContextValidate(ctx, formats); err != nil {

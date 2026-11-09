@@ -45,7 +45,7 @@ func (m *ListDatahubSecretTypesRequest) validateDatahub(formats strfmt.Registry)
 }
 
 // ContextValidate validates this list datahub secret types request based on context it is used
-func (m *ListDatahubSecretTypesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListDatahubSecretTypesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

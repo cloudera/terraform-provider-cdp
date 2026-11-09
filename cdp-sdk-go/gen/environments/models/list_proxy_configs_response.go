@@ -90,7 +90,7 @@ func (m *ListProxyConfigsResponse) contextValidateProxyConfigs(ctx context.Conte
 		if m.ProxyConfigs[i] != nil {
 
 			if typeutils.IsZero(m.ProxyConfigs[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ProxyConfigs[i].ContextValidate(ctx, formats); err != nil {

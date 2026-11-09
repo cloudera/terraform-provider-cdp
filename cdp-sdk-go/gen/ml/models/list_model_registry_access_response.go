@@ -45,7 +45,7 @@ func (m *ListModelRegistryAccessResponse) validateUsers(formats strfmt.Registry)
 }
 
 // ContextValidate validates this list model registry access response based on context it is used
-func (m *ListModelRegistryAccessResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListModelRegistryAccessResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

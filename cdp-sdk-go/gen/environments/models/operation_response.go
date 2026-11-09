@@ -207,7 +207,7 @@ func (m *OperationResponse) contextValidateFailureOperationDetails(ctx context.C
 		if m.FailureOperationDetails[i] != nil {
 
 			if typeutils.IsZero(m.FailureOperationDetails[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.FailureOperationDetails[i].ContextValidate(ctx, formats); err != nil {
@@ -258,7 +258,7 @@ func (m *OperationResponse) contextValidateSuccessfulOperationDetails(ctx contex
 		if m.SuccessfulOperationDetails[i] != nil {
 
 			if typeutils.IsZero(m.SuccessfulOperationDetails[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.SuccessfulOperationDetails[i].ContextValidate(ctx, formats); err != nil {

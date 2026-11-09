@@ -82,7 +82,7 @@ func (m *CustomConfigurationPropertyRequest) validateServiceType(formats strfmt.
 }
 
 // ContextValidate validates this custom configuration property request based on context it is used
-func (m *CustomConfigurationPropertyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CustomConfigurationPropertyRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

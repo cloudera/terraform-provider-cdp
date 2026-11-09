@@ -62,7 +62,7 @@ func (m *DatalakeResourceTagRequest) validateValue(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this datalake resource tag request based on context it is used
-func (m *DatalakeResourceTagRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DatalakeResourceTagRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

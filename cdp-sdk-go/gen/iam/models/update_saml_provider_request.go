@@ -75,7 +75,7 @@ func (m *UpdateSamlProviderRequest) validateSamlProviderName(formats strfmt.Regi
 }
 
 // ContextValidate validates this update saml provider request based on context it is used
-func (m *UpdateSamlProviderRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateSamlProviderRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

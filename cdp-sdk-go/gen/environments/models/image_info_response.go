@@ -34,12 +34,12 @@ type ImageInfoResponse struct {
 }
 
 // Validate validates this image info response
-func (m *ImageInfoResponse) Validate(formats strfmt.Registry) error {
+func (m *ImageInfoResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this image info response based on context it is used
-func (m *ImageInfoResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ImageInfoResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -19,12 +19,12 @@ type GCPCredentialProperties struct {
 }
 
 // Validate validates this g c p credential properties
-func (m *GCPCredentialProperties) Validate(formats strfmt.Registry) error {
+func (m *GCPCredentialProperties) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this g c p credential properties based on context it is used
-func (m *GCPCredentialProperties) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GCPCredentialProperties) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

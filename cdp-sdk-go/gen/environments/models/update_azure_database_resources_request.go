@@ -51,7 +51,7 @@ func (m *UpdateAzureDatabaseResourcesRequest) validateEnvironment(formats strfmt
 }
 
 // ContextValidate validates this update azure database resources request based on context it is used
-func (m *UpdateAzureDatabaseResourcesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateAzureDatabaseResourcesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

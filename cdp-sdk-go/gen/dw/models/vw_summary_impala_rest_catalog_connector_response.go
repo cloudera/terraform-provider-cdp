@@ -93,7 +93,7 @@ func (m *VwSummaryImpalaRestCatalogConnectorResponse) contextValidateConfig(ctx 
 		if m.Config[i] != nil {
 
 			if typeutils.IsZero(m.Config[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Config[i].ContextValidate(ctx, formats); err != nil {

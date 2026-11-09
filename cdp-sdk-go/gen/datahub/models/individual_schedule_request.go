@@ -409,7 +409,7 @@ func (m *IndividualScheduleRequestConfigurationAction) validateResourceAdjustmen
 }
 
 // ContextValidate validates this individual schedule request configuration action based on context it is used
-func (m *IndividualScheduleRequestConfigurationAction) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *IndividualScheduleRequestConfigurationAction) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 
@@ -502,7 +502,7 @@ func (m *IndividualScheduleRequestConfigurationTrigger) validateTimeZone(formats
 }
 
 // ContextValidate validates this individual schedule request configuration trigger based on context it is used
-func (m *IndividualScheduleRequestConfigurationTrigger) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *IndividualScheduleRequestConfigurationTrigger) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -19,12 +19,12 @@ type CollectCmDiagnosticsResponse struct {
 }
 
 // Validate validates this collect cm diagnostics response
-func (m *CollectCmDiagnosticsResponse) Validate(formats strfmt.Registry) error {
+func (m *CollectCmDiagnosticsResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this collect cm diagnostics response based on context it is used
-func (m *CollectCmDiagnosticsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CollectCmDiagnosticsResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -87,7 +87,7 @@ func (m *ListAutoScaleHistoryResponse) contextValidateHistoryEvents(ctx context.
 		if m.HistoryEvents[i] != nil {
 
 			if typeutils.IsZero(m.HistoryEvents[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.HistoryEvents[i].ContextValidate(ctx, formats); err != nil {

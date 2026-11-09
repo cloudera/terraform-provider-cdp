@@ -86,7 +86,7 @@ func (m *UpdateVcRequest) validateVcID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this update vc request based on context it is used
-func (m *UpdateVcRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateVcRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

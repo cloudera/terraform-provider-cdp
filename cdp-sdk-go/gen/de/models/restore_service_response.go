@@ -45,7 +45,7 @@ func (m *RestoreServiceResponse) validateServiceID(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this restore service response based on context it is used
-func (m *RestoreServiceResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RestoreServiceResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

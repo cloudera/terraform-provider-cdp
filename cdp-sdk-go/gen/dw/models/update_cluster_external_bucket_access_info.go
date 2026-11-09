@@ -83,7 +83,7 @@ func (m *UpdateClusterExternalBucketAccessInfo) validateAccessMode(formats strfm
 }
 
 // ContextValidate validates this update cluster external bucket access info based on context it is used
-func (m *UpdateClusterExternalBucketAccessInfo) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateClusterExternalBucketAccessInfo) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

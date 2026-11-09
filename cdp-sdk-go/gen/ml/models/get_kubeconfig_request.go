@@ -25,12 +25,12 @@ type GetKubeconfigRequest struct {
 }
 
 // Validate validates this get kubeconfig request
-func (m *GetKubeconfigRequest) Validate(formats strfmt.Registry) error {
+func (m *GetKubeconfigRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this get kubeconfig request based on context it is used
-func (m *GetKubeconfigRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetKubeconfigRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

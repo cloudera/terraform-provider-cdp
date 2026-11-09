@@ -90,7 +90,7 @@ func (m *ListDatalakeSecretTypesResponse) contextValidateDatalakeSecretTypes(ctx
 		if m.DatalakeSecretTypes[i] != nil {
 
 			if typeutils.IsZero(m.DatalakeSecretTypes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.DatalakeSecretTypes[i].ContextValidate(ctx, formats); err != nil {

@@ -45,7 +45,7 @@ func (m *StopEnvironmentRequest) validateEnvironmentName(formats strfmt.Registry
 }
 
 // ContextValidate validates this stop environment request based on context it is used
-func (m *StopEnvironmentRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StopEnvironmentRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

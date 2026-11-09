@@ -100,9 +100,6 @@ type Environment struct {
 	// Required: true
 	Region *string `json:"region"`
 
-	// [Deprecated] When true, this will report additional diagnostic information back to Cloudera.
-	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
-
 	// Security related configurations for Data Hub clusters.
 	Security *SecurityResponse `json:"security,omitempty"`
 
@@ -1314,12 +1311,12 @@ type EnvironmentAwsDetails struct {
 }
 
 // Validate validates this environment aws details
-func (m *EnvironmentAwsDetails) Validate(formats strfmt.Registry) error {
+func (m *EnvironmentAwsDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this environment aws details based on context it is used
-func (m *EnvironmentAwsDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *EnvironmentAwsDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 
@@ -1457,12 +1454,12 @@ type EnvironmentGcpDetails struct {
 }
 
 // Validate validates this environment gcp details
-func (m *EnvironmentGcpDetails) Validate(formats strfmt.Registry) error {
+func (m *EnvironmentGcpDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this environment gcp details based on context it is used
-func (m *EnvironmentGcpDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *EnvironmentGcpDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

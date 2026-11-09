@@ -45,7 +45,7 @@ func (m *DescribeCustomConfigurationsRequest) validateCustomConfigurations(forma
 }
 
 // ContextValidate validates this describe custom configurations request based on context it is used
-func (m *DescribeCustomConfigurationsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeCustomConfigurationsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

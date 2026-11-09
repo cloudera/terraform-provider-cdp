@@ -37,12 +37,12 @@ type FreeipaDiagnosticsCollectionDetailsResponse struct {
 }
 
 // Validate validates this freeipa diagnostics collection details response
-func (m *FreeipaDiagnosticsCollectionDetailsResponse) Validate(formats strfmt.Registry) error {
+func (m *FreeipaDiagnosticsCollectionDetailsResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this freeipa diagnostics collection details response based on context it is used
-func (m *FreeipaDiagnosticsCollectionDetailsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FreeipaDiagnosticsCollectionDetailsResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

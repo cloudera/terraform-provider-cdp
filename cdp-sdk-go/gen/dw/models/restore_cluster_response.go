@@ -348,7 +348,7 @@ func (m *RestoreClusterResponse) contextValidateCdwHueRestorePlans(ctx context.C
 		if m.CdwHueRestorePlans[i] != nil {
 
 			if typeutils.IsZero(m.CdwHueRestorePlans[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.CdwHueRestorePlans[i].ContextValidate(ctx, formats); err != nil {
@@ -377,7 +377,7 @@ func (m *RestoreClusterResponse) contextValidateDbcRestorePlans(ctx context.Cont
 		if m.DbcRestorePlans[i] != nil {
 
 			if typeutils.IsZero(m.DbcRestorePlans[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.DbcRestorePlans[i].ContextValidate(ctx, formats); err != nil {
@@ -406,7 +406,7 @@ func (m *RestoreClusterResponse) contextValidateHiveRestorePlans(ctx context.Con
 		if m.HiveRestorePlans[i] != nil {
 
 			if typeutils.IsZero(m.HiveRestorePlans[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.HiveRestorePlans[i].ContextValidate(ctx, formats); err != nil {
@@ -435,7 +435,7 @@ func (m *RestoreClusterResponse) contextValidateHueRestorePlans(ctx context.Cont
 		if m.HueRestorePlans[i] != nil {
 
 			if typeutils.IsZero(m.HueRestorePlans[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.HueRestorePlans[i].ContextValidate(ctx, formats); err != nil {
@@ -464,7 +464,7 @@ func (m *RestoreClusterResponse) contextValidateImpalaRestorePlans(ctx context.C
 		if m.ImpalaRestorePlans[i] != nil {
 
 			if typeutils.IsZero(m.ImpalaRestorePlans[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ImpalaRestorePlans[i].ContextValidate(ctx, formats); err != nil {
@@ -493,7 +493,7 @@ func (m *RestoreClusterResponse) contextValidateTrinoRestorePlans(ctx context.Co
 		if m.TrinoRestorePlans[i] != nil {
 
 			if typeutils.IsZero(m.TrinoRestorePlans[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.TrinoRestorePlans[i].ContextValidate(ctx, formats); err != nil {
@@ -522,7 +522,7 @@ func (m *RestoreClusterResponse) contextValidateVizRestorePlans(ctx context.Cont
 		if m.VizRestorePlans[i] != nil {
 
 			if typeutils.IsZero(m.VizRestorePlans[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.VizRestorePlans[i].ContextValidate(ctx, formats); err != nil {

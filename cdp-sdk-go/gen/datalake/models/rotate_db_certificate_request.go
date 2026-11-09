@@ -45,7 +45,7 @@ func (m *RotateDbCertificateRequest) validateDatalakeName(formats strfmt.Registr
 }
 
 // ContextValidate validates this rotate db certificate request based on context it is used
-func (m *RotateDbCertificateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotateDbCertificateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

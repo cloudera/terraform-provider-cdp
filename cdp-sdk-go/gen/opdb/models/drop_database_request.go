@@ -65,7 +65,7 @@ func (m *DropDatabaseRequest) validateEnvironmentName(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this drop database request based on context it is used
-func (m *DropDatabaseRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DropDatabaseRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *UpdateToAwsImdsV1Request) validateCrn(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this update to aws imds v1 request based on context it is used
-func (m *UpdateToAwsImdsV1Request) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateToAwsImdsV1Request) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

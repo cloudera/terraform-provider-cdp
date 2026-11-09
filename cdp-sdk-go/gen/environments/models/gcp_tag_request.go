@@ -62,7 +62,7 @@ func (m *GcpTagRequest) validateValue(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this gcp tag request based on context it is used
-func (m *GcpTagRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GcpTagRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

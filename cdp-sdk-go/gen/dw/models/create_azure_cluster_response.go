@@ -19,12 +19,12 @@ type CreateAzureClusterResponse struct {
 }
 
 // Validate validates this create azure cluster response
-func (m *CreateAzureClusterResponse) Validate(formats strfmt.Registry) error {
+func (m *CreateAzureClusterResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this create azure cluster response based on context it is used
-func (m *CreateAzureClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateAzureClusterResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

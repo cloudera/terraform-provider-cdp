@@ -22,12 +22,12 @@ type UnsetWorkloadPasswordPolicyRequest struct {
 }
 
 // Validate validates this unset workload password policy request
-func (m *UnsetWorkloadPasswordPolicyRequest) Validate(formats strfmt.Registry) error {
+func (m *UnsetWorkloadPasswordPolicyRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this unset workload password policy request based on context it is used
-func (m *UnsetWorkloadPasswordPolicyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UnsetWorkloadPasswordPolicyRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

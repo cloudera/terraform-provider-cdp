@@ -25,12 +25,12 @@ type AttachedVolumeDetail struct {
 }
 
 // Validate validates this attached volume detail
-func (m *AttachedVolumeDetail) Validate(formats strfmt.Registry) error {
+func (m *AttachedVolumeDetail) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this attached volume detail based on context it is used
-func (m *AttachedVolumeDetail) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AttachedVolumeDetail) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

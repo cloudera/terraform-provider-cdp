@@ -25,12 +25,12 @@ type RevokePrivateLinkServiceAccessResult struct {
 }
 
 // Validate validates this revoke private link service access result
-func (m *RevokePrivateLinkServiceAccessResult) Validate(formats strfmt.Registry) error {
+func (m *RevokePrivateLinkServiceAccessResult) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this revoke private link service access result based on context it is used
-func (m *RevokePrivateLinkServiceAccessResult) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RevokePrivateLinkServiceAccessResult) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

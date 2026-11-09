@@ -113,7 +113,7 @@ func (m *RebuildFreeipaRequest) validateInstanceToRestoreFqdn(formats strfmt.Reg
 }
 
 // ContextValidate validates this rebuild freeipa request based on context it is used
-func (m *RebuildFreeipaRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RebuildFreeipaRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -92,7 +92,7 @@ func (m *DescribeServerSettingItem) contextValidateRequiresUpdate(ctx context.Co
 	for i := 0; i < len(m.RequiresUpdate); i++ {
 
 		if typeutils.IsZero(m.RequiresUpdate[i]) { // not required
-			return nil
+			continue
 		}
 
 		if err := m.RequiresUpdate[i].ContextValidate(ctx, formats); err != nil {

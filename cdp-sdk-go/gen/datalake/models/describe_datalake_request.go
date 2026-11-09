@@ -45,7 +45,7 @@ func (m *DescribeDatalakeRequest) validateDatalakeName(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this describe datalake request based on context it is used
-func (m *DescribeDatalakeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeDatalakeRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

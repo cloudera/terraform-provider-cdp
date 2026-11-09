@@ -45,7 +45,7 @@ func (m *RotatePrivateCertificatesRequest) validateDatahub(formats strfmt.Regist
 }
 
 // ContextValidate validates this rotate private certificates request based on context it is used
-func (m *RotatePrivateCertificatesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotatePrivateCertificatesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

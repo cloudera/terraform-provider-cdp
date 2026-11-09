@@ -22,12 +22,12 @@ type RevokeModelRegistryAccessRequest struct {
 }
 
 // Validate validates this revoke model registry access request
-func (m *RevokeModelRegistryAccessRequest) Validate(formats strfmt.Registry) error {
+func (m *RevokeModelRegistryAccessRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this revoke model registry access request based on context it is used
-func (m *RevokeModelRegistryAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RevokeModelRegistryAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -62,7 +62,7 @@ func (m *ListCertificatesRequest) validateEnvironment(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this list certificates request based on context it is used
-func (m *ListCertificatesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListCertificatesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

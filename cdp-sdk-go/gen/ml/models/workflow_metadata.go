@@ -31,12 +31,12 @@ type WorkflowMetadata struct {
 }
 
 // Validate validates this workflow metadata
-func (m *WorkflowMetadata) Validate(formats strfmt.Registry) error {
+func (m *WorkflowMetadata) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this workflow metadata based on context it is used
-func (m *WorkflowMetadata) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *WorkflowMetadata) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

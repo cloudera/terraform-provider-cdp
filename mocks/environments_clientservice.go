@@ -9951,6 +9951,174 @@ func (_c *MockEnvironmentClientService_ListProxyConfigsContext_Call) RunAndRetur
 	return _c
 }
 
+// PrepareFreeipaUpgrade provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) PrepareFreeipaUpgrade(params *operations.PrepareFreeipaUpgradeParams, opts ...operations.ClientOption) (*operations.PrepareFreeipaUpgradeOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for PrepareFreeipaUpgrade")
+	}
+
+	var r0 *operations.PrepareFreeipaUpgradeOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.PrepareFreeipaUpgradeParams, ...operations.ClientOption) (*operations.PrepareFreeipaUpgradeOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.PrepareFreeipaUpgradeParams, ...operations.ClientOption) *operations.PrepareFreeipaUpgradeOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.PrepareFreeipaUpgradeOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.PrepareFreeipaUpgradeParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_PrepareFreeipaUpgrade_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'PrepareFreeipaUpgrade'
+type MockEnvironmentClientService_PrepareFreeipaUpgrade_Call struct {
+	*mock.Call
+}
+
+// PrepareFreeipaUpgrade is a helper method to define mock.On call
+//   - params *operations.PrepareFreeipaUpgradeParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) PrepareFreeipaUpgrade(params interface{}, opts ...interface{}) *MockEnvironmentClientService_PrepareFreeipaUpgrade_Call {
+	return &MockEnvironmentClientService_PrepareFreeipaUpgrade_Call{Call: _e.mock.On("PrepareFreeipaUpgrade",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_PrepareFreeipaUpgrade_Call) Run(run func(params *operations.PrepareFreeipaUpgradeParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_PrepareFreeipaUpgrade_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.PrepareFreeipaUpgradeParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.PrepareFreeipaUpgradeParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_PrepareFreeipaUpgrade_Call) Return(prepareFreeipaUpgradeOK *operations.PrepareFreeipaUpgradeOK, err error) *MockEnvironmentClientService_PrepareFreeipaUpgrade_Call {
+	_c.Call.Return(prepareFreeipaUpgradeOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_PrepareFreeipaUpgrade_Call) RunAndReturn(run func(params *operations.PrepareFreeipaUpgradeParams, opts ...operations.ClientOption) (*operations.PrepareFreeipaUpgradeOK, error)) *MockEnvironmentClientService_PrepareFreeipaUpgrade_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// PrepareFreeipaUpgradeContext provides a mock function for the type MockEnvironmentClientService
+func (_mock *MockEnvironmentClientService) PrepareFreeipaUpgradeContext(ctx context.Context, params *operations.PrepareFreeipaUpgradeParams, opts ...operations.ClientOption) (*operations.PrepareFreeipaUpgradeOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for PrepareFreeipaUpgradeContext")
+	}
+
+	var r0 *operations.PrepareFreeipaUpgradeOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.PrepareFreeipaUpgradeParams, ...operations.ClientOption) (*operations.PrepareFreeipaUpgradeOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.PrepareFreeipaUpgradeParams, ...operations.ClientOption) *operations.PrepareFreeipaUpgradeOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.PrepareFreeipaUpgradeOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.PrepareFreeipaUpgradeParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockEnvironmentClientService_PrepareFreeipaUpgradeContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'PrepareFreeipaUpgradeContext'
+type MockEnvironmentClientService_PrepareFreeipaUpgradeContext_Call struct {
+	*mock.Call
+}
+
+// PrepareFreeipaUpgradeContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.PrepareFreeipaUpgradeParams
+//   - opts ...operations.ClientOption
+func (_e *MockEnvironmentClientService_Expecter) PrepareFreeipaUpgradeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockEnvironmentClientService_PrepareFreeipaUpgradeContext_Call {
+	return &MockEnvironmentClientService_PrepareFreeipaUpgradeContext_Call{Call: _e.mock.On("PrepareFreeipaUpgradeContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockEnvironmentClientService_PrepareFreeipaUpgradeContext_Call) Run(run func(ctx context.Context, params *operations.PrepareFreeipaUpgradeParams, opts ...operations.ClientOption)) *MockEnvironmentClientService_PrepareFreeipaUpgradeContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.PrepareFreeipaUpgradeParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.PrepareFreeipaUpgradeParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_PrepareFreeipaUpgradeContext_Call) Return(prepareFreeipaUpgradeOK *operations.PrepareFreeipaUpgradeOK, err error) *MockEnvironmentClientService_PrepareFreeipaUpgradeContext_Call {
+	_c.Call.Return(prepareFreeipaUpgradeOK, err)
+	return _c
+}
+
+func (_c *MockEnvironmentClientService_PrepareFreeipaUpgradeContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.PrepareFreeipaUpgradeParams, opts ...operations.ClientOption) (*operations.PrepareFreeipaUpgradeOK, error)) *MockEnvironmentClientService_PrepareFreeipaUpgradeContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RebuildFreeipa provides a mock function for the type MockEnvironmentClientService
 func (_mock *MockEnvironmentClientService) RebuildFreeipa(params *operations.RebuildFreeipaParams, opts ...operations.ClientOption) (*operations.RebuildFreeipaOK, error) {
 	// operations.ClientOption

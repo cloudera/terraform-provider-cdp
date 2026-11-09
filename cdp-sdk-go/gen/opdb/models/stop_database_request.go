@@ -62,7 +62,7 @@ func (m *StopDatabaseRequest) validateEnvironmentName(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this stop database request based on context it is used
-func (m *StopDatabaseRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StopDatabaseRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

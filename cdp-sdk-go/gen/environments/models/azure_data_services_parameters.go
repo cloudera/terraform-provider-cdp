@@ -45,7 +45,7 @@ func (m *AzureDataServicesParameters) validateSharedManagedIdentity(formats strf
 }
 
 // ContextValidate validates this azure data services parameters based on context it is used
-func (m *AzureDataServicesParameters) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureDataServicesParameters) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

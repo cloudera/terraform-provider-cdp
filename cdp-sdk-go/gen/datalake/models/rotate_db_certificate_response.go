@@ -19,12 +19,12 @@ type RotateDbCertificateResponse struct {
 }
 
 // Validate validates this rotate db certificate response
-func (m *RotateDbCertificateResponse) Validate(formats strfmt.Registry) error {
+func (m *RotateDbCertificateResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this rotate db certificate response based on context it is used
-func (m *RotateDbCertificateResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotateDbCertificateResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

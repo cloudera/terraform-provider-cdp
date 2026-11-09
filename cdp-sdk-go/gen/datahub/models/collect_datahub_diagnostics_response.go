@@ -19,12 +19,12 @@ type CollectDatahubDiagnosticsResponse struct {
 }
 
 // Validate validates this collect datahub diagnostics response
-func (m *CollectDatahubDiagnosticsResponse) Validate(formats strfmt.Registry) error {
+func (m *CollectDatahubDiagnosticsResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this collect datahub diagnostics response based on context it is used
-func (m *CollectDatahubDiagnosticsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CollectDatahubDiagnosticsResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

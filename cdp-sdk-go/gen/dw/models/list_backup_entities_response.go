@@ -45,7 +45,7 @@ func (m *ListBackupEntitiesResponse) validateItems(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this list backup entities response based on context it is used
-func (m *ListBackupEntitiesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListBackupEntitiesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

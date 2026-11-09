@@ -17,13 +17,16 @@ import (
 // swagger:model SetAuthenticationPolicyRequest
 type SetAuthenticationPolicyRequest struct {
 
-	// The expiration, in seconds, of the access key. Set the value to '0' to use system default expiration (which is 12 hours for CDP). The value will be set to '0' if not provided.
+	// The lifespan (in seconds) of the access key. Set to `0` or leave unset to use the system default (12 hours for CDP).
 	// Minimum: 0
 	AccessKeyExpirationSec *int32 `json:"accessKeyExpirationSec,omitempty"`
 
-	// The inactivity duration, in seconds, of the access key, which would invalidate the access key due to inactivity. Set the value to '0' to use the system's default inactivity duration (which is 1 hour normally and 15 minutes for Cloudera for Government). If set to a value longer than the value for `accessKeyExpirationSec` then there will be no inactivity timeout. The value will be set to '0' if not provided.
+	// The duration of inactivity (in seconds) required to invalidate the access key. Set to `0` or leave unset to use the system's default inactivity duration (typically 1 hour, or 15 minutes for Cloudera for Government). If set to a value greater than the value for `accessKeyExpirationSec`, the inactivity timeout is effectively disabled.
 	// Minimum: 0
 	AccessKeyInactivityDurationSec *int32 `json:"accessKeyInactivityDurationSec,omitempty"`
+
+	// The list of allowed domains from which a workload-initiated SSO is allowed. Setting it will allow workload-initiated SSO from these domains as well as Cloudera's default workload domains.
+	AllowedWorkloadSubdomains []string `json:"allowedWorkloadSubdomains"`
 
 	// The list of IP addresses and/or CIDRs used for allowing client access to the UI and API services. Duplicated values will be removed automatically. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be present in the allowed list.
 	ClientIPAddressesAllowed []string `json:"clientIpAddressesAllowed"`
@@ -31,15 +34,15 @@ type SetAuthenticationPolicyRequest struct {
 	// The list of IP addresses and/or CIDRs used for blocking client access to the UI and API services. Duplicated values will be removed automatically. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be absent from the blocked list.
 	ClientIPAddressesBlocked []string `json:"clientIpAddressesBlocked"`
 
-	// The expiration, in seconds, of the UI session token. Set the value to '0' to use system default expiration (which is 12 hours for CDP). The value will be set to '0' if not provided.
+	// The lifespan (in seconds) of the UI session token. Set to `0` or leave unset to use the system default (12 hours for CDP).
 	// Minimum: 0
 	SessionTokenExpirationSec *int32 `json:"sessionTokenExpirationSec,omitempty"`
 
-	// The inactivity duration, in seconds, of the UI session token, which would invalidate the session token due to inactivity. Set the value to '0' to use the system's default inactivity duration (which is 1 hour normally and 15 minutes for Cloudera for Government). If set to a value longer than the value for `sessionTokenExpirationSec` then there will be no inactivity timeout. The value will be set to '0' if not provided.
+	// The duration of inactivity (in seconds) required to invalidate the UI session token. Set to `0` or leave unset to use the system default (typically 1 hour, or 15 minutes for Cloudera for Government). If set to a value greater than the value for `sessionTokenExpirationSec`, the inactivity timeout is effectively disabled.
 	// Minimum: 0
 	SessionTokenInactivityDurationSec *int32 `json:"sessionTokenInactivityDurationSec,omitempty"`
 
-	// The expiration, in seconds, of the workload authentication token. Set the value to '0' to use system default expiration (which is 1 hour for CDP). The value will be set to '0' if not provided.
+	// The lifespan (in seconds) of the workload authentication token. Set to `0` or leave unset to use the system default (1 hour for CDP).
 	// Minimum: 0
 	WorkloadAuthTokenExpirationSec *int32 `json:"workloadAuthTokenExpirationSec,omitempty"`
 }
@@ -135,7 +138,7 @@ func (m *SetAuthenticationPolicyRequest) validateWorkloadAuthTokenExpirationSec(
 }
 
 // ContextValidate validates this set authentication policy request based on context it is used
-func (m *SetAuthenticationPolicyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetAuthenticationPolicyRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

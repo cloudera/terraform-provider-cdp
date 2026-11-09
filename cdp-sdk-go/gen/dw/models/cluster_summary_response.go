@@ -361,7 +361,7 @@ func (m *ClusterSummaryResponse) contextValidateExternalBuckets(ctx context.Cont
 		if m.ExternalBuckets[i] != nil {
 
 			if typeutils.IsZero(m.ExternalBuckets[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ExternalBuckets[i].ContextValidate(ctx, formats); err != nil {

@@ -45,7 +45,7 @@ func (m *DescribeKubeconfigRequest) validateClusterID(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this describe kubeconfig request based on context it is used
-func (m *DescribeKubeconfigRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeKubeconfigRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -62,7 +62,7 @@ func (m *GetUpgradeVwVersionsRequest) validateVwID(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this get upgrade vw versions request based on context it is used
-func (m *GetUpgradeVwVersionsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetUpgradeVwVersionsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

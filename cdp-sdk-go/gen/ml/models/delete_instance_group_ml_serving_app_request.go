@@ -62,7 +62,7 @@ func (m *DeleteInstanceGroupMlServingAppRequest) validateInstanceGroupName(forma
 }
 
 // ContextValidate validates this delete instance group ml serving app request based on context it is used
-func (m *DeleteInstanceGroupMlServingAppRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteInstanceGroupMlServingAppRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

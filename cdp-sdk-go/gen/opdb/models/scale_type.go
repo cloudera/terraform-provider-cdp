@@ -75,6 +75,6 @@ func (m ScaleType) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this scale type based on context it is used
-func (m ScaleType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m ScaleType) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

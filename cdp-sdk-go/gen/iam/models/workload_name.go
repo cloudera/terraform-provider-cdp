@@ -73,6 +73,6 @@ func (m WorkloadName) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this workload name based on context it is used
-func (m WorkloadName) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m WorkloadName) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

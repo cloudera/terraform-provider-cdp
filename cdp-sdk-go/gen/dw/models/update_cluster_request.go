@@ -373,12 +373,12 @@ type UpdateClusterRequestAzureUpdate struct {
 }
 
 // Validate validates this update cluster request azure update
-func (m *UpdateClusterRequestAzureUpdate) Validate(formats strfmt.Registry) error {
+func (m *UpdateClusterRequestAzureUpdate) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update cluster request azure update based on context it is used
-func (m *UpdateClusterRequestAzureUpdate) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateClusterRequestAzureUpdate) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

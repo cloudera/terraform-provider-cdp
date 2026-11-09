@@ -16,6 +16,9 @@ import (
 // swagger:model SdxInstanceGroupRequest
 type SdxInstanceGroupRequest struct {
 
+	// A list of fallback instance types, ordered by priority, to be used if the primary instanceType is unavailable in the specified zone.
+	FallbackInstanceTypes []string `json:"fallbackInstanceTypes"`
+
 	// Cloud provider instance type to create instances with.
 	InstanceType string `json:"instanceType,omitempty"`
 
@@ -48,7 +51,7 @@ func (m *SdxInstanceGroupRequest) validateName(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this sdx instance group request based on context it is used
-func (m *SdxInstanceGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SdxInstanceGroupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

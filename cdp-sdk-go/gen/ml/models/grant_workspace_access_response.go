@@ -45,7 +45,7 @@ func (m *GrantWorkspaceAccessResponse) validateKubeconfig(formats strfmt.Registr
 }
 
 // ContextValidate validates this grant workspace access response based on context it is used
-func (m *GrantWorkspaceAccessResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GrantWorkspaceAccessResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

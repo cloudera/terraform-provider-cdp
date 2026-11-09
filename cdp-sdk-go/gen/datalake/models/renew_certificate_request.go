@@ -45,7 +45,7 @@ func (m *RenewCertificateRequest) validateDatalakeName(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this renew certificate request based on context it is used
-func (m *RenewCertificateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RenewCertificateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *DescribeBackupRequest) validateBackupCrn(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this describe backup request based on context it is used
-func (m *DescribeBackupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeBackupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -65,7 +65,7 @@ func (m *NetworkGcpParams) validateUsePublicIP(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this network gcp params based on context it is used
-func (m *NetworkGcpParams) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *NetworkGcpParams) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

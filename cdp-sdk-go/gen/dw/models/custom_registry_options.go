@@ -83,7 +83,7 @@ func (m *CustomRegistryOptions) validateRegistryType(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this custom registry options based on context it is used
-func (m *CustomRegistryOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CustomRegistryOptions) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

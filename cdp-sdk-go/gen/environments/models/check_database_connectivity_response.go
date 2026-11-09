@@ -84,7 +84,7 @@ func (m *CheckDatabaseConnectivityResponse) validateResult(formats strfmt.Regist
 }
 
 // ContextValidate validates this check database connectivity response based on context it is used
-func (m *CheckDatabaseConnectivityResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CheckDatabaseConnectivityResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

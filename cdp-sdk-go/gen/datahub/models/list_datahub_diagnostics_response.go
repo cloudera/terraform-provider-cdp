@@ -87,7 +87,7 @@ func (m *ListDatahubDiagnosticsResponse) contextValidateCollections(ctx context.
 		if m.Collections[i] != nil {
 
 			if typeutils.IsZero(m.Collections[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Collections[i].ContextValidate(ctx, formats); err != nil {

@@ -48,7 +48,7 @@ func (m *HBaseConfiguration) validateName(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this h base configuration based on context it is used
-func (m *HBaseConfiguration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *HBaseConfiguration) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

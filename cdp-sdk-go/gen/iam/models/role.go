@@ -107,7 +107,7 @@ func (m *Role) contextValidatePolicies(ctx context.Context, formats strfmt.Regis
 		if m.Policies[i] != nil {
 
 			if typeutils.IsZero(m.Policies[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Policies[i].ContextValidate(ctx, formats); err != nil {

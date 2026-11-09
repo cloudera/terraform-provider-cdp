@@ -106,7 +106,7 @@ func (m *RepairFreeipaRequest) validateRepairType(formats strfmt.Registry) error
 }
 
 // ContextValidate validates this repair freeipa request based on context it is used
-func (m *RepairFreeipaRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RepairFreeipaRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

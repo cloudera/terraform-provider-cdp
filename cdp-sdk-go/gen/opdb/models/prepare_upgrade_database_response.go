@@ -19,12 +19,12 @@ type PrepareUpgradeDatabaseResponse struct {
 }
 
 // Validate validates this prepare upgrade database response
-func (m *PrepareUpgradeDatabaseResponse) Validate(formats strfmt.Registry) error {
+func (m *PrepareUpgradeDatabaseResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this prepare upgrade database response based on context it is used
-func (m *PrepareUpgradeDatabaseResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *PrepareUpgradeDatabaseResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *ListHuesRequest) validateClusterID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this list hues request based on context it is used
-func (m *ListHuesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListHuesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

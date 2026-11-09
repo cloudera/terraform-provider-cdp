@@ -123,7 +123,7 @@ func (m *ScalingActivitySummary) validateStartTime(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this scaling activity summary based on context it is used
-func (m *ScalingActivitySummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ScalingActivitySummary) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

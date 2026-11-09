@@ -19,12 +19,12 @@ type InitializeAzureComputeClusterResponse struct {
 }
 
 // Validate validates this initialize azure compute cluster response
-func (m *InitializeAzureComputeClusterResponse) Validate(formats strfmt.Registry) error {
+func (m *InitializeAzureComputeClusterResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this initialize azure compute cluster response based on context it is used
-func (m *InitializeAzureComputeClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *InitializeAzureComputeClusterResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

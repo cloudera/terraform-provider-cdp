@@ -125,12 +125,12 @@ type DeleteSecretResponseResult struct {
 }
 
 // Validate validates this delete secret response result
-func (m *DeleteSecretResponseResult) Validate(formats strfmt.Registry) error {
+func (m *DeleteSecretResponseResult) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this delete secret response result based on context it is used
-func (m *DeleteSecretResponseResult) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteSecretResponseResult) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

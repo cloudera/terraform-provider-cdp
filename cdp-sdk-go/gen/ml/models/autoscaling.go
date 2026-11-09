@@ -65,7 +65,7 @@ func (m *Autoscaling) validateMinInstances(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this autoscaling based on context it is used
-func (m *Autoscaling) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Autoscaling) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

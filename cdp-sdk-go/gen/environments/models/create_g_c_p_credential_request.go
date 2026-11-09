@@ -65,7 +65,7 @@ func (m *CreateGCPCredentialRequest) validateCredentialName(formats strfmt.Regis
 }
 
 // ContextValidate validates this create g c p credential request based on context it is used
-func (m *CreateGCPCredentialRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateGCPCredentialRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -65,7 +65,7 @@ func (m *ResourceQuota) validateMemoryQuota(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this resource quota based on context it is used
-func (m *ResourceQuota) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ResourceQuota) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

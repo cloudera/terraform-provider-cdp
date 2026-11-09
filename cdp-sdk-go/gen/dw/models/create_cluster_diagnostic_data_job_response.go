@@ -28,12 +28,12 @@ type CreateClusterDiagnosticDataJobResponse struct {
 }
 
 // Validate validates this create cluster diagnostic data job response
-func (m *CreateClusterDiagnosticDataJobResponse) Validate(formats strfmt.Registry) error {
+func (m *CreateClusterDiagnosticDataJobResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this create cluster diagnostic data job response based on context it is used
-func (m *CreateClusterDiagnosticDataJobResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateClusterDiagnosticDataJobResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

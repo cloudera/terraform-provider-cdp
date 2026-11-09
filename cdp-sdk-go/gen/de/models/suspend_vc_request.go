@@ -62,7 +62,7 @@ func (m *SuspendVcRequest) validateVcID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this suspend vc request based on context it is used
-func (m *SuspendVcRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SuspendVcRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

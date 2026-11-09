@@ -22,12 +22,12 @@ type ImpalaOptionsResponse struct {
 }
 
 // Validate validates this impala options response
-func (m *ImpalaOptionsResponse) Validate(formats strfmt.Registry) error {
+func (m *ImpalaOptionsResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this impala options response based on context it is used
-func (m *ImpalaOptionsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ImpalaOptionsResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

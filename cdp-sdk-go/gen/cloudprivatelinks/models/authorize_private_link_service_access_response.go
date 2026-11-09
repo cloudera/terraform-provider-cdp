@@ -90,7 +90,7 @@ func (m *AuthorizePrivateLinkServiceAccessResponse) contextValidateAuthorizePriv
 		if m.AuthorizePrivateLinkServiceAccessResults[i] != nil {
 
 			if typeutils.IsZero(m.AuthorizePrivateLinkServiceAccessResults[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AuthorizePrivateLinkServiceAccessResults[i].ContextValidate(ctx, formats); err != nil {

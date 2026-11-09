@@ -51,7 +51,7 @@ func (m *UpdateProxyConfigRequest) validateEnvironment(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this update proxy config request based on context it is used
-func (m *UpdateProxyConfigRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateProxyConfigRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -19,12 +19,12 @@ type UpdateHueResponse struct {
 }
 
 // Validate validates this update hue response
-func (m *UpdateHueResponse) Validate(formats strfmt.Registry) error {
+func (m *UpdateHueResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update hue response based on context it is used
-func (m *UpdateHueResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateHueResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

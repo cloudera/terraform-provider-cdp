@@ -22,12 +22,12 @@ type VwSummaryImpalaRestCatalogConnectorConfigResponse struct {
 }
 
 // Validate validates this vw summary impala rest catalog connector config response
-func (m *VwSummaryImpalaRestCatalogConnectorConfigResponse) Validate(formats strfmt.Registry) error {
+func (m *VwSummaryImpalaRestCatalogConnectorConfigResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this vw summary impala rest catalog connector config response based on context it is used
-func (m *VwSummaryImpalaRestCatalogConnectorConfigResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *VwSummaryImpalaRestCatalogConnectorConfigResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

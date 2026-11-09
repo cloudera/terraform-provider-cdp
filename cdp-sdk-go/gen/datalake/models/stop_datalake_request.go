@@ -45,7 +45,7 @@ func (m *StopDatalakeRequest) validateDatalakeName(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this stop datalake request based on context it is used
-func (m *StopDatalakeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StopDatalakeRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

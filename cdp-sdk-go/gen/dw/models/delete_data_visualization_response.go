@@ -19,12 +19,12 @@ type DeleteDataVisualizationResponse struct {
 }
 
 // Validate validates this delete data visualization response
-func (m *DeleteDataVisualizationResponse) Validate(formats strfmt.Registry) error {
+func (m *DeleteDataVisualizationResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this delete data visualization response based on context it is used
-func (m *DeleteDataVisualizationResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteDataVisualizationResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

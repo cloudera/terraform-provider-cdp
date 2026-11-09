@@ -34,12 +34,12 @@ type CustomInstanceTypes struct {
 }
 
 // Validate validates this custom instance types
-func (m *CustomInstanceTypes) Validate(formats strfmt.Registry) error {
+func (m *CustomInstanceTypes) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this custom instance types based on context it is used
-func (m *CustomInstanceTypes) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CustomInstanceTypes) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

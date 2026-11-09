@@ -60,7 +60,7 @@ func (m *ListAccessKeysRequest) validatePageSize(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this list access keys request based on context it is used
-func (m *ListAccessKeysRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListAccessKeysRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

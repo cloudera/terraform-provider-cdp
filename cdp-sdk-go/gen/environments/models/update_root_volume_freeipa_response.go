@@ -19,12 +19,12 @@ type UpdateRootVolumeFreeipaResponse struct {
 }
 
 // Validate validates this update root volume freeipa response
-func (m *UpdateRootVolumeFreeipaResponse) Validate(formats strfmt.Registry) error {
+func (m *UpdateRootVolumeFreeipaResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update root volume freeipa response based on context it is used
-func (m *UpdateRootVolumeFreeipaResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateRootVolumeFreeipaResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

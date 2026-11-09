@@ -19,12 +19,12 @@ type UpgradeModelRegistryResponse struct {
 }
 
 // Validate validates this upgrade model registry response
-func (m *UpgradeModelRegistryResponse) Validate(formats strfmt.Registry) error {
+func (m *UpgradeModelRegistryResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this upgrade model registry response based on context it is used
-func (m *UpgradeModelRegistryResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpgradeModelRegistryResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

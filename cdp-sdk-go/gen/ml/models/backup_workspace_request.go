@@ -68,7 +68,7 @@ func (m *BackupWorkspaceRequest) validateWorkspaceCrn(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this backup workspace request based on context it is used
-func (m *BackupWorkspaceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BackupWorkspaceRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

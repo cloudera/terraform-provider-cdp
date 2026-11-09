@@ -19,12 +19,12 @@ type RepairDatalakeResponse struct {
 }
 
 // Validate validates this repair datalake response
-func (m *RepairDatalakeResponse) Validate(formats strfmt.Registry) error {
+func (m *RepairDatalakeResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this repair datalake response based on context it is used
-func (m *RepairDatalakeResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RepairDatalakeResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

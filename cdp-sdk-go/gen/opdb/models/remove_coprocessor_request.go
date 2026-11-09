@@ -71,7 +71,7 @@ func (m *RemoveCoprocessorRequest) validateTableName(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this remove coprocessor request based on context it is used
-func (m *RemoveCoprocessorRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RemoveCoprocessorRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

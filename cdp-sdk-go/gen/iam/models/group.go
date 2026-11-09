@@ -147,7 +147,7 @@ func (m *Group) contextValidateAzureCloudIdentities(ctx context.Context, formats
 		if m.AzureCloudIdentities[i] != nil {
 
 			if typeutils.IsZero(m.AzureCloudIdentities[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AzureCloudIdentities[i].ContextValidate(ctx, formats); err != nil {

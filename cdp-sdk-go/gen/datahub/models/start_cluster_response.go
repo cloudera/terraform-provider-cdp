@@ -19,12 +19,12 @@ type StartClusterResponse struct {
 }
 
 // Validate validates this start cluster response
-func (m *StartClusterResponse) Validate(formats strfmt.Registry) error {
+func (m *StartClusterResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this start cluster response based on context it is used
-func (m *StartClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartClusterResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

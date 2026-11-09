@@ -62,7 +62,7 @@ func (m *ListEdgeNodesRequest) validateEnvironment(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this list edge nodes request based on context it is used
-func (m *ListEdgeNodesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListEdgeNodesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

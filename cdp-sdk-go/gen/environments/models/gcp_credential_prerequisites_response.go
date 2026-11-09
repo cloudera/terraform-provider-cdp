@@ -45,7 +45,7 @@ func (m *GcpCredentialPrerequisitesResponse) validateServiceAccountCreationComma
 }
 
 // ContextValidate validates this gcp credential prerequisites response based on context it is used
-func (m *GcpCredentialPrerequisitesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GcpCredentialPrerequisitesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -93,7 +93,7 @@ func (m *ListCoprocessorsResponse) contextValidateCoprocessors(ctx context.Conte
 		if m.Coprocessors[i] != nil {
 
 			if typeutils.IsZero(m.Coprocessors[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Coprocessors[i].ContextValidate(ctx, formats); err != nil {

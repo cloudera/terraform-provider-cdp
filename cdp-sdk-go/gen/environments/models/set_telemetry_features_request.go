@@ -20,11 +20,8 @@ type SetTelemetryFeaturesRequest struct {
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
 
-	// [Deprecated] Flag to enable environment level deployment log collection.
-	ReportDeploymentLogs *bool `json:"reportDeploymentLogs,omitempty"`
-
 	// Flag to enable environment level workload analytics.
-	WorkloadAnalytics *bool `json:"workloadAnalytics,omitempty"`
+	WorkloadAnalytics bool `json:"workloadAnalytics,omitempty"`
 }
 
 // Validate validates this set telemetry features request
@@ -51,7 +48,7 @@ func (m *SetTelemetryFeaturesRequest) validateEnvironmentName(formats strfmt.Reg
 }
 
 // ContextValidate validates this set telemetry features request based on context it is used
-func (m *SetTelemetryFeaturesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetTelemetryFeaturesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -19,12 +19,12 @@ type AwsDiskEncryptionParameters struct {
 }
 
 // Validate validates this aws disk encryption parameters
-func (m *AwsDiskEncryptionParameters) Validate(formats strfmt.Registry) error {
+func (m *AwsDiskEncryptionParameters) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this aws disk encryption parameters based on context it is used
-func (m *AwsDiskEncryptionParameters) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AwsDiskEncryptionParameters) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

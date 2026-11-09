@@ -45,7 +45,7 @@ func (m *GetGovCloudAuditCredentialPrerequisitesRequest) validateCloudPlatform(f
 }
 
 // ContextValidate validates this get gov cloud audit credential prerequisites request based on context it is used
-func (m *GetGovCloudAuditCredentialPrerequisitesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetGovCloudAuditCredentialPrerequisitesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

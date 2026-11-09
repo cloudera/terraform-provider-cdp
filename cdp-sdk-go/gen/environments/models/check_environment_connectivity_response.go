@@ -90,7 +90,7 @@ func (m *CheckEnvironmentConnectivityResponse) contextValidateClusters(ctx conte
 		if m.Clusters[i] != nil {
 
 			if typeutils.IsZero(m.Clusters[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Clusters[i].ContextValidate(ctx, formats); err != nil {

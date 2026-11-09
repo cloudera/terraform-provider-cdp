@@ -130,7 +130,7 @@ func (m *DownscaleFreeipaResponse) validateTargetAvailabilityType(formats strfmt
 }
 
 // ContextValidate validates this downscale freeipa response based on context it is used
-func (m *DownscaleFreeipaResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DownscaleFreeipaResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

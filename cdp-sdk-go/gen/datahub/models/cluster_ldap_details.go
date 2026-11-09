@@ -82,12 +82,12 @@ type ClusterLdapDetails struct {
 }
 
 // Validate validates this cluster ldap details
-func (m *ClusterLdapDetails) Validate(formats strfmt.Registry) error {
+func (m *ClusterLdapDetails) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this cluster ldap details based on context it is used
-func (m *ClusterLdapDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ClusterLdapDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

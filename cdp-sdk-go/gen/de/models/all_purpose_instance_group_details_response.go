@@ -40,12 +40,12 @@ type AllPurposeInstanceGroupDetailsResponse struct {
 }
 
 // Validate validates this all purpose instance group details response
-func (m *AllPurposeInstanceGroupDetailsResponse) Validate(formats strfmt.Registry) error {
+func (m *AllPurposeInstanceGroupDetailsResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this all purpose instance group details response based on context it is used
-func (m *AllPurposeInstanceGroupDetailsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AllPurposeInstanceGroupDetailsResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

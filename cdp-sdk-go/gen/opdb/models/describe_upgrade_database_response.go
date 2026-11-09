@@ -130,7 +130,7 @@ func (m *DescribeUpgradeDatabaseResponse) contextValidateAvailableComponentVersi
 		if m.AvailableComponentVersions[i] != nil {
 
 			if typeutils.IsZero(m.AvailableComponentVersions[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AvailableComponentVersions[i].ContextValidate(ctx, formats); err != nil {

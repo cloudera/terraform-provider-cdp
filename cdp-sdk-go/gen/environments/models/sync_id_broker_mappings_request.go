@@ -45,7 +45,7 @@ func (m *SyncIDBrokerMappingsRequest) validateEnvironmentName(formats strfmt.Reg
 }
 
 // ContextValidate validates this sync Id broker mappings request based on context it is used
-func (m *SyncIDBrokerMappingsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SyncIDBrokerMappingsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

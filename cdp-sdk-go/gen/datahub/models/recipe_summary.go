@@ -68,7 +68,7 @@ func (m *RecipeSummary) validateRecipeName(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this recipe summary based on context it is used
-func (m *RecipeSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RecipeSummary) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

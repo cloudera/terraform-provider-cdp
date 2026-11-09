@@ -62,7 +62,7 @@ func (m *DatahubVMLogRequest) validatePath(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this datahub Vm log request based on context it is used
-func (m *DatahubVMLogRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DatahubVMLogRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

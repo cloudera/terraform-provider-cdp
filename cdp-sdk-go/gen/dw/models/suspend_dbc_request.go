@@ -62,7 +62,7 @@ func (m *SuspendDbcRequest) validateDbcID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this suspend dbc request based on context it is used
-func (m *SuspendDbcRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SuspendDbcRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

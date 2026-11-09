@@ -879,6 +879,174 @@ func (_c *MockDatalakeClientService_CancelRestoreContext_Call) RunAndReturn(run 
 	return _c
 }
 
+// CheckDatalakeUpgradeReinitiable provides a mock function for the type MockDatalakeClientService
+func (_mock *MockDatalakeClientService) CheckDatalakeUpgradeReinitiable(params *operations.CheckDatalakeUpgradeReinitiableParams, opts ...operations.ClientOption) (*operations.CheckDatalakeUpgradeReinitiableOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CheckDatalakeUpgradeReinitiable")
+	}
+
+	var r0 *operations.CheckDatalakeUpgradeReinitiableOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.CheckDatalakeUpgradeReinitiableParams, ...operations.ClientOption) (*operations.CheckDatalakeUpgradeReinitiableOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.CheckDatalakeUpgradeReinitiableParams, ...operations.ClientOption) *operations.CheckDatalakeUpgradeReinitiableOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CheckDatalakeUpgradeReinitiableOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.CheckDatalakeUpgradeReinitiableParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CheckDatalakeUpgradeReinitiable'
+type MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call struct {
+	*mock.Call
+}
+
+// CheckDatalakeUpgradeReinitiable is a helper method to define mock.On call
+//   - params *operations.CheckDatalakeUpgradeReinitiableParams
+//   - opts ...operations.ClientOption
+func (_e *MockDatalakeClientService_Expecter) CheckDatalakeUpgradeReinitiable(params interface{}, opts ...interface{}) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call {
+	return &MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call{Call: _e.mock.On("CheckDatalakeUpgradeReinitiable",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call) Run(run func(params *operations.CheckDatalakeUpgradeReinitiableParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.CheckDatalakeUpgradeReinitiableParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.CheckDatalakeUpgradeReinitiableParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call) Return(checkDatalakeUpgradeReinitiableOK *operations.CheckDatalakeUpgradeReinitiableOK, err error) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call {
+	_c.Call.Return(checkDatalakeUpgradeReinitiableOK, err)
+	return _c
+}
+
+func (_c *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call) RunAndReturn(run func(params *operations.CheckDatalakeUpgradeReinitiableParams, opts ...operations.ClientOption) (*operations.CheckDatalakeUpgradeReinitiableOK, error)) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// CheckDatalakeUpgradeReinitiableContext provides a mock function for the type MockDatalakeClientService
+func (_mock *MockDatalakeClientService) CheckDatalakeUpgradeReinitiableContext(ctx context.Context, params *operations.CheckDatalakeUpgradeReinitiableParams, opts ...operations.ClientOption) (*operations.CheckDatalakeUpgradeReinitiableOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CheckDatalakeUpgradeReinitiableContext")
+	}
+
+	var r0 *operations.CheckDatalakeUpgradeReinitiableOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CheckDatalakeUpgradeReinitiableParams, ...operations.ClientOption) (*operations.CheckDatalakeUpgradeReinitiableOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.CheckDatalakeUpgradeReinitiableParams, ...operations.ClientOption) *operations.CheckDatalakeUpgradeReinitiableOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.CheckDatalakeUpgradeReinitiableOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.CheckDatalakeUpgradeReinitiableParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CheckDatalakeUpgradeReinitiableContext'
+type MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call struct {
+	*mock.Call
+}
+
+// CheckDatalakeUpgradeReinitiableContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.CheckDatalakeUpgradeReinitiableParams
+//   - opts ...operations.ClientOption
+func (_e *MockDatalakeClientService_Expecter) CheckDatalakeUpgradeReinitiableContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call {
+	return &MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call{Call: _e.mock.On("CheckDatalakeUpgradeReinitiableContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call) Run(run func(ctx context.Context, params *operations.CheckDatalakeUpgradeReinitiableParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.CheckDatalakeUpgradeReinitiableParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.CheckDatalakeUpgradeReinitiableParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call) Return(checkDatalakeUpgradeReinitiableOK *operations.CheckDatalakeUpgradeReinitiableOK, err error) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call {
+	_c.Call.Return(checkDatalakeUpgradeReinitiableOK, err)
+	return _c
+}
+
+func (_c *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.CheckDatalakeUpgradeReinitiableParams, opts ...operations.ClientOption) (*operations.CheckDatalakeUpgradeReinitiableOK, error)) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // CollectCmDiagnostics provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CollectCmDiagnostics(params *operations.CollectCmDiagnosticsParams, opts ...operations.ClientOption) (*operations.CollectCmDiagnosticsOK, error) {
 	// operations.ClientOption
@@ -5415,6 +5583,174 @@ func (_c *MockDatalakeClientService_RecoverDatalakeContext_Call) RunAndReturn(ru
 	return _c
 }
 
+// ReinitiateDatalakeUpgrade provides a mock function for the type MockDatalakeClientService
+func (_mock *MockDatalakeClientService) ReinitiateDatalakeUpgrade(params *operations.ReinitiateDatalakeUpgradeParams, opts ...operations.ClientOption) (*operations.ReinitiateDatalakeUpgradeOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ReinitiateDatalakeUpgrade")
+	}
+
+	var r0 *operations.ReinitiateDatalakeUpgradeOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.ReinitiateDatalakeUpgradeParams, ...operations.ClientOption) (*operations.ReinitiateDatalakeUpgradeOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.ReinitiateDatalakeUpgradeParams, ...operations.ClientOption) *operations.ReinitiateDatalakeUpgradeOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ReinitiateDatalakeUpgradeOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.ReinitiateDatalakeUpgradeParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ReinitiateDatalakeUpgrade'
+type MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call struct {
+	*mock.Call
+}
+
+// ReinitiateDatalakeUpgrade is a helper method to define mock.On call
+//   - params *operations.ReinitiateDatalakeUpgradeParams
+//   - opts ...operations.ClientOption
+func (_e *MockDatalakeClientService_Expecter) ReinitiateDatalakeUpgrade(params interface{}, opts ...interface{}) *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call {
+	return &MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call{Call: _e.mock.On("ReinitiateDatalakeUpgrade",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call) Run(run func(params *operations.ReinitiateDatalakeUpgradeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.ReinitiateDatalakeUpgradeParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.ReinitiateDatalakeUpgradeParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call) Return(reinitiateDatalakeUpgradeOK *operations.ReinitiateDatalakeUpgradeOK, err error) *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call {
+	_c.Call.Return(reinitiateDatalakeUpgradeOK, err)
+	return _c
+}
+
+func (_c *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call) RunAndReturn(run func(params *operations.ReinitiateDatalakeUpgradeParams, opts ...operations.ClientOption) (*operations.ReinitiateDatalakeUpgradeOK, error)) *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// ReinitiateDatalakeUpgradeContext provides a mock function for the type MockDatalakeClientService
+func (_mock *MockDatalakeClientService) ReinitiateDatalakeUpgradeContext(ctx context.Context, params *operations.ReinitiateDatalakeUpgradeParams, opts ...operations.ClientOption) (*operations.ReinitiateDatalakeUpgradeOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for ReinitiateDatalakeUpgradeContext")
+	}
+
+	var r0 *operations.ReinitiateDatalakeUpgradeOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ReinitiateDatalakeUpgradeParams, ...operations.ClientOption) (*operations.ReinitiateDatalakeUpgradeOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.ReinitiateDatalakeUpgradeParams, ...operations.ClientOption) *operations.ReinitiateDatalakeUpgradeOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.ReinitiateDatalakeUpgradeOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.ReinitiateDatalakeUpgradeParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ReinitiateDatalakeUpgradeContext'
+type MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call struct {
+	*mock.Call
+}
+
+// ReinitiateDatalakeUpgradeContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.ReinitiateDatalakeUpgradeParams
+//   - opts ...operations.ClientOption
+func (_e *MockDatalakeClientService_Expecter) ReinitiateDatalakeUpgradeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call {
+	return &MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call{Call: _e.mock.On("ReinitiateDatalakeUpgradeContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call) Run(run func(ctx context.Context, params *operations.ReinitiateDatalakeUpgradeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.ReinitiateDatalakeUpgradeParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.ReinitiateDatalakeUpgradeParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call) Return(reinitiateDatalakeUpgradeOK *operations.ReinitiateDatalakeUpgradeOK, err error) *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call {
+	_c.Call.Return(reinitiateDatalakeUpgradeOK, err)
+	return _c
+}
+
+func (_c *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.ReinitiateDatalakeUpgradeParams, opts ...operations.ClientOption) (*operations.ReinitiateDatalakeUpgradeOK, error)) *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // RenewCertificate provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RenewCertificate(params *operations.RenewCertificateParams, opts ...operations.ClientOption) (*operations.RenewCertificateOK, error) {
 	// operations.ClientOption
@@ -9483,6 +9819,174 @@ func (_c *MockDatalakeClientService_SyncComponentVersionsFromCmContext_Call) Ret
 }
 
 func (_c *MockDatalakeClientService_SyncComponentVersionsFromCmContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.SyncComponentVersionsFromCmParams, opts ...operations.ClientOption) (*operations.SyncComponentVersionsFromCmOK, error)) *MockDatalakeClientService_SyncComponentVersionsFromCmContext_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// TriggerDiskSync provides a mock function for the type MockDatalakeClientService
+func (_mock *MockDatalakeClientService) TriggerDiskSync(params *operations.TriggerDiskSyncParams, opts ...operations.ClientOption) (*operations.TriggerDiskSyncOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for TriggerDiskSync")
+	}
+
+	var r0 *operations.TriggerDiskSyncOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(*operations.TriggerDiskSyncParams, ...operations.ClientOption) (*operations.TriggerDiskSyncOK, error)); ok {
+		return returnFunc(params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(*operations.TriggerDiskSyncParams, ...operations.ClientOption) *operations.TriggerDiskSyncOK); ok {
+		r0 = returnFunc(params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.TriggerDiskSyncOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(*operations.TriggerDiskSyncParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDatalakeClientService_TriggerDiskSync_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'TriggerDiskSync'
+type MockDatalakeClientService_TriggerDiskSync_Call struct {
+	*mock.Call
+}
+
+// TriggerDiskSync is a helper method to define mock.On call
+//   - params *operations.TriggerDiskSyncParams
+//   - opts ...operations.ClientOption
+func (_e *MockDatalakeClientService_Expecter) TriggerDiskSync(params interface{}, opts ...interface{}) *MockDatalakeClientService_TriggerDiskSync_Call {
+	return &MockDatalakeClientService_TriggerDiskSync_Call{Call: _e.mock.On("TriggerDiskSync",
+		append([]interface{}{params}, opts...)...)}
+}
+
+func (_c *MockDatalakeClientService_TriggerDiskSync_Call) Run(run func(params *operations.TriggerDiskSyncParams, opts ...operations.ClientOption)) *MockDatalakeClientService_TriggerDiskSync_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 *operations.TriggerDiskSyncParams
+		if args[0] != nil {
+			arg0 = args[0].(*operations.TriggerDiskSyncParams)
+		}
+		var arg1 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-1)
+		for i, a := range args[1:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg1 = variadicArgs
+		run(
+			arg0,
+			arg1...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDatalakeClientService_TriggerDiskSync_Call) Return(triggerDiskSyncOK *operations.TriggerDiskSyncOK, err error) *MockDatalakeClientService_TriggerDiskSync_Call {
+	_c.Call.Return(triggerDiskSyncOK, err)
+	return _c
+}
+
+func (_c *MockDatalakeClientService_TriggerDiskSync_Call) RunAndReturn(run func(params *operations.TriggerDiskSyncParams, opts ...operations.ClientOption) (*operations.TriggerDiskSyncOK, error)) *MockDatalakeClientService_TriggerDiskSync_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// TriggerDiskSyncContext provides a mock function for the type MockDatalakeClientService
+func (_mock *MockDatalakeClientService) TriggerDiskSyncContext(ctx context.Context, params *operations.TriggerDiskSyncParams, opts ...operations.ClientOption) (*operations.TriggerDiskSyncOK, error) {
+	// operations.ClientOption
+	_va := make([]interface{}, len(opts))
+	for _i := range opts {
+		_va[_i] = opts[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, ctx, params)
+	_ca = append(_ca, _va...)
+	ret := _mock.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for TriggerDiskSyncContext")
+	}
+
+	var r0 *operations.TriggerDiskSyncOK
+	var r1 error
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.TriggerDiskSyncParams, ...operations.ClientOption) (*operations.TriggerDiskSyncOK, error)); ok {
+		return returnFunc(ctx, params, opts...)
+	}
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *operations.TriggerDiskSyncParams, ...operations.ClientOption) *operations.TriggerDiskSyncOK); ok {
+		r0 = returnFunc(ctx, params, opts...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*operations.TriggerDiskSyncOK)
+		}
+	}
+	if returnFunc, ok := ret.Get(1).(func(context.Context, *operations.TriggerDiskSyncParams, ...operations.ClientOption) error); ok {
+		r1 = returnFunc(ctx, params, opts...)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+// MockDatalakeClientService_TriggerDiskSyncContext_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'TriggerDiskSyncContext'
+type MockDatalakeClientService_TriggerDiskSyncContext_Call struct {
+	*mock.Call
+}
+
+// TriggerDiskSyncContext is a helper method to define mock.On call
+//   - ctx context.Context
+//   - params *operations.TriggerDiskSyncParams
+//   - opts ...operations.ClientOption
+func (_e *MockDatalakeClientService_Expecter) TriggerDiskSyncContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_TriggerDiskSyncContext_Call {
+	return &MockDatalakeClientService_TriggerDiskSyncContext_Call{Call: _e.mock.On("TriggerDiskSyncContext",
+		append([]interface{}{ctx, params}, opts...)...)}
+}
+
+func (_c *MockDatalakeClientService_TriggerDiskSyncContext_Call) Run(run func(ctx context.Context, params *operations.TriggerDiskSyncParams, opts ...operations.ClientOption)) *MockDatalakeClientService_TriggerDiskSyncContext_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		var arg0 context.Context
+		if args[0] != nil {
+			arg0 = args[0].(context.Context)
+		}
+		var arg1 *operations.TriggerDiskSyncParams
+		if args[1] != nil {
+			arg1 = args[1].(*operations.TriggerDiskSyncParams)
+		}
+		var arg2 []operations.ClientOption
+		variadicArgs := make([]operations.ClientOption, len(args)-2)
+		for i, a := range args[2:] {
+			if a != nil {
+				variadicArgs[i] = a.(operations.ClientOption)
+			}
+		}
+		arg2 = variadicArgs
+		run(
+			arg0,
+			arg1,
+			arg2...,
+		)
+	})
+	return _c
+}
+
+func (_c *MockDatalakeClientService_TriggerDiskSyncContext_Call) Return(triggerDiskSyncOK *operations.TriggerDiskSyncOK, err error) *MockDatalakeClientService_TriggerDiskSyncContext_Call {
+	_c.Call.Return(triggerDiskSyncOK, err)
+	return _c
+}
+
+func (_c *MockDatalakeClientService_TriggerDiskSyncContext_Call) RunAndReturn(run func(ctx context.Context, params *operations.TriggerDiskSyncParams, opts ...operations.ClientOption) (*operations.TriggerDiskSyncOK, error)) *MockDatalakeClientService_TriggerDiskSyncContext_Call {
 	_c.Call.Return(run)
 	return _c
 }

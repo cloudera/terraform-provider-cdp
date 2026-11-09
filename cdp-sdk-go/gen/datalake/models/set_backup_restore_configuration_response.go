@@ -28,12 +28,12 @@ type SetBackupRestoreConfigurationResponse struct {
 }
 
 // Validate validates this set backup restore configuration response
-func (m *SetBackupRestoreConfigurationResponse) Validate(formats strfmt.Registry) error {
+func (m *SetBackupRestoreConfigurationResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this set backup restore configuration response based on context it is used
-func (m *SetBackupRestoreConfigurationResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetBackupRestoreConfigurationResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -109,6 +109,6 @@ func (m DatalakeInstanceStatus) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this datalake instance status based on context it is used
-func (m DatalakeInstanceStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m DatalakeInstanceStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

@@ -19,12 +19,12 @@ type UpdateDataVisualizationResponse struct {
 }
 
 // Validate validates this update data visualization response
-func (m *UpdateDataVisualizationResponse) Validate(formats strfmt.Registry) error {
+func (m *UpdateDataVisualizationResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update data visualization response based on context it is used
-func (m *UpdateDataVisualizationResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateDataVisualizationResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

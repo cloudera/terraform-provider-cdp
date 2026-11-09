@@ -48,7 +48,7 @@ func (m *RepairTrustResponse) validateFlowID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this repair trust response based on context it is used
-func (m *RepairTrustResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RepairTrustResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

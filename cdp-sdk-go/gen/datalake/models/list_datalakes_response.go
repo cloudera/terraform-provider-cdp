@@ -90,7 +90,7 @@ func (m *ListDatalakesResponse) contextValidateDatalakes(ctx context.Context, fo
 		if m.Datalakes[i] != nil {
 
 			if typeutils.IsZero(m.Datalakes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Datalakes[i].ContextValidate(ctx, formats); err != nil {

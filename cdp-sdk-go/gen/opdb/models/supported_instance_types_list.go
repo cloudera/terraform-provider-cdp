@@ -25,12 +25,12 @@ type SupportedInstanceTypesList struct {
 }
 
 // Validate validates this supported instance types list
-func (m *SupportedInstanceTypesList) Validate(formats strfmt.Registry) error {
+func (m *SupportedInstanceTypesList) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this supported instance types list based on context it is used
-func (m *SupportedInstanceTypesList) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SupportedInstanceTypesList) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

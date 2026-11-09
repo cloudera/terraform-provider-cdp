@@ -22,12 +22,12 @@ type VizConfig struct {
 }
 
 // Validate validates this viz config
-func (m *VizConfig) Validate(formats strfmt.Registry) error {
+func (m *VizConfig) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this viz config based on context it is used
-func (m *VizConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *VizConfig) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

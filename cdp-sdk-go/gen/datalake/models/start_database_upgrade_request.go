@@ -103,7 +103,7 @@ func (m *StartDatabaseUpgradeRequest) validateTargetVersion(formats strfmt.Regis
 }
 
 // ContextValidate validates this start database upgrade request based on context it is used
-func (m *StartDatabaseUpgradeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartDatabaseUpgradeRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

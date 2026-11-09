@@ -45,7 +45,7 @@ func (m *GetRepairFreeipaStatusRequest) validateOperationID(formats strfmt.Regis
 }
 
 // ContextValidate validates this get repair freeipa status request based on context it is used
-func (m *GetRepairFreeipaStatusRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetRepairFreeipaStatusRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

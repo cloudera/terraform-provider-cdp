@@ -62,7 +62,7 @@ func (m *StringDiff) validateTo(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this string diff based on context it is used
-func (m *StringDiff) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StringDiff) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

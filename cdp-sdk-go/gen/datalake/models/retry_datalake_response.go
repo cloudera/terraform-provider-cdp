@@ -19,12 +19,12 @@ type RetryDatalakeResponse struct {
 }
 
 // Validate validates this retry datalake response
-func (m *RetryDatalakeResponse) Validate(formats strfmt.Registry) error {
+func (m *RetryDatalakeResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this retry datalake response based on context it is used
-func (m *RetryDatalakeResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RetryDatalakeResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -107,7 +107,7 @@ func (m *SuspendResumeServiceRequest) validateStep(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this suspend resume service request based on context it is used
-func (m *SuspendResumeServiceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SuspendResumeServiceRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

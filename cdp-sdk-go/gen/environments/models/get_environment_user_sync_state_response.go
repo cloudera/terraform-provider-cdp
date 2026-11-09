@@ -90,7 +90,7 @@ func (m *GetEnvironmentUserSyncStateResponse) validateState(formats strfmt.Regis
 }
 
 // ContextValidate validates this get environment user sync state response based on context it is used
-func (m *GetEnvironmentUserSyncStateResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetEnvironmentUserSyncStateResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

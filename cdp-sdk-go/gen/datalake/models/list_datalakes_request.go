@@ -22,12 +22,12 @@ type ListDatalakesRequest struct {
 }
 
 // Validate validates this list datalakes request
-func (m *ListDatalakesRequest) Validate(formats strfmt.Registry) error {
+func (m *ListDatalakesRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list datalakes request based on context it is used
-func (m *ListDatalakesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListDatalakesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

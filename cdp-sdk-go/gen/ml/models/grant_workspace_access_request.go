@@ -31,12 +31,12 @@ type GrantWorkspaceAccessRequest struct {
 }
 
 // Validate validates this grant workspace access request
-func (m *GrantWorkspaceAccessRequest) Validate(formats strfmt.Registry) error {
+func (m *GrantWorkspaceAccessRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this grant workspace access request based on context it is used
-func (m *GrantWorkspaceAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GrantWorkspaceAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

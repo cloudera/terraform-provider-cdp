@@ -61,7 +61,7 @@ func (m *Event) validateTimestamp(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this event based on context it is used
-func (m *Event) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Event) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

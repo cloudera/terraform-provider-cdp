@@ -62,7 +62,7 @@ func (m *GCPConfigurationRequest) validateStorageLocation(formats strfmt.Registr
 }
 
 // ContextValidate validates this g c p configuration request based on context it is used
-func (m *GCPConfigurationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GCPConfigurationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

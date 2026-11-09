@@ -25,12 +25,12 @@ type CreateSecretRequest struct {
 }
 
 // Validate validates this create secret request
-func (m *CreateSecretRequest) Validate(formats strfmt.Registry) error {
+func (m *CreateSecretRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this create secret request based on context it is used
-func (m *CreateSecretRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateSecretRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

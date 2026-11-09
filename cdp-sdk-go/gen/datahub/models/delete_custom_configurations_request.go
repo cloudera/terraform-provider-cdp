@@ -45,7 +45,7 @@ func (m *DeleteCustomConfigurationsRequest) validateCustomConfigurations(formats
 }
 
 // ContextValidate validates this delete custom configurations request based on context it is used
-func (m *DeleteCustomConfigurationsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteCustomConfigurationsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

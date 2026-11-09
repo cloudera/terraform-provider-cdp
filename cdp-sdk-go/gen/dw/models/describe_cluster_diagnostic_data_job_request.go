@@ -62,7 +62,7 @@ func (m *DescribeClusterDiagnosticDataJobRequest) validateJobID(formats strfmt.R
 }
 
 // ContextValidate validates this describe cluster diagnostic data job request based on context it is used
-func (m *DescribeClusterDiagnosticDataJobRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeClusterDiagnosticDataJobRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

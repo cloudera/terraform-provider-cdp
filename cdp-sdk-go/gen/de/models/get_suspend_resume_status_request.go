@@ -48,7 +48,7 @@ func (m *GetSuspendResumeStatusRequest) validateClusterID(formats strfmt.Registr
 }
 
 // ContextValidate validates this get suspend resume status request based on context it is used
-func (m *GetSuspendResumeStatusRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetSuspendResumeStatusRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

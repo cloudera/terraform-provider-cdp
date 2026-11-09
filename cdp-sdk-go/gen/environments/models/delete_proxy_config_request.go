@@ -45,7 +45,7 @@ func (m *DeleteProxyConfigRequest) validateProxyConfigName(formats strfmt.Regist
 }
 
 // ContextValidate validates this delete proxy config request based on context it is used
-func (m *DeleteProxyConfigRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteProxyConfigRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

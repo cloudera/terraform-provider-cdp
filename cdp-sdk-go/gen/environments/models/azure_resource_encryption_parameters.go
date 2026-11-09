@@ -28,12 +28,12 @@ type AzureResourceEncryptionParameters struct {
 }
 
 // Validate validates this azure resource encryption parameters
-func (m *AzureResourceEncryptionParameters) Validate(formats strfmt.Registry) error {
+func (m *AzureResourceEncryptionParameters) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this azure resource encryption parameters based on context it is used
-func (m *AzureResourceEncryptionParameters) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureResourceEncryptionParameters) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

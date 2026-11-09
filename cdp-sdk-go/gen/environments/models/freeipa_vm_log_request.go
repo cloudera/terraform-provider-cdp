@@ -62,7 +62,7 @@ func (m *FreeipaVMLogRequest) validatePath(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this freeipa Vm log request based on context it is used
-func (m *FreeipaVMLogRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FreeipaVMLogRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

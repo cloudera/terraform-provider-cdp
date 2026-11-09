@@ -45,7 +45,7 @@ func (m *SetAWSAuditCredentialRequest) validateRoleArn(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this set a w s audit credential request based on context it is used
-func (m *SetAWSAuditCredentialRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetAWSAuditCredentialRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

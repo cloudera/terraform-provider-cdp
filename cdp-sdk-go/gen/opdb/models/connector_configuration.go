@@ -93,7 +93,7 @@ func (m *ConnectorConfiguration) contextValidateClientConfigurationDetails(ctx c
 		if m.ClientConfigurationDetails[i] != nil {
 
 			if typeutils.IsZero(m.ClientConfigurationDetails[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ClientConfigurationDetails[i].ContextValidate(ctx, formats); err != nil {

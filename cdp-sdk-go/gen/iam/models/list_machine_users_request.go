@@ -60,7 +60,7 @@ func (m *ListMachineUsersRequest) validatePageSize(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this list machine users request based on context it is used
-func (m *ListMachineUsersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListMachineUsersRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

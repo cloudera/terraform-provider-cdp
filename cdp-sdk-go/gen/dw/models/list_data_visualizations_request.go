@@ -45,7 +45,7 @@ func (m *ListDataVisualizationsRequest) validateClusterID(formats strfmt.Registr
 }
 
 // ContextValidate validates this list data visualizations request based on context it is used
-func (m *ListDataVisualizationsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListDataVisualizationsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

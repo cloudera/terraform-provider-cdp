@@ -25,12 +25,12 @@ type BackupWorkspaceResponse struct {
 }
 
 // Validate validates this backup workspace response
-func (m *BackupWorkspaceResponse) Validate(formats strfmt.Registry) error {
+func (m *BackupWorkspaceResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this backup workspace response based on context it is used
-func (m *BackupWorkspaceResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BackupWorkspaceResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -62,7 +62,7 @@ func (m *RestartDatalakeInstancesRequest) validateInstances(formats strfmt.Regis
 }
 
 // ContextValidate validates this restart datalake instances request based on context it is used
-func (m *RestartDatalakeInstancesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RestartDatalakeInstancesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

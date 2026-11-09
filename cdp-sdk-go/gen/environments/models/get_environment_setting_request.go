@@ -48,7 +48,7 @@ func (m *GetEnvironmentSettingRequest) validateAttrs(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this get environment setting request based on context it is used
-func (m *GetEnvironmentSettingRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetEnvironmentSettingRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -62,7 +62,7 @@ func (m *Environment) validateName(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this environment based on context it is used
-func (m *Environment) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Environment) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

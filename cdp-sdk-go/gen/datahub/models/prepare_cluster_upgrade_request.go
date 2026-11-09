@@ -51,7 +51,7 @@ func (m *PrepareClusterUpgradeRequest) validateCluster(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this prepare cluster upgrade request based on context it is used
-func (m *PrepareClusterUpgradeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *PrepareClusterUpgradeRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

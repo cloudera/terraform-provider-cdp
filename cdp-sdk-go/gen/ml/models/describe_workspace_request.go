@@ -25,12 +25,12 @@ type DescribeWorkspaceRequest struct {
 }
 
 // Validate validates this describe workspace request
-func (m *DescribeWorkspaceRequest) Validate(formats strfmt.Registry) error {
+func (m *DescribeWorkspaceRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this describe workspace request based on context it is used
-func (m *DescribeWorkspaceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeWorkspaceRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

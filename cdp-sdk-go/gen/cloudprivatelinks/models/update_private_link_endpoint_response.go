@@ -19,12 +19,12 @@ type UpdatePrivateLinkEndpointResponse struct {
 }
 
 // Validate validates this update private link endpoint response
-func (m *UpdatePrivateLinkEndpointResponse) Validate(formats strfmt.Registry) error {
+func (m *UpdatePrivateLinkEndpointResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update private link endpoint response based on context it is used
-func (m *UpdatePrivateLinkEndpointResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdatePrivateLinkEndpointResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

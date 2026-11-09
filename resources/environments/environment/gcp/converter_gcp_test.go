@@ -293,8 +293,7 @@ func createFilledEnvironment() *environmentsmodels.Environment {
 			ProxyConfigName: func(s string) *string { return &s }("someProxyConfigName"),
 			User:            "someUser",
 		},
-		Region:               func(s string) *string { return &s }("someRegion"),
-		ReportDeploymentLogs: new(false),
+		Region: func(s string) *string { return &s }("someRegion"),
 		SecurityAccess: &environmentsmodels.SecurityAccess{
 			Cidr:                   "someCidr",
 			DefaultSecurityGroupID: "someDefaultSecurityGroupID",

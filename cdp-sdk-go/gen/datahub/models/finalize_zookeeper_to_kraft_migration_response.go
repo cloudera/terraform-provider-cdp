@@ -22,12 +22,12 @@ type FinalizeZookeeperToKraftMigrationResponse struct {
 }
 
 // Validate validates this finalize zookeeper to kraft migration response
-func (m *FinalizeZookeeperToKraftMigrationResponse) Validate(formats strfmt.Registry) error {
+func (m *FinalizeZookeeperToKraftMigrationResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this finalize zookeeper to kraft migration response based on context it is used
-func (m *FinalizeZookeeperToKraftMigrationResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FinalizeZookeeperToKraftMigrationResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

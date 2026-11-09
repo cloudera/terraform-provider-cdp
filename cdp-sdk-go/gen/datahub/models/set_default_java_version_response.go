@@ -19,12 +19,12 @@ type SetDefaultJavaVersionResponse struct {
 }
 
 // Validate validates this set default java version response
-func (m *SetDefaultJavaVersionResponse) Validate(formats strfmt.Registry) error {
+func (m *SetDefaultJavaVersionResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this set default java version response based on context it is used
-func (m *SetDefaultJavaVersionResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetDefaultJavaVersionResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

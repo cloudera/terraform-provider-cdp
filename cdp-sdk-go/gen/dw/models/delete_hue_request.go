@@ -62,7 +62,7 @@ func (m *DeleteHueRequest) validateHueID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this delete hue request based on context it is used
-func (m *DeleteHueRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteHueRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

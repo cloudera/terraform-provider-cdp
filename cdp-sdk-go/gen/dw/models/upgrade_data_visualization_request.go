@@ -82,7 +82,7 @@ func (m *UpgradeDataVisualizationRequest) validateImageVersion(formats strfmt.Re
 }
 
 // ContextValidate validates this upgrade data visualization request based on context it is used
-func (m *UpgradeDataVisualizationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpgradeDataVisualizationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

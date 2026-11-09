@@ -28,12 +28,12 @@ type ActorResponse struct {
 }
 
 // Validate validates this actor response
-func (m *ActorResponse) Validate(formats strfmt.Registry) error {
+func (m *ActorResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this actor response based on context it is used
-func (m *ActorResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ActorResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

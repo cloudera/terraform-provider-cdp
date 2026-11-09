@@ -45,7 +45,7 @@ func (m *CustomDockerRegistryResponse) validateCrn(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this custom docker registry response based on context it is used
-func (m *CustomDockerRegistryResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CustomDockerRegistryResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

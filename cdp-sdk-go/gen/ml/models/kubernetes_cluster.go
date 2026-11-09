@@ -158,7 +158,7 @@ func (m *KubernetesCluster) contextValidateInstanceGroups(ctx context.Context, f
 		if m.InstanceGroups[i] != nil {
 
 			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {
@@ -187,7 +187,7 @@ func (m *KubernetesCluster) contextValidateTags(ctx context.Context, formats str
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

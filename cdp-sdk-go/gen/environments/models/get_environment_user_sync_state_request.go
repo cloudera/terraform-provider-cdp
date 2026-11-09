@@ -45,7 +45,7 @@ func (m *GetEnvironmentUserSyncStateRequest) validateEnvironmentName(formats str
 }
 
 // ContextValidate validates this get environment user sync state request based on context it is used
-func (m *GetEnvironmentUserSyncStateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetEnvironmentUserSyncStateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

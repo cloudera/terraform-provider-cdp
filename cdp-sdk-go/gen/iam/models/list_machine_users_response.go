@@ -93,7 +93,7 @@ func (m *ListMachineUsersResponse) contextValidateMachineUsers(ctx context.Conte
 		if m.MachineUsers[i] != nil {
 
 			if typeutils.IsZero(m.MachineUsers[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.MachineUsers[i].ContextValidate(ctx, formats); err != nil {

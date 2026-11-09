@@ -28,12 +28,12 @@ type MlServingOzoneCreds struct {
 }
 
 // Validate validates this ml serving ozone creds
-func (m *MlServingOzoneCreds) Validate(formats strfmt.Registry) error {
+func (m *MlServingOzoneCreds) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this ml serving ozone creds based on context it is used
-func (m *MlServingOzoneCreds) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *MlServingOzoneCreds) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *GetBackupRestoreConfigurationRequest) validateDatalake(formats strfmt.R
 }
 
 // ContextValidate validates this get backup restore configuration request based on context it is used
-func (m *GetBackupRestoreConfigurationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetBackupRestoreConfigurationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

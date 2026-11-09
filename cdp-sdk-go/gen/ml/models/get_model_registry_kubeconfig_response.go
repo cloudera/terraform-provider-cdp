@@ -19,12 +19,12 @@ type GetModelRegistryKubeconfigResponse struct {
 }
 
 // Validate validates this get model registry kubeconfig response
-func (m *GetModelRegistryKubeconfigResponse) Validate(formats strfmt.Registry) error {
+func (m *GetModelRegistryKubeconfigResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this get model registry kubeconfig response based on context it is used
-func (m *GetModelRegistryKubeconfigResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetModelRegistryKubeconfigResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -90,7 +90,7 @@ func (m *ListDatahubSecretTypesResponse) contextValidateDatahubSecretTypes(ctx c
 		if m.DatahubSecretTypes[i] != nil {
 
 			if typeutils.IsZero(m.DatahubSecretTypes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.DatahubSecretTypes[i].ContextValidate(ctx, formats); err != nil {

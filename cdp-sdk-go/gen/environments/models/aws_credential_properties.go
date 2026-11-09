@@ -25,12 +25,12 @@ type AwsCredentialProperties struct {
 }
 
 // Validate validates this aws credential properties
-func (m *AwsCredentialProperties) Validate(formats strfmt.Registry) error {
+func (m *AwsCredentialProperties) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this aws credential properties based on context it is used
-func (m *AwsCredentialProperties) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AwsCredentialProperties) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

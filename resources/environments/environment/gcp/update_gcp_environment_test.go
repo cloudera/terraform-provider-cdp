@@ -507,7 +507,7 @@ func TestUpdateGcpTelemetryFeaturesIfChanged_Changed_CallsAPIAndUpdatesState(t *
 	f.mockClient.On("SetTelemetryFeaturesContext", mock.Anything, mock.MatchedBy(func(params *operations.SetTelemetryFeaturesParams) bool {
 		return params.Input != nil &&
 			*params.Input.EnvironmentName == testEnvName &&
-			params.Input.WorkloadAnalytics != nil && *params.Input.WorkloadAnalytics == true
+			params.Input.WorkloadAnalytics == true
 	}), mock.Anything).Return(&operations.SetTelemetryFeaturesOK{}, nil)
 
 	result := updateGcpTelemetryFeaturesIfChanged(f.ctx, plan, state, f.client, f.resp)

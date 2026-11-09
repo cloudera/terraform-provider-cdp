@@ -28,12 +28,12 @@ type RegisterSecretRequest struct {
 }
 
 // Validate validates this register secret request
-func (m *RegisterSecretRequest) Validate(formats strfmt.Registry) error {
+func (m *RegisterSecretRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this register secret request based on context it is used
-func (m *RegisterSecretRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RegisterSecretRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

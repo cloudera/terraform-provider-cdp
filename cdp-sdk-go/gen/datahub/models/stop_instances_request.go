@@ -65,7 +65,7 @@ func (m *StopInstancesRequest) validateInstanceIds(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this stop instances request based on context it is used
-func (m *StopInstancesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StopInstancesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

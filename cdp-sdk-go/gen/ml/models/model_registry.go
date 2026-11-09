@@ -97,7 +97,7 @@ func (m *ModelRegistry) validateCreatedAt(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this model registry based on context it is used
-func (m *ModelRegistry) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ModelRegistry) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

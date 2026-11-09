@@ -85,7 +85,7 @@ func (m *ScaleClusterRequest) validateInstanceGroupName(formats strfmt.Registry)
 }
 
 // ContextValidate validates this scale cluster request based on context it is used
-func (m *ScaleClusterRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ScaleClusterRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

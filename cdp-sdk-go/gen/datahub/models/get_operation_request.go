@@ -25,12 +25,12 @@ type GetOperationRequest struct {
 }
 
 // Validate validates this get operation request
-func (m *GetOperationRequest) Validate(formats strfmt.Registry) error {
+func (m *GetOperationRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this get operation request based on context it is used
-func (m *GetOperationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetOperationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

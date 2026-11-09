@@ -62,7 +62,7 @@ func (m *GetDataVisualizationUpgradeVersionRequest) validateDataVisualizationID(
 }
 
 // ContextValidate validates this get data visualization upgrade version request based on context it is used
-func (m *GetDataVisualizationUpgradeVersionRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetDataVisualizationUpgradeVersionRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

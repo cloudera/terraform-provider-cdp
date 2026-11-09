@@ -90,7 +90,7 @@ func (m *ListFreeipaSecretTypesResponse) contextValidateFreeipaSecretTypes(ctx c
 		if m.FreeipaSecretTypes[i] != nil {
 
 			if typeutils.IsZero(m.FreeipaSecretTypes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.FreeipaSecretTypes[i].ContextValidate(ctx, formats); err != nil {

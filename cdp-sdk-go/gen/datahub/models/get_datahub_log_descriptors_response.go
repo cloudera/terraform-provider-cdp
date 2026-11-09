@@ -87,7 +87,7 @@ func (m *GetDatahubLogDescriptorsResponse) contextValidateLogs(ctx context.Conte
 		if m.Logs[i] != nil {
 
 			if typeutils.IsZero(m.Logs[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Logs[i].ContextValidate(ctx, formats); err != nil {

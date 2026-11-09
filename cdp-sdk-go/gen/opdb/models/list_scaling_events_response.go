@@ -90,7 +90,7 @@ func (m *ListScalingEventsResponse) contextValidateScalingEvents(ctx context.Con
 		if m.ScalingEvents[i] != nil {
 
 			if typeutils.IsZero(m.ScalingEvents[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ScalingEvents[i].ContextValidate(ctx, formats); err != nil {

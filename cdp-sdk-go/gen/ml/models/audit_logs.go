@@ -124,7 +124,7 @@ func (m *AuditLogs) contextValidateLogs(ctx context.Context, formats strfmt.Regi
 		if m.Logs[i] != nil {
 
 			if typeutils.IsZero(m.Logs[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Logs[i].ContextValidate(ctx, formats); err != nil {

@@ -45,7 +45,7 @@ func (m *CreateFileReplicaRequest) validateWorkspaceCrn(formats strfmt.Registry)
 }
 
 // ContextValidate validates this create file replica request based on context it is used
-func (m *CreateFileReplicaRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateFileReplicaRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

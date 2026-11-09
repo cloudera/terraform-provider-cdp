@@ -65,7 +65,7 @@ func (m *CreateAWSCredentialRequest) validateRoleArn(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this create a w s credential request based on context it is used
-func (m *CreateAWSCredentialRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateAWSCredentialRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

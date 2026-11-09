@@ -45,7 +45,7 @@ func (m *DeleteMachineUserRequest) validateMachineUserName(formats strfmt.Regist
 }
 
 // ContextValidate validates this delete machine user request based on context it is used
-func (m *DeleteMachineUserRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteMachineUserRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

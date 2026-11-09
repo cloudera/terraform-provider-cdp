@@ -19,12 +19,12 @@ type DeletePrivateLinkEndpointResponse struct {
 }
 
 // Validate validates this delete private link endpoint response
-func (m *DeletePrivateLinkEndpointResponse) Validate(formats strfmt.Registry) error {
+func (m *DeletePrivateLinkEndpointResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this delete private link endpoint response based on context it is used
-func (m *DeletePrivateLinkEndpointResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeletePrivateLinkEndpointResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

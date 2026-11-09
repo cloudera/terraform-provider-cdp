@@ -198,7 +198,7 @@ func (m *SetAzureAuditCredentialRequestAppBased) validateSecretKey(formats strfm
 }
 
 // ContextValidate validates this set azure audit credential request app based based on context it is used
-func (m *SetAzureAuditCredentialRequestAppBased) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetAzureAuditCredentialRequestAppBased) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

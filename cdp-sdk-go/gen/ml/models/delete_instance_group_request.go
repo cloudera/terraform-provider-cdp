@@ -62,7 +62,7 @@ func (m *DeleteInstanceGroupRequest) validateWorkspaceCrn(formats strfmt.Registr
 }
 
 // ContextValidate validates this delete instance group request based on context it is used
-func (m *DeleteInstanceGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteInstanceGroupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

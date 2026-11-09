@@ -19,12 +19,12 @@ type ResetServerSettingsResponse struct {
 }
 
 // Validate validates this reset server settings response
-func (m *ResetServerSettingsResponse) Validate(formats strfmt.Registry) error {
+func (m *ResetServerSettingsResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this reset server settings response based on context it is used
-func (m *ResetServerSettingsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ResetServerSettingsResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

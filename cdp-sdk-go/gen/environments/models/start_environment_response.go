@@ -19,12 +19,12 @@ type StartEnvironmentResponse struct {
 }
 
 // Validate validates this start environment response
-func (m *StartEnvironmentResponse) Validate(formats strfmt.Registry) error {
+func (m *StartEnvironmentResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this start environment response based on context it is used
-func (m *StartEnvironmentResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartEnvironmentResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

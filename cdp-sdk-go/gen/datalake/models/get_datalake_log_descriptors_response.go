@@ -87,7 +87,7 @@ func (m *GetDatalakeLogDescriptorsResponse) contextValidateLogs(ctx context.Cont
 		if m.Logs[i] != nil {
 
 			if typeutils.IsZero(m.Logs[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Logs[i].ContextValidate(ctx, formats); err != nil {

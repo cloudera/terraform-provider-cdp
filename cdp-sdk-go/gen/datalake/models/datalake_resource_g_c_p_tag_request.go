@@ -62,7 +62,7 @@ func (m *DatalakeResourceGCPTagRequest) validateValue(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this datalake resource g c p tag request based on context it is used
-func (m *DatalakeResourceGCPTagRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DatalakeResourceGCPTagRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

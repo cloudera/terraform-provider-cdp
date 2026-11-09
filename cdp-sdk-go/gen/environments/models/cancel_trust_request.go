@@ -45,7 +45,7 @@ func (m *CancelTrustRequest) validateEnvironment(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this cancel trust request based on context it is used
-func (m *CancelTrustRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CancelTrustRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

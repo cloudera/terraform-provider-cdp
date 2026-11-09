@@ -62,7 +62,7 @@ func (m *DeleteSecretRequest) validateSecretName(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this delete secret request based on context it is used
-func (m *DeleteSecretRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteSecretRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

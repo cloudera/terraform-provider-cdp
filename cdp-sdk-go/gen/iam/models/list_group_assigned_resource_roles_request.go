@@ -74,7 +74,7 @@ func (m *ListGroupAssignedResourceRolesRequest) validatePageSize(formats strfmt.
 }
 
 // ContextValidate validates this list group assigned resource roles request based on context it is used
-func (m *ListGroupAssignedResourceRolesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListGroupAssignedResourceRolesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

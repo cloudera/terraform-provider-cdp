@@ -19,12 +19,12 @@ type CreatePrivateLinkEndpointResponse struct {
 }
 
 // Validate validates this create private link endpoint response
-func (m *CreatePrivateLinkEndpointResponse) Validate(formats strfmt.Registry) error {
+func (m *CreatePrivateLinkEndpointResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this create private link endpoint response based on context it is used
-func (m *CreatePrivateLinkEndpointResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreatePrivateLinkEndpointResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

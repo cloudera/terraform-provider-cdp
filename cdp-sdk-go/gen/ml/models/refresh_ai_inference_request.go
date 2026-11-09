@@ -45,7 +45,7 @@ func (m *RefreshAiInferenceRequest) validateAppCrn(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this refresh ai inference request based on context it is used
-func (m *RefreshAiInferenceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RefreshAiInferenceRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

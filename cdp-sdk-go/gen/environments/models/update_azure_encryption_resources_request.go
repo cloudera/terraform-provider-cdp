@@ -68,7 +68,7 @@ func (m *UpdateAzureEncryptionResourcesRequest) validateEnvironment(formats strf
 }
 
 // ContextValidate validates this update azure encryption resources request based on context it is used
-func (m *UpdateAzureEncryptionResourcesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateAzureEncryptionResourcesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

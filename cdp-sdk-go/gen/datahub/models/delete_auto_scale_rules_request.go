@@ -55,7 +55,7 @@ func (m *DeleteAutoScaleRulesRequest) validateClusterName(formats strfmt.Registr
 }
 
 // ContextValidate validates this delete auto scale rules request based on context it is used
-func (m *DeleteAutoScaleRulesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteAutoScaleRulesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

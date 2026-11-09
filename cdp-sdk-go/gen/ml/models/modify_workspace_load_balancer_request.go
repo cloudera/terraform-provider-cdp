@@ -62,7 +62,7 @@ func (m *ModifyWorkspaceLoadBalancerRequest) validateWorkspaceCrn(formats strfmt
 }
 
 // ContextValidate validates this modify workspace load balancer request based on context it is used
-func (m *ModifyWorkspaceLoadBalancerRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ModifyWorkspaceLoadBalancerRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -460,7 +460,7 @@ func (m *RestoreBackupResponseRestorePlan) contextValidateCdwHue(ctx context.Con
 		if m.CdwHue[i] != nil {
 
 			if typeutils.IsZero(m.CdwHue[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.CdwHue[i].ContextValidate(ctx, formats); err != nil {
@@ -489,7 +489,7 @@ func (m *RestoreBackupResponseRestorePlan) contextValidateDbc(ctx context.Contex
 		if m.Dbc[i] != nil {
 
 			if typeutils.IsZero(m.Dbc[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Dbc[i].ContextValidate(ctx, formats); err != nil {
@@ -518,7 +518,7 @@ func (m *RestoreBackupResponseRestorePlan) contextValidateHive(ctx context.Conte
 		if m.Hive[i] != nil {
 
 			if typeutils.IsZero(m.Hive[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Hive[i].ContextValidate(ctx, formats); err != nil {
@@ -547,7 +547,7 @@ func (m *RestoreBackupResponseRestorePlan) contextValidateHue(ctx context.Contex
 		if m.Hue[i] != nil {
 
 			if typeutils.IsZero(m.Hue[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Hue[i].ContextValidate(ctx, formats); err != nil {
@@ -576,7 +576,7 @@ func (m *RestoreBackupResponseRestorePlan) contextValidateImpala(ctx context.Con
 		if m.Impala[i] != nil {
 
 			if typeutils.IsZero(m.Impala[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Impala[i].ContextValidate(ctx, formats); err != nil {
@@ -605,7 +605,7 @@ func (m *RestoreBackupResponseRestorePlan) contextValidateTrino(ctx context.Cont
 		if m.Trino[i] != nil {
 
 			if typeutils.IsZero(m.Trino[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Trino[i].ContextValidate(ctx, formats); err != nil {
@@ -634,7 +634,7 @@ func (m *RestoreBackupResponseRestorePlan) contextValidateViz(ctx context.Contex
 		if m.Viz[i] != nil {
 
 			if typeutils.IsZero(m.Viz[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Viz[i].ContextValidate(ctx, formats); err != nil {

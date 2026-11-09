@@ -22,12 +22,12 @@ type GetAuditEventsRequest struct {
 }
 
 // Validate validates this get audit events request
-func (m *GetAuditEventsRequest) Validate(formats strfmt.Registry) error {
+func (m *GetAuditEventsRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this get audit events request based on context it is used
-func (m *GetAuditEventsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetAuditEventsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

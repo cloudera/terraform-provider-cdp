@@ -90,7 +90,7 @@ func (m *GetClusterHostStatusResponse) contextValidateHosts(ctx context.Context,
 		if m.Hosts[i] != nil {
 
 			if typeutils.IsZero(m.Hosts[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Hosts[i].ContextValidate(ctx, formats); err != nil {

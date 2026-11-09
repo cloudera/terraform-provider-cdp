@@ -45,7 +45,7 @@ func (m *GetUpgradeStatusRequest) validateClusterID(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this get upgrade status request based on context it is used
-func (m *GetUpgradeStatusRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetUpgradeStatusRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

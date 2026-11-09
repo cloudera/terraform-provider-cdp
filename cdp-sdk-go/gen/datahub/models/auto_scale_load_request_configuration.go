@@ -87,7 +87,7 @@ func (m *AutoScaleLoadRequestConfiguration) validateMinResourceValue(formats str
 }
 
 // ContextValidate validates this auto scale load request configuration based on context it is used
-func (m *AutoScaleLoadRequestConfiguration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AutoScaleLoadRequestConfiguration) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

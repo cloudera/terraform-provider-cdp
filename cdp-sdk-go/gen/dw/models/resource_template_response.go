@@ -34,12 +34,12 @@ type ResourceTemplateResponse struct {
 }
 
 // Validate validates this resource template response
-func (m *ResourceTemplateResponse) Validate(formats strfmt.Registry) error {
+func (m *ResourceTemplateResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this resource template response based on context it is used
-func (m *ResourceTemplateResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ResourceTemplateResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

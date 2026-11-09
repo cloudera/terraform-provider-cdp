@@ -19,12 +19,12 @@ type DeleteVcResponse struct {
 }
 
 // Validate validates this delete vc response
-func (m *DeleteVcResponse) Validate(formats strfmt.Registry) error {
+func (m *DeleteVcResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this delete vc response based on context it is used
-func (m *DeleteVcResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteVcResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

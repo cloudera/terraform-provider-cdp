@@ -208,6 +208,6 @@ func (m StackStatus) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this stack status based on context it is used
-func (m StackStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m StackStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

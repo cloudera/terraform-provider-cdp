@@ -45,7 +45,7 @@ func (m *DeleteBackupResponse) validateDeleteBackupCrn(formats strfmt.Registry) 
 }
 
 // ContextValidate validates this delete backup response based on context it is used
-func (m *DeleteBackupResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteBackupResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -728,7 +728,7 @@ type ClientService interface {
 // If you need to pass a specific context, use [Client.AddUserContext] instead.
 func (a *Client) AddUser(params *AddUserParams, opts ...ClientOption) (*AddUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -793,7 +793,7 @@ func (a *Client) AddUserContext(ctx context.Context, params *AddUserParams, opts
 // If you need to pass a specific context, use [Client.BackupClusterContext] instead.
 func (a *Client) BackupCluster(params *BackupClusterParams, opts ...ClientOption) (*BackupClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -858,7 +858,7 @@ func (a *Client) BackupClusterContext(ctx context.Context, params *BackupCluster
 // If you need to pass a specific context, use [Client.CreateAwsClusterContext] instead.
 func (a *Client) CreateAwsCluster(params *CreateAwsClusterParams, opts ...ClientOption) (*CreateAwsClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -923,7 +923,7 @@ func (a *Client) CreateAwsClusterContext(ctx context.Context, params *CreateAwsC
 // If you need to pass a specific context, use [Client.CreateAzureClusterContext] instead.
 func (a *Client) CreateAzureCluster(params *CreateAzureClusterParams, opts ...ClientOption) (*CreateAzureClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -988,7 +988,7 @@ func (a *Client) CreateAzureClusterContext(ctx context.Context, params *CreateAz
 // If you need to pass a specific context, use [Client.CreateBackupContext] instead.
 func (a *Client) CreateBackup(params *CreateBackupParams, opts ...ClientOption) (*CreateBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1053,7 +1053,7 @@ func (a *Client) CreateBackupContext(ctx context.Context, params *CreateBackupPa
 // If you need to pass a specific context, use [Client.CreateClusterContext] instead.
 func (a *Client) CreateCluster(params *CreateClusterParams, opts ...ClientOption) (*CreateClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1118,7 +1118,7 @@ func (a *Client) CreateClusterContext(ctx context.Context, params *CreateCluster
 // If you need to pass a specific context, use [Client.CreateClusterDiagnosticDataJobContext] instead.
 func (a *Client) CreateClusterDiagnosticDataJob(params *CreateClusterDiagnosticDataJobParams, opts ...ClientOption) (*CreateClusterDiagnosticDataJobOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1183,7 +1183,7 @@ func (a *Client) CreateClusterDiagnosticDataJobContext(ctx context.Context, para
 // If you need to pass a specific context, use [Client.CreateConnectorContext] instead.
 func (a *Client) CreateConnector(params *CreateConnectorParams, opts ...ClientOption) (*CreateConnectorOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1248,7 +1248,7 @@ func (a *Client) CreateConnectorContext(ctx context.Context, params *CreateConne
 // If you need to pass a specific context, use [Client.CreateConnectorTestJobContext] instead.
 func (a *Client) CreateConnectorTestJob(params *CreateConnectorTestJobParams, opts ...ClientOption) (*CreateConnectorTestJobOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1313,7 +1313,7 @@ func (a *Client) CreateConnectorTestJobContext(ctx context.Context, params *Crea
 // If you need to pass a specific context, use [Client.CreateDataVisualizationContext] instead.
 func (a *Client) CreateDataVisualization(params *CreateDataVisualizationParams, opts ...ClientOption) (*CreateDataVisualizationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1378,7 +1378,7 @@ func (a *Client) CreateDataVisualizationContext(ctx context.Context, params *Cre
 // If you need to pass a specific context, use [Client.CreateDbcContext] instead.
 func (a *Client) CreateDbc(params *CreateDbcParams, opts ...ClientOption) (*CreateDbcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1443,7 +1443,7 @@ func (a *Client) CreateDbcContext(ctx context.Context, params *CreateDbcParams, 
 // If you need to pass a specific context, use [Client.CreateDbcDiagnosticDataJobContext] instead.
 func (a *Client) CreateDbcDiagnosticDataJob(params *CreateDbcDiagnosticDataJobParams, opts ...ClientOption) (*CreateDbcDiagnosticDataJobOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1508,7 +1508,7 @@ func (a *Client) CreateDbcDiagnosticDataJobContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.CreateHueContext] instead.
 func (a *Client) CreateHue(params *CreateHueParams, opts ...ClientOption) (*CreateHueOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1573,7 +1573,7 @@ func (a *Client) CreateHueContext(ctx context.Context, params *CreateHueParams, 
 // If you need to pass a specific context, use [Client.CreatePrivateClusterContext] instead.
 func (a *Client) CreatePrivateCluster(params *CreatePrivateClusterParams, opts ...ClientOption) (*CreatePrivateClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1638,7 +1638,7 @@ func (a *Client) CreatePrivateClusterContext(ctx context.Context, params *Create
 // If you need to pass a specific context, use [Client.CreateResourceTemplateContext] instead.
 func (a *Client) CreateResourceTemplate(params *CreateResourceTemplateParams, opts ...ClientOption) (*CreateResourceTemplateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1703,7 +1703,7 @@ func (a *Client) CreateResourceTemplateContext(ctx context.Context, params *Crea
 // If you need to pass a specific context, use [Client.CreateSecretContext] instead.
 func (a *Client) CreateSecret(params *CreateSecretParams, opts ...ClientOption) (*CreateSecretOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1768,7 +1768,7 @@ func (a *Client) CreateSecretContext(ctx context.Context, params *CreateSecretPa
 // If you need to pass a specific context, use [Client.CreateVwContext] instead.
 func (a *Client) CreateVw(params *CreateVwParams, opts ...ClientOption) (*CreateVwOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1833,7 +1833,7 @@ func (a *Client) CreateVwContext(ctx context.Context, params *CreateVwParams, op
 // If you need to pass a specific context, use [Client.CreateVwDiagnosticDataJobContext] instead.
 func (a *Client) CreateVwDiagnosticDataJob(params *CreateVwDiagnosticDataJobParams, opts ...ClientOption) (*CreateVwDiagnosticDataJobOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1898,7 +1898,7 @@ func (a *Client) CreateVwDiagnosticDataJobContext(ctx context.Context, params *C
 // If you need to pass a specific context, use [Client.DeleteBackupContext] instead.
 func (a *Client) DeleteBackup(params *DeleteBackupParams, opts ...ClientOption) (*DeleteBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -1963,7 +1963,7 @@ func (a *Client) DeleteBackupContext(ctx context.Context, params *DeleteBackupPa
 // If you need to pass a specific context, use [Client.DeleteClusterContext] instead.
 func (a *Client) DeleteCluster(params *DeleteClusterParams, opts ...ClientOption) (*DeleteClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2028,7 +2028,7 @@ func (a *Client) DeleteClusterContext(ctx context.Context, params *DeleteCluster
 // If you need to pass a specific context, use [Client.DeleteClusterDiagnosticDataJobContext] instead.
 func (a *Client) DeleteClusterDiagnosticDataJob(params *DeleteClusterDiagnosticDataJobParams, opts ...ClientOption) (*DeleteClusterDiagnosticDataJobOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2093,7 +2093,7 @@ func (a *Client) DeleteClusterDiagnosticDataJobContext(ctx context.Context, para
 // If you need to pass a specific context, use [Client.DeleteConnectorContext] instead.
 func (a *Client) DeleteConnector(params *DeleteConnectorParams, opts ...ClientOption) (*DeleteConnectorOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2158,7 +2158,7 @@ func (a *Client) DeleteConnectorContext(ctx context.Context, params *DeleteConne
 // If you need to pass a specific context, use [Client.DeleteDataVisualizationContext] instead.
 func (a *Client) DeleteDataVisualization(params *DeleteDataVisualizationParams, opts ...ClientOption) (*DeleteDataVisualizationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2223,7 +2223,7 @@ func (a *Client) DeleteDataVisualizationContext(ctx context.Context, params *Del
 // If you need to pass a specific context, use [Client.DeleteDbcContext] instead.
 func (a *Client) DeleteDbc(params *DeleteDbcParams, opts ...ClientOption) (*DeleteDbcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2288,7 +2288,7 @@ func (a *Client) DeleteDbcContext(ctx context.Context, params *DeleteDbcParams, 
 // If you need to pass a specific context, use [Client.DeleteDbcDiagnosticDataJobContext] instead.
 func (a *Client) DeleteDbcDiagnosticDataJob(params *DeleteDbcDiagnosticDataJobParams, opts ...ClientOption) (*DeleteDbcDiagnosticDataJobOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2353,7 +2353,7 @@ func (a *Client) DeleteDbcDiagnosticDataJobContext(ctx context.Context, params *
 // If you need to pass a specific context, use [Client.DeleteHueContext] instead.
 func (a *Client) DeleteHue(params *DeleteHueParams, opts ...ClientOption) (*DeleteHueOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2418,7 +2418,7 @@ func (a *Client) DeleteHueContext(ctx context.Context, params *DeleteHueParams, 
 // If you need to pass a specific context, use [Client.DeleteResourceTemplateContext] instead.
 func (a *Client) DeleteResourceTemplate(params *DeleteResourceTemplateParams, opts ...ClientOption) (*DeleteResourceTemplateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2483,7 +2483,7 @@ func (a *Client) DeleteResourceTemplateContext(ctx context.Context, params *Dele
 // If you need to pass a specific context, use [Client.DeleteSecretContext] instead.
 func (a *Client) DeleteSecret(params *DeleteSecretParams, opts ...ClientOption) (*DeleteSecretOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2548,7 +2548,7 @@ func (a *Client) DeleteSecretContext(ctx context.Context, params *DeleteSecretPa
 // If you need to pass a specific context, use [Client.DeleteUserContext] instead.
 func (a *Client) DeleteUser(params *DeleteUserParams, opts ...ClientOption) (*DeleteUserOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2613,7 +2613,7 @@ func (a *Client) DeleteUserContext(ctx context.Context, params *DeleteUserParams
 // If you need to pass a specific context, use [Client.DeleteVwContext] instead.
 func (a *Client) DeleteVw(params *DeleteVwParams, opts ...ClientOption) (*DeleteVwOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2678,7 +2678,7 @@ func (a *Client) DeleteVwContext(ctx context.Context, params *DeleteVwParams, op
 // If you need to pass a specific context, use [Client.DeleteVwDiagnosticDataJobContext] instead.
 func (a *Client) DeleteVwDiagnosticDataJob(params *DeleteVwDiagnosticDataJobParams, opts ...ClientOption) (*DeleteVwDiagnosticDataJobOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2743,7 +2743,7 @@ func (a *Client) DeleteVwDiagnosticDataJobContext(ctx context.Context, params *D
 // If you need to pass a specific context, use [Client.DescribeAllowedInstanceTypesContext] instead.
 func (a *Client) DescribeAllowedInstanceTypes(params *DescribeAllowedInstanceTypesParams, opts ...ClientOption) (*DescribeAllowedInstanceTypesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2808,7 +2808,7 @@ func (a *Client) DescribeAllowedInstanceTypesContext(ctx context.Context, params
 // If you need to pass a specific context, use [Client.DescribeBackupContext] instead.
 func (a *Client) DescribeBackup(params *DescribeBackupParams, opts ...ClientOption) (*DescribeBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2873,7 +2873,7 @@ func (a *Client) DescribeBackupContext(ctx context.Context, params *DescribeBack
 // If you need to pass a specific context, use [Client.DescribeClusterContext] instead.
 func (a *Client) DescribeCluster(params *DescribeClusterParams, opts ...ClientOption) (*DescribeClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -2938,7 +2938,7 @@ func (a *Client) DescribeClusterContext(ctx context.Context, params *DescribeClu
 // If you need to pass a specific context, use [Client.DescribeClusterDiagnosticDataJobContext] instead.
 func (a *Client) DescribeClusterDiagnosticDataJob(params *DescribeClusterDiagnosticDataJobParams, opts ...ClientOption) (*DescribeClusterDiagnosticDataJobOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3003,7 +3003,7 @@ func (a *Client) DescribeClusterDiagnosticDataJobContext(ctx context.Context, pa
 // If you need to pass a specific context, use [Client.DescribeConfigContext] instead.
 func (a *Client) DescribeConfig(params *DescribeConfigParams, opts ...ClientOption) (*DescribeConfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3068,7 +3068,7 @@ func (a *Client) DescribeConfigContext(ctx context.Context, params *DescribeConf
 // If you need to pass a specific context, use [Client.DescribeConfigDiffContext] instead.
 func (a *Client) DescribeConfigDiff(params *DescribeConfigDiffParams, opts ...ClientOption) (*DescribeConfigDiffOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3133,7 +3133,7 @@ func (a *Client) DescribeConfigDiffContext(ctx context.Context, params *Describe
 // If you need to pass a specific context, use [Client.DescribeDataVisualizationContext] instead.
 func (a *Client) DescribeDataVisualization(params *DescribeDataVisualizationParams, opts ...ClientOption) (*DescribeDataVisualizationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3198,7 +3198,7 @@ func (a *Client) DescribeDataVisualizationContext(ctx context.Context, params *D
 // If you need to pass a specific context, use [Client.DescribeDbcContext] instead.
 func (a *Client) DescribeDbc(params *DescribeDbcParams, opts ...ClientOption) (*DescribeDbcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3263,7 +3263,7 @@ func (a *Client) DescribeDbcContext(ctx context.Context, params *DescribeDbcPara
 // If you need to pass a specific context, use [Client.DescribeDbcConfigContext] instead.
 func (a *Client) DescribeDbcConfig(params *DescribeDbcConfigParams, opts ...ClientOption) (*DescribeDbcConfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3328,7 +3328,7 @@ func (a *Client) DescribeDbcConfigContext(ctx context.Context, params *DescribeD
 // If you need to pass a specific context, use [Client.DescribeDbcDiagnosticDataJobContext] instead.
 func (a *Client) DescribeDbcDiagnosticDataJob(params *DescribeDbcDiagnosticDataJobParams, opts ...ClientOption) (*DescribeDbcDiagnosticDataJobOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3393,7 +3393,7 @@ func (a *Client) DescribeDbcDiagnosticDataJobContext(ctx context.Context, params
 // If you need to pass a specific context, use [Client.DescribeHueContext] instead.
 func (a *Client) DescribeHue(params *DescribeHueParams, opts ...ClientOption) (*DescribeHueOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3458,7 +3458,7 @@ func (a *Client) DescribeHueContext(ctx context.Context, params *DescribeHuePara
 // If you need to pass a specific context, use [Client.DescribeKubeconfigContext] instead.
 func (a *Client) DescribeKubeconfig(params *DescribeKubeconfigParams, opts ...ClientOption) (*DescribeKubeconfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3523,7 +3523,7 @@ func (a *Client) DescribeKubeconfigContext(ctx context.Context, params *Describe
 // If you need to pass a specific context, use [Client.DescribeRestoreContext] instead.
 func (a *Client) DescribeRestore(params *DescribeRestoreParams, opts ...ClientOption) (*DescribeRestoreOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3588,7 +3588,7 @@ func (a *Client) DescribeRestoreContext(ctx context.Context, params *DescribeRes
 // If you need to pass a specific context, use [Client.DescribeServerSettingContext] instead.
 func (a *Client) DescribeServerSetting(params *DescribeServerSettingParams, opts ...ClientOption) (*DescribeServerSettingOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3653,7 +3653,7 @@ func (a *Client) DescribeServerSettingContext(ctx context.Context, params *Descr
 // If you need to pass a specific context, use [Client.DescribeVwContext] instead.
 func (a *Client) DescribeVw(params *DescribeVwParams, opts ...ClientOption) (*DescribeVwOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3718,7 +3718,7 @@ func (a *Client) DescribeVwContext(ctx context.Context, params *DescribeVwParams
 // If you need to pass a specific context, use [Client.DescribeVwConfigContext] instead.
 func (a *Client) DescribeVwConfig(params *DescribeVwConfigParams, opts ...ClientOption) (*DescribeVwConfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3783,7 +3783,7 @@ func (a *Client) DescribeVwConfigContext(ctx context.Context, params *DescribeVw
 // If you need to pass a specific context, use [Client.DescribeVwDiagnosticDataJobContext] instead.
 func (a *Client) DescribeVwDiagnosticDataJob(params *DescribeVwDiagnosticDataJobParams, opts ...ClientOption) (*DescribeVwDiagnosticDataJobOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3848,7 +3848,7 @@ func (a *Client) DescribeVwDiagnosticDataJobContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.GetDataVisualizationUpgradeVersionContext] instead.
 func (a *Client) GetDataVisualizationUpgradeVersion(params *GetDataVisualizationUpgradeVersionParams, opts ...ClientOption) (*GetDataVisualizationUpgradeVersionOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3913,7 +3913,7 @@ func (a *Client) GetDataVisualizationUpgradeVersionContext(ctx context.Context, 
 // If you need to pass a specific context, use [Client.GetHueUpgradeVersionContext] instead.
 func (a *Client) GetHueUpgradeVersion(params *GetHueUpgradeVersionParams, opts ...ClientOption) (*GetHueUpgradeVersionOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -3978,7 +3978,7 @@ func (a *Client) GetHueUpgradeVersionContext(ctx context.Context, params *GetHue
 // If you need to pass a specific context, use [Client.GetK8sCertJKSContext] instead.
 func (a *Client) GetK8sCertJKS(params *GetK8sCertJKSParams, opts ...ClientOption) (*GetK8sCertJKSOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4043,7 +4043,7 @@ func (a *Client) GetK8sCertJKSContext(ctx context.Context, params *GetK8sCertJKS
 // If you need to pass a specific context, use [Client.GetK8sCertPEMContext] instead.
 func (a *Client) GetK8sCertPEM(params *GetK8sCertPEMParams, opts ...ClientOption) (*GetK8sCertPEMOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4108,7 +4108,7 @@ func (a *Client) GetK8sCertPEMContext(ctx context.Context, params *GetK8sCertPEM
 // If you need to pass a specific context, use [Client.GetLogsContext] instead.
 func (a *Client) GetLogs(params *GetLogsParams, opts ...ClientOption) (*GetLogsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4173,7 +4173,7 @@ func (a *Client) GetLogsContext(ctx context.Context, params *GetLogsParams, opts
 // If you need to pass a specific context, use [Client.GetUpgradeDbcVersionsContext] instead.
 func (a *Client) GetUpgradeDbcVersions(params *GetUpgradeDbcVersionsParams, opts ...ClientOption) (*GetUpgradeDbcVersionsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4238,7 +4238,7 @@ func (a *Client) GetUpgradeDbcVersionsContext(ctx context.Context, params *GetUp
 // If you need to pass a specific context, use [Client.GetUpgradeVwVersionsContext] instead.
 func (a *Client) GetUpgradeVwVersions(params *GetUpgradeVwVersionsParams, opts ...ClientOption) (*GetUpgradeVwVersionsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4303,7 +4303,7 @@ func (a *Client) GetUpgradeVwVersionsContext(ctx context.Context, params *GetUpg
 // If you need to pass a specific context, use [Client.HealthCheckContext] instead.
 func (a *Client) HealthCheck(params *HealthCheckParams, opts ...ClientOption) (*HealthCheckOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4368,7 +4368,7 @@ func (a *Client) HealthCheckContext(ctx context.Context, params *HealthCheckPara
 // If you need to pass a specific context, use [Client.ListBackupEntitiesContext] instead.
 func (a *Client) ListBackupEntities(params *ListBackupEntitiesParams, opts ...ClientOption) (*ListBackupEntitiesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4433,7 +4433,7 @@ func (a *Client) ListBackupEntitiesContext(ctx context.Context, params *ListBack
 // If you need to pass a specific context, use [Client.ListBackupsContext] instead.
 func (a *Client) ListBackups(params *ListBackupsParams, opts ...ClientOption) (*ListBackupsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4498,7 +4498,7 @@ func (a *Client) ListBackupsContext(ctx context.Context, params *ListBackupsPara
 // If you need to pass a specific context, use [Client.ListClusterDiagnosticDataJobsContext] instead.
 func (a *Client) ListClusterDiagnosticDataJobs(params *ListClusterDiagnosticDataJobsParams, opts ...ClientOption) (*ListClusterDiagnosticDataJobsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4563,7 +4563,7 @@ func (a *Client) ListClusterDiagnosticDataJobsContext(ctx context.Context, param
 // If you need to pass a specific context, use [Client.ListClustersContext] instead.
 func (a *Client) ListClusters(params *ListClustersParams, opts ...ClientOption) (*ListClustersOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4628,7 +4628,7 @@ func (a *Client) ListClustersContext(ctx context.Context, params *ListClustersPa
 // If you need to pass a specific context, use [Client.ListConnectorTestJobsContext] instead.
 func (a *Client) ListConnectorTestJobs(params *ListConnectorTestJobsParams, opts ...ClientOption) (*ListConnectorTestJobsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4693,7 +4693,7 @@ func (a *Client) ListConnectorTestJobsContext(ctx context.Context, params *ListC
 // If you need to pass a specific context, use [Client.ListConnectorsContext] instead.
 func (a *Client) ListConnectors(params *ListConnectorsParams, opts ...ClientOption) (*ListConnectorsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4758,7 +4758,7 @@ func (a *Client) ListConnectorsContext(ctx context.Context, params *ListConnecto
 // If you need to pass a specific context, use [Client.ListDataVisualizationsContext] instead.
 func (a *Client) ListDataVisualizations(params *ListDataVisualizationsParams, opts ...ClientOption) (*ListDataVisualizationsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4823,7 +4823,7 @@ func (a *Client) ListDataVisualizationsContext(ctx context.Context, params *List
 // If you need to pass a specific context, use [Client.ListDbcConfigsContext] instead.
 func (a *Client) ListDbcConfigs(params *ListDbcConfigsParams, opts ...ClientOption) (*ListDbcConfigsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4888,7 +4888,7 @@ func (a *Client) ListDbcConfigsContext(ctx context.Context, params *ListDbcConfi
 // If you need to pass a specific context, use [Client.ListDbcDiagnosticDataJobsContext] instead.
 func (a *Client) ListDbcDiagnosticDataJobs(params *ListDbcDiagnosticDataJobsParams, opts ...ClientOption) (*ListDbcDiagnosticDataJobsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -4953,7 +4953,7 @@ func (a *Client) ListDbcDiagnosticDataJobsContext(ctx context.Context, params *L
 // If you need to pass a specific context, use [Client.ListDbcEventsContext] instead.
 func (a *Client) ListDbcEvents(params *ListDbcEventsParams, opts ...ClientOption) (*ListDbcEventsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5018,7 +5018,7 @@ func (a *Client) ListDbcEventsContext(ctx context.Context, params *ListDbcEvents
 // If you need to pass a specific context, use [Client.ListDbcsContext] instead.
 func (a *Client) ListDbcs(params *ListDbcsParams, opts ...ClientOption) (*ListDbcsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5083,7 +5083,7 @@ func (a *Client) ListDbcsContext(ctx context.Context, params *ListDbcsParams, op
 // If you need to pass a specific context, use [Client.ListEventsContext] instead.
 func (a *Client) ListEvents(params *ListEventsParams, opts ...ClientOption) (*ListEventsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5148,7 +5148,7 @@ func (a *Client) ListEventsContext(ctx context.Context, params *ListEventsParams
 // If you need to pass a specific context, use [Client.ListHuesContext] instead.
 func (a *Client) ListHues(params *ListHuesParams, opts ...ClientOption) (*ListHuesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5213,7 +5213,7 @@ func (a *Client) ListHuesContext(ctx context.Context, params *ListHuesParams, op
 // If you need to pass a specific context, use [Client.ListLatestVersionsContext] instead.
 func (a *Client) ListLatestVersions(params *ListLatestVersionsParams, opts ...ClientOption) (*ListLatestVersionsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5278,7 +5278,7 @@ func (a *Client) ListLatestVersionsContext(ctx context.Context, params *ListLate
 // If you need to pass a specific context, use [Client.ListResourceTemplatesContext] instead.
 func (a *Client) ListResourceTemplates(params *ListResourceTemplatesParams, opts ...ClientOption) (*ListResourceTemplatesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5343,7 +5343,7 @@ func (a *Client) ListResourceTemplatesContext(ctx context.Context, params *ListR
 // If you need to pass a specific context, use [Client.ListRestoresContext] instead.
 func (a *Client) ListRestores(params *ListRestoresParams, opts ...ClientOption) (*ListRestoresOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5408,7 +5408,7 @@ func (a *Client) ListRestoresContext(ctx context.Context, params *ListRestoresPa
 // If you need to pass a specific context, use [Client.ListSecretsContext] instead.
 func (a *Client) ListSecrets(params *ListSecretsParams, opts ...ClientOption) (*ListSecretsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5473,7 +5473,7 @@ func (a *Client) ListSecretsContext(ctx context.Context, params *ListSecretsPara
 // If you need to pass a specific context, use [Client.ListUsersContext] instead.
 func (a *Client) ListUsers(params *ListUsersParams, opts ...ClientOption) (*ListUsersOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5538,7 +5538,7 @@ func (a *Client) ListUsersContext(ctx context.Context, params *ListUsersParams, 
 // If you need to pass a specific context, use [Client.ListVwConfigsContext] instead.
 func (a *Client) ListVwConfigs(params *ListVwConfigsParams, opts ...ClientOption) (*ListVwConfigsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5603,7 +5603,7 @@ func (a *Client) ListVwConfigsContext(ctx context.Context, params *ListVwConfigs
 // If you need to pass a specific context, use [Client.ListVwDiagnosticDataJobsContext] instead.
 func (a *Client) ListVwDiagnosticDataJobs(params *ListVwDiagnosticDataJobsParams, opts ...ClientOption) (*ListVwDiagnosticDataJobsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5668,7 +5668,7 @@ func (a *Client) ListVwDiagnosticDataJobsContext(ctx context.Context, params *Li
 // If you need to pass a specific context, use [Client.ListVwEventsContext] instead.
 func (a *Client) ListVwEvents(params *ListVwEventsParams, opts ...ClientOption) (*ListVwEventsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5733,7 +5733,7 @@ func (a *Client) ListVwEventsContext(ctx context.Context, params *ListVwEventsPa
 // If you need to pass a specific context, use [Client.ListVwsContext] instead.
 func (a *Client) ListVws(params *ListVwsParams, opts ...ClientOption) (*ListVwsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5798,7 +5798,7 @@ func (a *Client) ListVwsContext(ctx context.Context, params *ListVwsParams, opts
 // If you need to pass a specific context, use [Client.RebuildDbcContext] instead.
 func (a *Client) RebuildDbc(params *RebuildDbcParams, opts ...ClientOption) (*RebuildDbcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5863,7 +5863,7 @@ func (a *Client) RebuildDbcContext(ctx context.Context, params *RebuildDbcParams
 // If you need to pass a specific context, use [Client.RebuildHueContext] instead.
 func (a *Client) RebuildHue(params *RebuildHueParams, opts ...ClientOption) (*RebuildHueOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5928,7 +5928,7 @@ func (a *Client) RebuildHueContext(ctx context.Context, params *RebuildHueParams
 // If you need to pass a specific context, use [Client.RebuildVwContext] instead.
 func (a *Client) RebuildVw(params *RebuildVwParams, opts ...ClientOption) (*RebuildVwOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -5993,7 +5993,7 @@ func (a *Client) RebuildVwContext(ctx context.Context, params *RebuildVwParams, 
 // If you need to pass a specific context, use [Client.RegisterSecretContext] instead.
 func (a *Client) RegisterSecret(params *RegisterSecretParams, opts ...ClientOption) (*RegisterSecretOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6058,7 +6058,7 @@ func (a *Client) RegisterSecretContext(ctx context.Context, params *RegisterSecr
 // If you need to pass a specific context, use [Client.RenewCertificatesContext] instead.
 func (a *Client) RenewCertificates(params *RenewCertificatesParams, opts ...ClientOption) (*RenewCertificatesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6123,7 +6123,7 @@ func (a *Client) RenewCertificatesContext(ctx context.Context, params *RenewCert
 // If you need to pass a specific context, use [Client.ResetServerSettingsContext] instead.
 func (a *Client) ResetServerSettings(params *ResetServerSettingsParams, opts ...ClientOption) (*ResetServerSettingsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6188,7 +6188,7 @@ func (a *Client) ResetServerSettingsContext(ctx context.Context, params *ResetSe
 // If you need to pass a specific context, use [Client.RestoreBackupContext] instead.
 func (a *Client) RestoreBackup(params *RestoreBackupParams, opts ...ClientOption) (*RestoreBackupOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6253,7 +6253,7 @@ func (a *Client) RestoreBackupContext(ctx context.Context, params *RestoreBackup
 // If you need to pass a specific context, use [Client.RestoreClusterContext] instead.
 func (a *Client) RestoreCluster(params *RestoreClusterParams, opts ...ClientOption) (*RestoreClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6318,7 +6318,7 @@ func (a *Client) RestoreClusterContext(ctx context.Context, params *RestoreClust
 // If you need to pass a specific context, use [Client.ResumeClusterContext] instead.
 func (a *Client) ResumeCluster(params *ResumeClusterParams, opts ...ClientOption) (*ResumeClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6383,7 +6383,7 @@ func (a *Client) ResumeClusterContext(ctx context.Context, params *ResumeCluster
 // If you need to pass a specific context, use [Client.StartDbcContext] instead.
 func (a *Client) StartDbc(params *StartDbcParams, opts ...ClientOption) (*StartDbcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6448,7 +6448,7 @@ func (a *Client) StartDbcContext(ctx context.Context, params *StartDbcParams, op
 // If you need to pass a specific context, use [Client.StartVwContext] instead.
 func (a *Client) StartVw(params *StartVwParams, opts ...ClientOption) (*StartVwOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6513,7 +6513,7 @@ func (a *Client) StartVwContext(ctx context.Context, params *StartVwParams, opts
 // If you need to pass a specific context, use [Client.SuspendClusterContext] instead.
 func (a *Client) SuspendCluster(params *SuspendClusterParams, opts ...ClientOption) (*SuspendClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6578,7 +6578,7 @@ func (a *Client) SuspendClusterContext(ctx context.Context, params *SuspendClust
 // If you need to pass a specific context, use [Client.SuspendDbcContext] instead.
 func (a *Client) SuspendDbc(params *SuspendDbcParams, opts ...ClientOption) (*SuspendDbcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6643,7 +6643,7 @@ func (a *Client) SuspendDbcContext(ctx context.Context, params *SuspendDbcParams
 // If you need to pass a specific context, use [Client.SuspendVwContext] instead.
 func (a *Client) SuspendVw(params *SuspendVwParams, opts ...ClientOption) (*SuspendVwOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6708,7 +6708,7 @@ func (a *Client) SuspendVwContext(ctx context.Context, params *SuspendVwParams, 
 // If you need to pass a specific context, use [Client.UpdateAwsClusterContext] instead.
 func (a *Client) UpdateAwsCluster(params *UpdateAwsClusterParams, opts ...ClientOption) (*UpdateAwsClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6773,7 +6773,7 @@ func (a *Client) UpdateAwsClusterContext(ctx context.Context, params *UpdateAwsC
 // If you need to pass a specific context, use [Client.UpdateAzureClusterContext] instead.
 func (a *Client) UpdateAzureCluster(params *UpdateAzureClusterParams, opts ...ClientOption) (*UpdateAzureClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6838,7 +6838,7 @@ func (a *Client) UpdateAzureClusterContext(ctx context.Context, params *UpdateAz
 // If you need to pass a specific context, use [Client.UpdateClusterContext] instead.
 func (a *Client) UpdateCluster(params *UpdateClusterParams, opts ...ClientOption) (*UpdateClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6903,7 +6903,7 @@ func (a *Client) UpdateClusterContext(ctx context.Context, params *UpdateCluster
 // If you need to pass a specific context, use [Client.UpdateConnectorContext] instead.
 func (a *Client) UpdateConnector(params *UpdateConnectorParams, opts ...ClientOption) (*UpdateConnectorOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -6968,7 +6968,7 @@ func (a *Client) UpdateConnectorContext(ctx context.Context, params *UpdateConne
 // If you need to pass a specific context, use [Client.UpdateDataVisualizationContext] instead.
 func (a *Client) UpdateDataVisualization(params *UpdateDataVisualizationParams, opts ...ClientOption) (*UpdateDataVisualizationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7033,7 +7033,7 @@ func (a *Client) UpdateDataVisualizationContext(ctx context.Context, params *Upd
 // If you need to pass a specific context, use [Client.UpdateDbcContext] instead.
 func (a *Client) UpdateDbc(params *UpdateDbcParams, opts ...ClientOption) (*UpdateDbcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7098,7 +7098,7 @@ func (a *Client) UpdateDbcContext(ctx context.Context, params *UpdateDbcParams, 
 // If you need to pass a specific context, use [Client.UpdateDbcConfigContext] instead.
 func (a *Client) UpdateDbcConfig(params *UpdateDbcConfigParams, opts ...ClientOption) (*UpdateDbcConfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7163,7 +7163,7 @@ func (a *Client) UpdateDbcConfigContext(ctx context.Context, params *UpdateDbcCo
 // If you need to pass a specific context, use [Client.UpdateHueContext] instead.
 func (a *Client) UpdateHue(params *UpdateHueParams, opts ...ClientOption) (*UpdateHueOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7228,7 +7228,7 @@ func (a *Client) UpdateHueContext(ctx context.Context, params *UpdateHueParams, 
 // If you need to pass a specific context, use [Client.UpdatePrivateClusterContext] instead.
 func (a *Client) UpdatePrivateCluster(params *UpdatePrivateClusterParams, opts ...ClientOption) (*UpdatePrivateClusterOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7293,7 +7293,7 @@ func (a *Client) UpdatePrivateClusterContext(ctx context.Context, params *Update
 // If you need to pass a specific context, use [Client.UpdateResourceTemplateContext] instead.
 func (a *Client) UpdateResourceTemplate(params *UpdateResourceTemplateParams, opts ...ClientOption) (*UpdateResourceTemplateOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7358,7 +7358,7 @@ func (a *Client) UpdateResourceTemplateContext(ctx context.Context, params *Upda
 // If you need to pass a specific context, use [Client.UpdateServerSettingContext] instead.
 func (a *Client) UpdateServerSetting(params *UpdateServerSettingParams, opts ...ClientOption) (*UpdateServerSettingOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7423,7 +7423,7 @@ func (a *Client) UpdateServerSettingContext(ctx context.Context, params *UpdateS
 // If you need to pass a specific context, use [Client.UpdateSSHKeyContext] instead.
 func (a *Client) UpdateSSHKey(params *UpdateSSHKeyParams, opts ...ClientOption) (*UpdateSSHKeyOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7488,7 +7488,7 @@ func (a *Client) UpdateSSHKeyContext(ctx context.Context, params *UpdateSSHKeyPa
 // If you need to pass a specific context, use [Client.UpdateVwContext] instead.
 func (a *Client) UpdateVw(params *UpdateVwParams, opts ...ClientOption) (*UpdateVwOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7553,7 +7553,7 @@ func (a *Client) UpdateVwContext(ctx context.Context, params *UpdateVwParams, op
 // If you need to pass a specific context, use [Client.UpdateVwConfigContext] instead.
 func (a *Client) UpdateVwConfig(params *UpdateVwConfigParams, opts ...ClientOption) (*UpdateVwConfigOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7618,7 +7618,7 @@ func (a *Client) UpdateVwConfigContext(ctx context.Context, params *UpdateVwConf
 // If you need to pass a specific context, use [Client.UpgradeDataVisualizationContext] instead.
 func (a *Client) UpgradeDataVisualization(params *UpgradeDataVisualizationParams, opts ...ClientOption) (*UpgradeDataVisualizationOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7683,7 +7683,7 @@ func (a *Client) UpgradeDataVisualizationContext(ctx context.Context, params *Up
 // If you need to pass a specific context, use [Client.UpgradeDbcContext] instead.
 func (a *Client) UpgradeDbc(params *UpgradeDbcParams, opts ...ClientOption) (*UpgradeDbcOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7748,7 +7748,7 @@ func (a *Client) UpgradeDbcContext(ctx context.Context, params *UpgradeDbcParams
 // If you need to pass a specific context, use [Client.UpgradeHueContext] instead.
 func (a *Client) UpgradeHue(params *UpgradeHueParams, opts ...ClientOption) (*UpgradeHueOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -7813,7 +7813,7 @@ func (a *Client) UpgradeHueContext(ctx context.Context, params *UpgradeHueParams
 // If you need to pass a specific context, use [Client.UpgradeVwContext] instead.
 func (a *Client) UpgradeVw(params *UpgradeVwParams, opts ...ClientOption) (*UpgradeVwOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()

@@ -19,12 +19,12 @@ type StartInstancesResponse struct {
 }
 
 // Validate validates this start instances response
-func (m *StartInstancesResponse) Validate(formats strfmt.Registry) error {
+func (m *StartInstancesResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this start instances response based on context it is used
-func (m *StartInstancesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartInstancesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

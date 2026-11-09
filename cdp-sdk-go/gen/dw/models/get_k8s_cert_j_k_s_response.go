@@ -23,12 +23,12 @@ type GetK8sCertJKSResponse struct {
 }
 
 // Validate validates this get k8s cert j k s response
-func (m *GetK8sCertJKSResponse) Validate(formats strfmt.Registry) error {
+func (m *GetK8sCertJKSResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this get k8s cert j k s response based on context it is used
-func (m *GetK8sCertJKSResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetK8sCertJKSResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

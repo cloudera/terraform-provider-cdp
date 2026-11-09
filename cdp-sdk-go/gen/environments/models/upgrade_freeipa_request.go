@@ -51,7 +51,7 @@ func (m *UpgradeFreeipaRequest) validateEnvironmentName(formats strfmt.Registry)
 }
 
 // ContextValidate validates this upgrade freeipa request based on context it is used
-func (m *UpgradeFreeipaRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpgradeFreeipaRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

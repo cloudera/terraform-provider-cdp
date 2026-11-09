@@ -45,7 +45,7 @@ func (m *DescribeRecipeRequest) validateRecipeName(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this describe recipe request based on context it is used
-func (m *DescribeRecipeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeRecipeRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

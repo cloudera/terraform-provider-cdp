@@ -57,7 +57,7 @@ func (m *ListCustomConfigurationsRequest) validatePageSize(formats strfmt.Regist
 }
 
 // ContextValidate validates this list custom configurations request based on context it is used
-func (m *ListCustomConfigurationsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListCustomConfigurationsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

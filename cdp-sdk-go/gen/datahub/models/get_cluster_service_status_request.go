@@ -45,7 +45,7 @@ func (m *GetClusterServiceStatusRequest) validateClusterName(formats strfmt.Regi
 }
 
 // ContextValidate validates this get cluster service status request based on context it is used
-func (m *GetClusterServiceStatusRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetClusterServiceStatusRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

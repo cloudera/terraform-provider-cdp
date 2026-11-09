@@ -90,7 +90,7 @@ func (m *ListEnvironmentsResponse) contextValidateEnvironments(ctx context.Conte
 		if m.Environments[i] != nil {
 
 			if typeutils.IsZero(m.Environments[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Environments[i].ContextValidate(ctx, formats); err != nil {

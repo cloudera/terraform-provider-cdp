@@ -79,7 +79,7 @@ func (m *DescribeDbcDiagnosticDataJobRequest) validateJobID(formats strfmt.Regis
 }
 
 // ContextValidate validates this describe dbc diagnostic data job request based on context it is used
-func (m *DescribeDbcDiagnosticDataJobRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeDbcDiagnosticDataJobRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -11,7 +11,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// VwType Type of Virtual Warehouse: 'hive' or 'impala'.
+// VwType Type of Virtual Warehouse: 'hive', 'impala', 'trino'.
 //
 // swagger:model VwType
 type VwType string
@@ -32,6 +32,9 @@ const (
 
 	// VwTypeImpala captures enum value "impala"
 	VwTypeImpala VwType = "impala"
+
+	// VwTypeTrino captures enum value "trino"
+	VwTypeTrino VwType = "trino"
 )
 
 // for schema
@@ -39,7 +42,7 @@ var vwTypeEnum []any
 
 func init() {
 	var res []VwType
-	if err := json.Unmarshal([]byte(`["hive","impala"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["hive","impala","trino"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -70,6 +73,6 @@ func (m VwType) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this vw type based on context it is used
-func (m VwType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m VwType) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

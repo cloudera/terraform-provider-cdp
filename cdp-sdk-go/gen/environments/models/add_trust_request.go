@@ -161,7 +161,7 @@ func (m *AddTrustRequest) contextValidateKdcServers(ctx context.Context, formats
 		if m.KdcServers[i] != nil {
 
 			if typeutils.IsZero(m.KdcServers[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.KdcServers[i].ContextValidate(ctx, formats); err != nil {

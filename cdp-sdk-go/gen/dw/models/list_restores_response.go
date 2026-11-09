@@ -90,7 +90,7 @@ func (m *ListRestoresResponse) contextValidateRestores(ctx context.Context, form
 		if m.Restores[i] != nil {
 
 			if typeutils.IsZero(m.Restores[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Restores[i].ContextValidate(ctx, formats); err != nil {

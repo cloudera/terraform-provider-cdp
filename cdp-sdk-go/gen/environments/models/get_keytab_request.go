@@ -48,7 +48,7 @@ func (m *GetKeytabRequest) validateEnvironmentName(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this get keytab request based on context it is used
-func (m *GetKeytabRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetKeytabRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

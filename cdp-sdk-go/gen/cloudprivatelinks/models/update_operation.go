@@ -72,6 +72,6 @@ func (m UpdateOperation) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this update operation based on context it is used
-func (m UpdateOperation) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m UpdateOperation) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

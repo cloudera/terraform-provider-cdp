@@ -97,7 +97,7 @@ func (m *RecoverDatalakeRequest) validateRecoveryType(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this recover datalake request based on context it is used
-func (m *RecoverDatalakeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RecoverDatalakeRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

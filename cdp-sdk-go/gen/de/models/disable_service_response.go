@@ -19,12 +19,12 @@ type DisableServiceResponse struct {
 }
 
 // Validate validates this disable service response
-func (m *DisableServiceResponse) Validate(formats strfmt.Registry) error {
+func (m *DisableServiceResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this disable service response based on context it is used
-func (m *DisableServiceResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DisableServiceResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

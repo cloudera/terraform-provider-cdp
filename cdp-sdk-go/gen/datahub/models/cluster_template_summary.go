@@ -134,7 +134,7 @@ func (m *ClusterTemplateSummary) contextValidateTags(ctx context.Context, format
 		if m.Tags[i] != nil {
 
 			if typeutils.IsZero(m.Tags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {

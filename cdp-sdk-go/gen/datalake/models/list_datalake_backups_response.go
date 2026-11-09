@@ -87,7 +87,7 @@ func (m *ListDatalakeBackupsResponse) contextValidateBackups(ctx context.Context
 		if m.Backups[i] != nil {
 
 			if typeutils.IsZero(m.Backups[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Backups[i].ContextValidate(ctx, formats); err != nil {

@@ -87,7 +87,7 @@ func (m *ListDbcsResponse) contextValidateDbcs(ctx context.Context, formats strf
 		if m.Dbcs[i] != nil {
 
 			if typeutils.IsZero(m.Dbcs[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Dbcs[i].ContextValidate(ctx, formats); err != nil {

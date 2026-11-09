@@ -68,7 +68,7 @@ func (m *PrepareUpgradeDatabaseRequest) validateEnvironment(formats strfmt.Regis
 }
 
 // ContextValidate validates this prepare upgrade database request based on context it is used
-func (m *PrepareUpgradeDatabaseRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *PrepareUpgradeDatabaseRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

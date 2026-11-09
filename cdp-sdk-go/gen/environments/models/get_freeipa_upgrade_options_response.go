@@ -146,7 +146,7 @@ func (m *GetFreeipaUpgradeOptionsResponse) contextValidateImages(ctx context.Con
 		if m.Images[i] != nil {
 
 			if typeutils.IsZero(m.Images[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Images[i].ContextValidate(ctx, formats); err != nil {

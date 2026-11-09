@@ -19,12 +19,12 @@ type ClusterExtension struct {
 }
 
 // Validate validates this cluster extension
-func (m *ClusterExtension) Validate(formats strfmt.Registry) error {
+func (m *ClusterExtension) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this cluster extension based on context it is used
-func (m *ClusterExtension) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ClusterExtension) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

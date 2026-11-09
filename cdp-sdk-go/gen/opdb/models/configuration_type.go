@@ -81,6 +81,6 @@ func (m ConfigurationType) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this configuration type based on context it is used
-func (m ConfigurationType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m ConfigurationType) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

@@ -34,12 +34,12 @@ type AuthorizePrivateLinkServiceAccessResult struct {
 }
 
 // Validate validates this authorize private link service access result
-func (m *AuthorizePrivateLinkServiceAccessResult) Validate(formats strfmt.Registry) error {
+func (m *AuthorizePrivateLinkServiceAccessResult) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this authorize private link service access result based on context it is used
-func (m *AuthorizePrivateLinkServiceAccessResult) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AuthorizePrivateLinkServiceAccessResult) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

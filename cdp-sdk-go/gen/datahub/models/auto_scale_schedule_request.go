@@ -87,7 +87,7 @@ func (m *AutoScaleScheduleRequest) contextValidateSchedules(ctx context.Context,
 		if m.Schedules[i] != nil {
 
 			if typeutils.IsZero(m.Schedules[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Schedules[i].ContextValidate(ctx, formats); err != nil {

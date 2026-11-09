@@ -90,7 +90,7 @@ func (m *ListAuditCredentialsResponse) contextValidateCredentials(ctx context.Co
 		if m.Credentials[i] != nil {
 
 			if typeutils.IsZero(m.Credentials[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Credentials[i].ContextValidate(ctx, formats); err != nil {

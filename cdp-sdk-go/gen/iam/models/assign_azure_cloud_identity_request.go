@@ -62,7 +62,7 @@ func (m *AssignAzureCloudIdentityRequest) validateObjectID(formats strfmt.Regist
 }
 
 // ContextValidate validates this assign azure cloud identity request based on context it is used
-func (m *AssignAzureCloudIdentityRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AssignAzureCloudIdentityRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

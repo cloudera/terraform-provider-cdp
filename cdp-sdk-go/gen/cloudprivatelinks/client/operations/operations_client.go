@@ -122,7 +122,7 @@ type ClientService interface {
 // If you need to pass a specific context, use [Client.AuthorizePrivateLinkServiceAccessContext] instead.
 func (a *Client) AuthorizePrivateLinkServiceAccess(params *AuthorizePrivateLinkServiceAccessParams, opts ...ClientOption) (*AuthorizePrivateLinkServiceAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -187,7 +187,7 @@ func (a *Client) AuthorizePrivateLinkServiceAccessContext(ctx context.Context, p
 // If you need to pass a specific context, use [Client.CreatePrivateLinkEndpointContext] instead.
 func (a *Client) CreatePrivateLinkEndpoint(params *CreatePrivateLinkEndpointParams, opts ...ClientOption) (*CreatePrivateLinkEndpointOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -252,7 +252,7 @@ func (a *Client) CreatePrivateLinkEndpointContext(ctx context.Context, params *C
 // If you need to pass a specific context, use [Client.DeletePrivateLinkEndpointContext] instead.
 func (a *Client) DeletePrivateLinkEndpoint(params *DeletePrivateLinkEndpointParams, opts ...ClientOption) (*DeletePrivateLinkEndpointOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -317,7 +317,7 @@ func (a *Client) DeletePrivateLinkEndpointContext(ctx context.Context, params *D
 // If you need to pass a specific context, use [Client.GetPrivateLinkStatusContext] instead.
 func (a *Client) GetPrivateLinkStatus(params *GetPrivateLinkStatusParams, opts ...ClientOption) (*GetPrivateLinkStatusOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -382,7 +382,7 @@ func (a *Client) GetPrivateLinkStatusContext(ctx context.Context, params *GetPri
 // If you need to pass a specific context, use [Client.ListPrivateLinkEndpointStatusesContext] instead.
 func (a *Client) ListPrivateLinkEndpointStatuses(params *ListPrivateLinkEndpointStatusesParams, opts ...ClientOption) (*ListPrivateLinkEndpointStatusesOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -447,7 +447,7 @@ func (a *Client) ListPrivateLinkEndpointStatusesContext(ctx context.Context, par
 // If you need to pass a specific context, use [Client.ListPrivateLinkServicesForRegionContext] instead.
 func (a *Client) ListPrivateLinkServicesForRegion(params *ListPrivateLinkServicesForRegionParams, opts ...ClientOption) (*ListPrivateLinkServicesForRegionOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -512,7 +512,7 @@ func (a *Client) ListPrivateLinkServicesForRegionContext(ctx context.Context, pa
 // If you need to pass a specific context, use [Client.MigratePrivateLinkEndpointsContext] instead.
 func (a *Client) MigratePrivateLinkEndpoints(params *MigratePrivateLinkEndpointsParams, opts ...ClientOption) (*MigratePrivateLinkEndpointsOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -577,7 +577,7 @@ func (a *Client) MigratePrivateLinkEndpointsContext(ctx context.Context, params 
 // If you need to pass a specific context, use [Client.RevokePrivateLinkServiceAccessContext] instead.
 func (a *Client) RevokePrivateLinkServiceAccess(params *RevokePrivateLinkServiceAccessParams, opts ...ClientOption) (*RevokePrivateLinkServiceAccessOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()
@@ -642,7 +642,7 @@ func (a *Client) RevokePrivateLinkServiceAccessContext(ctx context.Context, para
 // If you need to pass a specific context, use [Client.UpdatePrivateLinkEndpointContext] instead.
 func (a *Client) UpdatePrivateLinkEndpoint(params *UpdatePrivateLinkEndpointParams, opts ...ClientOption) (*UpdatePrivateLinkEndpointOK, error) {
 	var ctx context.Context
-	if params.inner.ctx != nil {
+	if params != nil && params.inner.ctx != nil {
 		ctx = params.inner.ctx
 	} else {
 		ctx = context.Background()

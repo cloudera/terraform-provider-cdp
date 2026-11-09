@@ -45,7 +45,7 @@ func (m *ListFreeipaSecretTypesRequest) validateEnvironment(formats strfmt.Regis
 }
 
 // ContextValidate validates this list freeipa secret types request based on context it is used
-func (m *ListFreeipaSecretTypesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListFreeipaSecretTypesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

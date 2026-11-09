@@ -178,7 +178,7 @@ func (m *SetupActiveDirectoryTrustRequest) contextValidateKdcServers(ctx context
 		if m.KdcServers[i] != nil {
 
 			if typeutils.IsZero(m.KdcServers[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.KdcServers[i].ContextValidate(ctx, formats); err != nil {

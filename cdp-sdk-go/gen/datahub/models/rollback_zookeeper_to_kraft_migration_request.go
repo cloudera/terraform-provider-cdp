@@ -45,7 +45,7 @@ func (m *RollbackZookeeperToKraftMigrationRequest) validateCrn(formats strfmt.Re
 }
 
 // ContextValidate validates this rollback zookeeper to kraft migration request based on context it is used
-func (m *RollbackZookeeperToKraftMigrationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RollbackZookeeperToKraftMigrationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

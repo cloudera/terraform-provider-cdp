@@ -48,7 +48,7 @@ func (m *DeleteSSHPublicKeyRequest) validateCrnOrFingerprint(formats strfmt.Regi
 }
 
 // ContextValidate validates this delete Ssh public key request based on context it is used
-func (m *DeleteSSHPublicKeyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteSSHPublicKeyRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

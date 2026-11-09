@@ -110,7 +110,7 @@ func (m *CreateRecipeRequest) validateType(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this create recipe request based on context it is used
-func (m *CreateRecipeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateRecipeRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -62,7 +62,7 @@ func (m *RemoveMachineUserFromGroupRequest) validateMachineUserName(formats strf
 }
 
 // ContextValidate validates this remove machine user from group request based on context it is used
-func (m *RemoveMachineUserFromGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RemoveMachineUserFromGroupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

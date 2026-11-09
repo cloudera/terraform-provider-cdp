@@ -148,7 +148,7 @@ func (m *CreateClusterDiagnosticDataJobRequest) validateStartTime(formats strfmt
 }
 
 // ContextValidate validates this create cluster diagnostic data job request based on context it is used
-func (m *CreateClusterDiagnosticDataJobRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateClusterDiagnosticDataJobRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

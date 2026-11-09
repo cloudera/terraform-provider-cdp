@@ -6,7 +6,7 @@ x-form-factors: public
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.161 (BETA)
+  version: 0.9.164 (BETA)
   title: Cloudera Data hub Service
   license:
     name: Apache 2.0
@@ -1305,6 +1305,48 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datahub/checkClusterUpgradeReinitiable:
+    post:
+      summary: Checks if the last failed upgrade operation on a cluster can be reinitiated.
+      description: Check if there was any failed upgrade operation on a cluster and whether it can be reinitiated or not. Return the reason why the upgrade can or cannot be reinitiated.
+      operationId: checkClusterUpgradeReinitiable
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CheckClusterUpgradeReinitiableRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/CheckClusterUpgradeReinitiableResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datahub/reinitiateClusterUpgrade:
+    post:
+      summary: Reinitiates the last failed upgrade operation on a cluster.
+      description: Checks if there was any failed upgrade operation on a cluster, and whether it can be reinitiated or not. If it can be reinitiated, it tries to collect the parameters used for that failed upgrade, and if it is able to collect them then reinitiates the upgrade operation.
+      operationId: reinitiateClusterUpgrade
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ReinitiateClusterUpgradeRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ReinitiateClusterUpgradeResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
   /api/v1/datahub/startDatabaseUpgrade:
     post:
       summary: Upgrades the database of the Data Hub cluster.
@@ -1623,6 +1665,48 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/datahub/refreshDatalakeConfigurations:
+    post:
+      summary: Refresh configurations from the Data Lake of a Data Hub cluster by name or CRN.
+      description: Refresh configurations from the Data Lake of a Data Hub cluster by name or CRN.
+      operationId: refreshDatalakeConfigurations
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RefreshDatalakeConfigurationsRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/RefreshDatalakeConfigurationsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/datahub/triggerDiskSync:
+    post:
+      summary: Triggers disk sync job for a datahub either in dry run or persist mode.
+      description: Triggers disk sync job for a datahub cluster.
+      operationId: triggerDiskSync
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TriggerDiskSyncRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/TriggerDiskSyncResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Error:
     type: object
@@ -1826,6 +1910,11 @@ definitions:
       instanceType:
         type: string
         description: The type of the instance.
+      fallbackInstanceTypes:
+        type: array
+        items:
+          type: string
+        description: A list of fallback instance types, ordered by priority, to be used if the primary instanceType is unavailable in the specified zone.
   DiskOptions:
     type: object
     description: Attached disk configuration(s).
@@ -2069,11 +2158,8 @@ definitions:
         type: string
         description: The CRN of the cluster template used for the cluster creation.
       certificateExpirationState:
-        type: string
-        description: Indicates the certificate status on the cluster.
-        enum:
-          - VALID
-          - HOST_CERT_EXPIRING
+        $ref: '#/definitions/CertificateExpirationState'
+        description: Indicates the certificate expiration status on the cluster.
   Recipe:
     type: object
     description: Information about a recipe.
@@ -2759,6 +2845,11 @@ definitions:
         items:
           $ref: '#/definitions/AttachedVolumeRequest'
         description: The attached volume configuration. This does not include root volume.
+      fallbackInstanceTypes:
+        type: array
+        items:
+          type: string
+        description: A list of fallback instance types, ordered by priority, to be used if the primary instanceType is unavailable in the specified zone.
       rootVolumeSize:
         type: integer
         format: int32
@@ -2858,6 +2949,11 @@ definitions:
         items:
           $ref: '#/definitions/AttachedVolumeRequest'
         description: The attached volume configuration. This does not include root volume.
+      fallbackInstanceTypes:
+        type: array
+        items:
+          type: string
+        description: A list of fallback instance types, ordered by priority, to be used if the primary instanceType is unavailable in the specified zone.
       recipeNames:
         type: array
         items:
@@ -5024,6 +5120,53 @@ definitions:
       operationId:
         type: string
         description: Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
+  CheckClusterUpgradeReinitiableRequest:
+    type: object
+    description: Request object to check if Data Lake upgrade can be reinitiated after a failure.
+    required:
+      - cluster
+    properties:
+      cluster:
+        type: string
+        description: The name or CRN of the Data Hub cluster.
+  CheckClusterUpgradeReinitiableResponse:
+    type: object
+    description: Response object for Data Hub upgrade reinitiability check.
+    properties:
+      upgradeReinitiateStatus:
+        type: string
+        description: Value indicating whether the upgrade can be reinitiated after a failure.
+      reason:
+        type: string
+        description: The reason why the upgrade can or cannot be reinitiated.
+  ReinitiateClusterUpgradeRequest:
+    type: object
+    description: Request object to reinitiate Data Hub upgrade after a failure.
+    required:
+      - cluster
+    properties:
+      cluster:
+        type: string
+        description: The name or CRN of the Data Hub cluster.
+  ReinitiateClusterUpgradeResponse:
+    type: object
+    description: Response object for Data Hub upgrade reinitiation.
+    properties:
+      current:
+        $ref: '#/definitions/ImageInfo'
+        description: Information about the current image
+      upgradeCandidates:
+        type: array
+        description: List of images and components to upgrade to
+        items:
+          $ref: '#/definitions/ImageInfo'
+          description: Information about an image
+      reason:
+        type: string
+        description: The reason why upgrade is not possible
+      operationId:
+        type: string
+        description: Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
   StartDatabaseUpgradeRequest:
     type: object
     description: Request object for Data Hub database upgrade.
@@ -5422,3 +5565,55 @@ definitions:
       operationId:
         type: string
         description: Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
+  RefreshDatalakeConfigurationsRequest:
+    type: object
+    description: Request object for refreshing Data Lake configurations.
+    required:
+      - datahub
+    properties:
+      datahub:
+        type: string
+        description: The name or CRN of the Data Hub.
+      rollingRestart:
+        type: boolean
+        default: false
+        description: If set to true Cloudera Manager will use Rolling Restart to restart services running on the cluster. This operation can take a long time. Default value is false.
+  RefreshDatalakeConfigurationsResponse:
+    type: object
+    description: Response object for refreshing Data Lake configurations.
+    properties:
+      flowId:
+        type: string
+        description: Flow ID of started operation.
+      type:
+        type: string
+        description: Flow Type of started operation.
+  TriggerDiskSyncRequest:
+    type: object
+    description: Request object to trigger disk sync.
+    required:
+      - datahubCrn
+      - diskSyncMode
+    properties:
+      datahubCrn:
+        type: string
+        description: The CRN of the datahub.
+      diskSyncMode:
+        type: string
+        description: Specifies whether the identified discrepancies should be persisted. Use DRY_RUN to log without saving, or PERSIST to save changes.
+        enum:
+          - DRY_RUN
+          - PERSIST
+  TriggerDiskSyncResponse:
+    type: object
+    description: Response object for triggering disk sync request.
+    properties:
+      flowIdentifier:
+        type: string
+        description: The identifier of the flow that was triggered.
+  CertificateExpirationState:
+    type: string
+    description: Indicates the certificate expiration status on the cluster.
+    enum:
+      - VALID
+      - HOST_CERT_EXPIRING

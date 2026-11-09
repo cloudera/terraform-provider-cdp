@@ -22,12 +22,12 @@ type AnonymizationRuleResponse struct {
 }
 
 // Validate validates this anonymization rule response
-func (m *AnonymizationRuleResponse) Validate(formats strfmt.Registry) error {
+func (m *AnonymizationRuleResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this anonymization rule response based on context it is used
-func (m *AnonymizationRuleResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AnonymizationRuleResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

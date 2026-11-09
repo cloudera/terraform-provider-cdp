@@ -62,7 +62,7 @@ func (m *RebuildHueRequest) validateHueID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this rebuild hue request based on context it is used
-func (m *RebuildHueRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RebuildHueRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

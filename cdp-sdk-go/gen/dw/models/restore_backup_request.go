@@ -51,7 +51,7 @@ func (m *RestoreBackupRequest) validateBackupCrn(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this restore backup request based on context it is used
-func (m *RestoreBackupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RestoreBackupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

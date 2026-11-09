@@ -87,7 +87,7 @@ func (m *ListDataVisualizationsResponse) contextValidateDataVisualizations(ctx c
 		if m.DataVisualizations[i] != nil {
 
 			if typeutils.IsZero(m.DataVisualizations[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.DataVisualizations[i].ContextValidate(ctx, formats); err != nil {

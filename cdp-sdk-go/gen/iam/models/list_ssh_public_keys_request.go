@@ -19,12 +19,12 @@ type ListSSHPublicKeysRequest struct {
 }
 
 // Validate validates this list Ssh public keys request
-func (m *ListSSHPublicKeysRequest) Validate(formats strfmt.Registry) error {
+func (m *ListSSHPublicKeysRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list Ssh public keys request based on context it is used
-func (m *ListSSHPublicKeysRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListSSHPublicKeysRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

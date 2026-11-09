@@ -87,7 +87,7 @@ func (m *ListPrivateLinkServicesForRegionResponse) contextValidateListPrivateLin
 		if m.ListPrivateLinkServicesForRegionResults[i] != nil {
 
 			if typeutils.IsZero(m.ListPrivateLinkServicesForRegionResults[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ListPrivateLinkServicesForRegionResults[i].ContextValidate(ctx, formats); err != nil {

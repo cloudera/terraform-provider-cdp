@@ -85,6 +85,6 @@ func (m OperationStatus) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this operation status based on context it is used
-func (m OperationStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m OperationStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

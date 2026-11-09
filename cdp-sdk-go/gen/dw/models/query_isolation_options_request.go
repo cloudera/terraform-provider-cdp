@@ -22,12 +22,12 @@ type QueryIsolationOptionsRequest struct {
 }
 
 // Validate validates this query isolation options request
-func (m *QueryIsolationOptionsRequest) Validate(formats strfmt.Registry) error {
+func (m *QueryIsolationOptionsRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this query isolation options request based on context it is used
-func (m *QueryIsolationOptionsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *QueryIsolationOptionsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

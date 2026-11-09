@@ -65,7 +65,7 @@ func (m *CreateAWSGovCloudCredentialRequest) validateRoleArn(formats strfmt.Regi
 }
 
 // ContextValidate validates this create a w s gov cloud credential request based on context it is used
-func (m *CreateAWSGovCloudCredentialRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateAWSGovCloudCredentialRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

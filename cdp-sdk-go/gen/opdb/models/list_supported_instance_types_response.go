@@ -87,7 +87,7 @@ func (m *ListSupportedInstanceTypesResponse) contextValidateSupportedInstances(c
 		if m.SupportedInstances[i] != nil {
 
 			if typeutils.IsZero(m.SupportedInstances[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.SupportedInstances[i].ContextValidate(ctx, formats); err != nil {

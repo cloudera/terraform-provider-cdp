@@ -14,10 +14,10 @@ import (
 // swagger:model AuthenticationPolicy
 type AuthenticationPolicy struct {
 
-	// The expiration, in seconds, of the access key. The value of '0' indicates the system default expiration (which is 12 hours).
+	// The lifespan (in seconds) of the access key. A value of `0` indicates the system default is used (12 hours).
 	AccessKeyExpirationSec int32 `json:"accessKeyExpirationSec,omitempty"`
 
-	// The inactivity duration, in seconds, of the access key, which would invalidate the access key due to no activity. The value of '0' indicates default inactivity duration (which is 1 hour normally and 15 minutes for Cloudera for Government). There's no access key invalidation from no activity if the value is greater or equal to expiration.
+	// The duration of inactivity (in seconds) required to invalidate the access key. A value of `0` indicates the system default is used (typically 1 hour, or 15 minutes for Cloudera for Government). A value greater than or equal to `accessKeyExpirationSec` indicates inactivity timeout is disabled.
 	AccessKeyInactivityDurationSec int32 `json:"accessKeyInactivityDurationSec,omitempty"`
 
 	// The list of allowed domains from which a workload-initiated SSO is allowed. Setting it will allow workload-initiated SSO from these domains as well as Cloudera's default workload domains.
@@ -29,23 +29,23 @@ type AuthenticationPolicy struct {
 	// The list of IP addresses and/or CIDRs used for blocking client access to the UI and API services. Both the allowed list and the blocked list will be used to determine whether to grant or block the client's access. The blocked list takes precedence over the allowed list. When the list is empty or not set, client IP address will not be validated to be absent from the blocked list.
 	ClientIPAddressesBlocked []string `json:"clientIpAddressesBlocked"`
 
-	// The expiration, in seconds, of the UI session token. The value of '0' indicates the system default expiration (which is 12 hours).
+	// The lifespan (in seconds) of the UI session token. A value of `0` indicates the system default is used (12 hours).
 	SessionTokenExpirationSec int32 `json:"sessionTokenExpirationSec,omitempty"`
 
-	// The inactivity duration, in seconds, of the UI session token, which would invalidate the session token due to no activity. The value of '0' indicates default inactivity duration (which is 1 hour normally and 15 minutes for Cloudera for Government). There's no session token invalidation from no activity if the value is greater or equal to expiration.
+	// The duration of inactivity (in seconds) required to invalidate the UI session token. A value of `0` indicates the system default is used (typically 1 hour, or 15 minutes for Cloudera for Government). A value greater than or equal to `sessionTokenExpirationSec` indicates inactivity timeout is disabled.
 	SessionTokenInactivityDurationSec int32 `json:"sessionTokenInactivityDurationSec,omitempty"`
 
-	// The expiration, in seconds, of the workload authentication token. The value of '0' indicates the system default expiration (which is 1 hour).
+	// The lifespan (in seconds) of the workload authentication token. A value of `0` indicates the system default is used (1 hour).
 	WorkloadAuthTokenExpirationSec int32 `json:"workloadAuthTokenExpirationSec,omitempty"`
 }
 
 // Validate validates this authentication policy
-func (m *AuthenticationPolicy) Validate(formats strfmt.Registry) error {
+func (m *AuthenticationPolicy) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this authentication policy based on context it is used
-func (m *AuthenticationPolicy) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AuthenticationPolicy) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

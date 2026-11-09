@@ -93,7 +93,7 @@ func (m *ListMachineUserAssignedResourceRolesResponse) contextValidateResourceAs
 		if m.ResourceAssignments[i] != nil {
 
 			if typeutils.IsZero(m.ResourceAssignments[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ResourceAssignments[i].ContextValidate(ctx, formats); err != nil {

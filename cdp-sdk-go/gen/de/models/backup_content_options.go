@@ -49,12 +49,12 @@ type BackupContentOptions struct {
 }
 
 // Validate validates this backup content options
-func (m *BackupContentOptions) Validate(formats strfmt.Registry) error {
+func (m *BackupContentOptions) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this backup content options based on context it is used
-func (m *BackupContentOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BackupContentOptions) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

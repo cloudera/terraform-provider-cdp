@@ -19,12 +19,12 @@ type DescribeDatabaseServerRequest struct {
 }
 
 // Validate validates this describe database server request
-func (m *DescribeDatabaseServerRequest) Validate(formats strfmt.Registry) error {
+func (m *DescribeDatabaseServerRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this describe database server request based on context it is used
-func (m *DescribeDatabaseServerRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeDatabaseServerRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

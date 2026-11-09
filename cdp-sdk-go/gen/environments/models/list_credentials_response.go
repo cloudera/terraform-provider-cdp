@@ -90,7 +90,7 @@ func (m *ListCredentialsResponse) contextValidateCredentials(ctx context.Context
 		if m.Credentials[i] != nil {
 
 			if typeutils.IsZero(m.Credentials[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Credentials[i].ContextValidate(ctx, formats); err != nil {

@@ -45,7 +45,7 @@ func (m *DeleteClusterDefinitionsRequest) validateClusterDefinitionNames(formats
 }
 
 // ContextValidate validates this delete cluster definitions request based on context it is used
-func (m *DeleteClusterDefinitionsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteClusterDefinitionsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

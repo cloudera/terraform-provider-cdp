@@ -14,17 +14,17 @@ import (
 // swagger:model DescribeWorkspaceBackupRequest
 type DescribeWorkspaceBackupRequest struct {
 
-	// The CRN of the backup snaphot.
+	// The CRN of the backup snapshot.
 	BackupCrn string `json:"backupCrn,omitempty"`
 }
 
 // Validate validates this describe workspace backup request
-func (m *DescribeWorkspaceBackupRequest) Validate(formats strfmt.Registry) error {
+func (m *DescribeWorkspaceBackupRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this describe workspace backup request based on context it is used
-func (m *DescribeWorkspaceBackupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeWorkspaceBackupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

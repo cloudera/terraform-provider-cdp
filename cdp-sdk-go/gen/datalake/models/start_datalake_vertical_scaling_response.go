@@ -22,12 +22,12 @@ type StartDatalakeVerticalScalingResponse struct {
 }
 
 // Validate validates this start datalake vertical scaling response
-func (m *StartDatalakeVerticalScalingResponse) Validate(formats strfmt.Registry) error {
+func (m *StartDatalakeVerticalScalingResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this start datalake vertical scaling response based on context it is used
-func (m *StartDatalakeVerticalScalingResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartDatalakeVerticalScalingResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

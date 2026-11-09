@@ -48,7 +48,7 @@ func (m *CancelTrustResponse) validateFlowID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this cancel trust response based on context it is used
-func (m *CancelTrustResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CancelTrustResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -87,7 +87,7 @@ func (m *ListVcsResponse) contextValidateVcs(ctx context.Context, formats strfmt
 		if m.Vcs[i] != nil {
 
 			if typeutils.IsZero(m.Vcs[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Vcs[i].ContextValidate(ctx, formats); err != nil {

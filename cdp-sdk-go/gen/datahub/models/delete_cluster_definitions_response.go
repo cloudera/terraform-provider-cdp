@@ -90,7 +90,7 @@ func (m *DeleteClusterDefinitionsResponse) contextValidateClusterDefinitions(ctx
 		if m.ClusterDefinitions[i] != nil {
 
 			if typeutils.IsZero(m.ClusterDefinitions[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ClusterDefinitions[i].ContextValidate(ctx, formats); err != nil {

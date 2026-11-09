@@ -31,12 +31,12 @@ type AccessControlResponse struct {
 }
 
 // Validate validates this access control response
-func (m *AccessControlResponse) Validate(formats strfmt.Registry) error {
+func (m *AccessControlResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this access control response based on context it is used
-func (m *AccessControlResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AccessControlResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

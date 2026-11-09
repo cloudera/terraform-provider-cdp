@@ -45,7 +45,7 @@ func (m *GrantModelRegistryAccessResponse) validateKubeconfig(formats strfmt.Reg
 }
 
 // ContextValidate validates this grant model registry access response based on context it is used
-func (m *GrantModelRegistryAccessResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GrantModelRegistryAccessResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

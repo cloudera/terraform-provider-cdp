@@ -45,7 +45,7 @@ func (m *CancelBackupResponse) validateResult(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this cancel backup response based on context it is used
-func (m *CancelBackupResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CancelBackupResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -48,7 +48,7 @@ func (m *DescribeSSHPublicKeyRequest) validateCrnOrFingerprint(formats strfmt.Re
 }
 
 // ContextValidate validates this describe Ssh public key request based on context it is used
-func (m *DescribeSSHPublicKeyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeSSHPublicKeyRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

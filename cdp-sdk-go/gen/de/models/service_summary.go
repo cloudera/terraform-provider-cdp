@@ -102,7 +102,7 @@ func (m *ServiceSummary) validateStatus(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this service summary based on context it is used
-func (m *ServiceSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ServiceSummary) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

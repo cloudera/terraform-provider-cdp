@@ -19,12 +19,12 @@ type ListWorkspacesRequest struct {
 }
 
 // Validate validates this list workspaces request
-func (m *ListWorkspacesRequest) Validate(formats strfmt.Registry) error {
+func (m *ListWorkspacesRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list workspaces request based on context it is used
-func (m *ListWorkspacesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListWorkspacesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

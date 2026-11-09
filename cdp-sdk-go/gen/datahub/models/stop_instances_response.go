@@ -19,12 +19,12 @@ type StopInstancesResponse struct {
 }
 
 // Validate validates this stop instances response
-func (m *StopInstancesResponse) Validate(formats strfmt.Registry) error {
+func (m *StopInstancesResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this stop instances response based on context it is used
-func (m *StopInstancesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StopInstancesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

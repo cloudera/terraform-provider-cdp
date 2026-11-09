@@ -19,12 +19,12 @@ type CollectFreeipaDiagnosticsResponse struct {
 }
 
 // Validate validates this collect freeipa diagnostics response
-func (m *CollectFreeipaDiagnosticsResponse) Validate(formats strfmt.Registry) error {
+func (m *CollectFreeipaDiagnosticsResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this collect freeipa diagnostics response based on context it is used
-func (m *CollectFreeipaDiagnosticsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CollectFreeipaDiagnosticsResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

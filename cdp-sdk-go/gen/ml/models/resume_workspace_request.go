@@ -45,7 +45,7 @@ func (m *ResumeWorkspaceRequest) validateWorkspaceCrn(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this resume workspace request based on context it is used
-func (m *ResumeWorkspaceRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ResumeWorkspaceRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

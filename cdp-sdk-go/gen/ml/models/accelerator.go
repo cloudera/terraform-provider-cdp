@@ -22,12 +22,12 @@ type Accelerator struct {
 }
 
 // Validate validates this accelerator
-func (m *Accelerator) Validate(formats strfmt.Registry) error {
+func (m *Accelerator) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this accelerator based on context it is used
-func (m *Accelerator) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *Accelerator) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

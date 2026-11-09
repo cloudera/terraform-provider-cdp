@@ -19,12 +19,12 @@ type RenewPublicCertificateResponse struct {
 }
 
 // Validate validates this renew public certificate response
-func (m *RenewPublicCertificateResponse) Validate(formats strfmt.Registry) error {
+func (m *RenewPublicCertificateResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this renew public certificate response based on context it is used
-func (m *RenewPublicCertificateResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RenewPublicCertificateResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

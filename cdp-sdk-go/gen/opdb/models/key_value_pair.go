@@ -22,12 +22,12 @@ type KeyValuePair struct {
 }
 
 // Validate validates this key value pair
-func (m *KeyValuePair) Validate(formats strfmt.Registry) error {
+func (m *KeyValuePair) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this key value pair based on context it is used
-func (m *KeyValuePair) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *KeyValuePair) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

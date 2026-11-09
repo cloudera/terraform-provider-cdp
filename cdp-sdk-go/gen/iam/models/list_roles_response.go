@@ -93,7 +93,7 @@ func (m *ListRolesResponse) contextValidateRoles(ctx context.Context, formats st
 		if m.Roles[i] != nil {
 
 			if typeutils.IsZero(m.Roles[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Roles[i].ContextValidate(ctx, formats); err != nil {

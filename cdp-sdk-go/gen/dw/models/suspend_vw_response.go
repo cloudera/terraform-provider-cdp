@@ -22,12 +22,12 @@ type SuspendVwResponse struct {
 }
 
 // Validate validates this suspend vw response
-func (m *SuspendVwResponse) Validate(formats strfmt.Registry) error {
+func (m *SuspendVwResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this suspend vw response based on context it is used
-func (m *SuspendVwResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SuspendVwResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

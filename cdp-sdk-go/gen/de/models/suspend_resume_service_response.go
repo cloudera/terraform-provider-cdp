@@ -19,12 +19,12 @@ type SuspendResumeServiceResponse struct {
 }
 
 // Validate validates this suspend resume service response
-func (m *SuspendResumeServiceResponse) Validate(formats strfmt.Registry) error {
+func (m *SuspendResumeServiceResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this suspend resume service response based on context it is used
-func (m *SuspendResumeServiceResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SuspendResumeServiceResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

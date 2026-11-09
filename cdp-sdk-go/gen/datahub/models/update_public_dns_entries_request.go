@@ -45,7 +45,7 @@ func (m *UpdatePublicDNSEntriesRequest) validateDatahub(formats strfmt.Registry)
 }
 
 // ContextValidate validates this update public Dns entries request based on context it is used
-func (m *UpdatePublicDNSEntriesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdatePublicDNSEntriesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

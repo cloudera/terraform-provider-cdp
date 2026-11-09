@@ -93,7 +93,7 @@ func (m *ListGroupsResponse) contextValidateGroups(ctx context.Context, formats 
 		if m.Groups[i] != nil {
 
 			if typeutils.IsZero(m.Groups[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Groups[i].ContextValidate(ctx, formats); err != nil {

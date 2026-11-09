@@ -45,7 +45,7 @@ func (m *GetTrustSetupCommandsRequest) validateEnvironment(formats strfmt.Regist
 }
 
 // ContextValidate validates this get trust setup commands request based on context it is used
-func (m *GetTrustSetupCommandsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetTrustSetupCommandsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

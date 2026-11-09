@@ -31,12 +31,12 @@ type RevokeWorkspaceAccessRequest struct {
 }
 
 // Validate validates this revoke workspace access request
-func (m *RevokeWorkspaceAccessRequest) Validate(formats strfmt.Registry) error {
+func (m *RevokeWorkspaceAccessRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this revoke workspace access request based on context it is used
-func (m *RevokeWorkspaceAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RevokeWorkspaceAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

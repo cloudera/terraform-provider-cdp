@@ -45,7 +45,7 @@ func (m *UpgradeMlServingAppRequest) validateAppCrn(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this upgrade ml serving app request based on context it is used
-func (m *UpgradeMlServingAppRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpgradeMlServingAppRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *ListWorkspaceAccessResponse) validateUsers(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this list workspace access response based on context it is used
-func (m *ListWorkspaceAccessResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListWorkspaceAccessResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

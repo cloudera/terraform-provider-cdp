@@ -25,12 +25,12 @@ type HostStatus struct {
 }
 
 // Validate validates this host status
-func (m *HostStatus) Validate(formats strfmt.Registry) error {
+func (m *HostStatus) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this host status based on context it is used
-func (m *HostStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *HostStatus) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

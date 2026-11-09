@@ -19,12 +19,12 @@ type SuspendClusterResponse struct {
 }
 
 // Validate validates this suspend cluster response
-func (m *SuspendClusterResponse) Validate(formats strfmt.Registry) error {
+func (m *SuspendClusterResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this suspend cluster response based on context it is used
-func (m *SuspendClusterResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SuspendClusterResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

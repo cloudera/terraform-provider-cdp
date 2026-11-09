@@ -19,12 +19,12 @@ type RotateSaltPasswordResponse struct {
 }
 
 // Validate validates this rotate salt password response
-func (m *RotateSaltPasswordResponse) Validate(formats strfmt.Registry) error {
+func (m *RotateSaltPasswordResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this rotate salt password response based on context it is used
-func (m *RotateSaltPasswordResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotateSaltPasswordResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

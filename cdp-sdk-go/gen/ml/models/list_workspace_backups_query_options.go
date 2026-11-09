@@ -19,12 +19,12 @@ type ListWorkspaceBackupsQueryOptions struct {
 }
 
 // Validate validates this list workspace backups query options
-func (m *ListWorkspaceBackupsQueryOptions) Validate(formats strfmt.Registry) error {
+func (m *ListWorkspaceBackupsQueryOptions) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this list workspace backups query options based on context it is used
-func (m *ListWorkspaceBackupsQueryOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListWorkspaceBackupsQueryOptions) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -62,7 +62,7 @@ func (m *ChangeEnvironmentCredentialRequest) validateEnvironmentName(formats str
 }
 
 // ContextValidate validates this change environment credential request based on context it is used
-func (m *ChangeEnvironmentCredentialRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ChangeEnvironmentCredentialRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

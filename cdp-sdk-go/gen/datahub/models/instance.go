@@ -175,7 +175,7 @@ func (m *Instance) contextValidateAttachedVolumes(ctx context.Context, formats s
 		if m.AttachedVolumes[i] != nil {
 
 			if typeutils.IsZero(m.AttachedVolumes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.AttachedVolumes[i].ContextValidate(ctx, formats); err != nil {

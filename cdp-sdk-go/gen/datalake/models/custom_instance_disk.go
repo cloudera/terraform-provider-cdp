@@ -22,12 +22,12 @@ type CustomInstanceDisk struct {
 }
 
 // Validate validates this custom instance disk
-func (m *CustomInstanceDisk) Validate(formats strfmt.Registry) error {
+func (m *CustomInstanceDisk) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this custom instance disk based on context it is used
-func (m *CustomInstanceDisk) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CustomInstanceDisk) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

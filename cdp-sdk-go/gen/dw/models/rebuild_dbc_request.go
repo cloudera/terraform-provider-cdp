@@ -62,7 +62,7 @@ func (m *RebuildDbcRequest) validateDbcID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this rebuild dbc request based on context it is used
-func (m *RebuildDbcRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RebuildDbcRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

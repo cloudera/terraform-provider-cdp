@@ -22,12 +22,12 @@ type StartClusterVerticalScalingResponse struct {
 }
 
 // Validate validates this start cluster vertical scaling response
-func (m *StartClusterVerticalScalingResponse) Validate(formats strfmt.Registry) error {
+func (m *StartClusterVerticalScalingResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this start cluster vertical scaling response based on context it is used
-func (m *StartClusterVerticalScalingResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *StartClusterVerticalScalingResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

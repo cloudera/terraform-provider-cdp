@@ -52,12 +52,12 @@ type AzureOptionsResponse struct {
 }
 
 // Validate validates this azure options response
-func (m *AzureOptionsResponse) Validate(formats strfmt.Registry) error {
+func (m *AzureOptionsResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this azure options response based on context it is used
-func (m *AzureOptionsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureOptionsResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

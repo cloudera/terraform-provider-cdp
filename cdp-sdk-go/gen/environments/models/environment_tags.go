@@ -22,12 +22,12 @@ type EnvironmentTags struct {
 }
 
 // Validate validates this environment tags
-func (m *EnvironmentTags) Validate(formats strfmt.Registry) error {
+func (m *EnvironmentTags) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this environment tags based on context it is used
-func (m *EnvironmentTags) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *EnvironmentTags) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

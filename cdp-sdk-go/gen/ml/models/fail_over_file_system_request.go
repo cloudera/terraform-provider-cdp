@@ -45,7 +45,7 @@ func (m *FailOverFileSystemRequest) validateWorkspaceCrn(formats strfmt.Registry
 }
 
 // ContextValidate validates this fail over file system request based on context it is used
-func (m *FailOverFileSystemRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FailOverFileSystemRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

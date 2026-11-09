@@ -45,7 +45,7 @@ func (m *CloudUserReference) validateUserID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this cloud user reference based on context it is used
-func (m *CloudUserReference) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CloudUserReference) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

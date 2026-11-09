@@ -62,7 +62,7 @@ func (m *DetachFreeIpaRecipesRequest) validateRecipes(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this detach free ipa recipes request based on context it is used
-func (m *DetachFreeIpaRecipesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DetachFreeIpaRecipesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -22,12 +22,12 @@ type UpdateServerSettingItem struct {
 }
 
 // Validate validates this update server setting item
-func (m *UpdateServerSettingItem) Validate(formats strfmt.Registry) error {
+func (m *UpdateServerSettingItem) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this update server setting item based on context it is used
-func (m *UpdateServerSettingItem) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateServerSettingItem) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

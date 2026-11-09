@@ -48,7 +48,7 @@ func (m *DeleteDatalakeRequest) validateDatalakeName(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this delete datalake request based on context it is used
-func (m *DeleteDatalakeRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteDatalakeRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -105,7 +105,7 @@ func (m *ScimAccessToken) validateExpirationDate(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this scim access token based on context it is used
-func (m *ScimAccessToken) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ScimAccessToken) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

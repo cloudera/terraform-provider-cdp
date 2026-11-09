@@ -74,7 +74,7 @@ func (m *ListGroupMembersRequest) validatePageSize(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this list group members request based on context it is used
-func (m *ListGroupMembersRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListGroupMembersRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

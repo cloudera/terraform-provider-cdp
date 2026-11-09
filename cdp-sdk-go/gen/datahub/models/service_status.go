@@ -96,7 +96,7 @@ func (m *ServiceStatus) contextValidateHealthChecks(ctx context.Context, formats
 		if m.HealthChecks[i] != nil {
 
 			if typeutils.IsZero(m.HealthChecks[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.HealthChecks[i].ContextValidate(ctx, formats); err != nil {

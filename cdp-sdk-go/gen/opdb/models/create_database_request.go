@@ -62,6 +62,9 @@ type CreateDatabaseRequest struct {
 	// To enable the region canary for the database.
 	EnableRegionCanary bool `json:"enableRegionCanary,omitempty"`
 
+	// The encryption profile name or CRN that manages the encryption.
+	EncryptionProfile string `json:"encryptionProfile,omitempty"`
+
 	// environment name
 	// Required: true
 	EnvironmentName *string `json:"environmentName"`
@@ -612,7 +615,7 @@ func (m *CreateDatabaseRequest) contextValidateCustomUserTags(ctx context.Contex
 		if m.CustomUserTags[i] != nil {
 
 			if typeutils.IsZero(m.CustomUserTags[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.CustomUserTags[i].ContextValidate(ctx, formats); err != nil {
@@ -666,7 +669,7 @@ func (m *CreateDatabaseRequest) contextValidateRecipes(ctx context.Context, form
 		if m.Recipes[i] != nil {
 
 			if typeutils.IsZero(m.Recipes[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Recipes[i].ContextValidate(ctx, formats); err != nil {
@@ -764,7 +767,7 @@ func (m *CreateDatabaseRequest) contextValidateVolumeEncryptions(ctx context.Con
 		if m.VolumeEncryptions[i] != nil {
 
 			if typeutils.IsZero(m.VolumeEncryptions[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.VolumeEncryptions[i].ContextValidate(ctx, formats); err != nil {

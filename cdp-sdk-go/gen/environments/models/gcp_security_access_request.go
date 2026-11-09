@@ -69,7 +69,7 @@ func (m *GcpSecurityAccessRequest) validateSecurityGroupIDForKnox(formats strfmt
 }
 
 // ContextValidate validates this gcp security access request based on context it is used
-func (m *GcpSecurityAccessRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GcpSecurityAccessRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

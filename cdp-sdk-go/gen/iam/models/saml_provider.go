@@ -192,7 +192,7 @@ func (m *SamlProvider) validateSyncGroupsOnLogin(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this saml provider based on context it is used
-func (m *SamlProvider) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SamlProvider) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

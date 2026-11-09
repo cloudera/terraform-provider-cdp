@@ -45,7 +45,7 @@ func (m *ListDatalakeSecretTypesRequest) validateDatalake(formats strfmt.Registr
 }
 
 // ContextValidate validates this list datalake secret types request based on context it is used
-func (m *ListDatalakeSecretTypesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListDatalakeSecretTypesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

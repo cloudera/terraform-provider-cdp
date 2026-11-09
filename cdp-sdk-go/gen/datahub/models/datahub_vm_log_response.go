@@ -22,12 +22,12 @@ type DatahubVMLogResponse struct {
 }
 
 // Validate validates this datahub Vm log response
-func (m *DatahubVMLogResponse) Validate(formats strfmt.Registry) error {
+func (m *DatahubVMLogResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this datahub Vm log response based on context it is used
-func (m *DatahubVMLogResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DatahubVMLogResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

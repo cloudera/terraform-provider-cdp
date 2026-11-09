@@ -86,7 +86,7 @@ func (m *WorkloadPasswordDetails) validatePasswordMinLifetimeDate(formats strfmt
 }
 
 // ContextValidate validates this workload password details based on context it is used
-func (m *WorkloadPasswordDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *WorkloadPasswordDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

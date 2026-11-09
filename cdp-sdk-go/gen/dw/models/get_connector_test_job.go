@@ -141,7 +141,7 @@ func (m *GetConnectorTestJob) validateStatus(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this get connector test job based on context it is used
-func (m *GetConnectorTestJob) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetConnectorTestJob) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

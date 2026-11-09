@@ -19,12 +19,12 @@ type RefreshModelRegistryConfigmapRequest struct {
 }
 
 // Validate validates this refresh model registry configmap request
-func (m *RefreshModelRegistryConfigmapRequest) Validate(formats strfmt.Registry) error {
+func (m *RefreshModelRegistryConfigmapRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this refresh model registry configmap request based on context it is used
-func (m *RefreshModelRegistryConfigmapRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RefreshModelRegistryConfigmapRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

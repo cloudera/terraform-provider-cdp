@@ -119,7 +119,7 @@ func (m *AzureActivationOptions) validateOutboundType(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this azure activation options based on context it is used
-func (m *AzureActivationOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureActivationOptions) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

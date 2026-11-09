@@ -118,7 +118,7 @@ func (m *HealthInfo) validateUpdatedAt(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this health info based on context it is used
-func (m *HealthInfo) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *HealthInfo) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

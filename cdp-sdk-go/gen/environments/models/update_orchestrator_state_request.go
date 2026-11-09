@@ -45,7 +45,7 @@ func (m *UpdateOrchestratorStateRequest) validateEnvironment(formats strfmt.Regi
 }
 
 // ContextValidate validates this update orchestrator state request based on context it is used
-func (m *UpdateOrchestratorStateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateOrchestratorStateRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

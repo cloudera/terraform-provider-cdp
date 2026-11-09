@@ -19,12 +19,12 @@ type RepairInstancesRequest struct {
 }
 
 // Validate validates this repair instances request
-func (m *RepairInstancesRequest) Validate(formats strfmt.Registry) error {
+func (m *RepairInstancesRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this repair instances request based on context it is used
-func (m *RepairInstancesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RepairInstancesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -65,7 +65,7 @@ func (m *DeleteInstancesRequest) validateInstanceIds(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this delete instances request based on context it is used
-func (m *DeleteInstancesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteInstancesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

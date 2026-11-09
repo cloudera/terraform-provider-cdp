@@ -45,7 +45,7 @@ func (m *ListDatalakeBackupsRequest) validateDatalakeName(formats strfmt.Registr
 }
 
 // ContextValidate validates this list datalake backups request based on context it is used
-func (m *ListDatalakeBackupsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListDatalakeBackupsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

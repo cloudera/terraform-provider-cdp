@@ -45,7 +45,7 @@ func (m *BaseClusterCommands) validateKrb5Conf(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this base cluster commands based on context it is used
-func (m *BaseClusterCommands) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *BaseClusterCommands) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

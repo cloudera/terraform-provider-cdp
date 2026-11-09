@@ -54,7 +54,7 @@ func (m *SetSamlAuthnRequestSigningKeyRequest) validateSamlProvider(formats strf
 }
 
 // ContextValidate validates this set saml authn request signing key request based on context it is used
-func (m *SetSamlAuthnRequestSigningKeyRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetSamlAuthnRequestSigningKeyRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

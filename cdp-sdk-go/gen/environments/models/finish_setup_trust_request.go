@@ -45,7 +45,7 @@ func (m *FinishSetupTrustRequest) validateEnvironment(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this finish setup trust request based on context it is used
-func (m *FinishSetupTrustRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FinishSetupTrustRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

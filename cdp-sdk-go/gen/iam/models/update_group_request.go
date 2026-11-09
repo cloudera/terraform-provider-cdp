@@ -48,7 +48,7 @@ func (m *UpdateGroupRequest) validateGroupName(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this update group request based on context it is used
-func (m *UpdateGroupRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateGroupRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

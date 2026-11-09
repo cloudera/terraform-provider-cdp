@@ -90,7 +90,7 @@ func (m *ListRelevantInstancesResponse) contextValidateInstanceDetails(ctx conte
 		if m.InstanceDetails[i] != nil {
 
 			if typeutils.IsZero(m.InstanceDetails[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.InstanceDetails[i].ContextValidate(ctx, formats); err != nil {

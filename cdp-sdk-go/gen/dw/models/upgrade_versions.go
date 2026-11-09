@@ -19,12 +19,12 @@ type UpgradeVersions struct {
 }
 
 // Validate validates this upgrade versions
-func (m *UpgradeVersions) Validate(formats strfmt.Registry) error {
+func (m *UpgradeVersions) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this upgrade versions based on context it is used
-func (m *UpgradeVersions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpgradeVersions) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

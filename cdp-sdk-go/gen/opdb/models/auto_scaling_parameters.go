@@ -49,12 +49,12 @@ type AutoScalingParameters struct {
 }
 
 // Validate validates this auto scaling parameters
-func (m *AutoScalingParameters) Validate(formats strfmt.Registry) error {
+func (m *AutoScalingParameters) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this auto scaling parameters based on context it is used
-func (m *AutoScalingParameters) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AutoScalingParameters) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

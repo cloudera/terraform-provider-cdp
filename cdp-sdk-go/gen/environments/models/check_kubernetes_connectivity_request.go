@@ -94,7 +94,7 @@ func (m *CheckKubernetesConnectivityRequest) validateKubeConfig(formats strfmt.R
 }
 
 // ContextValidate validates this check kubernetes connectivity request based on context it is used
-func (m *CheckKubernetesConnectivityRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CheckKubernetesConnectivityRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

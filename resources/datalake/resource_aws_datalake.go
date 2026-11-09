@@ -241,7 +241,7 @@ func checkResponseStatusForError(resp *operations.DescribeDatalakeOK) (interface
 
 func toAwsDatalakeResourceModel(resp *datalakemodels.CreateAWSDatalakeResponse, model *awsDatalakeResourceModel) {
 	model.ID = types.StringPointerValue(resp.Datalake.DatalakeName)
-	model.CertificateExpirationState = types.StringValue(resp.Datalake.CertificateExpirationState)
+	model.CertificateExpirationState = types.StringValue(string(resp.Datalake.CertificateExpirationState))
 	model.CreationDate = types.StringValue(resp.Datalake.CreationDate.String())
 	model.Crn = types.StringPointerValue(resp.Datalake.Crn)
 	model.DatalakeName = types.StringPointerValue(resp.Datalake.DatalakeName)

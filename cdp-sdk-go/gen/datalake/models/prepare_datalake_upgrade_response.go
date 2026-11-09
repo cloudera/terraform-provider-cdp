@@ -152,7 +152,7 @@ func (m *PrepareDatalakeUpgradeResponse) contextValidateUpgradeCandidates(ctx co
 		if m.UpgradeCandidates[i] != nil {
 
 			if typeutils.IsZero(m.UpgradeCandidates[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.UpgradeCandidates[i].ContextValidate(ctx, formats); err != nil {

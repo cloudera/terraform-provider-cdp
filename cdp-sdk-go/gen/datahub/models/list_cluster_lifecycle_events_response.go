@@ -93,7 +93,7 @@ func (m *ListClusterLifecycleEventsResponse) contextValidateClusterEvents(ctx co
 		if m.ClusterEvents[i] != nil {
 
 			if typeutils.IsZero(m.ClusterEvents[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ClusterEvents[i].ContextValidate(ctx, formats); err != nil {

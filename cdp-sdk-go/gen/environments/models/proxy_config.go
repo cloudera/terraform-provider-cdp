@@ -128,7 +128,7 @@ func (m *ProxyConfig) validateProxyConfigName(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this proxy config based on context it is used
-func (m *ProxyConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ProxyConfig) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

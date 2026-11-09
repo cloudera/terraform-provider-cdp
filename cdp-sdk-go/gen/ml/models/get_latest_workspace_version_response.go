@@ -45,7 +45,7 @@ func (m *GetLatestWorkspaceVersionResponse) validateVersion(formats strfmt.Regis
 }
 
 // ContextValidate validates this get latest workspace version response based on context it is used
-func (m *GetLatestWorkspaceVersionResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetLatestWorkspaceVersionResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

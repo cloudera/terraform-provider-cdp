@@ -45,7 +45,7 @@ func (m *ResumeClusterRequest) validateClusterID(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this resume cluster request based on context it is used
-func (m *ResumeClusterRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ResumeClusterRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

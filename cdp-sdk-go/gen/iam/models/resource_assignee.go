@@ -62,7 +62,7 @@ func (m *ResourceAssignee) validateResourceRoleCrn(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this resource assignee based on context it is used
-func (m *ResourceAssignee) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ResourceAssignee) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

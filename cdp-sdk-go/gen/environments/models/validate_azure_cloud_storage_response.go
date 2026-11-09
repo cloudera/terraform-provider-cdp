@@ -22,12 +22,12 @@ type ValidateAzureCloudStorageResponse struct {
 }
 
 // Validate validates this validate azure cloud storage response
-func (m *ValidateAzureCloudStorageResponse) Validate(formats strfmt.Registry) error {
+func (m *ValidateAzureCloudStorageResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this validate azure cloud storage response based on context it is used
-func (m *ValidateAzureCloudStorageResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ValidateAzureCloudStorageResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

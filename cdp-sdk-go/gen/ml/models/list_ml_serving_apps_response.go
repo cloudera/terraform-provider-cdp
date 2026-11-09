@@ -87,7 +87,7 @@ func (m *ListMlServingAppsResponse) contextValidateApps(ctx context.Context, for
 		if m.Apps[i] != nil {
 
 			if typeutils.IsZero(m.Apps[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.Apps[i].ContextValidate(ctx, formats); err != nil {

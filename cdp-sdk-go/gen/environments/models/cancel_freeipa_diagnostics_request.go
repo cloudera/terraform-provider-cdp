@@ -45,7 +45,7 @@ func (m *CancelFreeipaDiagnosticsRequest) validateEnvironmentName(formats strfmt
 }
 
 // ContextValidate validates this cancel freeipa diagnostics request based on context it is used
-func (m *CancelFreeipaDiagnosticsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CancelFreeipaDiagnosticsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

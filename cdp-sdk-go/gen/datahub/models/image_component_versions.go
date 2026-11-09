@@ -28,12 +28,12 @@ type ImageComponentVersions struct {
 }
 
 // Validate validates this image component versions
-func (m *ImageComponentVersions) Validate(formats strfmt.Registry) error {
+func (m *ImageComponentVersions) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this image component versions based on context it is used
-func (m *ImageComponentVersions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ImageComponentVersions) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

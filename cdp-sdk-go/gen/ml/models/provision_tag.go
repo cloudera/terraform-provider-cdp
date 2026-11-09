@@ -62,7 +62,7 @@ func (m *ProvisionTag) validateValue(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this provision tag based on context it is used
-func (m *ProvisionTag) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ProvisionTag) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

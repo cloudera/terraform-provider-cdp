@@ -19,12 +19,12 @@ type GetRootCertificateResponse struct {
 }
 
 // Validate validates this get root certificate response
-func (m *GetRootCertificateResponse) Validate(formats strfmt.Registry) error {
+func (m *GetRootCertificateResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this get root certificate response based on context it is used
-func (m *GetRootCertificateResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetRootCertificateResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

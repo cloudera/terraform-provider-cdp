@@ -25,12 +25,12 @@ type ImageRequest struct {
 }
 
 // Validate validates this image request
-func (m *ImageRequest) Validate(formats strfmt.Registry) error {
+func (m *ImageRequest) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this image request based on context it is used
-func (m *ImageRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ImageRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

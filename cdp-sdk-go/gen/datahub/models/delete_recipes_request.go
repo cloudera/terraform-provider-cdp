@@ -45,7 +45,7 @@ func (m *DeleteRecipesRequest) validateRecipeNames(formats strfmt.Registry) erro
 }
 
 // ContextValidate validates this delete recipes request based on context it is used
-func (m *DeleteRecipesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DeleteRecipesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

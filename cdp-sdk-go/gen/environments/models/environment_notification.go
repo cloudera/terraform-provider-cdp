@@ -19,12 +19,12 @@ type EnvironmentNotification struct {
 }
 
 // Validate validates this environment notification
-func (m *EnvironmentNotification) Validate(formats strfmt.Registry) error {
+func (m *EnvironmentNotification) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this environment notification based on context it is used
-func (m *EnvironmentNotification) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *EnvironmentNotification) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

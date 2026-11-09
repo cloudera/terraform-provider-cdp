@@ -79,7 +79,7 @@ func (m *UpgradeDbcRequest) validateImageVersion(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this upgrade dbc request based on context it is used
-func (m *UpgradeDbcRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpgradeDbcRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

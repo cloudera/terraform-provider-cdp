@@ -45,7 +45,7 @@ func (m *GetIDBrokerMappingsRequest) validateEnvironmentName(formats strfmt.Regi
 }
 
 // ContextValidate validates this get Id broker mappings request based on context it is used
-func (m *GetIDBrokerMappingsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetIDBrokerMappingsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

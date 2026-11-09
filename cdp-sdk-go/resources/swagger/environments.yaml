@@ -6,7 +6,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.161 (BETA)
+  version: 0.9.164 (BETA)
   title: Cloudera Environments Service
   license:
     name: Apache 2.0
@@ -2368,6 +2368,27 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/environments2/prepareFreeipaUpgrade:
+    post:
+      summary: Prepares and validates an environment for FreeIPA upgrade.
+      description: Runs pre-upgrade checks to minimize failure risk during the upgrade process. As part of validation, a temporary load balancer is provisioned to verify network permissions and is automatically deleted upon completion.
+      operationId: prepareFreeipaUpgrade
+      x-mutating: true
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/PrepareFreeipaUpgradeRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/PrepareFreeipaUpgradeResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   CancelTrustRequest:
     type: object
@@ -3287,11 +3308,6 @@ definitions:
       workloadAnalytics:
         type: boolean
         description: When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
-      reportDeploymentLogs:
-        type: boolean
-        default: false
-        x-deprecated: true
-        description: '[Deprecated] When true, this will report additional diagnostic information back to Cloudera.'
       freeIpa:
         $ref: '#/definitions/AWSFreeIpaCreationRequest'
         description: The FreeIPA creation request for the environment
@@ -3401,11 +3417,6 @@ definitions:
       workloadAnalytics:
         type: boolean
         description: When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
-      reportDeploymentLogs:
-        type: boolean
-        default: false
-        x-deprecated: true
-        description: '[Deprecated] When true, this will report additional diagnostic information back to Cloudera.'
       freeIpa:
         $ref: '#/definitions/AWSFreeIpaCreationRequest'
         description: The FreeIPA creation request for the environment
@@ -3869,11 +3880,6 @@ definitions:
       workloadAnalytics:
         type: boolean
         description: When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
-      reportDeploymentLogs:
-        type: boolean
-        default: false
-        x-deprecated: true
-        description: '[Deprecated] When true, this will report additional diagnostic information back to Cloudera.'
       freeIpa:
         $ref: '#/definitions/AzureFreeIpaCreationRequest'
         description: The FreeIPA creation request for the environment
@@ -3998,11 +4004,6 @@ definitions:
       workloadAnalytics:
         type: boolean
         description: When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
-      reportDeploymentLogs:
-        type: boolean
-        default: false
-        x-deprecated: true
-        description: '[Deprecated] When true, this will report additional diagnostic information back to Cloudera.'
       freeIpa:
         $ref: '#/definitions/GCPFreeIpaCreationRequest'
         description: The FreeIPA creation request for the environment
@@ -4465,11 +4466,6 @@ definitions:
       workloadAnalytics:
         type: boolean
         description: When this is enabled, diagnostic information about job and query execution is sent to Workload Manager for Data Hub clusters created within this environment.
-      reportDeploymentLogs:
-        type: boolean
-        default: false
-        x-deprecated: true
-        description: '[Deprecated] When true, this will report additional diagnostic information back to Cloudera.'
       freeipa:
         description: Details of FreeIPA instance associated with this environment.
         $ref: '#/definitions/FreeipaDetails'
@@ -6224,11 +6220,6 @@ definitions:
       workloadAnalytics:
         type: boolean
         description: Flag to enable environment level workload analytics.
-      reportDeploymentLogs:
-        type: boolean
-        default: false
-        x-deprecated: true
-        description: '[Deprecated] Flag to enable environment level deployment log collection.'
   SetTelemetryFeaturesResponse:
     type: object
     description: Response object to enable environment level telemetry features.
@@ -6309,11 +6300,6 @@ definitions:
       workloadAnalytics:
         type: boolean
         description: Flag to enable account level workload analytics. (that will be used as a default for environment)
-      reportDeploymentLogs:
-        type: boolean
-        default: false
-        x-deprecated: true
-        description: '[Deprecated] Flag to enable environment level deployment log collection.'
       rules:
         type: array
         description: List of anonymization rules that are applied on logs that are shipped to Cloudera
@@ -6326,11 +6312,6 @@ definitions:
       workloadAnalytics:
         type: boolean
         description: Flag to enable account level workload analytics. (that will be used as a default for environment)
-      reportDeploymentLogs:
-        type: boolean
-        default: false
-        x-deprecated: true
-        description: '[Deprecated] Flag to enable account level deployment log collection. (that will be used as a default for environment)'
       rules:
         type: array
         description: List of anonymization rules that are applied on logs that are shipped to Cloudera
@@ -6346,11 +6327,6 @@ definitions:
       workloadAnalytics:
         type: boolean
         description: Flag to enable account level workload analytics. (that will be used as a default for environment)
-      reportDeploymentLogs:
-        type: boolean
-        default: false
-        x-deprecated: true
-        description: '[Deprecated] Flag to enable account level deployment log collection. (that will be used as a default for environment)'
       rules:
         type: array
         description: List of anonymization rules that are applied on logs that are shipped to Cloudera
@@ -6366,11 +6342,6 @@ definitions:
       workloadAnalytics:
         type: boolean
         description: Flag to enable account level workload analytics. (that will be used as a default for environment)
-      reportDeploymentLogs:
-        type: boolean
-        default: false
-        x-deprecated: true
-        description: '[Deprecated] Flag to enable account level deployment log collection. (that will be used as a default for environment)'
       rules:
         type: array
         description: List of anonymization rules that are applied on logs that are shipped to Cloudera
@@ -7598,3 +7569,30 @@ definitions:
       result:
         type: string
         description: The result of the operation.
+  PrepareFreeipaUpgradeRequest:
+    type: object
+    description: Request object for FreeIPA upgrade preparation.
+    required:
+      - environment
+    properties:
+      environment:
+        type: string
+        description: The name or CRN of the environment.
+      imageId:
+        type: string
+        description: Target image ID for upgrade.
+      allowMajorOsUpgrade:
+        type: boolean
+        description: Allows the upgrade to a subsequent major OS version in the series.
+  PrepareFreeipaUpgradeResponse:
+    type: object
+    description: Response object for FreeIPA upgrade preparation.
+    required:
+      - flowId
+    properties:
+      flowId:
+        type: string
+        description: Flow ID of the FreeIPA upgrade preparation flow.
+      operationId:
+        description: Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
+        type: string

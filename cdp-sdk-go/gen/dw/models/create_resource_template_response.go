@@ -19,12 +19,12 @@ type CreateResourceTemplateResponse struct {
 }
 
 // Validate validates this create resource template response
-func (m *CreateResourceTemplateResponse) Validate(formats strfmt.Registry) error {
+func (m *CreateResourceTemplateResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this create resource template response based on context it is used
-func (m *CreateResourceTemplateResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *CreateResourceTemplateResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -48,7 +48,7 @@ func (m *AzureCloudIdentity) validateObjectID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this azure cloud identity based on context it is used
-func (m *AzureCloudIdentity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AzureCloudIdentity) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

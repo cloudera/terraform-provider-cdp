@@ -48,7 +48,7 @@ func (m *ListMachineUserAssignedRolesResponse) validateRoleCrns(formats strfmt.R
 }
 
 // ContextValidate validates this list machine user assigned roles response based on context it is used
-func (m *ListMachineUserAssignedRolesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListMachineUserAssignedRolesResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

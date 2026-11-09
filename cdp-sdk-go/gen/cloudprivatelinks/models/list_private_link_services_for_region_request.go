@@ -48,7 +48,7 @@ func (m *ListPrivateLinkServicesForRegionRequest) validateRegion(formats strfmt.
 }
 
 // ContextValidate validates this list private link services for region request based on context it is used
-func (m *ListPrivateLinkServicesForRegionRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListPrivateLinkServicesForRegionRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

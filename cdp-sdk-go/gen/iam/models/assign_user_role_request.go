@@ -62,7 +62,7 @@ func (m *AssignUserRoleRequest) validateUser(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this assign user role request based on context it is used
-func (m *AssignUserRoleRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *AssignUserRoleRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

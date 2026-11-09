@@ -70,6 +70,6 @@ func (m DiagnosticDestination) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this diagnostic destination based on context it is used
-func (m DiagnosticDestination) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m DiagnosticDestination) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

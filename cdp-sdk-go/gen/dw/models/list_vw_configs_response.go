@@ -87,7 +87,7 @@ func (m *ListVwConfigsResponse) contextValidateConfigHistory(ctx context.Context
 		if m.ConfigHistory[i] != nil {
 
 			if typeutils.IsZero(m.ConfigHistory[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.ConfigHistory[i].ContextValidate(ctx, formats); err != nil {

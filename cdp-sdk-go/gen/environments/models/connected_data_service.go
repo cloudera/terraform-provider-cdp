@@ -62,7 +62,7 @@ func (m *ConnectedDataService) validateName(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this connected data service based on context it is used
-func (m *ConnectedDataService) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ConnectedDataService) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

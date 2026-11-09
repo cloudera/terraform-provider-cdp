@@ -19,12 +19,12 @@ type RotateFreeipaSecretsResponse struct {
 }
 
 // Validate validates this rotate freeipa secrets response
-func (m *RotateFreeipaSecretsResponse) Validate(formats strfmt.Registry) error {
+func (m *RotateFreeipaSecretsResponse) Validate(_ strfmt.Registry) error {
 	return nil
 }
 
 // ContextValidate validates this rotate freeipa secrets response based on context it is used
-func (m *RotateFreeipaSecretsResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *RotateFreeipaSecretsResponse) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

@@ -45,7 +45,7 @@ func (m *FinalizeZookeeperToKraftMigrationRequest) validateDatalake(formats strf
 }
 
 // ContextValidate validates this finalize zookeeper to kraft migration request based on context it is used
-func (m *FinalizeZookeeperToKraftMigrationRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FinalizeZookeeperToKraftMigrationRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

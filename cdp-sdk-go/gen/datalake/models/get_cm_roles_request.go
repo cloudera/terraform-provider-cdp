@@ -45,7 +45,7 @@ func (m *GetCmRolesRequest) validateCrn(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this get cm roles request based on context it is used
-func (m *GetCmRolesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetCmRolesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

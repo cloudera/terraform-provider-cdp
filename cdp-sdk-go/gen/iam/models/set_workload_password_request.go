@@ -48,7 +48,7 @@ func (m *SetWorkloadPasswordRequest) validatePassword(formats strfmt.Registry) e
 }
 
 // ContextValidate validates this set workload password request based on context it is used
-func (m *SetWorkloadPasswordRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SetWorkloadPasswordRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

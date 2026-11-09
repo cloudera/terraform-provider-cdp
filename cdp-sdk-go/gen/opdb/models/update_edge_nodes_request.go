@@ -68,7 +68,7 @@ func (m *UpdateEdgeNodesRequest) validateEnvironment(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this update edge nodes request based on context it is used
-func (m *UpdateEdgeNodesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *UpdateEdgeNodesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

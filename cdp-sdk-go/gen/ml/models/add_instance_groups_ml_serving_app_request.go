@@ -107,7 +107,7 @@ func (m *AddInstanceGroupsMlServingAppRequest) contextValidateInstanceGroups(ctx
 		if m.InstanceGroups[i] != nil {
 
 			if typeutils.IsZero(m.InstanceGroups[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.InstanceGroups[i].ContextValidate(ctx, formats); err != nil {

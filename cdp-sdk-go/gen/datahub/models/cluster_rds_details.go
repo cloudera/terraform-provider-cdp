@@ -97,7 +97,7 @@ func (m *ClusterRdsDetails) validateCreationDate(formats strfmt.Registry) error 
 }
 
 // ContextValidate validates this cluster rds details based on context it is used
-func (m *ClusterRdsDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ClusterRdsDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

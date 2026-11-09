@@ -109,7 +109,7 @@ func (m *LastAutomatedSyncDetails) validateTimestamp(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this last automated sync details based on context it is used
-func (m *LastAutomatedSyncDetails) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *LastAutomatedSyncDetails) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

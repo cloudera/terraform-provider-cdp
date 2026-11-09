@@ -87,7 +87,7 @@ func (m *RequestWorkflowCancellationResponse) contextValidateWorkflowMetadata(ct
 		if m.WorkflowMetadata[i] != nil {
 
 			if typeutils.IsZero(m.WorkflowMetadata[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.WorkflowMetadata[i].ContextValidate(ctx, formats); err != nil {

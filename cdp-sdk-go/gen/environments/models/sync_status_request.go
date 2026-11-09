@@ -45,7 +45,7 @@ func (m *SyncStatusRequest) validateOperationID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this sync status request based on context it is used
-func (m *SyncStatusRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *SyncStatusRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

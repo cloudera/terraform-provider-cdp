@@ -87,7 +87,7 @@ func (m *ListPrivateLinkEndpointStatusesResponse) contextValidatePrivatelinkEndp
 		if m.PrivatelinkEndpoints[i] != nil {
 
 			if typeutils.IsZero(m.PrivatelinkEndpoints[i]) { // not required
-				return nil
+				continue
 			}
 
 			if err := m.PrivatelinkEndpoints[i].ContextValidate(ctx, formats); err != nil {

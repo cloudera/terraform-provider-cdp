@@ -62,7 +62,7 @@ func (m *DescribeHueRequest) validateHueID(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this describe hue request based on context it is used
-func (m *DescribeHueRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *DescribeHueRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

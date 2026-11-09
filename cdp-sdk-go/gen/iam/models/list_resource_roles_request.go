@@ -60,7 +60,7 @@ func (m *ListResourceRolesRequest) validatePageSize(formats strfmt.Registry) err
 }
 
 // ContextValidate validates this list resource roles request based on context it is used
-func (m *ListResourceRolesRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *ListResourceRolesRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 

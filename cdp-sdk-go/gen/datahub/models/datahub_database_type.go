@@ -73,6 +73,6 @@ func (m DatahubDatabaseType) Validate(formats strfmt.Registry) error {
 }
 
 // ContextValidate validates this datahub database type based on context it is used
-func (m DatahubDatabaseType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m DatahubDatabaseType) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }

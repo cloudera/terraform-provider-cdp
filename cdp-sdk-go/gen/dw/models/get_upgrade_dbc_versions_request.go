@@ -62,7 +62,7 @@ func (m *GetUpgradeDbcVersionsRequest) validateDbcID(formats strfmt.Registry) er
 }
 
 // ContextValidate validates this get upgrade dbc versions request based on context it is used
-func (m *GetUpgradeDbcVersionsRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *GetUpgradeDbcVersionsRequest) ContextValidate(_ context.Context, _ strfmt.Registry) error {
 	return nil
 }
 
