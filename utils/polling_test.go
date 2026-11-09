@@ -1,4 +1,4 @@
-// Copyright 2023 Cloudera. All Rights Reserved.
+// Copyright 2026 Cloudera. All Rights Reserved.
 //
 // This file is licensed under the Apache License Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/stretchr/testify/assert"
@@ -84,52 +83,6 @@ func TestGetCallFailureThresholdOrDefault(t *testing.T) {
 			assert.Equal(t, tt.want, got)
 		})
 	}
-}
-
-func TestFromTfStringSliceToStringSliceIfEmpty(t *testing.T) {
-	assert.Equal(t, 0, len(FromTfStringSliceToStringSlice([]types.String{})))
-}
-
-func TestFromTfStringSliceToStringSliceIfNotEmpty(t *testing.T) {
-	val := "someValue"
-	input := []types.String{
-		types.StringValue(val),
-	}
-
-	result := FromTfStringSliceToStringSlice(input)
-
-	assert.Equal(t, len(input), len(result))
-	assert.Equal(t, val, result[0])
-}
-
-func TestFromStringListToListValue(t *testing.T) {
-	assert.Equal(
-		t,
-		types.ListNull(types.StringType),
-		FromStringListToListValue(nil),
-	)
-
-	expected, err := types.ListValue(types.StringType, []attr.Value{})
-	assert.Nil(t, err)
-	assert.Equal(
-		t,
-		expected,
-		FromStringListToListValue([]string{}),
-	)
-
-	expected, err = types.ListValue(
-		types.StringType,
-		[]attr.Value{
-			types.StringValue("test0"),
-			types.StringValue("test1"),
-		},
-	)
-	assert.Nil(t, err)
-	assert.Equal(
-		t,
-		expected,
-		FromStringListToListValue([]string{"test0", "test1"}),
-	)
 }
 
 func TestResolveAsync(t *testing.T) {
