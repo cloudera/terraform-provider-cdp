@@ -152,7 +152,7 @@ func (r *dwDatabaseCatalogResource) stateRefresh(ctx context.Context, clusterID 
 			*callFailedCount++
 			if *callFailedCount <= callFailureThreshold {
 				tflog.Warn(ctx, fmt.Sprintf("could not find Data Warehouse database catalog "+
-					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), *callFailedCount, callFailureThreshold))
 				return nil, "", nil
 			}
 			tflog.Error(ctx, fmt.Sprintf("error describing Data Warehouse database catalog due to [%s] "+

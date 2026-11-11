@@ -208,7 +208,7 @@ func (r *dwClusterResource) stateRefresh(ctx context.Context, clusterID *string,
 			*callFailedCount++
 			if *callFailedCount <= callFailureThreshold {
 				tflog.Warn(ctx, fmt.Sprintf("could not describe Data Warehouse AWS cluster "+
-					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), *callFailedCount, callFailureThreshold))
 				return nil, "", nil
 			}
 			tflog.Error(ctx, fmt.Sprintf("error describing Data Warehouse AWS cluster due to [%s] "+

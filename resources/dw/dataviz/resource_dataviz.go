@@ -292,7 +292,7 @@ func (r *datavizResource) stateRefresh(ctx context.Context, clusterID *string, v
 			*failedCnt++
 			if *failedCnt <= failureThreshold {
 				tflog.Warn(ctx, fmt.Sprintf("could not describe Data Visualization "+
-					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), failedCnt, failureThreshold))
+					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), *failedCnt, failureThreshold))
 				return nil, "", nil
 			}
 			tflog.Error(ctx, fmt.Sprintf("error describing Data Visualization due to [%s] "+

@@ -18,7 +18,7 @@ jobs:
           go-version-file: go.mod
           cache: true
       - name: Install gosec
-        run: go install github.com/securego/gosec/v2/cmd/gosec@v2.23.0
+        run: go install github.com/securego/gosec/v2/cmd/gosec@v2.30.0
       - name: Run gosec
         run: |
           gosec -exclude-generated \
