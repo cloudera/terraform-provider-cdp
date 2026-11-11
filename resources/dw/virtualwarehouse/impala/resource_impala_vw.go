@@ -169,7 +169,7 @@ func (r *impalaResource) stateRefresh(ctx context.Context, clusterID *string, vw
 			*callFailedCount++
 			if *callFailedCount <= callFailureThreshold {
 				tflog.Warn(ctx, fmt.Sprintf("could not describe Data Warehouse Impala Virtual Warehouse "+
-					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), callFailedCount, callFailureThreshold))
+					"due to [%s] but threshold limit is not reached yet (%d out of %d).", err.Error(), *callFailedCount, callFailureThreshold))
 				return nil, "", nil
 			}
 			tflog.Error(ctx, fmt.Sprintf("error describing Data Warehouse Impala Virtual Warehouse due to [%s] "+

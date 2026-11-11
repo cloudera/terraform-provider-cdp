@@ -111,7 +111,7 @@ func urlSafeSignature(ctx context.Context, logger Logger, seedBase64, method, pa
 }
 
 func urlSafeMeta(accessKeyID string) (string, error) {
-	b, err := json.Marshal(newMetastr(accessKeyID))
+	b, err := json.Marshal(newMetastr(accessKeyID)) // #nosec G117 -- access_key_id is not a secret; it's the public identifier half of a keypair
 	if err != nil {
 		return "", err
 	}
