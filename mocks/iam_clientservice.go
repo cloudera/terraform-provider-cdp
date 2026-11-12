@@ -18,10 +18,19 @@ func NewMockIamClientService(t interface {
 	mock.TestingT
 	Cleanup(func())
 }) *MockIamClientService {
+	if helper, ok := t.(interface{ Helper() }); ok {
+		helper.Helper()
+	}
+
 	mock := &MockIamClientService{}
 	mock.Mock.Test(t)
 
-	t.Cleanup(func() { mock.AssertExpectations(t) })
+	t.Cleanup(func() {
+		if helper, ok := t.(interface{ Helper() }); ok {
+			helper.Helper()
+		}
+		mock.AssertExpectations(t)
+	})
 
 	return mock
 }
@@ -42,11 +51,11 @@ func (_m *MockIamClientService) EXPECT() *MockIamClientService_Expecter {
 // AddMachineUserToGroup provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AddMachineUserToGroup(params *operations.AddMachineUserToGroupParams, opts ...operations.ClientOption) (*operations.AddMachineUserToGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -83,9 +92,9 @@ type MockIamClientService_AddMachineUserToGroup_Call struct {
 // AddMachineUserToGroup is a helper method to define mock.On call
 //   - params *operations.AddMachineUserToGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AddMachineUserToGroup(params interface{}, opts ...interface{}) *MockIamClientService_AddMachineUserToGroup_Call {
+func (_e *MockIamClientService_Expecter) AddMachineUserToGroup(params any, opts ...any) *MockIamClientService_AddMachineUserToGroup_Call {
 	return &MockIamClientService_AddMachineUserToGroup_Call{Call: _e.mock.On("AddMachineUserToGroup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AddMachineUserToGroup_Call) Run(run func(params *operations.AddMachineUserToGroupParams, opts ...operations.ClientOption)) *MockIamClientService_AddMachineUserToGroup_Call {
@@ -123,11 +132,11 @@ func (_c *MockIamClientService_AddMachineUserToGroup_Call) RunAndReturn(run func
 // AddMachineUserToGroupContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AddMachineUserToGroupContext(ctx context.Context, params *operations.AddMachineUserToGroupParams, opts ...operations.ClientOption) (*operations.AddMachineUserToGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -165,9 +174,9 @@ type MockIamClientService_AddMachineUserToGroupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AddMachineUserToGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AddMachineUserToGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AddMachineUserToGroupContext_Call {
+func (_e *MockIamClientService_Expecter) AddMachineUserToGroupContext(ctx any, params any, opts ...any) *MockIamClientService_AddMachineUserToGroupContext_Call {
 	return &MockIamClientService_AddMachineUserToGroupContext_Call{Call: _e.mock.On("AddMachineUserToGroupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AddMachineUserToGroupContext_Call) Run(run func(ctx context.Context, params *operations.AddMachineUserToGroupParams, opts ...operations.ClientOption)) *MockIamClientService_AddMachineUserToGroupContext_Call {
@@ -210,11 +219,11 @@ func (_c *MockIamClientService_AddMachineUserToGroupContext_Call) RunAndReturn(r
 // AddSSHPublicKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AddSSHPublicKey(params *operations.AddSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.AddSSHPublicKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -251,9 +260,9 @@ type MockIamClientService_AddSSHPublicKey_Call struct {
 // AddSSHPublicKey is a helper method to define mock.On call
 //   - params *operations.AddSSHPublicKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AddSSHPublicKey(params interface{}, opts ...interface{}) *MockIamClientService_AddSSHPublicKey_Call {
+func (_e *MockIamClientService_Expecter) AddSSHPublicKey(params any, opts ...any) *MockIamClientService_AddSSHPublicKey_Call {
 	return &MockIamClientService_AddSSHPublicKey_Call{Call: _e.mock.On("AddSSHPublicKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AddSSHPublicKey_Call) Run(run func(params *operations.AddSSHPublicKeyParams, opts ...operations.ClientOption)) *MockIamClientService_AddSSHPublicKey_Call {
@@ -291,11 +300,11 @@ func (_c *MockIamClientService_AddSSHPublicKey_Call) RunAndReturn(run func(param
 // AddSSHPublicKeyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AddSSHPublicKeyContext(ctx context.Context, params *operations.AddSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.AddSSHPublicKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -333,9 +342,9 @@ type MockIamClientService_AddSSHPublicKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AddSSHPublicKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AddSSHPublicKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AddSSHPublicKeyContext_Call {
+func (_e *MockIamClientService_Expecter) AddSSHPublicKeyContext(ctx any, params any, opts ...any) *MockIamClientService_AddSSHPublicKeyContext_Call {
 	return &MockIamClientService_AddSSHPublicKeyContext_Call{Call: _e.mock.On("AddSSHPublicKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AddSSHPublicKeyContext_Call) Run(run func(ctx context.Context, params *operations.AddSSHPublicKeyParams, opts ...operations.ClientOption)) *MockIamClientService_AddSSHPublicKeyContext_Call {
@@ -378,11 +387,11 @@ func (_c *MockIamClientService_AddSSHPublicKeyContext_Call) RunAndReturn(run fun
 // AddUserToGroup provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AddUserToGroup(params *operations.AddUserToGroupParams, opts ...operations.ClientOption) (*operations.AddUserToGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -419,9 +428,9 @@ type MockIamClientService_AddUserToGroup_Call struct {
 // AddUserToGroup is a helper method to define mock.On call
 //   - params *operations.AddUserToGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AddUserToGroup(params interface{}, opts ...interface{}) *MockIamClientService_AddUserToGroup_Call {
+func (_e *MockIamClientService_Expecter) AddUserToGroup(params any, opts ...any) *MockIamClientService_AddUserToGroup_Call {
 	return &MockIamClientService_AddUserToGroup_Call{Call: _e.mock.On("AddUserToGroup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AddUserToGroup_Call) Run(run func(params *operations.AddUserToGroupParams, opts ...operations.ClientOption)) *MockIamClientService_AddUserToGroup_Call {
@@ -459,11 +468,11 @@ func (_c *MockIamClientService_AddUserToGroup_Call) RunAndReturn(run func(params
 // AddUserToGroupContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AddUserToGroupContext(ctx context.Context, params *operations.AddUserToGroupParams, opts ...operations.ClientOption) (*operations.AddUserToGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -501,9 +510,9 @@ type MockIamClientService_AddUserToGroupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AddUserToGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AddUserToGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AddUserToGroupContext_Call {
+func (_e *MockIamClientService_Expecter) AddUserToGroupContext(ctx any, params any, opts ...any) *MockIamClientService_AddUserToGroupContext_Call {
 	return &MockIamClientService_AddUserToGroupContext_Call{Call: _e.mock.On("AddUserToGroupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AddUserToGroupContext_Call) Run(run func(ctx context.Context, params *operations.AddUserToGroupParams, opts ...operations.ClientOption)) *MockIamClientService_AddUserToGroupContext_Call {
@@ -546,11 +555,11 @@ func (_c *MockIamClientService_AddUserToGroupContext_Call) RunAndReturn(run func
 // AssignAzureCloudIdentity provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignAzureCloudIdentity(params *operations.AssignAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.AssignAzureCloudIdentityOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -587,9 +596,9 @@ type MockIamClientService_AssignAzureCloudIdentity_Call struct {
 // AssignAzureCloudIdentity is a helper method to define mock.On call
 //   - params *operations.AssignAzureCloudIdentityParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignAzureCloudIdentity(params interface{}, opts ...interface{}) *MockIamClientService_AssignAzureCloudIdentity_Call {
+func (_e *MockIamClientService_Expecter) AssignAzureCloudIdentity(params any, opts ...any) *MockIamClientService_AssignAzureCloudIdentity_Call {
 	return &MockIamClientService_AssignAzureCloudIdentity_Call{Call: _e.mock.On("AssignAzureCloudIdentity",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignAzureCloudIdentity_Call) Run(run func(params *operations.AssignAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_AssignAzureCloudIdentity_Call {
@@ -627,11 +636,11 @@ func (_c *MockIamClientService_AssignAzureCloudIdentity_Call) RunAndReturn(run f
 // AssignAzureCloudIdentityContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignAzureCloudIdentityContext(ctx context.Context, params *operations.AssignAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.AssignAzureCloudIdentityOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -669,9 +678,9 @@ type MockIamClientService_AssignAzureCloudIdentityContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AssignAzureCloudIdentityParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignAzureCloudIdentityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignAzureCloudIdentityContext_Call {
+func (_e *MockIamClientService_Expecter) AssignAzureCloudIdentityContext(ctx any, params any, opts ...any) *MockIamClientService_AssignAzureCloudIdentityContext_Call {
 	return &MockIamClientService_AssignAzureCloudIdentityContext_Call{Call: _e.mock.On("AssignAzureCloudIdentityContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignAzureCloudIdentityContext_Call) Run(run func(ctx context.Context, params *operations.AssignAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_AssignAzureCloudIdentityContext_Call {
@@ -714,11 +723,11 @@ func (_c *MockIamClientService_AssignAzureCloudIdentityContext_Call) RunAndRetur
 // AssignGroupResourceRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignGroupResourceRole(params *operations.AssignGroupResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignGroupResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -755,9 +764,9 @@ type MockIamClientService_AssignGroupResourceRole_Call struct {
 // AssignGroupResourceRole is a helper method to define mock.On call
 //   - params *operations.AssignGroupResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignGroupResourceRole(params interface{}, opts ...interface{}) *MockIamClientService_AssignGroupResourceRole_Call {
+func (_e *MockIamClientService_Expecter) AssignGroupResourceRole(params any, opts ...any) *MockIamClientService_AssignGroupResourceRole_Call {
 	return &MockIamClientService_AssignGroupResourceRole_Call{Call: _e.mock.On("AssignGroupResourceRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignGroupResourceRole_Call) Run(run func(params *operations.AssignGroupResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignGroupResourceRole_Call {
@@ -795,11 +804,11 @@ func (_c *MockIamClientService_AssignGroupResourceRole_Call) RunAndReturn(run fu
 // AssignGroupResourceRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignGroupResourceRoleContext(ctx context.Context, params *operations.AssignGroupResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignGroupResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -837,9 +846,9 @@ type MockIamClientService_AssignGroupResourceRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AssignGroupResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignGroupResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignGroupResourceRoleContext_Call {
+func (_e *MockIamClientService_Expecter) AssignGroupResourceRoleContext(ctx any, params any, opts ...any) *MockIamClientService_AssignGroupResourceRoleContext_Call {
 	return &MockIamClientService_AssignGroupResourceRoleContext_Call{Call: _e.mock.On("AssignGroupResourceRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignGroupResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignGroupResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignGroupResourceRoleContext_Call {
@@ -882,11 +891,11 @@ func (_c *MockIamClientService_AssignGroupResourceRoleContext_Call) RunAndReturn
 // AssignGroupRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignGroupRole(params *operations.AssignGroupRoleParams, opts ...operations.ClientOption) (*operations.AssignGroupRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -923,9 +932,9 @@ type MockIamClientService_AssignGroupRole_Call struct {
 // AssignGroupRole is a helper method to define mock.On call
 //   - params *operations.AssignGroupRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignGroupRole(params interface{}, opts ...interface{}) *MockIamClientService_AssignGroupRole_Call {
+func (_e *MockIamClientService_Expecter) AssignGroupRole(params any, opts ...any) *MockIamClientService_AssignGroupRole_Call {
 	return &MockIamClientService_AssignGroupRole_Call{Call: _e.mock.On("AssignGroupRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignGroupRole_Call) Run(run func(params *operations.AssignGroupRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignGroupRole_Call {
@@ -963,11 +972,11 @@ func (_c *MockIamClientService_AssignGroupRole_Call) RunAndReturn(run func(param
 // AssignGroupRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignGroupRoleContext(ctx context.Context, params *operations.AssignGroupRoleParams, opts ...operations.ClientOption) (*operations.AssignGroupRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1005,9 +1014,9 @@ type MockIamClientService_AssignGroupRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AssignGroupRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignGroupRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignGroupRoleContext_Call {
+func (_e *MockIamClientService_Expecter) AssignGroupRoleContext(ctx any, params any, opts ...any) *MockIamClientService_AssignGroupRoleContext_Call {
 	return &MockIamClientService_AssignGroupRoleContext_Call{Call: _e.mock.On("AssignGroupRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignGroupRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignGroupRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignGroupRoleContext_Call {
@@ -1050,11 +1059,11 @@ func (_c *MockIamClientService_AssignGroupRoleContext_Call) RunAndReturn(run fun
 // AssignMachineUserResourceRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignMachineUserResourceRole(params *operations.AssignMachineUserResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignMachineUserResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1091,9 +1100,9 @@ type MockIamClientService_AssignMachineUserResourceRole_Call struct {
 // AssignMachineUserResourceRole is a helper method to define mock.On call
 //   - params *operations.AssignMachineUserResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignMachineUserResourceRole(params interface{}, opts ...interface{}) *MockIamClientService_AssignMachineUserResourceRole_Call {
+func (_e *MockIamClientService_Expecter) AssignMachineUserResourceRole(params any, opts ...any) *MockIamClientService_AssignMachineUserResourceRole_Call {
 	return &MockIamClientService_AssignMachineUserResourceRole_Call{Call: _e.mock.On("AssignMachineUserResourceRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignMachineUserResourceRole_Call) Run(run func(params *operations.AssignMachineUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignMachineUserResourceRole_Call {
@@ -1131,11 +1140,11 @@ func (_c *MockIamClientService_AssignMachineUserResourceRole_Call) RunAndReturn(
 // AssignMachineUserResourceRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignMachineUserResourceRoleContext(ctx context.Context, params *operations.AssignMachineUserResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignMachineUserResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1173,9 +1182,9 @@ type MockIamClientService_AssignMachineUserResourceRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AssignMachineUserResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignMachineUserResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignMachineUserResourceRoleContext_Call {
+func (_e *MockIamClientService_Expecter) AssignMachineUserResourceRoleContext(ctx any, params any, opts ...any) *MockIamClientService_AssignMachineUserResourceRoleContext_Call {
 	return &MockIamClientService_AssignMachineUserResourceRoleContext_Call{Call: _e.mock.On("AssignMachineUserResourceRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignMachineUserResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignMachineUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignMachineUserResourceRoleContext_Call {
@@ -1218,11 +1227,11 @@ func (_c *MockIamClientService_AssignMachineUserResourceRoleContext_Call) RunAnd
 // AssignMachineUserRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignMachineUserRole(params *operations.AssignMachineUserRoleParams, opts ...operations.ClientOption) (*operations.AssignMachineUserRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1259,9 +1268,9 @@ type MockIamClientService_AssignMachineUserRole_Call struct {
 // AssignMachineUserRole is a helper method to define mock.On call
 //   - params *operations.AssignMachineUserRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignMachineUserRole(params interface{}, opts ...interface{}) *MockIamClientService_AssignMachineUserRole_Call {
+func (_e *MockIamClientService_Expecter) AssignMachineUserRole(params any, opts ...any) *MockIamClientService_AssignMachineUserRole_Call {
 	return &MockIamClientService_AssignMachineUserRole_Call{Call: _e.mock.On("AssignMachineUserRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignMachineUserRole_Call) Run(run func(params *operations.AssignMachineUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignMachineUserRole_Call {
@@ -1299,11 +1308,11 @@ func (_c *MockIamClientService_AssignMachineUserRole_Call) RunAndReturn(run func
 // AssignMachineUserRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignMachineUserRoleContext(ctx context.Context, params *operations.AssignMachineUserRoleParams, opts ...operations.ClientOption) (*operations.AssignMachineUserRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1341,9 +1350,9 @@ type MockIamClientService_AssignMachineUserRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AssignMachineUserRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignMachineUserRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignMachineUserRoleContext_Call {
+func (_e *MockIamClientService_Expecter) AssignMachineUserRoleContext(ctx any, params any, opts ...any) *MockIamClientService_AssignMachineUserRoleContext_Call {
 	return &MockIamClientService_AssignMachineUserRoleContext_Call{Call: _e.mock.On("AssignMachineUserRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignMachineUserRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignMachineUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignMachineUserRoleContext_Call {
@@ -1386,11 +1395,11 @@ func (_c *MockIamClientService_AssignMachineUserRoleContext_Call) RunAndReturn(r
 // AssignServicePrincipalAzureCloudIdentity provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignServicePrincipalAzureCloudIdentity(params *operations.AssignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.AssignServicePrincipalAzureCloudIdentityOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1427,9 +1436,9 @@ type MockIamClientService_AssignServicePrincipalAzureCloudIdentity_Call struct {
 // AssignServicePrincipalAzureCloudIdentity is a helper method to define mock.On call
 //   - params *operations.AssignServicePrincipalAzureCloudIdentityParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignServicePrincipalAzureCloudIdentity(params interface{}, opts ...interface{}) *MockIamClientService_AssignServicePrincipalAzureCloudIdentity_Call {
+func (_e *MockIamClientService_Expecter) AssignServicePrincipalAzureCloudIdentity(params any, opts ...any) *MockIamClientService_AssignServicePrincipalAzureCloudIdentity_Call {
 	return &MockIamClientService_AssignServicePrincipalAzureCloudIdentity_Call{Call: _e.mock.On("AssignServicePrincipalAzureCloudIdentity",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignServicePrincipalAzureCloudIdentity_Call) Run(run func(params *operations.AssignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_AssignServicePrincipalAzureCloudIdentity_Call {
@@ -1467,11 +1476,11 @@ func (_c *MockIamClientService_AssignServicePrincipalAzureCloudIdentity_Call) Ru
 // AssignServicePrincipalAzureCloudIdentityContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignServicePrincipalAzureCloudIdentityContext(ctx context.Context, params *operations.AssignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.AssignServicePrincipalAzureCloudIdentityOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1509,9 +1518,9 @@ type MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call s
 //   - ctx context.Context
 //   - params *operations.AssignServicePrincipalAzureCloudIdentityParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignServicePrincipalAzureCloudIdentityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call {
+func (_e *MockIamClientService_Expecter) AssignServicePrincipalAzureCloudIdentityContext(ctx any, params any, opts ...any) *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call {
 	return &MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call{Call: _e.mock.On("AssignServicePrincipalAzureCloudIdentityContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call) Run(run func(ctx context.Context, params *operations.AssignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_Call {
@@ -1554,11 +1563,11 @@ func (_c *MockIamClientService_AssignServicePrincipalAzureCloudIdentityContext_C
 // AssignUserResourceRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignUserResourceRole(params *operations.AssignUserResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignUserResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1595,9 +1604,9 @@ type MockIamClientService_AssignUserResourceRole_Call struct {
 // AssignUserResourceRole is a helper method to define mock.On call
 //   - params *operations.AssignUserResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignUserResourceRole(params interface{}, opts ...interface{}) *MockIamClientService_AssignUserResourceRole_Call {
+func (_e *MockIamClientService_Expecter) AssignUserResourceRole(params any, opts ...any) *MockIamClientService_AssignUserResourceRole_Call {
 	return &MockIamClientService_AssignUserResourceRole_Call{Call: _e.mock.On("AssignUserResourceRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignUserResourceRole_Call) Run(run func(params *operations.AssignUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignUserResourceRole_Call {
@@ -1635,11 +1644,11 @@ func (_c *MockIamClientService_AssignUserResourceRole_Call) RunAndReturn(run fun
 // AssignUserResourceRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignUserResourceRoleContext(ctx context.Context, params *operations.AssignUserResourceRoleParams, opts ...operations.ClientOption) (*operations.AssignUserResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1677,9 +1686,9 @@ type MockIamClientService_AssignUserResourceRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AssignUserResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignUserResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignUserResourceRoleContext_Call {
+func (_e *MockIamClientService_Expecter) AssignUserResourceRoleContext(ctx any, params any, opts ...any) *MockIamClientService_AssignUserResourceRoleContext_Call {
 	return &MockIamClientService_AssignUserResourceRoleContext_Call{Call: _e.mock.On("AssignUserResourceRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignUserResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignUserResourceRoleContext_Call {
@@ -1722,11 +1731,11 @@ func (_c *MockIamClientService_AssignUserResourceRoleContext_Call) RunAndReturn(
 // AssignUserRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignUserRole(params *operations.AssignUserRoleParams, opts ...operations.ClientOption) (*operations.AssignUserRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1763,9 +1772,9 @@ type MockIamClientService_AssignUserRole_Call struct {
 // AssignUserRole is a helper method to define mock.On call
 //   - params *operations.AssignUserRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignUserRole(params interface{}, opts ...interface{}) *MockIamClientService_AssignUserRole_Call {
+func (_e *MockIamClientService_Expecter) AssignUserRole(params any, opts ...any) *MockIamClientService_AssignUserRole_Call {
 	return &MockIamClientService_AssignUserRole_Call{Call: _e.mock.On("AssignUserRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignUserRole_Call) Run(run func(params *operations.AssignUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignUserRole_Call {
@@ -1803,11 +1812,11 @@ func (_c *MockIamClientService_AssignUserRole_Call) RunAndReturn(run func(params
 // AssignUserRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) AssignUserRoleContext(ctx context.Context, params *operations.AssignUserRoleParams, opts ...operations.ClientOption) (*operations.AssignUserRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1845,9 +1854,9 @@ type MockIamClientService_AssignUserRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AssignUserRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) AssignUserRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_AssignUserRoleContext_Call {
+func (_e *MockIamClientService_Expecter) AssignUserRoleContext(ctx any, params any, opts ...any) *MockIamClientService_AssignUserRoleContext_Call {
 	return &MockIamClientService_AssignUserRoleContext_Call{Call: _e.mock.On("AssignUserRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_AssignUserRoleContext_Call) Run(run func(ctx context.Context, params *operations.AssignUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_AssignUserRoleContext_Call {
@@ -1890,11 +1899,11 @@ func (_c *MockIamClientService_AssignUserRoleContext_Call) RunAndReturn(run func
 // CreateGroup provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateGroup(params *operations.CreateGroupParams, opts ...operations.ClientOption) (*operations.CreateGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1931,9 +1940,9 @@ type MockIamClientService_CreateGroup_Call struct {
 // CreateGroup is a helper method to define mock.On call
 //   - params *operations.CreateGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateGroup(params interface{}, opts ...interface{}) *MockIamClientService_CreateGroup_Call {
+func (_e *MockIamClientService_Expecter) CreateGroup(params any, opts ...any) *MockIamClientService_CreateGroup_Call {
 	return &MockIamClientService_CreateGroup_Call{Call: _e.mock.On("CreateGroup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateGroup_Call) Run(run func(params *operations.CreateGroupParams, opts ...operations.ClientOption)) *MockIamClientService_CreateGroup_Call {
@@ -1971,11 +1980,11 @@ func (_c *MockIamClientService_CreateGroup_Call) RunAndReturn(run func(params *o
 // CreateGroupContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateGroupContext(ctx context.Context, params *operations.CreateGroupParams, opts ...operations.ClientOption) (*operations.CreateGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2013,9 +2022,9 @@ type MockIamClientService_CreateGroupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateGroupContext_Call {
+func (_e *MockIamClientService_Expecter) CreateGroupContext(ctx any, params any, opts ...any) *MockIamClientService_CreateGroupContext_Call {
 	return &MockIamClientService_CreateGroupContext_Call{Call: _e.mock.On("CreateGroupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateGroupContext_Call) Run(run func(ctx context.Context, params *operations.CreateGroupParams, opts ...operations.ClientOption)) *MockIamClientService_CreateGroupContext_Call {
@@ -2058,11 +2067,11 @@ func (_c *MockIamClientService_CreateGroupContext_Call) RunAndReturn(run func(ct
 // CreateLdapProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateLdapProvider(params *operations.CreateLdapProviderParams, opts ...operations.ClientOption) (*operations.CreateLdapProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2099,9 +2108,9 @@ type MockIamClientService_CreateLdapProvider_Call struct {
 // CreateLdapProvider is a helper method to define mock.On call
 //   - params *operations.CreateLdapProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateLdapProvider(params interface{}, opts ...interface{}) *MockIamClientService_CreateLdapProvider_Call {
+func (_e *MockIamClientService_Expecter) CreateLdapProvider(params any, opts ...any) *MockIamClientService_CreateLdapProvider_Call {
 	return &MockIamClientService_CreateLdapProvider_Call{Call: _e.mock.On("CreateLdapProvider",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateLdapProvider_Call) Run(run func(params *operations.CreateLdapProviderParams, opts ...operations.ClientOption)) *MockIamClientService_CreateLdapProvider_Call {
@@ -2139,11 +2148,11 @@ func (_c *MockIamClientService_CreateLdapProvider_Call) RunAndReturn(run func(pa
 // CreateLdapProviderContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateLdapProviderContext(ctx context.Context, params *operations.CreateLdapProviderParams, opts ...operations.ClientOption) (*operations.CreateLdapProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2181,9 +2190,9 @@ type MockIamClientService_CreateLdapProviderContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateLdapProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateLdapProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateLdapProviderContext_Call {
+func (_e *MockIamClientService_Expecter) CreateLdapProviderContext(ctx any, params any, opts ...any) *MockIamClientService_CreateLdapProviderContext_Call {
 	return &MockIamClientService_CreateLdapProviderContext_Call{Call: _e.mock.On("CreateLdapProviderContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateLdapProviderContext_Call) Run(run func(ctx context.Context, params *operations.CreateLdapProviderParams, opts ...operations.ClientOption)) *MockIamClientService_CreateLdapProviderContext_Call {
@@ -2226,11 +2235,11 @@ func (_c *MockIamClientService_CreateLdapProviderContext_Call) RunAndReturn(run 
 // CreateMachineUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateMachineUser(params *operations.CreateMachineUserParams, opts ...operations.ClientOption) (*operations.CreateMachineUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2267,9 +2276,9 @@ type MockIamClientService_CreateMachineUser_Call struct {
 // CreateMachineUser is a helper method to define mock.On call
 //   - params *operations.CreateMachineUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateMachineUser(params interface{}, opts ...interface{}) *MockIamClientService_CreateMachineUser_Call {
+func (_e *MockIamClientService_Expecter) CreateMachineUser(params any, opts ...any) *MockIamClientService_CreateMachineUser_Call {
 	return &MockIamClientService_CreateMachineUser_Call{Call: _e.mock.On("CreateMachineUser",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateMachineUser_Call) Run(run func(params *operations.CreateMachineUserParams, opts ...operations.ClientOption)) *MockIamClientService_CreateMachineUser_Call {
@@ -2307,11 +2316,11 @@ func (_c *MockIamClientService_CreateMachineUser_Call) RunAndReturn(run func(par
 // CreateMachineUserAccessKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateMachineUserAccessKey(params *operations.CreateMachineUserAccessKeyParams, opts ...operations.ClientOption) (*operations.CreateMachineUserAccessKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2348,9 +2357,9 @@ type MockIamClientService_CreateMachineUserAccessKey_Call struct {
 // CreateMachineUserAccessKey is a helper method to define mock.On call
 //   - params *operations.CreateMachineUserAccessKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateMachineUserAccessKey(params interface{}, opts ...interface{}) *MockIamClientService_CreateMachineUserAccessKey_Call {
+func (_e *MockIamClientService_Expecter) CreateMachineUserAccessKey(params any, opts ...any) *MockIamClientService_CreateMachineUserAccessKey_Call {
 	return &MockIamClientService_CreateMachineUserAccessKey_Call{Call: _e.mock.On("CreateMachineUserAccessKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateMachineUserAccessKey_Call) Run(run func(params *operations.CreateMachineUserAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_CreateMachineUserAccessKey_Call {
@@ -2388,11 +2397,11 @@ func (_c *MockIamClientService_CreateMachineUserAccessKey_Call) RunAndReturn(run
 // CreateMachineUserAccessKeyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateMachineUserAccessKeyContext(ctx context.Context, params *operations.CreateMachineUserAccessKeyParams, opts ...operations.ClientOption) (*operations.CreateMachineUserAccessKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2430,9 +2439,9 @@ type MockIamClientService_CreateMachineUserAccessKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateMachineUserAccessKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateMachineUserAccessKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateMachineUserAccessKeyContext_Call {
+func (_e *MockIamClientService_Expecter) CreateMachineUserAccessKeyContext(ctx any, params any, opts ...any) *MockIamClientService_CreateMachineUserAccessKeyContext_Call {
 	return &MockIamClientService_CreateMachineUserAccessKeyContext_Call{Call: _e.mock.On("CreateMachineUserAccessKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateMachineUserAccessKeyContext_Call) Run(run func(ctx context.Context, params *operations.CreateMachineUserAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_CreateMachineUserAccessKeyContext_Call {
@@ -2475,11 +2484,11 @@ func (_c *MockIamClientService_CreateMachineUserAccessKeyContext_Call) RunAndRet
 // CreateMachineUserContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateMachineUserContext(ctx context.Context, params *operations.CreateMachineUserParams, opts ...operations.ClientOption) (*operations.CreateMachineUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2517,9 +2526,9 @@ type MockIamClientService_CreateMachineUserContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateMachineUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateMachineUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateMachineUserContext_Call {
+func (_e *MockIamClientService_Expecter) CreateMachineUserContext(ctx any, params any, opts ...any) *MockIamClientService_CreateMachineUserContext_Call {
 	return &MockIamClientService_CreateMachineUserContext_Call{Call: _e.mock.On("CreateMachineUserContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateMachineUserContext_Call) Run(run func(ctx context.Context, params *operations.CreateMachineUserParams, opts ...operations.ClientOption)) *MockIamClientService_CreateMachineUserContext_Call {
@@ -2562,11 +2571,11 @@ func (_c *MockIamClientService_CreateMachineUserContext_Call) RunAndReturn(run f
 // CreateSamlProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateSamlProvider(params *operations.CreateSamlProviderParams, opts ...operations.ClientOption) (*operations.CreateSamlProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2603,9 +2612,9 @@ type MockIamClientService_CreateSamlProvider_Call struct {
 // CreateSamlProvider is a helper method to define mock.On call
 //   - params *operations.CreateSamlProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateSamlProvider(params interface{}, opts ...interface{}) *MockIamClientService_CreateSamlProvider_Call {
+func (_e *MockIamClientService_Expecter) CreateSamlProvider(params any, opts ...any) *MockIamClientService_CreateSamlProvider_Call {
 	return &MockIamClientService_CreateSamlProvider_Call{Call: _e.mock.On("CreateSamlProvider",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateSamlProvider_Call) Run(run func(params *operations.CreateSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_CreateSamlProvider_Call {
@@ -2643,11 +2652,11 @@ func (_c *MockIamClientService_CreateSamlProvider_Call) RunAndReturn(run func(pa
 // CreateSamlProviderContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateSamlProviderContext(ctx context.Context, params *operations.CreateSamlProviderParams, opts ...operations.ClientOption) (*operations.CreateSamlProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2685,9 +2694,9 @@ type MockIamClientService_CreateSamlProviderContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateSamlProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateSamlProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateSamlProviderContext_Call {
+func (_e *MockIamClientService_Expecter) CreateSamlProviderContext(ctx any, params any, opts ...any) *MockIamClientService_CreateSamlProviderContext_Call {
 	return &MockIamClientService_CreateSamlProviderContext_Call{Call: _e.mock.On("CreateSamlProviderContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateSamlProviderContext_Call) Run(run func(ctx context.Context, params *operations.CreateSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_CreateSamlProviderContext_Call {
@@ -2730,11 +2739,11 @@ func (_c *MockIamClientService_CreateSamlProviderContext_Call) RunAndReturn(run 
 // CreateScimAccessToken provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateScimAccessToken(params *operations.CreateScimAccessTokenParams, opts ...operations.ClientOption) (*operations.CreateScimAccessTokenOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2771,9 +2780,9 @@ type MockIamClientService_CreateScimAccessToken_Call struct {
 // CreateScimAccessToken is a helper method to define mock.On call
 //   - params *operations.CreateScimAccessTokenParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateScimAccessToken(params interface{}, opts ...interface{}) *MockIamClientService_CreateScimAccessToken_Call {
+func (_e *MockIamClientService_Expecter) CreateScimAccessToken(params any, opts ...any) *MockIamClientService_CreateScimAccessToken_Call {
 	return &MockIamClientService_CreateScimAccessToken_Call{Call: _e.mock.On("CreateScimAccessToken",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateScimAccessToken_Call) Run(run func(params *operations.CreateScimAccessTokenParams, opts ...operations.ClientOption)) *MockIamClientService_CreateScimAccessToken_Call {
@@ -2811,11 +2820,11 @@ func (_c *MockIamClientService_CreateScimAccessToken_Call) RunAndReturn(run func
 // CreateScimAccessTokenContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateScimAccessTokenContext(ctx context.Context, params *operations.CreateScimAccessTokenParams, opts ...operations.ClientOption) (*operations.CreateScimAccessTokenOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2853,9 +2862,9 @@ type MockIamClientService_CreateScimAccessTokenContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateScimAccessTokenParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateScimAccessTokenContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateScimAccessTokenContext_Call {
+func (_e *MockIamClientService_Expecter) CreateScimAccessTokenContext(ctx any, params any, opts ...any) *MockIamClientService_CreateScimAccessTokenContext_Call {
 	return &MockIamClientService_CreateScimAccessTokenContext_Call{Call: _e.mock.On("CreateScimAccessTokenContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateScimAccessTokenContext_Call) Run(run func(ctx context.Context, params *operations.CreateScimAccessTokenParams, opts ...operations.ClientOption)) *MockIamClientService_CreateScimAccessTokenContext_Call {
@@ -2898,11 +2907,11 @@ func (_c *MockIamClientService_CreateScimAccessTokenContext_Call) RunAndReturn(r
 // CreateUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateUser(params *operations.CreateUserParams, opts ...operations.ClientOption) (*operations.CreateUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2939,9 +2948,9 @@ type MockIamClientService_CreateUser_Call struct {
 // CreateUser is a helper method to define mock.On call
 //   - params *operations.CreateUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateUser(params interface{}, opts ...interface{}) *MockIamClientService_CreateUser_Call {
+func (_e *MockIamClientService_Expecter) CreateUser(params any, opts ...any) *MockIamClientService_CreateUser_Call {
 	return &MockIamClientService_CreateUser_Call{Call: _e.mock.On("CreateUser",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateUser_Call) Run(run func(params *operations.CreateUserParams, opts ...operations.ClientOption)) *MockIamClientService_CreateUser_Call {
@@ -2979,11 +2988,11 @@ func (_c *MockIamClientService_CreateUser_Call) RunAndReturn(run func(params *op
 // CreateUserAccessKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateUserAccessKey(params *operations.CreateUserAccessKeyParams, opts ...operations.ClientOption) (*operations.CreateUserAccessKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3020,9 +3029,9 @@ type MockIamClientService_CreateUserAccessKey_Call struct {
 // CreateUserAccessKey is a helper method to define mock.On call
 //   - params *operations.CreateUserAccessKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateUserAccessKey(params interface{}, opts ...interface{}) *MockIamClientService_CreateUserAccessKey_Call {
+func (_e *MockIamClientService_Expecter) CreateUserAccessKey(params any, opts ...any) *MockIamClientService_CreateUserAccessKey_Call {
 	return &MockIamClientService_CreateUserAccessKey_Call{Call: _e.mock.On("CreateUserAccessKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateUserAccessKey_Call) Run(run func(params *operations.CreateUserAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_CreateUserAccessKey_Call {
@@ -3060,11 +3069,11 @@ func (_c *MockIamClientService_CreateUserAccessKey_Call) RunAndReturn(run func(p
 // CreateUserAccessKeyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateUserAccessKeyContext(ctx context.Context, params *operations.CreateUserAccessKeyParams, opts ...operations.ClientOption) (*operations.CreateUserAccessKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3102,9 +3111,9 @@ type MockIamClientService_CreateUserAccessKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateUserAccessKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateUserAccessKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateUserAccessKeyContext_Call {
+func (_e *MockIamClientService_Expecter) CreateUserAccessKeyContext(ctx any, params any, opts ...any) *MockIamClientService_CreateUserAccessKeyContext_Call {
 	return &MockIamClientService_CreateUserAccessKeyContext_Call{Call: _e.mock.On("CreateUserAccessKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateUserAccessKeyContext_Call) Run(run func(ctx context.Context, params *operations.CreateUserAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_CreateUserAccessKeyContext_Call {
@@ -3147,11 +3156,11 @@ func (_c *MockIamClientService_CreateUserAccessKeyContext_Call) RunAndReturn(run
 // CreateUserContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) CreateUserContext(ctx context.Context, params *operations.CreateUserParams, opts ...operations.ClientOption) (*operations.CreateUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3189,9 +3198,9 @@ type MockIamClientService_CreateUserContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) CreateUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_CreateUserContext_Call {
+func (_e *MockIamClientService_Expecter) CreateUserContext(ctx any, params any, opts ...any) *MockIamClientService_CreateUserContext_Call {
 	return &MockIamClientService_CreateUserContext_Call{Call: _e.mock.On("CreateUserContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_CreateUserContext_Call) Run(run func(ctx context.Context, params *operations.CreateUserParams, opts ...operations.ClientOption)) *MockIamClientService_CreateUserContext_Call {
@@ -3234,11 +3243,11 @@ func (_c *MockIamClientService_CreateUserContext_Call) RunAndReturn(run func(ctx
 // DeleteAccessKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteAccessKey(params *operations.DeleteAccessKeyParams, opts ...operations.ClientOption) (*operations.DeleteAccessKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3275,9 +3284,9 @@ type MockIamClientService_DeleteAccessKey_Call struct {
 // DeleteAccessKey is a helper method to define mock.On call
 //   - params *operations.DeleteAccessKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteAccessKey(params interface{}, opts ...interface{}) *MockIamClientService_DeleteAccessKey_Call {
+func (_e *MockIamClientService_Expecter) DeleteAccessKey(params any, opts ...any) *MockIamClientService_DeleteAccessKey_Call {
 	return &MockIamClientService_DeleteAccessKey_Call{Call: _e.mock.On("DeleteAccessKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteAccessKey_Call) Run(run func(params *operations.DeleteAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteAccessKey_Call {
@@ -3315,11 +3324,11 @@ func (_c *MockIamClientService_DeleteAccessKey_Call) RunAndReturn(run func(param
 // DeleteAccessKeyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteAccessKeyContext(ctx context.Context, params *operations.DeleteAccessKeyParams, opts ...operations.ClientOption) (*operations.DeleteAccessKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3357,9 +3366,9 @@ type MockIamClientService_DeleteAccessKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteAccessKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteAccessKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteAccessKeyContext_Call {
+func (_e *MockIamClientService_Expecter) DeleteAccessKeyContext(ctx any, params any, opts ...any) *MockIamClientService_DeleteAccessKeyContext_Call {
 	return &MockIamClientService_DeleteAccessKeyContext_Call{Call: _e.mock.On("DeleteAccessKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteAccessKeyContext_Call) Run(run func(ctx context.Context, params *operations.DeleteAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteAccessKeyContext_Call {
@@ -3402,11 +3411,11 @@ func (_c *MockIamClientService_DeleteAccessKeyContext_Call) RunAndReturn(run fun
 // DeleteGroup provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteGroup(params *operations.DeleteGroupParams, opts ...operations.ClientOption) (*operations.DeleteGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3443,9 +3452,9 @@ type MockIamClientService_DeleteGroup_Call struct {
 // DeleteGroup is a helper method to define mock.On call
 //   - params *operations.DeleteGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteGroup(params interface{}, opts ...interface{}) *MockIamClientService_DeleteGroup_Call {
+func (_e *MockIamClientService_Expecter) DeleteGroup(params any, opts ...any) *MockIamClientService_DeleteGroup_Call {
 	return &MockIamClientService_DeleteGroup_Call{Call: _e.mock.On("DeleteGroup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteGroup_Call) Run(run func(params *operations.DeleteGroupParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteGroup_Call {
@@ -3483,11 +3492,11 @@ func (_c *MockIamClientService_DeleteGroup_Call) RunAndReturn(run func(params *o
 // DeleteGroupContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteGroupContext(ctx context.Context, params *operations.DeleteGroupParams, opts ...operations.ClientOption) (*operations.DeleteGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3525,9 +3534,9 @@ type MockIamClientService_DeleteGroupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteGroupContext_Call {
+func (_e *MockIamClientService_Expecter) DeleteGroupContext(ctx any, params any, opts ...any) *MockIamClientService_DeleteGroupContext_Call {
 	return &MockIamClientService_DeleteGroupContext_Call{Call: _e.mock.On("DeleteGroupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteGroupContext_Call) Run(run func(ctx context.Context, params *operations.DeleteGroupParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteGroupContext_Call {
@@ -3570,11 +3579,11 @@ func (_c *MockIamClientService_DeleteGroupContext_Call) RunAndReturn(run func(ct
 // DeleteMachineUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteMachineUser(params *operations.DeleteMachineUserParams, opts ...operations.ClientOption) (*operations.DeleteMachineUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3611,9 +3620,9 @@ type MockIamClientService_DeleteMachineUser_Call struct {
 // DeleteMachineUser is a helper method to define mock.On call
 //   - params *operations.DeleteMachineUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteMachineUser(params interface{}, opts ...interface{}) *MockIamClientService_DeleteMachineUser_Call {
+func (_e *MockIamClientService_Expecter) DeleteMachineUser(params any, opts ...any) *MockIamClientService_DeleteMachineUser_Call {
 	return &MockIamClientService_DeleteMachineUser_Call{Call: _e.mock.On("DeleteMachineUser",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteMachineUser_Call) Run(run func(params *operations.DeleteMachineUserParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteMachineUser_Call {
@@ -3651,11 +3660,11 @@ func (_c *MockIamClientService_DeleteMachineUser_Call) RunAndReturn(run func(par
 // DeleteMachineUserContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteMachineUserContext(ctx context.Context, params *operations.DeleteMachineUserParams, opts ...operations.ClientOption) (*operations.DeleteMachineUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3693,9 +3702,9 @@ type MockIamClientService_DeleteMachineUserContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteMachineUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteMachineUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteMachineUserContext_Call {
+func (_e *MockIamClientService_Expecter) DeleteMachineUserContext(ctx any, params any, opts ...any) *MockIamClientService_DeleteMachineUserContext_Call {
 	return &MockIamClientService_DeleteMachineUserContext_Call{Call: _e.mock.On("DeleteMachineUserContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteMachineUserContext_Call) Run(run func(ctx context.Context, params *operations.DeleteMachineUserParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteMachineUserContext_Call {
@@ -3738,11 +3747,11 @@ func (_c *MockIamClientService_DeleteMachineUserContext_Call) RunAndReturn(run f
 // DeleteSSHPublicKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteSSHPublicKey(params *operations.DeleteSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.DeleteSSHPublicKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3779,9 +3788,9 @@ type MockIamClientService_DeleteSSHPublicKey_Call struct {
 // DeleteSSHPublicKey is a helper method to define mock.On call
 //   - params *operations.DeleteSSHPublicKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteSSHPublicKey(params interface{}, opts ...interface{}) *MockIamClientService_DeleteSSHPublicKey_Call {
+func (_e *MockIamClientService_Expecter) DeleteSSHPublicKey(params any, opts ...any) *MockIamClientService_DeleteSSHPublicKey_Call {
 	return &MockIamClientService_DeleteSSHPublicKey_Call{Call: _e.mock.On("DeleteSSHPublicKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteSSHPublicKey_Call) Run(run func(params *operations.DeleteSSHPublicKeyParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteSSHPublicKey_Call {
@@ -3819,11 +3828,11 @@ func (_c *MockIamClientService_DeleteSSHPublicKey_Call) RunAndReturn(run func(pa
 // DeleteSSHPublicKeyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteSSHPublicKeyContext(ctx context.Context, params *operations.DeleteSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.DeleteSSHPublicKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3861,9 +3870,9 @@ type MockIamClientService_DeleteSSHPublicKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteSSHPublicKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteSSHPublicKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteSSHPublicKeyContext_Call {
+func (_e *MockIamClientService_Expecter) DeleteSSHPublicKeyContext(ctx any, params any, opts ...any) *MockIamClientService_DeleteSSHPublicKeyContext_Call {
 	return &MockIamClientService_DeleteSSHPublicKeyContext_Call{Call: _e.mock.On("DeleteSSHPublicKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteSSHPublicKeyContext_Call) Run(run func(ctx context.Context, params *operations.DeleteSSHPublicKeyParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteSSHPublicKeyContext_Call {
@@ -3906,11 +3915,11 @@ func (_c *MockIamClientService_DeleteSSHPublicKeyContext_Call) RunAndReturn(run 
 // DeleteSamlProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteSamlProvider(params *operations.DeleteSamlProviderParams, opts ...operations.ClientOption) (*operations.DeleteSamlProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3947,9 +3956,9 @@ type MockIamClientService_DeleteSamlProvider_Call struct {
 // DeleteSamlProvider is a helper method to define mock.On call
 //   - params *operations.DeleteSamlProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteSamlProvider(params interface{}, opts ...interface{}) *MockIamClientService_DeleteSamlProvider_Call {
+func (_e *MockIamClientService_Expecter) DeleteSamlProvider(params any, opts ...any) *MockIamClientService_DeleteSamlProvider_Call {
 	return &MockIamClientService_DeleteSamlProvider_Call{Call: _e.mock.On("DeleteSamlProvider",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteSamlProvider_Call) Run(run func(params *operations.DeleteSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteSamlProvider_Call {
@@ -3987,11 +3996,11 @@ func (_c *MockIamClientService_DeleteSamlProvider_Call) RunAndReturn(run func(pa
 // DeleteSamlProviderContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteSamlProviderContext(ctx context.Context, params *operations.DeleteSamlProviderParams, opts ...operations.ClientOption) (*operations.DeleteSamlProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4029,9 +4038,9 @@ type MockIamClientService_DeleteSamlProviderContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteSamlProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteSamlProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteSamlProviderContext_Call {
+func (_e *MockIamClientService_Expecter) DeleteSamlProviderContext(ctx any, params any, opts ...any) *MockIamClientService_DeleteSamlProviderContext_Call {
 	return &MockIamClientService_DeleteSamlProviderContext_Call{Call: _e.mock.On("DeleteSamlProviderContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteSamlProviderContext_Call) Run(run func(ctx context.Context, params *operations.DeleteSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteSamlProviderContext_Call {
@@ -4074,11 +4083,11 @@ func (_c *MockIamClientService_DeleteSamlProviderContext_Call) RunAndReturn(run 
 // DeleteScimAccessToken provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteScimAccessToken(params *operations.DeleteScimAccessTokenParams, opts ...operations.ClientOption) (*operations.DeleteScimAccessTokenOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4115,9 +4124,9 @@ type MockIamClientService_DeleteScimAccessToken_Call struct {
 // DeleteScimAccessToken is a helper method to define mock.On call
 //   - params *operations.DeleteScimAccessTokenParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteScimAccessToken(params interface{}, opts ...interface{}) *MockIamClientService_DeleteScimAccessToken_Call {
+func (_e *MockIamClientService_Expecter) DeleteScimAccessToken(params any, opts ...any) *MockIamClientService_DeleteScimAccessToken_Call {
 	return &MockIamClientService_DeleteScimAccessToken_Call{Call: _e.mock.On("DeleteScimAccessToken",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteScimAccessToken_Call) Run(run func(params *operations.DeleteScimAccessTokenParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteScimAccessToken_Call {
@@ -4155,11 +4164,11 @@ func (_c *MockIamClientService_DeleteScimAccessToken_Call) RunAndReturn(run func
 // DeleteScimAccessTokenContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteScimAccessTokenContext(ctx context.Context, params *operations.DeleteScimAccessTokenParams, opts ...operations.ClientOption) (*operations.DeleteScimAccessTokenOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4197,9 +4206,9 @@ type MockIamClientService_DeleteScimAccessTokenContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteScimAccessTokenParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteScimAccessTokenContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteScimAccessTokenContext_Call {
+func (_e *MockIamClientService_Expecter) DeleteScimAccessTokenContext(ctx any, params any, opts ...any) *MockIamClientService_DeleteScimAccessTokenContext_Call {
 	return &MockIamClientService_DeleteScimAccessTokenContext_Call{Call: _e.mock.On("DeleteScimAccessTokenContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteScimAccessTokenContext_Call) Run(run func(ctx context.Context, params *operations.DeleteScimAccessTokenParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteScimAccessTokenContext_Call {
@@ -4242,11 +4251,11 @@ func (_c *MockIamClientService_DeleteScimAccessTokenContext_Call) RunAndReturn(r
 // DeleteUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteUser(params *operations.DeleteUserParams, opts ...operations.ClientOption) (*operations.DeleteUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4283,9 +4292,9 @@ type MockIamClientService_DeleteUser_Call struct {
 // DeleteUser is a helper method to define mock.On call
 //   - params *operations.DeleteUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteUser(params interface{}, opts ...interface{}) *MockIamClientService_DeleteUser_Call {
+func (_e *MockIamClientService_Expecter) DeleteUser(params any, opts ...any) *MockIamClientService_DeleteUser_Call {
 	return &MockIamClientService_DeleteUser_Call{Call: _e.mock.On("DeleteUser",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteUser_Call) Run(run func(params *operations.DeleteUserParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteUser_Call {
@@ -4323,11 +4332,11 @@ func (_c *MockIamClientService_DeleteUser_Call) RunAndReturn(run func(params *op
 // DeleteUserContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DeleteUserContext(ctx context.Context, params *operations.DeleteUserParams, opts ...operations.ClientOption) (*operations.DeleteUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4365,9 +4374,9 @@ type MockIamClientService_DeleteUserContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DeleteUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DeleteUserContext_Call {
+func (_e *MockIamClientService_Expecter) DeleteUserContext(ctx any, params any, opts ...any) *MockIamClientService_DeleteUserContext_Call {
 	return &MockIamClientService_DeleteUserContext_Call{Call: _e.mock.On("DeleteUserContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DeleteUserContext_Call) Run(run func(ctx context.Context, params *operations.DeleteUserParams, opts ...operations.ClientOption)) *MockIamClientService_DeleteUserContext_Call {
@@ -4410,11 +4419,11 @@ func (_c *MockIamClientService_DeleteUserContext_Call) RunAndReturn(run func(ctx
 // DescribeSSHPublicKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DescribeSSHPublicKey(params *operations.DescribeSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.DescribeSSHPublicKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4451,9 +4460,9 @@ type MockIamClientService_DescribeSSHPublicKey_Call struct {
 // DescribeSSHPublicKey is a helper method to define mock.On call
 //   - params *operations.DescribeSSHPublicKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DescribeSSHPublicKey(params interface{}, opts ...interface{}) *MockIamClientService_DescribeSSHPublicKey_Call {
+func (_e *MockIamClientService_Expecter) DescribeSSHPublicKey(params any, opts ...any) *MockIamClientService_DescribeSSHPublicKey_Call {
 	return &MockIamClientService_DescribeSSHPublicKey_Call{Call: _e.mock.On("DescribeSSHPublicKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DescribeSSHPublicKey_Call) Run(run func(params *operations.DescribeSSHPublicKeyParams, opts ...operations.ClientOption)) *MockIamClientService_DescribeSSHPublicKey_Call {
@@ -4491,11 +4500,11 @@ func (_c *MockIamClientService_DescribeSSHPublicKey_Call) RunAndReturn(run func(
 // DescribeSSHPublicKeyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DescribeSSHPublicKeyContext(ctx context.Context, params *operations.DescribeSSHPublicKeyParams, opts ...operations.ClientOption) (*operations.DescribeSSHPublicKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4533,9 +4542,9 @@ type MockIamClientService_DescribeSSHPublicKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeSSHPublicKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DescribeSSHPublicKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DescribeSSHPublicKeyContext_Call {
+func (_e *MockIamClientService_Expecter) DescribeSSHPublicKeyContext(ctx any, params any, opts ...any) *MockIamClientService_DescribeSSHPublicKeyContext_Call {
 	return &MockIamClientService_DescribeSSHPublicKeyContext_Call{Call: _e.mock.On("DescribeSSHPublicKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DescribeSSHPublicKeyContext_Call) Run(run func(ctx context.Context, params *operations.DescribeSSHPublicKeyParams, opts ...operations.ClientOption)) *MockIamClientService_DescribeSSHPublicKeyContext_Call {
@@ -4578,11 +4587,11 @@ func (_c *MockIamClientService_DescribeSSHPublicKeyContext_Call) RunAndReturn(ru
 // DescribeSamlProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DescribeSamlProvider(params *operations.DescribeSamlProviderParams, opts ...operations.ClientOption) (*operations.DescribeSamlProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4619,9 +4628,9 @@ type MockIamClientService_DescribeSamlProvider_Call struct {
 // DescribeSamlProvider is a helper method to define mock.On call
 //   - params *operations.DescribeSamlProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DescribeSamlProvider(params interface{}, opts ...interface{}) *MockIamClientService_DescribeSamlProvider_Call {
+func (_e *MockIamClientService_Expecter) DescribeSamlProvider(params any, opts ...any) *MockIamClientService_DescribeSamlProvider_Call {
 	return &MockIamClientService_DescribeSamlProvider_Call{Call: _e.mock.On("DescribeSamlProvider",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DescribeSamlProvider_Call) Run(run func(params *operations.DescribeSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_DescribeSamlProvider_Call {
@@ -4659,11 +4668,11 @@ func (_c *MockIamClientService_DescribeSamlProvider_Call) RunAndReturn(run func(
 // DescribeSamlProviderContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DescribeSamlProviderContext(ctx context.Context, params *operations.DescribeSamlProviderParams, opts ...operations.ClientOption) (*operations.DescribeSamlProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4701,9 +4710,9 @@ type MockIamClientService_DescribeSamlProviderContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeSamlProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DescribeSamlProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DescribeSamlProviderContext_Call {
+func (_e *MockIamClientService_Expecter) DescribeSamlProviderContext(ctx any, params any, opts ...any) *MockIamClientService_DescribeSamlProviderContext_Call {
 	return &MockIamClientService_DescribeSamlProviderContext_Call{Call: _e.mock.On("DescribeSamlProviderContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DescribeSamlProviderContext_Call) Run(run func(ctx context.Context, params *operations.DescribeSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_DescribeSamlProviderContext_Call {
@@ -4746,11 +4755,11 @@ func (_c *MockIamClientService_DescribeSamlProviderContext_Call) RunAndReturn(ru
 // DisableClouderaSSOLogin provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DisableClouderaSSOLogin(params *operations.DisableClouderaSSOLoginParams, opts ...operations.ClientOption) (*operations.DisableClouderaSSOLoginOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4787,9 +4796,9 @@ type MockIamClientService_DisableClouderaSSOLogin_Call struct {
 // DisableClouderaSSOLogin is a helper method to define mock.On call
 //   - params *operations.DisableClouderaSSOLoginParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DisableClouderaSSOLogin(params interface{}, opts ...interface{}) *MockIamClientService_DisableClouderaSSOLogin_Call {
+func (_e *MockIamClientService_Expecter) DisableClouderaSSOLogin(params any, opts ...any) *MockIamClientService_DisableClouderaSSOLogin_Call {
 	return &MockIamClientService_DisableClouderaSSOLogin_Call{Call: _e.mock.On("DisableClouderaSSOLogin",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DisableClouderaSSOLogin_Call) Run(run func(params *operations.DisableClouderaSSOLoginParams, opts ...operations.ClientOption)) *MockIamClientService_DisableClouderaSSOLogin_Call {
@@ -4827,11 +4836,11 @@ func (_c *MockIamClientService_DisableClouderaSSOLogin_Call) RunAndReturn(run fu
 // DisableClouderaSSOLoginContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DisableClouderaSSOLoginContext(ctx context.Context, params *operations.DisableClouderaSSOLoginParams, opts ...operations.ClientOption) (*operations.DisableClouderaSSOLoginOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4869,9 +4878,9 @@ type MockIamClientService_DisableClouderaSSOLoginContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DisableClouderaSSOLoginParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DisableClouderaSSOLoginContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DisableClouderaSSOLoginContext_Call {
+func (_e *MockIamClientService_Expecter) DisableClouderaSSOLoginContext(ctx any, params any, opts ...any) *MockIamClientService_DisableClouderaSSOLoginContext_Call {
 	return &MockIamClientService_DisableClouderaSSOLoginContext_Call{Call: _e.mock.On("DisableClouderaSSOLoginContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DisableClouderaSSOLoginContext_Call) Run(run func(ctx context.Context, params *operations.DisableClouderaSSOLoginParams, opts ...operations.ClientOption)) *MockIamClientService_DisableClouderaSSOLoginContext_Call {
@@ -4914,11 +4923,11 @@ func (_c *MockIamClientService_DisableClouderaSSOLoginContext_Call) RunAndReturn
 // DisableUserWorkloadPasswordChangedNotifications provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DisableUserWorkloadPasswordChangedNotifications(params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.DisableUserWorkloadPasswordChangedNotificationsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4955,9 +4964,9 @@ type MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call s
 // DisableUserWorkloadPasswordChangedNotifications is a helper method to define mock.On call
 //   - params *operations.DisableUserWorkloadPasswordChangedNotificationsParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DisableUserWorkloadPasswordChangedNotifications(params interface{}, opts ...interface{}) *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call {
+func (_e *MockIamClientService_Expecter) DisableUserWorkloadPasswordChangedNotifications(params any, opts ...any) *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call {
 	return &MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call{Call: _e.mock.On("DisableUserWorkloadPasswordChangedNotifications",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call) Run(run func(params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption)) *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_Call {
@@ -4995,11 +5004,11 @@ func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotifications_C
 // DisableUserWorkloadPasswordChangedNotificationsContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) DisableUserWorkloadPasswordChangedNotificationsContext(ctx context.Context, params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.DisableUserWorkloadPasswordChangedNotificationsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5037,9 +5046,9 @@ type MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext
 //   - ctx context.Context
 //   - params *operations.DisableUserWorkloadPasswordChangedNotificationsParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) DisableUserWorkloadPasswordChangedNotificationsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call {
+func (_e *MockIamClientService_Expecter) DisableUserWorkloadPasswordChangedNotificationsContext(ctx any, params any, opts ...any) *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call {
 	return &MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call{Call: _e.mock.On("DisableUserWorkloadPasswordChangedNotificationsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call) Run(run func(ctx context.Context, params *operations.DisableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption)) *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsContext_Call {
@@ -5082,11 +5091,11 @@ func (_c *MockIamClientService_DisableUserWorkloadPasswordChangedNotificationsCo
 // EnableClouderaSSOLogin provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) EnableClouderaSSOLogin(params *operations.EnableClouderaSSOLoginParams, opts ...operations.ClientOption) (*operations.EnableClouderaSSOLoginOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5123,9 +5132,9 @@ type MockIamClientService_EnableClouderaSSOLogin_Call struct {
 // EnableClouderaSSOLogin is a helper method to define mock.On call
 //   - params *operations.EnableClouderaSSOLoginParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) EnableClouderaSSOLogin(params interface{}, opts ...interface{}) *MockIamClientService_EnableClouderaSSOLogin_Call {
+func (_e *MockIamClientService_Expecter) EnableClouderaSSOLogin(params any, opts ...any) *MockIamClientService_EnableClouderaSSOLogin_Call {
 	return &MockIamClientService_EnableClouderaSSOLogin_Call{Call: _e.mock.On("EnableClouderaSSOLogin",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_EnableClouderaSSOLogin_Call) Run(run func(params *operations.EnableClouderaSSOLoginParams, opts ...operations.ClientOption)) *MockIamClientService_EnableClouderaSSOLogin_Call {
@@ -5163,11 +5172,11 @@ func (_c *MockIamClientService_EnableClouderaSSOLogin_Call) RunAndReturn(run fun
 // EnableClouderaSSOLoginContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) EnableClouderaSSOLoginContext(ctx context.Context, params *operations.EnableClouderaSSOLoginParams, opts ...operations.ClientOption) (*operations.EnableClouderaSSOLoginOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5205,9 +5214,9 @@ type MockIamClientService_EnableClouderaSSOLoginContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.EnableClouderaSSOLoginParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) EnableClouderaSSOLoginContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_EnableClouderaSSOLoginContext_Call {
+func (_e *MockIamClientService_Expecter) EnableClouderaSSOLoginContext(ctx any, params any, opts ...any) *MockIamClientService_EnableClouderaSSOLoginContext_Call {
 	return &MockIamClientService_EnableClouderaSSOLoginContext_Call{Call: _e.mock.On("EnableClouderaSSOLoginContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_EnableClouderaSSOLoginContext_Call) Run(run func(ctx context.Context, params *operations.EnableClouderaSSOLoginParams, opts ...operations.ClientOption)) *MockIamClientService_EnableClouderaSSOLoginContext_Call {
@@ -5250,11 +5259,11 @@ func (_c *MockIamClientService_EnableClouderaSSOLoginContext_Call) RunAndReturn(
 // EnableUserWorkloadPasswordChangedNotifications provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) EnableUserWorkloadPasswordChangedNotifications(params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.EnableUserWorkloadPasswordChangedNotificationsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5291,9 +5300,9 @@ type MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call st
 // EnableUserWorkloadPasswordChangedNotifications is a helper method to define mock.On call
 //   - params *operations.EnableUserWorkloadPasswordChangedNotificationsParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) EnableUserWorkloadPasswordChangedNotifications(params interface{}, opts ...interface{}) *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call {
+func (_e *MockIamClientService_Expecter) EnableUserWorkloadPasswordChangedNotifications(params any, opts ...any) *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call {
 	return &MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call{Call: _e.mock.On("EnableUserWorkloadPasswordChangedNotifications",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call) Run(run func(params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption)) *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Call {
@@ -5331,11 +5340,11 @@ func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotifications_Ca
 // EnableUserWorkloadPasswordChangedNotificationsContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) EnableUserWorkloadPasswordChangedNotificationsContext(ctx context.Context, params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption) (*operations.EnableUserWorkloadPasswordChangedNotificationsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5373,9 +5382,9 @@ type MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_
 //   - ctx context.Context
 //   - params *operations.EnableUserWorkloadPasswordChangedNotificationsParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) EnableUserWorkloadPasswordChangedNotificationsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call {
+func (_e *MockIamClientService_Expecter) EnableUserWorkloadPasswordChangedNotificationsContext(ctx any, params any, opts ...any) *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call {
 	return &MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call{Call: _e.mock.On("EnableUserWorkloadPasswordChangedNotificationsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call) Run(run func(ctx context.Context, params *operations.EnableUserWorkloadPasswordChangedNotificationsParams, opts ...operations.ClientOption)) *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsContext_Call {
@@ -5418,11 +5427,11 @@ func (_c *MockIamClientService_EnableUserWorkloadPasswordChangedNotificationsCon
 // GenerateWorkloadAuthToken provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GenerateWorkloadAuthToken(params *operations.GenerateWorkloadAuthTokenParams, opts ...operations.ClientOption) (*operations.GenerateWorkloadAuthTokenOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5459,9 +5468,9 @@ type MockIamClientService_GenerateWorkloadAuthToken_Call struct {
 // GenerateWorkloadAuthToken is a helper method to define mock.On call
 //   - params *operations.GenerateWorkloadAuthTokenParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GenerateWorkloadAuthToken(params interface{}, opts ...interface{}) *MockIamClientService_GenerateWorkloadAuthToken_Call {
+func (_e *MockIamClientService_Expecter) GenerateWorkloadAuthToken(params any, opts ...any) *MockIamClientService_GenerateWorkloadAuthToken_Call {
 	return &MockIamClientService_GenerateWorkloadAuthToken_Call{Call: _e.mock.On("GenerateWorkloadAuthToken",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GenerateWorkloadAuthToken_Call) Run(run func(params *operations.GenerateWorkloadAuthTokenParams, opts ...operations.ClientOption)) *MockIamClientService_GenerateWorkloadAuthToken_Call {
@@ -5499,11 +5508,11 @@ func (_c *MockIamClientService_GenerateWorkloadAuthToken_Call) RunAndReturn(run 
 // GenerateWorkloadAuthTokenContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GenerateWorkloadAuthTokenContext(ctx context.Context, params *operations.GenerateWorkloadAuthTokenParams, opts ...operations.ClientOption) (*operations.GenerateWorkloadAuthTokenOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5541,9 +5550,9 @@ type MockIamClientService_GenerateWorkloadAuthTokenContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GenerateWorkloadAuthTokenParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GenerateWorkloadAuthTokenContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GenerateWorkloadAuthTokenContext_Call {
+func (_e *MockIamClientService_Expecter) GenerateWorkloadAuthTokenContext(ctx any, params any, opts ...any) *MockIamClientService_GenerateWorkloadAuthTokenContext_Call {
 	return &MockIamClientService_GenerateWorkloadAuthTokenContext_Call{Call: _e.mock.On("GenerateWorkloadAuthTokenContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GenerateWorkloadAuthTokenContext_Call) Run(run func(ctx context.Context, params *operations.GenerateWorkloadAuthTokenParams, opts ...operations.ClientOption)) *MockIamClientService_GenerateWorkloadAuthTokenContext_Call {
@@ -5586,11 +5595,11 @@ func (_c *MockIamClientService_GenerateWorkloadAuthTokenContext_Call) RunAndRetu
 // GetAccessKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetAccessKey(params *operations.GetAccessKeyParams, opts ...operations.ClientOption) (*operations.GetAccessKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5627,9 +5636,9 @@ type MockIamClientService_GetAccessKey_Call struct {
 // GetAccessKey is a helper method to define mock.On call
 //   - params *operations.GetAccessKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GetAccessKey(params interface{}, opts ...interface{}) *MockIamClientService_GetAccessKey_Call {
+func (_e *MockIamClientService_Expecter) GetAccessKey(params any, opts ...any) *MockIamClientService_GetAccessKey_Call {
 	return &MockIamClientService_GetAccessKey_Call{Call: _e.mock.On("GetAccessKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GetAccessKey_Call) Run(run func(params *operations.GetAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_GetAccessKey_Call {
@@ -5667,11 +5676,11 @@ func (_c *MockIamClientService_GetAccessKey_Call) RunAndReturn(run func(params *
 // GetAccessKeyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetAccessKeyContext(ctx context.Context, params *operations.GetAccessKeyParams, opts ...operations.ClientOption) (*operations.GetAccessKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5709,9 +5718,9 @@ type MockIamClientService_GetAccessKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetAccessKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GetAccessKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GetAccessKeyContext_Call {
+func (_e *MockIamClientService_Expecter) GetAccessKeyContext(ctx any, params any, opts ...any) *MockIamClientService_GetAccessKeyContext_Call {
 	return &MockIamClientService_GetAccessKeyContext_Call{Call: _e.mock.On("GetAccessKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GetAccessKeyContext_Call) Run(run func(ctx context.Context, params *operations.GetAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_GetAccessKeyContext_Call {
@@ -5754,11 +5763,11 @@ func (_c *MockIamClientService_GetAccessKeyContext_Call) RunAndReturn(run func(c
 // GetAccount provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetAccount(params *operations.GetAccountParams, opts ...operations.ClientOption) (*operations.GetAccountOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5795,9 +5804,9 @@ type MockIamClientService_GetAccount_Call struct {
 // GetAccount is a helper method to define mock.On call
 //   - params *operations.GetAccountParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GetAccount(params interface{}, opts ...interface{}) *MockIamClientService_GetAccount_Call {
+func (_e *MockIamClientService_Expecter) GetAccount(params any, opts ...any) *MockIamClientService_GetAccount_Call {
 	return &MockIamClientService_GetAccount_Call{Call: _e.mock.On("GetAccount",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GetAccount_Call) Run(run func(params *operations.GetAccountParams, opts ...operations.ClientOption)) *MockIamClientService_GetAccount_Call {
@@ -5835,11 +5844,11 @@ func (_c *MockIamClientService_GetAccount_Call) RunAndReturn(run func(params *op
 // GetAccountContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetAccountContext(ctx context.Context, params *operations.GetAccountParams, opts ...operations.ClientOption) (*operations.GetAccountOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5877,9 +5886,9 @@ type MockIamClientService_GetAccountContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetAccountParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GetAccountContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GetAccountContext_Call {
+func (_e *MockIamClientService_Expecter) GetAccountContext(ctx any, params any, opts ...any) *MockIamClientService_GetAccountContext_Call {
 	return &MockIamClientService_GetAccountContext_Call{Call: _e.mock.On("GetAccountContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GetAccountContext_Call) Run(run func(ctx context.Context, params *operations.GetAccountParams, opts ...operations.ClientOption)) *MockIamClientService_GetAccountContext_Call {
@@ -5922,11 +5931,11 @@ func (_c *MockIamClientService_GetAccountContext_Call) RunAndReturn(run func(ctx
 // GetAccountMessages provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetAccountMessages(params *operations.GetAccountMessagesParams, opts ...operations.ClientOption) (*operations.GetAccountMessagesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5963,9 +5972,9 @@ type MockIamClientService_GetAccountMessages_Call struct {
 // GetAccountMessages is a helper method to define mock.On call
 //   - params *operations.GetAccountMessagesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GetAccountMessages(params interface{}, opts ...interface{}) *MockIamClientService_GetAccountMessages_Call {
+func (_e *MockIamClientService_Expecter) GetAccountMessages(params any, opts ...any) *MockIamClientService_GetAccountMessages_Call {
 	return &MockIamClientService_GetAccountMessages_Call{Call: _e.mock.On("GetAccountMessages",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GetAccountMessages_Call) Run(run func(params *operations.GetAccountMessagesParams, opts ...operations.ClientOption)) *MockIamClientService_GetAccountMessages_Call {
@@ -6003,11 +6012,11 @@ func (_c *MockIamClientService_GetAccountMessages_Call) RunAndReturn(run func(pa
 // GetAccountMessagesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetAccountMessagesContext(ctx context.Context, params *operations.GetAccountMessagesParams, opts ...operations.ClientOption) (*operations.GetAccountMessagesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6045,9 +6054,9 @@ type MockIamClientService_GetAccountMessagesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetAccountMessagesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GetAccountMessagesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GetAccountMessagesContext_Call {
+func (_e *MockIamClientService_Expecter) GetAccountMessagesContext(ctx any, params any, opts ...any) *MockIamClientService_GetAccountMessagesContext_Call {
 	return &MockIamClientService_GetAccountMessagesContext_Call{Call: _e.mock.On("GetAccountMessagesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GetAccountMessagesContext_Call) Run(run func(ctx context.Context, params *operations.GetAccountMessagesParams, opts ...operations.ClientOption)) *MockIamClientService_GetAccountMessagesContext_Call {
@@ -6090,11 +6099,11 @@ func (_c *MockIamClientService_GetAccountMessagesContext_Call) RunAndReturn(run 
 // GetDefaultIdentityProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetDefaultIdentityProvider(params *operations.GetDefaultIdentityProviderParams, opts ...operations.ClientOption) (*operations.GetDefaultIdentityProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6131,9 +6140,9 @@ type MockIamClientService_GetDefaultIdentityProvider_Call struct {
 // GetDefaultIdentityProvider is a helper method to define mock.On call
 //   - params *operations.GetDefaultIdentityProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GetDefaultIdentityProvider(params interface{}, opts ...interface{}) *MockIamClientService_GetDefaultIdentityProvider_Call {
+func (_e *MockIamClientService_Expecter) GetDefaultIdentityProvider(params any, opts ...any) *MockIamClientService_GetDefaultIdentityProvider_Call {
 	return &MockIamClientService_GetDefaultIdentityProvider_Call{Call: _e.mock.On("GetDefaultIdentityProvider",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GetDefaultIdentityProvider_Call) Run(run func(params *operations.GetDefaultIdentityProviderParams, opts ...operations.ClientOption)) *MockIamClientService_GetDefaultIdentityProvider_Call {
@@ -6171,11 +6180,11 @@ func (_c *MockIamClientService_GetDefaultIdentityProvider_Call) RunAndReturn(run
 // GetDefaultIdentityProviderContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetDefaultIdentityProviderContext(ctx context.Context, params *operations.GetDefaultIdentityProviderParams, opts ...operations.ClientOption) (*operations.GetDefaultIdentityProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6213,9 +6222,9 @@ type MockIamClientService_GetDefaultIdentityProviderContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetDefaultIdentityProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GetDefaultIdentityProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GetDefaultIdentityProviderContext_Call {
+func (_e *MockIamClientService_Expecter) GetDefaultIdentityProviderContext(ctx any, params any, opts ...any) *MockIamClientService_GetDefaultIdentityProviderContext_Call {
 	return &MockIamClientService_GetDefaultIdentityProviderContext_Call{Call: _e.mock.On("GetDefaultIdentityProviderContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GetDefaultIdentityProviderContext_Call) Run(run func(ctx context.Context, params *operations.GetDefaultIdentityProviderParams, opts ...operations.ClientOption)) *MockIamClientService_GetDefaultIdentityProviderContext_Call {
@@ -6258,11 +6267,11 @@ func (_c *MockIamClientService_GetDefaultIdentityProviderContext_Call) RunAndRet
 // GetUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetUser(params *operations.GetUserParams, opts ...operations.ClientOption) (*operations.GetUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6299,9 +6308,9 @@ type MockIamClientService_GetUser_Call struct {
 // GetUser is a helper method to define mock.On call
 //   - params *operations.GetUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GetUser(params interface{}, opts ...interface{}) *MockIamClientService_GetUser_Call {
+func (_e *MockIamClientService_Expecter) GetUser(params any, opts ...any) *MockIamClientService_GetUser_Call {
 	return &MockIamClientService_GetUser_Call{Call: _e.mock.On("GetUser",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GetUser_Call) Run(run func(params *operations.GetUserParams, opts ...operations.ClientOption)) *MockIamClientService_GetUser_Call {
@@ -6339,11 +6348,11 @@ func (_c *MockIamClientService_GetUser_Call) RunAndReturn(run func(params *opera
 // GetUserContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) GetUserContext(ctx context.Context, params *operations.GetUserParams, opts ...operations.ClientOption) (*operations.GetUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6381,9 +6390,9 @@ type MockIamClientService_GetUserContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) GetUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_GetUserContext_Call {
+func (_e *MockIamClientService_Expecter) GetUserContext(ctx any, params any, opts ...any) *MockIamClientService_GetUserContext_Call {
 	return &MockIamClientService_GetUserContext_Call{Call: _e.mock.On("GetUserContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_GetUserContext_Call) Run(run func(ctx context.Context, params *operations.GetUserParams, opts ...operations.ClientOption)) *MockIamClientService_GetUserContext_Call {
@@ -6426,11 +6435,11 @@ func (_c *MockIamClientService_GetUserContext_Call) RunAndReturn(run func(ctx co
 // ListAccessKeys provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListAccessKeys(params *operations.ListAccessKeysParams, opts ...operations.ClientOption) (*operations.ListAccessKeysOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6467,9 +6476,9 @@ type MockIamClientService_ListAccessKeys_Call struct {
 // ListAccessKeys is a helper method to define mock.On call
 //   - params *operations.ListAccessKeysParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListAccessKeys(params interface{}, opts ...interface{}) *MockIamClientService_ListAccessKeys_Call {
+func (_e *MockIamClientService_Expecter) ListAccessKeys(params any, opts ...any) *MockIamClientService_ListAccessKeys_Call {
 	return &MockIamClientService_ListAccessKeys_Call{Call: _e.mock.On("ListAccessKeys",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListAccessKeys_Call) Run(run func(params *operations.ListAccessKeysParams, opts ...operations.ClientOption)) *MockIamClientService_ListAccessKeys_Call {
@@ -6507,11 +6516,11 @@ func (_c *MockIamClientService_ListAccessKeys_Call) RunAndReturn(run func(params
 // ListAccessKeysContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListAccessKeysContext(ctx context.Context, params *operations.ListAccessKeysParams, opts ...operations.ClientOption) (*operations.ListAccessKeysOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6549,9 +6558,9 @@ type MockIamClientService_ListAccessKeysContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListAccessKeysParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListAccessKeysContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListAccessKeysContext_Call {
+func (_e *MockIamClientService_Expecter) ListAccessKeysContext(ctx any, params any, opts ...any) *MockIamClientService_ListAccessKeysContext_Call {
 	return &MockIamClientService_ListAccessKeysContext_Call{Call: _e.mock.On("ListAccessKeysContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListAccessKeysContext_Call) Run(run func(ctx context.Context, params *operations.ListAccessKeysParams, opts ...operations.ClientOption)) *MockIamClientService_ListAccessKeysContext_Call {
@@ -6594,11 +6603,11 @@ func (_c *MockIamClientService_ListAccessKeysContext_Call) RunAndReturn(run func
 // ListGroupAssignedResourceRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupAssignedResourceRoles(params *operations.ListGroupAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListGroupAssignedResourceRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6635,9 +6644,9 @@ type MockIamClientService_ListGroupAssignedResourceRoles_Call struct {
 // ListGroupAssignedResourceRoles is a helper method to define mock.On call
 //   - params *operations.ListGroupAssignedResourceRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupAssignedResourceRoles(params interface{}, opts ...interface{}) *MockIamClientService_ListGroupAssignedResourceRoles_Call {
+func (_e *MockIamClientService_Expecter) ListGroupAssignedResourceRoles(params any, opts ...any) *MockIamClientService_ListGroupAssignedResourceRoles_Call {
 	return &MockIamClientService_ListGroupAssignedResourceRoles_Call{Call: _e.mock.On("ListGroupAssignedResourceRoles",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupAssignedResourceRoles_Call) Run(run func(params *operations.ListGroupAssignedResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupAssignedResourceRoles_Call {
@@ -6675,11 +6684,11 @@ func (_c *MockIamClientService_ListGroupAssignedResourceRoles_Call) RunAndReturn
 // ListGroupAssignedResourceRolesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupAssignedResourceRolesContext(ctx context.Context, params *operations.ListGroupAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListGroupAssignedResourceRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6717,9 +6726,9 @@ type MockIamClientService_ListGroupAssignedResourceRolesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListGroupAssignedResourceRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupAssignedResourceRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupAssignedResourceRolesContext_Call {
+func (_e *MockIamClientService_Expecter) ListGroupAssignedResourceRolesContext(ctx any, params any, opts ...any) *MockIamClientService_ListGroupAssignedResourceRolesContext_Call {
 	return &MockIamClientService_ListGroupAssignedResourceRolesContext_Call{Call: _e.mock.On("ListGroupAssignedResourceRolesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupAssignedResourceRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupAssignedResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupAssignedResourceRolesContext_Call {
@@ -6762,11 +6771,11 @@ func (_c *MockIamClientService_ListGroupAssignedResourceRolesContext_Call) RunAn
 // ListGroupAssignedRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupAssignedRoles(params *operations.ListGroupAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListGroupAssignedRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6803,9 +6812,9 @@ type MockIamClientService_ListGroupAssignedRoles_Call struct {
 // ListGroupAssignedRoles is a helper method to define mock.On call
 //   - params *operations.ListGroupAssignedRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupAssignedRoles(params interface{}, opts ...interface{}) *MockIamClientService_ListGroupAssignedRoles_Call {
+func (_e *MockIamClientService_Expecter) ListGroupAssignedRoles(params any, opts ...any) *MockIamClientService_ListGroupAssignedRoles_Call {
 	return &MockIamClientService_ListGroupAssignedRoles_Call{Call: _e.mock.On("ListGroupAssignedRoles",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupAssignedRoles_Call) Run(run func(params *operations.ListGroupAssignedRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupAssignedRoles_Call {
@@ -6843,11 +6852,11 @@ func (_c *MockIamClientService_ListGroupAssignedRoles_Call) RunAndReturn(run fun
 // ListGroupAssignedRolesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupAssignedRolesContext(ctx context.Context, params *operations.ListGroupAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListGroupAssignedRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6885,9 +6894,9 @@ type MockIamClientService_ListGroupAssignedRolesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListGroupAssignedRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupAssignedRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupAssignedRolesContext_Call {
+func (_e *MockIamClientService_Expecter) ListGroupAssignedRolesContext(ctx any, params any, opts ...any) *MockIamClientService_ListGroupAssignedRolesContext_Call {
 	return &MockIamClientService_ListGroupAssignedRolesContext_Call{Call: _e.mock.On("ListGroupAssignedRolesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupAssignedRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupAssignedRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupAssignedRolesContext_Call {
@@ -6930,11 +6939,11 @@ func (_c *MockIamClientService_ListGroupAssignedRolesContext_Call) RunAndReturn(
 // ListGroupMembers provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupMembers(params *operations.ListGroupMembersParams, opts ...operations.ClientOption) (*operations.ListGroupMembersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6971,9 +6980,9 @@ type MockIamClientService_ListGroupMembers_Call struct {
 // ListGroupMembers is a helper method to define mock.On call
 //   - params *operations.ListGroupMembersParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupMembers(params interface{}, opts ...interface{}) *MockIamClientService_ListGroupMembers_Call {
+func (_e *MockIamClientService_Expecter) ListGroupMembers(params any, opts ...any) *MockIamClientService_ListGroupMembers_Call {
 	return &MockIamClientService_ListGroupMembers_Call{Call: _e.mock.On("ListGroupMembers",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupMembers_Call) Run(run func(params *operations.ListGroupMembersParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupMembers_Call {
@@ -7011,11 +7020,11 @@ func (_c *MockIamClientService_ListGroupMembers_Call) RunAndReturn(run func(para
 // ListGroupMembersContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupMembersContext(ctx context.Context, params *operations.ListGroupMembersParams, opts ...operations.ClientOption) (*operations.ListGroupMembersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7053,9 +7062,9 @@ type MockIamClientService_ListGroupMembersContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListGroupMembersParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupMembersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupMembersContext_Call {
+func (_e *MockIamClientService_Expecter) ListGroupMembersContext(ctx any, params any, opts ...any) *MockIamClientService_ListGroupMembersContext_Call {
 	return &MockIamClientService_ListGroupMembersContext_Call{Call: _e.mock.On("ListGroupMembersContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupMembersContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupMembersParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupMembersContext_Call {
@@ -7098,11 +7107,11 @@ func (_c *MockIamClientService_ListGroupMembersContext_Call) RunAndReturn(run fu
 // ListGroups provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroups(params *operations.ListGroupsParams, opts ...operations.ClientOption) (*operations.ListGroupsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7139,9 +7148,9 @@ type MockIamClientService_ListGroups_Call struct {
 // ListGroups is a helper method to define mock.On call
 //   - params *operations.ListGroupsParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroups(params interface{}, opts ...interface{}) *MockIamClientService_ListGroups_Call {
+func (_e *MockIamClientService_Expecter) ListGroups(params any, opts ...any) *MockIamClientService_ListGroups_Call {
 	return &MockIamClientService_ListGroups_Call{Call: _e.mock.On("ListGroups",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroups_Call) Run(run func(params *operations.ListGroupsParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroups_Call {
@@ -7179,11 +7188,11 @@ func (_c *MockIamClientService_ListGroups_Call) RunAndReturn(run func(params *op
 // ListGroupsContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupsContext(ctx context.Context, params *operations.ListGroupsParams, opts ...operations.ClientOption) (*operations.ListGroupsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7221,9 +7230,9 @@ type MockIamClientService_ListGroupsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListGroupsParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupsContext_Call {
+func (_e *MockIamClientService_Expecter) ListGroupsContext(ctx any, params any, opts ...any) *MockIamClientService_ListGroupsContext_Call {
 	return &MockIamClientService_ListGroupsContext_Call{Call: _e.mock.On("ListGroupsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupsContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupsParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupsContext_Call {
@@ -7266,11 +7275,11 @@ func (_c *MockIamClientService_ListGroupsContext_Call) RunAndReturn(run func(ctx
 // ListGroupsForMachineUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupsForMachineUser(params *operations.ListGroupsForMachineUserParams, opts ...operations.ClientOption) (*operations.ListGroupsForMachineUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7307,9 +7316,9 @@ type MockIamClientService_ListGroupsForMachineUser_Call struct {
 // ListGroupsForMachineUser is a helper method to define mock.On call
 //   - params *operations.ListGroupsForMachineUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupsForMachineUser(params interface{}, opts ...interface{}) *MockIamClientService_ListGroupsForMachineUser_Call {
+func (_e *MockIamClientService_Expecter) ListGroupsForMachineUser(params any, opts ...any) *MockIamClientService_ListGroupsForMachineUser_Call {
 	return &MockIamClientService_ListGroupsForMachineUser_Call{Call: _e.mock.On("ListGroupsForMachineUser",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupsForMachineUser_Call) Run(run func(params *operations.ListGroupsForMachineUserParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupsForMachineUser_Call {
@@ -7347,11 +7356,11 @@ func (_c *MockIamClientService_ListGroupsForMachineUser_Call) RunAndReturn(run f
 // ListGroupsForMachineUserContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupsForMachineUserContext(ctx context.Context, params *operations.ListGroupsForMachineUserParams, opts ...operations.ClientOption) (*operations.ListGroupsForMachineUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7389,9 +7398,9 @@ type MockIamClientService_ListGroupsForMachineUserContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListGroupsForMachineUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupsForMachineUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupsForMachineUserContext_Call {
+func (_e *MockIamClientService_Expecter) ListGroupsForMachineUserContext(ctx any, params any, opts ...any) *MockIamClientService_ListGroupsForMachineUserContext_Call {
 	return &MockIamClientService_ListGroupsForMachineUserContext_Call{Call: _e.mock.On("ListGroupsForMachineUserContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupsForMachineUserContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupsForMachineUserParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupsForMachineUserContext_Call {
@@ -7434,11 +7443,11 @@ func (_c *MockIamClientService_ListGroupsForMachineUserContext_Call) RunAndRetur
 // ListGroupsForUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupsForUser(params *operations.ListGroupsForUserParams, opts ...operations.ClientOption) (*operations.ListGroupsForUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7475,9 +7484,9 @@ type MockIamClientService_ListGroupsForUser_Call struct {
 // ListGroupsForUser is a helper method to define mock.On call
 //   - params *operations.ListGroupsForUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupsForUser(params interface{}, opts ...interface{}) *MockIamClientService_ListGroupsForUser_Call {
+func (_e *MockIamClientService_Expecter) ListGroupsForUser(params any, opts ...any) *MockIamClientService_ListGroupsForUser_Call {
 	return &MockIamClientService_ListGroupsForUser_Call{Call: _e.mock.On("ListGroupsForUser",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupsForUser_Call) Run(run func(params *operations.ListGroupsForUserParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupsForUser_Call {
@@ -7515,11 +7524,11 @@ func (_c *MockIamClientService_ListGroupsForUser_Call) RunAndReturn(run func(par
 // ListGroupsForUserContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListGroupsForUserContext(ctx context.Context, params *operations.ListGroupsForUserParams, opts ...operations.ClientOption) (*operations.ListGroupsForUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7557,9 +7566,9 @@ type MockIamClientService_ListGroupsForUserContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListGroupsForUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListGroupsForUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListGroupsForUserContext_Call {
+func (_e *MockIamClientService_Expecter) ListGroupsForUserContext(ctx any, params any, opts ...any) *MockIamClientService_ListGroupsForUserContext_Call {
 	return &MockIamClientService_ListGroupsForUserContext_Call{Call: _e.mock.On("ListGroupsForUserContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListGroupsForUserContext_Call) Run(run func(ctx context.Context, params *operations.ListGroupsForUserParams, opts ...operations.ClientOption)) *MockIamClientService_ListGroupsForUserContext_Call {
@@ -7602,11 +7611,11 @@ func (_c *MockIamClientService_ListGroupsForUserContext_Call) RunAndReturn(run f
 // ListMachineUserAssignedResourceRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListMachineUserAssignedResourceRoles(params *operations.ListMachineUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListMachineUserAssignedResourceRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7643,9 +7652,9 @@ type MockIamClientService_ListMachineUserAssignedResourceRoles_Call struct {
 // ListMachineUserAssignedResourceRoles is a helper method to define mock.On call
 //   - params *operations.ListMachineUserAssignedResourceRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListMachineUserAssignedResourceRoles(params interface{}, opts ...interface{}) *MockIamClientService_ListMachineUserAssignedResourceRoles_Call {
+func (_e *MockIamClientService_Expecter) ListMachineUserAssignedResourceRoles(params any, opts ...any) *MockIamClientService_ListMachineUserAssignedResourceRoles_Call {
 	return &MockIamClientService_ListMachineUserAssignedResourceRoles_Call{Call: _e.mock.On("ListMachineUserAssignedResourceRoles",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListMachineUserAssignedResourceRoles_Call) Run(run func(params *operations.ListMachineUserAssignedResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListMachineUserAssignedResourceRoles_Call {
@@ -7683,11 +7692,11 @@ func (_c *MockIamClientService_ListMachineUserAssignedResourceRoles_Call) RunAnd
 // ListMachineUserAssignedResourceRolesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListMachineUserAssignedResourceRolesContext(ctx context.Context, params *operations.ListMachineUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListMachineUserAssignedResourceRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7725,9 +7734,9 @@ type MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call struc
 //   - ctx context.Context
 //   - params *operations.ListMachineUserAssignedResourceRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListMachineUserAssignedResourceRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call {
+func (_e *MockIamClientService_Expecter) ListMachineUserAssignedResourceRolesContext(ctx any, params any, opts ...any) *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call {
 	return &MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call{Call: _e.mock.On("ListMachineUserAssignedResourceRolesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListMachineUserAssignedResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call {
@@ -7770,11 +7779,11 @@ func (_c *MockIamClientService_ListMachineUserAssignedResourceRolesContext_Call)
 // ListMachineUserAssignedRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListMachineUserAssignedRoles(params *operations.ListMachineUserAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListMachineUserAssignedRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7811,9 +7820,9 @@ type MockIamClientService_ListMachineUserAssignedRoles_Call struct {
 // ListMachineUserAssignedRoles is a helper method to define mock.On call
 //   - params *operations.ListMachineUserAssignedRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListMachineUserAssignedRoles(params interface{}, opts ...interface{}) *MockIamClientService_ListMachineUserAssignedRoles_Call {
+func (_e *MockIamClientService_Expecter) ListMachineUserAssignedRoles(params any, opts ...any) *MockIamClientService_ListMachineUserAssignedRoles_Call {
 	return &MockIamClientService_ListMachineUserAssignedRoles_Call{Call: _e.mock.On("ListMachineUserAssignedRoles",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListMachineUserAssignedRoles_Call) Run(run func(params *operations.ListMachineUserAssignedRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListMachineUserAssignedRoles_Call {
@@ -7851,11 +7860,11 @@ func (_c *MockIamClientService_ListMachineUserAssignedRoles_Call) RunAndReturn(r
 // ListMachineUserAssignedRolesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListMachineUserAssignedRolesContext(ctx context.Context, params *operations.ListMachineUserAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListMachineUserAssignedRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7893,9 +7902,9 @@ type MockIamClientService_ListMachineUserAssignedRolesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListMachineUserAssignedRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListMachineUserAssignedRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListMachineUserAssignedRolesContext_Call {
+func (_e *MockIamClientService_Expecter) ListMachineUserAssignedRolesContext(ctx any, params any, opts ...any) *MockIamClientService_ListMachineUserAssignedRolesContext_Call {
 	return &MockIamClientService_ListMachineUserAssignedRolesContext_Call{Call: _e.mock.On("ListMachineUserAssignedRolesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListMachineUserAssignedRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListMachineUserAssignedRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListMachineUserAssignedRolesContext_Call {
@@ -7938,11 +7947,11 @@ func (_c *MockIamClientService_ListMachineUserAssignedRolesContext_Call) RunAndR
 // ListMachineUsers provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListMachineUsers(params *operations.ListMachineUsersParams, opts ...operations.ClientOption) (*operations.ListMachineUsersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7979,9 +7988,9 @@ type MockIamClientService_ListMachineUsers_Call struct {
 // ListMachineUsers is a helper method to define mock.On call
 //   - params *operations.ListMachineUsersParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListMachineUsers(params interface{}, opts ...interface{}) *MockIamClientService_ListMachineUsers_Call {
+func (_e *MockIamClientService_Expecter) ListMachineUsers(params any, opts ...any) *MockIamClientService_ListMachineUsers_Call {
 	return &MockIamClientService_ListMachineUsers_Call{Call: _e.mock.On("ListMachineUsers",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListMachineUsers_Call) Run(run func(params *operations.ListMachineUsersParams, opts ...operations.ClientOption)) *MockIamClientService_ListMachineUsers_Call {
@@ -8019,11 +8028,11 @@ func (_c *MockIamClientService_ListMachineUsers_Call) RunAndReturn(run func(para
 // ListMachineUsersContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListMachineUsersContext(ctx context.Context, params *operations.ListMachineUsersParams, opts ...operations.ClientOption) (*operations.ListMachineUsersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8061,9 +8070,9 @@ type MockIamClientService_ListMachineUsersContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListMachineUsersParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListMachineUsersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListMachineUsersContext_Call {
+func (_e *MockIamClientService_Expecter) ListMachineUsersContext(ctx any, params any, opts ...any) *MockIamClientService_ListMachineUsersContext_Call {
 	return &MockIamClientService_ListMachineUsersContext_Call{Call: _e.mock.On("ListMachineUsersContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListMachineUsersContext_Call) Run(run func(ctx context.Context, params *operations.ListMachineUsersParams, opts ...operations.ClientOption)) *MockIamClientService_ListMachineUsersContext_Call {
@@ -8106,11 +8115,11 @@ func (_c *MockIamClientService_ListMachineUsersContext_Call) RunAndReturn(run fu
 // ListResourceAssignees provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListResourceAssignees(params *operations.ListResourceAssigneesParams, opts ...operations.ClientOption) (*operations.ListResourceAssigneesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8147,9 +8156,9 @@ type MockIamClientService_ListResourceAssignees_Call struct {
 // ListResourceAssignees is a helper method to define mock.On call
 //   - params *operations.ListResourceAssigneesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListResourceAssignees(params interface{}, opts ...interface{}) *MockIamClientService_ListResourceAssignees_Call {
+func (_e *MockIamClientService_Expecter) ListResourceAssignees(params any, opts ...any) *MockIamClientService_ListResourceAssignees_Call {
 	return &MockIamClientService_ListResourceAssignees_Call{Call: _e.mock.On("ListResourceAssignees",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListResourceAssignees_Call) Run(run func(params *operations.ListResourceAssigneesParams, opts ...operations.ClientOption)) *MockIamClientService_ListResourceAssignees_Call {
@@ -8187,11 +8196,11 @@ func (_c *MockIamClientService_ListResourceAssignees_Call) RunAndReturn(run func
 // ListResourceAssigneesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListResourceAssigneesContext(ctx context.Context, params *operations.ListResourceAssigneesParams, opts ...operations.ClientOption) (*operations.ListResourceAssigneesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8229,9 +8238,9 @@ type MockIamClientService_ListResourceAssigneesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListResourceAssigneesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListResourceAssigneesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListResourceAssigneesContext_Call {
+func (_e *MockIamClientService_Expecter) ListResourceAssigneesContext(ctx any, params any, opts ...any) *MockIamClientService_ListResourceAssigneesContext_Call {
 	return &MockIamClientService_ListResourceAssigneesContext_Call{Call: _e.mock.On("ListResourceAssigneesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListResourceAssigneesContext_Call) Run(run func(ctx context.Context, params *operations.ListResourceAssigneesParams, opts ...operations.ClientOption)) *MockIamClientService_ListResourceAssigneesContext_Call {
@@ -8274,11 +8283,11 @@ func (_c *MockIamClientService_ListResourceAssigneesContext_Call) RunAndReturn(r
 // ListResourceRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListResourceRoles(params *operations.ListResourceRolesParams, opts ...operations.ClientOption) (*operations.ListResourceRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8315,9 +8324,9 @@ type MockIamClientService_ListResourceRoles_Call struct {
 // ListResourceRoles is a helper method to define mock.On call
 //   - params *operations.ListResourceRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListResourceRoles(params interface{}, opts ...interface{}) *MockIamClientService_ListResourceRoles_Call {
+func (_e *MockIamClientService_Expecter) ListResourceRoles(params any, opts ...any) *MockIamClientService_ListResourceRoles_Call {
 	return &MockIamClientService_ListResourceRoles_Call{Call: _e.mock.On("ListResourceRoles",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListResourceRoles_Call) Run(run func(params *operations.ListResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListResourceRoles_Call {
@@ -8355,11 +8364,11 @@ func (_c *MockIamClientService_ListResourceRoles_Call) RunAndReturn(run func(par
 // ListResourceRolesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListResourceRolesContext(ctx context.Context, params *operations.ListResourceRolesParams, opts ...operations.ClientOption) (*operations.ListResourceRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8397,9 +8406,9 @@ type MockIamClientService_ListResourceRolesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListResourceRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListResourceRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListResourceRolesContext_Call {
+func (_e *MockIamClientService_Expecter) ListResourceRolesContext(ctx any, params any, opts ...any) *MockIamClientService_ListResourceRolesContext_Call {
 	return &MockIamClientService_ListResourceRolesContext_Call{Call: _e.mock.On("ListResourceRolesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListResourceRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListResourceRolesContext_Call {
@@ -8442,11 +8451,11 @@ func (_c *MockIamClientService_ListResourceRolesContext_Call) RunAndReturn(run f
 // ListRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListRoles(params *operations.ListRolesParams, opts ...operations.ClientOption) (*operations.ListRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8483,9 +8492,9 @@ type MockIamClientService_ListRoles_Call struct {
 // ListRoles is a helper method to define mock.On call
 //   - params *operations.ListRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListRoles(params interface{}, opts ...interface{}) *MockIamClientService_ListRoles_Call {
+func (_e *MockIamClientService_Expecter) ListRoles(params any, opts ...any) *MockIamClientService_ListRoles_Call {
 	return &MockIamClientService_ListRoles_Call{Call: _e.mock.On("ListRoles",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListRoles_Call) Run(run func(params *operations.ListRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListRoles_Call {
@@ -8523,11 +8532,11 @@ func (_c *MockIamClientService_ListRoles_Call) RunAndReturn(run func(params *ope
 // ListRolesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListRolesContext(ctx context.Context, params *operations.ListRolesParams, opts ...operations.ClientOption) (*operations.ListRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8565,9 +8574,9 @@ type MockIamClientService_ListRolesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListRolesContext_Call {
+func (_e *MockIamClientService_Expecter) ListRolesContext(ctx any, params any, opts ...any) *MockIamClientService_ListRolesContext_Call {
 	return &MockIamClientService_ListRolesContext_Call{Call: _e.mock.On("ListRolesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListRolesContext_Call {
@@ -8610,11 +8619,11 @@ func (_c *MockIamClientService_ListRolesContext_Call) RunAndReturn(run func(ctx 
 // ListSSHPublicKeys provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListSSHPublicKeys(params *operations.ListSSHPublicKeysParams, opts ...operations.ClientOption) (*operations.ListSSHPublicKeysOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8651,9 +8660,9 @@ type MockIamClientService_ListSSHPublicKeys_Call struct {
 // ListSSHPublicKeys is a helper method to define mock.On call
 //   - params *operations.ListSSHPublicKeysParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListSSHPublicKeys(params interface{}, opts ...interface{}) *MockIamClientService_ListSSHPublicKeys_Call {
+func (_e *MockIamClientService_Expecter) ListSSHPublicKeys(params any, opts ...any) *MockIamClientService_ListSSHPublicKeys_Call {
 	return &MockIamClientService_ListSSHPublicKeys_Call{Call: _e.mock.On("ListSSHPublicKeys",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListSSHPublicKeys_Call) Run(run func(params *operations.ListSSHPublicKeysParams, opts ...operations.ClientOption)) *MockIamClientService_ListSSHPublicKeys_Call {
@@ -8691,11 +8700,11 @@ func (_c *MockIamClientService_ListSSHPublicKeys_Call) RunAndReturn(run func(par
 // ListSSHPublicKeysContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListSSHPublicKeysContext(ctx context.Context, params *operations.ListSSHPublicKeysParams, opts ...operations.ClientOption) (*operations.ListSSHPublicKeysOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8733,9 +8742,9 @@ type MockIamClientService_ListSSHPublicKeysContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListSSHPublicKeysParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListSSHPublicKeysContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListSSHPublicKeysContext_Call {
+func (_e *MockIamClientService_Expecter) ListSSHPublicKeysContext(ctx any, params any, opts ...any) *MockIamClientService_ListSSHPublicKeysContext_Call {
 	return &MockIamClientService_ListSSHPublicKeysContext_Call{Call: _e.mock.On("ListSSHPublicKeysContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListSSHPublicKeysContext_Call) Run(run func(ctx context.Context, params *operations.ListSSHPublicKeysParams, opts ...operations.ClientOption)) *MockIamClientService_ListSSHPublicKeysContext_Call {
@@ -8778,11 +8787,11 @@ func (_c *MockIamClientService_ListSSHPublicKeysContext_Call) RunAndReturn(run f
 // ListSamlProviders provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListSamlProviders(params *operations.ListSamlProvidersParams, opts ...operations.ClientOption) (*operations.ListSamlProvidersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8819,9 +8828,9 @@ type MockIamClientService_ListSamlProviders_Call struct {
 // ListSamlProviders is a helper method to define mock.On call
 //   - params *operations.ListSamlProvidersParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListSamlProviders(params interface{}, opts ...interface{}) *MockIamClientService_ListSamlProviders_Call {
+func (_e *MockIamClientService_Expecter) ListSamlProviders(params any, opts ...any) *MockIamClientService_ListSamlProviders_Call {
 	return &MockIamClientService_ListSamlProviders_Call{Call: _e.mock.On("ListSamlProviders",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListSamlProviders_Call) Run(run func(params *operations.ListSamlProvidersParams, opts ...operations.ClientOption)) *MockIamClientService_ListSamlProviders_Call {
@@ -8859,11 +8868,11 @@ func (_c *MockIamClientService_ListSamlProviders_Call) RunAndReturn(run func(par
 // ListSamlProvidersContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListSamlProvidersContext(ctx context.Context, params *operations.ListSamlProvidersParams, opts ...operations.ClientOption) (*operations.ListSamlProvidersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8901,9 +8910,9 @@ type MockIamClientService_ListSamlProvidersContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListSamlProvidersParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListSamlProvidersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListSamlProvidersContext_Call {
+func (_e *MockIamClientService_Expecter) ListSamlProvidersContext(ctx any, params any, opts ...any) *MockIamClientService_ListSamlProvidersContext_Call {
 	return &MockIamClientService_ListSamlProvidersContext_Call{Call: _e.mock.On("ListSamlProvidersContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListSamlProvidersContext_Call) Run(run func(ctx context.Context, params *operations.ListSamlProvidersParams, opts ...operations.ClientOption)) *MockIamClientService_ListSamlProvidersContext_Call {
@@ -8946,11 +8955,11 @@ func (_c *MockIamClientService_ListSamlProvidersContext_Call) RunAndReturn(run f
 // ListScimAccessTokens provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListScimAccessTokens(params *operations.ListScimAccessTokensParams, opts ...operations.ClientOption) (*operations.ListScimAccessTokensOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8987,9 +8996,9 @@ type MockIamClientService_ListScimAccessTokens_Call struct {
 // ListScimAccessTokens is a helper method to define mock.On call
 //   - params *operations.ListScimAccessTokensParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListScimAccessTokens(params interface{}, opts ...interface{}) *MockIamClientService_ListScimAccessTokens_Call {
+func (_e *MockIamClientService_Expecter) ListScimAccessTokens(params any, opts ...any) *MockIamClientService_ListScimAccessTokens_Call {
 	return &MockIamClientService_ListScimAccessTokens_Call{Call: _e.mock.On("ListScimAccessTokens",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListScimAccessTokens_Call) Run(run func(params *operations.ListScimAccessTokensParams, opts ...operations.ClientOption)) *MockIamClientService_ListScimAccessTokens_Call {
@@ -9027,11 +9036,11 @@ func (_c *MockIamClientService_ListScimAccessTokens_Call) RunAndReturn(run func(
 // ListScimAccessTokensContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListScimAccessTokensContext(ctx context.Context, params *operations.ListScimAccessTokensParams, opts ...operations.ClientOption) (*operations.ListScimAccessTokensOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9069,9 +9078,9 @@ type MockIamClientService_ListScimAccessTokensContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListScimAccessTokensParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListScimAccessTokensContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListScimAccessTokensContext_Call {
+func (_e *MockIamClientService_Expecter) ListScimAccessTokensContext(ctx any, params any, opts ...any) *MockIamClientService_ListScimAccessTokensContext_Call {
 	return &MockIamClientService_ListScimAccessTokensContext_Call{Call: _e.mock.On("ListScimAccessTokensContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListScimAccessTokensContext_Call) Run(run func(ctx context.Context, params *operations.ListScimAccessTokensParams, opts ...operations.ClientOption)) *MockIamClientService_ListScimAccessTokensContext_Call {
@@ -9114,11 +9123,11 @@ func (_c *MockIamClientService_ListScimAccessTokensContext_Call) RunAndReturn(ru
 // ListServicePrincipalCloudIdentities provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListServicePrincipalCloudIdentities(params *operations.ListServicePrincipalCloudIdentitiesParams, opts ...operations.ClientOption) (*operations.ListServicePrincipalCloudIdentitiesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9155,9 +9164,9 @@ type MockIamClientService_ListServicePrincipalCloudIdentities_Call struct {
 // ListServicePrincipalCloudIdentities is a helper method to define mock.On call
 //   - params *operations.ListServicePrincipalCloudIdentitiesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListServicePrincipalCloudIdentities(params interface{}, opts ...interface{}) *MockIamClientService_ListServicePrincipalCloudIdentities_Call {
+func (_e *MockIamClientService_Expecter) ListServicePrincipalCloudIdentities(params any, opts ...any) *MockIamClientService_ListServicePrincipalCloudIdentities_Call {
 	return &MockIamClientService_ListServicePrincipalCloudIdentities_Call{Call: _e.mock.On("ListServicePrincipalCloudIdentities",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListServicePrincipalCloudIdentities_Call) Run(run func(params *operations.ListServicePrincipalCloudIdentitiesParams, opts ...operations.ClientOption)) *MockIamClientService_ListServicePrincipalCloudIdentities_Call {
@@ -9195,11 +9204,11 @@ func (_c *MockIamClientService_ListServicePrincipalCloudIdentities_Call) RunAndR
 // ListServicePrincipalCloudIdentitiesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListServicePrincipalCloudIdentitiesContext(ctx context.Context, params *operations.ListServicePrincipalCloudIdentitiesParams, opts ...operations.ClientOption) (*operations.ListServicePrincipalCloudIdentitiesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9237,9 +9246,9 @@ type MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call struct
 //   - ctx context.Context
 //   - params *operations.ListServicePrincipalCloudIdentitiesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListServicePrincipalCloudIdentitiesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call {
+func (_e *MockIamClientService_Expecter) ListServicePrincipalCloudIdentitiesContext(ctx any, params any, opts ...any) *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call {
 	return &MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call{Call: _e.mock.On("ListServicePrincipalCloudIdentitiesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call) Run(run func(ctx context.Context, params *operations.ListServicePrincipalCloudIdentitiesParams, opts ...operations.ClientOption)) *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call {
@@ -9282,11 +9291,11 @@ func (_c *MockIamClientService_ListServicePrincipalCloudIdentitiesContext_Call) 
 // ListUserAssignedResourceRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListUserAssignedResourceRoles(params *operations.ListUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListUserAssignedResourceRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9323,9 +9332,9 @@ type MockIamClientService_ListUserAssignedResourceRoles_Call struct {
 // ListUserAssignedResourceRoles is a helper method to define mock.On call
 //   - params *operations.ListUserAssignedResourceRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListUserAssignedResourceRoles(params interface{}, opts ...interface{}) *MockIamClientService_ListUserAssignedResourceRoles_Call {
+func (_e *MockIamClientService_Expecter) ListUserAssignedResourceRoles(params any, opts ...any) *MockIamClientService_ListUserAssignedResourceRoles_Call {
 	return &MockIamClientService_ListUserAssignedResourceRoles_Call{Call: _e.mock.On("ListUserAssignedResourceRoles",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListUserAssignedResourceRoles_Call) Run(run func(params *operations.ListUserAssignedResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListUserAssignedResourceRoles_Call {
@@ -9363,11 +9372,11 @@ func (_c *MockIamClientService_ListUserAssignedResourceRoles_Call) RunAndReturn(
 // ListUserAssignedResourceRolesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListUserAssignedResourceRolesContext(ctx context.Context, params *operations.ListUserAssignedResourceRolesParams, opts ...operations.ClientOption) (*operations.ListUserAssignedResourceRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9405,9 +9414,9 @@ type MockIamClientService_ListUserAssignedResourceRolesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListUserAssignedResourceRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListUserAssignedResourceRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListUserAssignedResourceRolesContext_Call {
+func (_e *MockIamClientService_Expecter) ListUserAssignedResourceRolesContext(ctx any, params any, opts ...any) *MockIamClientService_ListUserAssignedResourceRolesContext_Call {
 	return &MockIamClientService_ListUserAssignedResourceRolesContext_Call{Call: _e.mock.On("ListUserAssignedResourceRolesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListUserAssignedResourceRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListUserAssignedResourceRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListUserAssignedResourceRolesContext_Call {
@@ -9450,11 +9459,11 @@ func (_c *MockIamClientService_ListUserAssignedResourceRolesContext_Call) RunAnd
 // ListUserAssignedRoles provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListUserAssignedRoles(params *operations.ListUserAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListUserAssignedRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9491,9 +9500,9 @@ type MockIamClientService_ListUserAssignedRoles_Call struct {
 // ListUserAssignedRoles is a helper method to define mock.On call
 //   - params *operations.ListUserAssignedRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListUserAssignedRoles(params interface{}, opts ...interface{}) *MockIamClientService_ListUserAssignedRoles_Call {
+func (_e *MockIamClientService_Expecter) ListUserAssignedRoles(params any, opts ...any) *MockIamClientService_ListUserAssignedRoles_Call {
 	return &MockIamClientService_ListUserAssignedRoles_Call{Call: _e.mock.On("ListUserAssignedRoles",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListUserAssignedRoles_Call) Run(run func(params *operations.ListUserAssignedRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListUserAssignedRoles_Call {
@@ -9531,11 +9540,11 @@ func (_c *MockIamClientService_ListUserAssignedRoles_Call) RunAndReturn(run func
 // ListUserAssignedRolesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListUserAssignedRolesContext(ctx context.Context, params *operations.ListUserAssignedRolesParams, opts ...operations.ClientOption) (*operations.ListUserAssignedRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9573,9 +9582,9 @@ type MockIamClientService_ListUserAssignedRolesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListUserAssignedRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListUserAssignedRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListUserAssignedRolesContext_Call {
+func (_e *MockIamClientService_Expecter) ListUserAssignedRolesContext(ctx any, params any, opts ...any) *MockIamClientService_ListUserAssignedRolesContext_Call {
 	return &MockIamClientService_ListUserAssignedRolesContext_Call{Call: _e.mock.On("ListUserAssignedRolesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListUserAssignedRolesContext_Call) Run(run func(ctx context.Context, params *operations.ListUserAssignedRolesParams, opts ...operations.ClientOption)) *MockIamClientService_ListUserAssignedRolesContext_Call {
@@ -9618,11 +9627,11 @@ func (_c *MockIamClientService_ListUserAssignedRolesContext_Call) RunAndReturn(r
 // ListUsers provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListUsers(params *operations.ListUsersParams, opts ...operations.ClientOption) (*operations.ListUsersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9659,9 +9668,9 @@ type MockIamClientService_ListUsers_Call struct {
 // ListUsers is a helper method to define mock.On call
 //   - params *operations.ListUsersParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListUsers(params interface{}, opts ...interface{}) *MockIamClientService_ListUsers_Call {
+func (_e *MockIamClientService_Expecter) ListUsers(params any, opts ...any) *MockIamClientService_ListUsers_Call {
 	return &MockIamClientService_ListUsers_Call{Call: _e.mock.On("ListUsers",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListUsers_Call) Run(run func(params *operations.ListUsersParams, opts ...operations.ClientOption)) *MockIamClientService_ListUsers_Call {
@@ -9699,11 +9708,11 @@ func (_c *MockIamClientService_ListUsers_Call) RunAndReturn(run func(params *ope
 // ListUsersContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) ListUsersContext(ctx context.Context, params *operations.ListUsersParams, opts ...operations.ClientOption) (*operations.ListUsersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9741,9 +9750,9 @@ type MockIamClientService_ListUsersContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListUsersParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) ListUsersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_ListUsersContext_Call {
+func (_e *MockIamClientService_Expecter) ListUsersContext(ctx any, params any, opts ...any) *MockIamClientService_ListUsersContext_Call {
 	return &MockIamClientService_ListUsersContext_Call{Call: _e.mock.On("ListUsersContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_ListUsersContext_Call) Run(run func(ctx context.Context, params *operations.ListUsersParams, opts ...operations.ClientOption)) *MockIamClientService_ListUsersContext_Call {
@@ -9786,11 +9795,11 @@ func (_c *MockIamClientService_ListUsersContext_Call) RunAndReturn(run func(ctx 
 // MigrateUsersToIdentityProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) MigrateUsersToIdentityProvider(params *operations.MigrateUsersToIdentityProviderParams, opts ...operations.ClientOption) (*operations.MigrateUsersToIdentityProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9827,9 +9836,9 @@ type MockIamClientService_MigrateUsersToIdentityProvider_Call struct {
 // MigrateUsersToIdentityProvider is a helper method to define mock.On call
 //   - params *operations.MigrateUsersToIdentityProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) MigrateUsersToIdentityProvider(params interface{}, opts ...interface{}) *MockIamClientService_MigrateUsersToIdentityProvider_Call {
+func (_e *MockIamClientService_Expecter) MigrateUsersToIdentityProvider(params any, opts ...any) *MockIamClientService_MigrateUsersToIdentityProvider_Call {
 	return &MockIamClientService_MigrateUsersToIdentityProvider_Call{Call: _e.mock.On("MigrateUsersToIdentityProvider",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_MigrateUsersToIdentityProvider_Call) Run(run func(params *operations.MigrateUsersToIdentityProviderParams, opts ...operations.ClientOption)) *MockIamClientService_MigrateUsersToIdentityProvider_Call {
@@ -9867,11 +9876,11 @@ func (_c *MockIamClientService_MigrateUsersToIdentityProvider_Call) RunAndReturn
 // MigrateUsersToIdentityProviderContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) MigrateUsersToIdentityProviderContext(ctx context.Context, params *operations.MigrateUsersToIdentityProviderParams, opts ...operations.ClientOption) (*operations.MigrateUsersToIdentityProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9909,9 +9918,9 @@ type MockIamClientService_MigrateUsersToIdentityProviderContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.MigrateUsersToIdentityProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) MigrateUsersToIdentityProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_MigrateUsersToIdentityProviderContext_Call {
+func (_e *MockIamClientService_Expecter) MigrateUsersToIdentityProviderContext(ctx any, params any, opts ...any) *MockIamClientService_MigrateUsersToIdentityProviderContext_Call {
 	return &MockIamClientService_MigrateUsersToIdentityProviderContext_Call{Call: _e.mock.On("MigrateUsersToIdentityProviderContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_MigrateUsersToIdentityProviderContext_Call) Run(run func(ctx context.Context, params *operations.MigrateUsersToIdentityProviderParams, opts ...operations.ClientOption)) *MockIamClientService_MigrateUsersToIdentityProviderContext_Call {
@@ -9954,11 +9963,11 @@ func (_c *MockIamClientService_MigrateUsersToIdentityProviderContext_Call) RunAn
 // RemoveMachineUserFromGroup provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) RemoveMachineUserFromGroup(params *operations.RemoveMachineUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveMachineUserFromGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9995,9 +10004,9 @@ type MockIamClientService_RemoveMachineUserFromGroup_Call struct {
 // RemoveMachineUserFromGroup is a helper method to define mock.On call
 //   - params *operations.RemoveMachineUserFromGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) RemoveMachineUserFromGroup(params interface{}, opts ...interface{}) *MockIamClientService_RemoveMachineUserFromGroup_Call {
+func (_e *MockIamClientService_Expecter) RemoveMachineUserFromGroup(params any, opts ...any) *MockIamClientService_RemoveMachineUserFromGroup_Call {
 	return &MockIamClientService_RemoveMachineUserFromGroup_Call{Call: _e.mock.On("RemoveMachineUserFromGroup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_RemoveMachineUserFromGroup_Call) Run(run func(params *operations.RemoveMachineUserFromGroupParams, opts ...operations.ClientOption)) *MockIamClientService_RemoveMachineUserFromGroup_Call {
@@ -10035,11 +10044,11 @@ func (_c *MockIamClientService_RemoveMachineUserFromGroup_Call) RunAndReturn(run
 // RemoveMachineUserFromGroupContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) RemoveMachineUserFromGroupContext(ctx context.Context, params *operations.RemoveMachineUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveMachineUserFromGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10077,9 +10086,9 @@ type MockIamClientService_RemoveMachineUserFromGroupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RemoveMachineUserFromGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) RemoveMachineUserFromGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_RemoveMachineUserFromGroupContext_Call {
+func (_e *MockIamClientService_Expecter) RemoveMachineUserFromGroupContext(ctx any, params any, opts ...any) *MockIamClientService_RemoveMachineUserFromGroupContext_Call {
 	return &MockIamClientService_RemoveMachineUserFromGroupContext_Call{Call: _e.mock.On("RemoveMachineUserFromGroupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_RemoveMachineUserFromGroupContext_Call) Run(run func(ctx context.Context, params *operations.RemoveMachineUserFromGroupParams, opts ...operations.ClientOption)) *MockIamClientService_RemoveMachineUserFromGroupContext_Call {
@@ -10122,11 +10131,11 @@ func (_c *MockIamClientService_RemoveMachineUserFromGroupContext_Call) RunAndRet
 // RemoveUserFromGroup provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) RemoveUserFromGroup(params *operations.RemoveUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveUserFromGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10163,9 +10172,9 @@ type MockIamClientService_RemoveUserFromGroup_Call struct {
 // RemoveUserFromGroup is a helper method to define mock.On call
 //   - params *operations.RemoveUserFromGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) RemoveUserFromGroup(params interface{}, opts ...interface{}) *MockIamClientService_RemoveUserFromGroup_Call {
+func (_e *MockIamClientService_Expecter) RemoveUserFromGroup(params any, opts ...any) *MockIamClientService_RemoveUserFromGroup_Call {
 	return &MockIamClientService_RemoveUserFromGroup_Call{Call: _e.mock.On("RemoveUserFromGroup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_RemoveUserFromGroup_Call) Run(run func(params *operations.RemoveUserFromGroupParams, opts ...operations.ClientOption)) *MockIamClientService_RemoveUserFromGroup_Call {
@@ -10203,11 +10212,11 @@ func (_c *MockIamClientService_RemoveUserFromGroup_Call) RunAndReturn(run func(p
 // RemoveUserFromGroupContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) RemoveUserFromGroupContext(ctx context.Context, params *operations.RemoveUserFromGroupParams, opts ...operations.ClientOption) (*operations.RemoveUserFromGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10245,9 +10254,9 @@ type MockIamClientService_RemoveUserFromGroupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RemoveUserFromGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) RemoveUserFromGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_RemoveUserFromGroupContext_Call {
+func (_e *MockIamClientService_Expecter) RemoveUserFromGroupContext(ctx any, params any, opts ...any) *MockIamClientService_RemoveUserFromGroupContext_Call {
 	return &MockIamClientService_RemoveUserFromGroupContext_Call{Call: _e.mock.On("RemoveUserFromGroupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_RemoveUserFromGroupContext_Call) Run(run func(ctx context.Context, params *operations.RemoveUserFromGroupParams, opts ...operations.ClientOption)) *MockIamClientService_RemoveUserFromGroupContext_Call {
@@ -10290,11 +10299,11 @@ func (_c *MockIamClientService_RemoveUserFromGroupContext_Call) RunAndReturn(run
 // SetAccountMessages provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetAccountMessages(params *operations.SetAccountMessagesParams, opts ...operations.ClientOption) (*operations.SetAccountMessagesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10331,9 +10340,9 @@ type MockIamClientService_SetAccountMessages_Call struct {
 // SetAccountMessages is a helper method to define mock.On call
 //   - params *operations.SetAccountMessagesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetAccountMessages(params interface{}, opts ...interface{}) *MockIamClientService_SetAccountMessages_Call {
+func (_e *MockIamClientService_Expecter) SetAccountMessages(params any, opts ...any) *MockIamClientService_SetAccountMessages_Call {
 	return &MockIamClientService_SetAccountMessages_Call{Call: _e.mock.On("SetAccountMessages",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetAccountMessages_Call) Run(run func(params *operations.SetAccountMessagesParams, opts ...operations.ClientOption)) *MockIamClientService_SetAccountMessages_Call {
@@ -10371,11 +10380,11 @@ func (_c *MockIamClientService_SetAccountMessages_Call) RunAndReturn(run func(pa
 // SetAccountMessagesContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetAccountMessagesContext(ctx context.Context, params *operations.SetAccountMessagesParams, opts ...operations.ClientOption) (*operations.SetAccountMessagesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10413,9 +10422,9 @@ type MockIamClientService_SetAccountMessagesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SetAccountMessagesParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetAccountMessagesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetAccountMessagesContext_Call {
+func (_e *MockIamClientService_Expecter) SetAccountMessagesContext(ctx any, params any, opts ...any) *MockIamClientService_SetAccountMessagesContext_Call {
 	return &MockIamClientService_SetAccountMessagesContext_Call{Call: _e.mock.On("SetAccountMessagesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetAccountMessagesContext_Call) Run(run func(ctx context.Context, params *operations.SetAccountMessagesParams, opts ...operations.ClientOption)) *MockIamClientService_SetAccountMessagesContext_Call {
@@ -10458,11 +10467,11 @@ func (_c *MockIamClientService_SetAccountMessagesContext_Call) RunAndReturn(run 
 // SetAuthenticationPolicy provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetAuthenticationPolicy(params *operations.SetAuthenticationPolicyParams, opts ...operations.ClientOption) (*operations.SetAuthenticationPolicyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10499,9 +10508,9 @@ type MockIamClientService_SetAuthenticationPolicy_Call struct {
 // SetAuthenticationPolicy is a helper method to define mock.On call
 //   - params *operations.SetAuthenticationPolicyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetAuthenticationPolicy(params interface{}, opts ...interface{}) *MockIamClientService_SetAuthenticationPolicy_Call {
+func (_e *MockIamClientService_Expecter) SetAuthenticationPolicy(params any, opts ...any) *MockIamClientService_SetAuthenticationPolicy_Call {
 	return &MockIamClientService_SetAuthenticationPolicy_Call{Call: _e.mock.On("SetAuthenticationPolicy",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetAuthenticationPolicy_Call) Run(run func(params *operations.SetAuthenticationPolicyParams, opts ...operations.ClientOption)) *MockIamClientService_SetAuthenticationPolicy_Call {
@@ -10539,11 +10548,11 @@ func (_c *MockIamClientService_SetAuthenticationPolicy_Call) RunAndReturn(run fu
 // SetAuthenticationPolicyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetAuthenticationPolicyContext(ctx context.Context, params *operations.SetAuthenticationPolicyParams, opts ...operations.ClientOption) (*operations.SetAuthenticationPolicyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10581,9 +10590,9 @@ type MockIamClientService_SetAuthenticationPolicyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SetAuthenticationPolicyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetAuthenticationPolicyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetAuthenticationPolicyContext_Call {
+func (_e *MockIamClientService_Expecter) SetAuthenticationPolicyContext(ctx any, params any, opts ...any) *MockIamClientService_SetAuthenticationPolicyContext_Call {
 	return &MockIamClientService_SetAuthenticationPolicyContext_Call{Call: _e.mock.On("SetAuthenticationPolicyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetAuthenticationPolicyContext_Call) Run(run func(ctx context.Context, params *operations.SetAuthenticationPolicyParams, opts ...operations.ClientOption)) *MockIamClientService_SetAuthenticationPolicyContext_Call {
@@ -10626,11 +10635,11 @@ func (_c *MockIamClientService_SetAuthenticationPolicyContext_Call) RunAndReturn
 // SetDefaultIdentityProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetDefaultIdentityProvider(params *operations.SetDefaultIdentityProviderParams, opts ...operations.ClientOption) (*operations.SetDefaultIdentityProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10667,9 +10676,9 @@ type MockIamClientService_SetDefaultIdentityProvider_Call struct {
 // SetDefaultIdentityProvider is a helper method to define mock.On call
 //   - params *operations.SetDefaultIdentityProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetDefaultIdentityProvider(params interface{}, opts ...interface{}) *MockIamClientService_SetDefaultIdentityProvider_Call {
+func (_e *MockIamClientService_Expecter) SetDefaultIdentityProvider(params any, opts ...any) *MockIamClientService_SetDefaultIdentityProvider_Call {
 	return &MockIamClientService_SetDefaultIdentityProvider_Call{Call: _e.mock.On("SetDefaultIdentityProvider",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetDefaultIdentityProvider_Call) Run(run func(params *operations.SetDefaultIdentityProviderParams, opts ...operations.ClientOption)) *MockIamClientService_SetDefaultIdentityProvider_Call {
@@ -10707,11 +10716,11 @@ func (_c *MockIamClientService_SetDefaultIdentityProvider_Call) RunAndReturn(run
 // SetDefaultIdentityProviderContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetDefaultIdentityProviderContext(ctx context.Context, params *operations.SetDefaultIdentityProviderParams, opts ...operations.ClientOption) (*operations.SetDefaultIdentityProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10749,9 +10758,9 @@ type MockIamClientService_SetDefaultIdentityProviderContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SetDefaultIdentityProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetDefaultIdentityProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetDefaultIdentityProviderContext_Call {
+func (_e *MockIamClientService_Expecter) SetDefaultIdentityProviderContext(ctx any, params any, opts ...any) *MockIamClientService_SetDefaultIdentityProviderContext_Call {
 	return &MockIamClientService_SetDefaultIdentityProviderContext_Call{Call: _e.mock.On("SetDefaultIdentityProviderContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetDefaultIdentityProviderContext_Call) Run(run func(ctx context.Context, params *operations.SetDefaultIdentityProviderParams, opts ...operations.ClientOption)) *MockIamClientService_SetDefaultIdentityProviderContext_Call {
@@ -10794,11 +10803,11 @@ func (_c *MockIamClientService_SetDefaultIdentityProviderContext_Call) RunAndRet
 // SetLocalAdminUsername provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetLocalAdminUsername(params *operations.SetLocalAdminUsernameParams, opts ...operations.ClientOption) (*operations.SetLocalAdminUsernameOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10835,9 +10844,9 @@ type MockIamClientService_SetLocalAdminUsername_Call struct {
 // SetLocalAdminUsername is a helper method to define mock.On call
 //   - params *operations.SetLocalAdminUsernameParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetLocalAdminUsername(params interface{}, opts ...interface{}) *MockIamClientService_SetLocalAdminUsername_Call {
+func (_e *MockIamClientService_Expecter) SetLocalAdminUsername(params any, opts ...any) *MockIamClientService_SetLocalAdminUsername_Call {
 	return &MockIamClientService_SetLocalAdminUsername_Call{Call: _e.mock.On("SetLocalAdminUsername",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetLocalAdminUsername_Call) Run(run func(params *operations.SetLocalAdminUsernameParams, opts ...operations.ClientOption)) *MockIamClientService_SetLocalAdminUsername_Call {
@@ -10875,11 +10884,11 @@ func (_c *MockIamClientService_SetLocalAdminUsername_Call) RunAndReturn(run func
 // SetLocalAdminUsernameContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetLocalAdminUsernameContext(ctx context.Context, params *operations.SetLocalAdminUsernameParams, opts ...operations.ClientOption) (*operations.SetLocalAdminUsernameOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10917,9 +10926,9 @@ type MockIamClientService_SetLocalAdminUsernameContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SetLocalAdminUsernameParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetLocalAdminUsernameContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetLocalAdminUsernameContext_Call {
+func (_e *MockIamClientService_Expecter) SetLocalAdminUsernameContext(ctx any, params any, opts ...any) *MockIamClientService_SetLocalAdminUsernameContext_Call {
 	return &MockIamClientService_SetLocalAdminUsernameContext_Call{Call: _e.mock.On("SetLocalAdminUsernameContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetLocalAdminUsernameContext_Call) Run(run func(ctx context.Context, params *operations.SetLocalAdminUsernameParams, opts ...operations.ClientOption)) *MockIamClientService_SetLocalAdminUsernameContext_Call {
@@ -10962,11 +10971,11 @@ func (_c *MockIamClientService_SetLocalAdminUsernameContext_Call) RunAndReturn(r
 // SetSamlAuthnRequestSigningKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetSamlAuthnRequestSigningKey(params *operations.SetSamlAuthnRequestSigningKeyParams, opts ...operations.ClientOption) (*operations.SetSamlAuthnRequestSigningKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11003,9 +11012,9 @@ type MockIamClientService_SetSamlAuthnRequestSigningKey_Call struct {
 // SetSamlAuthnRequestSigningKey is a helper method to define mock.On call
 //   - params *operations.SetSamlAuthnRequestSigningKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetSamlAuthnRequestSigningKey(params interface{}, opts ...interface{}) *MockIamClientService_SetSamlAuthnRequestSigningKey_Call {
+func (_e *MockIamClientService_Expecter) SetSamlAuthnRequestSigningKey(params any, opts ...any) *MockIamClientService_SetSamlAuthnRequestSigningKey_Call {
 	return &MockIamClientService_SetSamlAuthnRequestSigningKey_Call{Call: _e.mock.On("SetSamlAuthnRequestSigningKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetSamlAuthnRequestSigningKey_Call) Run(run func(params *operations.SetSamlAuthnRequestSigningKeyParams, opts ...operations.ClientOption)) *MockIamClientService_SetSamlAuthnRequestSigningKey_Call {
@@ -11043,11 +11052,11 @@ func (_c *MockIamClientService_SetSamlAuthnRequestSigningKey_Call) RunAndReturn(
 // SetSamlAuthnRequestSigningKeyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetSamlAuthnRequestSigningKeyContext(ctx context.Context, params *operations.SetSamlAuthnRequestSigningKeyParams, opts ...operations.ClientOption) (*operations.SetSamlAuthnRequestSigningKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11085,9 +11094,9 @@ type MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SetSamlAuthnRequestSigningKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetSamlAuthnRequestSigningKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call {
+func (_e *MockIamClientService_Expecter) SetSamlAuthnRequestSigningKeyContext(ctx any, params any, opts ...any) *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call {
 	return &MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call{Call: _e.mock.On("SetSamlAuthnRequestSigningKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call) Run(run func(ctx context.Context, params *operations.SetSamlAuthnRequestSigningKeyParams, opts ...operations.ClientOption)) *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call {
@@ -11130,11 +11139,11 @@ func (_c *MockIamClientService_SetSamlAuthnRequestSigningKeyContext_Call) RunAnd
 // SetSamlResponseDecryptionKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetSamlResponseDecryptionKey(params *operations.SetSamlResponseDecryptionKeyParams, opts ...operations.ClientOption) (*operations.SetSamlResponseDecryptionKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11171,9 +11180,9 @@ type MockIamClientService_SetSamlResponseDecryptionKey_Call struct {
 // SetSamlResponseDecryptionKey is a helper method to define mock.On call
 //   - params *operations.SetSamlResponseDecryptionKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetSamlResponseDecryptionKey(params interface{}, opts ...interface{}) *MockIamClientService_SetSamlResponseDecryptionKey_Call {
+func (_e *MockIamClientService_Expecter) SetSamlResponseDecryptionKey(params any, opts ...any) *MockIamClientService_SetSamlResponseDecryptionKey_Call {
 	return &MockIamClientService_SetSamlResponseDecryptionKey_Call{Call: _e.mock.On("SetSamlResponseDecryptionKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetSamlResponseDecryptionKey_Call) Run(run func(params *operations.SetSamlResponseDecryptionKeyParams, opts ...operations.ClientOption)) *MockIamClientService_SetSamlResponseDecryptionKey_Call {
@@ -11211,11 +11220,11 @@ func (_c *MockIamClientService_SetSamlResponseDecryptionKey_Call) RunAndReturn(r
 // SetSamlResponseDecryptionKeyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetSamlResponseDecryptionKeyContext(ctx context.Context, params *operations.SetSamlResponseDecryptionKeyParams, opts ...operations.ClientOption) (*operations.SetSamlResponseDecryptionKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11253,9 +11262,9 @@ type MockIamClientService_SetSamlResponseDecryptionKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SetSamlResponseDecryptionKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetSamlResponseDecryptionKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call {
+func (_e *MockIamClientService_Expecter) SetSamlResponseDecryptionKeyContext(ctx any, params any, opts ...any) *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call {
 	return &MockIamClientService_SetSamlResponseDecryptionKeyContext_Call{Call: _e.mock.On("SetSamlResponseDecryptionKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call) Run(run func(ctx context.Context, params *operations.SetSamlResponseDecryptionKeyParams, opts ...operations.ClientOption)) *MockIamClientService_SetSamlResponseDecryptionKeyContext_Call {
@@ -11308,7 +11317,7 @@ type MockIamClientService_SetTransport_Call struct {
 
 // SetTransport is a helper method to define mock.On call
 //   - transport runtime.ContextualTransport
-func (_e *MockIamClientService_Expecter) SetTransport(transport interface{}) *MockIamClientService_SetTransport_Call {
+func (_e *MockIamClientService_Expecter) SetTransport(transport any) *MockIamClientService_SetTransport_Call {
 	return &MockIamClientService_SetTransport_Call{Call: _e.mock.On("SetTransport", transport)}
 }
 
@@ -11338,11 +11347,11 @@ func (_c *MockIamClientService_SetTransport_Call) RunAndReturn(run func(transpor
 // SetWorkloadPassword provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetWorkloadPassword(params *operations.SetWorkloadPasswordParams, opts ...operations.ClientOption) (*operations.SetWorkloadPasswordOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11379,9 +11388,9 @@ type MockIamClientService_SetWorkloadPassword_Call struct {
 // SetWorkloadPassword is a helper method to define mock.On call
 //   - params *operations.SetWorkloadPasswordParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetWorkloadPassword(params interface{}, opts ...interface{}) *MockIamClientService_SetWorkloadPassword_Call {
+func (_e *MockIamClientService_Expecter) SetWorkloadPassword(params any, opts ...any) *MockIamClientService_SetWorkloadPassword_Call {
 	return &MockIamClientService_SetWorkloadPassword_Call{Call: _e.mock.On("SetWorkloadPassword",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetWorkloadPassword_Call) Run(run func(params *operations.SetWorkloadPasswordParams, opts ...operations.ClientOption)) *MockIamClientService_SetWorkloadPassword_Call {
@@ -11419,11 +11428,11 @@ func (_c *MockIamClientService_SetWorkloadPassword_Call) RunAndReturn(run func(p
 // SetWorkloadPasswordContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetWorkloadPasswordContext(ctx context.Context, params *operations.SetWorkloadPasswordParams, opts ...operations.ClientOption) (*operations.SetWorkloadPasswordOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11461,9 +11470,9 @@ type MockIamClientService_SetWorkloadPasswordContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SetWorkloadPasswordParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetWorkloadPasswordContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetWorkloadPasswordContext_Call {
+func (_e *MockIamClientService_Expecter) SetWorkloadPasswordContext(ctx any, params any, opts ...any) *MockIamClientService_SetWorkloadPasswordContext_Call {
 	return &MockIamClientService_SetWorkloadPasswordContext_Call{Call: _e.mock.On("SetWorkloadPasswordContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetWorkloadPasswordContext_Call) Run(run func(ctx context.Context, params *operations.SetWorkloadPasswordParams, opts ...operations.ClientOption)) *MockIamClientService_SetWorkloadPasswordContext_Call {
@@ -11506,11 +11515,11 @@ func (_c *MockIamClientService_SetWorkloadPasswordContext_Call) RunAndReturn(run
 // SetWorkloadPasswordPolicy provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetWorkloadPasswordPolicy(params *operations.SetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.SetWorkloadPasswordPolicyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11547,9 +11556,9 @@ type MockIamClientService_SetWorkloadPasswordPolicy_Call struct {
 // SetWorkloadPasswordPolicy is a helper method to define mock.On call
 //   - params *operations.SetWorkloadPasswordPolicyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetWorkloadPasswordPolicy(params interface{}, opts ...interface{}) *MockIamClientService_SetWorkloadPasswordPolicy_Call {
+func (_e *MockIamClientService_Expecter) SetWorkloadPasswordPolicy(params any, opts ...any) *MockIamClientService_SetWorkloadPasswordPolicy_Call {
 	return &MockIamClientService_SetWorkloadPasswordPolicy_Call{Call: _e.mock.On("SetWorkloadPasswordPolicy",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetWorkloadPasswordPolicy_Call) Run(run func(params *operations.SetWorkloadPasswordPolicyParams, opts ...operations.ClientOption)) *MockIamClientService_SetWorkloadPasswordPolicy_Call {
@@ -11587,11 +11596,11 @@ func (_c *MockIamClientService_SetWorkloadPasswordPolicy_Call) RunAndReturn(run 
 // SetWorkloadPasswordPolicyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) SetWorkloadPasswordPolicyContext(ctx context.Context, params *operations.SetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.SetWorkloadPasswordPolicyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11629,9 +11638,9 @@ type MockIamClientService_SetWorkloadPasswordPolicyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SetWorkloadPasswordPolicyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) SetWorkloadPasswordPolicyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_SetWorkloadPasswordPolicyContext_Call {
+func (_e *MockIamClientService_Expecter) SetWorkloadPasswordPolicyContext(ctx any, params any, opts ...any) *MockIamClientService_SetWorkloadPasswordPolicyContext_Call {
 	return &MockIamClientService_SetWorkloadPasswordPolicyContext_Call{Call: _e.mock.On("SetWorkloadPasswordPolicyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_SetWorkloadPasswordPolicyContext_Call) Run(run func(ctx context.Context, params *operations.SetWorkloadPasswordPolicyParams, opts ...operations.ClientOption)) *MockIamClientService_SetWorkloadPasswordPolicyContext_Call {
@@ -11674,11 +11683,11 @@ func (_c *MockIamClientService_SetWorkloadPasswordPolicyContext_Call) RunAndRetu
 // UnassignAzureCloudIdentity provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignAzureCloudIdentity(params *operations.UnassignAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.UnassignAzureCloudIdentityOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11715,9 +11724,9 @@ type MockIamClientService_UnassignAzureCloudIdentity_Call struct {
 // UnassignAzureCloudIdentity is a helper method to define mock.On call
 //   - params *operations.UnassignAzureCloudIdentityParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignAzureCloudIdentity(params interface{}, opts ...interface{}) *MockIamClientService_UnassignAzureCloudIdentity_Call {
+func (_e *MockIamClientService_Expecter) UnassignAzureCloudIdentity(params any, opts ...any) *MockIamClientService_UnassignAzureCloudIdentity_Call {
 	return &MockIamClientService_UnassignAzureCloudIdentity_Call{Call: _e.mock.On("UnassignAzureCloudIdentity",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignAzureCloudIdentity_Call) Run(run func(params *operations.UnassignAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignAzureCloudIdentity_Call {
@@ -11755,11 +11764,11 @@ func (_c *MockIamClientService_UnassignAzureCloudIdentity_Call) RunAndReturn(run
 // UnassignAzureCloudIdentityContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignAzureCloudIdentityContext(ctx context.Context, params *operations.UnassignAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.UnassignAzureCloudIdentityOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11797,9 +11806,9 @@ type MockIamClientService_UnassignAzureCloudIdentityContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnassignAzureCloudIdentityParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignAzureCloudIdentityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignAzureCloudIdentityContext_Call {
+func (_e *MockIamClientService_Expecter) UnassignAzureCloudIdentityContext(ctx any, params any, opts ...any) *MockIamClientService_UnassignAzureCloudIdentityContext_Call {
 	return &MockIamClientService_UnassignAzureCloudIdentityContext_Call{Call: _e.mock.On("UnassignAzureCloudIdentityContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignAzureCloudIdentityContext_Call) Run(run func(ctx context.Context, params *operations.UnassignAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignAzureCloudIdentityContext_Call {
@@ -11842,11 +11851,11 @@ func (_c *MockIamClientService_UnassignAzureCloudIdentityContext_Call) RunAndRet
 // UnassignGroupResourceRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignGroupResourceRole(params *operations.UnassignGroupResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignGroupResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11883,9 +11892,9 @@ type MockIamClientService_UnassignGroupResourceRole_Call struct {
 // UnassignGroupResourceRole is a helper method to define mock.On call
 //   - params *operations.UnassignGroupResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignGroupResourceRole(params interface{}, opts ...interface{}) *MockIamClientService_UnassignGroupResourceRole_Call {
+func (_e *MockIamClientService_Expecter) UnassignGroupResourceRole(params any, opts ...any) *MockIamClientService_UnassignGroupResourceRole_Call {
 	return &MockIamClientService_UnassignGroupResourceRole_Call{Call: _e.mock.On("UnassignGroupResourceRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignGroupResourceRole_Call) Run(run func(params *operations.UnassignGroupResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignGroupResourceRole_Call {
@@ -11923,11 +11932,11 @@ func (_c *MockIamClientService_UnassignGroupResourceRole_Call) RunAndReturn(run 
 // UnassignGroupResourceRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignGroupResourceRoleContext(ctx context.Context, params *operations.UnassignGroupResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignGroupResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11965,9 +11974,9 @@ type MockIamClientService_UnassignGroupResourceRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnassignGroupResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignGroupResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignGroupResourceRoleContext_Call {
+func (_e *MockIamClientService_Expecter) UnassignGroupResourceRoleContext(ctx any, params any, opts ...any) *MockIamClientService_UnassignGroupResourceRoleContext_Call {
 	return &MockIamClientService_UnassignGroupResourceRoleContext_Call{Call: _e.mock.On("UnassignGroupResourceRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignGroupResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignGroupResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignGroupResourceRoleContext_Call {
@@ -12010,11 +12019,11 @@ func (_c *MockIamClientService_UnassignGroupResourceRoleContext_Call) RunAndRetu
 // UnassignGroupRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignGroupRole(params *operations.UnassignGroupRoleParams, opts ...operations.ClientOption) (*operations.UnassignGroupRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12051,9 +12060,9 @@ type MockIamClientService_UnassignGroupRole_Call struct {
 // UnassignGroupRole is a helper method to define mock.On call
 //   - params *operations.UnassignGroupRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignGroupRole(params interface{}, opts ...interface{}) *MockIamClientService_UnassignGroupRole_Call {
+func (_e *MockIamClientService_Expecter) UnassignGroupRole(params any, opts ...any) *MockIamClientService_UnassignGroupRole_Call {
 	return &MockIamClientService_UnassignGroupRole_Call{Call: _e.mock.On("UnassignGroupRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignGroupRole_Call) Run(run func(params *operations.UnassignGroupRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignGroupRole_Call {
@@ -12091,11 +12100,11 @@ func (_c *MockIamClientService_UnassignGroupRole_Call) RunAndReturn(run func(par
 // UnassignGroupRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignGroupRoleContext(ctx context.Context, params *operations.UnassignGroupRoleParams, opts ...operations.ClientOption) (*operations.UnassignGroupRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12133,9 +12142,9 @@ type MockIamClientService_UnassignGroupRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnassignGroupRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignGroupRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignGroupRoleContext_Call {
+func (_e *MockIamClientService_Expecter) UnassignGroupRoleContext(ctx any, params any, opts ...any) *MockIamClientService_UnassignGroupRoleContext_Call {
 	return &MockIamClientService_UnassignGroupRoleContext_Call{Call: _e.mock.On("UnassignGroupRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignGroupRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignGroupRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignGroupRoleContext_Call {
@@ -12178,11 +12187,11 @@ func (_c *MockIamClientService_UnassignGroupRoleContext_Call) RunAndReturn(run f
 // UnassignMachineUserResourceRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignMachineUserResourceRole(params *operations.UnassignMachineUserResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignMachineUserResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12219,9 +12228,9 @@ type MockIamClientService_UnassignMachineUserResourceRole_Call struct {
 // UnassignMachineUserResourceRole is a helper method to define mock.On call
 //   - params *operations.UnassignMachineUserResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignMachineUserResourceRole(params interface{}, opts ...interface{}) *MockIamClientService_UnassignMachineUserResourceRole_Call {
+func (_e *MockIamClientService_Expecter) UnassignMachineUserResourceRole(params any, opts ...any) *MockIamClientService_UnassignMachineUserResourceRole_Call {
 	return &MockIamClientService_UnassignMachineUserResourceRole_Call{Call: _e.mock.On("UnassignMachineUserResourceRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignMachineUserResourceRole_Call) Run(run func(params *operations.UnassignMachineUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignMachineUserResourceRole_Call {
@@ -12259,11 +12268,11 @@ func (_c *MockIamClientService_UnassignMachineUserResourceRole_Call) RunAndRetur
 // UnassignMachineUserResourceRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignMachineUserResourceRoleContext(ctx context.Context, params *operations.UnassignMachineUserResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignMachineUserResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12301,9 +12310,9 @@ type MockIamClientService_UnassignMachineUserResourceRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnassignMachineUserResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignMachineUserResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignMachineUserResourceRoleContext_Call {
+func (_e *MockIamClientService_Expecter) UnassignMachineUserResourceRoleContext(ctx any, params any, opts ...any) *MockIamClientService_UnassignMachineUserResourceRoleContext_Call {
 	return &MockIamClientService_UnassignMachineUserResourceRoleContext_Call{Call: _e.mock.On("UnassignMachineUserResourceRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignMachineUserResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignMachineUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignMachineUserResourceRoleContext_Call {
@@ -12346,11 +12355,11 @@ func (_c *MockIamClientService_UnassignMachineUserResourceRoleContext_Call) RunA
 // UnassignMachineUserRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignMachineUserRole(params *operations.UnassignMachineUserRoleParams, opts ...operations.ClientOption) (*operations.UnassignMachineUserRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12387,9 +12396,9 @@ type MockIamClientService_UnassignMachineUserRole_Call struct {
 // UnassignMachineUserRole is a helper method to define mock.On call
 //   - params *operations.UnassignMachineUserRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignMachineUserRole(params interface{}, opts ...interface{}) *MockIamClientService_UnassignMachineUserRole_Call {
+func (_e *MockIamClientService_Expecter) UnassignMachineUserRole(params any, opts ...any) *MockIamClientService_UnassignMachineUserRole_Call {
 	return &MockIamClientService_UnassignMachineUserRole_Call{Call: _e.mock.On("UnassignMachineUserRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignMachineUserRole_Call) Run(run func(params *operations.UnassignMachineUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignMachineUserRole_Call {
@@ -12427,11 +12436,11 @@ func (_c *MockIamClientService_UnassignMachineUserRole_Call) RunAndReturn(run fu
 // UnassignMachineUserRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignMachineUserRoleContext(ctx context.Context, params *operations.UnassignMachineUserRoleParams, opts ...operations.ClientOption) (*operations.UnassignMachineUserRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12469,9 +12478,9 @@ type MockIamClientService_UnassignMachineUserRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnassignMachineUserRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignMachineUserRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignMachineUserRoleContext_Call {
+func (_e *MockIamClientService_Expecter) UnassignMachineUserRoleContext(ctx any, params any, opts ...any) *MockIamClientService_UnassignMachineUserRoleContext_Call {
 	return &MockIamClientService_UnassignMachineUserRoleContext_Call{Call: _e.mock.On("UnassignMachineUserRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignMachineUserRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignMachineUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignMachineUserRoleContext_Call {
@@ -12514,11 +12523,11 @@ func (_c *MockIamClientService_UnassignMachineUserRoleContext_Call) RunAndReturn
 // UnassignServicePrincipalAzureCloudIdentity provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignServicePrincipalAzureCloudIdentity(params *operations.UnassignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.UnassignServicePrincipalAzureCloudIdentityOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12555,9 +12564,9 @@ type MockIamClientService_UnassignServicePrincipalAzureCloudIdentity_Call struct
 // UnassignServicePrincipalAzureCloudIdentity is a helper method to define mock.On call
 //   - params *operations.UnassignServicePrincipalAzureCloudIdentityParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignServicePrincipalAzureCloudIdentity(params interface{}, opts ...interface{}) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentity_Call {
+func (_e *MockIamClientService_Expecter) UnassignServicePrincipalAzureCloudIdentity(params any, opts ...any) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentity_Call {
 	return &MockIamClientService_UnassignServicePrincipalAzureCloudIdentity_Call{Call: _e.mock.On("UnassignServicePrincipalAzureCloudIdentity",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignServicePrincipalAzureCloudIdentity_Call) Run(run func(params *operations.UnassignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentity_Call {
@@ -12595,11 +12604,11 @@ func (_c *MockIamClientService_UnassignServicePrincipalAzureCloudIdentity_Call) 
 // UnassignServicePrincipalAzureCloudIdentityContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignServicePrincipalAzureCloudIdentityContext(ctx context.Context, params *operations.UnassignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption) (*operations.UnassignServicePrincipalAzureCloudIdentityOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12637,9 +12646,9 @@ type MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call
 //   - ctx context.Context
 //   - params *operations.UnassignServicePrincipalAzureCloudIdentityParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignServicePrincipalAzureCloudIdentityContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call {
+func (_e *MockIamClientService_Expecter) UnassignServicePrincipalAzureCloudIdentityContext(ctx any, params any, opts ...any) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call {
 	return &MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call{Call: _e.mock.On("UnassignServicePrincipalAzureCloudIdentityContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call) Run(run func(ctx context.Context, params *operations.UnassignServicePrincipalAzureCloudIdentityParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext_Call {
@@ -12682,11 +12691,11 @@ func (_c *MockIamClientService_UnassignServicePrincipalAzureCloudIdentityContext
 // UnassignUserResourceRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignUserResourceRole(params *operations.UnassignUserResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignUserResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12723,9 +12732,9 @@ type MockIamClientService_UnassignUserResourceRole_Call struct {
 // UnassignUserResourceRole is a helper method to define mock.On call
 //   - params *operations.UnassignUserResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignUserResourceRole(params interface{}, opts ...interface{}) *MockIamClientService_UnassignUserResourceRole_Call {
+func (_e *MockIamClientService_Expecter) UnassignUserResourceRole(params any, opts ...any) *MockIamClientService_UnassignUserResourceRole_Call {
 	return &MockIamClientService_UnassignUserResourceRole_Call{Call: _e.mock.On("UnassignUserResourceRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignUserResourceRole_Call) Run(run func(params *operations.UnassignUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignUserResourceRole_Call {
@@ -12763,11 +12772,11 @@ func (_c *MockIamClientService_UnassignUserResourceRole_Call) RunAndReturn(run f
 // UnassignUserResourceRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignUserResourceRoleContext(ctx context.Context, params *operations.UnassignUserResourceRoleParams, opts ...operations.ClientOption) (*operations.UnassignUserResourceRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12805,9 +12814,9 @@ type MockIamClientService_UnassignUserResourceRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnassignUserResourceRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignUserResourceRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignUserResourceRoleContext_Call {
+func (_e *MockIamClientService_Expecter) UnassignUserResourceRoleContext(ctx any, params any, opts ...any) *MockIamClientService_UnassignUserResourceRoleContext_Call {
 	return &MockIamClientService_UnassignUserResourceRoleContext_Call{Call: _e.mock.On("UnassignUserResourceRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignUserResourceRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignUserResourceRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignUserResourceRoleContext_Call {
@@ -12850,11 +12859,11 @@ func (_c *MockIamClientService_UnassignUserResourceRoleContext_Call) RunAndRetur
 // UnassignUserRole provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignUserRole(params *operations.UnassignUserRoleParams, opts ...operations.ClientOption) (*operations.UnassignUserRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12891,9 +12900,9 @@ type MockIamClientService_UnassignUserRole_Call struct {
 // UnassignUserRole is a helper method to define mock.On call
 //   - params *operations.UnassignUserRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignUserRole(params interface{}, opts ...interface{}) *MockIamClientService_UnassignUserRole_Call {
+func (_e *MockIamClientService_Expecter) UnassignUserRole(params any, opts ...any) *MockIamClientService_UnassignUserRole_Call {
 	return &MockIamClientService_UnassignUserRole_Call{Call: _e.mock.On("UnassignUserRole",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignUserRole_Call) Run(run func(params *operations.UnassignUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignUserRole_Call {
@@ -12931,11 +12940,11 @@ func (_c *MockIamClientService_UnassignUserRole_Call) RunAndReturn(run func(para
 // UnassignUserRoleContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnassignUserRoleContext(ctx context.Context, params *operations.UnassignUserRoleParams, opts ...operations.ClientOption) (*operations.UnassignUserRoleOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12973,9 +12982,9 @@ type MockIamClientService_UnassignUserRoleContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnassignUserRoleParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnassignUserRoleContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnassignUserRoleContext_Call {
+func (_e *MockIamClientService_Expecter) UnassignUserRoleContext(ctx any, params any, opts ...any) *MockIamClientService_UnassignUserRoleContext_Call {
 	return &MockIamClientService_UnassignUserRoleContext_Call{Call: _e.mock.On("UnassignUserRoleContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnassignUserRoleContext_Call) Run(run func(ctx context.Context, params *operations.UnassignUserRoleParams, opts ...operations.ClientOption)) *MockIamClientService_UnassignUserRoleContext_Call {
@@ -13018,11 +13027,11 @@ func (_c *MockIamClientService_UnassignUserRoleContext_Call) RunAndReturn(run fu
 // UnlockMachineUserInControlPlane provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnlockMachineUserInControlPlane(params *operations.UnlockMachineUserInControlPlaneParams, opts ...operations.ClientOption) (*operations.UnlockMachineUserInControlPlaneOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13059,9 +13068,9 @@ type MockIamClientService_UnlockMachineUserInControlPlane_Call struct {
 // UnlockMachineUserInControlPlane is a helper method to define mock.On call
 //   - params *operations.UnlockMachineUserInControlPlaneParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnlockMachineUserInControlPlane(params interface{}, opts ...interface{}) *MockIamClientService_UnlockMachineUserInControlPlane_Call {
+func (_e *MockIamClientService_Expecter) UnlockMachineUserInControlPlane(params any, opts ...any) *MockIamClientService_UnlockMachineUserInControlPlane_Call {
 	return &MockIamClientService_UnlockMachineUserInControlPlane_Call{Call: _e.mock.On("UnlockMachineUserInControlPlane",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnlockMachineUserInControlPlane_Call) Run(run func(params *operations.UnlockMachineUserInControlPlaneParams, opts ...operations.ClientOption)) *MockIamClientService_UnlockMachineUserInControlPlane_Call {
@@ -13099,11 +13108,11 @@ func (_c *MockIamClientService_UnlockMachineUserInControlPlane_Call) RunAndRetur
 // UnlockMachineUserInControlPlaneContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnlockMachineUserInControlPlaneContext(ctx context.Context, params *operations.UnlockMachineUserInControlPlaneParams, opts ...operations.ClientOption) (*operations.UnlockMachineUserInControlPlaneOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13141,9 +13150,9 @@ type MockIamClientService_UnlockMachineUserInControlPlaneContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnlockMachineUserInControlPlaneParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnlockMachineUserInControlPlaneContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call {
+func (_e *MockIamClientService_Expecter) UnlockMachineUserInControlPlaneContext(ctx any, params any, opts ...any) *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call {
 	return &MockIamClientService_UnlockMachineUserInControlPlaneContext_Call{Call: _e.mock.On("UnlockMachineUserInControlPlaneContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call) Run(run func(ctx context.Context, params *operations.UnlockMachineUserInControlPlaneParams, opts ...operations.ClientOption)) *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call {
@@ -13186,11 +13195,11 @@ func (_c *MockIamClientService_UnlockMachineUserInControlPlaneContext_Call) RunA
 // UnlockUserInControlPlane provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnlockUserInControlPlane(params *operations.UnlockUserInControlPlaneParams, opts ...operations.ClientOption) (*operations.UnlockUserInControlPlaneOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13227,9 +13236,9 @@ type MockIamClientService_UnlockUserInControlPlane_Call struct {
 // UnlockUserInControlPlane is a helper method to define mock.On call
 //   - params *operations.UnlockUserInControlPlaneParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnlockUserInControlPlane(params interface{}, opts ...interface{}) *MockIamClientService_UnlockUserInControlPlane_Call {
+func (_e *MockIamClientService_Expecter) UnlockUserInControlPlane(params any, opts ...any) *MockIamClientService_UnlockUserInControlPlane_Call {
 	return &MockIamClientService_UnlockUserInControlPlane_Call{Call: _e.mock.On("UnlockUserInControlPlane",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnlockUserInControlPlane_Call) Run(run func(params *operations.UnlockUserInControlPlaneParams, opts ...operations.ClientOption)) *MockIamClientService_UnlockUserInControlPlane_Call {
@@ -13267,11 +13276,11 @@ func (_c *MockIamClientService_UnlockUserInControlPlane_Call) RunAndReturn(run f
 // UnlockUserInControlPlaneContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnlockUserInControlPlaneContext(ctx context.Context, params *operations.UnlockUserInControlPlaneParams, opts ...operations.ClientOption) (*operations.UnlockUserInControlPlaneOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13309,9 +13318,9 @@ type MockIamClientService_UnlockUserInControlPlaneContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnlockUserInControlPlaneParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnlockUserInControlPlaneContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnlockUserInControlPlaneContext_Call {
+func (_e *MockIamClientService_Expecter) UnlockUserInControlPlaneContext(ctx any, params any, opts ...any) *MockIamClientService_UnlockUserInControlPlaneContext_Call {
 	return &MockIamClientService_UnlockUserInControlPlaneContext_Call{Call: _e.mock.On("UnlockUserInControlPlaneContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnlockUserInControlPlaneContext_Call) Run(run func(ctx context.Context, params *operations.UnlockUserInControlPlaneParams, opts ...operations.ClientOption)) *MockIamClientService_UnlockUserInControlPlaneContext_Call {
@@ -13354,11 +13363,11 @@ func (_c *MockIamClientService_UnlockUserInControlPlaneContext_Call) RunAndRetur
 // UnsetWorkloadPasswordMinLifetime provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnsetWorkloadPasswordMinLifetime(params *operations.UnsetWorkloadPasswordMinLifetimeParams, opts ...operations.ClientOption) (*operations.UnsetWorkloadPasswordMinLifetimeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13395,9 +13404,9 @@ type MockIamClientService_UnsetWorkloadPasswordMinLifetime_Call struct {
 // UnsetWorkloadPasswordMinLifetime is a helper method to define mock.On call
 //   - params *operations.UnsetWorkloadPasswordMinLifetimeParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnsetWorkloadPasswordMinLifetime(params interface{}, opts ...interface{}) *MockIamClientService_UnsetWorkloadPasswordMinLifetime_Call {
+func (_e *MockIamClientService_Expecter) UnsetWorkloadPasswordMinLifetime(params any, opts ...any) *MockIamClientService_UnsetWorkloadPasswordMinLifetime_Call {
 	return &MockIamClientService_UnsetWorkloadPasswordMinLifetime_Call{Call: _e.mock.On("UnsetWorkloadPasswordMinLifetime",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnsetWorkloadPasswordMinLifetime_Call) Run(run func(params *operations.UnsetWorkloadPasswordMinLifetimeParams, opts ...operations.ClientOption)) *MockIamClientService_UnsetWorkloadPasswordMinLifetime_Call {
@@ -13435,11 +13444,11 @@ func (_c *MockIamClientService_UnsetWorkloadPasswordMinLifetime_Call) RunAndRetu
 // UnsetWorkloadPasswordMinLifetimeContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnsetWorkloadPasswordMinLifetimeContext(ctx context.Context, params *operations.UnsetWorkloadPasswordMinLifetimeParams, opts ...operations.ClientOption) (*operations.UnsetWorkloadPasswordMinLifetimeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13477,9 +13486,9 @@ type MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnsetWorkloadPasswordMinLifetimeParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnsetWorkloadPasswordMinLifetimeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call {
+func (_e *MockIamClientService_Expecter) UnsetWorkloadPasswordMinLifetimeContext(ctx any, params any, opts ...any) *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call {
 	return &MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call{Call: _e.mock.On("UnsetWorkloadPasswordMinLifetimeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call) Run(run func(ctx context.Context, params *operations.UnsetWorkloadPasswordMinLifetimeParams, opts ...operations.ClientOption)) *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call {
@@ -13522,11 +13531,11 @@ func (_c *MockIamClientService_UnsetWorkloadPasswordMinLifetimeContext_Call) Run
 // UnsetWorkloadPasswordPolicy provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnsetWorkloadPasswordPolicy(params *operations.UnsetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.UnsetWorkloadPasswordPolicyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13563,9 +13572,9 @@ type MockIamClientService_UnsetWorkloadPasswordPolicy_Call struct {
 // UnsetWorkloadPasswordPolicy is a helper method to define mock.On call
 //   - params *operations.UnsetWorkloadPasswordPolicyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnsetWorkloadPasswordPolicy(params interface{}, opts ...interface{}) *MockIamClientService_UnsetWorkloadPasswordPolicy_Call {
+func (_e *MockIamClientService_Expecter) UnsetWorkloadPasswordPolicy(params any, opts ...any) *MockIamClientService_UnsetWorkloadPasswordPolicy_Call {
 	return &MockIamClientService_UnsetWorkloadPasswordPolicy_Call{Call: _e.mock.On("UnsetWorkloadPasswordPolicy",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnsetWorkloadPasswordPolicy_Call) Run(run func(params *operations.UnsetWorkloadPasswordPolicyParams, opts ...operations.ClientOption)) *MockIamClientService_UnsetWorkloadPasswordPolicy_Call {
@@ -13603,11 +13612,11 @@ func (_c *MockIamClientService_UnsetWorkloadPasswordPolicy_Call) RunAndReturn(ru
 // UnsetWorkloadPasswordPolicyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UnsetWorkloadPasswordPolicyContext(ctx context.Context, params *operations.UnsetWorkloadPasswordPolicyParams, opts ...operations.ClientOption) (*operations.UnsetWorkloadPasswordPolicyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13645,9 +13654,9 @@ type MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UnsetWorkloadPasswordPolicyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UnsetWorkloadPasswordPolicyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call {
+func (_e *MockIamClientService_Expecter) UnsetWorkloadPasswordPolicyContext(ctx any, params any, opts ...any) *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call {
 	return &MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call{Call: _e.mock.On("UnsetWorkloadPasswordPolicyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call) Run(run func(ctx context.Context, params *operations.UnsetWorkloadPasswordPolicyParams, opts ...operations.ClientOption)) *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call {
@@ -13690,11 +13699,11 @@ func (_c *MockIamClientService_UnsetWorkloadPasswordPolicyContext_Call) RunAndRe
 // UpdateAccessKey provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateAccessKey(params *operations.UpdateAccessKeyParams, opts ...operations.ClientOption) (*operations.UpdateAccessKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13731,9 +13740,9 @@ type MockIamClientService_UpdateAccessKey_Call struct {
 // UpdateAccessKey is a helper method to define mock.On call
 //   - params *operations.UpdateAccessKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UpdateAccessKey(params interface{}, opts ...interface{}) *MockIamClientService_UpdateAccessKey_Call {
+func (_e *MockIamClientService_Expecter) UpdateAccessKey(params any, opts ...any) *MockIamClientService_UpdateAccessKey_Call {
 	return &MockIamClientService_UpdateAccessKey_Call{Call: _e.mock.On("UpdateAccessKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UpdateAccessKey_Call) Run(run func(params *operations.UpdateAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateAccessKey_Call {
@@ -13771,11 +13780,11 @@ func (_c *MockIamClientService_UpdateAccessKey_Call) RunAndReturn(run func(param
 // UpdateAccessKeyContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateAccessKeyContext(ctx context.Context, params *operations.UpdateAccessKeyParams, opts ...operations.ClientOption) (*operations.UpdateAccessKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13813,9 +13822,9 @@ type MockIamClientService_UpdateAccessKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateAccessKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UpdateAccessKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UpdateAccessKeyContext_Call {
+func (_e *MockIamClientService_Expecter) UpdateAccessKeyContext(ctx any, params any, opts ...any) *MockIamClientService_UpdateAccessKeyContext_Call {
 	return &MockIamClientService_UpdateAccessKeyContext_Call{Call: _e.mock.On("UpdateAccessKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UpdateAccessKeyContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAccessKeyParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateAccessKeyContext_Call {
@@ -13858,11 +13867,11 @@ func (_c *MockIamClientService_UpdateAccessKeyContext_Call) RunAndReturn(run fun
 // UpdateGroup provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateGroup(params *operations.UpdateGroupParams, opts ...operations.ClientOption) (*operations.UpdateGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13899,9 +13908,9 @@ type MockIamClientService_UpdateGroup_Call struct {
 // UpdateGroup is a helper method to define mock.On call
 //   - params *operations.UpdateGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UpdateGroup(params interface{}, opts ...interface{}) *MockIamClientService_UpdateGroup_Call {
+func (_e *MockIamClientService_Expecter) UpdateGroup(params any, opts ...any) *MockIamClientService_UpdateGroup_Call {
 	return &MockIamClientService_UpdateGroup_Call{Call: _e.mock.On("UpdateGroup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UpdateGroup_Call) Run(run func(params *operations.UpdateGroupParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateGroup_Call {
@@ -13939,11 +13948,11 @@ func (_c *MockIamClientService_UpdateGroup_Call) RunAndReturn(run func(params *o
 // UpdateGroupContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateGroupContext(ctx context.Context, params *operations.UpdateGroupParams, opts ...operations.ClientOption) (*operations.UpdateGroupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13981,9 +13990,9 @@ type MockIamClientService_UpdateGroupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateGroupParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UpdateGroupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UpdateGroupContext_Call {
+func (_e *MockIamClientService_Expecter) UpdateGroupContext(ctx any, params any, opts ...any) *MockIamClientService_UpdateGroupContext_Call {
 	return &MockIamClientService_UpdateGroupContext_Call{Call: _e.mock.On("UpdateGroupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UpdateGroupContext_Call) Run(run func(ctx context.Context, params *operations.UpdateGroupParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateGroupContext_Call {
@@ -14026,11 +14035,11 @@ func (_c *MockIamClientService_UpdateGroupContext_Call) RunAndReturn(run func(ct
 // UpdateLdapProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateLdapProvider(params *operations.UpdateLdapProviderParams, opts ...operations.ClientOption) (*operations.UpdateLdapProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14067,9 +14076,9 @@ type MockIamClientService_UpdateLdapProvider_Call struct {
 // UpdateLdapProvider is a helper method to define mock.On call
 //   - params *operations.UpdateLdapProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UpdateLdapProvider(params interface{}, opts ...interface{}) *MockIamClientService_UpdateLdapProvider_Call {
+func (_e *MockIamClientService_Expecter) UpdateLdapProvider(params any, opts ...any) *MockIamClientService_UpdateLdapProvider_Call {
 	return &MockIamClientService_UpdateLdapProvider_Call{Call: _e.mock.On("UpdateLdapProvider",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UpdateLdapProvider_Call) Run(run func(params *operations.UpdateLdapProviderParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateLdapProvider_Call {
@@ -14107,11 +14116,11 @@ func (_c *MockIamClientService_UpdateLdapProvider_Call) RunAndReturn(run func(pa
 // UpdateLdapProviderContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateLdapProviderContext(ctx context.Context, params *operations.UpdateLdapProviderParams, opts ...operations.ClientOption) (*operations.UpdateLdapProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14149,9 +14158,9 @@ type MockIamClientService_UpdateLdapProviderContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateLdapProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UpdateLdapProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UpdateLdapProviderContext_Call {
+func (_e *MockIamClientService_Expecter) UpdateLdapProviderContext(ctx any, params any, opts ...any) *MockIamClientService_UpdateLdapProviderContext_Call {
 	return &MockIamClientService_UpdateLdapProviderContext_Call{Call: _e.mock.On("UpdateLdapProviderContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UpdateLdapProviderContext_Call) Run(run func(ctx context.Context, params *operations.UpdateLdapProviderParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateLdapProviderContext_Call {
@@ -14194,11 +14203,11 @@ func (_c *MockIamClientService_UpdateLdapProviderContext_Call) RunAndReturn(run 
 // UpdateSamlProvider provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateSamlProvider(params *operations.UpdateSamlProviderParams, opts ...operations.ClientOption) (*operations.UpdateSamlProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14235,9 +14244,9 @@ type MockIamClientService_UpdateSamlProvider_Call struct {
 // UpdateSamlProvider is a helper method to define mock.On call
 //   - params *operations.UpdateSamlProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UpdateSamlProvider(params interface{}, opts ...interface{}) *MockIamClientService_UpdateSamlProvider_Call {
+func (_e *MockIamClientService_Expecter) UpdateSamlProvider(params any, opts ...any) *MockIamClientService_UpdateSamlProvider_Call {
 	return &MockIamClientService_UpdateSamlProvider_Call{Call: _e.mock.On("UpdateSamlProvider",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UpdateSamlProvider_Call) Run(run func(params *operations.UpdateSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateSamlProvider_Call {
@@ -14275,11 +14284,11 @@ func (_c *MockIamClientService_UpdateSamlProvider_Call) RunAndReturn(run func(pa
 // UpdateSamlProviderContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateSamlProviderContext(ctx context.Context, params *operations.UpdateSamlProviderParams, opts ...operations.ClientOption) (*operations.UpdateSamlProviderOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14317,9 +14326,9 @@ type MockIamClientService_UpdateSamlProviderContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateSamlProviderParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UpdateSamlProviderContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UpdateSamlProviderContext_Call {
+func (_e *MockIamClientService_Expecter) UpdateSamlProviderContext(ctx any, params any, opts ...any) *MockIamClientService_UpdateSamlProviderContext_Call {
 	return &MockIamClientService_UpdateSamlProviderContext_Call{Call: _e.mock.On("UpdateSamlProviderContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UpdateSamlProviderContext_Call) Run(run func(ctx context.Context, params *operations.UpdateSamlProviderParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateSamlProviderContext_Call {
@@ -14362,11 +14371,11 @@ func (_c *MockIamClientService_UpdateSamlProviderContext_Call) RunAndReturn(run 
 // UpdateUser provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateUser(params *operations.UpdateUserParams, opts ...operations.ClientOption) (*operations.UpdateUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14403,9 +14412,9 @@ type MockIamClientService_UpdateUser_Call struct {
 // UpdateUser is a helper method to define mock.On call
 //   - params *operations.UpdateUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UpdateUser(params interface{}, opts ...interface{}) *MockIamClientService_UpdateUser_Call {
+func (_e *MockIamClientService_Expecter) UpdateUser(params any, opts ...any) *MockIamClientService_UpdateUser_Call {
 	return &MockIamClientService_UpdateUser_Call{Call: _e.mock.On("UpdateUser",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UpdateUser_Call) Run(run func(params *operations.UpdateUserParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateUser_Call {
@@ -14443,11 +14452,11 @@ func (_c *MockIamClientService_UpdateUser_Call) RunAndReturn(run func(params *op
 // UpdateUserContext provides a mock function for the type MockIamClientService
 func (_mock *MockIamClientService) UpdateUserContext(ctx context.Context, params *operations.UpdateUserParams, opts ...operations.ClientOption) (*operations.UpdateUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14485,9 +14494,9 @@ type MockIamClientService_UpdateUserContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockIamClientService_Expecter) UpdateUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockIamClientService_UpdateUserContext_Call {
+func (_e *MockIamClientService_Expecter) UpdateUserContext(ctx any, params any, opts ...any) *MockIamClientService_UpdateUserContext_Call {
 	return &MockIamClientService_UpdateUserContext_Call{Call: _e.mock.On("UpdateUserContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockIamClientService_UpdateUserContext_Call) Run(run func(ctx context.Context, params *operations.UpdateUserParams, opts ...operations.ClientOption)) *MockIamClientService_UpdateUserContext_Call {

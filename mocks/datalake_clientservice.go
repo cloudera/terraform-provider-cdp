@@ -18,10 +18,19 @@ func NewMockDatalakeClientService(t interface {
 	mock.TestingT
 	Cleanup(func())
 }) *MockDatalakeClientService {
+	if helper, ok := t.(interface{ Helper() }); ok {
+		helper.Helper()
+	}
+
 	mock := &MockDatalakeClientService{}
 	mock.Mock.Test(t)
 
-	t.Cleanup(func() { mock.AssertExpectations(t) })
+	t.Cleanup(func() {
+		if helper, ok := t.(interface{ Helper() }); ok {
+			helper.Helper()
+		}
+		mock.AssertExpectations(t)
+	})
 
 	return mock
 }
@@ -42,11 +51,11 @@ func (_m *MockDatalakeClientService) EXPECT() *MockDatalakeClientService_Expecte
 // BackupDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) BackupDatalake(params *operations.BackupDatalakeParams, opts ...operations.ClientOption) (*operations.BackupDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -83,9 +92,9 @@ type MockDatalakeClientService_BackupDatalake_Call struct {
 // BackupDatalake is a helper method to define mock.On call
 //   - params *operations.BackupDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) BackupDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_BackupDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) BackupDatalake(params any, opts ...any) *MockDatalakeClientService_BackupDatalake_Call {
 	return &MockDatalakeClientService_BackupDatalake_Call{Call: _e.mock.On("BackupDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_BackupDatalake_Call) Run(run func(params *operations.BackupDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_BackupDatalake_Call {
@@ -123,11 +132,11 @@ func (_c *MockDatalakeClientService_BackupDatalake_Call) RunAndReturn(run func(p
 // BackupDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) BackupDatalakeContext(ctx context.Context, params *operations.BackupDatalakeParams, opts ...operations.ClientOption) (*operations.BackupDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -165,9 +174,9 @@ type MockDatalakeClientService_BackupDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.BackupDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) BackupDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_BackupDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) BackupDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_BackupDatalakeContext_Call {
 	return &MockDatalakeClientService_BackupDatalakeContext_Call{Call: _e.mock.On("BackupDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_BackupDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.BackupDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_BackupDatalakeContext_Call {
@@ -210,11 +219,11 @@ func (_c *MockDatalakeClientService_BackupDatalakeContext_Call) RunAndReturn(run
 // BackupDatalakeStatus provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) BackupDatalakeStatus(params *operations.BackupDatalakeStatusParams, opts ...operations.ClientOption) (*operations.BackupDatalakeStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -251,9 +260,9 @@ type MockDatalakeClientService_BackupDatalakeStatus_Call struct {
 // BackupDatalakeStatus is a helper method to define mock.On call
 //   - params *operations.BackupDatalakeStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) BackupDatalakeStatus(params interface{}, opts ...interface{}) *MockDatalakeClientService_BackupDatalakeStatus_Call {
+func (_e *MockDatalakeClientService_Expecter) BackupDatalakeStatus(params any, opts ...any) *MockDatalakeClientService_BackupDatalakeStatus_Call {
 	return &MockDatalakeClientService_BackupDatalakeStatus_Call{Call: _e.mock.On("BackupDatalakeStatus",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_BackupDatalakeStatus_Call) Run(run func(params *operations.BackupDatalakeStatusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_BackupDatalakeStatus_Call {
@@ -291,11 +300,11 @@ func (_c *MockDatalakeClientService_BackupDatalakeStatus_Call) RunAndReturn(run 
 // BackupDatalakeStatusContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) BackupDatalakeStatusContext(ctx context.Context, params *operations.BackupDatalakeStatusParams, opts ...operations.ClientOption) (*operations.BackupDatalakeStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -333,9 +342,9 @@ type MockDatalakeClientService_BackupDatalakeStatusContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.BackupDatalakeStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) BackupDatalakeStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_BackupDatalakeStatusContext_Call {
+func (_e *MockDatalakeClientService_Expecter) BackupDatalakeStatusContext(ctx any, params any, opts ...any) *MockDatalakeClientService_BackupDatalakeStatusContext_Call {
 	return &MockDatalakeClientService_BackupDatalakeStatusContext_Call{Call: _e.mock.On("BackupDatalakeStatusContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_BackupDatalakeStatusContext_Call) Run(run func(ctx context.Context, params *operations.BackupDatalakeStatusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_BackupDatalakeStatusContext_Call {
@@ -378,11 +387,11 @@ func (_c *MockDatalakeClientService_BackupDatalakeStatusContext_Call) RunAndRetu
 // CancelBackup provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CancelBackup(params *operations.CancelBackupParams, opts ...operations.ClientOption) (*operations.CancelBackupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -419,9 +428,9 @@ type MockDatalakeClientService_CancelBackup_Call struct {
 // CancelBackup is a helper method to define mock.On call
 //   - params *operations.CancelBackupParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CancelBackup(params interface{}, opts ...interface{}) *MockDatalakeClientService_CancelBackup_Call {
+func (_e *MockDatalakeClientService_Expecter) CancelBackup(params any, opts ...any) *MockDatalakeClientService_CancelBackup_Call {
 	return &MockDatalakeClientService_CancelBackup_Call{Call: _e.mock.On("CancelBackup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CancelBackup_Call) Run(run func(params *operations.CancelBackupParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CancelBackup_Call {
@@ -459,11 +468,11 @@ func (_c *MockDatalakeClientService_CancelBackup_Call) RunAndReturn(run func(par
 // CancelBackupContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CancelBackupContext(ctx context.Context, params *operations.CancelBackupParams, opts ...operations.ClientOption) (*operations.CancelBackupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -501,9 +510,9 @@ type MockDatalakeClientService_CancelBackupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CancelBackupParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CancelBackupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CancelBackupContext_Call {
+func (_e *MockDatalakeClientService_Expecter) CancelBackupContext(ctx any, params any, opts ...any) *MockDatalakeClientService_CancelBackupContext_Call {
 	return &MockDatalakeClientService_CancelBackupContext_Call{Call: _e.mock.On("CancelBackupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CancelBackupContext_Call) Run(run func(ctx context.Context, params *operations.CancelBackupParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CancelBackupContext_Call {
@@ -546,11 +555,11 @@ func (_c *MockDatalakeClientService_CancelBackupContext_Call) RunAndReturn(run f
 // CancelDatalakeDiagnostics provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CancelDatalakeDiagnostics(params *operations.CancelDatalakeDiagnosticsParams, opts ...operations.ClientOption) (*operations.CancelDatalakeDiagnosticsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -587,9 +596,9 @@ type MockDatalakeClientService_CancelDatalakeDiagnostics_Call struct {
 // CancelDatalakeDiagnostics is a helper method to define mock.On call
 //   - params *operations.CancelDatalakeDiagnosticsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CancelDatalakeDiagnostics(params interface{}, opts ...interface{}) *MockDatalakeClientService_CancelDatalakeDiagnostics_Call {
+func (_e *MockDatalakeClientService_Expecter) CancelDatalakeDiagnostics(params any, opts ...any) *MockDatalakeClientService_CancelDatalakeDiagnostics_Call {
 	return &MockDatalakeClientService_CancelDatalakeDiagnostics_Call{Call: _e.mock.On("CancelDatalakeDiagnostics",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CancelDatalakeDiagnostics_Call) Run(run func(params *operations.CancelDatalakeDiagnosticsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CancelDatalakeDiagnostics_Call {
@@ -627,11 +636,11 @@ func (_c *MockDatalakeClientService_CancelDatalakeDiagnostics_Call) RunAndReturn
 // CancelDatalakeDiagnosticsContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CancelDatalakeDiagnosticsContext(ctx context.Context, params *operations.CancelDatalakeDiagnosticsParams, opts ...operations.ClientOption) (*operations.CancelDatalakeDiagnosticsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -669,9 +678,9 @@ type MockDatalakeClientService_CancelDatalakeDiagnosticsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CancelDatalakeDiagnosticsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CancelDatalakeDiagnosticsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CancelDatalakeDiagnosticsContext_Call {
+func (_e *MockDatalakeClientService_Expecter) CancelDatalakeDiagnosticsContext(ctx any, params any, opts ...any) *MockDatalakeClientService_CancelDatalakeDiagnosticsContext_Call {
 	return &MockDatalakeClientService_CancelDatalakeDiagnosticsContext_Call{Call: _e.mock.On("CancelDatalakeDiagnosticsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CancelDatalakeDiagnosticsContext_Call) Run(run func(ctx context.Context, params *operations.CancelDatalakeDiagnosticsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CancelDatalakeDiagnosticsContext_Call {
@@ -714,11 +723,11 @@ func (_c *MockDatalakeClientService_CancelDatalakeDiagnosticsContext_Call) RunAn
 // CancelRestore provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CancelRestore(params *operations.CancelRestoreParams, opts ...operations.ClientOption) (*operations.CancelRestoreOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -755,9 +764,9 @@ type MockDatalakeClientService_CancelRestore_Call struct {
 // CancelRestore is a helper method to define mock.On call
 //   - params *operations.CancelRestoreParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CancelRestore(params interface{}, opts ...interface{}) *MockDatalakeClientService_CancelRestore_Call {
+func (_e *MockDatalakeClientService_Expecter) CancelRestore(params any, opts ...any) *MockDatalakeClientService_CancelRestore_Call {
 	return &MockDatalakeClientService_CancelRestore_Call{Call: _e.mock.On("CancelRestore",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CancelRestore_Call) Run(run func(params *operations.CancelRestoreParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CancelRestore_Call {
@@ -795,11 +804,11 @@ func (_c *MockDatalakeClientService_CancelRestore_Call) RunAndReturn(run func(pa
 // CancelRestoreContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CancelRestoreContext(ctx context.Context, params *operations.CancelRestoreParams, opts ...operations.ClientOption) (*operations.CancelRestoreOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -837,9 +846,9 @@ type MockDatalakeClientService_CancelRestoreContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CancelRestoreParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CancelRestoreContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CancelRestoreContext_Call {
+func (_e *MockDatalakeClientService_Expecter) CancelRestoreContext(ctx any, params any, opts ...any) *MockDatalakeClientService_CancelRestoreContext_Call {
 	return &MockDatalakeClientService_CancelRestoreContext_Call{Call: _e.mock.On("CancelRestoreContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CancelRestoreContext_Call) Run(run func(ctx context.Context, params *operations.CancelRestoreParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CancelRestoreContext_Call {
@@ -882,11 +891,11 @@ func (_c *MockDatalakeClientService_CancelRestoreContext_Call) RunAndReturn(run 
 // CheckDatalakeUpgradeReinitiable provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CheckDatalakeUpgradeReinitiable(params *operations.CheckDatalakeUpgradeReinitiableParams, opts ...operations.ClientOption) (*operations.CheckDatalakeUpgradeReinitiableOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -923,9 +932,9 @@ type MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call struct {
 // CheckDatalakeUpgradeReinitiable is a helper method to define mock.On call
 //   - params *operations.CheckDatalakeUpgradeReinitiableParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CheckDatalakeUpgradeReinitiable(params interface{}, opts ...interface{}) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call {
+func (_e *MockDatalakeClientService_Expecter) CheckDatalakeUpgradeReinitiable(params any, opts ...any) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call {
 	return &MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call{Call: _e.mock.On("CheckDatalakeUpgradeReinitiable",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call) Run(run func(params *operations.CheckDatalakeUpgradeReinitiableParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call {
@@ -963,11 +972,11 @@ func (_c *MockDatalakeClientService_CheckDatalakeUpgradeReinitiable_Call) RunAnd
 // CheckDatalakeUpgradeReinitiableContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CheckDatalakeUpgradeReinitiableContext(ctx context.Context, params *operations.CheckDatalakeUpgradeReinitiableParams, opts ...operations.ClientOption) (*operations.CheckDatalakeUpgradeReinitiableOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1005,9 +1014,9 @@ type MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call struc
 //   - ctx context.Context
 //   - params *operations.CheckDatalakeUpgradeReinitiableParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CheckDatalakeUpgradeReinitiableContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call {
+func (_e *MockDatalakeClientService_Expecter) CheckDatalakeUpgradeReinitiableContext(ctx any, params any, opts ...any) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call {
 	return &MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call{Call: _e.mock.On("CheckDatalakeUpgradeReinitiableContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call) Run(run func(ctx context.Context, params *operations.CheckDatalakeUpgradeReinitiableParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call {
@@ -1050,11 +1059,11 @@ func (_c *MockDatalakeClientService_CheckDatalakeUpgradeReinitiableContext_Call)
 // CollectCmDiagnostics provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CollectCmDiagnostics(params *operations.CollectCmDiagnosticsParams, opts ...operations.ClientOption) (*operations.CollectCmDiagnosticsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1091,9 +1100,9 @@ type MockDatalakeClientService_CollectCmDiagnostics_Call struct {
 // CollectCmDiagnostics is a helper method to define mock.On call
 //   - params *operations.CollectCmDiagnosticsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CollectCmDiagnostics(params interface{}, opts ...interface{}) *MockDatalakeClientService_CollectCmDiagnostics_Call {
+func (_e *MockDatalakeClientService_Expecter) CollectCmDiagnostics(params any, opts ...any) *MockDatalakeClientService_CollectCmDiagnostics_Call {
 	return &MockDatalakeClientService_CollectCmDiagnostics_Call{Call: _e.mock.On("CollectCmDiagnostics",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CollectCmDiagnostics_Call) Run(run func(params *operations.CollectCmDiagnosticsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CollectCmDiagnostics_Call {
@@ -1131,11 +1140,11 @@ func (_c *MockDatalakeClientService_CollectCmDiagnostics_Call) RunAndReturn(run 
 // CollectCmDiagnosticsContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CollectCmDiagnosticsContext(ctx context.Context, params *operations.CollectCmDiagnosticsParams, opts ...operations.ClientOption) (*operations.CollectCmDiagnosticsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1173,9 +1182,9 @@ type MockDatalakeClientService_CollectCmDiagnosticsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CollectCmDiagnosticsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CollectCmDiagnosticsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CollectCmDiagnosticsContext_Call {
+func (_e *MockDatalakeClientService_Expecter) CollectCmDiagnosticsContext(ctx any, params any, opts ...any) *MockDatalakeClientService_CollectCmDiagnosticsContext_Call {
 	return &MockDatalakeClientService_CollectCmDiagnosticsContext_Call{Call: _e.mock.On("CollectCmDiagnosticsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CollectCmDiagnosticsContext_Call) Run(run func(ctx context.Context, params *operations.CollectCmDiagnosticsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CollectCmDiagnosticsContext_Call {
@@ -1218,11 +1227,11 @@ func (_c *MockDatalakeClientService_CollectCmDiagnosticsContext_Call) RunAndRetu
 // CollectDatalakeDiagnostics provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CollectDatalakeDiagnostics(params *operations.CollectDatalakeDiagnosticsParams, opts ...operations.ClientOption) (*operations.CollectDatalakeDiagnosticsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1259,9 +1268,9 @@ type MockDatalakeClientService_CollectDatalakeDiagnostics_Call struct {
 // CollectDatalakeDiagnostics is a helper method to define mock.On call
 //   - params *operations.CollectDatalakeDiagnosticsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CollectDatalakeDiagnostics(params interface{}, opts ...interface{}) *MockDatalakeClientService_CollectDatalakeDiagnostics_Call {
+func (_e *MockDatalakeClientService_Expecter) CollectDatalakeDiagnostics(params any, opts ...any) *MockDatalakeClientService_CollectDatalakeDiagnostics_Call {
 	return &MockDatalakeClientService_CollectDatalakeDiagnostics_Call{Call: _e.mock.On("CollectDatalakeDiagnostics",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CollectDatalakeDiagnostics_Call) Run(run func(params *operations.CollectDatalakeDiagnosticsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CollectDatalakeDiagnostics_Call {
@@ -1299,11 +1308,11 @@ func (_c *MockDatalakeClientService_CollectDatalakeDiagnostics_Call) RunAndRetur
 // CollectDatalakeDiagnosticsContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CollectDatalakeDiagnosticsContext(ctx context.Context, params *operations.CollectDatalakeDiagnosticsParams, opts ...operations.ClientOption) (*operations.CollectDatalakeDiagnosticsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1341,9 +1350,9 @@ type MockDatalakeClientService_CollectDatalakeDiagnosticsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CollectDatalakeDiagnosticsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CollectDatalakeDiagnosticsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CollectDatalakeDiagnosticsContext_Call {
+func (_e *MockDatalakeClientService_Expecter) CollectDatalakeDiagnosticsContext(ctx any, params any, opts ...any) *MockDatalakeClientService_CollectDatalakeDiagnosticsContext_Call {
 	return &MockDatalakeClientService_CollectDatalakeDiagnosticsContext_Call{Call: _e.mock.On("CollectDatalakeDiagnosticsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CollectDatalakeDiagnosticsContext_Call) Run(run func(ctx context.Context, params *operations.CollectDatalakeDiagnosticsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CollectDatalakeDiagnosticsContext_Call {
@@ -1386,11 +1395,11 @@ func (_c *MockDatalakeClientService_CollectDatalakeDiagnosticsContext_Call) RunA
 // CreateAWSDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CreateAWSDatalake(params *operations.CreateAWSDatalakeParams, opts ...operations.ClientOption) (*operations.CreateAWSDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1427,9 +1436,9 @@ type MockDatalakeClientService_CreateAWSDatalake_Call struct {
 // CreateAWSDatalake is a helper method to define mock.On call
 //   - params *operations.CreateAWSDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CreateAWSDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_CreateAWSDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) CreateAWSDatalake(params any, opts ...any) *MockDatalakeClientService_CreateAWSDatalake_Call {
 	return &MockDatalakeClientService_CreateAWSDatalake_Call{Call: _e.mock.On("CreateAWSDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CreateAWSDatalake_Call) Run(run func(params *operations.CreateAWSDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CreateAWSDatalake_Call {
@@ -1467,11 +1476,11 @@ func (_c *MockDatalakeClientService_CreateAWSDatalake_Call) RunAndReturn(run fun
 // CreateAWSDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CreateAWSDatalakeContext(ctx context.Context, params *operations.CreateAWSDatalakeParams, opts ...operations.ClientOption) (*operations.CreateAWSDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1509,9 +1518,9 @@ type MockDatalakeClientService_CreateAWSDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateAWSDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CreateAWSDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CreateAWSDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) CreateAWSDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_CreateAWSDatalakeContext_Call {
 	return &MockDatalakeClientService_CreateAWSDatalakeContext_Call{Call: _e.mock.On("CreateAWSDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CreateAWSDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.CreateAWSDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CreateAWSDatalakeContext_Call {
@@ -1554,11 +1563,11 @@ func (_c *MockDatalakeClientService_CreateAWSDatalakeContext_Call) RunAndReturn(
 // CreateAWSGovCloudDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CreateAWSGovCloudDatalake(params *operations.CreateAWSGovCloudDatalakeParams, opts ...operations.ClientOption) (*operations.CreateAWSGovCloudDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1595,9 +1604,9 @@ type MockDatalakeClientService_CreateAWSGovCloudDatalake_Call struct {
 // CreateAWSGovCloudDatalake is a helper method to define mock.On call
 //   - params *operations.CreateAWSGovCloudDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CreateAWSGovCloudDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_CreateAWSGovCloudDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) CreateAWSGovCloudDatalake(params any, opts ...any) *MockDatalakeClientService_CreateAWSGovCloudDatalake_Call {
 	return &MockDatalakeClientService_CreateAWSGovCloudDatalake_Call{Call: _e.mock.On("CreateAWSGovCloudDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CreateAWSGovCloudDatalake_Call) Run(run func(params *operations.CreateAWSGovCloudDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CreateAWSGovCloudDatalake_Call {
@@ -1635,11 +1644,11 @@ func (_c *MockDatalakeClientService_CreateAWSGovCloudDatalake_Call) RunAndReturn
 // CreateAWSGovCloudDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CreateAWSGovCloudDatalakeContext(ctx context.Context, params *operations.CreateAWSGovCloudDatalakeParams, opts ...operations.ClientOption) (*operations.CreateAWSGovCloudDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1677,9 +1686,9 @@ type MockDatalakeClientService_CreateAWSGovCloudDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateAWSGovCloudDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CreateAWSGovCloudDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CreateAWSGovCloudDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) CreateAWSGovCloudDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_CreateAWSGovCloudDatalakeContext_Call {
 	return &MockDatalakeClientService_CreateAWSGovCloudDatalakeContext_Call{Call: _e.mock.On("CreateAWSGovCloudDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CreateAWSGovCloudDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.CreateAWSGovCloudDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CreateAWSGovCloudDatalakeContext_Call {
@@ -1722,11 +1731,11 @@ func (_c *MockDatalakeClientService_CreateAWSGovCloudDatalakeContext_Call) RunAn
 // CreateAzureDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CreateAzureDatalake(params *operations.CreateAzureDatalakeParams, opts ...operations.ClientOption) (*operations.CreateAzureDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1763,9 +1772,9 @@ type MockDatalakeClientService_CreateAzureDatalake_Call struct {
 // CreateAzureDatalake is a helper method to define mock.On call
 //   - params *operations.CreateAzureDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CreateAzureDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_CreateAzureDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) CreateAzureDatalake(params any, opts ...any) *MockDatalakeClientService_CreateAzureDatalake_Call {
 	return &MockDatalakeClientService_CreateAzureDatalake_Call{Call: _e.mock.On("CreateAzureDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CreateAzureDatalake_Call) Run(run func(params *operations.CreateAzureDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CreateAzureDatalake_Call {
@@ -1803,11 +1812,11 @@ func (_c *MockDatalakeClientService_CreateAzureDatalake_Call) RunAndReturn(run f
 // CreateAzureDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CreateAzureDatalakeContext(ctx context.Context, params *operations.CreateAzureDatalakeParams, opts ...operations.ClientOption) (*operations.CreateAzureDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1845,9 +1854,9 @@ type MockDatalakeClientService_CreateAzureDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateAzureDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CreateAzureDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CreateAzureDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) CreateAzureDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_CreateAzureDatalakeContext_Call {
 	return &MockDatalakeClientService_CreateAzureDatalakeContext_Call{Call: _e.mock.On("CreateAzureDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CreateAzureDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.CreateAzureDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CreateAzureDatalakeContext_Call {
@@ -1890,11 +1899,11 @@ func (_c *MockDatalakeClientService_CreateAzureDatalakeContext_Call) RunAndRetur
 // CreateGCPDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CreateGCPDatalake(params *operations.CreateGCPDatalakeParams, opts ...operations.ClientOption) (*operations.CreateGCPDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1931,9 +1940,9 @@ type MockDatalakeClientService_CreateGCPDatalake_Call struct {
 // CreateGCPDatalake is a helper method to define mock.On call
 //   - params *operations.CreateGCPDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CreateGCPDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_CreateGCPDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) CreateGCPDatalake(params any, opts ...any) *MockDatalakeClientService_CreateGCPDatalake_Call {
 	return &MockDatalakeClientService_CreateGCPDatalake_Call{Call: _e.mock.On("CreateGCPDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CreateGCPDatalake_Call) Run(run func(params *operations.CreateGCPDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CreateGCPDatalake_Call {
@@ -1971,11 +1980,11 @@ func (_c *MockDatalakeClientService_CreateGCPDatalake_Call) RunAndReturn(run fun
 // CreateGCPDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) CreateGCPDatalakeContext(ctx context.Context, params *operations.CreateGCPDatalakeParams, opts ...operations.ClientOption) (*operations.CreateGCPDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2013,9 +2022,9 @@ type MockDatalakeClientService_CreateGCPDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateGCPDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) CreateGCPDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_CreateGCPDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) CreateGCPDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_CreateGCPDatalakeContext_Call {
 	return &MockDatalakeClientService_CreateGCPDatalakeContext_Call{Call: _e.mock.On("CreateGCPDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_CreateGCPDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.CreateGCPDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_CreateGCPDatalakeContext_Call {
@@ -2058,11 +2067,11 @@ func (_c *MockDatalakeClientService_CreateGCPDatalakeContext_Call) RunAndReturn(
 // DeleteBackupRestoreConfiguration provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) DeleteBackupRestoreConfiguration(params *operations.DeleteBackupRestoreConfigurationParams, opts ...operations.ClientOption) (*operations.DeleteBackupRestoreConfigurationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2099,9 +2108,9 @@ type MockDatalakeClientService_DeleteBackupRestoreConfiguration_Call struct {
 // DeleteBackupRestoreConfiguration is a helper method to define mock.On call
 //   - params *operations.DeleteBackupRestoreConfigurationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) DeleteBackupRestoreConfiguration(params interface{}, opts ...interface{}) *MockDatalakeClientService_DeleteBackupRestoreConfiguration_Call {
+func (_e *MockDatalakeClientService_Expecter) DeleteBackupRestoreConfiguration(params any, opts ...any) *MockDatalakeClientService_DeleteBackupRestoreConfiguration_Call {
 	return &MockDatalakeClientService_DeleteBackupRestoreConfiguration_Call{Call: _e.mock.On("DeleteBackupRestoreConfiguration",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_DeleteBackupRestoreConfiguration_Call) Run(run func(params *operations.DeleteBackupRestoreConfigurationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_DeleteBackupRestoreConfiguration_Call {
@@ -2139,11 +2148,11 @@ func (_c *MockDatalakeClientService_DeleteBackupRestoreConfiguration_Call) RunAn
 // DeleteBackupRestoreConfigurationContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) DeleteBackupRestoreConfigurationContext(ctx context.Context, params *operations.DeleteBackupRestoreConfigurationParams, opts ...operations.ClientOption) (*operations.DeleteBackupRestoreConfigurationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2181,9 +2190,9 @@ type MockDatalakeClientService_DeleteBackupRestoreConfigurationContext_Call stru
 //   - ctx context.Context
 //   - params *operations.DeleteBackupRestoreConfigurationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) DeleteBackupRestoreConfigurationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_DeleteBackupRestoreConfigurationContext_Call {
+func (_e *MockDatalakeClientService_Expecter) DeleteBackupRestoreConfigurationContext(ctx any, params any, opts ...any) *MockDatalakeClientService_DeleteBackupRestoreConfigurationContext_Call {
 	return &MockDatalakeClientService_DeleteBackupRestoreConfigurationContext_Call{Call: _e.mock.On("DeleteBackupRestoreConfigurationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_DeleteBackupRestoreConfigurationContext_Call) Run(run func(ctx context.Context, params *operations.DeleteBackupRestoreConfigurationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_DeleteBackupRestoreConfigurationContext_Call {
@@ -2226,11 +2235,11 @@ func (_c *MockDatalakeClientService_DeleteBackupRestoreConfigurationContext_Call
 // DeleteDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) DeleteDatalake(params *operations.DeleteDatalakeParams, opts ...operations.ClientOption) (*operations.DeleteDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2267,9 +2276,9 @@ type MockDatalakeClientService_DeleteDatalake_Call struct {
 // DeleteDatalake is a helper method to define mock.On call
 //   - params *operations.DeleteDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) DeleteDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_DeleteDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) DeleteDatalake(params any, opts ...any) *MockDatalakeClientService_DeleteDatalake_Call {
 	return &MockDatalakeClientService_DeleteDatalake_Call{Call: _e.mock.On("DeleteDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_DeleteDatalake_Call) Run(run func(params *operations.DeleteDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_DeleteDatalake_Call {
@@ -2307,11 +2316,11 @@ func (_c *MockDatalakeClientService_DeleteDatalake_Call) RunAndReturn(run func(p
 // DeleteDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) DeleteDatalakeContext(ctx context.Context, params *operations.DeleteDatalakeParams, opts ...operations.ClientOption) (*operations.DeleteDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2349,9 +2358,9 @@ type MockDatalakeClientService_DeleteDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) DeleteDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_DeleteDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) DeleteDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_DeleteDatalakeContext_Call {
 	return &MockDatalakeClientService_DeleteDatalakeContext_Call{Call: _e.mock.On("DeleteDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_DeleteDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.DeleteDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_DeleteDatalakeContext_Call {
@@ -2394,11 +2403,11 @@ func (_c *MockDatalakeClientService_DeleteDatalakeContext_Call) RunAndReturn(run
 // DescribeDatabaseServer provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) DescribeDatabaseServer(params *operations.DescribeDatabaseServerParams, opts ...operations.ClientOption) (*operations.DescribeDatabaseServerOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2435,9 +2444,9 @@ type MockDatalakeClientService_DescribeDatabaseServer_Call struct {
 // DescribeDatabaseServer is a helper method to define mock.On call
 //   - params *operations.DescribeDatabaseServerParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) DescribeDatabaseServer(params interface{}, opts ...interface{}) *MockDatalakeClientService_DescribeDatabaseServer_Call {
+func (_e *MockDatalakeClientService_Expecter) DescribeDatabaseServer(params any, opts ...any) *MockDatalakeClientService_DescribeDatabaseServer_Call {
 	return &MockDatalakeClientService_DescribeDatabaseServer_Call{Call: _e.mock.On("DescribeDatabaseServer",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_DescribeDatabaseServer_Call) Run(run func(params *operations.DescribeDatabaseServerParams, opts ...operations.ClientOption)) *MockDatalakeClientService_DescribeDatabaseServer_Call {
@@ -2475,11 +2484,11 @@ func (_c *MockDatalakeClientService_DescribeDatabaseServer_Call) RunAndReturn(ru
 // DescribeDatabaseServerContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) DescribeDatabaseServerContext(ctx context.Context, params *operations.DescribeDatabaseServerParams, opts ...operations.ClientOption) (*operations.DescribeDatabaseServerOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2517,9 +2526,9 @@ type MockDatalakeClientService_DescribeDatabaseServerContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeDatabaseServerParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) DescribeDatabaseServerContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_DescribeDatabaseServerContext_Call {
+func (_e *MockDatalakeClientService_Expecter) DescribeDatabaseServerContext(ctx any, params any, opts ...any) *MockDatalakeClientService_DescribeDatabaseServerContext_Call {
 	return &MockDatalakeClientService_DescribeDatabaseServerContext_Call{Call: _e.mock.On("DescribeDatabaseServerContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_DescribeDatabaseServerContext_Call) Run(run func(ctx context.Context, params *operations.DescribeDatabaseServerParams, opts ...operations.ClientOption)) *MockDatalakeClientService_DescribeDatabaseServerContext_Call {
@@ -2562,11 +2571,11 @@ func (_c *MockDatalakeClientService_DescribeDatabaseServerContext_Call) RunAndRe
 // DescribeDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) DescribeDatalake(params *operations.DescribeDatalakeParams, opts ...operations.ClientOption) (*operations.DescribeDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2603,9 +2612,9 @@ type MockDatalakeClientService_DescribeDatalake_Call struct {
 // DescribeDatalake is a helper method to define mock.On call
 //   - params *operations.DescribeDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) DescribeDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_DescribeDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) DescribeDatalake(params any, opts ...any) *MockDatalakeClientService_DescribeDatalake_Call {
 	return &MockDatalakeClientService_DescribeDatalake_Call{Call: _e.mock.On("DescribeDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_DescribeDatalake_Call) Run(run func(params *operations.DescribeDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_DescribeDatalake_Call {
@@ -2643,11 +2652,11 @@ func (_c *MockDatalakeClientService_DescribeDatalake_Call) RunAndReturn(run func
 // DescribeDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) DescribeDatalakeContext(ctx context.Context, params *operations.DescribeDatalakeParams, opts ...operations.ClientOption) (*operations.DescribeDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2685,9 +2694,9 @@ type MockDatalakeClientService_DescribeDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) DescribeDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_DescribeDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) DescribeDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_DescribeDatalakeContext_Call {
 	return &MockDatalakeClientService_DescribeDatalakeContext_Call{Call: _e.mock.On("DescribeDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_DescribeDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.DescribeDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_DescribeDatalakeContext_Call {
@@ -2730,11 +2739,11 @@ func (_c *MockDatalakeClientService_DescribeDatalakeContext_Call) RunAndReturn(r
 // EnableRangerRaz provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) EnableRangerRaz(params *operations.EnableRangerRazParams, opts ...operations.ClientOption) (*operations.EnableRangerRazOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2771,9 +2780,9 @@ type MockDatalakeClientService_EnableRangerRaz_Call struct {
 // EnableRangerRaz is a helper method to define mock.On call
 //   - params *operations.EnableRangerRazParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) EnableRangerRaz(params interface{}, opts ...interface{}) *MockDatalakeClientService_EnableRangerRaz_Call {
+func (_e *MockDatalakeClientService_Expecter) EnableRangerRaz(params any, opts ...any) *MockDatalakeClientService_EnableRangerRaz_Call {
 	return &MockDatalakeClientService_EnableRangerRaz_Call{Call: _e.mock.On("EnableRangerRaz",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_EnableRangerRaz_Call) Run(run func(params *operations.EnableRangerRazParams, opts ...operations.ClientOption)) *MockDatalakeClientService_EnableRangerRaz_Call {
@@ -2811,11 +2820,11 @@ func (_c *MockDatalakeClientService_EnableRangerRaz_Call) RunAndReturn(run func(
 // EnableRangerRazContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) EnableRangerRazContext(ctx context.Context, params *operations.EnableRangerRazParams, opts ...operations.ClientOption) (*operations.EnableRangerRazOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2853,9 +2862,9 @@ type MockDatalakeClientService_EnableRangerRazContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.EnableRangerRazParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) EnableRangerRazContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_EnableRangerRazContext_Call {
+func (_e *MockDatalakeClientService_Expecter) EnableRangerRazContext(ctx any, params any, opts ...any) *MockDatalakeClientService_EnableRangerRazContext_Call {
 	return &MockDatalakeClientService_EnableRangerRazContext_Call{Call: _e.mock.On("EnableRangerRazContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_EnableRangerRazContext_Call) Run(run func(ctx context.Context, params *operations.EnableRangerRazParams, opts ...operations.ClientOption)) *MockDatalakeClientService_EnableRangerRazContext_Call {
@@ -2898,11 +2907,11 @@ func (_c *MockDatalakeClientService_EnableRangerRazContext_Call) RunAndReturn(ru
 // FinalizeZookeeperToKraftMigration provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) FinalizeZookeeperToKraftMigration(params *operations.FinalizeZookeeperToKraftMigrationParams, opts ...operations.ClientOption) (*operations.FinalizeZookeeperToKraftMigrationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2939,9 +2948,9 @@ type MockDatalakeClientService_FinalizeZookeeperToKraftMigration_Call struct {
 // FinalizeZookeeperToKraftMigration is a helper method to define mock.On call
 //   - params *operations.FinalizeZookeeperToKraftMigrationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) FinalizeZookeeperToKraftMigration(params interface{}, opts ...interface{}) *MockDatalakeClientService_FinalizeZookeeperToKraftMigration_Call {
+func (_e *MockDatalakeClientService_Expecter) FinalizeZookeeperToKraftMigration(params any, opts ...any) *MockDatalakeClientService_FinalizeZookeeperToKraftMigration_Call {
 	return &MockDatalakeClientService_FinalizeZookeeperToKraftMigration_Call{Call: _e.mock.On("FinalizeZookeeperToKraftMigration",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_FinalizeZookeeperToKraftMigration_Call) Run(run func(params *operations.FinalizeZookeeperToKraftMigrationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_FinalizeZookeeperToKraftMigration_Call {
@@ -2979,11 +2988,11 @@ func (_c *MockDatalakeClientService_FinalizeZookeeperToKraftMigration_Call) RunA
 // FinalizeZookeeperToKraftMigrationContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) FinalizeZookeeperToKraftMigrationContext(ctx context.Context, params *operations.FinalizeZookeeperToKraftMigrationParams, opts ...operations.ClientOption) (*operations.FinalizeZookeeperToKraftMigrationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3021,9 +3030,9 @@ type MockDatalakeClientService_FinalizeZookeeperToKraftMigrationContext_Call str
 //   - ctx context.Context
 //   - params *operations.FinalizeZookeeperToKraftMigrationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) FinalizeZookeeperToKraftMigrationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_FinalizeZookeeperToKraftMigrationContext_Call {
+func (_e *MockDatalakeClientService_Expecter) FinalizeZookeeperToKraftMigrationContext(ctx any, params any, opts ...any) *MockDatalakeClientService_FinalizeZookeeperToKraftMigrationContext_Call {
 	return &MockDatalakeClientService_FinalizeZookeeperToKraftMigrationContext_Call{Call: _e.mock.On("FinalizeZookeeperToKraftMigrationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_FinalizeZookeeperToKraftMigrationContext_Call) Run(run func(ctx context.Context, params *operations.FinalizeZookeeperToKraftMigrationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_FinalizeZookeeperToKraftMigrationContext_Call {
@@ -3066,11 +3075,11 @@ func (_c *MockDatalakeClientService_FinalizeZookeeperToKraftMigrationContext_Cal
 // GetBackupRestoreConfiguration provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetBackupRestoreConfiguration(params *operations.GetBackupRestoreConfigurationParams, opts ...operations.ClientOption) (*operations.GetBackupRestoreConfigurationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3107,9 +3116,9 @@ type MockDatalakeClientService_GetBackupRestoreConfiguration_Call struct {
 // GetBackupRestoreConfiguration is a helper method to define mock.On call
 //   - params *operations.GetBackupRestoreConfigurationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetBackupRestoreConfiguration(params interface{}, opts ...interface{}) *MockDatalakeClientService_GetBackupRestoreConfiguration_Call {
+func (_e *MockDatalakeClientService_Expecter) GetBackupRestoreConfiguration(params any, opts ...any) *MockDatalakeClientService_GetBackupRestoreConfiguration_Call {
 	return &MockDatalakeClientService_GetBackupRestoreConfiguration_Call{Call: _e.mock.On("GetBackupRestoreConfiguration",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetBackupRestoreConfiguration_Call) Run(run func(params *operations.GetBackupRestoreConfigurationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetBackupRestoreConfiguration_Call {
@@ -3147,11 +3156,11 @@ func (_c *MockDatalakeClientService_GetBackupRestoreConfiguration_Call) RunAndRe
 // GetBackupRestoreConfigurationContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetBackupRestoreConfigurationContext(ctx context.Context, params *operations.GetBackupRestoreConfigurationParams, opts ...operations.ClientOption) (*operations.GetBackupRestoreConfigurationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3189,9 +3198,9 @@ type MockDatalakeClientService_GetBackupRestoreConfigurationContext_Call struct 
 //   - ctx context.Context
 //   - params *operations.GetBackupRestoreConfigurationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetBackupRestoreConfigurationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_GetBackupRestoreConfigurationContext_Call {
+func (_e *MockDatalakeClientService_Expecter) GetBackupRestoreConfigurationContext(ctx any, params any, opts ...any) *MockDatalakeClientService_GetBackupRestoreConfigurationContext_Call {
 	return &MockDatalakeClientService_GetBackupRestoreConfigurationContext_Call{Call: _e.mock.On("GetBackupRestoreConfigurationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetBackupRestoreConfigurationContext_Call) Run(run func(ctx context.Context, params *operations.GetBackupRestoreConfigurationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetBackupRestoreConfigurationContext_Call {
@@ -3234,11 +3243,11 @@ func (_c *MockDatalakeClientService_GetBackupRestoreConfigurationContext_Call) R
 // GetClusterHostStatus provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetClusterHostStatus(params *operations.GetClusterHostStatusParams, opts ...operations.ClientOption) (*operations.GetClusterHostStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3275,9 +3284,9 @@ type MockDatalakeClientService_GetClusterHostStatus_Call struct {
 // GetClusterHostStatus is a helper method to define mock.On call
 //   - params *operations.GetClusterHostStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetClusterHostStatus(params interface{}, opts ...interface{}) *MockDatalakeClientService_GetClusterHostStatus_Call {
+func (_e *MockDatalakeClientService_Expecter) GetClusterHostStatus(params any, opts ...any) *MockDatalakeClientService_GetClusterHostStatus_Call {
 	return &MockDatalakeClientService_GetClusterHostStatus_Call{Call: _e.mock.On("GetClusterHostStatus",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetClusterHostStatus_Call) Run(run func(params *operations.GetClusterHostStatusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetClusterHostStatus_Call {
@@ -3315,11 +3324,11 @@ func (_c *MockDatalakeClientService_GetClusterHostStatus_Call) RunAndReturn(run 
 // GetClusterHostStatusContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetClusterHostStatusContext(ctx context.Context, params *operations.GetClusterHostStatusParams, opts ...operations.ClientOption) (*operations.GetClusterHostStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3357,9 +3366,9 @@ type MockDatalakeClientService_GetClusterHostStatusContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetClusterHostStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetClusterHostStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_GetClusterHostStatusContext_Call {
+func (_e *MockDatalakeClientService_Expecter) GetClusterHostStatusContext(ctx any, params any, opts ...any) *MockDatalakeClientService_GetClusterHostStatusContext_Call {
 	return &MockDatalakeClientService_GetClusterHostStatusContext_Call{Call: _e.mock.On("GetClusterHostStatusContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetClusterHostStatusContext_Call) Run(run func(ctx context.Context, params *operations.GetClusterHostStatusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetClusterHostStatusContext_Call {
@@ -3402,11 +3411,11 @@ func (_c *MockDatalakeClientService_GetClusterHostStatusContext_Call) RunAndRetu
 // GetClusterServiceStatus provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetClusterServiceStatus(params *operations.GetClusterServiceStatusParams, opts ...operations.ClientOption) (*operations.GetClusterServiceStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3443,9 +3452,9 @@ type MockDatalakeClientService_GetClusterServiceStatus_Call struct {
 // GetClusterServiceStatus is a helper method to define mock.On call
 //   - params *operations.GetClusterServiceStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetClusterServiceStatus(params interface{}, opts ...interface{}) *MockDatalakeClientService_GetClusterServiceStatus_Call {
+func (_e *MockDatalakeClientService_Expecter) GetClusterServiceStatus(params any, opts ...any) *MockDatalakeClientService_GetClusterServiceStatus_Call {
 	return &MockDatalakeClientService_GetClusterServiceStatus_Call{Call: _e.mock.On("GetClusterServiceStatus",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetClusterServiceStatus_Call) Run(run func(params *operations.GetClusterServiceStatusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetClusterServiceStatus_Call {
@@ -3483,11 +3492,11 @@ func (_c *MockDatalakeClientService_GetClusterServiceStatus_Call) RunAndReturn(r
 // GetClusterServiceStatusContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetClusterServiceStatusContext(ctx context.Context, params *operations.GetClusterServiceStatusParams, opts ...operations.ClientOption) (*operations.GetClusterServiceStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3525,9 +3534,9 @@ type MockDatalakeClientService_GetClusterServiceStatusContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetClusterServiceStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetClusterServiceStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_GetClusterServiceStatusContext_Call {
+func (_e *MockDatalakeClientService_Expecter) GetClusterServiceStatusContext(ctx any, params any, opts ...any) *MockDatalakeClientService_GetClusterServiceStatusContext_Call {
 	return &MockDatalakeClientService_GetClusterServiceStatusContext_Call{Call: _e.mock.On("GetClusterServiceStatusContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetClusterServiceStatusContext_Call) Run(run func(ctx context.Context, params *operations.GetClusterServiceStatusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetClusterServiceStatusContext_Call {
@@ -3570,11 +3579,11 @@ func (_c *MockDatalakeClientService_GetClusterServiceStatusContext_Call) RunAndR
 // GetCmRoles provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetCmRoles(params *operations.GetCmRolesParams, opts ...operations.ClientOption) (*operations.GetCmRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3611,9 +3620,9 @@ type MockDatalakeClientService_GetCmRoles_Call struct {
 // GetCmRoles is a helper method to define mock.On call
 //   - params *operations.GetCmRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetCmRoles(params interface{}, opts ...interface{}) *MockDatalakeClientService_GetCmRoles_Call {
+func (_e *MockDatalakeClientService_Expecter) GetCmRoles(params any, opts ...any) *MockDatalakeClientService_GetCmRoles_Call {
 	return &MockDatalakeClientService_GetCmRoles_Call{Call: _e.mock.On("GetCmRoles",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetCmRoles_Call) Run(run func(params *operations.GetCmRolesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetCmRoles_Call {
@@ -3651,11 +3660,11 @@ func (_c *MockDatalakeClientService_GetCmRoles_Call) RunAndReturn(run func(param
 // GetCmRolesContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetCmRolesContext(ctx context.Context, params *operations.GetCmRolesParams, opts ...operations.ClientOption) (*operations.GetCmRolesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3693,9 +3702,9 @@ type MockDatalakeClientService_GetCmRolesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetCmRolesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetCmRolesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_GetCmRolesContext_Call {
+func (_e *MockDatalakeClientService_Expecter) GetCmRolesContext(ctx any, params any, opts ...any) *MockDatalakeClientService_GetCmRolesContext_Call {
 	return &MockDatalakeClientService_GetCmRolesContext_Call{Call: _e.mock.On("GetCmRolesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetCmRolesContext_Call) Run(run func(ctx context.Context, params *operations.GetCmRolesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetCmRolesContext_Call {
@@ -3738,11 +3747,11 @@ func (_c *MockDatalakeClientService_GetCmRolesContext_Call) RunAndReturn(run fun
 // GetDatalakeLogDescriptors provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetDatalakeLogDescriptors(params *operations.GetDatalakeLogDescriptorsParams, opts ...operations.ClientOption) (*operations.GetDatalakeLogDescriptorsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3779,9 +3788,9 @@ type MockDatalakeClientService_GetDatalakeLogDescriptors_Call struct {
 // GetDatalakeLogDescriptors is a helper method to define mock.On call
 //   - params *operations.GetDatalakeLogDescriptorsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetDatalakeLogDescriptors(params interface{}, opts ...interface{}) *MockDatalakeClientService_GetDatalakeLogDescriptors_Call {
+func (_e *MockDatalakeClientService_Expecter) GetDatalakeLogDescriptors(params any, opts ...any) *MockDatalakeClientService_GetDatalakeLogDescriptors_Call {
 	return &MockDatalakeClientService_GetDatalakeLogDescriptors_Call{Call: _e.mock.On("GetDatalakeLogDescriptors",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetDatalakeLogDescriptors_Call) Run(run func(params *operations.GetDatalakeLogDescriptorsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetDatalakeLogDescriptors_Call {
@@ -3819,11 +3828,11 @@ func (_c *MockDatalakeClientService_GetDatalakeLogDescriptors_Call) RunAndReturn
 // GetDatalakeLogDescriptorsContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetDatalakeLogDescriptorsContext(ctx context.Context, params *operations.GetDatalakeLogDescriptorsParams, opts ...operations.ClientOption) (*operations.GetDatalakeLogDescriptorsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3861,9 +3870,9 @@ type MockDatalakeClientService_GetDatalakeLogDescriptorsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetDatalakeLogDescriptorsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetDatalakeLogDescriptorsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_GetDatalakeLogDescriptorsContext_Call {
+func (_e *MockDatalakeClientService_Expecter) GetDatalakeLogDescriptorsContext(ctx any, params any, opts ...any) *MockDatalakeClientService_GetDatalakeLogDescriptorsContext_Call {
 	return &MockDatalakeClientService_GetDatalakeLogDescriptorsContext_Call{Call: _e.mock.On("GetDatalakeLogDescriptorsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetDatalakeLogDescriptorsContext_Call) Run(run func(ctx context.Context, params *operations.GetDatalakeLogDescriptorsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetDatalakeLogDescriptorsContext_Call {
@@ -3906,11 +3915,11 @@ func (_c *MockDatalakeClientService_GetDatalakeLogDescriptorsContext_Call) RunAn
 // GetOperation provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetOperation(params *operations.GetOperationParams, opts ...operations.ClientOption) (*operations.GetOperationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3947,9 +3956,9 @@ type MockDatalakeClientService_GetOperation_Call struct {
 // GetOperation is a helper method to define mock.On call
 //   - params *operations.GetOperationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetOperation(params interface{}, opts ...interface{}) *MockDatalakeClientService_GetOperation_Call {
+func (_e *MockDatalakeClientService_Expecter) GetOperation(params any, opts ...any) *MockDatalakeClientService_GetOperation_Call {
 	return &MockDatalakeClientService_GetOperation_Call{Call: _e.mock.On("GetOperation",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetOperation_Call) Run(run func(params *operations.GetOperationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetOperation_Call {
@@ -3987,11 +3996,11 @@ func (_c *MockDatalakeClientService_GetOperation_Call) RunAndReturn(run func(par
 // GetOperationContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) GetOperationContext(ctx context.Context, params *operations.GetOperationParams, opts ...operations.ClientOption) (*operations.GetOperationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4029,9 +4038,9 @@ type MockDatalakeClientService_GetOperationContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetOperationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) GetOperationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_GetOperationContext_Call {
+func (_e *MockDatalakeClientService_Expecter) GetOperationContext(ctx any, params any, opts ...any) *MockDatalakeClientService_GetOperationContext_Call {
 	return &MockDatalakeClientService_GetOperationContext_Call{Call: _e.mock.On("GetOperationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_GetOperationContext_Call) Run(run func(ctx context.Context, params *operations.GetOperationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_GetOperationContext_Call {
@@ -4074,11 +4083,11 @@ func (_c *MockDatalakeClientService_GetOperationContext_Call) RunAndReturn(run f
 // ListDatalakeBackups provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ListDatalakeBackups(params *operations.ListDatalakeBackupsParams, opts ...operations.ClientOption) (*operations.ListDatalakeBackupsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4115,9 +4124,9 @@ type MockDatalakeClientService_ListDatalakeBackups_Call struct {
 // ListDatalakeBackups is a helper method to define mock.On call
 //   - params *operations.ListDatalakeBackupsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ListDatalakeBackups(params interface{}, opts ...interface{}) *MockDatalakeClientService_ListDatalakeBackups_Call {
+func (_e *MockDatalakeClientService_Expecter) ListDatalakeBackups(params any, opts ...any) *MockDatalakeClientService_ListDatalakeBackups_Call {
 	return &MockDatalakeClientService_ListDatalakeBackups_Call{Call: _e.mock.On("ListDatalakeBackups",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ListDatalakeBackups_Call) Run(run func(params *operations.ListDatalakeBackupsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ListDatalakeBackups_Call {
@@ -4155,11 +4164,11 @@ func (_c *MockDatalakeClientService_ListDatalakeBackups_Call) RunAndReturn(run f
 // ListDatalakeBackupsContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ListDatalakeBackupsContext(ctx context.Context, params *operations.ListDatalakeBackupsParams, opts ...operations.ClientOption) (*operations.ListDatalakeBackupsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4197,9 +4206,9 @@ type MockDatalakeClientService_ListDatalakeBackupsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListDatalakeBackupsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ListDatalakeBackupsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ListDatalakeBackupsContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ListDatalakeBackupsContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ListDatalakeBackupsContext_Call {
 	return &MockDatalakeClientService_ListDatalakeBackupsContext_Call{Call: _e.mock.On("ListDatalakeBackupsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ListDatalakeBackupsContext_Call) Run(run func(ctx context.Context, params *operations.ListDatalakeBackupsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ListDatalakeBackupsContext_Call {
@@ -4242,11 +4251,11 @@ func (_c *MockDatalakeClientService_ListDatalakeBackupsContext_Call) RunAndRetur
 // ListDatalakeDiagnostics provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ListDatalakeDiagnostics(params *operations.ListDatalakeDiagnosticsParams, opts ...operations.ClientOption) (*operations.ListDatalakeDiagnosticsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4283,9 +4292,9 @@ type MockDatalakeClientService_ListDatalakeDiagnostics_Call struct {
 // ListDatalakeDiagnostics is a helper method to define mock.On call
 //   - params *operations.ListDatalakeDiagnosticsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ListDatalakeDiagnostics(params interface{}, opts ...interface{}) *MockDatalakeClientService_ListDatalakeDiagnostics_Call {
+func (_e *MockDatalakeClientService_Expecter) ListDatalakeDiagnostics(params any, opts ...any) *MockDatalakeClientService_ListDatalakeDiagnostics_Call {
 	return &MockDatalakeClientService_ListDatalakeDiagnostics_Call{Call: _e.mock.On("ListDatalakeDiagnostics",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ListDatalakeDiagnostics_Call) Run(run func(params *operations.ListDatalakeDiagnosticsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ListDatalakeDiagnostics_Call {
@@ -4323,11 +4332,11 @@ func (_c *MockDatalakeClientService_ListDatalakeDiagnostics_Call) RunAndReturn(r
 // ListDatalakeDiagnosticsContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ListDatalakeDiagnosticsContext(ctx context.Context, params *operations.ListDatalakeDiagnosticsParams, opts ...operations.ClientOption) (*operations.ListDatalakeDiagnosticsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4365,9 +4374,9 @@ type MockDatalakeClientService_ListDatalakeDiagnosticsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListDatalakeDiagnosticsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ListDatalakeDiagnosticsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ListDatalakeDiagnosticsContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ListDatalakeDiagnosticsContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ListDatalakeDiagnosticsContext_Call {
 	return &MockDatalakeClientService_ListDatalakeDiagnosticsContext_Call{Call: _e.mock.On("ListDatalakeDiagnosticsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ListDatalakeDiagnosticsContext_Call) Run(run func(ctx context.Context, params *operations.ListDatalakeDiagnosticsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ListDatalakeDiagnosticsContext_Call {
@@ -4410,11 +4419,11 @@ func (_c *MockDatalakeClientService_ListDatalakeDiagnosticsContext_Call) RunAndR
 // ListDatalakeSecretTypes provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ListDatalakeSecretTypes(params *operations.ListDatalakeSecretTypesParams, opts ...operations.ClientOption) (*operations.ListDatalakeSecretTypesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4451,9 +4460,9 @@ type MockDatalakeClientService_ListDatalakeSecretTypes_Call struct {
 // ListDatalakeSecretTypes is a helper method to define mock.On call
 //   - params *operations.ListDatalakeSecretTypesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ListDatalakeSecretTypes(params interface{}, opts ...interface{}) *MockDatalakeClientService_ListDatalakeSecretTypes_Call {
+func (_e *MockDatalakeClientService_Expecter) ListDatalakeSecretTypes(params any, opts ...any) *MockDatalakeClientService_ListDatalakeSecretTypes_Call {
 	return &MockDatalakeClientService_ListDatalakeSecretTypes_Call{Call: _e.mock.On("ListDatalakeSecretTypes",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ListDatalakeSecretTypes_Call) Run(run func(params *operations.ListDatalakeSecretTypesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ListDatalakeSecretTypes_Call {
@@ -4491,11 +4500,11 @@ func (_c *MockDatalakeClientService_ListDatalakeSecretTypes_Call) RunAndReturn(r
 // ListDatalakeSecretTypesContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ListDatalakeSecretTypesContext(ctx context.Context, params *operations.ListDatalakeSecretTypesParams, opts ...operations.ClientOption) (*operations.ListDatalakeSecretTypesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4533,9 +4542,9 @@ type MockDatalakeClientService_ListDatalakeSecretTypesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListDatalakeSecretTypesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ListDatalakeSecretTypesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ListDatalakeSecretTypesContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ListDatalakeSecretTypesContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ListDatalakeSecretTypesContext_Call {
 	return &MockDatalakeClientService_ListDatalakeSecretTypesContext_Call{Call: _e.mock.On("ListDatalakeSecretTypesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ListDatalakeSecretTypesContext_Call) Run(run func(ctx context.Context, params *operations.ListDatalakeSecretTypesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ListDatalakeSecretTypesContext_Call {
@@ -4578,11 +4587,11 @@ func (_c *MockDatalakeClientService_ListDatalakeSecretTypesContext_Call) RunAndR
 // ListDatalakes provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ListDatalakes(params *operations.ListDatalakesParams, opts ...operations.ClientOption) (*operations.ListDatalakesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4619,9 +4628,9 @@ type MockDatalakeClientService_ListDatalakes_Call struct {
 // ListDatalakes is a helper method to define mock.On call
 //   - params *operations.ListDatalakesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ListDatalakes(params interface{}, opts ...interface{}) *MockDatalakeClientService_ListDatalakes_Call {
+func (_e *MockDatalakeClientService_Expecter) ListDatalakes(params any, opts ...any) *MockDatalakeClientService_ListDatalakes_Call {
 	return &MockDatalakeClientService_ListDatalakes_Call{Call: _e.mock.On("ListDatalakes",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ListDatalakes_Call) Run(run func(params *operations.ListDatalakesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ListDatalakes_Call {
@@ -4659,11 +4668,11 @@ func (_c *MockDatalakeClientService_ListDatalakes_Call) RunAndReturn(run func(pa
 // ListDatalakesContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ListDatalakesContext(ctx context.Context, params *operations.ListDatalakesParams, opts ...operations.ClientOption) (*operations.ListDatalakesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4701,9 +4710,9 @@ type MockDatalakeClientService_ListDatalakesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListDatalakesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ListDatalakesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ListDatalakesContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ListDatalakesContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ListDatalakesContext_Call {
 	return &MockDatalakeClientService_ListDatalakesContext_Call{Call: _e.mock.On("ListDatalakesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ListDatalakesContext_Call) Run(run func(ctx context.Context, params *operations.ListDatalakesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ListDatalakesContext_Call {
@@ -4746,11 +4755,11 @@ func (_c *MockDatalakeClientService_ListDatalakesContext_Call) RunAndReturn(run 
 // ListRuntimes provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ListRuntimes(params *operations.ListRuntimesParams, opts ...operations.ClientOption) (*operations.ListRuntimesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4787,9 +4796,9 @@ type MockDatalakeClientService_ListRuntimes_Call struct {
 // ListRuntimes is a helper method to define mock.On call
 //   - params *operations.ListRuntimesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ListRuntimes(params interface{}, opts ...interface{}) *MockDatalakeClientService_ListRuntimes_Call {
+func (_e *MockDatalakeClientService_Expecter) ListRuntimes(params any, opts ...any) *MockDatalakeClientService_ListRuntimes_Call {
 	return &MockDatalakeClientService_ListRuntimes_Call{Call: _e.mock.On("ListRuntimes",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ListRuntimes_Call) Run(run func(params *operations.ListRuntimesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ListRuntimes_Call {
@@ -4827,11 +4836,11 @@ func (_c *MockDatalakeClientService_ListRuntimes_Call) RunAndReturn(run func(par
 // ListRuntimesContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ListRuntimesContext(ctx context.Context, params *operations.ListRuntimesParams, opts ...operations.ClientOption) (*operations.ListRuntimesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4869,9 +4878,9 @@ type MockDatalakeClientService_ListRuntimesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListRuntimesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ListRuntimesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ListRuntimesContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ListRuntimesContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ListRuntimesContext_Call {
 	return &MockDatalakeClientService_ListRuntimesContext_Call{Call: _e.mock.On("ListRuntimesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ListRuntimesContext_Call) Run(run func(ctx context.Context, params *operations.ListRuntimesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ListRuntimesContext_Call {
@@ -4914,11 +4923,11 @@ func (_c *MockDatalakeClientService_ListRuntimesContext_Call) RunAndReturn(run f
 // MigrateSkus provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) MigrateSkus(params *operations.MigrateSkusParams, opts ...operations.ClientOption) (*operations.MigrateSkusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4955,9 +4964,9 @@ type MockDatalakeClientService_MigrateSkus_Call struct {
 // MigrateSkus is a helper method to define mock.On call
 //   - params *operations.MigrateSkusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) MigrateSkus(params interface{}, opts ...interface{}) *MockDatalakeClientService_MigrateSkus_Call {
+func (_e *MockDatalakeClientService_Expecter) MigrateSkus(params any, opts ...any) *MockDatalakeClientService_MigrateSkus_Call {
 	return &MockDatalakeClientService_MigrateSkus_Call{Call: _e.mock.On("MigrateSkus",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_MigrateSkus_Call) Run(run func(params *operations.MigrateSkusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_MigrateSkus_Call {
@@ -4995,11 +5004,11 @@ func (_c *MockDatalakeClientService_MigrateSkus_Call) RunAndReturn(run func(para
 // MigrateSkusContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) MigrateSkusContext(ctx context.Context, params *operations.MigrateSkusParams, opts ...operations.ClientOption) (*operations.MigrateSkusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5037,9 +5046,9 @@ type MockDatalakeClientService_MigrateSkusContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.MigrateSkusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) MigrateSkusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_MigrateSkusContext_Call {
+func (_e *MockDatalakeClientService_Expecter) MigrateSkusContext(ctx any, params any, opts ...any) *MockDatalakeClientService_MigrateSkusContext_Call {
 	return &MockDatalakeClientService_MigrateSkusContext_Call{Call: _e.mock.On("MigrateSkusContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_MigrateSkusContext_Call) Run(run func(ctx context.Context, params *operations.MigrateSkusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_MigrateSkusContext_Call {
@@ -5082,11 +5091,11 @@ func (_c *MockDatalakeClientService_MigrateSkusContext_Call) RunAndReturn(run fu
 // MigrateZookeeperToKraft provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) MigrateZookeeperToKraft(params *operations.MigrateZookeeperToKraftParams, opts ...operations.ClientOption) (*operations.MigrateZookeeperToKraftOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5123,9 +5132,9 @@ type MockDatalakeClientService_MigrateZookeeperToKraft_Call struct {
 // MigrateZookeeperToKraft is a helper method to define mock.On call
 //   - params *operations.MigrateZookeeperToKraftParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) MigrateZookeeperToKraft(params interface{}, opts ...interface{}) *MockDatalakeClientService_MigrateZookeeperToKraft_Call {
+func (_e *MockDatalakeClientService_Expecter) MigrateZookeeperToKraft(params any, opts ...any) *MockDatalakeClientService_MigrateZookeeperToKraft_Call {
 	return &MockDatalakeClientService_MigrateZookeeperToKraft_Call{Call: _e.mock.On("MigrateZookeeperToKraft",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_MigrateZookeeperToKraft_Call) Run(run func(params *operations.MigrateZookeeperToKraftParams, opts ...operations.ClientOption)) *MockDatalakeClientService_MigrateZookeeperToKraft_Call {
@@ -5163,11 +5172,11 @@ func (_c *MockDatalakeClientService_MigrateZookeeperToKraft_Call) RunAndReturn(r
 // MigrateZookeeperToKraftContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) MigrateZookeeperToKraftContext(ctx context.Context, params *operations.MigrateZookeeperToKraftParams, opts ...operations.ClientOption) (*operations.MigrateZookeeperToKraftOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5205,9 +5214,9 @@ type MockDatalakeClientService_MigrateZookeeperToKraftContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.MigrateZookeeperToKraftParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) MigrateZookeeperToKraftContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_MigrateZookeeperToKraftContext_Call {
+func (_e *MockDatalakeClientService_Expecter) MigrateZookeeperToKraftContext(ctx any, params any, opts ...any) *MockDatalakeClientService_MigrateZookeeperToKraftContext_Call {
 	return &MockDatalakeClientService_MigrateZookeeperToKraftContext_Call{Call: _e.mock.On("MigrateZookeeperToKraftContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_MigrateZookeeperToKraftContext_Call) Run(run func(ctx context.Context, params *operations.MigrateZookeeperToKraftParams, opts ...operations.ClientOption)) *MockDatalakeClientService_MigrateZookeeperToKraftContext_Call {
@@ -5250,11 +5259,11 @@ func (_c *MockDatalakeClientService_MigrateZookeeperToKraftContext_Call) RunAndR
 // PrepareDatalakeUpgrade provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) PrepareDatalakeUpgrade(params *operations.PrepareDatalakeUpgradeParams, opts ...operations.ClientOption) (*operations.PrepareDatalakeUpgradeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5291,9 +5300,9 @@ type MockDatalakeClientService_PrepareDatalakeUpgrade_Call struct {
 // PrepareDatalakeUpgrade is a helper method to define mock.On call
 //   - params *operations.PrepareDatalakeUpgradeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) PrepareDatalakeUpgrade(params interface{}, opts ...interface{}) *MockDatalakeClientService_PrepareDatalakeUpgrade_Call {
+func (_e *MockDatalakeClientService_Expecter) PrepareDatalakeUpgrade(params any, opts ...any) *MockDatalakeClientService_PrepareDatalakeUpgrade_Call {
 	return &MockDatalakeClientService_PrepareDatalakeUpgrade_Call{Call: _e.mock.On("PrepareDatalakeUpgrade",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_PrepareDatalakeUpgrade_Call) Run(run func(params *operations.PrepareDatalakeUpgradeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_PrepareDatalakeUpgrade_Call {
@@ -5331,11 +5340,11 @@ func (_c *MockDatalakeClientService_PrepareDatalakeUpgrade_Call) RunAndReturn(ru
 // PrepareDatalakeUpgradeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) PrepareDatalakeUpgradeContext(ctx context.Context, params *operations.PrepareDatalakeUpgradeParams, opts ...operations.ClientOption) (*operations.PrepareDatalakeUpgradeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5373,9 +5382,9 @@ type MockDatalakeClientService_PrepareDatalakeUpgradeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.PrepareDatalakeUpgradeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) PrepareDatalakeUpgradeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_PrepareDatalakeUpgradeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) PrepareDatalakeUpgradeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_PrepareDatalakeUpgradeContext_Call {
 	return &MockDatalakeClientService_PrepareDatalakeUpgradeContext_Call{Call: _e.mock.On("PrepareDatalakeUpgradeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_PrepareDatalakeUpgradeContext_Call) Run(run func(ctx context.Context, params *operations.PrepareDatalakeUpgradeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_PrepareDatalakeUpgradeContext_Call {
@@ -5418,11 +5427,11 @@ func (_c *MockDatalakeClientService_PrepareDatalakeUpgradeContext_Call) RunAndRe
 // RecoverDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RecoverDatalake(params *operations.RecoverDatalakeParams, opts ...operations.ClientOption) (*operations.RecoverDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5459,9 +5468,9 @@ type MockDatalakeClientService_RecoverDatalake_Call struct {
 // RecoverDatalake is a helper method to define mock.On call
 //   - params *operations.RecoverDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RecoverDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_RecoverDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) RecoverDatalake(params any, opts ...any) *MockDatalakeClientService_RecoverDatalake_Call {
 	return &MockDatalakeClientService_RecoverDatalake_Call{Call: _e.mock.On("RecoverDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RecoverDatalake_Call) Run(run func(params *operations.RecoverDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RecoverDatalake_Call {
@@ -5499,11 +5508,11 @@ func (_c *MockDatalakeClientService_RecoverDatalake_Call) RunAndReturn(run func(
 // RecoverDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RecoverDatalakeContext(ctx context.Context, params *operations.RecoverDatalakeParams, opts ...operations.ClientOption) (*operations.RecoverDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5541,9 +5550,9 @@ type MockDatalakeClientService_RecoverDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RecoverDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RecoverDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RecoverDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RecoverDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RecoverDatalakeContext_Call {
 	return &MockDatalakeClientService_RecoverDatalakeContext_Call{Call: _e.mock.On("RecoverDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RecoverDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.RecoverDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RecoverDatalakeContext_Call {
@@ -5586,11 +5595,11 @@ func (_c *MockDatalakeClientService_RecoverDatalakeContext_Call) RunAndReturn(ru
 // ReinitiateDatalakeUpgrade provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ReinitiateDatalakeUpgrade(params *operations.ReinitiateDatalakeUpgradeParams, opts ...operations.ClientOption) (*operations.ReinitiateDatalakeUpgradeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5627,9 +5636,9 @@ type MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call struct {
 // ReinitiateDatalakeUpgrade is a helper method to define mock.On call
 //   - params *operations.ReinitiateDatalakeUpgradeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ReinitiateDatalakeUpgrade(params interface{}, opts ...interface{}) *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call {
+func (_e *MockDatalakeClientService_Expecter) ReinitiateDatalakeUpgrade(params any, opts ...any) *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call {
 	return &MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call{Call: _e.mock.On("ReinitiateDatalakeUpgrade",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call) Run(run func(params *operations.ReinitiateDatalakeUpgradeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call {
@@ -5667,11 +5676,11 @@ func (_c *MockDatalakeClientService_ReinitiateDatalakeUpgrade_Call) RunAndReturn
 // ReinitiateDatalakeUpgradeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ReinitiateDatalakeUpgradeContext(ctx context.Context, params *operations.ReinitiateDatalakeUpgradeParams, opts ...operations.ClientOption) (*operations.ReinitiateDatalakeUpgradeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5709,9 +5718,9 @@ type MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ReinitiateDatalakeUpgradeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ReinitiateDatalakeUpgradeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ReinitiateDatalakeUpgradeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call {
 	return &MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call{Call: _e.mock.On("ReinitiateDatalakeUpgradeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call) Run(run func(ctx context.Context, params *operations.ReinitiateDatalakeUpgradeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call {
@@ -5754,11 +5763,11 @@ func (_c *MockDatalakeClientService_ReinitiateDatalakeUpgradeContext_Call) RunAn
 // RenewCertificate provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RenewCertificate(params *operations.RenewCertificateParams, opts ...operations.ClientOption) (*operations.RenewCertificateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5795,9 +5804,9 @@ type MockDatalakeClientService_RenewCertificate_Call struct {
 // RenewCertificate is a helper method to define mock.On call
 //   - params *operations.RenewCertificateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RenewCertificate(params interface{}, opts ...interface{}) *MockDatalakeClientService_RenewCertificate_Call {
+func (_e *MockDatalakeClientService_Expecter) RenewCertificate(params any, opts ...any) *MockDatalakeClientService_RenewCertificate_Call {
 	return &MockDatalakeClientService_RenewCertificate_Call{Call: _e.mock.On("RenewCertificate",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RenewCertificate_Call) Run(run func(params *operations.RenewCertificateParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RenewCertificate_Call {
@@ -5835,11 +5844,11 @@ func (_c *MockDatalakeClientService_RenewCertificate_Call) RunAndReturn(run func
 // RenewCertificateContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RenewCertificateContext(ctx context.Context, params *operations.RenewCertificateParams, opts ...operations.ClientOption) (*operations.RenewCertificateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5877,9 +5886,9 @@ type MockDatalakeClientService_RenewCertificateContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RenewCertificateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RenewCertificateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RenewCertificateContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RenewCertificateContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RenewCertificateContext_Call {
 	return &MockDatalakeClientService_RenewCertificateContext_Call{Call: _e.mock.On("RenewCertificateContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RenewCertificateContext_Call) Run(run func(ctx context.Context, params *operations.RenewCertificateParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RenewCertificateContext_Call {
@@ -5922,11 +5931,11 @@ func (_c *MockDatalakeClientService_RenewCertificateContext_Call) RunAndReturn(r
 // RenewPublicCertificate provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RenewPublicCertificate(params *operations.RenewPublicCertificateParams, opts ...operations.ClientOption) (*operations.RenewPublicCertificateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5963,9 +5972,9 @@ type MockDatalakeClientService_RenewPublicCertificate_Call struct {
 // RenewPublicCertificate is a helper method to define mock.On call
 //   - params *operations.RenewPublicCertificateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RenewPublicCertificate(params interface{}, opts ...interface{}) *MockDatalakeClientService_RenewPublicCertificate_Call {
+func (_e *MockDatalakeClientService_Expecter) RenewPublicCertificate(params any, opts ...any) *MockDatalakeClientService_RenewPublicCertificate_Call {
 	return &MockDatalakeClientService_RenewPublicCertificate_Call{Call: _e.mock.On("RenewPublicCertificate",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RenewPublicCertificate_Call) Run(run func(params *operations.RenewPublicCertificateParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RenewPublicCertificate_Call {
@@ -6003,11 +6012,11 @@ func (_c *MockDatalakeClientService_RenewPublicCertificate_Call) RunAndReturn(ru
 // RenewPublicCertificateContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RenewPublicCertificateContext(ctx context.Context, params *operations.RenewPublicCertificateParams, opts ...operations.ClientOption) (*operations.RenewPublicCertificateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6045,9 +6054,9 @@ type MockDatalakeClientService_RenewPublicCertificateContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RenewPublicCertificateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RenewPublicCertificateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RenewPublicCertificateContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RenewPublicCertificateContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RenewPublicCertificateContext_Call {
 	return &MockDatalakeClientService_RenewPublicCertificateContext_Call{Call: _e.mock.On("RenewPublicCertificateContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RenewPublicCertificateContext_Call) Run(run func(ctx context.Context, params *operations.RenewPublicCertificateParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RenewPublicCertificateContext_Call {
@@ -6090,11 +6099,11 @@ func (_c *MockDatalakeClientService_RenewPublicCertificateContext_Call) RunAndRe
 // RepairDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RepairDatalake(params *operations.RepairDatalakeParams, opts ...operations.ClientOption) (*operations.RepairDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6131,9 +6140,9 @@ type MockDatalakeClientService_RepairDatalake_Call struct {
 // RepairDatalake is a helper method to define mock.On call
 //   - params *operations.RepairDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RepairDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_RepairDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) RepairDatalake(params any, opts ...any) *MockDatalakeClientService_RepairDatalake_Call {
 	return &MockDatalakeClientService_RepairDatalake_Call{Call: _e.mock.On("RepairDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RepairDatalake_Call) Run(run func(params *operations.RepairDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RepairDatalake_Call {
@@ -6171,11 +6180,11 @@ func (_c *MockDatalakeClientService_RepairDatalake_Call) RunAndReturn(run func(p
 // RepairDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RepairDatalakeContext(ctx context.Context, params *operations.RepairDatalakeParams, opts ...operations.ClientOption) (*operations.RepairDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6213,9 +6222,9 @@ type MockDatalakeClientService_RepairDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RepairDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RepairDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RepairDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RepairDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RepairDatalakeContext_Call {
 	return &MockDatalakeClientService_RepairDatalakeContext_Call{Call: _e.mock.On("RepairDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RepairDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.RepairDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RepairDatalakeContext_Call {
@@ -6258,11 +6267,11 @@ func (_c *MockDatalakeClientService_RepairDatalakeContext_Call) RunAndReturn(run
 // ReplaceRecipes provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ReplaceRecipes(params *operations.ReplaceRecipesParams, opts ...operations.ClientOption) (*operations.ReplaceRecipesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6299,9 +6308,9 @@ type MockDatalakeClientService_ReplaceRecipes_Call struct {
 // ReplaceRecipes is a helper method to define mock.On call
 //   - params *operations.ReplaceRecipesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ReplaceRecipes(params interface{}, opts ...interface{}) *MockDatalakeClientService_ReplaceRecipes_Call {
+func (_e *MockDatalakeClientService_Expecter) ReplaceRecipes(params any, opts ...any) *MockDatalakeClientService_ReplaceRecipes_Call {
 	return &MockDatalakeClientService_ReplaceRecipes_Call{Call: _e.mock.On("ReplaceRecipes",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ReplaceRecipes_Call) Run(run func(params *operations.ReplaceRecipesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ReplaceRecipes_Call {
@@ -6339,11 +6348,11 @@ func (_c *MockDatalakeClientService_ReplaceRecipes_Call) RunAndReturn(run func(p
 // ReplaceRecipesContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ReplaceRecipesContext(ctx context.Context, params *operations.ReplaceRecipesParams, opts ...operations.ClientOption) (*operations.ReplaceRecipesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6381,9 +6390,9 @@ type MockDatalakeClientService_ReplaceRecipesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ReplaceRecipesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ReplaceRecipesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ReplaceRecipesContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ReplaceRecipesContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ReplaceRecipesContext_Call {
 	return &MockDatalakeClientService_ReplaceRecipesContext_Call{Call: _e.mock.On("ReplaceRecipesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ReplaceRecipesContext_Call) Run(run func(ctx context.Context, params *operations.ReplaceRecipesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ReplaceRecipesContext_Call {
@@ -6426,11 +6435,11 @@ func (_c *MockDatalakeClientService_ReplaceRecipesContext_Call) RunAndReturn(run
 // ResizeDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ResizeDatalake(params *operations.ResizeDatalakeParams, opts ...operations.ClientOption) (*operations.ResizeDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6467,9 +6476,9 @@ type MockDatalakeClientService_ResizeDatalake_Call struct {
 // ResizeDatalake is a helper method to define mock.On call
 //   - params *operations.ResizeDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ResizeDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_ResizeDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) ResizeDatalake(params any, opts ...any) *MockDatalakeClientService_ResizeDatalake_Call {
 	return &MockDatalakeClientService_ResizeDatalake_Call{Call: _e.mock.On("ResizeDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ResizeDatalake_Call) Run(run func(params *operations.ResizeDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ResizeDatalake_Call {
@@ -6507,11 +6516,11 @@ func (_c *MockDatalakeClientService_ResizeDatalake_Call) RunAndReturn(run func(p
 // ResizeDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ResizeDatalakeContext(ctx context.Context, params *operations.ResizeDatalakeParams, opts ...operations.ClientOption) (*operations.ResizeDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6549,9 +6558,9 @@ type MockDatalakeClientService_ResizeDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ResizeDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ResizeDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ResizeDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ResizeDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ResizeDatalakeContext_Call {
 	return &MockDatalakeClientService_ResizeDatalakeContext_Call{Call: _e.mock.On("ResizeDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ResizeDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.ResizeDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ResizeDatalakeContext_Call {
@@ -6594,11 +6603,11 @@ func (_c *MockDatalakeClientService_ResizeDatalakeContext_Call) RunAndReturn(run
 // RestartDatalakeInstances provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RestartDatalakeInstances(params *operations.RestartDatalakeInstancesParams, opts ...operations.ClientOption) (*operations.RestartDatalakeInstancesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6635,9 +6644,9 @@ type MockDatalakeClientService_RestartDatalakeInstances_Call struct {
 // RestartDatalakeInstances is a helper method to define mock.On call
 //   - params *operations.RestartDatalakeInstancesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RestartDatalakeInstances(params interface{}, opts ...interface{}) *MockDatalakeClientService_RestartDatalakeInstances_Call {
+func (_e *MockDatalakeClientService_Expecter) RestartDatalakeInstances(params any, opts ...any) *MockDatalakeClientService_RestartDatalakeInstances_Call {
 	return &MockDatalakeClientService_RestartDatalakeInstances_Call{Call: _e.mock.On("RestartDatalakeInstances",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RestartDatalakeInstances_Call) Run(run func(params *operations.RestartDatalakeInstancesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RestartDatalakeInstances_Call {
@@ -6675,11 +6684,11 @@ func (_c *MockDatalakeClientService_RestartDatalakeInstances_Call) RunAndReturn(
 // RestartDatalakeInstancesContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RestartDatalakeInstancesContext(ctx context.Context, params *operations.RestartDatalakeInstancesParams, opts ...operations.ClientOption) (*operations.RestartDatalakeInstancesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6717,9 +6726,9 @@ type MockDatalakeClientService_RestartDatalakeInstancesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RestartDatalakeInstancesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RestartDatalakeInstancesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RestartDatalakeInstancesContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RestartDatalakeInstancesContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RestartDatalakeInstancesContext_Call {
 	return &MockDatalakeClientService_RestartDatalakeInstancesContext_Call{Call: _e.mock.On("RestartDatalakeInstancesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RestartDatalakeInstancesContext_Call) Run(run func(ctx context.Context, params *operations.RestartDatalakeInstancesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RestartDatalakeInstancesContext_Call {
@@ -6762,11 +6771,11 @@ func (_c *MockDatalakeClientService_RestartDatalakeInstancesContext_Call) RunAnd
 // RestoreDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RestoreDatalake(params *operations.RestoreDatalakeParams, opts ...operations.ClientOption) (*operations.RestoreDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6803,9 +6812,9 @@ type MockDatalakeClientService_RestoreDatalake_Call struct {
 // RestoreDatalake is a helper method to define mock.On call
 //   - params *operations.RestoreDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RestoreDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_RestoreDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) RestoreDatalake(params any, opts ...any) *MockDatalakeClientService_RestoreDatalake_Call {
 	return &MockDatalakeClientService_RestoreDatalake_Call{Call: _e.mock.On("RestoreDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RestoreDatalake_Call) Run(run func(params *operations.RestoreDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RestoreDatalake_Call {
@@ -6843,11 +6852,11 @@ func (_c *MockDatalakeClientService_RestoreDatalake_Call) RunAndReturn(run func(
 // RestoreDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RestoreDatalakeContext(ctx context.Context, params *operations.RestoreDatalakeParams, opts ...operations.ClientOption) (*operations.RestoreDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6885,9 +6894,9 @@ type MockDatalakeClientService_RestoreDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RestoreDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RestoreDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RestoreDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RestoreDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RestoreDatalakeContext_Call {
 	return &MockDatalakeClientService_RestoreDatalakeContext_Call{Call: _e.mock.On("RestoreDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RestoreDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.RestoreDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RestoreDatalakeContext_Call {
@@ -6930,11 +6939,11 @@ func (_c *MockDatalakeClientService_RestoreDatalakeContext_Call) RunAndReturn(ru
 // RestoreDatalakeStatus provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RestoreDatalakeStatus(params *operations.RestoreDatalakeStatusParams, opts ...operations.ClientOption) (*operations.RestoreDatalakeStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6971,9 +6980,9 @@ type MockDatalakeClientService_RestoreDatalakeStatus_Call struct {
 // RestoreDatalakeStatus is a helper method to define mock.On call
 //   - params *operations.RestoreDatalakeStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RestoreDatalakeStatus(params interface{}, opts ...interface{}) *MockDatalakeClientService_RestoreDatalakeStatus_Call {
+func (_e *MockDatalakeClientService_Expecter) RestoreDatalakeStatus(params any, opts ...any) *MockDatalakeClientService_RestoreDatalakeStatus_Call {
 	return &MockDatalakeClientService_RestoreDatalakeStatus_Call{Call: _e.mock.On("RestoreDatalakeStatus",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RestoreDatalakeStatus_Call) Run(run func(params *operations.RestoreDatalakeStatusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RestoreDatalakeStatus_Call {
@@ -7011,11 +7020,11 @@ func (_c *MockDatalakeClientService_RestoreDatalakeStatus_Call) RunAndReturn(run
 // RestoreDatalakeStatusContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RestoreDatalakeStatusContext(ctx context.Context, params *operations.RestoreDatalakeStatusParams, opts ...operations.ClientOption) (*operations.RestoreDatalakeStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7053,9 +7062,9 @@ type MockDatalakeClientService_RestoreDatalakeStatusContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RestoreDatalakeStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RestoreDatalakeStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RestoreDatalakeStatusContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RestoreDatalakeStatusContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RestoreDatalakeStatusContext_Call {
 	return &MockDatalakeClientService_RestoreDatalakeStatusContext_Call{Call: _e.mock.On("RestoreDatalakeStatusContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RestoreDatalakeStatusContext_Call) Run(run func(ctx context.Context, params *operations.RestoreDatalakeStatusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RestoreDatalakeStatusContext_Call {
@@ -7098,11 +7107,11 @@ func (_c *MockDatalakeClientService_RestoreDatalakeStatusContext_Call) RunAndRet
 // RetryDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RetryDatalake(params *operations.RetryDatalakeParams, opts ...operations.ClientOption) (*operations.RetryDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7139,9 +7148,9 @@ type MockDatalakeClientService_RetryDatalake_Call struct {
 // RetryDatalake is a helper method to define mock.On call
 //   - params *operations.RetryDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RetryDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_RetryDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) RetryDatalake(params any, opts ...any) *MockDatalakeClientService_RetryDatalake_Call {
 	return &MockDatalakeClientService_RetryDatalake_Call{Call: _e.mock.On("RetryDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RetryDatalake_Call) Run(run func(params *operations.RetryDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RetryDatalake_Call {
@@ -7179,11 +7188,11 @@ func (_c *MockDatalakeClientService_RetryDatalake_Call) RunAndReturn(run func(pa
 // RetryDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RetryDatalakeContext(ctx context.Context, params *operations.RetryDatalakeParams, opts ...operations.ClientOption) (*operations.RetryDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7221,9 +7230,9 @@ type MockDatalakeClientService_RetryDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RetryDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RetryDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RetryDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RetryDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RetryDatalakeContext_Call {
 	return &MockDatalakeClientService_RetryDatalakeContext_Call{Call: _e.mock.On("RetryDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RetryDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.RetryDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RetryDatalakeContext_Call {
@@ -7266,11 +7275,11 @@ func (_c *MockDatalakeClientService_RetryDatalakeContext_Call) RunAndReturn(run 
 // RollbackZookeeperToKraftMigration provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RollbackZookeeperToKraftMigration(params *operations.RollbackZookeeperToKraftMigrationParams, opts ...operations.ClientOption) (*operations.RollbackZookeeperToKraftMigrationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7307,9 +7316,9 @@ type MockDatalakeClientService_RollbackZookeeperToKraftMigration_Call struct {
 // RollbackZookeeperToKraftMigration is a helper method to define mock.On call
 //   - params *operations.RollbackZookeeperToKraftMigrationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RollbackZookeeperToKraftMigration(params interface{}, opts ...interface{}) *MockDatalakeClientService_RollbackZookeeperToKraftMigration_Call {
+func (_e *MockDatalakeClientService_Expecter) RollbackZookeeperToKraftMigration(params any, opts ...any) *MockDatalakeClientService_RollbackZookeeperToKraftMigration_Call {
 	return &MockDatalakeClientService_RollbackZookeeperToKraftMigration_Call{Call: _e.mock.On("RollbackZookeeperToKraftMigration",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RollbackZookeeperToKraftMigration_Call) Run(run func(params *operations.RollbackZookeeperToKraftMigrationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RollbackZookeeperToKraftMigration_Call {
@@ -7347,11 +7356,11 @@ func (_c *MockDatalakeClientService_RollbackZookeeperToKraftMigration_Call) RunA
 // RollbackZookeeperToKraftMigrationContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RollbackZookeeperToKraftMigrationContext(ctx context.Context, params *operations.RollbackZookeeperToKraftMigrationParams, opts ...operations.ClientOption) (*operations.RollbackZookeeperToKraftMigrationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7389,9 +7398,9 @@ type MockDatalakeClientService_RollbackZookeeperToKraftMigrationContext_Call str
 //   - ctx context.Context
 //   - params *operations.RollbackZookeeperToKraftMigrationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RollbackZookeeperToKraftMigrationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RollbackZookeeperToKraftMigrationContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RollbackZookeeperToKraftMigrationContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RollbackZookeeperToKraftMigrationContext_Call {
 	return &MockDatalakeClientService_RollbackZookeeperToKraftMigrationContext_Call{Call: _e.mock.On("RollbackZookeeperToKraftMigrationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RollbackZookeeperToKraftMigrationContext_Call) Run(run func(ctx context.Context, params *operations.RollbackZookeeperToKraftMigrationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RollbackZookeeperToKraftMigrationContext_Call {
@@ -7434,11 +7443,11 @@ func (_c *MockDatalakeClientService_RollbackZookeeperToKraftMigrationContext_Cal
 // RotateAutoTLSCertificates provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RotateAutoTLSCertificates(params *operations.RotateAutoTLSCertificatesParams, opts ...operations.ClientOption) (*operations.RotateAutoTLSCertificatesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7475,9 +7484,9 @@ type MockDatalakeClientService_RotateAutoTLSCertificates_Call struct {
 // RotateAutoTLSCertificates is a helper method to define mock.On call
 //   - params *operations.RotateAutoTLSCertificatesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RotateAutoTLSCertificates(params interface{}, opts ...interface{}) *MockDatalakeClientService_RotateAutoTLSCertificates_Call {
+func (_e *MockDatalakeClientService_Expecter) RotateAutoTLSCertificates(params any, opts ...any) *MockDatalakeClientService_RotateAutoTLSCertificates_Call {
 	return &MockDatalakeClientService_RotateAutoTLSCertificates_Call{Call: _e.mock.On("RotateAutoTLSCertificates",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RotateAutoTLSCertificates_Call) Run(run func(params *operations.RotateAutoTLSCertificatesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RotateAutoTLSCertificates_Call {
@@ -7515,11 +7524,11 @@ func (_c *MockDatalakeClientService_RotateAutoTLSCertificates_Call) RunAndReturn
 // RotateAutoTLSCertificatesContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RotateAutoTLSCertificatesContext(ctx context.Context, params *operations.RotateAutoTLSCertificatesParams, opts ...operations.ClientOption) (*operations.RotateAutoTLSCertificatesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7557,9 +7566,9 @@ type MockDatalakeClientService_RotateAutoTLSCertificatesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RotateAutoTLSCertificatesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RotateAutoTLSCertificatesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RotateAutoTLSCertificatesContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RotateAutoTLSCertificatesContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RotateAutoTLSCertificatesContext_Call {
 	return &MockDatalakeClientService_RotateAutoTLSCertificatesContext_Call{Call: _e.mock.On("RotateAutoTLSCertificatesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RotateAutoTLSCertificatesContext_Call) Run(run func(ctx context.Context, params *operations.RotateAutoTLSCertificatesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RotateAutoTLSCertificatesContext_Call {
@@ -7602,11 +7611,11 @@ func (_c *MockDatalakeClientService_RotateAutoTLSCertificatesContext_Call) RunAn
 // RotateDbCertificate provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RotateDbCertificate(params *operations.RotateDbCertificateParams, opts ...operations.ClientOption) (*operations.RotateDbCertificateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7643,9 +7652,9 @@ type MockDatalakeClientService_RotateDbCertificate_Call struct {
 // RotateDbCertificate is a helper method to define mock.On call
 //   - params *operations.RotateDbCertificateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RotateDbCertificate(params interface{}, opts ...interface{}) *MockDatalakeClientService_RotateDbCertificate_Call {
+func (_e *MockDatalakeClientService_Expecter) RotateDbCertificate(params any, opts ...any) *MockDatalakeClientService_RotateDbCertificate_Call {
 	return &MockDatalakeClientService_RotateDbCertificate_Call{Call: _e.mock.On("RotateDbCertificate",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RotateDbCertificate_Call) Run(run func(params *operations.RotateDbCertificateParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RotateDbCertificate_Call {
@@ -7683,11 +7692,11 @@ func (_c *MockDatalakeClientService_RotateDbCertificate_Call) RunAndReturn(run f
 // RotateDbCertificateContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RotateDbCertificateContext(ctx context.Context, params *operations.RotateDbCertificateParams, opts ...operations.ClientOption) (*operations.RotateDbCertificateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7725,9 +7734,9 @@ type MockDatalakeClientService_RotateDbCertificateContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RotateDbCertificateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RotateDbCertificateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RotateDbCertificateContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RotateDbCertificateContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RotateDbCertificateContext_Call {
 	return &MockDatalakeClientService_RotateDbCertificateContext_Call{Call: _e.mock.On("RotateDbCertificateContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RotateDbCertificateContext_Call) Run(run func(ctx context.Context, params *operations.RotateDbCertificateParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RotateDbCertificateContext_Call {
@@ -7770,11 +7779,11 @@ func (_c *MockDatalakeClientService_RotateDbCertificateContext_Call) RunAndRetur
 // RotatePrivateCertificates provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RotatePrivateCertificates(params *operations.RotatePrivateCertificatesParams, opts ...operations.ClientOption) (*operations.RotatePrivateCertificatesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7811,9 +7820,9 @@ type MockDatalakeClientService_RotatePrivateCertificates_Call struct {
 // RotatePrivateCertificates is a helper method to define mock.On call
 //   - params *operations.RotatePrivateCertificatesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RotatePrivateCertificates(params interface{}, opts ...interface{}) *MockDatalakeClientService_RotatePrivateCertificates_Call {
+func (_e *MockDatalakeClientService_Expecter) RotatePrivateCertificates(params any, opts ...any) *MockDatalakeClientService_RotatePrivateCertificates_Call {
 	return &MockDatalakeClientService_RotatePrivateCertificates_Call{Call: _e.mock.On("RotatePrivateCertificates",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RotatePrivateCertificates_Call) Run(run func(params *operations.RotatePrivateCertificatesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RotatePrivateCertificates_Call {
@@ -7851,11 +7860,11 @@ func (_c *MockDatalakeClientService_RotatePrivateCertificates_Call) RunAndReturn
 // RotatePrivateCertificatesContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RotatePrivateCertificatesContext(ctx context.Context, params *operations.RotatePrivateCertificatesParams, opts ...operations.ClientOption) (*operations.RotatePrivateCertificatesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7893,9 +7902,9 @@ type MockDatalakeClientService_RotatePrivateCertificatesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RotatePrivateCertificatesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RotatePrivateCertificatesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RotatePrivateCertificatesContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RotatePrivateCertificatesContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RotatePrivateCertificatesContext_Call {
 	return &MockDatalakeClientService_RotatePrivateCertificatesContext_Call{Call: _e.mock.On("RotatePrivateCertificatesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RotatePrivateCertificatesContext_Call) Run(run func(ctx context.Context, params *operations.RotatePrivateCertificatesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RotatePrivateCertificatesContext_Call {
@@ -7938,11 +7947,11 @@ func (_c *MockDatalakeClientService_RotatePrivateCertificatesContext_Call) RunAn
 // RotateSaltPassword provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RotateSaltPassword(params *operations.RotateSaltPasswordParams, opts ...operations.ClientOption) (*operations.RotateSaltPasswordOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7979,9 +7988,9 @@ type MockDatalakeClientService_RotateSaltPassword_Call struct {
 // RotateSaltPassword is a helper method to define mock.On call
 //   - params *operations.RotateSaltPasswordParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RotateSaltPassword(params interface{}, opts ...interface{}) *MockDatalakeClientService_RotateSaltPassword_Call {
+func (_e *MockDatalakeClientService_Expecter) RotateSaltPassword(params any, opts ...any) *MockDatalakeClientService_RotateSaltPassword_Call {
 	return &MockDatalakeClientService_RotateSaltPassword_Call{Call: _e.mock.On("RotateSaltPassword",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RotateSaltPassword_Call) Run(run func(params *operations.RotateSaltPasswordParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RotateSaltPassword_Call {
@@ -8019,11 +8028,11 @@ func (_c *MockDatalakeClientService_RotateSaltPassword_Call) RunAndReturn(run fu
 // RotateSaltPasswordContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RotateSaltPasswordContext(ctx context.Context, params *operations.RotateSaltPasswordParams, opts ...operations.ClientOption) (*operations.RotateSaltPasswordOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8061,9 +8070,9 @@ type MockDatalakeClientService_RotateSaltPasswordContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RotateSaltPasswordParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RotateSaltPasswordContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RotateSaltPasswordContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RotateSaltPasswordContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RotateSaltPasswordContext_Call {
 	return &MockDatalakeClientService_RotateSaltPasswordContext_Call{Call: _e.mock.On("RotateSaltPasswordContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RotateSaltPasswordContext_Call) Run(run func(ctx context.Context, params *operations.RotateSaltPasswordParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RotateSaltPasswordContext_Call {
@@ -8106,11 +8115,11 @@ func (_c *MockDatalakeClientService_RotateSaltPasswordContext_Call) RunAndReturn
 // RotateSecrets provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RotateSecrets(params *operations.RotateSecretsParams, opts ...operations.ClientOption) (*operations.RotateSecretsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8147,9 +8156,9 @@ type MockDatalakeClientService_RotateSecrets_Call struct {
 // RotateSecrets is a helper method to define mock.On call
 //   - params *operations.RotateSecretsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RotateSecrets(params interface{}, opts ...interface{}) *MockDatalakeClientService_RotateSecrets_Call {
+func (_e *MockDatalakeClientService_Expecter) RotateSecrets(params any, opts ...any) *MockDatalakeClientService_RotateSecrets_Call {
 	return &MockDatalakeClientService_RotateSecrets_Call{Call: _e.mock.On("RotateSecrets",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RotateSecrets_Call) Run(run func(params *operations.RotateSecretsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RotateSecrets_Call {
@@ -8187,11 +8196,11 @@ func (_c *MockDatalakeClientService_RotateSecrets_Call) RunAndReturn(run func(pa
 // RotateSecretsContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) RotateSecretsContext(ctx context.Context, params *operations.RotateSecretsParams, opts ...operations.ClientOption) (*operations.RotateSecretsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8229,9 +8238,9 @@ type MockDatalakeClientService_RotateSecretsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RotateSecretsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) RotateSecretsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_RotateSecretsContext_Call {
+func (_e *MockDatalakeClientService_Expecter) RotateSecretsContext(ctx any, params any, opts ...any) *MockDatalakeClientService_RotateSecretsContext_Call {
 	return &MockDatalakeClientService_RotateSecretsContext_Call{Call: _e.mock.On("RotateSecretsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_RotateSecretsContext_Call) Run(run func(ctx context.Context, params *operations.RotateSecretsParams, opts ...operations.ClientOption)) *MockDatalakeClientService_RotateSecretsContext_Call {
@@ -8274,11 +8283,11 @@ func (_c *MockDatalakeClientService_RotateSecretsContext_Call) RunAndReturn(run 
 // ScaleHorizontally provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ScaleHorizontally(params *operations.ScaleHorizontallyParams, opts ...operations.ClientOption) (*operations.ScaleHorizontallyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8315,9 +8324,9 @@ type MockDatalakeClientService_ScaleHorizontally_Call struct {
 // ScaleHorizontally is a helper method to define mock.On call
 //   - params *operations.ScaleHorizontallyParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ScaleHorizontally(params interface{}, opts ...interface{}) *MockDatalakeClientService_ScaleHorizontally_Call {
+func (_e *MockDatalakeClientService_Expecter) ScaleHorizontally(params any, opts ...any) *MockDatalakeClientService_ScaleHorizontally_Call {
 	return &MockDatalakeClientService_ScaleHorizontally_Call{Call: _e.mock.On("ScaleHorizontally",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ScaleHorizontally_Call) Run(run func(params *operations.ScaleHorizontallyParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ScaleHorizontally_Call {
@@ -8355,11 +8364,11 @@ func (_c *MockDatalakeClientService_ScaleHorizontally_Call) RunAndReturn(run fun
 // ScaleHorizontallyContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ScaleHorizontallyContext(ctx context.Context, params *operations.ScaleHorizontallyParams, opts ...operations.ClientOption) (*operations.ScaleHorizontallyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8397,9 +8406,9 @@ type MockDatalakeClientService_ScaleHorizontallyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ScaleHorizontallyParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ScaleHorizontallyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ScaleHorizontallyContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ScaleHorizontallyContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ScaleHorizontallyContext_Call {
 	return &MockDatalakeClientService_ScaleHorizontallyContext_Call{Call: _e.mock.On("ScaleHorizontallyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ScaleHorizontallyContext_Call) Run(run func(ctx context.Context, params *operations.ScaleHorizontallyParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ScaleHorizontallyContext_Call {
@@ -8442,11 +8451,11 @@ func (_c *MockDatalakeClientService_ScaleHorizontallyContext_Call) RunAndReturn(
 // SetBackupRestoreConfiguration provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) SetBackupRestoreConfiguration(params *operations.SetBackupRestoreConfigurationParams, opts ...operations.ClientOption) (*operations.SetBackupRestoreConfigurationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8483,9 +8492,9 @@ type MockDatalakeClientService_SetBackupRestoreConfiguration_Call struct {
 // SetBackupRestoreConfiguration is a helper method to define mock.On call
 //   - params *operations.SetBackupRestoreConfigurationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) SetBackupRestoreConfiguration(params interface{}, opts ...interface{}) *MockDatalakeClientService_SetBackupRestoreConfiguration_Call {
+func (_e *MockDatalakeClientService_Expecter) SetBackupRestoreConfiguration(params any, opts ...any) *MockDatalakeClientService_SetBackupRestoreConfiguration_Call {
 	return &MockDatalakeClientService_SetBackupRestoreConfiguration_Call{Call: _e.mock.On("SetBackupRestoreConfiguration",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_SetBackupRestoreConfiguration_Call) Run(run func(params *operations.SetBackupRestoreConfigurationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_SetBackupRestoreConfiguration_Call {
@@ -8523,11 +8532,11 @@ func (_c *MockDatalakeClientService_SetBackupRestoreConfiguration_Call) RunAndRe
 // SetBackupRestoreConfigurationContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) SetBackupRestoreConfigurationContext(ctx context.Context, params *operations.SetBackupRestoreConfigurationParams, opts ...operations.ClientOption) (*operations.SetBackupRestoreConfigurationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8565,9 +8574,9 @@ type MockDatalakeClientService_SetBackupRestoreConfigurationContext_Call struct 
 //   - ctx context.Context
 //   - params *operations.SetBackupRestoreConfigurationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) SetBackupRestoreConfigurationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_SetBackupRestoreConfigurationContext_Call {
+func (_e *MockDatalakeClientService_Expecter) SetBackupRestoreConfigurationContext(ctx any, params any, opts ...any) *MockDatalakeClientService_SetBackupRestoreConfigurationContext_Call {
 	return &MockDatalakeClientService_SetBackupRestoreConfigurationContext_Call{Call: _e.mock.On("SetBackupRestoreConfigurationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_SetBackupRestoreConfigurationContext_Call) Run(run func(ctx context.Context, params *operations.SetBackupRestoreConfigurationParams, opts ...operations.ClientOption)) *MockDatalakeClientService_SetBackupRestoreConfigurationContext_Call {
@@ -8610,11 +8619,11 @@ func (_c *MockDatalakeClientService_SetBackupRestoreConfigurationContext_Call) R
 // SetCatalog provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) SetCatalog(params *operations.SetCatalogParams, opts ...operations.ClientOption) (*operations.SetCatalogOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8651,9 +8660,9 @@ type MockDatalakeClientService_SetCatalog_Call struct {
 // SetCatalog is a helper method to define mock.On call
 //   - params *operations.SetCatalogParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) SetCatalog(params interface{}, opts ...interface{}) *MockDatalakeClientService_SetCatalog_Call {
+func (_e *MockDatalakeClientService_Expecter) SetCatalog(params any, opts ...any) *MockDatalakeClientService_SetCatalog_Call {
 	return &MockDatalakeClientService_SetCatalog_Call{Call: _e.mock.On("SetCatalog",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_SetCatalog_Call) Run(run func(params *operations.SetCatalogParams, opts ...operations.ClientOption)) *MockDatalakeClientService_SetCatalog_Call {
@@ -8691,11 +8700,11 @@ func (_c *MockDatalakeClientService_SetCatalog_Call) RunAndReturn(run func(param
 // SetCatalogContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) SetCatalogContext(ctx context.Context, params *operations.SetCatalogParams, opts ...operations.ClientOption) (*operations.SetCatalogOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8733,9 +8742,9 @@ type MockDatalakeClientService_SetCatalogContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SetCatalogParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) SetCatalogContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_SetCatalogContext_Call {
+func (_e *MockDatalakeClientService_Expecter) SetCatalogContext(ctx any, params any, opts ...any) *MockDatalakeClientService_SetCatalogContext_Call {
 	return &MockDatalakeClientService_SetCatalogContext_Call{Call: _e.mock.On("SetCatalogContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_SetCatalogContext_Call) Run(run func(ctx context.Context, params *operations.SetCatalogParams, opts ...operations.ClientOption)) *MockDatalakeClientService_SetCatalogContext_Call {
@@ -8778,11 +8787,11 @@ func (_c *MockDatalakeClientService_SetCatalogContext_Call) RunAndReturn(run fun
 // SetDefaultJavaVersion provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) SetDefaultJavaVersion(params *operations.SetDefaultJavaVersionParams, opts ...operations.ClientOption) (*operations.SetDefaultJavaVersionOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8819,9 +8828,9 @@ type MockDatalakeClientService_SetDefaultJavaVersion_Call struct {
 // SetDefaultJavaVersion is a helper method to define mock.On call
 //   - params *operations.SetDefaultJavaVersionParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) SetDefaultJavaVersion(params interface{}, opts ...interface{}) *MockDatalakeClientService_SetDefaultJavaVersion_Call {
+func (_e *MockDatalakeClientService_Expecter) SetDefaultJavaVersion(params any, opts ...any) *MockDatalakeClientService_SetDefaultJavaVersion_Call {
 	return &MockDatalakeClientService_SetDefaultJavaVersion_Call{Call: _e.mock.On("SetDefaultJavaVersion",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_SetDefaultJavaVersion_Call) Run(run func(params *operations.SetDefaultJavaVersionParams, opts ...operations.ClientOption)) *MockDatalakeClientService_SetDefaultJavaVersion_Call {
@@ -8859,11 +8868,11 @@ func (_c *MockDatalakeClientService_SetDefaultJavaVersion_Call) RunAndReturn(run
 // SetDefaultJavaVersionContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) SetDefaultJavaVersionContext(ctx context.Context, params *operations.SetDefaultJavaVersionParams, opts ...operations.ClientOption) (*operations.SetDefaultJavaVersionOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8901,9 +8910,9 @@ type MockDatalakeClientService_SetDefaultJavaVersionContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SetDefaultJavaVersionParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) SetDefaultJavaVersionContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_SetDefaultJavaVersionContext_Call {
+func (_e *MockDatalakeClientService_Expecter) SetDefaultJavaVersionContext(ctx any, params any, opts ...any) *MockDatalakeClientService_SetDefaultJavaVersionContext_Call {
 	return &MockDatalakeClientService_SetDefaultJavaVersionContext_Call{Call: _e.mock.On("SetDefaultJavaVersionContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_SetDefaultJavaVersionContext_Call) Run(run func(ctx context.Context, params *operations.SetDefaultJavaVersionParams, opts ...operations.ClientOption)) *MockDatalakeClientService_SetDefaultJavaVersionContext_Call {
@@ -8956,7 +8965,7 @@ type MockDatalakeClientService_SetTransport_Call struct {
 
 // SetTransport is a helper method to define mock.On call
 //   - transport runtime.ContextualTransport
-func (_e *MockDatalakeClientService_Expecter) SetTransport(transport interface{}) *MockDatalakeClientService_SetTransport_Call {
+func (_e *MockDatalakeClientService_Expecter) SetTransport(transport any) *MockDatalakeClientService_SetTransport_Call {
 	return &MockDatalakeClientService_SetTransport_Call{Call: _e.mock.On("SetTransport", transport)}
 }
 
@@ -8986,11 +8995,11 @@ func (_c *MockDatalakeClientService_SetTransport_Call) RunAndReturn(run func(tra
 // StartDatabaseUpgrade provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) StartDatabaseUpgrade(params *operations.StartDatabaseUpgradeParams, opts ...operations.ClientOption) (*operations.StartDatabaseUpgradeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9027,9 +9036,9 @@ type MockDatalakeClientService_StartDatabaseUpgrade_Call struct {
 // StartDatabaseUpgrade is a helper method to define mock.On call
 //   - params *operations.StartDatabaseUpgradeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) StartDatabaseUpgrade(params interface{}, opts ...interface{}) *MockDatalakeClientService_StartDatabaseUpgrade_Call {
+func (_e *MockDatalakeClientService_Expecter) StartDatabaseUpgrade(params any, opts ...any) *MockDatalakeClientService_StartDatabaseUpgrade_Call {
 	return &MockDatalakeClientService_StartDatabaseUpgrade_Call{Call: _e.mock.On("StartDatabaseUpgrade",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_StartDatabaseUpgrade_Call) Run(run func(params *operations.StartDatabaseUpgradeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_StartDatabaseUpgrade_Call {
@@ -9067,11 +9076,11 @@ func (_c *MockDatalakeClientService_StartDatabaseUpgrade_Call) RunAndReturn(run 
 // StartDatabaseUpgradeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) StartDatabaseUpgradeContext(ctx context.Context, params *operations.StartDatabaseUpgradeParams, opts ...operations.ClientOption) (*operations.StartDatabaseUpgradeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9109,9 +9118,9 @@ type MockDatalakeClientService_StartDatabaseUpgradeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.StartDatabaseUpgradeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) StartDatabaseUpgradeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_StartDatabaseUpgradeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) StartDatabaseUpgradeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_StartDatabaseUpgradeContext_Call {
 	return &MockDatalakeClientService_StartDatabaseUpgradeContext_Call{Call: _e.mock.On("StartDatabaseUpgradeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_StartDatabaseUpgradeContext_Call) Run(run func(ctx context.Context, params *operations.StartDatabaseUpgradeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_StartDatabaseUpgradeContext_Call {
@@ -9154,11 +9163,11 @@ func (_c *MockDatalakeClientService_StartDatabaseUpgradeContext_Call) RunAndRetu
 // StartDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) StartDatalake(params *operations.StartDatalakeParams, opts ...operations.ClientOption) (*operations.StartDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9195,9 +9204,9 @@ type MockDatalakeClientService_StartDatalake_Call struct {
 // StartDatalake is a helper method to define mock.On call
 //   - params *operations.StartDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) StartDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_StartDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) StartDatalake(params any, opts ...any) *MockDatalakeClientService_StartDatalake_Call {
 	return &MockDatalakeClientService_StartDatalake_Call{Call: _e.mock.On("StartDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_StartDatalake_Call) Run(run func(params *operations.StartDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_StartDatalake_Call {
@@ -9235,11 +9244,11 @@ func (_c *MockDatalakeClientService_StartDatalake_Call) RunAndReturn(run func(pa
 // StartDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) StartDatalakeContext(ctx context.Context, params *operations.StartDatalakeParams, opts ...operations.ClientOption) (*operations.StartDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9277,9 +9286,9 @@ type MockDatalakeClientService_StartDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.StartDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) StartDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_StartDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) StartDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_StartDatalakeContext_Call {
 	return &MockDatalakeClientService_StartDatalakeContext_Call{Call: _e.mock.On("StartDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_StartDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.StartDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_StartDatalakeContext_Call {
@@ -9322,11 +9331,11 @@ func (_c *MockDatalakeClientService_StartDatalakeContext_Call) RunAndReturn(run 
 // StartDatalakeVerticalScaling provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) StartDatalakeVerticalScaling(params *operations.StartDatalakeVerticalScalingParams, opts ...operations.ClientOption) (*operations.StartDatalakeVerticalScalingOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9363,9 +9372,9 @@ type MockDatalakeClientService_StartDatalakeVerticalScaling_Call struct {
 // StartDatalakeVerticalScaling is a helper method to define mock.On call
 //   - params *operations.StartDatalakeVerticalScalingParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) StartDatalakeVerticalScaling(params interface{}, opts ...interface{}) *MockDatalakeClientService_StartDatalakeVerticalScaling_Call {
+func (_e *MockDatalakeClientService_Expecter) StartDatalakeVerticalScaling(params any, opts ...any) *MockDatalakeClientService_StartDatalakeVerticalScaling_Call {
 	return &MockDatalakeClientService_StartDatalakeVerticalScaling_Call{Call: _e.mock.On("StartDatalakeVerticalScaling",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_StartDatalakeVerticalScaling_Call) Run(run func(params *operations.StartDatalakeVerticalScalingParams, opts ...operations.ClientOption)) *MockDatalakeClientService_StartDatalakeVerticalScaling_Call {
@@ -9403,11 +9412,11 @@ func (_c *MockDatalakeClientService_StartDatalakeVerticalScaling_Call) RunAndRet
 // StartDatalakeVerticalScalingContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) StartDatalakeVerticalScalingContext(ctx context.Context, params *operations.StartDatalakeVerticalScalingParams, opts ...operations.ClientOption) (*operations.StartDatalakeVerticalScalingOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9445,9 +9454,9 @@ type MockDatalakeClientService_StartDatalakeVerticalScalingContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.StartDatalakeVerticalScalingParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) StartDatalakeVerticalScalingContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_StartDatalakeVerticalScalingContext_Call {
+func (_e *MockDatalakeClientService_Expecter) StartDatalakeVerticalScalingContext(ctx any, params any, opts ...any) *MockDatalakeClientService_StartDatalakeVerticalScalingContext_Call {
 	return &MockDatalakeClientService_StartDatalakeVerticalScalingContext_Call{Call: _e.mock.On("StartDatalakeVerticalScalingContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_StartDatalakeVerticalScalingContext_Call) Run(run func(ctx context.Context, params *operations.StartDatalakeVerticalScalingParams, opts ...operations.ClientOption)) *MockDatalakeClientService_StartDatalakeVerticalScalingContext_Call {
@@ -9490,11 +9499,11 @@ func (_c *MockDatalakeClientService_StartDatalakeVerticalScalingContext_Call) Ru
 // StopDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) StopDatalake(params *operations.StopDatalakeParams, opts ...operations.ClientOption) (*operations.StopDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9531,9 +9540,9 @@ type MockDatalakeClientService_StopDatalake_Call struct {
 // StopDatalake is a helper method to define mock.On call
 //   - params *operations.StopDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) StopDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_StopDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) StopDatalake(params any, opts ...any) *MockDatalakeClientService_StopDatalake_Call {
 	return &MockDatalakeClientService_StopDatalake_Call{Call: _e.mock.On("StopDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_StopDatalake_Call) Run(run func(params *operations.StopDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_StopDatalake_Call {
@@ -9571,11 +9580,11 @@ func (_c *MockDatalakeClientService_StopDatalake_Call) RunAndReturn(run func(par
 // StopDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) StopDatalakeContext(ctx context.Context, params *operations.StopDatalakeParams, opts ...operations.ClientOption) (*operations.StopDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9613,9 +9622,9 @@ type MockDatalakeClientService_StopDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.StopDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) StopDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_StopDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) StopDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_StopDatalakeContext_Call {
 	return &MockDatalakeClientService_StopDatalakeContext_Call{Call: _e.mock.On("StopDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_StopDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.StopDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_StopDatalakeContext_Call {
@@ -9658,11 +9667,11 @@ func (_c *MockDatalakeClientService_StopDatalakeContext_Call) RunAndReturn(run f
 // SyncComponentVersionsFromCm provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) SyncComponentVersionsFromCm(params *operations.SyncComponentVersionsFromCmParams, opts ...operations.ClientOption) (*operations.SyncComponentVersionsFromCmOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9699,9 +9708,9 @@ type MockDatalakeClientService_SyncComponentVersionsFromCm_Call struct {
 // SyncComponentVersionsFromCm is a helper method to define mock.On call
 //   - params *operations.SyncComponentVersionsFromCmParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) SyncComponentVersionsFromCm(params interface{}, opts ...interface{}) *MockDatalakeClientService_SyncComponentVersionsFromCm_Call {
+func (_e *MockDatalakeClientService_Expecter) SyncComponentVersionsFromCm(params any, opts ...any) *MockDatalakeClientService_SyncComponentVersionsFromCm_Call {
 	return &MockDatalakeClientService_SyncComponentVersionsFromCm_Call{Call: _e.mock.On("SyncComponentVersionsFromCm",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_SyncComponentVersionsFromCm_Call) Run(run func(params *operations.SyncComponentVersionsFromCmParams, opts ...operations.ClientOption)) *MockDatalakeClientService_SyncComponentVersionsFromCm_Call {
@@ -9739,11 +9748,11 @@ func (_c *MockDatalakeClientService_SyncComponentVersionsFromCm_Call) RunAndRetu
 // SyncComponentVersionsFromCmContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) SyncComponentVersionsFromCmContext(ctx context.Context, params *operations.SyncComponentVersionsFromCmParams, opts ...operations.ClientOption) (*operations.SyncComponentVersionsFromCmOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9781,9 +9790,9 @@ type MockDatalakeClientService_SyncComponentVersionsFromCmContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SyncComponentVersionsFromCmParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) SyncComponentVersionsFromCmContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_SyncComponentVersionsFromCmContext_Call {
+func (_e *MockDatalakeClientService_Expecter) SyncComponentVersionsFromCmContext(ctx any, params any, opts ...any) *MockDatalakeClientService_SyncComponentVersionsFromCmContext_Call {
 	return &MockDatalakeClientService_SyncComponentVersionsFromCmContext_Call{Call: _e.mock.On("SyncComponentVersionsFromCmContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_SyncComponentVersionsFromCmContext_Call) Run(run func(ctx context.Context, params *operations.SyncComponentVersionsFromCmParams, opts ...operations.ClientOption)) *MockDatalakeClientService_SyncComponentVersionsFromCmContext_Call {
@@ -9826,11 +9835,11 @@ func (_c *MockDatalakeClientService_SyncComponentVersionsFromCmContext_Call) Run
 // TriggerDiskSync provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) TriggerDiskSync(params *operations.TriggerDiskSyncParams, opts ...operations.ClientOption) (*operations.TriggerDiskSyncOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9867,9 +9876,9 @@ type MockDatalakeClientService_TriggerDiskSync_Call struct {
 // TriggerDiskSync is a helper method to define mock.On call
 //   - params *operations.TriggerDiskSyncParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) TriggerDiskSync(params interface{}, opts ...interface{}) *MockDatalakeClientService_TriggerDiskSync_Call {
+func (_e *MockDatalakeClientService_Expecter) TriggerDiskSync(params any, opts ...any) *MockDatalakeClientService_TriggerDiskSync_Call {
 	return &MockDatalakeClientService_TriggerDiskSync_Call{Call: _e.mock.On("TriggerDiskSync",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_TriggerDiskSync_Call) Run(run func(params *operations.TriggerDiskSyncParams, opts ...operations.ClientOption)) *MockDatalakeClientService_TriggerDiskSync_Call {
@@ -9907,11 +9916,11 @@ func (_c *MockDatalakeClientService_TriggerDiskSync_Call) RunAndReturn(run func(
 // TriggerDiskSyncContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) TriggerDiskSyncContext(ctx context.Context, params *operations.TriggerDiskSyncParams, opts ...operations.ClientOption) (*operations.TriggerDiskSyncOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9949,9 +9958,9 @@ type MockDatalakeClientService_TriggerDiskSyncContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.TriggerDiskSyncParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) TriggerDiskSyncContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_TriggerDiskSyncContext_Call {
+func (_e *MockDatalakeClientService_Expecter) TriggerDiskSyncContext(ctx any, params any, opts ...any) *MockDatalakeClientService_TriggerDiskSyncContext_Call {
 	return &MockDatalakeClientService_TriggerDiskSyncContext_Call{Call: _e.mock.On("TriggerDiskSyncContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_TriggerDiskSyncContext_Call) Run(run func(ctx context.Context, params *operations.TriggerDiskSyncParams, opts ...operations.ClientOption)) *MockDatalakeClientService_TriggerDiskSyncContext_Call {
@@ -9994,11 +10003,11 @@ func (_c *MockDatalakeClientService_TriggerDiskSyncContext_Call) RunAndReturn(ru
 // UpdateOrchestratorState provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) UpdateOrchestratorState(params *operations.UpdateOrchestratorStateParams, opts ...operations.ClientOption) (*operations.UpdateOrchestratorStateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10035,9 +10044,9 @@ type MockDatalakeClientService_UpdateOrchestratorState_Call struct {
 // UpdateOrchestratorState is a helper method to define mock.On call
 //   - params *operations.UpdateOrchestratorStateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) UpdateOrchestratorState(params interface{}, opts ...interface{}) *MockDatalakeClientService_UpdateOrchestratorState_Call {
+func (_e *MockDatalakeClientService_Expecter) UpdateOrchestratorState(params any, opts ...any) *MockDatalakeClientService_UpdateOrchestratorState_Call {
 	return &MockDatalakeClientService_UpdateOrchestratorState_Call{Call: _e.mock.On("UpdateOrchestratorState",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_UpdateOrchestratorState_Call) Run(run func(params *operations.UpdateOrchestratorStateParams, opts ...operations.ClientOption)) *MockDatalakeClientService_UpdateOrchestratorState_Call {
@@ -10075,11 +10084,11 @@ func (_c *MockDatalakeClientService_UpdateOrchestratorState_Call) RunAndReturn(r
 // UpdateOrchestratorStateContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) UpdateOrchestratorStateContext(ctx context.Context, params *operations.UpdateOrchestratorStateParams, opts ...operations.ClientOption) (*operations.UpdateOrchestratorStateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10117,9 +10126,9 @@ type MockDatalakeClientService_UpdateOrchestratorStateContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateOrchestratorStateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) UpdateOrchestratorStateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_UpdateOrchestratorStateContext_Call {
+func (_e *MockDatalakeClientService_Expecter) UpdateOrchestratorStateContext(ctx any, params any, opts ...any) *MockDatalakeClientService_UpdateOrchestratorStateContext_Call {
 	return &MockDatalakeClientService_UpdateOrchestratorStateContext_Call{Call: _e.mock.On("UpdateOrchestratorStateContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_UpdateOrchestratorStateContext_Call) Run(run func(ctx context.Context, params *operations.UpdateOrchestratorStateParams, opts ...operations.ClientOption)) *MockDatalakeClientService_UpdateOrchestratorStateContext_Call {
@@ -10162,11 +10171,11 @@ func (_c *MockDatalakeClientService_UpdateOrchestratorStateContext_Call) RunAndR
 // UpdatePublicDNSEntries provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) UpdatePublicDNSEntries(params *operations.UpdatePublicDNSEntriesParams, opts ...operations.ClientOption) (*operations.UpdatePublicDNSEntriesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10203,9 +10212,9 @@ type MockDatalakeClientService_UpdatePublicDNSEntries_Call struct {
 // UpdatePublicDNSEntries is a helper method to define mock.On call
 //   - params *operations.UpdatePublicDNSEntriesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) UpdatePublicDNSEntries(params interface{}, opts ...interface{}) *MockDatalakeClientService_UpdatePublicDNSEntries_Call {
+func (_e *MockDatalakeClientService_Expecter) UpdatePublicDNSEntries(params any, opts ...any) *MockDatalakeClientService_UpdatePublicDNSEntries_Call {
 	return &MockDatalakeClientService_UpdatePublicDNSEntries_Call{Call: _e.mock.On("UpdatePublicDNSEntries",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_UpdatePublicDNSEntries_Call) Run(run func(params *operations.UpdatePublicDNSEntriesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_UpdatePublicDNSEntries_Call {
@@ -10243,11 +10252,11 @@ func (_c *MockDatalakeClientService_UpdatePublicDNSEntries_Call) RunAndReturn(ru
 // UpdatePublicDNSEntriesContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) UpdatePublicDNSEntriesContext(ctx context.Context, params *operations.UpdatePublicDNSEntriesParams, opts ...operations.ClientOption) (*operations.UpdatePublicDNSEntriesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10285,9 +10294,9 @@ type MockDatalakeClientService_UpdatePublicDNSEntriesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdatePublicDNSEntriesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) UpdatePublicDNSEntriesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_UpdatePublicDNSEntriesContext_Call {
+func (_e *MockDatalakeClientService_Expecter) UpdatePublicDNSEntriesContext(ctx any, params any, opts ...any) *MockDatalakeClientService_UpdatePublicDNSEntriesContext_Call {
 	return &MockDatalakeClientService_UpdatePublicDNSEntriesContext_Call{Call: _e.mock.On("UpdatePublicDNSEntriesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_UpdatePublicDNSEntriesContext_Call) Run(run func(ctx context.Context, params *operations.UpdatePublicDNSEntriesParams, opts ...operations.ClientOption)) *MockDatalakeClientService_UpdatePublicDNSEntriesContext_Call {
@@ -10330,11 +10339,11 @@ func (_c *MockDatalakeClientService_UpdatePublicDNSEntriesContext_Call) RunAndRe
 // UpdateToAwsImdsV1 provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) UpdateToAwsImdsV1(params *operations.UpdateToAwsImdsV1Params, opts ...operations.ClientOption) (*operations.UpdateToAwsImdsV1OK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10371,9 +10380,9 @@ type MockDatalakeClientService_UpdateToAwsImdsV1_Call struct {
 // UpdateToAwsImdsV1 is a helper method to define mock.On call
 //   - params *operations.UpdateToAwsImdsV1Params
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) UpdateToAwsImdsV1(params interface{}, opts ...interface{}) *MockDatalakeClientService_UpdateToAwsImdsV1_Call {
+func (_e *MockDatalakeClientService_Expecter) UpdateToAwsImdsV1(params any, opts ...any) *MockDatalakeClientService_UpdateToAwsImdsV1_Call {
 	return &MockDatalakeClientService_UpdateToAwsImdsV1_Call{Call: _e.mock.On("UpdateToAwsImdsV1",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_UpdateToAwsImdsV1_Call) Run(run func(params *operations.UpdateToAwsImdsV1Params, opts ...operations.ClientOption)) *MockDatalakeClientService_UpdateToAwsImdsV1_Call {
@@ -10411,11 +10420,11 @@ func (_c *MockDatalakeClientService_UpdateToAwsImdsV1_Call) RunAndReturn(run fun
 // UpdateToAwsImdsV1Context provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) UpdateToAwsImdsV1Context(ctx context.Context, params *operations.UpdateToAwsImdsV1Params, opts ...operations.ClientOption) (*operations.UpdateToAwsImdsV1OK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10453,9 +10462,9 @@ type MockDatalakeClientService_UpdateToAwsImdsV1Context_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateToAwsImdsV1Params
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) UpdateToAwsImdsV1Context(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_UpdateToAwsImdsV1Context_Call {
+func (_e *MockDatalakeClientService_Expecter) UpdateToAwsImdsV1Context(ctx any, params any, opts ...any) *MockDatalakeClientService_UpdateToAwsImdsV1Context_Call {
 	return &MockDatalakeClientService_UpdateToAwsImdsV1Context_Call{Call: _e.mock.On("UpdateToAwsImdsV1Context",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_UpdateToAwsImdsV1Context_Call) Run(run func(ctx context.Context, params *operations.UpdateToAwsImdsV1Params, opts ...operations.ClientOption)) *MockDatalakeClientService_UpdateToAwsImdsV1Context_Call {
@@ -10498,11 +10507,11 @@ func (_c *MockDatalakeClientService_UpdateToAwsImdsV1Context_Call) RunAndReturn(
 // UpdateToAwsImdsV2 provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) UpdateToAwsImdsV2(params *operations.UpdateToAwsImdsV2Params, opts ...operations.ClientOption) (*operations.UpdateToAwsImdsV2OK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10539,9 +10548,9 @@ type MockDatalakeClientService_UpdateToAwsImdsV2_Call struct {
 // UpdateToAwsImdsV2 is a helper method to define mock.On call
 //   - params *operations.UpdateToAwsImdsV2Params
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) UpdateToAwsImdsV2(params interface{}, opts ...interface{}) *MockDatalakeClientService_UpdateToAwsImdsV2_Call {
+func (_e *MockDatalakeClientService_Expecter) UpdateToAwsImdsV2(params any, opts ...any) *MockDatalakeClientService_UpdateToAwsImdsV2_Call {
 	return &MockDatalakeClientService_UpdateToAwsImdsV2_Call{Call: _e.mock.On("UpdateToAwsImdsV2",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_UpdateToAwsImdsV2_Call) Run(run func(params *operations.UpdateToAwsImdsV2Params, opts ...operations.ClientOption)) *MockDatalakeClientService_UpdateToAwsImdsV2_Call {
@@ -10579,11 +10588,11 @@ func (_c *MockDatalakeClientService_UpdateToAwsImdsV2_Call) RunAndReturn(run fun
 // UpdateToAwsImdsV2Context provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) UpdateToAwsImdsV2Context(ctx context.Context, params *operations.UpdateToAwsImdsV2Params, opts ...operations.ClientOption) (*operations.UpdateToAwsImdsV2OK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10621,9 +10630,9 @@ type MockDatalakeClientService_UpdateToAwsImdsV2Context_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateToAwsImdsV2Params
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) UpdateToAwsImdsV2Context(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_UpdateToAwsImdsV2Context_Call {
+func (_e *MockDatalakeClientService_Expecter) UpdateToAwsImdsV2Context(ctx any, params any, opts ...any) *MockDatalakeClientService_UpdateToAwsImdsV2Context_Call {
 	return &MockDatalakeClientService_UpdateToAwsImdsV2Context_Call{Call: _e.mock.On("UpdateToAwsImdsV2Context",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_UpdateToAwsImdsV2Context_Call) Run(run func(ctx context.Context, params *operations.UpdateToAwsImdsV2Params, opts ...operations.ClientOption)) *MockDatalakeClientService_UpdateToAwsImdsV2Context_Call {
@@ -10666,11 +10675,11 @@ func (_c *MockDatalakeClientService_UpdateToAwsImdsV2Context_Call) RunAndReturn(
 // UpgradeDatalake provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) UpgradeDatalake(params *operations.UpgradeDatalakeParams, opts ...operations.ClientOption) (*operations.UpgradeDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10707,9 +10716,9 @@ type MockDatalakeClientService_UpgradeDatalake_Call struct {
 // UpgradeDatalake is a helper method to define mock.On call
 //   - params *operations.UpgradeDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) UpgradeDatalake(params interface{}, opts ...interface{}) *MockDatalakeClientService_UpgradeDatalake_Call {
+func (_e *MockDatalakeClientService_Expecter) UpgradeDatalake(params any, opts ...any) *MockDatalakeClientService_UpgradeDatalake_Call {
 	return &MockDatalakeClientService_UpgradeDatalake_Call{Call: _e.mock.On("UpgradeDatalake",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_UpgradeDatalake_Call) Run(run func(params *operations.UpgradeDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_UpgradeDatalake_Call {
@@ -10747,11 +10756,11 @@ func (_c *MockDatalakeClientService_UpgradeDatalake_Call) RunAndReturn(run func(
 // UpgradeDatalakeContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) UpgradeDatalakeContext(ctx context.Context, params *operations.UpgradeDatalakeParams, opts ...operations.ClientOption) (*operations.UpgradeDatalakeOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10789,9 +10798,9 @@ type MockDatalakeClientService_UpgradeDatalakeContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpgradeDatalakeParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) UpgradeDatalakeContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_UpgradeDatalakeContext_Call {
+func (_e *MockDatalakeClientService_Expecter) UpgradeDatalakeContext(ctx any, params any, opts ...any) *MockDatalakeClientService_UpgradeDatalakeContext_Call {
 	return &MockDatalakeClientService_UpgradeDatalakeContext_Call{Call: _e.mock.On("UpgradeDatalakeContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_UpgradeDatalakeContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeDatalakeParams, opts ...operations.ClientOption)) *MockDatalakeClientService_UpgradeDatalakeContext_Call {
@@ -10834,11 +10843,11 @@ func (_c *MockDatalakeClientService_UpgradeDatalakeContext_Call) RunAndReturn(ru
 // ValidateAwsCloudStorage provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ValidateAwsCloudStorage(params *operations.ValidateAwsCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAwsCloudStorageOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10875,9 +10884,9 @@ type MockDatalakeClientService_ValidateAwsCloudStorage_Call struct {
 // ValidateAwsCloudStorage is a helper method to define mock.On call
 //   - params *operations.ValidateAwsCloudStorageParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ValidateAwsCloudStorage(params interface{}, opts ...interface{}) *MockDatalakeClientService_ValidateAwsCloudStorage_Call {
+func (_e *MockDatalakeClientService_Expecter) ValidateAwsCloudStorage(params any, opts ...any) *MockDatalakeClientService_ValidateAwsCloudStorage_Call {
 	return &MockDatalakeClientService_ValidateAwsCloudStorage_Call{Call: _e.mock.On("ValidateAwsCloudStorage",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ValidateAwsCloudStorage_Call) Run(run func(params *operations.ValidateAwsCloudStorageParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ValidateAwsCloudStorage_Call {
@@ -10915,11 +10924,11 @@ func (_c *MockDatalakeClientService_ValidateAwsCloudStorage_Call) RunAndReturn(r
 // ValidateAwsCloudStorageContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ValidateAwsCloudStorageContext(ctx context.Context, params *operations.ValidateAwsCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAwsCloudStorageOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10957,9 +10966,9 @@ type MockDatalakeClientService_ValidateAwsCloudStorageContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ValidateAwsCloudStorageParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ValidateAwsCloudStorageContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ValidateAwsCloudStorageContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ValidateAwsCloudStorageContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ValidateAwsCloudStorageContext_Call {
 	return &MockDatalakeClientService_ValidateAwsCloudStorageContext_Call{Call: _e.mock.On("ValidateAwsCloudStorageContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ValidateAwsCloudStorageContext_Call) Run(run func(ctx context.Context, params *operations.ValidateAwsCloudStorageParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ValidateAwsCloudStorageContext_Call {
@@ -11002,11 +11011,11 @@ func (_c *MockDatalakeClientService_ValidateAwsCloudStorageContext_Call) RunAndR
 // ValidateAzureCloudStorage provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ValidateAzureCloudStorage(params *operations.ValidateAzureCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAzureCloudStorageOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11043,9 +11052,9 @@ type MockDatalakeClientService_ValidateAzureCloudStorage_Call struct {
 // ValidateAzureCloudStorage is a helper method to define mock.On call
 //   - params *operations.ValidateAzureCloudStorageParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ValidateAzureCloudStorage(params interface{}, opts ...interface{}) *MockDatalakeClientService_ValidateAzureCloudStorage_Call {
+func (_e *MockDatalakeClientService_Expecter) ValidateAzureCloudStorage(params any, opts ...any) *MockDatalakeClientService_ValidateAzureCloudStorage_Call {
 	return &MockDatalakeClientService_ValidateAzureCloudStorage_Call{Call: _e.mock.On("ValidateAzureCloudStorage",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ValidateAzureCloudStorage_Call) Run(run func(params *operations.ValidateAzureCloudStorageParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ValidateAzureCloudStorage_Call {
@@ -11083,11 +11092,11 @@ func (_c *MockDatalakeClientService_ValidateAzureCloudStorage_Call) RunAndReturn
 // ValidateAzureCloudStorageContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ValidateAzureCloudStorageContext(ctx context.Context, params *operations.ValidateAzureCloudStorageParams, opts ...operations.ClientOption) (*operations.ValidateAzureCloudStorageOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11125,9 +11134,9 @@ type MockDatalakeClientService_ValidateAzureCloudStorageContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ValidateAzureCloudStorageParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ValidateAzureCloudStorageContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ValidateAzureCloudStorageContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ValidateAzureCloudStorageContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ValidateAzureCloudStorageContext_Call {
 	return &MockDatalakeClientService_ValidateAzureCloudStorageContext_Call{Call: _e.mock.On("ValidateAzureCloudStorageContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ValidateAzureCloudStorageContext_Call) Run(run func(ctx context.Context, params *operations.ValidateAzureCloudStorageParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ValidateAzureCloudStorageContext_Call {
@@ -11170,11 +11179,11 @@ func (_c *MockDatalakeClientService_ValidateAzureCloudStorageContext_Call) RunAn
 // ZookeeperToKraftMigrationStatus provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ZookeeperToKraftMigrationStatus(params *operations.ZookeeperToKraftMigrationStatusParams, opts ...operations.ClientOption) (*operations.ZookeeperToKraftMigrationStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11211,9 +11220,9 @@ type MockDatalakeClientService_ZookeeperToKraftMigrationStatus_Call struct {
 // ZookeeperToKraftMigrationStatus is a helper method to define mock.On call
 //   - params *operations.ZookeeperToKraftMigrationStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ZookeeperToKraftMigrationStatus(params interface{}, opts ...interface{}) *MockDatalakeClientService_ZookeeperToKraftMigrationStatus_Call {
+func (_e *MockDatalakeClientService_Expecter) ZookeeperToKraftMigrationStatus(params any, opts ...any) *MockDatalakeClientService_ZookeeperToKraftMigrationStatus_Call {
 	return &MockDatalakeClientService_ZookeeperToKraftMigrationStatus_Call{Call: _e.mock.On("ZookeeperToKraftMigrationStatus",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ZookeeperToKraftMigrationStatus_Call) Run(run func(params *operations.ZookeeperToKraftMigrationStatusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ZookeeperToKraftMigrationStatus_Call {
@@ -11251,11 +11260,11 @@ func (_c *MockDatalakeClientService_ZookeeperToKraftMigrationStatus_Call) RunAnd
 // ZookeeperToKraftMigrationStatusContext provides a mock function for the type MockDatalakeClientService
 func (_mock *MockDatalakeClientService) ZookeeperToKraftMigrationStatusContext(ctx context.Context, params *operations.ZookeeperToKraftMigrationStatusParams, opts ...operations.ClientOption) (*operations.ZookeeperToKraftMigrationStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11293,9 +11302,9 @@ type MockDatalakeClientService_ZookeeperToKraftMigrationStatusContext_Call struc
 //   - ctx context.Context
 //   - params *operations.ZookeeperToKraftMigrationStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockDatalakeClientService_Expecter) ZookeeperToKraftMigrationStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDatalakeClientService_ZookeeperToKraftMigrationStatusContext_Call {
+func (_e *MockDatalakeClientService_Expecter) ZookeeperToKraftMigrationStatusContext(ctx any, params any, opts ...any) *MockDatalakeClientService_ZookeeperToKraftMigrationStatusContext_Call {
 	return &MockDatalakeClientService_ZookeeperToKraftMigrationStatusContext_Call{Call: _e.mock.On("ZookeeperToKraftMigrationStatusContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDatalakeClientService_ZookeeperToKraftMigrationStatusContext_Call) Run(run func(ctx context.Context, params *operations.ZookeeperToKraftMigrationStatusParams, opts ...operations.ClientOption)) *MockDatalakeClientService_ZookeeperToKraftMigrationStatusContext_Call {

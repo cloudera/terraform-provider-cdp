@@ -18,10 +18,19 @@ func NewMockDwClientService(t interface {
 	mock.TestingT
 	Cleanup(func())
 }) *MockDwClientService {
+	if helper, ok := t.(interface{ Helper() }); ok {
+		helper.Helper()
+	}
+
 	mock := &MockDwClientService{}
 	mock.Mock.Test(t)
 
-	t.Cleanup(func() { mock.AssertExpectations(t) })
+	t.Cleanup(func() {
+		if helper, ok := t.(interface{ Helper() }); ok {
+			helper.Helper()
+		}
+		mock.AssertExpectations(t)
+	})
 
 	return mock
 }
@@ -42,11 +51,11 @@ func (_m *MockDwClientService) EXPECT() *MockDwClientService_Expecter {
 // AddUser provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) AddUser(params *operations.AddUserParams, opts ...operations.ClientOption) (*operations.AddUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -83,9 +92,9 @@ type MockDwClientService_AddUser_Call struct {
 // AddUser is a helper method to define mock.On call
 //   - params *operations.AddUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) AddUser(params interface{}, opts ...interface{}) *MockDwClientService_AddUser_Call {
+func (_e *MockDwClientService_Expecter) AddUser(params any, opts ...any) *MockDwClientService_AddUser_Call {
 	return &MockDwClientService_AddUser_Call{Call: _e.mock.On("AddUser",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_AddUser_Call) Run(run func(params *operations.AddUserParams, opts ...operations.ClientOption)) *MockDwClientService_AddUser_Call {
@@ -123,11 +132,11 @@ func (_c *MockDwClientService_AddUser_Call) RunAndReturn(run func(params *operat
 // AddUserContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) AddUserContext(ctx context.Context, params *operations.AddUserParams, opts ...operations.ClientOption) (*operations.AddUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -165,9 +174,9 @@ type MockDwClientService_AddUserContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.AddUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) AddUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_AddUserContext_Call {
+func (_e *MockDwClientService_Expecter) AddUserContext(ctx any, params any, opts ...any) *MockDwClientService_AddUserContext_Call {
 	return &MockDwClientService_AddUserContext_Call{Call: _e.mock.On("AddUserContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_AddUserContext_Call) Run(run func(ctx context.Context, params *operations.AddUserParams, opts ...operations.ClientOption)) *MockDwClientService_AddUserContext_Call {
@@ -210,11 +219,11 @@ func (_c *MockDwClientService_AddUserContext_Call) RunAndReturn(run func(ctx con
 // BackupCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) BackupCluster(params *operations.BackupClusterParams, opts ...operations.ClientOption) (*operations.BackupClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -251,9 +260,9 @@ type MockDwClientService_BackupCluster_Call struct {
 // BackupCluster is a helper method to define mock.On call
 //   - params *operations.BackupClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) BackupCluster(params interface{}, opts ...interface{}) *MockDwClientService_BackupCluster_Call {
+func (_e *MockDwClientService_Expecter) BackupCluster(params any, opts ...any) *MockDwClientService_BackupCluster_Call {
 	return &MockDwClientService_BackupCluster_Call{Call: _e.mock.On("BackupCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_BackupCluster_Call) Run(run func(params *operations.BackupClusterParams, opts ...operations.ClientOption)) *MockDwClientService_BackupCluster_Call {
@@ -291,11 +300,11 @@ func (_c *MockDwClientService_BackupCluster_Call) RunAndReturn(run func(params *
 // BackupClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) BackupClusterContext(ctx context.Context, params *operations.BackupClusterParams, opts ...operations.ClientOption) (*operations.BackupClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -333,9 +342,9 @@ type MockDwClientService_BackupClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.BackupClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) BackupClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_BackupClusterContext_Call {
+func (_e *MockDwClientService_Expecter) BackupClusterContext(ctx any, params any, opts ...any) *MockDwClientService_BackupClusterContext_Call {
 	return &MockDwClientService_BackupClusterContext_Call{Call: _e.mock.On("BackupClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_BackupClusterContext_Call) Run(run func(ctx context.Context, params *operations.BackupClusterParams, opts ...operations.ClientOption)) *MockDwClientService_BackupClusterContext_Call {
@@ -378,11 +387,11 @@ func (_c *MockDwClientService_BackupClusterContext_Call) RunAndReturn(run func(c
 // CreateAwsCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateAwsCluster(params *operations.CreateAwsClusterParams, opts ...operations.ClientOption) (*operations.CreateAwsClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -419,9 +428,9 @@ type MockDwClientService_CreateAwsCluster_Call struct {
 // CreateAwsCluster is a helper method to define mock.On call
 //   - params *operations.CreateAwsClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateAwsCluster(params interface{}, opts ...interface{}) *MockDwClientService_CreateAwsCluster_Call {
+func (_e *MockDwClientService_Expecter) CreateAwsCluster(params any, opts ...any) *MockDwClientService_CreateAwsCluster_Call {
 	return &MockDwClientService_CreateAwsCluster_Call{Call: _e.mock.On("CreateAwsCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateAwsCluster_Call) Run(run func(params *operations.CreateAwsClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreateAwsCluster_Call {
@@ -459,11 +468,11 @@ func (_c *MockDwClientService_CreateAwsCluster_Call) RunAndReturn(run func(param
 // CreateAwsClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateAwsClusterContext(ctx context.Context, params *operations.CreateAwsClusterParams, opts ...operations.ClientOption) (*operations.CreateAwsClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -501,9 +510,9 @@ type MockDwClientService_CreateAwsClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateAwsClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateAwsClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateAwsClusterContext_Call {
+func (_e *MockDwClientService_Expecter) CreateAwsClusterContext(ctx any, params any, opts ...any) *MockDwClientService_CreateAwsClusterContext_Call {
 	return &MockDwClientService_CreateAwsClusterContext_Call{Call: _e.mock.On("CreateAwsClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateAwsClusterContext_Call) Run(run func(ctx context.Context, params *operations.CreateAwsClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreateAwsClusterContext_Call {
@@ -546,11 +555,11 @@ func (_c *MockDwClientService_CreateAwsClusterContext_Call) RunAndReturn(run fun
 // CreateAzureCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateAzureCluster(params *operations.CreateAzureClusterParams, opts ...operations.ClientOption) (*operations.CreateAzureClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -587,9 +596,9 @@ type MockDwClientService_CreateAzureCluster_Call struct {
 // CreateAzureCluster is a helper method to define mock.On call
 //   - params *operations.CreateAzureClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateAzureCluster(params interface{}, opts ...interface{}) *MockDwClientService_CreateAzureCluster_Call {
+func (_e *MockDwClientService_Expecter) CreateAzureCluster(params any, opts ...any) *MockDwClientService_CreateAzureCluster_Call {
 	return &MockDwClientService_CreateAzureCluster_Call{Call: _e.mock.On("CreateAzureCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateAzureCluster_Call) Run(run func(params *operations.CreateAzureClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreateAzureCluster_Call {
@@ -627,11 +636,11 @@ func (_c *MockDwClientService_CreateAzureCluster_Call) RunAndReturn(run func(par
 // CreateAzureClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateAzureClusterContext(ctx context.Context, params *operations.CreateAzureClusterParams, opts ...operations.ClientOption) (*operations.CreateAzureClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -669,9 +678,9 @@ type MockDwClientService_CreateAzureClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateAzureClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateAzureClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateAzureClusterContext_Call {
+func (_e *MockDwClientService_Expecter) CreateAzureClusterContext(ctx any, params any, opts ...any) *MockDwClientService_CreateAzureClusterContext_Call {
 	return &MockDwClientService_CreateAzureClusterContext_Call{Call: _e.mock.On("CreateAzureClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateAzureClusterContext_Call) Run(run func(ctx context.Context, params *operations.CreateAzureClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreateAzureClusterContext_Call {
@@ -714,11 +723,11 @@ func (_c *MockDwClientService_CreateAzureClusterContext_Call) RunAndReturn(run f
 // CreateBackup provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateBackup(params *operations.CreateBackupParams, opts ...operations.ClientOption) (*operations.CreateBackupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -755,9 +764,9 @@ type MockDwClientService_CreateBackup_Call struct {
 // CreateBackup is a helper method to define mock.On call
 //   - params *operations.CreateBackupParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateBackup(params interface{}, opts ...interface{}) *MockDwClientService_CreateBackup_Call {
+func (_e *MockDwClientService_Expecter) CreateBackup(params any, opts ...any) *MockDwClientService_CreateBackup_Call {
 	return &MockDwClientService_CreateBackup_Call{Call: _e.mock.On("CreateBackup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateBackup_Call) Run(run func(params *operations.CreateBackupParams, opts ...operations.ClientOption)) *MockDwClientService_CreateBackup_Call {
@@ -795,11 +804,11 @@ func (_c *MockDwClientService_CreateBackup_Call) RunAndReturn(run func(params *o
 // CreateBackupContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateBackupContext(ctx context.Context, params *operations.CreateBackupParams, opts ...operations.ClientOption) (*operations.CreateBackupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -837,9 +846,9 @@ type MockDwClientService_CreateBackupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateBackupParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateBackupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateBackupContext_Call {
+func (_e *MockDwClientService_Expecter) CreateBackupContext(ctx any, params any, opts ...any) *MockDwClientService_CreateBackupContext_Call {
 	return &MockDwClientService_CreateBackupContext_Call{Call: _e.mock.On("CreateBackupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateBackupContext_Call) Run(run func(ctx context.Context, params *operations.CreateBackupParams, opts ...operations.ClientOption)) *MockDwClientService_CreateBackupContext_Call {
@@ -882,11 +891,11 @@ func (_c *MockDwClientService_CreateBackupContext_Call) RunAndReturn(run func(ct
 // CreateCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateCluster(params *operations.CreateClusterParams, opts ...operations.ClientOption) (*operations.CreateClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -923,9 +932,9 @@ type MockDwClientService_CreateCluster_Call struct {
 // CreateCluster is a helper method to define mock.On call
 //   - params *operations.CreateClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateCluster(params interface{}, opts ...interface{}) *MockDwClientService_CreateCluster_Call {
+func (_e *MockDwClientService_Expecter) CreateCluster(params any, opts ...any) *MockDwClientService_CreateCluster_Call {
 	return &MockDwClientService_CreateCluster_Call{Call: _e.mock.On("CreateCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateCluster_Call) Run(run func(params *operations.CreateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreateCluster_Call {
@@ -963,11 +972,11 @@ func (_c *MockDwClientService_CreateCluster_Call) RunAndReturn(run func(params *
 // CreateClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateClusterContext(ctx context.Context, params *operations.CreateClusterParams, opts ...operations.ClientOption) (*operations.CreateClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1005,9 +1014,9 @@ type MockDwClientService_CreateClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateClusterContext_Call {
+func (_e *MockDwClientService_Expecter) CreateClusterContext(ctx any, params any, opts ...any) *MockDwClientService_CreateClusterContext_Call {
 	return &MockDwClientService_CreateClusterContext_Call{Call: _e.mock.On("CreateClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateClusterContext_Call) Run(run func(ctx context.Context, params *operations.CreateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreateClusterContext_Call {
@@ -1050,11 +1059,11 @@ func (_c *MockDwClientService_CreateClusterContext_Call) RunAndReturn(run func(c
 // CreateClusterDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateClusterDiagnosticDataJob(params *operations.CreateClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateClusterDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1091,9 +1100,9 @@ type MockDwClientService_CreateClusterDiagnosticDataJob_Call struct {
 // CreateClusterDiagnosticDataJob is a helper method to define mock.On call
 //   - params *operations.CreateClusterDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateClusterDiagnosticDataJob(params interface{}, opts ...interface{}) *MockDwClientService_CreateClusterDiagnosticDataJob_Call {
+func (_e *MockDwClientService_Expecter) CreateClusterDiagnosticDataJob(params any, opts ...any) *MockDwClientService_CreateClusterDiagnosticDataJob_Call {
 	return &MockDwClientService_CreateClusterDiagnosticDataJob_Call{Call: _e.mock.On("CreateClusterDiagnosticDataJob",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateClusterDiagnosticDataJob_Call) Run(run func(params *operations.CreateClusterDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateClusterDiagnosticDataJob_Call {
@@ -1131,11 +1140,11 @@ func (_c *MockDwClientService_CreateClusterDiagnosticDataJob_Call) RunAndReturn(
 // CreateClusterDiagnosticDataJobContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateClusterDiagnosticDataJobContext(ctx context.Context, params *operations.CreateClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateClusterDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1173,9 +1182,9 @@ type MockDwClientService_CreateClusterDiagnosticDataJobContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateClusterDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateClusterDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call {
+func (_e *MockDwClientService_Expecter) CreateClusterDiagnosticDataJobContext(ctx any, params any, opts ...any) *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call {
 	return &MockDwClientService_CreateClusterDiagnosticDataJobContext_Call{Call: _e.mock.On("CreateClusterDiagnosticDataJobContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.CreateClusterDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call {
@@ -1218,11 +1227,11 @@ func (_c *MockDwClientService_CreateClusterDiagnosticDataJobContext_Call) RunAnd
 // CreateConnector provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateConnector(params *operations.CreateConnectorParams, opts ...operations.ClientOption) (*operations.CreateConnectorOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1259,9 +1268,9 @@ type MockDwClientService_CreateConnector_Call struct {
 // CreateConnector is a helper method to define mock.On call
 //   - params *operations.CreateConnectorParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateConnector(params interface{}, opts ...interface{}) *MockDwClientService_CreateConnector_Call {
+func (_e *MockDwClientService_Expecter) CreateConnector(params any, opts ...any) *MockDwClientService_CreateConnector_Call {
 	return &MockDwClientService_CreateConnector_Call{Call: _e.mock.On("CreateConnector",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateConnector_Call) Run(run func(params *operations.CreateConnectorParams, opts ...operations.ClientOption)) *MockDwClientService_CreateConnector_Call {
@@ -1299,11 +1308,11 @@ func (_c *MockDwClientService_CreateConnector_Call) RunAndReturn(run func(params
 // CreateConnectorContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateConnectorContext(ctx context.Context, params *operations.CreateConnectorParams, opts ...operations.ClientOption) (*operations.CreateConnectorOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1341,9 +1350,9 @@ type MockDwClientService_CreateConnectorContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateConnectorParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateConnectorContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateConnectorContext_Call {
+func (_e *MockDwClientService_Expecter) CreateConnectorContext(ctx any, params any, opts ...any) *MockDwClientService_CreateConnectorContext_Call {
 	return &MockDwClientService_CreateConnectorContext_Call{Call: _e.mock.On("CreateConnectorContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateConnectorContext_Call) Run(run func(ctx context.Context, params *operations.CreateConnectorParams, opts ...operations.ClientOption)) *MockDwClientService_CreateConnectorContext_Call {
@@ -1386,11 +1395,11 @@ func (_c *MockDwClientService_CreateConnectorContext_Call) RunAndReturn(run func
 // CreateConnectorTestJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateConnectorTestJob(params *operations.CreateConnectorTestJobParams, opts ...operations.ClientOption) (*operations.CreateConnectorTestJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1427,9 +1436,9 @@ type MockDwClientService_CreateConnectorTestJob_Call struct {
 // CreateConnectorTestJob is a helper method to define mock.On call
 //   - params *operations.CreateConnectorTestJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateConnectorTestJob(params interface{}, opts ...interface{}) *MockDwClientService_CreateConnectorTestJob_Call {
+func (_e *MockDwClientService_Expecter) CreateConnectorTestJob(params any, opts ...any) *MockDwClientService_CreateConnectorTestJob_Call {
 	return &MockDwClientService_CreateConnectorTestJob_Call{Call: _e.mock.On("CreateConnectorTestJob",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateConnectorTestJob_Call) Run(run func(params *operations.CreateConnectorTestJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateConnectorTestJob_Call {
@@ -1467,11 +1476,11 @@ func (_c *MockDwClientService_CreateConnectorTestJob_Call) RunAndReturn(run func
 // CreateConnectorTestJobContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateConnectorTestJobContext(ctx context.Context, params *operations.CreateConnectorTestJobParams, opts ...operations.ClientOption) (*operations.CreateConnectorTestJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1509,9 +1518,9 @@ type MockDwClientService_CreateConnectorTestJobContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateConnectorTestJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateConnectorTestJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateConnectorTestJobContext_Call {
+func (_e *MockDwClientService_Expecter) CreateConnectorTestJobContext(ctx any, params any, opts ...any) *MockDwClientService_CreateConnectorTestJobContext_Call {
 	return &MockDwClientService_CreateConnectorTestJobContext_Call{Call: _e.mock.On("CreateConnectorTestJobContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateConnectorTestJobContext_Call) Run(run func(ctx context.Context, params *operations.CreateConnectorTestJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateConnectorTestJobContext_Call {
@@ -1554,11 +1563,11 @@ func (_c *MockDwClientService_CreateConnectorTestJobContext_Call) RunAndReturn(r
 // CreateDataVisualization provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateDataVisualization(params *operations.CreateDataVisualizationParams, opts ...operations.ClientOption) (*operations.CreateDataVisualizationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1595,9 +1604,9 @@ type MockDwClientService_CreateDataVisualization_Call struct {
 // CreateDataVisualization is a helper method to define mock.On call
 //   - params *operations.CreateDataVisualizationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateDataVisualization(params interface{}, opts ...interface{}) *MockDwClientService_CreateDataVisualization_Call {
+func (_e *MockDwClientService_Expecter) CreateDataVisualization(params any, opts ...any) *MockDwClientService_CreateDataVisualization_Call {
 	return &MockDwClientService_CreateDataVisualization_Call{Call: _e.mock.On("CreateDataVisualization",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateDataVisualization_Call) Run(run func(params *operations.CreateDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_CreateDataVisualization_Call {
@@ -1635,11 +1644,11 @@ func (_c *MockDwClientService_CreateDataVisualization_Call) RunAndReturn(run fun
 // CreateDataVisualizationContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateDataVisualizationContext(ctx context.Context, params *operations.CreateDataVisualizationParams, opts ...operations.ClientOption) (*operations.CreateDataVisualizationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1677,9 +1686,9 @@ type MockDwClientService_CreateDataVisualizationContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateDataVisualizationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateDataVisualizationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateDataVisualizationContext_Call {
+func (_e *MockDwClientService_Expecter) CreateDataVisualizationContext(ctx any, params any, opts ...any) *MockDwClientService_CreateDataVisualizationContext_Call {
 	return &MockDwClientService_CreateDataVisualizationContext_Call{Call: _e.mock.On("CreateDataVisualizationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateDataVisualizationContext_Call) Run(run func(ctx context.Context, params *operations.CreateDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_CreateDataVisualizationContext_Call {
@@ -1722,11 +1731,11 @@ func (_c *MockDwClientService_CreateDataVisualizationContext_Call) RunAndReturn(
 // CreateDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateDbc(params *operations.CreateDbcParams, opts ...operations.ClientOption) (*operations.CreateDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1763,9 +1772,9 @@ type MockDwClientService_CreateDbc_Call struct {
 // CreateDbc is a helper method to define mock.On call
 //   - params *operations.CreateDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateDbc(params interface{}, opts ...interface{}) *MockDwClientService_CreateDbc_Call {
+func (_e *MockDwClientService_Expecter) CreateDbc(params any, opts ...any) *MockDwClientService_CreateDbc_Call {
 	return &MockDwClientService_CreateDbc_Call{Call: _e.mock.On("CreateDbc",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateDbc_Call) Run(run func(params *operations.CreateDbcParams, opts ...operations.ClientOption)) *MockDwClientService_CreateDbc_Call {
@@ -1803,11 +1812,11 @@ func (_c *MockDwClientService_CreateDbc_Call) RunAndReturn(run func(params *oper
 // CreateDbcContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateDbcContext(ctx context.Context, params *operations.CreateDbcParams, opts ...operations.ClientOption) (*operations.CreateDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1845,9 +1854,9 @@ type MockDwClientService_CreateDbcContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateDbcContext_Call {
+func (_e *MockDwClientService_Expecter) CreateDbcContext(ctx any, params any, opts ...any) *MockDwClientService_CreateDbcContext_Call {
 	return &MockDwClientService_CreateDbcContext_Call{Call: _e.mock.On("CreateDbcContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateDbcContext_Call) Run(run func(ctx context.Context, params *operations.CreateDbcParams, opts ...operations.ClientOption)) *MockDwClientService_CreateDbcContext_Call {
@@ -1890,11 +1899,11 @@ func (_c *MockDwClientService_CreateDbcContext_Call) RunAndReturn(run func(ctx c
 // CreateDbcDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateDbcDiagnosticDataJob(params *operations.CreateDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateDbcDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1931,9 +1940,9 @@ type MockDwClientService_CreateDbcDiagnosticDataJob_Call struct {
 // CreateDbcDiagnosticDataJob is a helper method to define mock.On call
 //   - params *operations.CreateDbcDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateDbcDiagnosticDataJob(params interface{}, opts ...interface{}) *MockDwClientService_CreateDbcDiagnosticDataJob_Call {
+func (_e *MockDwClientService_Expecter) CreateDbcDiagnosticDataJob(params any, opts ...any) *MockDwClientService_CreateDbcDiagnosticDataJob_Call {
 	return &MockDwClientService_CreateDbcDiagnosticDataJob_Call{Call: _e.mock.On("CreateDbcDiagnosticDataJob",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateDbcDiagnosticDataJob_Call) Run(run func(params *operations.CreateDbcDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateDbcDiagnosticDataJob_Call {
@@ -1971,11 +1980,11 @@ func (_c *MockDwClientService_CreateDbcDiagnosticDataJob_Call) RunAndReturn(run 
 // CreateDbcDiagnosticDataJobContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateDbcDiagnosticDataJobContext(ctx context.Context, params *operations.CreateDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateDbcDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2013,9 +2022,9 @@ type MockDwClientService_CreateDbcDiagnosticDataJobContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateDbcDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateDbcDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call {
+func (_e *MockDwClientService_Expecter) CreateDbcDiagnosticDataJobContext(ctx any, params any, opts ...any) *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call {
 	return &MockDwClientService_CreateDbcDiagnosticDataJobContext_Call{Call: _e.mock.On("CreateDbcDiagnosticDataJobContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.CreateDbcDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call {
@@ -2058,11 +2067,11 @@ func (_c *MockDwClientService_CreateDbcDiagnosticDataJobContext_Call) RunAndRetu
 // CreateHue provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateHue(params *operations.CreateHueParams, opts ...operations.ClientOption) (*operations.CreateHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2099,9 +2108,9 @@ type MockDwClientService_CreateHue_Call struct {
 // CreateHue is a helper method to define mock.On call
 //   - params *operations.CreateHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateHue(params interface{}, opts ...interface{}) *MockDwClientService_CreateHue_Call {
+func (_e *MockDwClientService_Expecter) CreateHue(params any, opts ...any) *MockDwClientService_CreateHue_Call {
 	return &MockDwClientService_CreateHue_Call{Call: _e.mock.On("CreateHue",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateHue_Call) Run(run func(params *operations.CreateHueParams, opts ...operations.ClientOption)) *MockDwClientService_CreateHue_Call {
@@ -2139,11 +2148,11 @@ func (_c *MockDwClientService_CreateHue_Call) RunAndReturn(run func(params *oper
 // CreateHueContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateHueContext(ctx context.Context, params *operations.CreateHueParams, opts ...operations.ClientOption) (*operations.CreateHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2181,9 +2190,9 @@ type MockDwClientService_CreateHueContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateHueContext_Call {
+func (_e *MockDwClientService_Expecter) CreateHueContext(ctx any, params any, opts ...any) *MockDwClientService_CreateHueContext_Call {
 	return &MockDwClientService_CreateHueContext_Call{Call: _e.mock.On("CreateHueContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateHueContext_Call) Run(run func(ctx context.Context, params *operations.CreateHueParams, opts ...operations.ClientOption)) *MockDwClientService_CreateHueContext_Call {
@@ -2226,11 +2235,11 @@ func (_c *MockDwClientService_CreateHueContext_Call) RunAndReturn(run func(ctx c
 // CreatePrivateCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreatePrivateCluster(params *operations.CreatePrivateClusterParams, opts ...operations.ClientOption) (*operations.CreatePrivateClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2267,9 +2276,9 @@ type MockDwClientService_CreatePrivateCluster_Call struct {
 // CreatePrivateCluster is a helper method to define mock.On call
 //   - params *operations.CreatePrivateClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreatePrivateCluster(params interface{}, opts ...interface{}) *MockDwClientService_CreatePrivateCluster_Call {
+func (_e *MockDwClientService_Expecter) CreatePrivateCluster(params any, opts ...any) *MockDwClientService_CreatePrivateCluster_Call {
 	return &MockDwClientService_CreatePrivateCluster_Call{Call: _e.mock.On("CreatePrivateCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreatePrivateCluster_Call) Run(run func(params *operations.CreatePrivateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreatePrivateCluster_Call {
@@ -2307,11 +2316,11 @@ func (_c *MockDwClientService_CreatePrivateCluster_Call) RunAndReturn(run func(p
 // CreatePrivateClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreatePrivateClusterContext(ctx context.Context, params *operations.CreatePrivateClusterParams, opts ...operations.ClientOption) (*operations.CreatePrivateClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2349,9 +2358,9 @@ type MockDwClientService_CreatePrivateClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreatePrivateClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreatePrivateClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreatePrivateClusterContext_Call {
+func (_e *MockDwClientService_Expecter) CreatePrivateClusterContext(ctx any, params any, opts ...any) *MockDwClientService_CreatePrivateClusterContext_Call {
 	return &MockDwClientService_CreatePrivateClusterContext_Call{Call: _e.mock.On("CreatePrivateClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreatePrivateClusterContext_Call) Run(run func(ctx context.Context, params *operations.CreatePrivateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_CreatePrivateClusterContext_Call {
@@ -2394,11 +2403,11 @@ func (_c *MockDwClientService_CreatePrivateClusterContext_Call) RunAndReturn(run
 // CreateResourceTemplate provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateResourceTemplate(params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption) (*operations.CreateResourceTemplateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2435,9 +2444,9 @@ type MockDwClientService_CreateResourceTemplate_Call struct {
 // CreateResourceTemplate is a helper method to define mock.On call
 //   - params *operations.CreateResourceTemplateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateResourceTemplate(params interface{}, opts ...interface{}) *MockDwClientService_CreateResourceTemplate_Call {
+func (_e *MockDwClientService_Expecter) CreateResourceTemplate(params any, opts ...any) *MockDwClientService_CreateResourceTemplate_Call {
 	return &MockDwClientService_CreateResourceTemplate_Call{Call: _e.mock.On("CreateResourceTemplate",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateResourceTemplate_Call) Run(run func(params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_CreateResourceTemplate_Call {
@@ -2475,11 +2484,11 @@ func (_c *MockDwClientService_CreateResourceTemplate_Call) RunAndReturn(run func
 // CreateResourceTemplateContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateResourceTemplateContext(ctx context.Context, params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption) (*operations.CreateResourceTemplateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2517,9 +2526,9 @@ type MockDwClientService_CreateResourceTemplateContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateResourceTemplateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateResourceTemplateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateResourceTemplateContext_Call {
+func (_e *MockDwClientService_Expecter) CreateResourceTemplateContext(ctx any, params any, opts ...any) *MockDwClientService_CreateResourceTemplateContext_Call {
 	return &MockDwClientService_CreateResourceTemplateContext_Call{Call: _e.mock.On("CreateResourceTemplateContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateResourceTemplateContext_Call) Run(run func(ctx context.Context, params *operations.CreateResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_CreateResourceTemplateContext_Call {
@@ -2562,11 +2571,11 @@ func (_c *MockDwClientService_CreateResourceTemplateContext_Call) RunAndReturn(r
 // CreateSecret provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateSecret(params *operations.CreateSecretParams, opts ...operations.ClientOption) (*operations.CreateSecretOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2603,9 +2612,9 @@ type MockDwClientService_CreateSecret_Call struct {
 // CreateSecret is a helper method to define mock.On call
 //   - params *operations.CreateSecretParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateSecret(params interface{}, opts ...interface{}) *MockDwClientService_CreateSecret_Call {
+func (_e *MockDwClientService_Expecter) CreateSecret(params any, opts ...any) *MockDwClientService_CreateSecret_Call {
 	return &MockDwClientService_CreateSecret_Call{Call: _e.mock.On("CreateSecret",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateSecret_Call) Run(run func(params *operations.CreateSecretParams, opts ...operations.ClientOption)) *MockDwClientService_CreateSecret_Call {
@@ -2643,11 +2652,11 @@ func (_c *MockDwClientService_CreateSecret_Call) RunAndReturn(run func(params *o
 // CreateSecretContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateSecretContext(ctx context.Context, params *operations.CreateSecretParams, opts ...operations.ClientOption) (*operations.CreateSecretOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2685,9 +2694,9 @@ type MockDwClientService_CreateSecretContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateSecretParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateSecretContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateSecretContext_Call {
+func (_e *MockDwClientService_Expecter) CreateSecretContext(ctx any, params any, opts ...any) *MockDwClientService_CreateSecretContext_Call {
 	return &MockDwClientService_CreateSecretContext_Call{Call: _e.mock.On("CreateSecretContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateSecretContext_Call) Run(run func(ctx context.Context, params *operations.CreateSecretParams, opts ...operations.ClientOption)) *MockDwClientService_CreateSecretContext_Call {
@@ -2730,11 +2739,11 @@ func (_c *MockDwClientService_CreateSecretContext_Call) RunAndReturn(run func(ct
 // CreateVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateVw(params *operations.CreateVwParams, opts ...operations.ClientOption) (*operations.CreateVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2771,9 +2780,9 @@ type MockDwClientService_CreateVw_Call struct {
 // CreateVw is a helper method to define mock.On call
 //   - params *operations.CreateVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateVw(params interface{}, opts ...interface{}) *MockDwClientService_CreateVw_Call {
+func (_e *MockDwClientService_Expecter) CreateVw(params any, opts ...any) *MockDwClientService_CreateVw_Call {
 	return &MockDwClientService_CreateVw_Call{Call: _e.mock.On("CreateVw",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateVw_Call) Run(run func(params *operations.CreateVwParams, opts ...operations.ClientOption)) *MockDwClientService_CreateVw_Call {
@@ -2811,11 +2820,11 @@ func (_c *MockDwClientService_CreateVw_Call) RunAndReturn(run func(params *opera
 // CreateVwContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateVwContext(ctx context.Context, params *operations.CreateVwParams, opts ...operations.ClientOption) (*operations.CreateVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2853,9 +2862,9 @@ type MockDwClientService_CreateVwContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateVwContext_Call {
+func (_e *MockDwClientService_Expecter) CreateVwContext(ctx any, params any, opts ...any) *MockDwClientService_CreateVwContext_Call {
 	return &MockDwClientService_CreateVwContext_Call{Call: _e.mock.On("CreateVwContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateVwContext_Call) Run(run func(ctx context.Context, params *operations.CreateVwParams, opts ...operations.ClientOption)) *MockDwClientService_CreateVwContext_Call {
@@ -2898,11 +2907,11 @@ func (_c *MockDwClientService_CreateVwContext_Call) RunAndReturn(run func(ctx co
 // CreateVwDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateVwDiagnosticDataJob(params *operations.CreateVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateVwDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -2939,9 +2948,9 @@ type MockDwClientService_CreateVwDiagnosticDataJob_Call struct {
 // CreateVwDiagnosticDataJob is a helper method to define mock.On call
 //   - params *operations.CreateVwDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateVwDiagnosticDataJob(params interface{}, opts ...interface{}) *MockDwClientService_CreateVwDiagnosticDataJob_Call {
+func (_e *MockDwClientService_Expecter) CreateVwDiagnosticDataJob(params any, opts ...any) *MockDwClientService_CreateVwDiagnosticDataJob_Call {
 	return &MockDwClientService_CreateVwDiagnosticDataJob_Call{Call: _e.mock.On("CreateVwDiagnosticDataJob",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateVwDiagnosticDataJob_Call) Run(run func(params *operations.CreateVwDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateVwDiagnosticDataJob_Call {
@@ -2979,11 +2988,11 @@ func (_c *MockDwClientService_CreateVwDiagnosticDataJob_Call) RunAndReturn(run f
 // CreateVwDiagnosticDataJobContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) CreateVwDiagnosticDataJobContext(ctx context.Context, params *operations.CreateVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.CreateVwDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3021,9 +3030,9 @@ type MockDwClientService_CreateVwDiagnosticDataJobContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.CreateVwDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) CreateVwDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_CreateVwDiagnosticDataJobContext_Call {
+func (_e *MockDwClientService_Expecter) CreateVwDiagnosticDataJobContext(ctx any, params any, opts ...any) *MockDwClientService_CreateVwDiagnosticDataJobContext_Call {
 	return &MockDwClientService_CreateVwDiagnosticDataJobContext_Call{Call: _e.mock.On("CreateVwDiagnosticDataJobContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_CreateVwDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.CreateVwDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_CreateVwDiagnosticDataJobContext_Call {
@@ -3066,11 +3075,11 @@ func (_c *MockDwClientService_CreateVwDiagnosticDataJobContext_Call) RunAndRetur
 // DeleteBackup provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteBackup(params *operations.DeleteBackupParams, opts ...operations.ClientOption) (*operations.DeleteBackupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3107,9 +3116,9 @@ type MockDwClientService_DeleteBackup_Call struct {
 // DeleteBackup is a helper method to define mock.On call
 //   - params *operations.DeleteBackupParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteBackup(params interface{}, opts ...interface{}) *MockDwClientService_DeleteBackup_Call {
+func (_e *MockDwClientService_Expecter) DeleteBackup(params any, opts ...any) *MockDwClientService_DeleteBackup_Call {
 	return &MockDwClientService_DeleteBackup_Call{Call: _e.mock.On("DeleteBackup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteBackup_Call) Run(run func(params *operations.DeleteBackupParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteBackup_Call {
@@ -3147,11 +3156,11 @@ func (_c *MockDwClientService_DeleteBackup_Call) RunAndReturn(run func(params *o
 // DeleteBackupContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteBackupContext(ctx context.Context, params *operations.DeleteBackupParams, opts ...operations.ClientOption) (*operations.DeleteBackupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3189,9 +3198,9 @@ type MockDwClientService_DeleteBackupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteBackupParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteBackupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteBackupContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteBackupContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteBackupContext_Call {
 	return &MockDwClientService_DeleteBackupContext_Call{Call: _e.mock.On("DeleteBackupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteBackupContext_Call) Run(run func(ctx context.Context, params *operations.DeleteBackupParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteBackupContext_Call {
@@ -3234,11 +3243,11 @@ func (_c *MockDwClientService_DeleteBackupContext_Call) RunAndReturn(run func(ct
 // DeleteCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteCluster(params *operations.DeleteClusterParams, opts ...operations.ClientOption) (*operations.DeleteClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3275,9 +3284,9 @@ type MockDwClientService_DeleteCluster_Call struct {
 // DeleteCluster is a helper method to define mock.On call
 //   - params *operations.DeleteClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteCluster(params interface{}, opts ...interface{}) *MockDwClientService_DeleteCluster_Call {
+func (_e *MockDwClientService_Expecter) DeleteCluster(params any, opts ...any) *MockDwClientService_DeleteCluster_Call {
 	return &MockDwClientService_DeleteCluster_Call{Call: _e.mock.On("DeleteCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteCluster_Call) Run(run func(params *operations.DeleteClusterParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteCluster_Call {
@@ -3315,11 +3324,11 @@ func (_c *MockDwClientService_DeleteCluster_Call) RunAndReturn(run func(params *
 // DeleteClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteClusterContext(ctx context.Context, params *operations.DeleteClusterParams, opts ...operations.ClientOption) (*operations.DeleteClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3357,9 +3366,9 @@ type MockDwClientService_DeleteClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteClusterContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteClusterContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteClusterContext_Call {
 	return &MockDwClientService_DeleteClusterContext_Call{Call: _e.mock.On("DeleteClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteClusterContext_Call) Run(run func(ctx context.Context, params *operations.DeleteClusterParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteClusterContext_Call {
@@ -3402,11 +3411,11 @@ func (_c *MockDwClientService_DeleteClusterContext_Call) RunAndReturn(run func(c
 // DeleteClusterDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteClusterDiagnosticDataJob(params *operations.DeleteClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteClusterDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3443,9 +3452,9 @@ type MockDwClientService_DeleteClusterDiagnosticDataJob_Call struct {
 // DeleteClusterDiagnosticDataJob is a helper method to define mock.On call
 //   - params *operations.DeleteClusterDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteClusterDiagnosticDataJob(params interface{}, opts ...interface{}) *MockDwClientService_DeleteClusterDiagnosticDataJob_Call {
+func (_e *MockDwClientService_Expecter) DeleteClusterDiagnosticDataJob(params any, opts ...any) *MockDwClientService_DeleteClusterDiagnosticDataJob_Call {
 	return &MockDwClientService_DeleteClusterDiagnosticDataJob_Call{Call: _e.mock.On("DeleteClusterDiagnosticDataJob",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteClusterDiagnosticDataJob_Call) Run(run func(params *operations.DeleteClusterDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteClusterDiagnosticDataJob_Call {
@@ -3483,11 +3492,11 @@ func (_c *MockDwClientService_DeleteClusterDiagnosticDataJob_Call) RunAndReturn(
 // DeleteClusterDiagnosticDataJobContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteClusterDiagnosticDataJobContext(ctx context.Context, params *operations.DeleteClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteClusterDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3525,9 +3534,9 @@ type MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteClusterDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteClusterDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteClusterDiagnosticDataJobContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call {
 	return &MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call{Call: _e.mock.On("DeleteClusterDiagnosticDataJobContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DeleteClusterDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call {
@@ -3570,11 +3579,11 @@ func (_c *MockDwClientService_DeleteClusterDiagnosticDataJobContext_Call) RunAnd
 // DeleteConnector provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteConnector(params *operations.DeleteConnectorParams, opts ...operations.ClientOption) (*operations.DeleteConnectorOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3611,9 +3620,9 @@ type MockDwClientService_DeleteConnector_Call struct {
 // DeleteConnector is a helper method to define mock.On call
 //   - params *operations.DeleteConnectorParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteConnector(params interface{}, opts ...interface{}) *MockDwClientService_DeleteConnector_Call {
+func (_e *MockDwClientService_Expecter) DeleteConnector(params any, opts ...any) *MockDwClientService_DeleteConnector_Call {
 	return &MockDwClientService_DeleteConnector_Call{Call: _e.mock.On("DeleteConnector",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteConnector_Call) Run(run func(params *operations.DeleteConnectorParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteConnector_Call {
@@ -3651,11 +3660,11 @@ func (_c *MockDwClientService_DeleteConnector_Call) RunAndReturn(run func(params
 // DeleteConnectorContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteConnectorContext(ctx context.Context, params *operations.DeleteConnectorParams, opts ...operations.ClientOption) (*operations.DeleteConnectorOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3693,9 +3702,9 @@ type MockDwClientService_DeleteConnectorContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteConnectorParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteConnectorContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteConnectorContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteConnectorContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteConnectorContext_Call {
 	return &MockDwClientService_DeleteConnectorContext_Call{Call: _e.mock.On("DeleteConnectorContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteConnectorContext_Call) Run(run func(ctx context.Context, params *operations.DeleteConnectorParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteConnectorContext_Call {
@@ -3738,11 +3747,11 @@ func (_c *MockDwClientService_DeleteConnectorContext_Call) RunAndReturn(run func
 // DeleteDataVisualization provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteDataVisualization(params *operations.DeleteDataVisualizationParams, opts ...operations.ClientOption) (*operations.DeleteDataVisualizationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3779,9 +3788,9 @@ type MockDwClientService_DeleteDataVisualization_Call struct {
 // DeleteDataVisualization is a helper method to define mock.On call
 //   - params *operations.DeleteDataVisualizationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteDataVisualization(params interface{}, opts ...interface{}) *MockDwClientService_DeleteDataVisualization_Call {
+func (_e *MockDwClientService_Expecter) DeleteDataVisualization(params any, opts ...any) *MockDwClientService_DeleteDataVisualization_Call {
 	return &MockDwClientService_DeleteDataVisualization_Call{Call: _e.mock.On("DeleteDataVisualization",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteDataVisualization_Call) Run(run func(params *operations.DeleteDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteDataVisualization_Call {
@@ -3819,11 +3828,11 @@ func (_c *MockDwClientService_DeleteDataVisualization_Call) RunAndReturn(run fun
 // DeleteDataVisualizationContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteDataVisualizationContext(ctx context.Context, params *operations.DeleteDataVisualizationParams, opts ...operations.ClientOption) (*operations.DeleteDataVisualizationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3861,9 +3870,9 @@ type MockDwClientService_DeleteDataVisualizationContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteDataVisualizationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteDataVisualizationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteDataVisualizationContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteDataVisualizationContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteDataVisualizationContext_Call {
 	return &MockDwClientService_DeleteDataVisualizationContext_Call{Call: _e.mock.On("DeleteDataVisualizationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteDataVisualizationContext_Call) Run(run func(ctx context.Context, params *operations.DeleteDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteDataVisualizationContext_Call {
@@ -3906,11 +3915,11 @@ func (_c *MockDwClientService_DeleteDataVisualizationContext_Call) RunAndReturn(
 // DeleteDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteDbc(params *operations.DeleteDbcParams, opts ...operations.ClientOption) (*operations.DeleteDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -3947,9 +3956,9 @@ type MockDwClientService_DeleteDbc_Call struct {
 // DeleteDbc is a helper method to define mock.On call
 //   - params *operations.DeleteDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteDbc(params interface{}, opts ...interface{}) *MockDwClientService_DeleteDbc_Call {
+func (_e *MockDwClientService_Expecter) DeleteDbc(params any, opts ...any) *MockDwClientService_DeleteDbc_Call {
 	return &MockDwClientService_DeleteDbc_Call{Call: _e.mock.On("DeleteDbc",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteDbc_Call) Run(run func(params *operations.DeleteDbcParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteDbc_Call {
@@ -3987,11 +3996,11 @@ func (_c *MockDwClientService_DeleteDbc_Call) RunAndReturn(run func(params *oper
 // DeleteDbcContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteDbcContext(ctx context.Context, params *operations.DeleteDbcParams, opts ...operations.ClientOption) (*operations.DeleteDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4029,9 +4038,9 @@ type MockDwClientService_DeleteDbcContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteDbcContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteDbcContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteDbcContext_Call {
 	return &MockDwClientService_DeleteDbcContext_Call{Call: _e.mock.On("DeleteDbcContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteDbcContext_Call) Run(run func(ctx context.Context, params *operations.DeleteDbcParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteDbcContext_Call {
@@ -4074,11 +4083,11 @@ func (_c *MockDwClientService_DeleteDbcContext_Call) RunAndReturn(run func(ctx c
 // DeleteDbcDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteDbcDiagnosticDataJob(params *operations.DeleteDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteDbcDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4115,9 +4124,9 @@ type MockDwClientService_DeleteDbcDiagnosticDataJob_Call struct {
 // DeleteDbcDiagnosticDataJob is a helper method to define mock.On call
 //   - params *operations.DeleteDbcDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteDbcDiagnosticDataJob(params interface{}, opts ...interface{}) *MockDwClientService_DeleteDbcDiagnosticDataJob_Call {
+func (_e *MockDwClientService_Expecter) DeleteDbcDiagnosticDataJob(params any, opts ...any) *MockDwClientService_DeleteDbcDiagnosticDataJob_Call {
 	return &MockDwClientService_DeleteDbcDiagnosticDataJob_Call{Call: _e.mock.On("DeleteDbcDiagnosticDataJob",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteDbcDiagnosticDataJob_Call) Run(run func(params *operations.DeleteDbcDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteDbcDiagnosticDataJob_Call {
@@ -4155,11 +4164,11 @@ func (_c *MockDwClientService_DeleteDbcDiagnosticDataJob_Call) RunAndReturn(run 
 // DeleteDbcDiagnosticDataJobContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteDbcDiagnosticDataJobContext(ctx context.Context, params *operations.DeleteDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteDbcDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4197,9 +4206,9 @@ type MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteDbcDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteDbcDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteDbcDiagnosticDataJobContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call {
 	return &MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call{Call: _e.mock.On("DeleteDbcDiagnosticDataJobContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DeleteDbcDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call {
@@ -4242,11 +4251,11 @@ func (_c *MockDwClientService_DeleteDbcDiagnosticDataJobContext_Call) RunAndRetu
 // DeleteHue provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteHue(params *operations.DeleteHueParams, opts ...operations.ClientOption) (*operations.DeleteHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4283,9 +4292,9 @@ type MockDwClientService_DeleteHue_Call struct {
 // DeleteHue is a helper method to define mock.On call
 //   - params *operations.DeleteHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteHue(params interface{}, opts ...interface{}) *MockDwClientService_DeleteHue_Call {
+func (_e *MockDwClientService_Expecter) DeleteHue(params any, opts ...any) *MockDwClientService_DeleteHue_Call {
 	return &MockDwClientService_DeleteHue_Call{Call: _e.mock.On("DeleteHue",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteHue_Call) Run(run func(params *operations.DeleteHueParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteHue_Call {
@@ -4323,11 +4332,11 @@ func (_c *MockDwClientService_DeleteHue_Call) RunAndReturn(run func(params *oper
 // DeleteHueContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteHueContext(ctx context.Context, params *operations.DeleteHueParams, opts ...operations.ClientOption) (*operations.DeleteHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4365,9 +4374,9 @@ type MockDwClientService_DeleteHueContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteHueContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteHueContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteHueContext_Call {
 	return &MockDwClientService_DeleteHueContext_Call{Call: _e.mock.On("DeleteHueContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteHueContext_Call) Run(run func(ctx context.Context, params *operations.DeleteHueParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteHueContext_Call {
@@ -4410,11 +4419,11 @@ func (_c *MockDwClientService_DeleteHueContext_Call) RunAndReturn(run func(ctx c
 // DeleteResourceTemplate provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteResourceTemplate(params *operations.DeleteResourceTemplateParams, opts ...operations.ClientOption) (*operations.DeleteResourceTemplateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4451,9 +4460,9 @@ type MockDwClientService_DeleteResourceTemplate_Call struct {
 // DeleteResourceTemplate is a helper method to define mock.On call
 //   - params *operations.DeleteResourceTemplateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteResourceTemplate(params interface{}, opts ...interface{}) *MockDwClientService_DeleteResourceTemplate_Call {
+func (_e *MockDwClientService_Expecter) DeleteResourceTemplate(params any, opts ...any) *MockDwClientService_DeleteResourceTemplate_Call {
 	return &MockDwClientService_DeleteResourceTemplate_Call{Call: _e.mock.On("DeleteResourceTemplate",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteResourceTemplate_Call) Run(run func(params *operations.DeleteResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteResourceTemplate_Call {
@@ -4491,11 +4500,11 @@ func (_c *MockDwClientService_DeleteResourceTemplate_Call) RunAndReturn(run func
 // DeleteResourceTemplateContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteResourceTemplateContext(ctx context.Context, params *operations.DeleteResourceTemplateParams, opts ...operations.ClientOption) (*operations.DeleteResourceTemplateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4533,9 +4542,9 @@ type MockDwClientService_DeleteResourceTemplateContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteResourceTemplateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteResourceTemplateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteResourceTemplateContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteResourceTemplateContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteResourceTemplateContext_Call {
 	return &MockDwClientService_DeleteResourceTemplateContext_Call{Call: _e.mock.On("DeleteResourceTemplateContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteResourceTemplateContext_Call) Run(run func(ctx context.Context, params *operations.DeleteResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteResourceTemplateContext_Call {
@@ -4578,11 +4587,11 @@ func (_c *MockDwClientService_DeleteResourceTemplateContext_Call) RunAndReturn(r
 // DeleteSecret provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteSecret(params *operations.DeleteSecretParams, opts ...operations.ClientOption) (*operations.DeleteSecretOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4619,9 +4628,9 @@ type MockDwClientService_DeleteSecret_Call struct {
 // DeleteSecret is a helper method to define mock.On call
 //   - params *operations.DeleteSecretParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteSecret(params interface{}, opts ...interface{}) *MockDwClientService_DeleteSecret_Call {
+func (_e *MockDwClientService_Expecter) DeleteSecret(params any, opts ...any) *MockDwClientService_DeleteSecret_Call {
 	return &MockDwClientService_DeleteSecret_Call{Call: _e.mock.On("DeleteSecret",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteSecret_Call) Run(run func(params *operations.DeleteSecretParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteSecret_Call {
@@ -4659,11 +4668,11 @@ func (_c *MockDwClientService_DeleteSecret_Call) RunAndReturn(run func(params *o
 // DeleteSecretContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteSecretContext(ctx context.Context, params *operations.DeleteSecretParams, opts ...operations.ClientOption) (*operations.DeleteSecretOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4701,9 +4710,9 @@ type MockDwClientService_DeleteSecretContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteSecretParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteSecretContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteSecretContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteSecretContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteSecretContext_Call {
 	return &MockDwClientService_DeleteSecretContext_Call{Call: _e.mock.On("DeleteSecretContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteSecretContext_Call) Run(run func(ctx context.Context, params *operations.DeleteSecretParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteSecretContext_Call {
@@ -4746,11 +4755,11 @@ func (_c *MockDwClientService_DeleteSecretContext_Call) RunAndReturn(run func(ct
 // DeleteUser provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteUser(params *operations.DeleteUserParams, opts ...operations.ClientOption) (*operations.DeleteUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4787,9 +4796,9 @@ type MockDwClientService_DeleteUser_Call struct {
 // DeleteUser is a helper method to define mock.On call
 //   - params *operations.DeleteUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteUser(params interface{}, opts ...interface{}) *MockDwClientService_DeleteUser_Call {
+func (_e *MockDwClientService_Expecter) DeleteUser(params any, opts ...any) *MockDwClientService_DeleteUser_Call {
 	return &MockDwClientService_DeleteUser_Call{Call: _e.mock.On("DeleteUser",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteUser_Call) Run(run func(params *operations.DeleteUserParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteUser_Call {
@@ -4827,11 +4836,11 @@ func (_c *MockDwClientService_DeleteUser_Call) RunAndReturn(run func(params *ope
 // DeleteUserContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteUserContext(ctx context.Context, params *operations.DeleteUserParams, opts ...operations.ClientOption) (*operations.DeleteUserOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4869,9 +4878,9 @@ type MockDwClientService_DeleteUserContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteUserParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteUserContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteUserContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteUserContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteUserContext_Call {
 	return &MockDwClientService_DeleteUserContext_Call{Call: _e.mock.On("DeleteUserContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteUserContext_Call) Run(run func(ctx context.Context, params *operations.DeleteUserParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteUserContext_Call {
@@ -4914,11 +4923,11 @@ func (_c *MockDwClientService_DeleteUserContext_Call) RunAndReturn(run func(ctx 
 // DeleteVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteVw(params *operations.DeleteVwParams, opts ...operations.ClientOption) (*operations.DeleteVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -4955,9 +4964,9 @@ type MockDwClientService_DeleteVw_Call struct {
 // DeleteVw is a helper method to define mock.On call
 //   - params *operations.DeleteVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteVw(params interface{}, opts ...interface{}) *MockDwClientService_DeleteVw_Call {
+func (_e *MockDwClientService_Expecter) DeleteVw(params any, opts ...any) *MockDwClientService_DeleteVw_Call {
 	return &MockDwClientService_DeleteVw_Call{Call: _e.mock.On("DeleteVw",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteVw_Call) Run(run func(params *operations.DeleteVwParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteVw_Call {
@@ -4995,11 +5004,11 @@ func (_c *MockDwClientService_DeleteVw_Call) RunAndReturn(run func(params *opera
 // DeleteVwContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteVwContext(ctx context.Context, params *operations.DeleteVwParams, opts ...operations.ClientOption) (*operations.DeleteVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5037,9 +5046,9 @@ type MockDwClientService_DeleteVwContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteVwContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteVwContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteVwContext_Call {
 	return &MockDwClientService_DeleteVwContext_Call{Call: _e.mock.On("DeleteVwContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteVwContext_Call) Run(run func(ctx context.Context, params *operations.DeleteVwParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteVwContext_Call {
@@ -5082,11 +5091,11 @@ func (_c *MockDwClientService_DeleteVwContext_Call) RunAndReturn(run func(ctx co
 // DeleteVwDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteVwDiagnosticDataJob(params *operations.DeleteVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteVwDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5123,9 +5132,9 @@ type MockDwClientService_DeleteVwDiagnosticDataJob_Call struct {
 // DeleteVwDiagnosticDataJob is a helper method to define mock.On call
 //   - params *operations.DeleteVwDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteVwDiagnosticDataJob(params interface{}, opts ...interface{}) *MockDwClientService_DeleteVwDiagnosticDataJob_Call {
+func (_e *MockDwClientService_Expecter) DeleteVwDiagnosticDataJob(params any, opts ...any) *MockDwClientService_DeleteVwDiagnosticDataJob_Call {
 	return &MockDwClientService_DeleteVwDiagnosticDataJob_Call{Call: _e.mock.On("DeleteVwDiagnosticDataJob",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteVwDiagnosticDataJob_Call) Run(run func(params *operations.DeleteVwDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteVwDiagnosticDataJob_Call {
@@ -5163,11 +5172,11 @@ func (_c *MockDwClientService_DeleteVwDiagnosticDataJob_Call) RunAndReturn(run f
 // DeleteVwDiagnosticDataJobContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DeleteVwDiagnosticDataJobContext(ctx context.Context, params *operations.DeleteVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DeleteVwDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5205,9 +5214,9 @@ type MockDwClientService_DeleteVwDiagnosticDataJobContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DeleteVwDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DeleteVwDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call {
+func (_e *MockDwClientService_Expecter) DeleteVwDiagnosticDataJobContext(ctx any, params any, opts ...any) *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call {
 	return &MockDwClientService_DeleteVwDiagnosticDataJobContext_Call{Call: _e.mock.On("DeleteVwDiagnosticDataJobContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DeleteVwDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call {
@@ -5250,11 +5259,11 @@ func (_c *MockDwClientService_DeleteVwDiagnosticDataJobContext_Call) RunAndRetur
 // DescribeAllowedInstanceTypes provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeAllowedInstanceTypes(params *operations.DescribeAllowedInstanceTypesParams, opts ...operations.ClientOption) (*operations.DescribeAllowedInstanceTypesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5291,9 +5300,9 @@ type MockDwClientService_DescribeAllowedInstanceTypes_Call struct {
 // DescribeAllowedInstanceTypes is a helper method to define mock.On call
 //   - params *operations.DescribeAllowedInstanceTypesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeAllowedInstanceTypes(params interface{}, opts ...interface{}) *MockDwClientService_DescribeAllowedInstanceTypes_Call {
+func (_e *MockDwClientService_Expecter) DescribeAllowedInstanceTypes(params any, opts ...any) *MockDwClientService_DescribeAllowedInstanceTypes_Call {
 	return &MockDwClientService_DescribeAllowedInstanceTypes_Call{Call: _e.mock.On("DescribeAllowedInstanceTypes",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeAllowedInstanceTypes_Call) Run(run func(params *operations.DescribeAllowedInstanceTypesParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeAllowedInstanceTypes_Call {
@@ -5331,11 +5340,11 @@ func (_c *MockDwClientService_DescribeAllowedInstanceTypes_Call) RunAndReturn(ru
 // DescribeAllowedInstanceTypesContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeAllowedInstanceTypesContext(ctx context.Context, params *operations.DescribeAllowedInstanceTypesParams, opts ...operations.ClientOption) (*operations.DescribeAllowedInstanceTypesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5373,9 +5382,9 @@ type MockDwClientService_DescribeAllowedInstanceTypesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeAllowedInstanceTypesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeAllowedInstanceTypesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeAllowedInstanceTypesContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeAllowedInstanceTypesContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeAllowedInstanceTypesContext_Call {
 	return &MockDwClientService_DescribeAllowedInstanceTypesContext_Call{Call: _e.mock.On("DescribeAllowedInstanceTypesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeAllowedInstanceTypesContext_Call) Run(run func(ctx context.Context, params *operations.DescribeAllowedInstanceTypesParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeAllowedInstanceTypesContext_Call {
@@ -5418,11 +5427,11 @@ func (_c *MockDwClientService_DescribeAllowedInstanceTypesContext_Call) RunAndRe
 // DescribeBackup provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeBackup(params *operations.DescribeBackupParams, opts ...operations.ClientOption) (*operations.DescribeBackupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5459,9 +5468,9 @@ type MockDwClientService_DescribeBackup_Call struct {
 // DescribeBackup is a helper method to define mock.On call
 //   - params *operations.DescribeBackupParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeBackup(params interface{}, opts ...interface{}) *MockDwClientService_DescribeBackup_Call {
+func (_e *MockDwClientService_Expecter) DescribeBackup(params any, opts ...any) *MockDwClientService_DescribeBackup_Call {
 	return &MockDwClientService_DescribeBackup_Call{Call: _e.mock.On("DescribeBackup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeBackup_Call) Run(run func(params *operations.DescribeBackupParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeBackup_Call {
@@ -5499,11 +5508,11 @@ func (_c *MockDwClientService_DescribeBackup_Call) RunAndReturn(run func(params 
 // DescribeBackupContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeBackupContext(ctx context.Context, params *operations.DescribeBackupParams, opts ...operations.ClientOption) (*operations.DescribeBackupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5541,9 +5550,9 @@ type MockDwClientService_DescribeBackupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeBackupParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeBackupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeBackupContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeBackupContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeBackupContext_Call {
 	return &MockDwClientService_DescribeBackupContext_Call{Call: _e.mock.On("DescribeBackupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeBackupContext_Call) Run(run func(ctx context.Context, params *operations.DescribeBackupParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeBackupContext_Call {
@@ -5586,11 +5595,11 @@ func (_c *MockDwClientService_DescribeBackupContext_Call) RunAndReturn(run func(
 // DescribeCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeCluster(params *operations.DescribeClusterParams, opts ...operations.ClientOption) (*operations.DescribeClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5627,9 +5636,9 @@ type MockDwClientService_DescribeCluster_Call struct {
 // DescribeCluster is a helper method to define mock.On call
 //   - params *operations.DescribeClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeCluster(params interface{}, opts ...interface{}) *MockDwClientService_DescribeCluster_Call {
+func (_e *MockDwClientService_Expecter) DescribeCluster(params any, opts ...any) *MockDwClientService_DescribeCluster_Call {
 	return &MockDwClientService_DescribeCluster_Call{Call: _e.mock.On("DescribeCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeCluster_Call) Run(run func(params *operations.DescribeClusterParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeCluster_Call {
@@ -5667,11 +5676,11 @@ func (_c *MockDwClientService_DescribeCluster_Call) RunAndReturn(run func(params
 // DescribeClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeClusterContext(ctx context.Context, params *operations.DescribeClusterParams, opts ...operations.ClientOption) (*operations.DescribeClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5709,9 +5718,9 @@ type MockDwClientService_DescribeClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeClusterContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeClusterContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeClusterContext_Call {
 	return &MockDwClientService_DescribeClusterContext_Call{Call: _e.mock.On("DescribeClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeClusterContext_Call) Run(run func(ctx context.Context, params *operations.DescribeClusterParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeClusterContext_Call {
@@ -5754,11 +5763,11 @@ func (_c *MockDwClientService_DescribeClusterContext_Call) RunAndReturn(run func
 // DescribeClusterDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeClusterDiagnosticDataJob(params *operations.DescribeClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeClusterDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5795,9 +5804,9 @@ type MockDwClientService_DescribeClusterDiagnosticDataJob_Call struct {
 // DescribeClusterDiagnosticDataJob is a helper method to define mock.On call
 //   - params *operations.DescribeClusterDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeClusterDiagnosticDataJob(params interface{}, opts ...interface{}) *MockDwClientService_DescribeClusterDiagnosticDataJob_Call {
+func (_e *MockDwClientService_Expecter) DescribeClusterDiagnosticDataJob(params any, opts ...any) *MockDwClientService_DescribeClusterDiagnosticDataJob_Call {
 	return &MockDwClientService_DescribeClusterDiagnosticDataJob_Call{Call: _e.mock.On("DescribeClusterDiagnosticDataJob",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeClusterDiagnosticDataJob_Call) Run(run func(params *operations.DescribeClusterDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeClusterDiagnosticDataJob_Call {
@@ -5835,11 +5844,11 @@ func (_c *MockDwClientService_DescribeClusterDiagnosticDataJob_Call) RunAndRetur
 // DescribeClusterDiagnosticDataJobContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeClusterDiagnosticDataJobContext(ctx context.Context, params *operations.DescribeClusterDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeClusterDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5877,9 +5886,9 @@ type MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeClusterDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeClusterDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeClusterDiagnosticDataJobContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call {
 	return &MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call{Call: _e.mock.On("DescribeClusterDiagnosticDataJobContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DescribeClusterDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call {
@@ -5922,11 +5931,11 @@ func (_c *MockDwClientService_DescribeClusterDiagnosticDataJobContext_Call) RunA
 // DescribeConfig provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeConfig(params *operations.DescribeConfigParams, opts ...operations.ClientOption) (*operations.DescribeConfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -5963,9 +5972,9 @@ type MockDwClientService_DescribeConfig_Call struct {
 // DescribeConfig is a helper method to define mock.On call
 //   - params *operations.DescribeConfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeConfig(params interface{}, opts ...interface{}) *MockDwClientService_DescribeConfig_Call {
+func (_e *MockDwClientService_Expecter) DescribeConfig(params any, opts ...any) *MockDwClientService_DescribeConfig_Call {
 	return &MockDwClientService_DescribeConfig_Call{Call: _e.mock.On("DescribeConfig",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeConfig_Call) Run(run func(params *operations.DescribeConfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeConfig_Call {
@@ -6003,11 +6012,11 @@ func (_c *MockDwClientService_DescribeConfig_Call) RunAndReturn(run func(params 
 // DescribeConfigContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeConfigContext(ctx context.Context, params *operations.DescribeConfigParams, opts ...operations.ClientOption) (*operations.DescribeConfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6045,9 +6054,9 @@ type MockDwClientService_DescribeConfigContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeConfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeConfigContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeConfigContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeConfigContext_Call {
 	return &MockDwClientService_DescribeConfigContext_Call{Call: _e.mock.On("DescribeConfigContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeConfigContext_Call) Run(run func(ctx context.Context, params *operations.DescribeConfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeConfigContext_Call {
@@ -6090,11 +6099,11 @@ func (_c *MockDwClientService_DescribeConfigContext_Call) RunAndReturn(run func(
 // DescribeConfigDiff provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeConfigDiff(params *operations.DescribeConfigDiffParams, opts ...operations.ClientOption) (*operations.DescribeConfigDiffOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6131,9 +6140,9 @@ type MockDwClientService_DescribeConfigDiff_Call struct {
 // DescribeConfigDiff is a helper method to define mock.On call
 //   - params *operations.DescribeConfigDiffParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeConfigDiff(params interface{}, opts ...interface{}) *MockDwClientService_DescribeConfigDiff_Call {
+func (_e *MockDwClientService_Expecter) DescribeConfigDiff(params any, opts ...any) *MockDwClientService_DescribeConfigDiff_Call {
 	return &MockDwClientService_DescribeConfigDiff_Call{Call: _e.mock.On("DescribeConfigDiff",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeConfigDiff_Call) Run(run func(params *operations.DescribeConfigDiffParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeConfigDiff_Call {
@@ -6171,11 +6180,11 @@ func (_c *MockDwClientService_DescribeConfigDiff_Call) RunAndReturn(run func(par
 // DescribeConfigDiffContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeConfigDiffContext(ctx context.Context, params *operations.DescribeConfigDiffParams, opts ...operations.ClientOption) (*operations.DescribeConfigDiffOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6213,9 +6222,9 @@ type MockDwClientService_DescribeConfigDiffContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeConfigDiffParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeConfigDiffContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeConfigDiffContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeConfigDiffContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeConfigDiffContext_Call {
 	return &MockDwClientService_DescribeConfigDiffContext_Call{Call: _e.mock.On("DescribeConfigDiffContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeConfigDiffContext_Call) Run(run func(ctx context.Context, params *operations.DescribeConfigDiffParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeConfigDiffContext_Call {
@@ -6258,11 +6267,11 @@ func (_c *MockDwClientService_DescribeConfigDiffContext_Call) RunAndReturn(run f
 // DescribeDataVisualization provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeDataVisualization(params *operations.DescribeDataVisualizationParams, opts ...operations.ClientOption) (*operations.DescribeDataVisualizationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6299,9 +6308,9 @@ type MockDwClientService_DescribeDataVisualization_Call struct {
 // DescribeDataVisualization is a helper method to define mock.On call
 //   - params *operations.DescribeDataVisualizationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeDataVisualization(params interface{}, opts ...interface{}) *MockDwClientService_DescribeDataVisualization_Call {
+func (_e *MockDwClientService_Expecter) DescribeDataVisualization(params any, opts ...any) *MockDwClientService_DescribeDataVisualization_Call {
 	return &MockDwClientService_DescribeDataVisualization_Call{Call: _e.mock.On("DescribeDataVisualization",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeDataVisualization_Call) Run(run func(params *operations.DescribeDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDataVisualization_Call {
@@ -6339,11 +6348,11 @@ func (_c *MockDwClientService_DescribeDataVisualization_Call) RunAndReturn(run f
 // DescribeDataVisualizationContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeDataVisualizationContext(ctx context.Context, params *operations.DescribeDataVisualizationParams, opts ...operations.ClientOption) (*operations.DescribeDataVisualizationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6381,9 +6390,9 @@ type MockDwClientService_DescribeDataVisualizationContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeDataVisualizationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeDataVisualizationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeDataVisualizationContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeDataVisualizationContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeDataVisualizationContext_Call {
 	return &MockDwClientService_DescribeDataVisualizationContext_Call{Call: _e.mock.On("DescribeDataVisualizationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeDataVisualizationContext_Call) Run(run func(ctx context.Context, params *operations.DescribeDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDataVisualizationContext_Call {
@@ -6426,11 +6435,11 @@ func (_c *MockDwClientService_DescribeDataVisualizationContext_Call) RunAndRetur
 // DescribeDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeDbc(params *operations.DescribeDbcParams, opts ...operations.ClientOption) (*operations.DescribeDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6467,9 +6476,9 @@ type MockDwClientService_DescribeDbc_Call struct {
 // DescribeDbc is a helper method to define mock.On call
 //   - params *operations.DescribeDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeDbc(params interface{}, opts ...interface{}) *MockDwClientService_DescribeDbc_Call {
+func (_e *MockDwClientService_Expecter) DescribeDbc(params any, opts ...any) *MockDwClientService_DescribeDbc_Call {
 	return &MockDwClientService_DescribeDbc_Call{Call: _e.mock.On("DescribeDbc",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeDbc_Call) Run(run func(params *operations.DescribeDbcParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDbc_Call {
@@ -6507,11 +6516,11 @@ func (_c *MockDwClientService_DescribeDbc_Call) RunAndReturn(run func(params *op
 // DescribeDbcConfig provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeDbcConfig(params *operations.DescribeDbcConfigParams, opts ...operations.ClientOption) (*operations.DescribeDbcConfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6548,9 +6557,9 @@ type MockDwClientService_DescribeDbcConfig_Call struct {
 // DescribeDbcConfig is a helper method to define mock.On call
 //   - params *operations.DescribeDbcConfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeDbcConfig(params interface{}, opts ...interface{}) *MockDwClientService_DescribeDbcConfig_Call {
+func (_e *MockDwClientService_Expecter) DescribeDbcConfig(params any, opts ...any) *MockDwClientService_DescribeDbcConfig_Call {
 	return &MockDwClientService_DescribeDbcConfig_Call{Call: _e.mock.On("DescribeDbcConfig",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeDbcConfig_Call) Run(run func(params *operations.DescribeDbcConfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDbcConfig_Call {
@@ -6588,11 +6597,11 @@ func (_c *MockDwClientService_DescribeDbcConfig_Call) RunAndReturn(run func(para
 // DescribeDbcConfigContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeDbcConfigContext(ctx context.Context, params *operations.DescribeDbcConfigParams, opts ...operations.ClientOption) (*operations.DescribeDbcConfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6630,9 +6639,9 @@ type MockDwClientService_DescribeDbcConfigContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeDbcConfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeDbcConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeDbcConfigContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeDbcConfigContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeDbcConfigContext_Call {
 	return &MockDwClientService_DescribeDbcConfigContext_Call{Call: _e.mock.On("DescribeDbcConfigContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeDbcConfigContext_Call) Run(run func(ctx context.Context, params *operations.DescribeDbcConfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDbcConfigContext_Call {
@@ -6675,11 +6684,11 @@ func (_c *MockDwClientService_DescribeDbcConfigContext_Call) RunAndReturn(run fu
 // DescribeDbcContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeDbcContext(ctx context.Context, params *operations.DescribeDbcParams, opts ...operations.ClientOption) (*operations.DescribeDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6717,9 +6726,9 @@ type MockDwClientService_DescribeDbcContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeDbcContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeDbcContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeDbcContext_Call {
 	return &MockDwClientService_DescribeDbcContext_Call{Call: _e.mock.On("DescribeDbcContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeDbcContext_Call) Run(run func(ctx context.Context, params *operations.DescribeDbcParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDbcContext_Call {
@@ -6762,11 +6771,11 @@ func (_c *MockDwClientService_DescribeDbcContext_Call) RunAndReturn(run func(ctx
 // DescribeDbcDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeDbcDiagnosticDataJob(params *operations.DescribeDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeDbcDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6803,9 +6812,9 @@ type MockDwClientService_DescribeDbcDiagnosticDataJob_Call struct {
 // DescribeDbcDiagnosticDataJob is a helper method to define mock.On call
 //   - params *operations.DescribeDbcDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeDbcDiagnosticDataJob(params interface{}, opts ...interface{}) *MockDwClientService_DescribeDbcDiagnosticDataJob_Call {
+func (_e *MockDwClientService_Expecter) DescribeDbcDiagnosticDataJob(params any, opts ...any) *MockDwClientService_DescribeDbcDiagnosticDataJob_Call {
 	return &MockDwClientService_DescribeDbcDiagnosticDataJob_Call{Call: _e.mock.On("DescribeDbcDiagnosticDataJob",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeDbcDiagnosticDataJob_Call) Run(run func(params *operations.DescribeDbcDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDbcDiagnosticDataJob_Call {
@@ -6843,11 +6852,11 @@ func (_c *MockDwClientService_DescribeDbcDiagnosticDataJob_Call) RunAndReturn(ru
 // DescribeDbcDiagnosticDataJobContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeDbcDiagnosticDataJobContext(ctx context.Context, params *operations.DescribeDbcDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeDbcDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6885,9 +6894,9 @@ type MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeDbcDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeDbcDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeDbcDiagnosticDataJobContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call {
 	return &MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call{Call: _e.mock.On("DescribeDbcDiagnosticDataJobContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DescribeDbcDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call {
@@ -6930,11 +6939,11 @@ func (_c *MockDwClientService_DescribeDbcDiagnosticDataJobContext_Call) RunAndRe
 // DescribeHue provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeHue(params *operations.DescribeHueParams, opts ...operations.ClientOption) (*operations.DescribeHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -6971,9 +6980,9 @@ type MockDwClientService_DescribeHue_Call struct {
 // DescribeHue is a helper method to define mock.On call
 //   - params *operations.DescribeHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeHue(params interface{}, opts ...interface{}) *MockDwClientService_DescribeHue_Call {
+func (_e *MockDwClientService_Expecter) DescribeHue(params any, opts ...any) *MockDwClientService_DescribeHue_Call {
 	return &MockDwClientService_DescribeHue_Call{Call: _e.mock.On("DescribeHue",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeHue_Call) Run(run func(params *operations.DescribeHueParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeHue_Call {
@@ -7011,11 +7020,11 @@ func (_c *MockDwClientService_DescribeHue_Call) RunAndReturn(run func(params *op
 // DescribeHueContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeHueContext(ctx context.Context, params *operations.DescribeHueParams, opts ...operations.ClientOption) (*operations.DescribeHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7053,9 +7062,9 @@ type MockDwClientService_DescribeHueContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeHueContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeHueContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeHueContext_Call {
 	return &MockDwClientService_DescribeHueContext_Call{Call: _e.mock.On("DescribeHueContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeHueContext_Call) Run(run func(ctx context.Context, params *operations.DescribeHueParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeHueContext_Call {
@@ -7098,11 +7107,11 @@ func (_c *MockDwClientService_DescribeHueContext_Call) RunAndReturn(run func(ctx
 // DescribeKubeconfig provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeKubeconfig(params *operations.DescribeKubeconfigParams, opts ...operations.ClientOption) (*operations.DescribeKubeconfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7139,9 +7148,9 @@ type MockDwClientService_DescribeKubeconfig_Call struct {
 // DescribeKubeconfig is a helper method to define mock.On call
 //   - params *operations.DescribeKubeconfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeKubeconfig(params interface{}, opts ...interface{}) *MockDwClientService_DescribeKubeconfig_Call {
+func (_e *MockDwClientService_Expecter) DescribeKubeconfig(params any, opts ...any) *MockDwClientService_DescribeKubeconfig_Call {
 	return &MockDwClientService_DescribeKubeconfig_Call{Call: _e.mock.On("DescribeKubeconfig",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeKubeconfig_Call) Run(run func(params *operations.DescribeKubeconfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeKubeconfig_Call {
@@ -7179,11 +7188,11 @@ func (_c *MockDwClientService_DescribeKubeconfig_Call) RunAndReturn(run func(par
 // DescribeKubeconfigContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeKubeconfigContext(ctx context.Context, params *operations.DescribeKubeconfigParams, opts ...operations.ClientOption) (*operations.DescribeKubeconfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7221,9 +7230,9 @@ type MockDwClientService_DescribeKubeconfigContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeKubeconfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeKubeconfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeKubeconfigContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeKubeconfigContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeKubeconfigContext_Call {
 	return &MockDwClientService_DescribeKubeconfigContext_Call{Call: _e.mock.On("DescribeKubeconfigContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeKubeconfigContext_Call) Run(run func(ctx context.Context, params *operations.DescribeKubeconfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeKubeconfigContext_Call {
@@ -7266,11 +7275,11 @@ func (_c *MockDwClientService_DescribeKubeconfigContext_Call) RunAndReturn(run f
 // DescribeRestore provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeRestore(params *operations.DescribeRestoreParams, opts ...operations.ClientOption) (*operations.DescribeRestoreOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7307,9 +7316,9 @@ type MockDwClientService_DescribeRestore_Call struct {
 // DescribeRestore is a helper method to define mock.On call
 //   - params *operations.DescribeRestoreParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeRestore(params interface{}, opts ...interface{}) *MockDwClientService_DescribeRestore_Call {
+func (_e *MockDwClientService_Expecter) DescribeRestore(params any, opts ...any) *MockDwClientService_DescribeRestore_Call {
 	return &MockDwClientService_DescribeRestore_Call{Call: _e.mock.On("DescribeRestore",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeRestore_Call) Run(run func(params *operations.DescribeRestoreParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeRestore_Call {
@@ -7347,11 +7356,11 @@ func (_c *MockDwClientService_DescribeRestore_Call) RunAndReturn(run func(params
 // DescribeRestoreContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeRestoreContext(ctx context.Context, params *operations.DescribeRestoreParams, opts ...operations.ClientOption) (*operations.DescribeRestoreOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7389,9 +7398,9 @@ type MockDwClientService_DescribeRestoreContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeRestoreParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeRestoreContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeRestoreContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeRestoreContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeRestoreContext_Call {
 	return &MockDwClientService_DescribeRestoreContext_Call{Call: _e.mock.On("DescribeRestoreContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeRestoreContext_Call) Run(run func(ctx context.Context, params *operations.DescribeRestoreParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeRestoreContext_Call {
@@ -7434,11 +7443,11 @@ func (_c *MockDwClientService_DescribeRestoreContext_Call) RunAndReturn(run func
 // DescribeServerSetting provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeServerSetting(params *operations.DescribeServerSettingParams, opts ...operations.ClientOption) (*operations.DescribeServerSettingOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7475,9 +7484,9 @@ type MockDwClientService_DescribeServerSetting_Call struct {
 // DescribeServerSetting is a helper method to define mock.On call
 //   - params *operations.DescribeServerSettingParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeServerSetting(params interface{}, opts ...interface{}) *MockDwClientService_DescribeServerSetting_Call {
+func (_e *MockDwClientService_Expecter) DescribeServerSetting(params any, opts ...any) *MockDwClientService_DescribeServerSetting_Call {
 	return &MockDwClientService_DescribeServerSetting_Call{Call: _e.mock.On("DescribeServerSetting",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeServerSetting_Call) Run(run func(params *operations.DescribeServerSettingParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeServerSetting_Call {
@@ -7515,11 +7524,11 @@ func (_c *MockDwClientService_DescribeServerSetting_Call) RunAndReturn(run func(
 // DescribeServerSettingContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeServerSettingContext(ctx context.Context, params *operations.DescribeServerSettingParams, opts ...operations.ClientOption) (*operations.DescribeServerSettingOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7557,9 +7566,9 @@ type MockDwClientService_DescribeServerSettingContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeServerSettingParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeServerSettingContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeServerSettingContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeServerSettingContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeServerSettingContext_Call {
 	return &MockDwClientService_DescribeServerSettingContext_Call{Call: _e.mock.On("DescribeServerSettingContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeServerSettingContext_Call) Run(run func(ctx context.Context, params *operations.DescribeServerSettingParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeServerSettingContext_Call {
@@ -7602,11 +7611,11 @@ func (_c *MockDwClientService_DescribeServerSettingContext_Call) RunAndReturn(ru
 // DescribeVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeVw(params *operations.DescribeVwParams, opts ...operations.ClientOption) (*operations.DescribeVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7643,9 +7652,9 @@ type MockDwClientService_DescribeVw_Call struct {
 // DescribeVw is a helper method to define mock.On call
 //   - params *operations.DescribeVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeVw(params interface{}, opts ...interface{}) *MockDwClientService_DescribeVw_Call {
+func (_e *MockDwClientService_Expecter) DescribeVw(params any, opts ...any) *MockDwClientService_DescribeVw_Call {
 	return &MockDwClientService_DescribeVw_Call{Call: _e.mock.On("DescribeVw",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeVw_Call) Run(run func(params *operations.DescribeVwParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeVw_Call {
@@ -7683,11 +7692,11 @@ func (_c *MockDwClientService_DescribeVw_Call) RunAndReturn(run func(params *ope
 // DescribeVwConfig provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeVwConfig(params *operations.DescribeVwConfigParams, opts ...operations.ClientOption) (*operations.DescribeVwConfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7724,9 +7733,9 @@ type MockDwClientService_DescribeVwConfig_Call struct {
 // DescribeVwConfig is a helper method to define mock.On call
 //   - params *operations.DescribeVwConfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeVwConfig(params interface{}, opts ...interface{}) *MockDwClientService_DescribeVwConfig_Call {
+func (_e *MockDwClientService_Expecter) DescribeVwConfig(params any, opts ...any) *MockDwClientService_DescribeVwConfig_Call {
 	return &MockDwClientService_DescribeVwConfig_Call{Call: _e.mock.On("DescribeVwConfig",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeVwConfig_Call) Run(run func(params *operations.DescribeVwConfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeVwConfig_Call {
@@ -7764,11 +7773,11 @@ func (_c *MockDwClientService_DescribeVwConfig_Call) RunAndReturn(run func(param
 // DescribeVwConfigContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeVwConfigContext(ctx context.Context, params *operations.DescribeVwConfigParams, opts ...operations.ClientOption) (*operations.DescribeVwConfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7806,9 +7815,9 @@ type MockDwClientService_DescribeVwConfigContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeVwConfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeVwConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeVwConfigContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeVwConfigContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeVwConfigContext_Call {
 	return &MockDwClientService_DescribeVwConfigContext_Call{Call: _e.mock.On("DescribeVwConfigContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeVwConfigContext_Call) Run(run func(ctx context.Context, params *operations.DescribeVwConfigParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeVwConfigContext_Call {
@@ -7851,11 +7860,11 @@ func (_c *MockDwClientService_DescribeVwConfigContext_Call) RunAndReturn(run fun
 // DescribeVwContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeVwContext(ctx context.Context, params *operations.DescribeVwParams, opts ...operations.ClientOption) (*operations.DescribeVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7893,9 +7902,9 @@ type MockDwClientService_DescribeVwContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeVwContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeVwContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeVwContext_Call {
 	return &MockDwClientService_DescribeVwContext_Call{Call: _e.mock.On("DescribeVwContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeVwContext_Call) Run(run func(ctx context.Context, params *operations.DescribeVwParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeVwContext_Call {
@@ -7938,11 +7947,11 @@ func (_c *MockDwClientService_DescribeVwContext_Call) RunAndReturn(run func(ctx 
 // DescribeVwDiagnosticDataJob provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeVwDiagnosticDataJob(params *operations.DescribeVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeVwDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -7979,9 +7988,9 @@ type MockDwClientService_DescribeVwDiagnosticDataJob_Call struct {
 // DescribeVwDiagnosticDataJob is a helper method to define mock.On call
 //   - params *operations.DescribeVwDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeVwDiagnosticDataJob(params interface{}, opts ...interface{}) *MockDwClientService_DescribeVwDiagnosticDataJob_Call {
+func (_e *MockDwClientService_Expecter) DescribeVwDiagnosticDataJob(params any, opts ...any) *MockDwClientService_DescribeVwDiagnosticDataJob_Call {
 	return &MockDwClientService_DescribeVwDiagnosticDataJob_Call{Call: _e.mock.On("DescribeVwDiagnosticDataJob",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeVwDiagnosticDataJob_Call) Run(run func(params *operations.DescribeVwDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeVwDiagnosticDataJob_Call {
@@ -8019,11 +8028,11 @@ func (_c *MockDwClientService_DescribeVwDiagnosticDataJob_Call) RunAndReturn(run
 // DescribeVwDiagnosticDataJobContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) DescribeVwDiagnosticDataJobContext(ctx context.Context, params *operations.DescribeVwDiagnosticDataJobParams, opts ...operations.ClientOption) (*operations.DescribeVwDiagnosticDataJobOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8061,9 +8070,9 @@ type MockDwClientService_DescribeVwDiagnosticDataJobContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.DescribeVwDiagnosticDataJobParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) DescribeVwDiagnosticDataJobContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call {
+func (_e *MockDwClientService_Expecter) DescribeVwDiagnosticDataJobContext(ctx any, params any, opts ...any) *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call {
 	return &MockDwClientService_DescribeVwDiagnosticDataJobContext_Call{Call: _e.mock.On("DescribeVwDiagnosticDataJobContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call) Run(run func(ctx context.Context, params *operations.DescribeVwDiagnosticDataJobParams, opts ...operations.ClientOption)) *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call {
@@ -8106,11 +8115,11 @@ func (_c *MockDwClientService_DescribeVwDiagnosticDataJobContext_Call) RunAndRet
 // GetDataVisualizationUpgradeVersion provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetDataVisualizationUpgradeVersion(params *operations.GetDataVisualizationUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetDataVisualizationUpgradeVersionOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8147,9 +8156,9 @@ type MockDwClientService_GetDataVisualizationUpgradeVersion_Call struct {
 // GetDataVisualizationUpgradeVersion is a helper method to define mock.On call
 //   - params *operations.GetDataVisualizationUpgradeVersionParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetDataVisualizationUpgradeVersion(params interface{}, opts ...interface{}) *MockDwClientService_GetDataVisualizationUpgradeVersion_Call {
+func (_e *MockDwClientService_Expecter) GetDataVisualizationUpgradeVersion(params any, opts ...any) *MockDwClientService_GetDataVisualizationUpgradeVersion_Call {
 	return &MockDwClientService_GetDataVisualizationUpgradeVersion_Call{Call: _e.mock.On("GetDataVisualizationUpgradeVersion",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetDataVisualizationUpgradeVersion_Call) Run(run func(params *operations.GetDataVisualizationUpgradeVersionParams, opts ...operations.ClientOption)) *MockDwClientService_GetDataVisualizationUpgradeVersion_Call {
@@ -8187,11 +8196,11 @@ func (_c *MockDwClientService_GetDataVisualizationUpgradeVersion_Call) RunAndRet
 // GetDataVisualizationUpgradeVersionContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetDataVisualizationUpgradeVersionContext(ctx context.Context, params *operations.GetDataVisualizationUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetDataVisualizationUpgradeVersionOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8229,9 +8238,9 @@ type MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetDataVisualizationUpgradeVersionParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetDataVisualizationUpgradeVersionContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call {
+func (_e *MockDwClientService_Expecter) GetDataVisualizationUpgradeVersionContext(ctx any, params any, opts ...any) *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call {
 	return &MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call{Call: _e.mock.On("GetDataVisualizationUpgradeVersionContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call) Run(run func(ctx context.Context, params *operations.GetDataVisualizationUpgradeVersionParams, opts ...operations.ClientOption)) *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call {
@@ -8274,11 +8283,11 @@ func (_c *MockDwClientService_GetDataVisualizationUpgradeVersionContext_Call) Ru
 // GetHueUpgradeVersion provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetHueUpgradeVersion(params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetHueUpgradeVersionOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8315,9 +8324,9 @@ type MockDwClientService_GetHueUpgradeVersion_Call struct {
 // GetHueUpgradeVersion is a helper method to define mock.On call
 //   - params *operations.GetHueUpgradeVersionParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetHueUpgradeVersion(params interface{}, opts ...interface{}) *MockDwClientService_GetHueUpgradeVersion_Call {
+func (_e *MockDwClientService_Expecter) GetHueUpgradeVersion(params any, opts ...any) *MockDwClientService_GetHueUpgradeVersion_Call {
 	return &MockDwClientService_GetHueUpgradeVersion_Call{Call: _e.mock.On("GetHueUpgradeVersion",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetHueUpgradeVersion_Call) Run(run func(params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption)) *MockDwClientService_GetHueUpgradeVersion_Call {
@@ -8355,11 +8364,11 @@ func (_c *MockDwClientService_GetHueUpgradeVersion_Call) RunAndReturn(run func(p
 // GetHueUpgradeVersionContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetHueUpgradeVersionContext(ctx context.Context, params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption) (*operations.GetHueUpgradeVersionOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8397,9 +8406,9 @@ type MockDwClientService_GetHueUpgradeVersionContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetHueUpgradeVersionParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetHueUpgradeVersionContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetHueUpgradeVersionContext_Call {
+func (_e *MockDwClientService_Expecter) GetHueUpgradeVersionContext(ctx any, params any, opts ...any) *MockDwClientService_GetHueUpgradeVersionContext_Call {
 	return &MockDwClientService_GetHueUpgradeVersionContext_Call{Call: _e.mock.On("GetHueUpgradeVersionContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetHueUpgradeVersionContext_Call) Run(run func(ctx context.Context, params *operations.GetHueUpgradeVersionParams, opts ...operations.ClientOption)) *MockDwClientService_GetHueUpgradeVersionContext_Call {
@@ -8442,11 +8451,11 @@ func (_c *MockDwClientService_GetHueUpgradeVersionContext_Call) RunAndReturn(run
 // GetK8sCertJKS provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetK8sCertJKS(params *operations.GetK8sCertJKSParams, opts ...operations.ClientOption) (*operations.GetK8sCertJKSOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8483,9 +8492,9 @@ type MockDwClientService_GetK8sCertJKS_Call struct {
 // GetK8sCertJKS is a helper method to define mock.On call
 //   - params *operations.GetK8sCertJKSParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetK8sCertJKS(params interface{}, opts ...interface{}) *MockDwClientService_GetK8sCertJKS_Call {
+func (_e *MockDwClientService_Expecter) GetK8sCertJKS(params any, opts ...any) *MockDwClientService_GetK8sCertJKS_Call {
 	return &MockDwClientService_GetK8sCertJKS_Call{Call: _e.mock.On("GetK8sCertJKS",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetK8sCertJKS_Call) Run(run func(params *operations.GetK8sCertJKSParams, opts ...operations.ClientOption)) *MockDwClientService_GetK8sCertJKS_Call {
@@ -8523,11 +8532,11 @@ func (_c *MockDwClientService_GetK8sCertJKS_Call) RunAndReturn(run func(params *
 // GetK8sCertJKSContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetK8sCertJKSContext(ctx context.Context, params *operations.GetK8sCertJKSParams, opts ...operations.ClientOption) (*operations.GetK8sCertJKSOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8565,9 +8574,9 @@ type MockDwClientService_GetK8sCertJKSContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetK8sCertJKSParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetK8sCertJKSContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetK8sCertJKSContext_Call {
+func (_e *MockDwClientService_Expecter) GetK8sCertJKSContext(ctx any, params any, opts ...any) *MockDwClientService_GetK8sCertJKSContext_Call {
 	return &MockDwClientService_GetK8sCertJKSContext_Call{Call: _e.mock.On("GetK8sCertJKSContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetK8sCertJKSContext_Call) Run(run func(ctx context.Context, params *operations.GetK8sCertJKSParams, opts ...operations.ClientOption)) *MockDwClientService_GetK8sCertJKSContext_Call {
@@ -8610,11 +8619,11 @@ func (_c *MockDwClientService_GetK8sCertJKSContext_Call) RunAndReturn(run func(c
 // GetK8sCertPEM provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetK8sCertPEM(params *operations.GetK8sCertPEMParams, opts ...operations.ClientOption) (*operations.GetK8sCertPEMOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8651,9 +8660,9 @@ type MockDwClientService_GetK8sCertPEM_Call struct {
 // GetK8sCertPEM is a helper method to define mock.On call
 //   - params *operations.GetK8sCertPEMParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetK8sCertPEM(params interface{}, opts ...interface{}) *MockDwClientService_GetK8sCertPEM_Call {
+func (_e *MockDwClientService_Expecter) GetK8sCertPEM(params any, opts ...any) *MockDwClientService_GetK8sCertPEM_Call {
 	return &MockDwClientService_GetK8sCertPEM_Call{Call: _e.mock.On("GetK8sCertPEM",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetK8sCertPEM_Call) Run(run func(params *operations.GetK8sCertPEMParams, opts ...operations.ClientOption)) *MockDwClientService_GetK8sCertPEM_Call {
@@ -8691,11 +8700,11 @@ func (_c *MockDwClientService_GetK8sCertPEM_Call) RunAndReturn(run func(params *
 // GetK8sCertPEMContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetK8sCertPEMContext(ctx context.Context, params *operations.GetK8sCertPEMParams, opts ...operations.ClientOption) (*operations.GetK8sCertPEMOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8733,9 +8742,9 @@ type MockDwClientService_GetK8sCertPEMContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetK8sCertPEMParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetK8sCertPEMContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetK8sCertPEMContext_Call {
+func (_e *MockDwClientService_Expecter) GetK8sCertPEMContext(ctx any, params any, opts ...any) *MockDwClientService_GetK8sCertPEMContext_Call {
 	return &MockDwClientService_GetK8sCertPEMContext_Call{Call: _e.mock.On("GetK8sCertPEMContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetK8sCertPEMContext_Call) Run(run func(ctx context.Context, params *operations.GetK8sCertPEMParams, opts ...operations.ClientOption)) *MockDwClientService_GetK8sCertPEMContext_Call {
@@ -8778,11 +8787,11 @@ func (_c *MockDwClientService_GetK8sCertPEMContext_Call) RunAndReturn(run func(c
 // GetLogs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetLogs(params *operations.GetLogsParams, opts ...operations.ClientOption) (*operations.GetLogsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8819,9 +8828,9 @@ type MockDwClientService_GetLogs_Call struct {
 // GetLogs is a helper method to define mock.On call
 //   - params *operations.GetLogsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetLogs(params interface{}, opts ...interface{}) *MockDwClientService_GetLogs_Call {
+func (_e *MockDwClientService_Expecter) GetLogs(params any, opts ...any) *MockDwClientService_GetLogs_Call {
 	return &MockDwClientService_GetLogs_Call{Call: _e.mock.On("GetLogs",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetLogs_Call) Run(run func(params *operations.GetLogsParams, opts ...operations.ClientOption)) *MockDwClientService_GetLogs_Call {
@@ -8859,11 +8868,11 @@ func (_c *MockDwClientService_GetLogs_Call) RunAndReturn(run func(params *operat
 // GetLogsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetLogsContext(ctx context.Context, params *operations.GetLogsParams, opts ...operations.ClientOption) (*operations.GetLogsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8901,9 +8910,9 @@ type MockDwClientService_GetLogsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetLogsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetLogsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetLogsContext_Call {
+func (_e *MockDwClientService_Expecter) GetLogsContext(ctx any, params any, opts ...any) *MockDwClientService_GetLogsContext_Call {
 	return &MockDwClientService_GetLogsContext_Call{Call: _e.mock.On("GetLogsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetLogsContext_Call) Run(run func(ctx context.Context, params *operations.GetLogsParams, opts ...operations.ClientOption)) *MockDwClientService_GetLogsContext_Call {
@@ -8946,11 +8955,11 @@ func (_c *MockDwClientService_GetLogsContext_Call) RunAndReturn(run func(ctx con
 // GetUpgradeDbcVersions provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetUpgradeDbcVersions(params *operations.GetUpgradeDbcVersionsParams, opts ...operations.ClientOption) (*operations.GetUpgradeDbcVersionsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -8987,9 +8996,9 @@ type MockDwClientService_GetUpgradeDbcVersions_Call struct {
 // GetUpgradeDbcVersions is a helper method to define mock.On call
 //   - params *operations.GetUpgradeDbcVersionsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetUpgradeDbcVersions(params interface{}, opts ...interface{}) *MockDwClientService_GetUpgradeDbcVersions_Call {
+func (_e *MockDwClientService_Expecter) GetUpgradeDbcVersions(params any, opts ...any) *MockDwClientService_GetUpgradeDbcVersions_Call {
 	return &MockDwClientService_GetUpgradeDbcVersions_Call{Call: _e.mock.On("GetUpgradeDbcVersions",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetUpgradeDbcVersions_Call) Run(run func(params *operations.GetUpgradeDbcVersionsParams, opts ...operations.ClientOption)) *MockDwClientService_GetUpgradeDbcVersions_Call {
@@ -9027,11 +9036,11 @@ func (_c *MockDwClientService_GetUpgradeDbcVersions_Call) RunAndReturn(run func(
 // GetUpgradeDbcVersionsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetUpgradeDbcVersionsContext(ctx context.Context, params *operations.GetUpgradeDbcVersionsParams, opts ...operations.ClientOption) (*operations.GetUpgradeDbcVersionsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9069,9 +9078,9 @@ type MockDwClientService_GetUpgradeDbcVersionsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetUpgradeDbcVersionsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetUpgradeDbcVersionsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetUpgradeDbcVersionsContext_Call {
+func (_e *MockDwClientService_Expecter) GetUpgradeDbcVersionsContext(ctx any, params any, opts ...any) *MockDwClientService_GetUpgradeDbcVersionsContext_Call {
 	return &MockDwClientService_GetUpgradeDbcVersionsContext_Call{Call: _e.mock.On("GetUpgradeDbcVersionsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetUpgradeDbcVersionsContext_Call) Run(run func(ctx context.Context, params *operations.GetUpgradeDbcVersionsParams, opts ...operations.ClientOption)) *MockDwClientService_GetUpgradeDbcVersionsContext_Call {
@@ -9114,11 +9123,11 @@ func (_c *MockDwClientService_GetUpgradeDbcVersionsContext_Call) RunAndReturn(ru
 // GetUpgradeVwVersions provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetUpgradeVwVersions(params *operations.GetUpgradeVwVersionsParams, opts ...operations.ClientOption) (*operations.GetUpgradeVwVersionsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9155,9 +9164,9 @@ type MockDwClientService_GetUpgradeVwVersions_Call struct {
 // GetUpgradeVwVersions is a helper method to define mock.On call
 //   - params *operations.GetUpgradeVwVersionsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetUpgradeVwVersions(params interface{}, opts ...interface{}) *MockDwClientService_GetUpgradeVwVersions_Call {
+func (_e *MockDwClientService_Expecter) GetUpgradeVwVersions(params any, opts ...any) *MockDwClientService_GetUpgradeVwVersions_Call {
 	return &MockDwClientService_GetUpgradeVwVersions_Call{Call: _e.mock.On("GetUpgradeVwVersions",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetUpgradeVwVersions_Call) Run(run func(params *operations.GetUpgradeVwVersionsParams, opts ...operations.ClientOption)) *MockDwClientService_GetUpgradeVwVersions_Call {
@@ -9195,11 +9204,11 @@ func (_c *MockDwClientService_GetUpgradeVwVersions_Call) RunAndReturn(run func(p
 // GetUpgradeVwVersionsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) GetUpgradeVwVersionsContext(ctx context.Context, params *operations.GetUpgradeVwVersionsParams, opts ...operations.ClientOption) (*operations.GetUpgradeVwVersionsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9237,9 +9246,9 @@ type MockDwClientService_GetUpgradeVwVersionsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.GetUpgradeVwVersionsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) GetUpgradeVwVersionsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_GetUpgradeVwVersionsContext_Call {
+func (_e *MockDwClientService_Expecter) GetUpgradeVwVersionsContext(ctx any, params any, opts ...any) *MockDwClientService_GetUpgradeVwVersionsContext_Call {
 	return &MockDwClientService_GetUpgradeVwVersionsContext_Call{Call: _e.mock.On("GetUpgradeVwVersionsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_GetUpgradeVwVersionsContext_Call) Run(run func(ctx context.Context, params *operations.GetUpgradeVwVersionsParams, opts ...operations.ClientOption)) *MockDwClientService_GetUpgradeVwVersionsContext_Call {
@@ -9282,11 +9291,11 @@ func (_c *MockDwClientService_GetUpgradeVwVersionsContext_Call) RunAndReturn(run
 // HealthCheck provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) HealthCheck(params *operations.HealthCheckParams, opts ...operations.ClientOption) (*operations.HealthCheckOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9323,9 +9332,9 @@ type MockDwClientService_HealthCheck_Call struct {
 // HealthCheck is a helper method to define mock.On call
 //   - params *operations.HealthCheckParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) HealthCheck(params interface{}, opts ...interface{}) *MockDwClientService_HealthCheck_Call {
+func (_e *MockDwClientService_Expecter) HealthCheck(params any, opts ...any) *MockDwClientService_HealthCheck_Call {
 	return &MockDwClientService_HealthCheck_Call{Call: _e.mock.On("HealthCheck",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_HealthCheck_Call) Run(run func(params *operations.HealthCheckParams, opts ...operations.ClientOption)) *MockDwClientService_HealthCheck_Call {
@@ -9363,11 +9372,11 @@ func (_c *MockDwClientService_HealthCheck_Call) RunAndReturn(run func(params *op
 // HealthCheckContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) HealthCheckContext(ctx context.Context, params *operations.HealthCheckParams, opts ...operations.ClientOption) (*operations.HealthCheckOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9405,9 +9414,9 @@ type MockDwClientService_HealthCheckContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.HealthCheckParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) HealthCheckContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_HealthCheckContext_Call {
+func (_e *MockDwClientService_Expecter) HealthCheckContext(ctx any, params any, opts ...any) *MockDwClientService_HealthCheckContext_Call {
 	return &MockDwClientService_HealthCheckContext_Call{Call: _e.mock.On("HealthCheckContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_HealthCheckContext_Call) Run(run func(ctx context.Context, params *operations.HealthCheckParams, opts ...operations.ClientOption)) *MockDwClientService_HealthCheckContext_Call {
@@ -9450,11 +9459,11 @@ func (_c *MockDwClientService_HealthCheckContext_Call) RunAndReturn(run func(ctx
 // ListBackupEntities provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListBackupEntities(params *operations.ListBackupEntitiesParams, opts ...operations.ClientOption) (*operations.ListBackupEntitiesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9491,9 +9500,9 @@ type MockDwClientService_ListBackupEntities_Call struct {
 // ListBackupEntities is a helper method to define mock.On call
 //   - params *operations.ListBackupEntitiesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListBackupEntities(params interface{}, opts ...interface{}) *MockDwClientService_ListBackupEntities_Call {
+func (_e *MockDwClientService_Expecter) ListBackupEntities(params any, opts ...any) *MockDwClientService_ListBackupEntities_Call {
 	return &MockDwClientService_ListBackupEntities_Call{Call: _e.mock.On("ListBackupEntities",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListBackupEntities_Call) Run(run func(params *operations.ListBackupEntitiesParams, opts ...operations.ClientOption)) *MockDwClientService_ListBackupEntities_Call {
@@ -9531,11 +9540,11 @@ func (_c *MockDwClientService_ListBackupEntities_Call) RunAndReturn(run func(par
 // ListBackupEntitiesContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListBackupEntitiesContext(ctx context.Context, params *operations.ListBackupEntitiesParams, opts ...operations.ClientOption) (*operations.ListBackupEntitiesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9573,9 +9582,9 @@ type MockDwClientService_ListBackupEntitiesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListBackupEntitiesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListBackupEntitiesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListBackupEntitiesContext_Call {
+func (_e *MockDwClientService_Expecter) ListBackupEntitiesContext(ctx any, params any, opts ...any) *MockDwClientService_ListBackupEntitiesContext_Call {
 	return &MockDwClientService_ListBackupEntitiesContext_Call{Call: _e.mock.On("ListBackupEntitiesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListBackupEntitiesContext_Call) Run(run func(ctx context.Context, params *operations.ListBackupEntitiesParams, opts ...operations.ClientOption)) *MockDwClientService_ListBackupEntitiesContext_Call {
@@ -9618,11 +9627,11 @@ func (_c *MockDwClientService_ListBackupEntitiesContext_Call) RunAndReturn(run f
 // ListBackups provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListBackups(params *operations.ListBackupsParams, opts ...operations.ClientOption) (*operations.ListBackupsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9659,9 +9668,9 @@ type MockDwClientService_ListBackups_Call struct {
 // ListBackups is a helper method to define mock.On call
 //   - params *operations.ListBackupsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListBackups(params interface{}, opts ...interface{}) *MockDwClientService_ListBackups_Call {
+func (_e *MockDwClientService_Expecter) ListBackups(params any, opts ...any) *MockDwClientService_ListBackups_Call {
 	return &MockDwClientService_ListBackups_Call{Call: _e.mock.On("ListBackups",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListBackups_Call) Run(run func(params *operations.ListBackupsParams, opts ...operations.ClientOption)) *MockDwClientService_ListBackups_Call {
@@ -9699,11 +9708,11 @@ func (_c *MockDwClientService_ListBackups_Call) RunAndReturn(run func(params *op
 // ListBackupsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListBackupsContext(ctx context.Context, params *operations.ListBackupsParams, opts ...operations.ClientOption) (*operations.ListBackupsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9741,9 +9750,9 @@ type MockDwClientService_ListBackupsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListBackupsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListBackupsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListBackupsContext_Call {
+func (_e *MockDwClientService_Expecter) ListBackupsContext(ctx any, params any, opts ...any) *MockDwClientService_ListBackupsContext_Call {
 	return &MockDwClientService_ListBackupsContext_Call{Call: _e.mock.On("ListBackupsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListBackupsContext_Call) Run(run func(ctx context.Context, params *operations.ListBackupsParams, opts ...operations.ClientOption)) *MockDwClientService_ListBackupsContext_Call {
@@ -9786,11 +9795,11 @@ func (_c *MockDwClientService_ListBackupsContext_Call) RunAndReturn(run func(ctx
 // ListClusterDiagnosticDataJobs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListClusterDiagnosticDataJobs(params *operations.ListClusterDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListClusterDiagnosticDataJobsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9827,9 +9836,9 @@ type MockDwClientService_ListClusterDiagnosticDataJobs_Call struct {
 // ListClusterDiagnosticDataJobs is a helper method to define mock.On call
 //   - params *operations.ListClusterDiagnosticDataJobsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListClusterDiagnosticDataJobs(params interface{}, opts ...interface{}) *MockDwClientService_ListClusterDiagnosticDataJobs_Call {
+func (_e *MockDwClientService_Expecter) ListClusterDiagnosticDataJobs(params any, opts ...any) *MockDwClientService_ListClusterDiagnosticDataJobs_Call {
 	return &MockDwClientService_ListClusterDiagnosticDataJobs_Call{Call: _e.mock.On("ListClusterDiagnosticDataJobs",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListClusterDiagnosticDataJobs_Call) Run(run func(params *operations.ListClusterDiagnosticDataJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListClusterDiagnosticDataJobs_Call {
@@ -9867,11 +9876,11 @@ func (_c *MockDwClientService_ListClusterDiagnosticDataJobs_Call) RunAndReturn(r
 // ListClusterDiagnosticDataJobsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListClusterDiagnosticDataJobsContext(ctx context.Context, params *operations.ListClusterDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListClusterDiagnosticDataJobsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9909,9 +9918,9 @@ type MockDwClientService_ListClusterDiagnosticDataJobsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListClusterDiagnosticDataJobsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListClusterDiagnosticDataJobsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call {
+func (_e *MockDwClientService_Expecter) ListClusterDiagnosticDataJobsContext(ctx any, params any, opts ...any) *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call {
 	return &MockDwClientService_ListClusterDiagnosticDataJobsContext_Call{Call: _e.mock.On("ListClusterDiagnosticDataJobsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call) Run(run func(ctx context.Context, params *operations.ListClusterDiagnosticDataJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call {
@@ -9954,11 +9963,11 @@ func (_c *MockDwClientService_ListClusterDiagnosticDataJobsContext_Call) RunAndR
 // ListClusters provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListClusters(params *operations.ListClustersParams, opts ...operations.ClientOption) (*operations.ListClustersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -9995,9 +10004,9 @@ type MockDwClientService_ListClusters_Call struct {
 // ListClusters is a helper method to define mock.On call
 //   - params *operations.ListClustersParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListClusters(params interface{}, opts ...interface{}) *MockDwClientService_ListClusters_Call {
+func (_e *MockDwClientService_Expecter) ListClusters(params any, opts ...any) *MockDwClientService_ListClusters_Call {
 	return &MockDwClientService_ListClusters_Call{Call: _e.mock.On("ListClusters",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListClusters_Call) Run(run func(params *operations.ListClustersParams, opts ...operations.ClientOption)) *MockDwClientService_ListClusters_Call {
@@ -10035,11 +10044,11 @@ func (_c *MockDwClientService_ListClusters_Call) RunAndReturn(run func(params *o
 // ListClustersContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListClustersContext(ctx context.Context, params *operations.ListClustersParams, opts ...operations.ClientOption) (*operations.ListClustersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10077,9 +10086,9 @@ type MockDwClientService_ListClustersContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListClustersParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListClustersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListClustersContext_Call {
+func (_e *MockDwClientService_Expecter) ListClustersContext(ctx any, params any, opts ...any) *MockDwClientService_ListClustersContext_Call {
 	return &MockDwClientService_ListClustersContext_Call{Call: _e.mock.On("ListClustersContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListClustersContext_Call) Run(run func(ctx context.Context, params *operations.ListClustersParams, opts ...operations.ClientOption)) *MockDwClientService_ListClustersContext_Call {
@@ -10122,11 +10131,11 @@ func (_c *MockDwClientService_ListClustersContext_Call) RunAndReturn(run func(ct
 // ListConnectorTestJobs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListConnectorTestJobs(params *operations.ListConnectorTestJobsParams, opts ...operations.ClientOption) (*operations.ListConnectorTestJobsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10163,9 +10172,9 @@ type MockDwClientService_ListConnectorTestJobs_Call struct {
 // ListConnectorTestJobs is a helper method to define mock.On call
 //   - params *operations.ListConnectorTestJobsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListConnectorTestJobs(params interface{}, opts ...interface{}) *MockDwClientService_ListConnectorTestJobs_Call {
+func (_e *MockDwClientService_Expecter) ListConnectorTestJobs(params any, opts ...any) *MockDwClientService_ListConnectorTestJobs_Call {
 	return &MockDwClientService_ListConnectorTestJobs_Call{Call: _e.mock.On("ListConnectorTestJobs",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListConnectorTestJobs_Call) Run(run func(params *operations.ListConnectorTestJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListConnectorTestJobs_Call {
@@ -10203,11 +10212,11 @@ func (_c *MockDwClientService_ListConnectorTestJobs_Call) RunAndReturn(run func(
 // ListConnectorTestJobsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListConnectorTestJobsContext(ctx context.Context, params *operations.ListConnectorTestJobsParams, opts ...operations.ClientOption) (*operations.ListConnectorTestJobsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10245,9 +10254,9 @@ type MockDwClientService_ListConnectorTestJobsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListConnectorTestJobsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListConnectorTestJobsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListConnectorTestJobsContext_Call {
+func (_e *MockDwClientService_Expecter) ListConnectorTestJobsContext(ctx any, params any, opts ...any) *MockDwClientService_ListConnectorTestJobsContext_Call {
 	return &MockDwClientService_ListConnectorTestJobsContext_Call{Call: _e.mock.On("ListConnectorTestJobsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListConnectorTestJobsContext_Call) Run(run func(ctx context.Context, params *operations.ListConnectorTestJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListConnectorTestJobsContext_Call {
@@ -10290,11 +10299,11 @@ func (_c *MockDwClientService_ListConnectorTestJobsContext_Call) RunAndReturn(ru
 // ListConnectors provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListConnectors(params *operations.ListConnectorsParams, opts ...operations.ClientOption) (*operations.ListConnectorsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10331,9 +10340,9 @@ type MockDwClientService_ListConnectors_Call struct {
 // ListConnectors is a helper method to define mock.On call
 //   - params *operations.ListConnectorsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListConnectors(params interface{}, opts ...interface{}) *MockDwClientService_ListConnectors_Call {
+func (_e *MockDwClientService_Expecter) ListConnectors(params any, opts ...any) *MockDwClientService_ListConnectors_Call {
 	return &MockDwClientService_ListConnectors_Call{Call: _e.mock.On("ListConnectors",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListConnectors_Call) Run(run func(params *operations.ListConnectorsParams, opts ...operations.ClientOption)) *MockDwClientService_ListConnectors_Call {
@@ -10371,11 +10380,11 @@ func (_c *MockDwClientService_ListConnectors_Call) RunAndReturn(run func(params 
 // ListConnectorsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListConnectorsContext(ctx context.Context, params *operations.ListConnectorsParams, opts ...operations.ClientOption) (*operations.ListConnectorsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10413,9 +10422,9 @@ type MockDwClientService_ListConnectorsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListConnectorsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListConnectorsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListConnectorsContext_Call {
+func (_e *MockDwClientService_Expecter) ListConnectorsContext(ctx any, params any, opts ...any) *MockDwClientService_ListConnectorsContext_Call {
 	return &MockDwClientService_ListConnectorsContext_Call{Call: _e.mock.On("ListConnectorsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListConnectorsContext_Call) Run(run func(ctx context.Context, params *operations.ListConnectorsParams, opts ...operations.ClientOption)) *MockDwClientService_ListConnectorsContext_Call {
@@ -10458,11 +10467,11 @@ func (_c *MockDwClientService_ListConnectorsContext_Call) RunAndReturn(run func(
 // ListDataVisualizations provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDataVisualizations(params *operations.ListDataVisualizationsParams, opts ...operations.ClientOption) (*operations.ListDataVisualizationsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10499,9 +10508,9 @@ type MockDwClientService_ListDataVisualizations_Call struct {
 // ListDataVisualizations is a helper method to define mock.On call
 //   - params *operations.ListDataVisualizationsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListDataVisualizations(params interface{}, opts ...interface{}) *MockDwClientService_ListDataVisualizations_Call {
+func (_e *MockDwClientService_Expecter) ListDataVisualizations(params any, opts ...any) *MockDwClientService_ListDataVisualizations_Call {
 	return &MockDwClientService_ListDataVisualizations_Call{Call: _e.mock.On("ListDataVisualizations",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListDataVisualizations_Call) Run(run func(params *operations.ListDataVisualizationsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDataVisualizations_Call {
@@ -10539,11 +10548,11 @@ func (_c *MockDwClientService_ListDataVisualizations_Call) RunAndReturn(run func
 // ListDataVisualizationsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDataVisualizationsContext(ctx context.Context, params *operations.ListDataVisualizationsParams, opts ...operations.ClientOption) (*operations.ListDataVisualizationsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10581,9 +10590,9 @@ type MockDwClientService_ListDataVisualizationsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListDataVisualizationsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListDataVisualizationsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListDataVisualizationsContext_Call {
+func (_e *MockDwClientService_Expecter) ListDataVisualizationsContext(ctx any, params any, opts ...any) *MockDwClientService_ListDataVisualizationsContext_Call {
 	return &MockDwClientService_ListDataVisualizationsContext_Call{Call: _e.mock.On("ListDataVisualizationsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListDataVisualizationsContext_Call) Run(run func(ctx context.Context, params *operations.ListDataVisualizationsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDataVisualizationsContext_Call {
@@ -10626,11 +10635,11 @@ func (_c *MockDwClientService_ListDataVisualizationsContext_Call) RunAndReturn(r
 // ListDbcConfigs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDbcConfigs(params *operations.ListDbcConfigsParams, opts ...operations.ClientOption) (*operations.ListDbcConfigsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10667,9 +10676,9 @@ type MockDwClientService_ListDbcConfigs_Call struct {
 // ListDbcConfigs is a helper method to define mock.On call
 //   - params *operations.ListDbcConfigsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListDbcConfigs(params interface{}, opts ...interface{}) *MockDwClientService_ListDbcConfigs_Call {
+func (_e *MockDwClientService_Expecter) ListDbcConfigs(params any, opts ...any) *MockDwClientService_ListDbcConfigs_Call {
 	return &MockDwClientService_ListDbcConfigs_Call{Call: _e.mock.On("ListDbcConfigs",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListDbcConfigs_Call) Run(run func(params *operations.ListDbcConfigsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcConfigs_Call {
@@ -10707,11 +10716,11 @@ func (_c *MockDwClientService_ListDbcConfigs_Call) RunAndReturn(run func(params 
 // ListDbcConfigsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDbcConfigsContext(ctx context.Context, params *operations.ListDbcConfigsParams, opts ...operations.ClientOption) (*operations.ListDbcConfigsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10749,9 +10758,9 @@ type MockDwClientService_ListDbcConfigsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListDbcConfigsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListDbcConfigsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListDbcConfigsContext_Call {
+func (_e *MockDwClientService_Expecter) ListDbcConfigsContext(ctx any, params any, opts ...any) *MockDwClientService_ListDbcConfigsContext_Call {
 	return &MockDwClientService_ListDbcConfigsContext_Call{Call: _e.mock.On("ListDbcConfigsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListDbcConfigsContext_Call) Run(run func(ctx context.Context, params *operations.ListDbcConfigsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcConfigsContext_Call {
@@ -10794,11 +10803,11 @@ func (_c *MockDwClientService_ListDbcConfigsContext_Call) RunAndReturn(run func(
 // ListDbcDiagnosticDataJobs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDbcDiagnosticDataJobs(params *operations.ListDbcDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListDbcDiagnosticDataJobsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10835,9 +10844,9 @@ type MockDwClientService_ListDbcDiagnosticDataJobs_Call struct {
 // ListDbcDiagnosticDataJobs is a helper method to define mock.On call
 //   - params *operations.ListDbcDiagnosticDataJobsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListDbcDiagnosticDataJobs(params interface{}, opts ...interface{}) *MockDwClientService_ListDbcDiagnosticDataJobs_Call {
+func (_e *MockDwClientService_Expecter) ListDbcDiagnosticDataJobs(params any, opts ...any) *MockDwClientService_ListDbcDiagnosticDataJobs_Call {
 	return &MockDwClientService_ListDbcDiagnosticDataJobs_Call{Call: _e.mock.On("ListDbcDiagnosticDataJobs",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListDbcDiagnosticDataJobs_Call) Run(run func(params *operations.ListDbcDiagnosticDataJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcDiagnosticDataJobs_Call {
@@ -10875,11 +10884,11 @@ func (_c *MockDwClientService_ListDbcDiagnosticDataJobs_Call) RunAndReturn(run f
 // ListDbcDiagnosticDataJobsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDbcDiagnosticDataJobsContext(ctx context.Context, params *operations.ListDbcDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListDbcDiagnosticDataJobsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -10917,9 +10926,9 @@ type MockDwClientService_ListDbcDiagnosticDataJobsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListDbcDiagnosticDataJobsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListDbcDiagnosticDataJobsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call {
+func (_e *MockDwClientService_Expecter) ListDbcDiagnosticDataJobsContext(ctx any, params any, opts ...any) *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call {
 	return &MockDwClientService_ListDbcDiagnosticDataJobsContext_Call{Call: _e.mock.On("ListDbcDiagnosticDataJobsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call) Run(run func(ctx context.Context, params *operations.ListDbcDiagnosticDataJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call {
@@ -10962,11 +10971,11 @@ func (_c *MockDwClientService_ListDbcDiagnosticDataJobsContext_Call) RunAndRetur
 // ListDbcEvents provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDbcEvents(params *operations.ListDbcEventsParams, opts ...operations.ClientOption) (*operations.ListDbcEventsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11003,9 +11012,9 @@ type MockDwClientService_ListDbcEvents_Call struct {
 // ListDbcEvents is a helper method to define mock.On call
 //   - params *operations.ListDbcEventsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListDbcEvents(params interface{}, opts ...interface{}) *MockDwClientService_ListDbcEvents_Call {
+func (_e *MockDwClientService_Expecter) ListDbcEvents(params any, opts ...any) *MockDwClientService_ListDbcEvents_Call {
 	return &MockDwClientService_ListDbcEvents_Call{Call: _e.mock.On("ListDbcEvents",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListDbcEvents_Call) Run(run func(params *operations.ListDbcEventsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcEvents_Call {
@@ -11043,11 +11052,11 @@ func (_c *MockDwClientService_ListDbcEvents_Call) RunAndReturn(run func(params *
 // ListDbcEventsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDbcEventsContext(ctx context.Context, params *operations.ListDbcEventsParams, opts ...operations.ClientOption) (*operations.ListDbcEventsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11085,9 +11094,9 @@ type MockDwClientService_ListDbcEventsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListDbcEventsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListDbcEventsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListDbcEventsContext_Call {
+func (_e *MockDwClientService_Expecter) ListDbcEventsContext(ctx any, params any, opts ...any) *MockDwClientService_ListDbcEventsContext_Call {
 	return &MockDwClientService_ListDbcEventsContext_Call{Call: _e.mock.On("ListDbcEventsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListDbcEventsContext_Call) Run(run func(ctx context.Context, params *operations.ListDbcEventsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcEventsContext_Call {
@@ -11130,11 +11139,11 @@ func (_c *MockDwClientService_ListDbcEventsContext_Call) RunAndReturn(run func(c
 // ListDbcs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDbcs(params *operations.ListDbcsParams, opts ...operations.ClientOption) (*operations.ListDbcsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11171,9 +11180,9 @@ type MockDwClientService_ListDbcs_Call struct {
 // ListDbcs is a helper method to define mock.On call
 //   - params *operations.ListDbcsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListDbcs(params interface{}, opts ...interface{}) *MockDwClientService_ListDbcs_Call {
+func (_e *MockDwClientService_Expecter) ListDbcs(params any, opts ...any) *MockDwClientService_ListDbcs_Call {
 	return &MockDwClientService_ListDbcs_Call{Call: _e.mock.On("ListDbcs",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListDbcs_Call) Run(run func(params *operations.ListDbcsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcs_Call {
@@ -11211,11 +11220,11 @@ func (_c *MockDwClientService_ListDbcs_Call) RunAndReturn(run func(params *opera
 // ListDbcsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListDbcsContext(ctx context.Context, params *operations.ListDbcsParams, opts ...operations.ClientOption) (*operations.ListDbcsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11253,9 +11262,9 @@ type MockDwClientService_ListDbcsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListDbcsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListDbcsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListDbcsContext_Call {
+func (_e *MockDwClientService_Expecter) ListDbcsContext(ctx any, params any, opts ...any) *MockDwClientService_ListDbcsContext_Call {
 	return &MockDwClientService_ListDbcsContext_Call{Call: _e.mock.On("ListDbcsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListDbcsContext_Call) Run(run func(ctx context.Context, params *operations.ListDbcsParams, opts ...operations.ClientOption)) *MockDwClientService_ListDbcsContext_Call {
@@ -11298,11 +11307,11 @@ func (_c *MockDwClientService_ListDbcsContext_Call) RunAndReturn(run func(ctx co
 // ListEvents provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListEvents(params *operations.ListEventsParams, opts ...operations.ClientOption) (*operations.ListEventsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11339,9 +11348,9 @@ type MockDwClientService_ListEvents_Call struct {
 // ListEvents is a helper method to define mock.On call
 //   - params *operations.ListEventsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListEvents(params interface{}, opts ...interface{}) *MockDwClientService_ListEvents_Call {
+func (_e *MockDwClientService_Expecter) ListEvents(params any, opts ...any) *MockDwClientService_ListEvents_Call {
 	return &MockDwClientService_ListEvents_Call{Call: _e.mock.On("ListEvents",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListEvents_Call) Run(run func(params *operations.ListEventsParams, opts ...operations.ClientOption)) *MockDwClientService_ListEvents_Call {
@@ -11379,11 +11388,11 @@ func (_c *MockDwClientService_ListEvents_Call) RunAndReturn(run func(params *ope
 // ListEventsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListEventsContext(ctx context.Context, params *operations.ListEventsParams, opts ...operations.ClientOption) (*operations.ListEventsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11421,9 +11430,9 @@ type MockDwClientService_ListEventsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListEventsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListEventsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListEventsContext_Call {
+func (_e *MockDwClientService_Expecter) ListEventsContext(ctx any, params any, opts ...any) *MockDwClientService_ListEventsContext_Call {
 	return &MockDwClientService_ListEventsContext_Call{Call: _e.mock.On("ListEventsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListEventsContext_Call) Run(run func(ctx context.Context, params *operations.ListEventsParams, opts ...operations.ClientOption)) *MockDwClientService_ListEventsContext_Call {
@@ -11466,11 +11475,11 @@ func (_c *MockDwClientService_ListEventsContext_Call) RunAndReturn(run func(ctx 
 // ListHues provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListHues(params *operations.ListHuesParams, opts ...operations.ClientOption) (*operations.ListHuesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11507,9 +11516,9 @@ type MockDwClientService_ListHues_Call struct {
 // ListHues is a helper method to define mock.On call
 //   - params *operations.ListHuesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListHues(params interface{}, opts ...interface{}) *MockDwClientService_ListHues_Call {
+func (_e *MockDwClientService_Expecter) ListHues(params any, opts ...any) *MockDwClientService_ListHues_Call {
 	return &MockDwClientService_ListHues_Call{Call: _e.mock.On("ListHues",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListHues_Call) Run(run func(params *operations.ListHuesParams, opts ...operations.ClientOption)) *MockDwClientService_ListHues_Call {
@@ -11547,11 +11556,11 @@ func (_c *MockDwClientService_ListHues_Call) RunAndReturn(run func(params *opera
 // ListHuesContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListHuesContext(ctx context.Context, params *operations.ListHuesParams, opts ...operations.ClientOption) (*operations.ListHuesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11589,9 +11598,9 @@ type MockDwClientService_ListHuesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListHuesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListHuesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListHuesContext_Call {
+func (_e *MockDwClientService_Expecter) ListHuesContext(ctx any, params any, opts ...any) *MockDwClientService_ListHuesContext_Call {
 	return &MockDwClientService_ListHuesContext_Call{Call: _e.mock.On("ListHuesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListHuesContext_Call) Run(run func(ctx context.Context, params *operations.ListHuesParams, opts ...operations.ClientOption)) *MockDwClientService_ListHuesContext_Call {
@@ -11634,11 +11643,11 @@ func (_c *MockDwClientService_ListHuesContext_Call) RunAndReturn(run func(ctx co
 // ListLatestVersions provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListLatestVersions(params *operations.ListLatestVersionsParams, opts ...operations.ClientOption) (*operations.ListLatestVersionsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11675,9 +11684,9 @@ type MockDwClientService_ListLatestVersions_Call struct {
 // ListLatestVersions is a helper method to define mock.On call
 //   - params *operations.ListLatestVersionsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListLatestVersions(params interface{}, opts ...interface{}) *MockDwClientService_ListLatestVersions_Call {
+func (_e *MockDwClientService_Expecter) ListLatestVersions(params any, opts ...any) *MockDwClientService_ListLatestVersions_Call {
 	return &MockDwClientService_ListLatestVersions_Call{Call: _e.mock.On("ListLatestVersions",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListLatestVersions_Call) Run(run func(params *operations.ListLatestVersionsParams, opts ...operations.ClientOption)) *MockDwClientService_ListLatestVersions_Call {
@@ -11715,11 +11724,11 @@ func (_c *MockDwClientService_ListLatestVersions_Call) RunAndReturn(run func(par
 // ListLatestVersionsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListLatestVersionsContext(ctx context.Context, params *operations.ListLatestVersionsParams, opts ...operations.ClientOption) (*operations.ListLatestVersionsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11757,9 +11766,9 @@ type MockDwClientService_ListLatestVersionsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListLatestVersionsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListLatestVersionsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListLatestVersionsContext_Call {
+func (_e *MockDwClientService_Expecter) ListLatestVersionsContext(ctx any, params any, opts ...any) *MockDwClientService_ListLatestVersionsContext_Call {
 	return &MockDwClientService_ListLatestVersionsContext_Call{Call: _e.mock.On("ListLatestVersionsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListLatestVersionsContext_Call) Run(run func(ctx context.Context, params *operations.ListLatestVersionsParams, opts ...operations.ClientOption)) *MockDwClientService_ListLatestVersionsContext_Call {
@@ -11802,11 +11811,11 @@ func (_c *MockDwClientService_ListLatestVersionsContext_Call) RunAndReturn(run f
 // ListResourceTemplates provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListResourceTemplates(params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption) (*operations.ListResourceTemplatesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11843,9 +11852,9 @@ type MockDwClientService_ListResourceTemplates_Call struct {
 // ListResourceTemplates is a helper method to define mock.On call
 //   - params *operations.ListResourceTemplatesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListResourceTemplates(params interface{}, opts ...interface{}) *MockDwClientService_ListResourceTemplates_Call {
+func (_e *MockDwClientService_Expecter) ListResourceTemplates(params any, opts ...any) *MockDwClientService_ListResourceTemplates_Call {
 	return &MockDwClientService_ListResourceTemplates_Call{Call: _e.mock.On("ListResourceTemplates",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListResourceTemplates_Call) Run(run func(params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption)) *MockDwClientService_ListResourceTemplates_Call {
@@ -11883,11 +11892,11 @@ func (_c *MockDwClientService_ListResourceTemplates_Call) RunAndReturn(run func(
 // ListResourceTemplatesContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListResourceTemplatesContext(ctx context.Context, params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption) (*operations.ListResourceTemplatesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -11925,9 +11934,9 @@ type MockDwClientService_ListResourceTemplatesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListResourceTemplatesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListResourceTemplatesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListResourceTemplatesContext_Call {
+func (_e *MockDwClientService_Expecter) ListResourceTemplatesContext(ctx any, params any, opts ...any) *MockDwClientService_ListResourceTemplatesContext_Call {
 	return &MockDwClientService_ListResourceTemplatesContext_Call{Call: _e.mock.On("ListResourceTemplatesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListResourceTemplatesContext_Call) Run(run func(ctx context.Context, params *operations.ListResourceTemplatesParams, opts ...operations.ClientOption)) *MockDwClientService_ListResourceTemplatesContext_Call {
@@ -11970,11 +11979,11 @@ func (_c *MockDwClientService_ListResourceTemplatesContext_Call) RunAndReturn(ru
 // ListRestores provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListRestores(params *operations.ListRestoresParams, opts ...operations.ClientOption) (*operations.ListRestoresOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12011,9 +12020,9 @@ type MockDwClientService_ListRestores_Call struct {
 // ListRestores is a helper method to define mock.On call
 //   - params *operations.ListRestoresParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListRestores(params interface{}, opts ...interface{}) *MockDwClientService_ListRestores_Call {
+func (_e *MockDwClientService_Expecter) ListRestores(params any, opts ...any) *MockDwClientService_ListRestores_Call {
 	return &MockDwClientService_ListRestores_Call{Call: _e.mock.On("ListRestores",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListRestores_Call) Run(run func(params *operations.ListRestoresParams, opts ...operations.ClientOption)) *MockDwClientService_ListRestores_Call {
@@ -12051,11 +12060,11 @@ func (_c *MockDwClientService_ListRestores_Call) RunAndReturn(run func(params *o
 // ListRestoresContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListRestoresContext(ctx context.Context, params *operations.ListRestoresParams, opts ...operations.ClientOption) (*operations.ListRestoresOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12093,9 +12102,9 @@ type MockDwClientService_ListRestoresContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListRestoresParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListRestoresContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListRestoresContext_Call {
+func (_e *MockDwClientService_Expecter) ListRestoresContext(ctx any, params any, opts ...any) *MockDwClientService_ListRestoresContext_Call {
 	return &MockDwClientService_ListRestoresContext_Call{Call: _e.mock.On("ListRestoresContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListRestoresContext_Call) Run(run func(ctx context.Context, params *operations.ListRestoresParams, opts ...operations.ClientOption)) *MockDwClientService_ListRestoresContext_Call {
@@ -12138,11 +12147,11 @@ func (_c *MockDwClientService_ListRestoresContext_Call) RunAndReturn(run func(ct
 // ListSecrets provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListSecrets(params *operations.ListSecretsParams, opts ...operations.ClientOption) (*operations.ListSecretsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12179,9 +12188,9 @@ type MockDwClientService_ListSecrets_Call struct {
 // ListSecrets is a helper method to define mock.On call
 //   - params *operations.ListSecretsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListSecrets(params interface{}, opts ...interface{}) *MockDwClientService_ListSecrets_Call {
+func (_e *MockDwClientService_Expecter) ListSecrets(params any, opts ...any) *MockDwClientService_ListSecrets_Call {
 	return &MockDwClientService_ListSecrets_Call{Call: _e.mock.On("ListSecrets",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListSecrets_Call) Run(run func(params *operations.ListSecretsParams, opts ...operations.ClientOption)) *MockDwClientService_ListSecrets_Call {
@@ -12219,11 +12228,11 @@ func (_c *MockDwClientService_ListSecrets_Call) RunAndReturn(run func(params *op
 // ListSecretsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListSecretsContext(ctx context.Context, params *operations.ListSecretsParams, opts ...operations.ClientOption) (*operations.ListSecretsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12261,9 +12270,9 @@ type MockDwClientService_ListSecretsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListSecretsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListSecretsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListSecretsContext_Call {
+func (_e *MockDwClientService_Expecter) ListSecretsContext(ctx any, params any, opts ...any) *MockDwClientService_ListSecretsContext_Call {
 	return &MockDwClientService_ListSecretsContext_Call{Call: _e.mock.On("ListSecretsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListSecretsContext_Call) Run(run func(ctx context.Context, params *operations.ListSecretsParams, opts ...operations.ClientOption)) *MockDwClientService_ListSecretsContext_Call {
@@ -12306,11 +12315,11 @@ func (_c *MockDwClientService_ListSecretsContext_Call) RunAndReturn(run func(ctx
 // ListUsers provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListUsers(params *operations.ListUsersParams, opts ...operations.ClientOption) (*operations.ListUsersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12347,9 +12356,9 @@ type MockDwClientService_ListUsers_Call struct {
 // ListUsers is a helper method to define mock.On call
 //   - params *operations.ListUsersParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListUsers(params interface{}, opts ...interface{}) *MockDwClientService_ListUsers_Call {
+func (_e *MockDwClientService_Expecter) ListUsers(params any, opts ...any) *MockDwClientService_ListUsers_Call {
 	return &MockDwClientService_ListUsers_Call{Call: _e.mock.On("ListUsers",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListUsers_Call) Run(run func(params *operations.ListUsersParams, opts ...operations.ClientOption)) *MockDwClientService_ListUsers_Call {
@@ -12387,11 +12396,11 @@ func (_c *MockDwClientService_ListUsers_Call) RunAndReturn(run func(params *oper
 // ListUsersContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListUsersContext(ctx context.Context, params *operations.ListUsersParams, opts ...operations.ClientOption) (*operations.ListUsersOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12429,9 +12438,9 @@ type MockDwClientService_ListUsersContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListUsersParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListUsersContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListUsersContext_Call {
+func (_e *MockDwClientService_Expecter) ListUsersContext(ctx any, params any, opts ...any) *MockDwClientService_ListUsersContext_Call {
 	return &MockDwClientService_ListUsersContext_Call{Call: _e.mock.On("ListUsersContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListUsersContext_Call) Run(run func(ctx context.Context, params *operations.ListUsersParams, opts ...operations.ClientOption)) *MockDwClientService_ListUsersContext_Call {
@@ -12474,11 +12483,11 @@ func (_c *MockDwClientService_ListUsersContext_Call) RunAndReturn(run func(ctx c
 // ListVwConfigs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListVwConfigs(params *operations.ListVwConfigsParams, opts ...operations.ClientOption) (*operations.ListVwConfigsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12515,9 +12524,9 @@ type MockDwClientService_ListVwConfigs_Call struct {
 // ListVwConfigs is a helper method to define mock.On call
 //   - params *operations.ListVwConfigsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListVwConfigs(params interface{}, opts ...interface{}) *MockDwClientService_ListVwConfigs_Call {
+func (_e *MockDwClientService_Expecter) ListVwConfigs(params any, opts ...any) *MockDwClientService_ListVwConfigs_Call {
 	return &MockDwClientService_ListVwConfigs_Call{Call: _e.mock.On("ListVwConfigs",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListVwConfigs_Call) Run(run func(params *operations.ListVwConfigsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwConfigs_Call {
@@ -12555,11 +12564,11 @@ func (_c *MockDwClientService_ListVwConfigs_Call) RunAndReturn(run func(params *
 // ListVwConfigsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListVwConfigsContext(ctx context.Context, params *operations.ListVwConfigsParams, opts ...operations.ClientOption) (*operations.ListVwConfigsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12597,9 +12606,9 @@ type MockDwClientService_ListVwConfigsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListVwConfigsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListVwConfigsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListVwConfigsContext_Call {
+func (_e *MockDwClientService_Expecter) ListVwConfigsContext(ctx any, params any, opts ...any) *MockDwClientService_ListVwConfigsContext_Call {
 	return &MockDwClientService_ListVwConfigsContext_Call{Call: _e.mock.On("ListVwConfigsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListVwConfigsContext_Call) Run(run func(ctx context.Context, params *operations.ListVwConfigsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwConfigsContext_Call {
@@ -12642,11 +12651,11 @@ func (_c *MockDwClientService_ListVwConfigsContext_Call) RunAndReturn(run func(c
 // ListVwDiagnosticDataJobs provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListVwDiagnosticDataJobs(params *operations.ListVwDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListVwDiagnosticDataJobsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12683,9 +12692,9 @@ type MockDwClientService_ListVwDiagnosticDataJobs_Call struct {
 // ListVwDiagnosticDataJobs is a helper method to define mock.On call
 //   - params *operations.ListVwDiagnosticDataJobsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListVwDiagnosticDataJobs(params interface{}, opts ...interface{}) *MockDwClientService_ListVwDiagnosticDataJobs_Call {
+func (_e *MockDwClientService_Expecter) ListVwDiagnosticDataJobs(params any, opts ...any) *MockDwClientService_ListVwDiagnosticDataJobs_Call {
 	return &MockDwClientService_ListVwDiagnosticDataJobs_Call{Call: _e.mock.On("ListVwDiagnosticDataJobs",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListVwDiagnosticDataJobs_Call) Run(run func(params *operations.ListVwDiagnosticDataJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwDiagnosticDataJobs_Call {
@@ -12723,11 +12732,11 @@ func (_c *MockDwClientService_ListVwDiagnosticDataJobs_Call) RunAndReturn(run fu
 // ListVwDiagnosticDataJobsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListVwDiagnosticDataJobsContext(ctx context.Context, params *operations.ListVwDiagnosticDataJobsParams, opts ...operations.ClientOption) (*operations.ListVwDiagnosticDataJobsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12765,9 +12774,9 @@ type MockDwClientService_ListVwDiagnosticDataJobsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListVwDiagnosticDataJobsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListVwDiagnosticDataJobsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListVwDiagnosticDataJobsContext_Call {
+func (_e *MockDwClientService_Expecter) ListVwDiagnosticDataJobsContext(ctx any, params any, opts ...any) *MockDwClientService_ListVwDiagnosticDataJobsContext_Call {
 	return &MockDwClientService_ListVwDiagnosticDataJobsContext_Call{Call: _e.mock.On("ListVwDiagnosticDataJobsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListVwDiagnosticDataJobsContext_Call) Run(run func(ctx context.Context, params *operations.ListVwDiagnosticDataJobsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwDiagnosticDataJobsContext_Call {
@@ -12810,11 +12819,11 @@ func (_c *MockDwClientService_ListVwDiagnosticDataJobsContext_Call) RunAndReturn
 // ListVwEvents provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListVwEvents(params *operations.ListVwEventsParams, opts ...operations.ClientOption) (*operations.ListVwEventsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12851,9 +12860,9 @@ type MockDwClientService_ListVwEvents_Call struct {
 // ListVwEvents is a helper method to define mock.On call
 //   - params *operations.ListVwEventsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListVwEvents(params interface{}, opts ...interface{}) *MockDwClientService_ListVwEvents_Call {
+func (_e *MockDwClientService_Expecter) ListVwEvents(params any, opts ...any) *MockDwClientService_ListVwEvents_Call {
 	return &MockDwClientService_ListVwEvents_Call{Call: _e.mock.On("ListVwEvents",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListVwEvents_Call) Run(run func(params *operations.ListVwEventsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwEvents_Call {
@@ -12891,11 +12900,11 @@ func (_c *MockDwClientService_ListVwEvents_Call) RunAndReturn(run func(params *o
 // ListVwEventsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListVwEventsContext(ctx context.Context, params *operations.ListVwEventsParams, opts ...operations.ClientOption) (*operations.ListVwEventsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -12933,9 +12942,9 @@ type MockDwClientService_ListVwEventsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListVwEventsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListVwEventsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListVwEventsContext_Call {
+func (_e *MockDwClientService_Expecter) ListVwEventsContext(ctx any, params any, opts ...any) *MockDwClientService_ListVwEventsContext_Call {
 	return &MockDwClientService_ListVwEventsContext_Call{Call: _e.mock.On("ListVwEventsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListVwEventsContext_Call) Run(run func(ctx context.Context, params *operations.ListVwEventsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwEventsContext_Call {
@@ -12978,11 +12987,11 @@ func (_c *MockDwClientService_ListVwEventsContext_Call) RunAndReturn(run func(ct
 // ListVws provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListVws(params *operations.ListVwsParams, opts ...operations.ClientOption) (*operations.ListVwsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13019,9 +13028,9 @@ type MockDwClientService_ListVws_Call struct {
 // ListVws is a helper method to define mock.On call
 //   - params *operations.ListVwsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListVws(params interface{}, opts ...interface{}) *MockDwClientService_ListVws_Call {
+func (_e *MockDwClientService_Expecter) ListVws(params any, opts ...any) *MockDwClientService_ListVws_Call {
 	return &MockDwClientService_ListVws_Call{Call: _e.mock.On("ListVws",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListVws_Call) Run(run func(params *operations.ListVwsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVws_Call {
@@ -13059,11 +13068,11 @@ func (_c *MockDwClientService_ListVws_Call) RunAndReturn(run func(params *operat
 // ListVwsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ListVwsContext(ctx context.Context, params *operations.ListVwsParams, opts ...operations.ClientOption) (*operations.ListVwsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13101,9 +13110,9 @@ type MockDwClientService_ListVwsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ListVwsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ListVwsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ListVwsContext_Call {
+func (_e *MockDwClientService_Expecter) ListVwsContext(ctx any, params any, opts ...any) *MockDwClientService_ListVwsContext_Call {
 	return &MockDwClientService_ListVwsContext_Call{Call: _e.mock.On("ListVwsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ListVwsContext_Call) Run(run func(ctx context.Context, params *operations.ListVwsParams, opts ...operations.ClientOption)) *MockDwClientService_ListVwsContext_Call {
@@ -13146,11 +13155,11 @@ func (_c *MockDwClientService_ListVwsContext_Call) RunAndReturn(run func(ctx con
 // RebuildDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RebuildDbc(params *operations.RebuildDbcParams, opts ...operations.ClientOption) (*operations.RebuildDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13187,9 +13196,9 @@ type MockDwClientService_RebuildDbc_Call struct {
 // RebuildDbc is a helper method to define mock.On call
 //   - params *operations.RebuildDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RebuildDbc(params interface{}, opts ...interface{}) *MockDwClientService_RebuildDbc_Call {
+func (_e *MockDwClientService_Expecter) RebuildDbc(params any, opts ...any) *MockDwClientService_RebuildDbc_Call {
 	return &MockDwClientService_RebuildDbc_Call{Call: _e.mock.On("RebuildDbc",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RebuildDbc_Call) Run(run func(params *operations.RebuildDbcParams, opts ...operations.ClientOption)) *MockDwClientService_RebuildDbc_Call {
@@ -13227,11 +13236,11 @@ func (_c *MockDwClientService_RebuildDbc_Call) RunAndReturn(run func(params *ope
 // RebuildDbcContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RebuildDbcContext(ctx context.Context, params *operations.RebuildDbcParams, opts ...operations.ClientOption) (*operations.RebuildDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13269,9 +13278,9 @@ type MockDwClientService_RebuildDbcContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RebuildDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RebuildDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RebuildDbcContext_Call {
+func (_e *MockDwClientService_Expecter) RebuildDbcContext(ctx any, params any, opts ...any) *MockDwClientService_RebuildDbcContext_Call {
 	return &MockDwClientService_RebuildDbcContext_Call{Call: _e.mock.On("RebuildDbcContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RebuildDbcContext_Call) Run(run func(ctx context.Context, params *operations.RebuildDbcParams, opts ...operations.ClientOption)) *MockDwClientService_RebuildDbcContext_Call {
@@ -13314,11 +13323,11 @@ func (_c *MockDwClientService_RebuildDbcContext_Call) RunAndReturn(run func(ctx 
 // RebuildHue provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RebuildHue(params *operations.RebuildHueParams, opts ...operations.ClientOption) (*operations.RebuildHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13355,9 +13364,9 @@ type MockDwClientService_RebuildHue_Call struct {
 // RebuildHue is a helper method to define mock.On call
 //   - params *operations.RebuildHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RebuildHue(params interface{}, opts ...interface{}) *MockDwClientService_RebuildHue_Call {
+func (_e *MockDwClientService_Expecter) RebuildHue(params any, opts ...any) *MockDwClientService_RebuildHue_Call {
 	return &MockDwClientService_RebuildHue_Call{Call: _e.mock.On("RebuildHue",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RebuildHue_Call) Run(run func(params *operations.RebuildHueParams, opts ...operations.ClientOption)) *MockDwClientService_RebuildHue_Call {
@@ -13395,11 +13404,11 @@ func (_c *MockDwClientService_RebuildHue_Call) RunAndReturn(run func(params *ope
 // RebuildHueContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RebuildHueContext(ctx context.Context, params *operations.RebuildHueParams, opts ...operations.ClientOption) (*operations.RebuildHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13437,9 +13446,9 @@ type MockDwClientService_RebuildHueContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RebuildHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RebuildHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RebuildHueContext_Call {
+func (_e *MockDwClientService_Expecter) RebuildHueContext(ctx any, params any, opts ...any) *MockDwClientService_RebuildHueContext_Call {
 	return &MockDwClientService_RebuildHueContext_Call{Call: _e.mock.On("RebuildHueContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RebuildHueContext_Call) Run(run func(ctx context.Context, params *operations.RebuildHueParams, opts ...operations.ClientOption)) *MockDwClientService_RebuildHueContext_Call {
@@ -13482,11 +13491,11 @@ func (_c *MockDwClientService_RebuildHueContext_Call) RunAndReturn(run func(ctx 
 // RebuildVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RebuildVw(params *operations.RebuildVwParams, opts ...operations.ClientOption) (*operations.RebuildVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13523,9 +13532,9 @@ type MockDwClientService_RebuildVw_Call struct {
 // RebuildVw is a helper method to define mock.On call
 //   - params *operations.RebuildVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RebuildVw(params interface{}, opts ...interface{}) *MockDwClientService_RebuildVw_Call {
+func (_e *MockDwClientService_Expecter) RebuildVw(params any, opts ...any) *MockDwClientService_RebuildVw_Call {
 	return &MockDwClientService_RebuildVw_Call{Call: _e.mock.On("RebuildVw",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RebuildVw_Call) Run(run func(params *operations.RebuildVwParams, opts ...operations.ClientOption)) *MockDwClientService_RebuildVw_Call {
@@ -13563,11 +13572,11 @@ func (_c *MockDwClientService_RebuildVw_Call) RunAndReturn(run func(params *oper
 // RebuildVwContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RebuildVwContext(ctx context.Context, params *operations.RebuildVwParams, opts ...operations.ClientOption) (*operations.RebuildVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13605,9 +13614,9 @@ type MockDwClientService_RebuildVwContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RebuildVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RebuildVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RebuildVwContext_Call {
+func (_e *MockDwClientService_Expecter) RebuildVwContext(ctx any, params any, opts ...any) *MockDwClientService_RebuildVwContext_Call {
 	return &MockDwClientService_RebuildVwContext_Call{Call: _e.mock.On("RebuildVwContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RebuildVwContext_Call) Run(run func(ctx context.Context, params *operations.RebuildVwParams, opts ...operations.ClientOption)) *MockDwClientService_RebuildVwContext_Call {
@@ -13650,11 +13659,11 @@ func (_c *MockDwClientService_RebuildVwContext_Call) RunAndReturn(run func(ctx c
 // RegisterSecret provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RegisterSecret(params *operations.RegisterSecretParams, opts ...operations.ClientOption) (*operations.RegisterSecretOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13691,9 +13700,9 @@ type MockDwClientService_RegisterSecret_Call struct {
 // RegisterSecret is a helper method to define mock.On call
 //   - params *operations.RegisterSecretParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RegisterSecret(params interface{}, opts ...interface{}) *MockDwClientService_RegisterSecret_Call {
+func (_e *MockDwClientService_Expecter) RegisterSecret(params any, opts ...any) *MockDwClientService_RegisterSecret_Call {
 	return &MockDwClientService_RegisterSecret_Call{Call: _e.mock.On("RegisterSecret",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RegisterSecret_Call) Run(run func(params *operations.RegisterSecretParams, opts ...operations.ClientOption)) *MockDwClientService_RegisterSecret_Call {
@@ -13731,11 +13740,11 @@ func (_c *MockDwClientService_RegisterSecret_Call) RunAndReturn(run func(params 
 // RegisterSecretContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RegisterSecretContext(ctx context.Context, params *operations.RegisterSecretParams, opts ...operations.ClientOption) (*operations.RegisterSecretOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13773,9 +13782,9 @@ type MockDwClientService_RegisterSecretContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RegisterSecretParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RegisterSecretContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RegisterSecretContext_Call {
+func (_e *MockDwClientService_Expecter) RegisterSecretContext(ctx any, params any, opts ...any) *MockDwClientService_RegisterSecretContext_Call {
 	return &MockDwClientService_RegisterSecretContext_Call{Call: _e.mock.On("RegisterSecretContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RegisterSecretContext_Call) Run(run func(ctx context.Context, params *operations.RegisterSecretParams, opts ...operations.ClientOption)) *MockDwClientService_RegisterSecretContext_Call {
@@ -13818,11 +13827,11 @@ func (_c *MockDwClientService_RegisterSecretContext_Call) RunAndReturn(run func(
 // RenewCertificates provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RenewCertificates(params *operations.RenewCertificatesParams, opts ...operations.ClientOption) (*operations.RenewCertificatesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13859,9 +13868,9 @@ type MockDwClientService_RenewCertificates_Call struct {
 // RenewCertificates is a helper method to define mock.On call
 //   - params *operations.RenewCertificatesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RenewCertificates(params interface{}, opts ...interface{}) *MockDwClientService_RenewCertificates_Call {
+func (_e *MockDwClientService_Expecter) RenewCertificates(params any, opts ...any) *MockDwClientService_RenewCertificates_Call {
 	return &MockDwClientService_RenewCertificates_Call{Call: _e.mock.On("RenewCertificates",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RenewCertificates_Call) Run(run func(params *operations.RenewCertificatesParams, opts ...operations.ClientOption)) *MockDwClientService_RenewCertificates_Call {
@@ -13899,11 +13908,11 @@ func (_c *MockDwClientService_RenewCertificates_Call) RunAndReturn(run func(para
 // RenewCertificatesContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RenewCertificatesContext(ctx context.Context, params *operations.RenewCertificatesParams, opts ...operations.ClientOption) (*operations.RenewCertificatesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -13941,9 +13950,9 @@ type MockDwClientService_RenewCertificatesContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RenewCertificatesParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RenewCertificatesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RenewCertificatesContext_Call {
+func (_e *MockDwClientService_Expecter) RenewCertificatesContext(ctx any, params any, opts ...any) *MockDwClientService_RenewCertificatesContext_Call {
 	return &MockDwClientService_RenewCertificatesContext_Call{Call: _e.mock.On("RenewCertificatesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RenewCertificatesContext_Call) Run(run func(ctx context.Context, params *operations.RenewCertificatesParams, opts ...operations.ClientOption)) *MockDwClientService_RenewCertificatesContext_Call {
@@ -13986,11 +13995,11 @@ func (_c *MockDwClientService_RenewCertificatesContext_Call) RunAndReturn(run fu
 // ResetServerSettings provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ResetServerSettings(params *operations.ResetServerSettingsParams, opts ...operations.ClientOption) (*operations.ResetServerSettingsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14027,9 +14036,9 @@ type MockDwClientService_ResetServerSettings_Call struct {
 // ResetServerSettings is a helper method to define mock.On call
 //   - params *operations.ResetServerSettingsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ResetServerSettings(params interface{}, opts ...interface{}) *MockDwClientService_ResetServerSettings_Call {
+func (_e *MockDwClientService_Expecter) ResetServerSettings(params any, opts ...any) *MockDwClientService_ResetServerSettings_Call {
 	return &MockDwClientService_ResetServerSettings_Call{Call: _e.mock.On("ResetServerSettings",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ResetServerSettings_Call) Run(run func(params *operations.ResetServerSettingsParams, opts ...operations.ClientOption)) *MockDwClientService_ResetServerSettings_Call {
@@ -14067,11 +14076,11 @@ func (_c *MockDwClientService_ResetServerSettings_Call) RunAndReturn(run func(pa
 // ResetServerSettingsContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ResetServerSettingsContext(ctx context.Context, params *operations.ResetServerSettingsParams, opts ...operations.ClientOption) (*operations.ResetServerSettingsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14109,9 +14118,9 @@ type MockDwClientService_ResetServerSettingsContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ResetServerSettingsParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ResetServerSettingsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ResetServerSettingsContext_Call {
+func (_e *MockDwClientService_Expecter) ResetServerSettingsContext(ctx any, params any, opts ...any) *MockDwClientService_ResetServerSettingsContext_Call {
 	return &MockDwClientService_ResetServerSettingsContext_Call{Call: _e.mock.On("ResetServerSettingsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ResetServerSettingsContext_Call) Run(run func(ctx context.Context, params *operations.ResetServerSettingsParams, opts ...operations.ClientOption)) *MockDwClientService_ResetServerSettingsContext_Call {
@@ -14154,11 +14163,11 @@ func (_c *MockDwClientService_ResetServerSettingsContext_Call) RunAndReturn(run 
 // RestoreBackup provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RestoreBackup(params *operations.RestoreBackupParams, opts ...operations.ClientOption) (*operations.RestoreBackupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14195,9 +14204,9 @@ type MockDwClientService_RestoreBackup_Call struct {
 // RestoreBackup is a helper method to define mock.On call
 //   - params *operations.RestoreBackupParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RestoreBackup(params interface{}, opts ...interface{}) *MockDwClientService_RestoreBackup_Call {
+func (_e *MockDwClientService_Expecter) RestoreBackup(params any, opts ...any) *MockDwClientService_RestoreBackup_Call {
 	return &MockDwClientService_RestoreBackup_Call{Call: _e.mock.On("RestoreBackup",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RestoreBackup_Call) Run(run func(params *operations.RestoreBackupParams, opts ...operations.ClientOption)) *MockDwClientService_RestoreBackup_Call {
@@ -14235,11 +14244,11 @@ func (_c *MockDwClientService_RestoreBackup_Call) RunAndReturn(run func(params *
 // RestoreBackupContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RestoreBackupContext(ctx context.Context, params *operations.RestoreBackupParams, opts ...operations.ClientOption) (*operations.RestoreBackupOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14277,9 +14286,9 @@ type MockDwClientService_RestoreBackupContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RestoreBackupParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RestoreBackupContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RestoreBackupContext_Call {
+func (_e *MockDwClientService_Expecter) RestoreBackupContext(ctx any, params any, opts ...any) *MockDwClientService_RestoreBackupContext_Call {
 	return &MockDwClientService_RestoreBackupContext_Call{Call: _e.mock.On("RestoreBackupContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RestoreBackupContext_Call) Run(run func(ctx context.Context, params *operations.RestoreBackupParams, opts ...operations.ClientOption)) *MockDwClientService_RestoreBackupContext_Call {
@@ -14322,11 +14331,11 @@ func (_c *MockDwClientService_RestoreBackupContext_Call) RunAndReturn(run func(c
 // RestoreCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RestoreCluster(params *operations.RestoreClusterParams, opts ...operations.ClientOption) (*operations.RestoreClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14363,9 +14372,9 @@ type MockDwClientService_RestoreCluster_Call struct {
 // RestoreCluster is a helper method to define mock.On call
 //   - params *operations.RestoreClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RestoreCluster(params interface{}, opts ...interface{}) *MockDwClientService_RestoreCluster_Call {
+func (_e *MockDwClientService_Expecter) RestoreCluster(params any, opts ...any) *MockDwClientService_RestoreCluster_Call {
 	return &MockDwClientService_RestoreCluster_Call{Call: _e.mock.On("RestoreCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RestoreCluster_Call) Run(run func(params *operations.RestoreClusterParams, opts ...operations.ClientOption)) *MockDwClientService_RestoreCluster_Call {
@@ -14403,11 +14412,11 @@ func (_c *MockDwClientService_RestoreCluster_Call) RunAndReturn(run func(params 
 // RestoreClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) RestoreClusterContext(ctx context.Context, params *operations.RestoreClusterParams, opts ...operations.ClientOption) (*operations.RestoreClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14445,9 +14454,9 @@ type MockDwClientService_RestoreClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.RestoreClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) RestoreClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_RestoreClusterContext_Call {
+func (_e *MockDwClientService_Expecter) RestoreClusterContext(ctx any, params any, opts ...any) *MockDwClientService_RestoreClusterContext_Call {
 	return &MockDwClientService_RestoreClusterContext_Call{Call: _e.mock.On("RestoreClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_RestoreClusterContext_Call) Run(run func(ctx context.Context, params *operations.RestoreClusterParams, opts ...operations.ClientOption)) *MockDwClientService_RestoreClusterContext_Call {
@@ -14490,11 +14499,11 @@ func (_c *MockDwClientService_RestoreClusterContext_Call) RunAndReturn(run func(
 // ResumeCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ResumeCluster(params *operations.ResumeClusterParams, opts ...operations.ClientOption) (*operations.ResumeClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14531,9 +14540,9 @@ type MockDwClientService_ResumeCluster_Call struct {
 // ResumeCluster is a helper method to define mock.On call
 //   - params *operations.ResumeClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ResumeCluster(params interface{}, opts ...interface{}) *MockDwClientService_ResumeCluster_Call {
+func (_e *MockDwClientService_Expecter) ResumeCluster(params any, opts ...any) *MockDwClientService_ResumeCluster_Call {
 	return &MockDwClientService_ResumeCluster_Call{Call: _e.mock.On("ResumeCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ResumeCluster_Call) Run(run func(params *operations.ResumeClusterParams, opts ...operations.ClientOption)) *MockDwClientService_ResumeCluster_Call {
@@ -14571,11 +14580,11 @@ func (_c *MockDwClientService_ResumeCluster_Call) RunAndReturn(run func(params *
 // ResumeClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) ResumeClusterContext(ctx context.Context, params *operations.ResumeClusterParams, opts ...operations.ClientOption) (*operations.ResumeClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14613,9 +14622,9 @@ type MockDwClientService_ResumeClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.ResumeClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) ResumeClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_ResumeClusterContext_Call {
+func (_e *MockDwClientService_Expecter) ResumeClusterContext(ctx any, params any, opts ...any) *MockDwClientService_ResumeClusterContext_Call {
 	return &MockDwClientService_ResumeClusterContext_Call{Call: _e.mock.On("ResumeClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_ResumeClusterContext_Call) Run(run func(ctx context.Context, params *operations.ResumeClusterParams, opts ...operations.ClientOption)) *MockDwClientService_ResumeClusterContext_Call {
@@ -14668,7 +14677,7 @@ type MockDwClientService_SetTransport_Call struct {
 
 // SetTransport is a helper method to define mock.On call
 //   - transport runtime.ContextualTransport
-func (_e *MockDwClientService_Expecter) SetTransport(transport interface{}) *MockDwClientService_SetTransport_Call {
+func (_e *MockDwClientService_Expecter) SetTransport(transport any) *MockDwClientService_SetTransport_Call {
 	return &MockDwClientService_SetTransport_Call{Call: _e.mock.On("SetTransport", transport)}
 }
 
@@ -14698,11 +14707,11 @@ func (_c *MockDwClientService_SetTransport_Call) RunAndReturn(run func(transport
 // StartDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) StartDbc(params *operations.StartDbcParams, opts ...operations.ClientOption) (*operations.StartDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14739,9 +14748,9 @@ type MockDwClientService_StartDbc_Call struct {
 // StartDbc is a helper method to define mock.On call
 //   - params *operations.StartDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) StartDbc(params interface{}, opts ...interface{}) *MockDwClientService_StartDbc_Call {
+func (_e *MockDwClientService_Expecter) StartDbc(params any, opts ...any) *MockDwClientService_StartDbc_Call {
 	return &MockDwClientService_StartDbc_Call{Call: _e.mock.On("StartDbc",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_StartDbc_Call) Run(run func(params *operations.StartDbcParams, opts ...operations.ClientOption)) *MockDwClientService_StartDbc_Call {
@@ -14779,11 +14788,11 @@ func (_c *MockDwClientService_StartDbc_Call) RunAndReturn(run func(params *opera
 // StartDbcContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) StartDbcContext(ctx context.Context, params *operations.StartDbcParams, opts ...operations.ClientOption) (*operations.StartDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14821,9 +14830,9 @@ type MockDwClientService_StartDbcContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.StartDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) StartDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_StartDbcContext_Call {
+func (_e *MockDwClientService_Expecter) StartDbcContext(ctx any, params any, opts ...any) *MockDwClientService_StartDbcContext_Call {
 	return &MockDwClientService_StartDbcContext_Call{Call: _e.mock.On("StartDbcContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_StartDbcContext_Call) Run(run func(ctx context.Context, params *operations.StartDbcParams, opts ...operations.ClientOption)) *MockDwClientService_StartDbcContext_Call {
@@ -14866,11 +14875,11 @@ func (_c *MockDwClientService_StartDbcContext_Call) RunAndReturn(run func(ctx co
 // StartVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) StartVw(params *operations.StartVwParams, opts ...operations.ClientOption) (*operations.StartVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14907,9 +14916,9 @@ type MockDwClientService_StartVw_Call struct {
 // StartVw is a helper method to define mock.On call
 //   - params *operations.StartVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) StartVw(params interface{}, opts ...interface{}) *MockDwClientService_StartVw_Call {
+func (_e *MockDwClientService_Expecter) StartVw(params any, opts ...any) *MockDwClientService_StartVw_Call {
 	return &MockDwClientService_StartVw_Call{Call: _e.mock.On("StartVw",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_StartVw_Call) Run(run func(params *operations.StartVwParams, opts ...operations.ClientOption)) *MockDwClientService_StartVw_Call {
@@ -14947,11 +14956,11 @@ func (_c *MockDwClientService_StartVw_Call) RunAndReturn(run func(params *operat
 // StartVwContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) StartVwContext(ctx context.Context, params *operations.StartVwParams, opts ...operations.ClientOption) (*operations.StartVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -14989,9 +14998,9 @@ type MockDwClientService_StartVwContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.StartVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) StartVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_StartVwContext_Call {
+func (_e *MockDwClientService_Expecter) StartVwContext(ctx any, params any, opts ...any) *MockDwClientService_StartVwContext_Call {
 	return &MockDwClientService_StartVwContext_Call{Call: _e.mock.On("StartVwContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_StartVwContext_Call) Run(run func(ctx context.Context, params *operations.StartVwParams, opts ...operations.ClientOption)) *MockDwClientService_StartVwContext_Call {
@@ -15034,11 +15043,11 @@ func (_c *MockDwClientService_StartVwContext_Call) RunAndReturn(run func(ctx con
 // SuspendCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) SuspendCluster(params *operations.SuspendClusterParams, opts ...operations.ClientOption) (*operations.SuspendClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15075,9 +15084,9 @@ type MockDwClientService_SuspendCluster_Call struct {
 // SuspendCluster is a helper method to define mock.On call
 //   - params *operations.SuspendClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) SuspendCluster(params interface{}, opts ...interface{}) *MockDwClientService_SuspendCluster_Call {
+func (_e *MockDwClientService_Expecter) SuspendCluster(params any, opts ...any) *MockDwClientService_SuspendCluster_Call {
 	return &MockDwClientService_SuspendCluster_Call{Call: _e.mock.On("SuspendCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_SuspendCluster_Call) Run(run func(params *operations.SuspendClusterParams, opts ...operations.ClientOption)) *MockDwClientService_SuspendCluster_Call {
@@ -15115,11 +15124,11 @@ func (_c *MockDwClientService_SuspendCluster_Call) RunAndReturn(run func(params 
 // SuspendClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) SuspendClusterContext(ctx context.Context, params *operations.SuspendClusterParams, opts ...operations.ClientOption) (*operations.SuspendClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15157,9 +15166,9 @@ type MockDwClientService_SuspendClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SuspendClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) SuspendClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_SuspendClusterContext_Call {
+func (_e *MockDwClientService_Expecter) SuspendClusterContext(ctx any, params any, opts ...any) *MockDwClientService_SuspendClusterContext_Call {
 	return &MockDwClientService_SuspendClusterContext_Call{Call: _e.mock.On("SuspendClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_SuspendClusterContext_Call) Run(run func(ctx context.Context, params *operations.SuspendClusterParams, opts ...operations.ClientOption)) *MockDwClientService_SuspendClusterContext_Call {
@@ -15202,11 +15211,11 @@ func (_c *MockDwClientService_SuspendClusterContext_Call) RunAndReturn(run func(
 // SuspendDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) SuspendDbc(params *operations.SuspendDbcParams, opts ...operations.ClientOption) (*operations.SuspendDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15243,9 +15252,9 @@ type MockDwClientService_SuspendDbc_Call struct {
 // SuspendDbc is a helper method to define mock.On call
 //   - params *operations.SuspendDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) SuspendDbc(params interface{}, opts ...interface{}) *MockDwClientService_SuspendDbc_Call {
+func (_e *MockDwClientService_Expecter) SuspendDbc(params any, opts ...any) *MockDwClientService_SuspendDbc_Call {
 	return &MockDwClientService_SuspendDbc_Call{Call: _e.mock.On("SuspendDbc",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_SuspendDbc_Call) Run(run func(params *operations.SuspendDbcParams, opts ...operations.ClientOption)) *MockDwClientService_SuspendDbc_Call {
@@ -15283,11 +15292,11 @@ func (_c *MockDwClientService_SuspendDbc_Call) RunAndReturn(run func(params *ope
 // SuspendDbcContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) SuspendDbcContext(ctx context.Context, params *operations.SuspendDbcParams, opts ...operations.ClientOption) (*operations.SuspendDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15325,9 +15334,9 @@ type MockDwClientService_SuspendDbcContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SuspendDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) SuspendDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_SuspendDbcContext_Call {
+func (_e *MockDwClientService_Expecter) SuspendDbcContext(ctx any, params any, opts ...any) *MockDwClientService_SuspendDbcContext_Call {
 	return &MockDwClientService_SuspendDbcContext_Call{Call: _e.mock.On("SuspendDbcContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_SuspendDbcContext_Call) Run(run func(ctx context.Context, params *operations.SuspendDbcParams, opts ...operations.ClientOption)) *MockDwClientService_SuspendDbcContext_Call {
@@ -15370,11 +15379,11 @@ func (_c *MockDwClientService_SuspendDbcContext_Call) RunAndReturn(run func(ctx 
 // SuspendVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) SuspendVw(params *operations.SuspendVwParams, opts ...operations.ClientOption) (*operations.SuspendVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15411,9 +15420,9 @@ type MockDwClientService_SuspendVw_Call struct {
 // SuspendVw is a helper method to define mock.On call
 //   - params *operations.SuspendVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) SuspendVw(params interface{}, opts ...interface{}) *MockDwClientService_SuspendVw_Call {
+func (_e *MockDwClientService_Expecter) SuspendVw(params any, opts ...any) *MockDwClientService_SuspendVw_Call {
 	return &MockDwClientService_SuspendVw_Call{Call: _e.mock.On("SuspendVw",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_SuspendVw_Call) Run(run func(params *operations.SuspendVwParams, opts ...operations.ClientOption)) *MockDwClientService_SuspendVw_Call {
@@ -15451,11 +15460,11 @@ func (_c *MockDwClientService_SuspendVw_Call) RunAndReturn(run func(params *oper
 // SuspendVwContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) SuspendVwContext(ctx context.Context, params *operations.SuspendVwParams, opts ...operations.ClientOption) (*operations.SuspendVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15493,9 +15502,9 @@ type MockDwClientService_SuspendVwContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.SuspendVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) SuspendVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_SuspendVwContext_Call {
+func (_e *MockDwClientService_Expecter) SuspendVwContext(ctx any, params any, opts ...any) *MockDwClientService_SuspendVwContext_Call {
 	return &MockDwClientService_SuspendVwContext_Call{Call: _e.mock.On("SuspendVwContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_SuspendVwContext_Call) Run(run func(ctx context.Context, params *operations.SuspendVwParams, opts ...operations.ClientOption)) *MockDwClientService_SuspendVwContext_Call {
@@ -15538,11 +15547,11 @@ func (_c *MockDwClientService_SuspendVwContext_Call) RunAndReturn(run func(ctx c
 // UpdateAwsCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateAwsCluster(params *operations.UpdateAwsClusterParams, opts ...operations.ClientOption) (*operations.UpdateAwsClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15579,9 +15588,9 @@ type MockDwClientService_UpdateAwsCluster_Call struct {
 // UpdateAwsCluster is a helper method to define mock.On call
 //   - params *operations.UpdateAwsClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateAwsCluster(params interface{}, opts ...interface{}) *MockDwClientService_UpdateAwsCluster_Call {
+func (_e *MockDwClientService_Expecter) UpdateAwsCluster(params any, opts ...any) *MockDwClientService_UpdateAwsCluster_Call {
 	return &MockDwClientService_UpdateAwsCluster_Call{Call: _e.mock.On("UpdateAwsCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateAwsCluster_Call) Run(run func(params *operations.UpdateAwsClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateAwsCluster_Call {
@@ -15619,11 +15628,11 @@ func (_c *MockDwClientService_UpdateAwsCluster_Call) RunAndReturn(run func(param
 // UpdateAwsClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateAwsClusterContext(ctx context.Context, params *operations.UpdateAwsClusterParams, opts ...operations.ClientOption) (*operations.UpdateAwsClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15661,9 +15670,9 @@ type MockDwClientService_UpdateAwsClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateAwsClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateAwsClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateAwsClusterContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateAwsClusterContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateAwsClusterContext_Call {
 	return &MockDwClientService_UpdateAwsClusterContext_Call{Call: _e.mock.On("UpdateAwsClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateAwsClusterContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAwsClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateAwsClusterContext_Call {
@@ -15706,11 +15715,11 @@ func (_c *MockDwClientService_UpdateAwsClusterContext_Call) RunAndReturn(run fun
 // UpdateAzureCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateAzureCluster(params *operations.UpdateAzureClusterParams, opts ...operations.ClientOption) (*operations.UpdateAzureClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15747,9 +15756,9 @@ type MockDwClientService_UpdateAzureCluster_Call struct {
 // UpdateAzureCluster is a helper method to define mock.On call
 //   - params *operations.UpdateAzureClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateAzureCluster(params interface{}, opts ...interface{}) *MockDwClientService_UpdateAzureCluster_Call {
+func (_e *MockDwClientService_Expecter) UpdateAzureCluster(params any, opts ...any) *MockDwClientService_UpdateAzureCluster_Call {
 	return &MockDwClientService_UpdateAzureCluster_Call{Call: _e.mock.On("UpdateAzureCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateAzureCluster_Call) Run(run func(params *operations.UpdateAzureClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateAzureCluster_Call {
@@ -15787,11 +15796,11 @@ func (_c *MockDwClientService_UpdateAzureCluster_Call) RunAndReturn(run func(par
 // UpdateAzureClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateAzureClusterContext(ctx context.Context, params *operations.UpdateAzureClusterParams, opts ...operations.ClientOption) (*operations.UpdateAzureClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15829,9 +15838,9 @@ type MockDwClientService_UpdateAzureClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateAzureClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateAzureClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateAzureClusterContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateAzureClusterContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateAzureClusterContext_Call {
 	return &MockDwClientService_UpdateAzureClusterContext_Call{Call: _e.mock.On("UpdateAzureClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateAzureClusterContext_Call) Run(run func(ctx context.Context, params *operations.UpdateAzureClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateAzureClusterContext_Call {
@@ -15874,11 +15883,11 @@ func (_c *MockDwClientService_UpdateAzureClusterContext_Call) RunAndReturn(run f
 // UpdateCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateCluster(params *operations.UpdateClusterParams, opts ...operations.ClientOption) (*operations.UpdateClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15915,9 +15924,9 @@ type MockDwClientService_UpdateCluster_Call struct {
 // UpdateCluster is a helper method to define mock.On call
 //   - params *operations.UpdateClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateCluster(params interface{}, opts ...interface{}) *MockDwClientService_UpdateCluster_Call {
+func (_e *MockDwClientService_Expecter) UpdateCluster(params any, opts ...any) *MockDwClientService_UpdateCluster_Call {
 	return &MockDwClientService_UpdateCluster_Call{Call: _e.mock.On("UpdateCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateCluster_Call) Run(run func(params *operations.UpdateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateCluster_Call {
@@ -15955,11 +15964,11 @@ func (_c *MockDwClientService_UpdateCluster_Call) RunAndReturn(run func(params *
 // UpdateClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateClusterContext(ctx context.Context, params *operations.UpdateClusterParams, opts ...operations.ClientOption) (*operations.UpdateClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -15997,9 +16006,9 @@ type MockDwClientService_UpdateClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateClusterContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateClusterContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateClusterContext_Call {
 	return &MockDwClientService_UpdateClusterContext_Call{Call: _e.mock.On("UpdateClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateClusterContext_Call) Run(run func(ctx context.Context, params *operations.UpdateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateClusterContext_Call {
@@ -16042,11 +16051,11 @@ func (_c *MockDwClientService_UpdateClusterContext_Call) RunAndReturn(run func(c
 // UpdateConnector provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateConnector(params *operations.UpdateConnectorParams, opts ...operations.ClientOption) (*operations.UpdateConnectorOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16083,9 +16092,9 @@ type MockDwClientService_UpdateConnector_Call struct {
 // UpdateConnector is a helper method to define mock.On call
 //   - params *operations.UpdateConnectorParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateConnector(params interface{}, opts ...interface{}) *MockDwClientService_UpdateConnector_Call {
+func (_e *MockDwClientService_Expecter) UpdateConnector(params any, opts ...any) *MockDwClientService_UpdateConnector_Call {
 	return &MockDwClientService_UpdateConnector_Call{Call: _e.mock.On("UpdateConnector",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateConnector_Call) Run(run func(params *operations.UpdateConnectorParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateConnector_Call {
@@ -16123,11 +16132,11 @@ func (_c *MockDwClientService_UpdateConnector_Call) RunAndReturn(run func(params
 // UpdateConnectorContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateConnectorContext(ctx context.Context, params *operations.UpdateConnectorParams, opts ...operations.ClientOption) (*operations.UpdateConnectorOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16165,9 +16174,9 @@ type MockDwClientService_UpdateConnectorContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateConnectorParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateConnectorContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateConnectorContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateConnectorContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateConnectorContext_Call {
 	return &MockDwClientService_UpdateConnectorContext_Call{Call: _e.mock.On("UpdateConnectorContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateConnectorContext_Call) Run(run func(ctx context.Context, params *operations.UpdateConnectorParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateConnectorContext_Call {
@@ -16210,11 +16219,11 @@ func (_c *MockDwClientService_UpdateConnectorContext_Call) RunAndReturn(run func
 // UpdateDataVisualization provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateDataVisualization(params *operations.UpdateDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpdateDataVisualizationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16251,9 +16260,9 @@ type MockDwClientService_UpdateDataVisualization_Call struct {
 // UpdateDataVisualization is a helper method to define mock.On call
 //   - params *operations.UpdateDataVisualizationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateDataVisualization(params interface{}, opts ...interface{}) *MockDwClientService_UpdateDataVisualization_Call {
+func (_e *MockDwClientService_Expecter) UpdateDataVisualization(params any, opts ...any) *MockDwClientService_UpdateDataVisualization_Call {
 	return &MockDwClientService_UpdateDataVisualization_Call{Call: _e.mock.On("UpdateDataVisualization",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateDataVisualization_Call) Run(run func(params *operations.UpdateDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateDataVisualization_Call {
@@ -16291,11 +16300,11 @@ func (_c *MockDwClientService_UpdateDataVisualization_Call) RunAndReturn(run fun
 // UpdateDataVisualizationContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateDataVisualizationContext(ctx context.Context, params *operations.UpdateDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpdateDataVisualizationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16333,9 +16342,9 @@ type MockDwClientService_UpdateDataVisualizationContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateDataVisualizationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateDataVisualizationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateDataVisualizationContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateDataVisualizationContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateDataVisualizationContext_Call {
 	return &MockDwClientService_UpdateDataVisualizationContext_Call{Call: _e.mock.On("UpdateDataVisualizationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateDataVisualizationContext_Call) Run(run func(ctx context.Context, params *operations.UpdateDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateDataVisualizationContext_Call {
@@ -16378,11 +16387,11 @@ func (_c *MockDwClientService_UpdateDataVisualizationContext_Call) RunAndReturn(
 // UpdateDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateDbc(params *operations.UpdateDbcParams, opts ...operations.ClientOption) (*operations.UpdateDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16419,9 +16428,9 @@ type MockDwClientService_UpdateDbc_Call struct {
 // UpdateDbc is a helper method to define mock.On call
 //   - params *operations.UpdateDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateDbc(params interface{}, opts ...interface{}) *MockDwClientService_UpdateDbc_Call {
+func (_e *MockDwClientService_Expecter) UpdateDbc(params any, opts ...any) *MockDwClientService_UpdateDbc_Call {
 	return &MockDwClientService_UpdateDbc_Call{Call: _e.mock.On("UpdateDbc",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateDbc_Call) Run(run func(params *operations.UpdateDbcParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateDbc_Call {
@@ -16459,11 +16468,11 @@ func (_c *MockDwClientService_UpdateDbc_Call) RunAndReturn(run func(params *oper
 // UpdateDbcConfig provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateDbcConfig(params *operations.UpdateDbcConfigParams, opts ...operations.ClientOption) (*operations.UpdateDbcConfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16500,9 +16509,9 @@ type MockDwClientService_UpdateDbcConfig_Call struct {
 // UpdateDbcConfig is a helper method to define mock.On call
 //   - params *operations.UpdateDbcConfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateDbcConfig(params interface{}, opts ...interface{}) *MockDwClientService_UpdateDbcConfig_Call {
+func (_e *MockDwClientService_Expecter) UpdateDbcConfig(params any, opts ...any) *MockDwClientService_UpdateDbcConfig_Call {
 	return &MockDwClientService_UpdateDbcConfig_Call{Call: _e.mock.On("UpdateDbcConfig",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateDbcConfig_Call) Run(run func(params *operations.UpdateDbcConfigParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateDbcConfig_Call {
@@ -16540,11 +16549,11 @@ func (_c *MockDwClientService_UpdateDbcConfig_Call) RunAndReturn(run func(params
 // UpdateDbcConfigContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateDbcConfigContext(ctx context.Context, params *operations.UpdateDbcConfigParams, opts ...operations.ClientOption) (*operations.UpdateDbcConfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16582,9 +16591,9 @@ type MockDwClientService_UpdateDbcConfigContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateDbcConfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateDbcConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateDbcConfigContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateDbcConfigContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateDbcConfigContext_Call {
 	return &MockDwClientService_UpdateDbcConfigContext_Call{Call: _e.mock.On("UpdateDbcConfigContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateDbcConfigContext_Call) Run(run func(ctx context.Context, params *operations.UpdateDbcConfigParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateDbcConfigContext_Call {
@@ -16627,11 +16636,11 @@ func (_c *MockDwClientService_UpdateDbcConfigContext_Call) RunAndReturn(run func
 // UpdateDbcContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateDbcContext(ctx context.Context, params *operations.UpdateDbcParams, opts ...operations.ClientOption) (*operations.UpdateDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16669,9 +16678,9 @@ type MockDwClientService_UpdateDbcContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateDbcContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateDbcContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateDbcContext_Call {
 	return &MockDwClientService_UpdateDbcContext_Call{Call: _e.mock.On("UpdateDbcContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateDbcContext_Call) Run(run func(ctx context.Context, params *operations.UpdateDbcParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateDbcContext_Call {
@@ -16714,11 +16723,11 @@ func (_c *MockDwClientService_UpdateDbcContext_Call) RunAndReturn(run func(ctx c
 // UpdateHue provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateHue(params *operations.UpdateHueParams, opts ...operations.ClientOption) (*operations.UpdateHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16755,9 +16764,9 @@ type MockDwClientService_UpdateHue_Call struct {
 // UpdateHue is a helper method to define mock.On call
 //   - params *operations.UpdateHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateHue(params interface{}, opts ...interface{}) *MockDwClientService_UpdateHue_Call {
+func (_e *MockDwClientService_Expecter) UpdateHue(params any, opts ...any) *MockDwClientService_UpdateHue_Call {
 	return &MockDwClientService_UpdateHue_Call{Call: _e.mock.On("UpdateHue",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateHue_Call) Run(run func(params *operations.UpdateHueParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateHue_Call {
@@ -16795,11 +16804,11 @@ func (_c *MockDwClientService_UpdateHue_Call) RunAndReturn(run func(params *oper
 // UpdateHueContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateHueContext(ctx context.Context, params *operations.UpdateHueParams, opts ...operations.ClientOption) (*operations.UpdateHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16837,9 +16846,9 @@ type MockDwClientService_UpdateHueContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateHueContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateHueContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateHueContext_Call {
 	return &MockDwClientService_UpdateHueContext_Call{Call: _e.mock.On("UpdateHueContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateHueContext_Call) Run(run func(ctx context.Context, params *operations.UpdateHueParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateHueContext_Call {
@@ -16882,11 +16891,11 @@ func (_c *MockDwClientService_UpdateHueContext_Call) RunAndReturn(run func(ctx c
 // UpdatePrivateCluster provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdatePrivateCluster(params *operations.UpdatePrivateClusterParams, opts ...operations.ClientOption) (*operations.UpdatePrivateClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -16923,9 +16932,9 @@ type MockDwClientService_UpdatePrivateCluster_Call struct {
 // UpdatePrivateCluster is a helper method to define mock.On call
 //   - params *operations.UpdatePrivateClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdatePrivateCluster(params interface{}, opts ...interface{}) *MockDwClientService_UpdatePrivateCluster_Call {
+func (_e *MockDwClientService_Expecter) UpdatePrivateCluster(params any, opts ...any) *MockDwClientService_UpdatePrivateCluster_Call {
 	return &MockDwClientService_UpdatePrivateCluster_Call{Call: _e.mock.On("UpdatePrivateCluster",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdatePrivateCluster_Call) Run(run func(params *operations.UpdatePrivateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdatePrivateCluster_Call {
@@ -16963,11 +16972,11 @@ func (_c *MockDwClientService_UpdatePrivateCluster_Call) RunAndReturn(run func(p
 // UpdatePrivateClusterContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdatePrivateClusterContext(ctx context.Context, params *operations.UpdatePrivateClusterParams, opts ...operations.ClientOption) (*operations.UpdatePrivateClusterOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17005,9 +17014,9 @@ type MockDwClientService_UpdatePrivateClusterContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdatePrivateClusterParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdatePrivateClusterContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdatePrivateClusterContext_Call {
+func (_e *MockDwClientService_Expecter) UpdatePrivateClusterContext(ctx any, params any, opts ...any) *MockDwClientService_UpdatePrivateClusterContext_Call {
 	return &MockDwClientService_UpdatePrivateClusterContext_Call{Call: _e.mock.On("UpdatePrivateClusterContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdatePrivateClusterContext_Call) Run(run func(ctx context.Context, params *operations.UpdatePrivateClusterParams, opts ...operations.ClientOption)) *MockDwClientService_UpdatePrivateClusterContext_Call {
@@ -17050,11 +17059,11 @@ func (_c *MockDwClientService_UpdatePrivateClusterContext_Call) RunAndReturn(run
 // UpdateResourceTemplate provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateResourceTemplate(params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption) (*operations.UpdateResourceTemplateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17091,9 +17100,9 @@ type MockDwClientService_UpdateResourceTemplate_Call struct {
 // UpdateResourceTemplate is a helper method to define mock.On call
 //   - params *operations.UpdateResourceTemplateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateResourceTemplate(params interface{}, opts ...interface{}) *MockDwClientService_UpdateResourceTemplate_Call {
+func (_e *MockDwClientService_Expecter) UpdateResourceTemplate(params any, opts ...any) *MockDwClientService_UpdateResourceTemplate_Call {
 	return &MockDwClientService_UpdateResourceTemplate_Call{Call: _e.mock.On("UpdateResourceTemplate",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateResourceTemplate_Call) Run(run func(params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateResourceTemplate_Call {
@@ -17131,11 +17140,11 @@ func (_c *MockDwClientService_UpdateResourceTemplate_Call) RunAndReturn(run func
 // UpdateResourceTemplateContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateResourceTemplateContext(ctx context.Context, params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption) (*operations.UpdateResourceTemplateOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17173,9 +17182,9 @@ type MockDwClientService_UpdateResourceTemplateContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateResourceTemplateParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateResourceTemplateContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateResourceTemplateContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateResourceTemplateContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateResourceTemplateContext_Call {
 	return &MockDwClientService_UpdateResourceTemplateContext_Call{Call: _e.mock.On("UpdateResourceTemplateContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateResourceTemplateContext_Call) Run(run func(ctx context.Context, params *operations.UpdateResourceTemplateParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateResourceTemplateContext_Call {
@@ -17218,11 +17227,11 @@ func (_c *MockDwClientService_UpdateResourceTemplateContext_Call) RunAndReturn(r
 // UpdateSSHKey provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateSSHKey(params *operations.UpdateSSHKeyParams, opts ...operations.ClientOption) (*operations.UpdateSSHKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17259,9 +17268,9 @@ type MockDwClientService_UpdateSSHKey_Call struct {
 // UpdateSSHKey is a helper method to define mock.On call
 //   - params *operations.UpdateSSHKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateSSHKey(params interface{}, opts ...interface{}) *MockDwClientService_UpdateSSHKey_Call {
+func (_e *MockDwClientService_Expecter) UpdateSSHKey(params any, opts ...any) *MockDwClientService_UpdateSSHKey_Call {
 	return &MockDwClientService_UpdateSSHKey_Call{Call: _e.mock.On("UpdateSSHKey",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateSSHKey_Call) Run(run func(params *operations.UpdateSSHKeyParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateSSHKey_Call {
@@ -17299,11 +17308,11 @@ func (_c *MockDwClientService_UpdateSSHKey_Call) RunAndReturn(run func(params *o
 // UpdateSSHKeyContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateSSHKeyContext(ctx context.Context, params *operations.UpdateSSHKeyParams, opts ...operations.ClientOption) (*operations.UpdateSSHKeyOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17341,9 +17350,9 @@ type MockDwClientService_UpdateSSHKeyContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateSSHKeyParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateSSHKeyContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateSSHKeyContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateSSHKeyContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateSSHKeyContext_Call {
 	return &MockDwClientService_UpdateSSHKeyContext_Call{Call: _e.mock.On("UpdateSSHKeyContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateSSHKeyContext_Call) Run(run func(ctx context.Context, params *operations.UpdateSSHKeyParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateSSHKeyContext_Call {
@@ -17386,11 +17395,11 @@ func (_c *MockDwClientService_UpdateSSHKeyContext_Call) RunAndReturn(run func(ct
 // UpdateServerSetting provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateServerSetting(params *operations.UpdateServerSettingParams, opts ...operations.ClientOption) (*operations.UpdateServerSettingOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17427,9 +17436,9 @@ type MockDwClientService_UpdateServerSetting_Call struct {
 // UpdateServerSetting is a helper method to define mock.On call
 //   - params *operations.UpdateServerSettingParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateServerSetting(params interface{}, opts ...interface{}) *MockDwClientService_UpdateServerSetting_Call {
+func (_e *MockDwClientService_Expecter) UpdateServerSetting(params any, opts ...any) *MockDwClientService_UpdateServerSetting_Call {
 	return &MockDwClientService_UpdateServerSetting_Call{Call: _e.mock.On("UpdateServerSetting",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateServerSetting_Call) Run(run func(params *operations.UpdateServerSettingParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateServerSetting_Call {
@@ -17467,11 +17476,11 @@ func (_c *MockDwClientService_UpdateServerSetting_Call) RunAndReturn(run func(pa
 // UpdateServerSettingContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateServerSettingContext(ctx context.Context, params *operations.UpdateServerSettingParams, opts ...operations.ClientOption) (*operations.UpdateServerSettingOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17509,9 +17518,9 @@ type MockDwClientService_UpdateServerSettingContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateServerSettingParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateServerSettingContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateServerSettingContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateServerSettingContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateServerSettingContext_Call {
 	return &MockDwClientService_UpdateServerSettingContext_Call{Call: _e.mock.On("UpdateServerSettingContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateServerSettingContext_Call) Run(run func(ctx context.Context, params *operations.UpdateServerSettingParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateServerSettingContext_Call {
@@ -17554,11 +17563,11 @@ func (_c *MockDwClientService_UpdateServerSettingContext_Call) RunAndReturn(run 
 // UpdateVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateVw(params *operations.UpdateVwParams, opts ...operations.ClientOption) (*operations.UpdateVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17595,9 +17604,9 @@ type MockDwClientService_UpdateVw_Call struct {
 // UpdateVw is a helper method to define mock.On call
 //   - params *operations.UpdateVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateVw(params interface{}, opts ...interface{}) *MockDwClientService_UpdateVw_Call {
+func (_e *MockDwClientService_Expecter) UpdateVw(params any, opts ...any) *MockDwClientService_UpdateVw_Call {
 	return &MockDwClientService_UpdateVw_Call{Call: _e.mock.On("UpdateVw",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateVw_Call) Run(run func(params *operations.UpdateVwParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateVw_Call {
@@ -17635,11 +17644,11 @@ func (_c *MockDwClientService_UpdateVw_Call) RunAndReturn(run func(params *opera
 // UpdateVwConfig provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateVwConfig(params *operations.UpdateVwConfigParams, opts ...operations.ClientOption) (*operations.UpdateVwConfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17676,9 +17685,9 @@ type MockDwClientService_UpdateVwConfig_Call struct {
 // UpdateVwConfig is a helper method to define mock.On call
 //   - params *operations.UpdateVwConfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateVwConfig(params interface{}, opts ...interface{}) *MockDwClientService_UpdateVwConfig_Call {
+func (_e *MockDwClientService_Expecter) UpdateVwConfig(params any, opts ...any) *MockDwClientService_UpdateVwConfig_Call {
 	return &MockDwClientService_UpdateVwConfig_Call{Call: _e.mock.On("UpdateVwConfig",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateVwConfig_Call) Run(run func(params *operations.UpdateVwConfigParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateVwConfig_Call {
@@ -17716,11 +17725,11 @@ func (_c *MockDwClientService_UpdateVwConfig_Call) RunAndReturn(run func(params 
 // UpdateVwConfigContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateVwConfigContext(ctx context.Context, params *operations.UpdateVwConfigParams, opts ...operations.ClientOption) (*operations.UpdateVwConfigOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17758,9 +17767,9 @@ type MockDwClientService_UpdateVwConfigContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateVwConfigParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateVwConfigContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateVwConfigContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateVwConfigContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateVwConfigContext_Call {
 	return &MockDwClientService_UpdateVwConfigContext_Call{Call: _e.mock.On("UpdateVwConfigContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateVwConfigContext_Call) Run(run func(ctx context.Context, params *operations.UpdateVwConfigParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateVwConfigContext_Call {
@@ -17803,11 +17812,11 @@ func (_c *MockDwClientService_UpdateVwConfigContext_Call) RunAndReturn(run func(
 // UpdateVwContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpdateVwContext(ctx context.Context, params *operations.UpdateVwParams, opts ...operations.ClientOption) (*operations.UpdateVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17845,9 +17854,9 @@ type MockDwClientService_UpdateVwContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpdateVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpdateVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpdateVwContext_Call {
+func (_e *MockDwClientService_Expecter) UpdateVwContext(ctx any, params any, opts ...any) *MockDwClientService_UpdateVwContext_Call {
 	return &MockDwClientService_UpdateVwContext_Call{Call: _e.mock.On("UpdateVwContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpdateVwContext_Call) Run(run func(ctx context.Context, params *operations.UpdateVwParams, opts ...operations.ClientOption)) *MockDwClientService_UpdateVwContext_Call {
@@ -17890,11 +17899,11 @@ func (_c *MockDwClientService_UpdateVwContext_Call) RunAndReturn(run func(ctx co
 // UpgradeDataVisualization provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeDataVisualization(params *operations.UpgradeDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpgradeDataVisualizationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -17931,9 +17940,9 @@ type MockDwClientService_UpgradeDataVisualization_Call struct {
 // UpgradeDataVisualization is a helper method to define mock.On call
 //   - params *operations.UpgradeDataVisualizationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpgradeDataVisualization(params interface{}, opts ...interface{}) *MockDwClientService_UpgradeDataVisualization_Call {
+func (_e *MockDwClientService_Expecter) UpgradeDataVisualization(params any, opts ...any) *MockDwClientService_UpgradeDataVisualization_Call {
 	return &MockDwClientService_UpgradeDataVisualization_Call{Call: _e.mock.On("UpgradeDataVisualization",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpgradeDataVisualization_Call) Run(run func(params *operations.UpgradeDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeDataVisualization_Call {
@@ -17971,11 +17980,11 @@ func (_c *MockDwClientService_UpgradeDataVisualization_Call) RunAndReturn(run fu
 // UpgradeDataVisualizationContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeDataVisualizationContext(ctx context.Context, params *operations.UpgradeDataVisualizationParams, opts ...operations.ClientOption) (*operations.UpgradeDataVisualizationOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -18013,9 +18022,9 @@ type MockDwClientService_UpgradeDataVisualizationContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpgradeDataVisualizationParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpgradeDataVisualizationContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpgradeDataVisualizationContext_Call {
+func (_e *MockDwClientService_Expecter) UpgradeDataVisualizationContext(ctx any, params any, opts ...any) *MockDwClientService_UpgradeDataVisualizationContext_Call {
 	return &MockDwClientService_UpgradeDataVisualizationContext_Call{Call: _e.mock.On("UpgradeDataVisualizationContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpgradeDataVisualizationContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeDataVisualizationParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeDataVisualizationContext_Call {
@@ -18058,11 +18067,11 @@ func (_c *MockDwClientService_UpgradeDataVisualizationContext_Call) RunAndReturn
 // UpgradeDbc provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeDbc(params *operations.UpgradeDbcParams, opts ...operations.ClientOption) (*operations.UpgradeDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -18099,9 +18108,9 @@ type MockDwClientService_UpgradeDbc_Call struct {
 // UpgradeDbc is a helper method to define mock.On call
 //   - params *operations.UpgradeDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpgradeDbc(params interface{}, opts ...interface{}) *MockDwClientService_UpgradeDbc_Call {
+func (_e *MockDwClientService_Expecter) UpgradeDbc(params any, opts ...any) *MockDwClientService_UpgradeDbc_Call {
 	return &MockDwClientService_UpgradeDbc_Call{Call: _e.mock.On("UpgradeDbc",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpgradeDbc_Call) Run(run func(params *operations.UpgradeDbcParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeDbc_Call {
@@ -18139,11 +18148,11 @@ func (_c *MockDwClientService_UpgradeDbc_Call) RunAndReturn(run func(params *ope
 // UpgradeDbcContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeDbcContext(ctx context.Context, params *operations.UpgradeDbcParams, opts ...operations.ClientOption) (*operations.UpgradeDbcOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -18181,9 +18190,9 @@ type MockDwClientService_UpgradeDbcContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpgradeDbcParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpgradeDbcContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpgradeDbcContext_Call {
+func (_e *MockDwClientService_Expecter) UpgradeDbcContext(ctx any, params any, opts ...any) *MockDwClientService_UpgradeDbcContext_Call {
 	return &MockDwClientService_UpgradeDbcContext_Call{Call: _e.mock.On("UpgradeDbcContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpgradeDbcContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeDbcParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeDbcContext_Call {
@@ -18226,11 +18235,11 @@ func (_c *MockDwClientService_UpgradeDbcContext_Call) RunAndReturn(run func(ctx 
 // UpgradeHue provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeHue(params *operations.UpgradeHueParams, opts ...operations.ClientOption) (*operations.UpgradeHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -18267,9 +18276,9 @@ type MockDwClientService_UpgradeHue_Call struct {
 // UpgradeHue is a helper method to define mock.On call
 //   - params *operations.UpgradeHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpgradeHue(params interface{}, opts ...interface{}) *MockDwClientService_UpgradeHue_Call {
+func (_e *MockDwClientService_Expecter) UpgradeHue(params any, opts ...any) *MockDwClientService_UpgradeHue_Call {
 	return &MockDwClientService_UpgradeHue_Call{Call: _e.mock.On("UpgradeHue",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpgradeHue_Call) Run(run func(params *operations.UpgradeHueParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeHue_Call {
@@ -18307,11 +18316,11 @@ func (_c *MockDwClientService_UpgradeHue_Call) RunAndReturn(run func(params *ope
 // UpgradeHueContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeHueContext(ctx context.Context, params *operations.UpgradeHueParams, opts ...operations.ClientOption) (*operations.UpgradeHueOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -18349,9 +18358,9 @@ type MockDwClientService_UpgradeHueContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpgradeHueParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpgradeHueContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpgradeHueContext_Call {
+func (_e *MockDwClientService_Expecter) UpgradeHueContext(ctx any, params any, opts ...any) *MockDwClientService_UpgradeHueContext_Call {
 	return &MockDwClientService_UpgradeHueContext_Call{Call: _e.mock.On("UpgradeHueContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpgradeHueContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeHueParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeHueContext_Call {
@@ -18394,11 +18403,11 @@ func (_c *MockDwClientService_UpgradeHueContext_Call) RunAndReturn(run func(ctx 
 // UpgradeVw provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeVw(params *operations.UpgradeVwParams, opts ...operations.ClientOption) (*operations.UpgradeVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -18435,9 +18444,9 @@ type MockDwClientService_UpgradeVw_Call struct {
 // UpgradeVw is a helper method to define mock.On call
 //   - params *operations.UpgradeVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpgradeVw(params interface{}, opts ...interface{}) *MockDwClientService_UpgradeVw_Call {
+func (_e *MockDwClientService_Expecter) UpgradeVw(params any, opts ...any) *MockDwClientService_UpgradeVw_Call {
 	return &MockDwClientService_UpgradeVw_Call{Call: _e.mock.On("UpgradeVw",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpgradeVw_Call) Run(run func(params *operations.UpgradeVwParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeVw_Call {
@@ -18475,11 +18484,11 @@ func (_c *MockDwClientService_UpgradeVw_Call) RunAndReturn(run func(params *oper
 // UpgradeVwContext provides a mock function for the type MockDwClientService
 func (_mock *MockDwClientService) UpgradeVwContext(ctx context.Context, params *operations.UpgradeVwParams, opts ...operations.ClientOption) (*operations.UpgradeVwOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -18517,9 +18526,9 @@ type MockDwClientService_UpgradeVwContext_Call struct {
 //   - ctx context.Context
 //   - params *operations.UpgradeVwParams
 //   - opts ...operations.ClientOption
-func (_e *MockDwClientService_Expecter) UpgradeVwContext(ctx interface{}, params interface{}, opts ...interface{}) *MockDwClientService_UpgradeVwContext_Call {
+func (_e *MockDwClientService_Expecter) UpgradeVwContext(ctx any, params any, opts ...any) *MockDwClientService_UpgradeVwContext_Call {
 	return &MockDwClientService_UpgradeVwContext_Call{Call: _e.mock.On("UpgradeVwContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockDwClientService_UpgradeVwContext_Call) Run(run func(ctx context.Context, params *operations.UpgradeVwParams, opts ...operations.ClientOption)) *MockDwClientService_UpgradeVwContext_Call {

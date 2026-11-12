@@ -1,0 +1,19 @@
+page_title: "{{ .Name }} {{ .Type }} - {{ .ProviderName }}"
+subcategory: "environments"
+description: |-
+{{- with .Description }}
+{{ . | plainmarkdown | trimspace | prefixlines "  " }}
+{{- end }}
+---
+
+# {{ .Name }} ({{ .Type }})
+
+{{- with .Description }}
+{{ . | trimspace }}
+{{- end }}
+
+## Example Usage
+
+{{ tffile "examples/data-sources/cdp_environments_freeipa_vm_types_for_vertical_scaling/data-source.tf" }}
+
+{{ .SchemaMarkdown | trimspace }}

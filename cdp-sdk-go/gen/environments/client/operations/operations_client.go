@@ -277,6 +277,12 @@ type ClientService interface {
 	// GetFreeipaLogDescriptorsContext gather log descriptors that are used for diagnostics collection.
 	GetFreeipaLogDescriptorsContext(ctx context.Context, params *GetFreeipaLogDescriptorsParams, opts ...ClientOption) (*GetFreeipaLogDescriptorsOK, error)
 
+	// GetFreeipaRecommendation gets a recommendation of cloud resources for a free IP a.
+	GetFreeipaRecommendation(params *GetFreeipaRecommendationParams, opts ...ClientOption) (*GetFreeipaRecommendationOK, error)
+
+	// GetFreeipaRecommendationContext gets a recommendation of cloud resources for a free IP a.
+	GetFreeipaRecommendationContext(ctx context.Context, params *GetFreeipaRecommendationParams, opts ...ClientOption) (*GetFreeipaRecommendationOK, error)
+
 	// GetFreeipaStatus get the status of the free IP a services.
 	GetFreeipaStatus(params *GetFreeipaStatusParams, opts ...ClientOption) (*GetFreeipaStatusOK, error)
 
@@ -385,6 +391,12 @@ type ClientService interface {
 	// ListCredentialsContext lists credentials.
 	ListCredentialsContext(ctx context.Context, params *ListCredentialsParams, opts ...ClientOption) (*ListCredentialsOK, error)
 
+	// ListDiskTypes returns the available disk types for all cloud platforms.
+	ListDiskTypes(params *ListDiskTypesParams, opts ...ClientOption) (*ListDiskTypesOK, error)
+
+	// ListDiskTypesContext returns the available disk types for all cloud platforms.
+	ListDiskTypesContext(ctx context.Context, params *ListDiskTypesParams, opts ...ClientOption) (*ListDiskTypesOK, error)
+
 	// ListEnvironments lists environments.
 	ListEnvironments(params *ListEnvironmentsParams, opts ...ClientOption) (*ListEnvironmentsOK, error)
 
@@ -397,17 +409,53 @@ type ClientService interface {
 	// ListFreeipaDiagnosticsContext list recent free IP a diagnostics collections.
 	ListFreeipaDiagnosticsContext(ctx context.Context, params *ListFreeipaDiagnosticsParams, opts ...ClientOption) (*ListFreeipaDiagnosticsOK, error)
 
+	// ListFreeipaImageUpgradeCandidates lists the available free IP a upgrade image candidates for an environment.
+	ListFreeipaImageUpgradeCandidates(params *ListFreeipaImageUpgradeCandidatesParams, opts ...ClientOption) (*ListFreeipaImageUpgradeCandidatesOK, error)
+
+	// ListFreeipaImageUpgradeCandidatesContext lists the available free IP a upgrade image candidates for an environment.
+	ListFreeipaImageUpgradeCandidatesContext(ctx context.Context, params *ListFreeipaImageUpgradeCandidatesParams, opts ...ClientOption) (*ListFreeipaImageUpgradeCandidatesOK, error)
+
 	// ListFreeipaSecretTypes lists all free IP a related secret types.
 	ListFreeipaSecretTypes(params *ListFreeipaSecretTypesParams, opts ...ClientOption) (*ListFreeipaSecretTypesOK, error)
 
 	// ListFreeipaSecretTypesContext lists all free IP a related secret types.
 	ListFreeipaSecretTypesContext(ctx context.Context, params *ListFreeipaSecretTypesParams, opts ...ClientOption) (*ListFreeipaSecretTypesOK, error)
 
+	// ListFreeipaVMTypesForVerticalScaling lists the available VM types for free IP a vertical scaling.
+	ListFreeipaVMTypesForVerticalScaling(params *ListFreeipaVMTypesForVerticalScalingParams, opts ...ClientOption) (*ListFreeipaVMTypesForVerticalScalingOK, error)
+
+	// ListFreeipaVMTypesForVerticalScalingContext lists the available VM types for free IP a vertical scaling.
+	ListFreeipaVMTypesForVerticalScalingContext(ctx context.Context, params *ListFreeipaVMTypesForVerticalScalingParams, opts ...ClientOption) (*ListFreeipaVMTypesForVerticalScalingOK, error)
+
+	// ListNetworks lists the available networks for a cloud credential.
+	ListNetworks(params *ListNetworksParams, opts ...ClientOption) (*ListNetworksOK, error)
+
+	// ListNetworksContext lists the available networks for a cloud credential.
+	ListNetworksContext(ctx context.Context, params *ListNetworksParams, opts ...ClientOption) (*ListNetworksOK, error)
+
 	// ListProxyConfigs lists proxy configs.
 	ListProxyConfigs(params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error)
 
 	// ListProxyConfigsContext lists proxy configs.
 	ListProxyConfigsContext(ctx context.Context, params *ListProxyConfigsParams, opts ...ClientOption) (*ListProxyConfigsOK, error)
+
+	// ListRegions lists the available regions for a cloud credential or environment.
+	ListRegions(params *ListRegionsParams, opts ...ClientOption) (*ListRegionsOK, error)
+
+	// ListRegionsContext lists the available regions for a cloud credential or environment.
+	ListRegionsContext(ctx context.Context, params *ListRegionsParams, opts ...ClientOption) (*ListRegionsOK, error)
+
+	// ListVMTypes lists the available VM types for a cloud credential.
+	ListVMTypes(params *ListVMTypesParams, opts ...ClientOption) (*ListVMTypesOK, error)
+
+	// ListVMTypesContext lists the available VM types for a cloud credential.
+	ListVMTypesContext(ctx context.Context, params *ListVMTypesParams, opts ...ClientOption) (*ListVMTypesOK, error)
+
+	// ListVMTypesForEnvironment lists the available VM types for an environment.
+	ListVMTypesForEnvironment(params *ListVMTypesForEnvironmentParams, opts ...ClientOption) (*ListVMTypesForEnvironmentOK, error)
+
+	// ListVMTypesForEnvironmentContext lists the available VM types for an environment.
+	ListVMTypesForEnvironmentContext(ctx context.Context, params *ListVMTypesForEnvironmentParams, opts ...ClientOption) (*ListVMTypesForEnvironmentOK, error)
 
 	// PrepareFreeipaUpgrade prepares and validates an environment for free IP a upgrade.
 	PrepareFreeipaUpgrade(params *PrepareFreeipaUpgradeParams, opts ...ClientOption) (*PrepareFreeipaUpgradeOK, error)
@@ -691,10 +739,10 @@ type ClientService interface {
 	// UpdateSubnetContext updates the subnet s of the given environment the newly added subnets will only be used for the cloudera data hub clusters created within the environment after the new subnets were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain within the subnets originally defined during environment creation.
 	UpdateSubnetContext(ctx context.Context, params *UpdateSubnetParams, opts ...ClientOption) (*UpdateSubnetOK, error)
 
-	// UpdateTags updates the user defined tags of the given environment the newly added tags will only be used for the cloudera data hub clusters created within the environment after the new tags were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the tags originally defined during environment creation.
+	// UpdateTags updates the user defined tags of the given environment.
 	UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error)
 
-	// UpdateTagsContext updates the user defined tags of the given environment the newly added tags will only be used for the cloudera data hub clusters created within the environment after the new tags were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the tags originally defined during environment creation.
+	// UpdateTagsContext updates the user defined tags of the given environment.
 	UpdateTagsContext(ctx context.Context, params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error)
 
 	// UpgradeCcm upgrades cluster connectivity manager on the environment to the latest available version.
@@ -3135,6 +3183,71 @@ func (a *Client) GetFreeipaLogDescriptorsContext(ctx context.Context, params *Ge
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// GetFreeipaRecommendation gets a recommendation of cloud resources for a free IP a.
+//
+// Returns VM type recommendations for FreeIPA based on credential, region, and optional availability zone and architecture..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.GetFreeipaRecommendationContext] instead.
+func (a *Client) GetFreeipaRecommendation(params *GetFreeipaRecommendationParams, opts ...ClientOption) (*GetFreeipaRecommendationOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.GetFreeipaRecommendationContext(ctx, params, opts...)
+}
+
+// GetFreeipaRecommendationContext gets a recommendation of cloud resources for a free IP a.
+//
+// Returns VM type recommendations for FreeIPA based on credential, region, and optional availability zone and architecture..
+//
+// Do not use the deprecated [GetFreeipaRecommendationParams.Context] with this method: it would be ignored.
+func (a *Client) GetFreeipaRecommendationContext(ctx context.Context, params *GetFreeipaRecommendationParams, opts ...ClientOption) (*GetFreeipaRecommendationOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewGetFreeipaRecommendationParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "getFreeipaRecommendation",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/getFreeipaRecommendation",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &GetFreeipaRecommendationReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*GetFreeipaRecommendationOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*GetFreeipaRecommendationDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // GetFreeipaStatus gets the status of the free IP a services.
 //
 // Gets the status of the FreeIPA nodes services and connectivity..
@@ -4305,6 +4418,71 @@ func (a *Client) ListCredentialsContext(ctx context.Context, params *ListCredent
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// ListDiskTypes returns the available disk types for all cloud platforms.
+//
+// Returns the available disk types, default disks, disk mappings, and display names for all supported cloud platforms..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListDiskTypesContext] instead.
+func (a *Client) ListDiskTypes(params *ListDiskTypesParams, opts ...ClientOption) (*ListDiskTypesOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListDiskTypesContext(ctx, params, opts...)
+}
+
+// ListDiskTypesContext returns the available disk types for all cloud platforms.
+//
+// Returns the available disk types, default disks, disk mappings, and display names for all supported cloud platforms..
+//
+// Do not use the deprecated [ListDiskTypesParams.Context] with this method: it would be ignored.
+func (a *Client) ListDiskTypesContext(ctx context.Context, params *ListDiskTypesParams, opts ...ClientOption) (*ListDiskTypesOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewListDiskTypesParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "listDiskTypes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listDiskTypes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListDiskTypesReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*ListDiskTypesOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*ListDiskTypesDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // ListEnvironments lists environments.
 //
 // Lists environments..
@@ -4435,6 +4613,71 @@ func (a *Client) ListFreeipaDiagnosticsContext(ctx context.Context, params *List
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// ListFreeipaImageUpgradeCandidates lists the available free IP a upgrade image candidates for an environment.
+//
+// Returns the list of available images for FreeIPA upgrade and the currently installed image..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListFreeipaImageUpgradeCandidatesContext] instead.
+func (a *Client) ListFreeipaImageUpgradeCandidates(params *ListFreeipaImageUpgradeCandidatesParams, opts ...ClientOption) (*ListFreeipaImageUpgradeCandidatesOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListFreeipaImageUpgradeCandidatesContext(ctx, params, opts...)
+}
+
+// ListFreeipaImageUpgradeCandidatesContext lists the available free IP a upgrade image candidates for an environment.
+//
+// Returns the list of available images for FreeIPA upgrade and the currently installed image..
+//
+// Do not use the deprecated [ListFreeipaImageUpgradeCandidatesParams.Context] with this method: it would be ignored.
+func (a *Client) ListFreeipaImageUpgradeCandidatesContext(ctx context.Context, params *ListFreeipaImageUpgradeCandidatesParams, opts ...ClientOption) (*ListFreeipaImageUpgradeCandidatesOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewListFreeipaImageUpgradeCandidatesParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "listFreeipaImageUpgradeCandidates",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listFreeipaImageUpgradeCandidates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListFreeipaImageUpgradeCandidatesReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*ListFreeipaImageUpgradeCandidatesOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*ListFreeipaImageUpgradeCandidatesDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // ListFreeipaSecretTypes lists all free IP a related secret types.
 //
 // Lists FreeIPA related secret types for FreeIPA instances..
@@ -4500,6 +4743,136 @@ func (a *Client) ListFreeipaSecretTypesContext(ctx context.Context, params *List
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
+// ListFreeipaVMTypesForVerticalScaling lists the available VM types for free IP a vertical scaling.
+//
+// Lists the VM types available as vertical scaling targets within an existing environment..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListFreeipaVMTypesForVerticalScalingContext] instead.
+func (a *Client) ListFreeipaVMTypesForVerticalScaling(params *ListFreeipaVMTypesForVerticalScalingParams, opts ...ClientOption) (*ListFreeipaVMTypesForVerticalScalingOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListFreeipaVMTypesForVerticalScalingContext(ctx, params, opts...)
+}
+
+// ListFreeipaVMTypesForVerticalScalingContext lists the available VM types for free IP a vertical scaling.
+//
+// Lists the VM types available as vertical scaling targets within an existing environment..
+//
+// Do not use the deprecated [ListFreeipaVMTypesForVerticalScalingParams.Context] with this method: it would be ignored.
+func (a *Client) ListFreeipaVMTypesForVerticalScalingContext(ctx context.Context, params *ListFreeipaVMTypesForVerticalScalingParams, opts ...ClientOption) (*ListFreeipaVMTypesForVerticalScalingOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewListFreeipaVMTypesForVerticalScalingParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "listFreeipaVmTypesForVerticalScaling",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listFreeipaVmTypesForVerticalScaling",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListFreeipaVMTypesForVerticalScalingReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*ListFreeipaVMTypesForVerticalScalingOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*ListFreeipaVMTypesForVerticalScalingDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// ListNetworks lists the available networks for a cloud credential.
+//
+// Lists the available networks and their associated subnets for a given cloud credential and region..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListNetworksContext] instead.
+func (a *Client) ListNetworks(params *ListNetworksParams, opts ...ClientOption) (*ListNetworksOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListNetworksContext(ctx, params, opts...)
+}
+
+// ListNetworksContext lists the available networks for a cloud credential.
+//
+// Lists the available networks and their associated subnets for a given cloud credential and region..
+//
+// Do not use the deprecated [ListNetworksParams.Context] with this method: it would be ignored.
+func (a *Client) ListNetworksContext(ctx context.Context, params *ListNetworksParams, opts ...ClientOption) (*ListNetworksOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewListNetworksParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "listNetworks",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listNetworks",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListNetworksReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*ListNetworksOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*ListNetworksDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
 // ListProxyConfigs lists proxy configs.
 //
 // Lists proxy configs..
@@ -4561,6 +4934,201 @@ func (a *Client) ListProxyConfigsContext(ctx context.Context, params *ListProxyC
 	//
 	// a default response is provided: fill this and return an error
 	unexpectedSuccess := result.(*ListProxyConfigsDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// ListRegions lists the available regions for a cloud credential or environment.
+//
+// Lists the available regions, their display names, availability zones and default region for a given cloud credential. If environmentCrn is provided, returns regions available within that environment instead..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListRegionsContext] instead.
+func (a *Client) ListRegions(params *ListRegionsParams, opts ...ClientOption) (*ListRegionsOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListRegionsContext(ctx, params, opts...)
+}
+
+// ListRegionsContext lists the available regions for a cloud credential or environment.
+//
+// Lists the available regions, their display names, availability zones and default region for a given cloud credential. If environmentCrn is provided, returns regions available within that environment instead..
+//
+// Do not use the deprecated [ListRegionsParams.Context] with this method: it would be ignored.
+func (a *Client) ListRegionsContext(ctx context.Context, params *ListRegionsParams, opts ...ClientOption) (*ListRegionsOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewListRegionsParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "listRegions",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listRegions",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListRegionsReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*ListRegionsOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*ListRegionsDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// ListVMTypes lists the available VM types for a cloud credential.
+//
+// Lists the available virtual machine types and their metadata for a given cloud credential and region..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListVMTypesContext] instead.
+func (a *Client) ListVMTypes(params *ListVMTypesParams, opts ...ClientOption) (*ListVMTypesOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListVMTypesContext(ctx, params, opts...)
+}
+
+// ListVMTypesContext lists the available VM types for a cloud credential.
+//
+// Lists the available virtual machine types and their metadata for a given cloud credential and region..
+//
+// Do not use the deprecated [ListVMTypesParams.Context] with this method: it would be ignored.
+func (a *Client) ListVMTypesContext(ctx context.Context, params *ListVMTypesParams, opts ...ClientOption) (*ListVMTypesOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewListVMTypesParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "listVmTypes",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listVmTypes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListVMTypesReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*ListVMTypesOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*ListVMTypesDefault)
+
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+// ListVMTypesForEnvironment lists the available VM types for an environment.
+//
+// Lists the virtual machine types available within an existing environment..
+//
+// This method does not support injected context.
+// However, timeout and opentracing contexts are honored whenever enabled.
+//
+// If you need to pass a specific context, use [Client.ListVMTypesForEnvironmentContext] instead.
+func (a *Client) ListVMTypesForEnvironment(params *ListVMTypesForEnvironmentParams, opts ...ClientOption) (*ListVMTypesForEnvironmentOK, error) {
+	var ctx context.Context
+	if params != nil && params.inner.ctx != nil {
+		ctx = params.inner.ctx
+	} else {
+		ctx = context.Background()
+	}
+
+	return a.ListVMTypesForEnvironmentContext(ctx, params, opts...)
+}
+
+// ListVMTypesForEnvironmentContext lists the available VM types for an environment.
+//
+// Lists the virtual machine types available within an existing environment..
+//
+// Do not use the deprecated [ListVMTypesForEnvironmentParams.Context] with this method: it would be ignored.
+func (a *Client) ListVMTypesForEnvironmentContext(ctx context.Context, params *ListVMTypesForEnvironmentParams, opts ...ClientOption) (*ListVMTypesForEnvironmentOK, error) {
+	// NOTE: parameters are not validated before sending
+	if params == nil {
+		params = NewListVMTypesForEnvironmentParams()
+	}
+
+	op := &runtime.ClientOperation{
+		ID:                 "listVmTypesForEnvironment",
+		Method:             "POST",
+		PathPattern:        "/api/v1/environments2/listVmTypesForEnvironment",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ListVMTypesForEnvironmentReader{formats: a.formats},
+		Client:             params.HTTPClient,
+	}
+
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.SubmitContext(ctx, op)
+	if err != nil {
+		return nil, err
+	}
+
+	// only one success response has to be checked
+	success, ok := result.(*ListVMTypesForEnvironmentOK)
+	if ok {
+		return success, nil
+	}
+
+	// unexpected success response.
+	//
+	// a default response is provided: fill this and return an error
+	unexpectedSuccess := result.(*ListVMTypesForEnvironmentDefault)
 
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
@@ -7620,9 +8188,9 @@ func (a *Client) UpdateSubnetContext(ctx context.Context, params *UpdateSubnetPa
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
-// UpdateTags updates the user defined tags of the given environment the newly added tags will only be used for the cloudera data hub clusters created within the environment after the new tags were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the tags originally defined during environment creation.
+// UpdateTags updates the user defined tags of the given environment.
 //
-// Updates the user defined tags of the given environment. The newly added tags will only be used for the Cloudera Data Hub clusters created within the environment after the new tags were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the tags originally defined during environment creation..
+// Updates the user-defined tags of the given environment. Resources created after the update inherit the updated tags. By default, tags on existing resources remain unchanged. Set updateTagsOnExistingResources to true to also propagate the updated tags to existing resources in the environment, including FreeIPA, Data Lake, and Data Hub resources. Updating tags on existing cloud resources may require additional permissions in the environment credential..
 //
 // This method does not support injected context.
 // However, timeout and opentracing contexts are honored whenever enabled.
@@ -7639,9 +8207,9 @@ func (a *Client) UpdateTags(params *UpdateTagsParams, opts ...ClientOption) (*Up
 	return a.UpdateTagsContext(ctx, params, opts...)
 }
 
-// UpdateTagsContext updates the user defined tags of the given environment the newly added tags will only be used for the cloudera data hub clusters created within the environment after the new tags were added all the existing environment resources such as the data lake free IP a and any existing cloudera data hub clusters will remain with the tags originally defined during environment creation.
+// UpdateTagsContext updates the user defined tags of the given environment.
 //
-// Updates the user defined tags of the given environment. The newly added tags will only be used for the Cloudera Data Hub clusters created within the environment after the new tags were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the tags originally defined during environment creation..
+// Updates the user-defined tags of the given environment. Resources created after the update inherit the updated tags. By default, tags on existing resources remain unchanged. Set updateTagsOnExistingResources to true to also propagate the updated tags to existing resources in the environment, including FreeIPA, Data Lake, and Data Hub resources. Updating tags on existing cloud resources may require additional permissions in the environment credential..
 //
 // Do not use the deprecated [UpdateTagsParams.Context] with this method: it would be ignored.
 func (a *Client) UpdateTagsContext(ctx context.Context, params *UpdateTagsParams, opts ...ClientOption) (*UpdateTagsOK, error) {
