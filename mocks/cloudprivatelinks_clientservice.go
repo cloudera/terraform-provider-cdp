@@ -18,10 +18,19 @@ func NewMockCloudPrivateLinksClientService(t interface {
 	mock.TestingT
 	Cleanup(func())
 }) *MockCloudPrivateLinksClientService {
+	if helper, ok := t.(interface{ Helper() }); ok {
+		helper.Helper()
+	}
+
 	mock := &MockCloudPrivateLinksClientService{}
 	mock.Mock.Test(t)
 
-	t.Cleanup(func() { mock.AssertExpectations(t) })
+	t.Cleanup(func() {
+		if helper, ok := t.(interface{ Helper() }); ok {
+			helper.Helper()
+		}
+		mock.AssertExpectations(t)
+	})
 
 	return mock
 }
@@ -42,11 +51,11 @@ func (_m *MockCloudPrivateLinksClientService) EXPECT() *MockCloudPrivateLinksCli
 // AuthorizePrivateLinkServiceAccess provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) AuthorizePrivateLinkServiceAccess(params *operations.AuthorizePrivateLinkServiceAccessParams, opts ...operations.ClientOption) (*operations.AuthorizePrivateLinkServiceAccessOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -83,9 +92,9 @@ type MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccess_Call s
 // AuthorizePrivateLinkServiceAccess is a helper method to define mock.On call
 //   - params *operations.AuthorizePrivateLinkServiceAccessParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) AuthorizePrivateLinkServiceAccess(params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccess_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) AuthorizePrivateLinkServiceAccess(params any, opts ...any) *MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccess_Call {
 	return &MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccess_Call{Call: _e.mock.On("AuthorizePrivateLinkServiceAccess",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccess_Call) Run(run func(params *operations.AuthorizePrivateLinkServiceAccessParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccess_Call {
@@ -123,11 +132,11 @@ func (_c *MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccess_C
 // AuthorizePrivateLinkServiceAccessContext provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) AuthorizePrivateLinkServiceAccessContext(ctx context.Context, params *operations.AuthorizePrivateLinkServiceAccessParams, opts ...operations.ClientOption) (*operations.AuthorizePrivateLinkServiceAccessOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -165,9 +174,9 @@ type MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccessContext
 //   - ctx context.Context
 //   - params *operations.AuthorizePrivateLinkServiceAccessParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) AuthorizePrivateLinkServiceAccessContext(ctx interface{}, params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccessContext_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) AuthorizePrivateLinkServiceAccessContext(ctx any, params any, opts ...any) *MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccessContext_Call {
 	return &MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccessContext_Call{Call: _e.mock.On("AuthorizePrivateLinkServiceAccessContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccessContext_Call) Run(run func(ctx context.Context, params *operations.AuthorizePrivateLinkServiceAccessParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccessContext_Call {
@@ -210,11 +219,11 @@ func (_c *MockCloudPrivateLinksClientService_AuthorizePrivateLinkServiceAccessCo
 // CreatePrivateLinkEndpoint provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) CreatePrivateLinkEndpoint(params *operations.CreatePrivateLinkEndpointParams, opts ...operations.ClientOption) (*operations.CreatePrivateLinkEndpointOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -251,9 +260,9 @@ type MockCloudPrivateLinksClientService_CreatePrivateLinkEndpoint_Call struct {
 // CreatePrivateLinkEndpoint is a helper method to define mock.On call
 //   - params *operations.CreatePrivateLinkEndpointParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) CreatePrivateLinkEndpoint(params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_CreatePrivateLinkEndpoint_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) CreatePrivateLinkEndpoint(params any, opts ...any) *MockCloudPrivateLinksClientService_CreatePrivateLinkEndpoint_Call {
 	return &MockCloudPrivateLinksClientService_CreatePrivateLinkEndpoint_Call{Call: _e.mock.On("CreatePrivateLinkEndpoint",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_CreatePrivateLinkEndpoint_Call) Run(run func(params *operations.CreatePrivateLinkEndpointParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_CreatePrivateLinkEndpoint_Call {
@@ -291,11 +300,11 @@ func (_c *MockCloudPrivateLinksClientService_CreatePrivateLinkEndpoint_Call) Run
 // CreatePrivateLinkEndpointContext provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) CreatePrivateLinkEndpointContext(ctx context.Context, params *operations.CreatePrivateLinkEndpointParams, opts ...operations.ClientOption) (*operations.CreatePrivateLinkEndpointOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -333,9 +342,9 @@ type MockCloudPrivateLinksClientService_CreatePrivateLinkEndpointContext_Call st
 //   - ctx context.Context
 //   - params *operations.CreatePrivateLinkEndpointParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) CreatePrivateLinkEndpointContext(ctx interface{}, params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_CreatePrivateLinkEndpointContext_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) CreatePrivateLinkEndpointContext(ctx any, params any, opts ...any) *MockCloudPrivateLinksClientService_CreatePrivateLinkEndpointContext_Call {
 	return &MockCloudPrivateLinksClientService_CreatePrivateLinkEndpointContext_Call{Call: _e.mock.On("CreatePrivateLinkEndpointContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_CreatePrivateLinkEndpointContext_Call) Run(run func(ctx context.Context, params *operations.CreatePrivateLinkEndpointParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_CreatePrivateLinkEndpointContext_Call {
@@ -378,11 +387,11 @@ func (_c *MockCloudPrivateLinksClientService_CreatePrivateLinkEndpointContext_Ca
 // DeletePrivateLinkEndpoint provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) DeletePrivateLinkEndpoint(params *operations.DeletePrivateLinkEndpointParams, opts ...operations.ClientOption) (*operations.DeletePrivateLinkEndpointOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -419,9 +428,9 @@ type MockCloudPrivateLinksClientService_DeletePrivateLinkEndpoint_Call struct {
 // DeletePrivateLinkEndpoint is a helper method to define mock.On call
 //   - params *operations.DeletePrivateLinkEndpointParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) DeletePrivateLinkEndpoint(params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_DeletePrivateLinkEndpoint_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) DeletePrivateLinkEndpoint(params any, opts ...any) *MockCloudPrivateLinksClientService_DeletePrivateLinkEndpoint_Call {
 	return &MockCloudPrivateLinksClientService_DeletePrivateLinkEndpoint_Call{Call: _e.mock.On("DeletePrivateLinkEndpoint",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_DeletePrivateLinkEndpoint_Call) Run(run func(params *operations.DeletePrivateLinkEndpointParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_DeletePrivateLinkEndpoint_Call {
@@ -459,11 +468,11 @@ func (_c *MockCloudPrivateLinksClientService_DeletePrivateLinkEndpoint_Call) Run
 // DeletePrivateLinkEndpointContext provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) DeletePrivateLinkEndpointContext(ctx context.Context, params *operations.DeletePrivateLinkEndpointParams, opts ...operations.ClientOption) (*operations.DeletePrivateLinkEndpointOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -501,9 +510,9 @@ type MockCloudPrivateLinksClientService_DeletePrivateLinkEndpointContext_Call st
 //   - ctx context.Context
 //   - params *operations.DeletePrivateLinkEndpointParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) DeletePrivateLinkEndpointContext(ctx interface{}, params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_DeletePrivateLinkEndpointContext_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) DeletePrivateLinkEndpointContext(ctx any, params any, opts ...any) *MockCloudPrivateLinksClientService_DeletePrivateLinkEndpointContext_Call {
 	return &MockCloudPrivateLinksClientService_DeletePrivateLinkEndpointContext_Call{Call: _e.mock.On("DeletePrivateLinkEndpointContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_DeletePrivateLinkEndpointContext_Call) Run(run func(ctx context.Context, params *operations.DeletePrivateLinkEndpointParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_DeletePrivateLinkEndpointContext_Call {
@@ -546,11 +555,11 @@ func (_c *MockCloudPrivateLinksClientService_DeletePrivateLinkEndpointContext_Ca
 // GetPrivateLinkStatus provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) GetPrivateLinkStatus(params *operations.GetPrivateLinkStatusParams, opts ...operations.ClientOption) (*operations.GetPrivateLinkStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -587,9 +596,9 @@ type MockCloudPrivateLinksClientService_GetPrivateLinkStatus_Call struct {
 // GetPrivateLinkStatus is a helper method to define mock.On call
 //   - params *operations.GetPrivateLinkStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) GetPrivateLinkStatus(params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_GetPrivateLinkStatus_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) GetPrivateLinkStatus(params any, opts ...any) *MockCloudPrivateLinksClientService_GetPrivateLinkStatus_Call {
 	return &MockCloudPrivateLinksClientService_GetPrivateLinkStatus_Call{Call: _e.mock.On("GetPrivateLinkStatus",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_GetPrivateLinkStatus_Call) Run(run func(params *operations.GetPrivateLinkStatusParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_GetPrivateLinkStatus_Call {
@@ -627,11 +636,11 @@ func (_c *MockCloudPrivateLinksClientService_GetPrivateLinkStatus_Call) RunAndRe
 // GetPrivateLinkStatusContext provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) GetPrivateLinkStatusContext(ctx context.Context, params *operations.GetPrivateLinkStatusParams, opts ...operations.ClientOption) (*operations.GetPrivateLinkStatusOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -669,9 +678,9 @@ type MockCloudPrivateLinksClientService_GetPrivateLinkStatusContext_Call struct 
 //   - ctx context.Context
 //   - params *operations.GetPrivateLinkStatusParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) GetPrivateLinkStatusContext(ctx interface{}, params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_GetPrivateLinkStatusContext_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) GetPrivateLinkStatusContext(ctx any, params any, opts ...any) *MockCloudPrivateLinksClientService_GetPrivateLinkStatusContext_Call {
 	return &MockCloudPrivateLinksClientService_GetPrivateLinkStatusContext_Call{Call: _e.mock.On("GetPrivateLinkStatusContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_GetPrivateLinkStatusContext_Call) Run(run func(ctx context.Context, params *operations.GetPrivateLinkStatusParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_GetPrivateLinkStatusContext_Call {
@@ -714,11 +723,11 @@ func (_c *MockCloudPrivateLinksClientService_GetPrivateLinkStatusContext_Call) R
 // ListPrivateLinkEndpointStatuses provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) ListPrivateLinkEndpointStatuses(params *operations.ListPrivateLinkEndpointStatusesParams, opts ...operations.ClientOption) (*operations.ListPrivateLinkEndpointStatusesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -755,9 +764,9 @@ type MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatuses_Call str
 // ListPrivateLinkEndpointStatuses is a helper method to define mock.On call
 //   - params *operations.ListPrivateLinkEndpointStatusesParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) ListPrivateLinkEndpointStatuses(params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatuses_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) ListPrivateLinkEndpointStatuses(params any, opts ...any) *MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatuses_Call {
 	return &MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatuses_Call{Call: _e.mock.On("ListPrivateLinkEndpointStatuses",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatuses_Call) Run(run func(params *operations.ListPrivateLinkEndpointStatusesParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatuses_Call {
@@ -795,11 +804,11 @@ func (_c *MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatuses_Cal
 // ListPrivateLinkEndpointStatusesContext provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) ListPrivateLinkEndpointStatusesContext(ctx context.Context, params *operations.ListPrivateLinkEndpointStatusesParams, opts ...operations.ClientOption) (*operations.ListPrivateLinkEndpointStatusesOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -837,9 +846,9 @@ type MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatusesContext_C
 //   - ctx context.Context
 //   - params *operations.ListPrivateLinkEndpointStatusesParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) ListPrivateLinkEndpointStatusesContext(ctx interface{}, params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatusesContext_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) ListPrivateLinkEndpointStatusesContext(ctx any, params any, opts ...any) *MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatusesContext_Call {
 	return &MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatusesContext_Call{Call: _e.mock.On("ListPrivateLinkEndpointStatusesContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatusesContext_Call) Run(run func(ctx context.Context, params *operations.ListPrivateLinkEndpointStatusesParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatusesContext_Call {
@@ -882,11 +891,11 @@ func (_c *MockCloudPrivateLinksClientService_ListPrivateLinkEndpointStatusesCont
 // ListPrivateLinkServicesForRegion provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) ListPrivateLinkServicesForRegion(params *operations.ListPrivateLinkServicesForRegionParams, opts ...operations.ClientOption) (*operations.ListPrivateLinkServicesForRegionOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -923,9 +932,9 @@ type MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegion_Call st
 // ListPrivateLinkServicesForRegion is a helper method to define mock.On call
 //   - params *operations.ListPrivateLinkServicesForRegionParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) ListPrivateLinkServicesForRegion(params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegion_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) ListPrivateLinkServicesForRegion(params any, opts ...any) *MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegion_Call {
 	return &MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegion_Call{Call: _e.mock.On("ListPrivateLinkServicesForRegion",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegion_Call) Run(run func(params *operations.ListPrivateLinkServicesForRegionParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegion_Call {
@@ -963,11 +972,11 @@ func (_c *MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegion_Ca
 // ListPrivateLinkServicesForRegionContext provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) ListPrivateLinkServicesForRegionContext(ctx context.Context, params *operations.ListPrivateLinkServicesForRegionParams, opts ...operations.ClientOption) (*operations.ListPrivateLinkServicesForRegionOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1005,9 +1014,9 @@ type MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegionContext_
 //   - ctx context.Context
 //   - params *operations.ListPrivateLinkServicesForRegionParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) ListPrivateLinkServicesForRegionContext(ctx interface{}, params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegionContext_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) ListPrivateLinkServicesForRegionContext(ctx any, params any, opts ...any) *MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegionContext_Call {
 	return &MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegionContext_Call{Call: _e.mock.On("ListPrivateLinkServicesForRegionContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegionContext_Call) Run(run func(ctx context.Context, params *operations.ListPrivateLinkServicesForRegionParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegionContext_Call {
@@ -1050,11 +1059,11 @@ func (_c *MockCloudPrivateLinksClientService_ListPrivateLinkServicesForRegionCon
 // MigratePrivateLinkEndpoints provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) MigratePrivateLinkEndpoints(params *operations.MigratePrivateLinkEndpointsParams, opts ...operations.ClientOption) (*operations.MigratePrivateLinkEndpointsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1091,9 +1100,9 @@ type MockCloudPrivateLinksClientService_MigratePrivateLinkEndpoints_Call struct 
 // MigratePrivateLinkEndpoints is a helper method to define mock.On call
 //   - params *operations.MigratePrivateLinkEndpointsParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) MigratePrivateLinkEndpoints(params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_MigratePrivateLinkEndpoints_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) MigratePrivateLinkEndpoints(params any, opts ...any) *MockCloudPrivateLinksClientService_MigratePrivateLinkEndpoints_Call {
 	return &MockCloudPrivateLinksClientService_MigratePrivateLinkEndpoints_Call{Call: _e.mock.On("MigratePrivateLinkEndpoints",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_MigratePrivateLinkEndpoints_Call) Run(run func(params *operations.MigratePrivateLinkEndpointsParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_MigratePrivateLinkEndpoints_Call {
@@ -1131,11 +1140,11 @@ func (_c *MockCloudPrivateLinksClientService_MigratePrivateLinkEndpoints_Call) R
 // MigratePrivateLinkEndpointsContext provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) MigratePrivateLinkEndpointsContext(ctx context.Context, params *operations.MigratePrivateLinkEndpointsParams, opts ...operations.ClientOption) (*operations.MigratePrivateLinkEndpointsOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1173,9 +1182,9 @@ type MockCloudPrivateLinksClientService_MigratePrivateLinkEndpointsContext_Call 
 //   - ctx context.Context
 //   - params *operations.MigratePrivateLinkEndpointsParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) MigratePrivateLinkEndpointsContext(ctx interface{}, params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_MigratePrivateLinkEndpointsContext_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) MigratePrivateLinkEndpointsContext(ctx any, params any, opts ...any) *MockCloudPrivateLinksClientService_MigratePrivateLinkEndpointsContext_Call {
 	return &MockCloudPrivateLinksClientService_MigratePrivateLinkEndpointsContext_Call{Call: _e.mock.On("MigratePrivateLinkEndpointsContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_MigratePrivateLinkEndpointsContext_Call) Run(run func(ctx context.Context, params *operations.MigratePrivateLinkEndpointsParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_MigratePrivateLinkEndpointsContext_Call {
@@ -1218,11 +1227,11 @@ func (_c *MockCloudPrivateLinksClientService_MigratePrivateLinkEndpointsContext_
 // RevokePrivateLinkServiceAccess provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) RevokePrivateLinkServiceAccess(params *operations.RevokePrivateLinkServiceAccessParams, opts ...operations.ClientOption) (*operations.RevokePrivateLinkServiceAccessOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1259,9 +1268,9 @@ type MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccess_Call stru
 // RevokePrivateLinkServiceAccess is a helper method to define mock.On call
 //   - params *operations.RevokePrivateLinkServiceAccessParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) RevokePrivateLinkServiceAccess(params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccess_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) RevokePrivateLinkServiceAccess(params any, opts ...any) *MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccess_Call {
 	return &MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccess_Call{Call: _e.mock.On("RevokePrivateLinkServiceAccess",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccess_Call) Run(run func(params *operations.RevokePrivateLinkServiceAccessParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccess_Call {
@@ -1299,11 +1308,11 @@ func (_c *MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccess_Call
 // RevokePrivateLinkServiceAccessContext provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) RevokePrivateLinkServiceAccessContext(ctx context.Context, params *operations.RevokePrivateLinkServiceAccessParams, opts ...operations.ClientOption) (*operations.RevokePrivateLinkServiceAccessOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1341,9 +1350,9 @@ type MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccessContext_Ca
 //   - ctx context.Context
 //   - params *operations.RevokePrivateLinkServiceAccessParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) RevokePrivateLinkServiceAccessContext(ctx interface{}, params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccessContext_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) RevokePrivateLinkServiceAccessContext(ctx any, params any, opts ...any) *MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccessContext_Call {
 	return &MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccessContext_Call{Call: _e.mock.On("RevokePrivateLinkServiceAccessContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccessContext_Call) Run(run func(ctx context.Context, params *operations.RevokePrivateLinkServiceAccessParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_RevokePrivateLinkServiceAccessContext_Call {
@@ -1396,7 +1405,7 @@ type MockCloudPrivateLinksClientService_SetTransport_Call struct {
 
 // SetTransport is a helper method to define mock.On call
 //   - transport runtime.ContextualTransport
-func (_e *MockCloudPrivateLinksClientService_Expecter) SetTransport(transport interface{}) *MockCloudPrivateLinksClientService_SetTransport_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) SetTransport(transport any) *MockCloudPrivateLinksClientService_SetTransport_Call {
 	return &MockCloudPrivateLinksClientService_SetTransport_Call{Call: _e.mock.On("SetTransport", transport)}
 }
 
@@ -1426,11 +1435,11 @@ func (_c *MockCloudPrivateLinksClientService_SetTransport_Call) RunAndReturn(run
 // UpdatePrivateLinkEndpoint provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) UpdatePrivateLinkEndpoint(params *operations.UpdatePrivateLinkEndpointParams, opts ...operations.ClientOption) (*operations.UpdatePrivateLinkEndpointOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1467,9 +1476,9 @@ type MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call struct {
 // UpdatePrivateLinkEndpoint is a helper method to define mock.On call
 //   - params *operations.UpdatePrivateLinkEndpointParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) UpdatePrivateLinkEndpoint(params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) UpdatePrivateLinkEndpoint(params any, opts ...any) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call {
 	return &MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call{Call: _e.mock.On("UpdatePrivateLinkEndpoint",
-		append([]interface{}{params}, opts...)...)}
+		append([]any{params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call) Run(run func(params *operations.UpdatePrivateLinkEndpointParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call {
@@ -1507,11 +1516,11 @@ func (_c *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpoint_Call) Run
 // UpdatePrivateLinkEndpointContext provides a mock function for the type MockCloudPrivateLinksClientService
 func (_mock *MockCloudPrivateLinksClientService) UpdatePrivateLinkEndpointContext(ctx context.Context, params *operations.UpdatePrivateLinkEndpointParams, opts ...operations.ClientOption) (*operations.UpdatePrivateLinkEndpointOK, error) {
 	// operations.ClientOption
-	_va := make([]interface{}, len(opts))
+	_va := make([]any, len(opts))
 	for _i := range opts {
 		_va[_i] = opts[_i]
 	}
-	var _ca []interface{}
+	var _ca []any
 	_ca = append(_ca, ctx, params)
 	_ca = append(_ca, _va...)
 	ret := _mock.Called(_ca...)
@@ -1549,9 +1558,9 @@ type MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call st
 //   - ctx context.Context
 //   - params *operations.UpdatePrivateLinkEndpointParams
 //   - opts ...operations.ClientOption
-func (_e *MockCloudPrivateLinksClientService_Expecter) UpdatePrivateLinkEndpointContext(ctx interface{}, params interface{}, opts ...interface{}) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call {
+func (_e *MockCloudPrivateLinksClientService_Expecter) UpdatePrivateLinkEndpointContext(ctx any, params any, opts ...any) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call {
 	return &MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call{Call: _e.mock.On("UpdatePrivateLinkEndpointContext",
-		append([]interface{}{ctx, params}, opts...)...)}
+		append([]any{ctx, params}, opts...)...)}
 }
 
 func (_c *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call) Run(run func(ctx context.Context, params *operations.UpdatePrivateLinkEndpointParams, opts ...operations.ClientOption)) *MockCloudPrivateLinksClientService_UpdatePrivateLinkEndpointContext_Call {

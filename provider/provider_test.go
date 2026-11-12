@@ -43,6 +43,7 @@ import (
 	gcpenv "github.com/cloudera/terraform-provider-cdp/resources/environments/environment/gcp"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/environmentconfig"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/environmentlist"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/freeipaverticalscaling"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/idbroker"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/imageterms"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/keytab"
@@ -736,8 +737,9 @@ func TestCdpProvider_Metadata(t *testing.T) {
 
 func TestCdpProvider_DataSources(t *testing.T) {
 	expectedDataSources := []func() datasource.DataSource{
-		awscred.NewAWSCredentialPrerequisitesDataSource,
+		freeipaverticalscaling.NewFreeipaVMTypesForVerticalScalingDataSource,
 		environmentconfig.NewEnvironmentConfigDataSource,
+		awscred.NewAWSCredentialPrerequisitesDataSource,
 		environmentlist.NewListEnvironmentsDataSource,
 		keytab.NewKeytabDataSource,
 		datalake.NewListRuntimeDataSource,

@@ -23,6 +23,9 @@ type UpdateTagsRequest struct {
 	// Map of tag names to values for the environment.
 	// Required: true
 	Tags map[string]string `json:"tags"`
+
+	// When true, propagates the updated user-defined environment tags to existing resources in the environment. When false or omitted, tags on existing resources remain unchanged. Updating tags on existing cloud resources may require additional permissions in the environment credential.
+	UpdateTagsOnExistingResources *bool `json:"updateTagsOnExistingResources,omitempty"`
 }
 
 // Validate validates this update tags request

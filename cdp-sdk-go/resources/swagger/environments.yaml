@@ -6,7 +6,7 @@ x-form-factors: public,private
 x-cdp-releases: PUBLIC
 x-audit: true
 info:
-  version: 0.9.164 (BETA)
+  version: 0.9.165 (BETA)
   title: Cloudera Environments Service
   license:
     name: Apache 2.0
@@ -1674,8 +1674,8 @@ paths:
             $ref: '#/definitions/Error'
   /api/v1/environments2/updateTags:
     post:
-      summary: Updates the user defined tags of the given environment. The newly added tags will only be used for the Cloudera Data Hub clusters created within the environment after the new tags were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the tags originally defined during environment creation.
-      description: Updates the user defined tags of the given environment. The newly added tags will only be used for the Cloudera Data Hub clusters created within the environment after the new tags were added. All the existing environment resources such as the Data Lake, FreeIPA, and any existing Cloudera Data Hub clusters will remain with the tags originally defined during environment creation.
+      summary: Updates the user-defined tags of the given environment.
+      description: Updates the user-defined tags of the given environment. Resources created after the update inherit the updated tags. By default, tags on existing resources remain unchanged. Set updateTagsOnExistingResources to true to also propagate the updated tags to existing resources in the environment, including FreeIPA, Data Lake, and Data Hub resources. Updating tags on existing cloud resources may require additional permissions in the environment credential.
       operationId: updateTags
       x-mutating: true
       parameters:
@@ -2389,6 +2389,174 @@ paths:
           description: The default response on an error.
           schema:
             $ref: '#/definitions/Error'
+  /api/v1/environments2/listFreeipaVmTypesForVerticalScaling:
+    post:
+      summary: Lists the available VM types for FreeIPA vertical scaling.
+      description: Lists the VM types available as vertical scaling targets within an existing environment.
+      operationId: listFreeipaVmTypesForVerticalScaling
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListFreeipaVmTypesForVerticalScalingRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListFreeipaVmTypesForVerticalScalingResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/listFreeipaImageUpgradeCandidates:
+    post:
+      summary: Lists the available FreeIPA upgrade image candidates for an environment.
+      description: Returns the list of available images for FreeIPA upgrade and the currently installed image.
+      operationId: listFreeipaImageUpgradeCandidates
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListFreeipaImageUpgradeCandidatesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListFreeipaImageUpgradeCandidatesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/getFreeipaRecommendation:
+    post:
+      summary: Gets a recommendation of cloud resources for a FreeIPA.
+      description: Returns VM type recommendations for FreeIPA based on credential, region, and optional availability zone and architecture.
+      operationId: getFreeipaRecommendation
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/GetFreeipaRecommendationRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/GetFreeipaRecommendationResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/listNetworks:
+    post:
+      summary: Lists the available networks for a cloud credential.
+      description: Lists the available networks and their associated subnets for a given cloud credential and region.
+      operationId: listNetworks
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListNetworksRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListNetworksResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/listRegions:
+    post:
+      summary: Lists the available regions for a cloud credential or environment.
+      description: Lists the available regions, their display names, availability zones and default region for a given cloud credential. If environmentCrn is provided, returns regions available within that environment instead.
+      operationId: listRegions
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListRegionsRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListRegionsResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/listDiskTypes:
+    post:
+      summary: Returns the available disk types for all cloud platforms.
+      description: Returns the available disk types, default disks, disk mappings, and display names for all supported cloud platforms.
+      operationId: listDiskTypes
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListDiskTypesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListDiskTypesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/listVmTypes:
+    post:
+      summary: Lists the available VM types for a cloud credential.
+      description: Lists the available virtual machine types and their metadata for a given cloud credential and region.
+      operationId: listVmTypes
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListVmTypesRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListVmTypesResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
+  /api/v1/environments2/listVmTypesForEnvironment:
+    post:
+      summary: Lists the available VM types for an environment.
+      description: Lists the virtual machine types available within an existing environment.
+      operationId: listVmTypesForEnvironment
+      x-mutating: false
+      parameters:
+        - name: input
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ListVmTypesForEnvironmentRequest'
+      responses:
+        200:
+          description: Expected response to a valid request.
+          schema:
+            $ref: '#/definitions/ListVmTypesForEnvironmentResponse'
+        default:
+          description: The default response on an error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   CancelTrustRequest:
     type: object
@@ -2797,6 +2965,10 @@ definitions:
         additionalProperties:
           type: string
           description: An individual tag value.
+      updateTagsOnExistingResources:
+        type: boolean
+        default: false
+        description: When true, propagates the updated user-defined environment tags to existing resources in the environment. When false or omitted, tags on existing resources remain unchanged. Updating tags on existing cloud resources may require additional permissions in the environment credential.
   UpdateTagsResponse:
     type: object
     description: Response object for an update environment tags request.
@@ -3183,6 +3355,102 @@ definitions:
       serviceAccountCreationCommand:
         type: string
         description: GCP CLI command to create service account encoded in base64.
+  ListRegionsRequest:
+    type: object
+    description: Request object for listing the available regions for a cloud credential or environment.
+    properties:
+      credential:
+        type: string
+        description: The name or CRN of the credential. Either this or environmentCrn must be provided.
+      environmentCrn:
+        type: string
+        description: The CRN of the environment. Either this or credential must be provided.
+      region:
+        type: string
+        description: Filter results to a specific region.
+      platformVariant:
+        type: string
+        description: The variant of the cloud platform.
+      availabilityZone:
+        type: string
+        description: The availability zone.
+      availabilityZonesNeeded:
+        type: boolean
+        description: Whether to include availability zone information in the response.
+  ListRegionsResponse:
+    type: object
+    description: Response object containing available regions.
+    properties:
+      names:
+        type: array
+        description: The list of available region codes.
+        items:
+          type: string
+      displayNames:
+        type: object
+        description: A mapping of region codes to their human-readable display names.
+        additionalProperties:
+          type: string
+      defaultRegion:
+        type: string
+        description: The default region.
+      availabilityZones:
+        type: array
+        description: The availability zones for each region.
+        items:
+          $ref: '#/definitions/RegionAvailabilityZones'
+  RegionAvailabilityZones:
+    type: object
+    description: Availability zones for a specific region.
+    properties:
+      region:
+        type: string
+        description: The region code.
+      availabilityZones:
+        type: array
+        description: The list of availability zone names within this region.
+        items:
+          type: string
+  ListDiskTypesRequest:
+    type: object
+    x-no-compatibility-guarantee: true
+    description: Request object for getting the available disk types for all cloud platforms.
+  ListDiskTypesResponse:
+    type: object
+    x-no-compatibility-guarantee: true
+    description: Response object containing the available disk types for all cloud platforms.
+    properties:
+      platformDiskTypes:
+        type: array
+        description: List of disk type information per cloud platform.
+        items:
+          $ref: '#/definitions/PlatformDiskTypesEntry'
+  PlatformDiskTypesEntry:
+    type: object
+    x-no-compatibility-guarantee: true
+    description: Disk type information for a single cloud platform.
+    properties:
+      platform:
+        type: string
+        description: The cloud platform name (e.g. AWS, AZURE, GCP).
+      diskTypes:
+        type: array
+        description: The list of supported disk type names for this platform.
+        items:
+          type: string
+      defaultDiskType:
+        type: string
+        description: The default disk type name for this platform.
+      diskMappings:
+        type: object
+        description: Mapping of disk type name to volume parameter type for this platform.
+        additionalProperties:
+          type: string
+      displayNames:
+        type: object
+        description: Mapping of disk type name to its display name for this platform.
+        additionalProperties:
+          type: string
   GetGovCloudCredentialPrerequisitesRequest:
     type: object
     description: Request object for getting the credential prerequisites for GovCloud for the enabled providers.
@@ -7596,3 +7864,298 @@ definitions:
       operationId:
         description: Unique operation ID assigned to this command execution. Use this identifier with 'get-operation' to track status and retrieve detailed results.
         type: string
+  ListFreeipaVmTypesForVerticalScalingRequest:
+    type: object
+    description: Request object for listing VM types available for FreeIPA vertical scaling.
+    required:
+      - environmentCrn
+    properties:
+      environmentCrn:
+        type: string
+        description: The CRN of the environment for which to list the available VM types.
+      instanceType:
+        type: string
+        description: The current instance type to filter compatible VM types.
+      resourceType:
+        type: string
+        description: The resource type to filter VM types. For example, DEFAULT.
+      availabilityZones:
+        type: array
+        items:
+          type: string
+        description: The availability zones to filter VM types.
+      architecture:
+        type: string
+        description: The architecture to filter VM types. For example, x86_64.
+  ListFreeipaVmTypesForVerticalScalingResponse:
+    type: object
+    description: Response object for listing VM types available for FreeIPA vertical scaling.
+    properties:
+      vmTypes:
+        type: array
+        items:
+          $ref: '#/definitions/PlatformVmTypes'
+        description: The list of platform VM types grouped by platform.
+  ListFreeipaImageUpgradeCandidatesRequest:
+    type: object
+    description: Request object for listing available FreeIPA upgrade image candidates.
+    required:
+      - environmentCrn
+    properties:
+      environmentCrn:
+        type: string
+        description: The CRN of the environment.
+      catalog:
+        type: string
+        description: The URL of the source image catalog. If not specified, the catalog of the current image is used.
+      allowMajorOsUpgrade:
+        type: boolean
+        description: Allows the upgrade to a subsequent major OS version in the series.
+  ListFreeipaImageUpgradeCandidatesResponse:
+    type: object
+    description: Response object containing the available FreeIPA upgrade image candidates.
+    properties:
+      candidates:
+        type: array
+        description: The list of candidate images available for upgrade.
+        items:
+          $ref: '#/definitions/ImageInfoResponse'
+      currentImage:
+        description: The current FreeIPA image.
+        $ref: '#/definitions/ImageInfoResponse'
+  GetFreeipaRecommendationRequest:
+    type: object
+    description: Request object for getting FreeIPA cloud resource recommendations.
+    required:
+      - credential
+      - region
+    properties:
+      credential:
+        type: string
+        description: The name or CRN of the credential.
+      region:
+        type: string
+        description: The region for the recommendation.
+      availabilityZone:
+        type: string
+        description: The availability zone for the recommendation.
+      architecture:
+        type: string
+        description: The architecture for the recommendation (e.g., x86_64).
+  GetFreeipaRecommendationResponse:
+    type: object
+    description: Response object containing FreeIPA cloud resource recommendations.
+    properties:
+      vmTypes:
+        type: array
+        items:
+          $ref: '#/definitions/VmType'
+        description: The list of recommended VM types.
+      deprecatedVmTypes:
+        type: array
+        items:
+          $ref: '#/definitions/VmType'
+        description: The list of deprecated VM types still available.
+      defaultInstanceType:
+        type: string
+        description: The recommended default instance type.
+  PlatformVmTypes:
+    type: object
+    description: VM types grouped by platform.
+    properties:
+      platform:
+        type: string
+        description: The cloud platform (e.g., AWS, AZURE, GCP).
+      virtualMachines:
+        type: array
+        items:
+          $ref: '#/definitions/VmType'
+        description: The list of available VM types for the platform.
+      defaultVirtualMachine:
+        $ref: '#/definitions/VmType'
+        description: The default VM type for the platform.
+  VmType:
+    type: object
+    description: A VM type.
+    properties:
+      name:
+        type: string
+        description: The name of the VM type.
+      vmTypeMetadata:
+        $ref: '#/definitions/VmTypeMetadata'
+        description: Metadata about the VM type.
+  VmTypeMetadata:
+    type: object
+    description: Metadata about a VM type, including volume configurations and properties.
+    properties:
+      configs:
+        type: array
+        items:
+          $ref: '#/definitions/VolumeParameterConfig'
+        description: The list of volume parameter configurations.
+      properties:
+        type: object
+        additionalProperties:
+          type: string
+        description: Additional properties of the VM type.
+  VolumeParameterConfig:
+    type: object
+    description: Volume parameter configuration for a VM type.
+    properties:
+      volumeParameterType:
+        type: string
+        description: The type of volume parameter (e.g., SSD, MAGNETIC).
+      minimumSize:
+        type: integer
+        format: int32
+        description: The minimum volume size in GB.
+      maximumSize:
+        type: integer
+        format: int32
+        description: The maximum volume size in GB.
+      minimumNumber:
+        type: integer
+        format: int32
+        description: The minimum number of volumes.
+      maximumNumber:
+        type: integer
+        format: int32
+        description: The maximum number of volumes.
+  ListNetworksRequest:
+    type: object
+    x-no-compatibility-guarantee: true
+    description: Request object for listing the available networks for a cloud credential.
+    required:
+      - credential
+    properties:
+      credential:
+        type: string
+        description: The name or CRN of the credential.
+      region:
+        type: string
+        description: The region of the networks.
+      platformVariant:
+        type: string
+        description: The variant of the cloud platform.
+      availabilityZone:
+        type: string
+        description: The availability zone.
+      networkId:
+        type: string
+        description: Filter by specific network ID.
+      subnetIds:
+        type: string
+        description: Comma-separated list of subnet IDs to filter by.
+      sharedProjectId:
+        type: string
+        description: Shared project ID (for GCP).
+  ListNetworksResponse:
+    type: object
+    x-no-compatibility-guarantee: true
+    description: Response object containing available networks per cloud platform.
+    properties:
+      networks:
+        type: array
+        description: List of network entries per cloud platform.
+        items:
+          $ref: '#/definitions/PlatformNetwork'
+  PlatformNetwork:
+    type: object
+    x-no-compatibility-guarantee: true
+    description: Network information for a single cloud platform.
+    properties:
+      platform:
+        type: string
+        description: The cloud platform name (e.g. AWS, AZURE, GCP).
+      networks:
+        type: array
+        description: The list of available networks for this platform.
+        items:
+          $ref: '#/definitions/CloudNetwork'
+  CloudNetwork:
+    type: object
+    x-no-compatibility-guarantee: true
+    description: A cloud network resource.
+    properties:
+      name:
+        type: string
+        description: The name of the network.
+      id:
+        type: string
+        description: The ID of the network.
+      subnets:
+        type: object
+        description: A mapping of subnet IDs to subnet names.
+        additionalProperties:
+          type: string
+      properties:
+        type: object
+        description: Additional platform-specific properties.
+        additionalProperties:
+          type: string
+  ListVmTypesRequest:
+    type: object
+    description: Request object for listing the available VM types for a cloud credential.
+    properties:
+      credentialName:
+        type: string
+        description: The name of the credential. Either this or credentialCrn must be provided.
+      credentialCrn:
+        type: string
+        description: The CRN of the credential. Either this or credentialName must be provided.
+      region:
+        type: string
+        description: The region to list VM types for.
+      platformVariant:
+        type: string
+        description: The variant of the cloud platform.
+      availabilityZone:
+        type: string
+        description: The availability zone.
+      resourceType:
+        type: string
+        description: The resource type to filter by.
+      architecture:
+        type: string
+        description: The CPU architecture to filter by.
+  ListVmTypesForEnvironmentRequest:
+    type: object
+    description: Request object for listing VM types available within an environment.
+    required:
+      - environmentCrn
+    properties:
+      environmentCrn:
+        type: string
+        description: The CRN of the environment.
+      instanceType:
+        type: string
+        description: The current instance type to find upgrade targets for.
+      resourceType:
+        type: string
+        description: The resource type to filter by.
+      availabilityZones:
+        type: array
+        description: The availability zones to consider.
+        items:
+          type: string
+      architecture:
+        type: string
+        description: The CPU architecture to filter by.
+  ListVmTypesResponse:
+    type: object
+    description: Response object containing available VM types per cloud platform.
+    properties:
+      vmTypes:
+        type: array
+        description: List of VM type entries per cloud platform.
+        items:
+          $ref: '#/definitions/PlatformVmTypes'
+  ListVmTypesForEnvironmentResponse:
+    type: object
+    description: Response object containing available VM types for an environment per cloud platform.
+    properties:
+      vmTypes:
+        type: array
+        description: List of VM type entries per cloud platform.
+        items:
+          $ref: '#/definitions/PlatformVmTypes'
