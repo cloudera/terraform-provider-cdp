@@ -16,18 +16,19 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/cloudera/terraform-provider-cdp/cdp-sdk-go/gen/environments/models"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/platformtypes"
 )
 
 func TestFromListResponse(t *testing.T) {
 	tests := []struct {
 		name     string
 		input    *models.ListFreeipaVMTypesForVerticalScalingResponse
-		validate func(t *testing.T, result []platformVMTypeModel)
+		validate func(t *testing.T, result []platformtypes.PlatformVMTypeModel)
 	}{
 		{
 			name:  "nil input",
 			input: nil,
-			validate: func(t *testing.T, result []platformVMTypeModel) {
+			validate: func(t *testing.T, result []platformtypes.PlatformVMTypeModel) {
 				t.Helper()
 				if result != nil {
 					t.Fatalf("expected nil result, got %#v", result)
@@ -39,7 +40,7 @@ func TestFromListResponse(t *testing.T) {
 			input: &models.ListFreeipaVMTypesForVerticalScalingResponse{
 				VMTypes: []*models.PlatformVMTypes{},
 			},
-			validate: func(t *testing.T, result []platformVMTypeModel) {
+			validate: func(t *testing.T, result []platformtypes.PlatformVMTypeModel) {
 				t.Helper()
 				if len(result) != 0 {
 					t.Fatalf("expected 0 vm types, got %d", len(result))
@@ -81,7 +82,7 @@ func TestFromListResponse(t *testing.T) {
 					},
 				},
 			},
-			validate: func(t *testing.T, result []platformVMTypeModel) {
+			validate: func(t *testing.T, result []platformtypes.PlatformVMTypeModel) {
 				t.Helper()
 				if len(result) != 1 {
 					t.Fatalf("expected 1 platform vm type, got %d", len(result))
@@ -167,7 +168,7 @@ func TestFromListResponse(t *testing.T) {
 					},
 				},
 			},
-			validate: func(t *testing.T, result []platformVMTypeModel) {
+			validate: func(t *testing.T, result []platformtypes.PlatformVMTypeModel) {
 				t.Helper()
 				meta := result[0].VirtualMachines[0].VMTypeMetadata
 				if meta == nil {
@@ -195,7 +196,7 @@ func TestFromListResponse(t *testing.T) {
 					},
 				},
 			},
-			validate: func(t *testing.T, result []platformVMTypeModel) {
+			validate: func(t *testing.T, result []platformtypes.PlatformVMTypeModel) {
 				t.Helper()
 				if len(result) != 1 {
 					t.Fatalf("expected 1 platform vm type, got %d", len(result))
