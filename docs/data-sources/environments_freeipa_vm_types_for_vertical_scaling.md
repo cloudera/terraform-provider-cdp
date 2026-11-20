@@ -41,43 +41,43 @@ data "cdp_environments_freeipa_vm_types_for_vertical_scaling" "example" {
 
 ### Read-Only
 
-- `vm_types` (Attributes List) The list of platform VM types grouped by platform. (see [below for nested schema](#nestedatt--vm_types))
+- `vm_types` (Attributes List) VM types grouped by platform. (see [below for nested schema](#nestedatt--vm_types))
 
 <a id="nestedatt--vm_types"></a>
 ### Nested Schema for `vm_types`
 
 Read-Only:
 
-- `default_virtual_machine` (Attributes) The default VM type for the platform. (see [below for nested schema](#nestedatt--vm_types--default_virtual_machine))
-- `platform` (String) The cloud platform (e.g., AWS, AZURE, GCP).
-- `virtual_machines` (Attributes List) The list of available VM types for the platform. (see [below for nested schema](#nestedatt--vm_types--virtual_machines))
+- `default_virtual_machine` (Attributes) Default VM type for this platform. (see [below for nested schema](#nestedatt--vm_types--default_virtual_machine))
+- `platform` (String) Cloud platform (AWS, AZURE, GCP).
+- `virtual_machines` (Attributes List) Available VM types for this platform. (see [below for nested schema](#nestedatt--vm_types--virtual_machines))
 
 <a id="nestedatt--vm_types--default_virtual_machine"></a>
 ### Nested Schema for `vm_types.default_virtual_machine`
 
 Read-Only:
 
-- `name` (String) The name of the VM type.
-- `vm_type_metadata` (Attributes) Metadata about the VM type. (see [below for nested schema](#nestedatt--vm_types--default_virtual_machine--vm_type_metadata))
+- `name` (String) VM type name.
+- `vm_type_metadata` (Attributes) VM type metadata. (see [below for nested schema](#nestedatt--vm_types--default_virtual_machine--vm_type_metadata))
 
 <a id="nestedatt--vm_types--default_virtual_machine--vm_type_metadata"></a>
 ### Nested Schema for `vm_types.default_virtual_machine.vm_type_metadata`
 
 Read-Only:
 
-- `configs` (Attributes List) The list of volume parameter configurations. (see [below for nested schema](#nestedatt--vm_types--default_virtual_machine--vm_type_metadata--configs))
-- `properties` (Map of String) Additional properties of the VM type.
+- `configs` (Attributes List) Volume parameter configurations. (see [below for nested schema](#nestedatt--vm_types--default_virtual_machine--vm_type_metadata--configs))
+- `properties` (Map of String) VM type properties.
 
 <a id="nestedatt--vm_types--default_virtual_machine--vm_type_metadata--configs"></a>
 ### Nested Schema for `vm_types.default_virtual_machine.vm_type_metadata.configs`
 
 Read-Only:
 
-- `maximum_number` (Number) The maximum number of volumes.
-- `maximum_size` (Number) The maximum volume size in GB.
-- `minimum_number` (Number) The minimum number of volumes.
-- `minimum_size` (Number) The minimum volume size in GB.
-- `volume_parameter_type` (String) The type of volume parameter (e.g., SSD, MAGNETIC).
+- `maximum_number` (Number) Maximum number of volumes.
+- `maximum_size` (Number) Maximum volume size in GB.
+- `minimum_number` (Number) Minimum number of volumes.
+- `minimum_size` (Number) Minimum volume size in GB.
+- `volume_parameter_type` (String) Volume parameter type (SSD, MAGNETIC).
 
 
 
@@ -87,24 +87,24 @@ Read-Only:
 
 Read-Only:
 
-- `name` (String) The name of the VM type.
-- `vm_type_metadata` (Attributes) Metadata about the VM type. (see [below for nested schema](#nestedatt--vm_types--virtual_machines--vm_type_metadata))
+- `name` (String) VM type name.
+- `vm_type_metadata` (Attributes) VM type metadata. (see [below for nested schema](#nestedatt--vm_types--virtual_machines--vm_type_metadata))
 
 <a id="nestedatt--vm_types--virtual_machines--vm_type_metadata"></a>
 ### Nested Schema for `vm_types.virtual_machines.vm_type_metadata`
 
 Read-Only:
 
-- `configs` (Attributes List) The list of volume parameter configurations. (see [below for nested schema](#nestedatt--vm_types--virtual_machines--vm_type_metadata--configs))
-- `properties` (Map of String) Additional properties of the VM type.
+- `configs` (Attributes List) Volume parameter configurations. (see [below for nested schema](#nestedatt--vm_types--virtual_machines--vm_type_metadata--configs))
+- `properties` (Map of String) VM type properties.
 
 <a id="nestedatt--vm_types--virtual_machines--vm_type_metadata--configs"></a>
 ### Nested Schema for `vm_types.virtual_machines.vm_type_metadata.configs`
 
 Read-Only:
 
-- `maximum_number` (Number) The maximum number of volumes.
-- `maximum_size` (Number) The maximum volume size in GB.
-- `minimum_number` (Number) The minimum number of volumes.
-- `minimum_size` (Number) The minimum volume size in GB.
-- `volume_parameter_type` (String) The type of volume parameter (e.g., SSD, MAGNETIC).
+- `maximum_number` (Number) Maximum number of volumes.
+- `maximum_size` (Number) Maximum volume size in GB.
+- `minimum_number` (Number) Minimum number of volumes.
+- `minimum_size` (Number) Minimum volume size in GB.
+- `volume_parameter_type` (String) Volume parameter type (SSD, MAGNETIC).

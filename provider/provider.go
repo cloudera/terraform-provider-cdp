@@ -39,6 +39,7 @@ import (
 	awscred "github.com/cloudera/terraform-provider-cdp/resources/environments/credential/aws"
 	azurecred "github.com/cloudera/terraform-provider-cdp/resources/environments/credential/azure"
 	gcpcred "github.com/cloudera/terraform-provider-cdp/resources/environments/credential/gcp"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/disktypes"
 	awsenv "github.com/cloudera/terraform-provider-cdp/resources/environments/environment/aws"
 	azureenv "github.com/cloudera/terraform-provider-cdp/resources/environments/environment/azure"
 	gcpenv "github.com/cloudera/terraform-provider-cdp/resources/environments/environment/gcp"
@@ -48,8 +49,11 @@ import (
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/idbroker"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/imageterms"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/keytab"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/networks"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/proxyconfiguration"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/regions"
 	"github.com/cloudera/terraform-provider-cdp/resources/environments/usersync"
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/vmtypes"
 	"github.com/cloudera/terraform-provider-cdp/resources/iam"
 	"github.com/cloudera/terraform-provider-cdp/resources/opdb"
 	"github.com/cloudera/terraform-provider-cdp/resources/recipe"
@@ -288,6 +292,10 @@ func (p *CdpProvider) DataSources(_ context.Context) []func() datasource.DataSou
 		environmentconfig.NewEnvironmentConfigDataSource,
 		environmentlist.NewListEnvironmentsDataSource,
 		freeipaverticalscaling.NewFreeipaVMTypesForVerticalScalingDataSource,
+		vmtypes.NewVMTypesDataSource,
+		regions.NewRegionsDataSource,
+		disktypes.NewDiskTypesDataSource,
+		networks.NewNetworksDataSource,
 		keytab.NewKeytabDataSource,
 		datalake.NewListRuntimeDataSource,
 		datalake.NewListDatalakesDataSource,
