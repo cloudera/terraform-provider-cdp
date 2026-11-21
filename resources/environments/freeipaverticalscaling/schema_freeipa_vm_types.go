@@ -13,6 +13,8 @@ package freeipaverticalscaling
 import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/cloudera/terraform-provider-cdp/resources/environments/platformtypes"
 )
 
 var freeipaVMTypesSchema = schema.Schema{
@@ -39,77 +41,6 @@ var freeipaVMTypesSchema = schema.Schema{
 			MarkdownDescription: "The resource type to filter VM types. For example, DEFAULT.",
 			Optional:            true,
 		},
-		"vm_types": schema.ListNestedAttribute{
-			MarkdownDescription: "The list of platform VM types grouped by platform.",
-			Computed:            true,
-			NestedObject: schema.NestedAttributeObject{
-				Attributes: map[string]schema.Attribute{
-					"platform": schema.StringAttribute{
-						MarkdownDescription: "The cloud platform (e.g., AWS, AZURE, GCP).",
-						Computed:            true,
-					},
-					"default_virtual_machine": schema.SingleNestedAttribute{
-						MarkdownDescription: "The default VM type for the platform.",
-						Computed:            true,
-						Attributes:          vmTypeSchemaAttributes(),
-					},
-					"virtual_machines": schema.ListNestedAttribute{
-						MarkdownDescription: "The list of available VM types for the platform.",
-						Computed:            true,
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: vmTypeSchemaAttributes(),
-						},
-					},
-				},
-			},
-		},
+		"vm_types": platformtypes.VMTypesNestedAttribute(),
 	},
-}
-
-func vmTypeSchemaAttributes() map[string]schema.Attribute {
-	return map[string]schema.Attribute{
-		"name": schema.StringAttribute{
-			MarkdownDescription: "The name of the VM type.",
-			Computed:            true,
-		},
-		"vm_type_metadata": schema.SingleNestedAttribute{
-			MarkdownDescription: "Metadata about the VM type.",
-			Computed:            true,
-			Attributes: map[string]schema.Attribute{
-				"configs": schema.ListNestedAttribute{
-					MarkdownDescription: "The list of volume parameter configurations.",
-					Computed:            true,
-					NestedObject: schema.NestedAttributeObject{
-						Attributes: map[string]schema.Attribute{
-							"maximum_number": schema.Int32Attribute{
-								MarkdownDescription: "The maximum number of volumes.",
-								Computed:            true,
-							},
-							"maximum_size": schema.Int32Attribute{
-								MarkdownDescription: "The maximum volume size in GB.",
-								Computed:            true,
-							},
-							"minimum_number": schema.Int32Attribute{
-								MarkdownDescription: "The minimum number of volumes.",
-								Computed:            true,
-							},
-							"minimum_size": schema.Int32Attribute{
-								MarkdownDescription: "The minimum volume size in GB.",
-								Computed:            true,
-							},
-							"volume_parameter_type": schema.StringAttribute{
-								MarkdownDescription: "The type of volume parameter (e.g., SSD, MAGNETIC).",
-								Computed:            true,
-							},
-						},
-					},
-				},
-				"properties": schema.MapAttribute{
-					MarkdownDescription: "Additional properties of the VM type.",
-					Computed:            true,
-					ElementType:         types.StringType,
-				},
-			},
-		},
-	}
 }
